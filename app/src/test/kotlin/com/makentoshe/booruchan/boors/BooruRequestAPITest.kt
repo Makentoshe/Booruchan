@@ -1,10 +1,9 @@
 package com.makentoshe.booruchan.boors
 
-import com.makentoshe.booruchan.boors.gelbooru.GelbooruRequestAPI
 import junit.framework.Assert.assertEquals
 import org.junit.Test
 
-abstract class BooruRequestAPITest(protected val api: GelbooruRequestAPI) {
+abstract class BooruRequestAPITest(private val api: BoorRequestAPI) {
 
     @Test
     fun getCustomRequest() {

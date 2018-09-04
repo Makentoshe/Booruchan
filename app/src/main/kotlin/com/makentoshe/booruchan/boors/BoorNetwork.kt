@@ -1,6 +1,6 @@
 package com.makentoshe.booruchan.boors
 
-abstract class BoorNetwork(private val requestAPI: BoorRequestAPI) {
+abstract class BoorNetwork(private val api: BoorRequestAPI) {
 
 //    abstract fun getPostsByTags(limit: Int, tags: String, page: Int, onResult: ((Any) -> Unit))
 
