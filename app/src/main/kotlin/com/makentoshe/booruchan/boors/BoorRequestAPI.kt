@@ -14,4 +14,5 @@ interface BoorRequestAPI {
 
     fun getCommentByPostIdRequest(id: Int): String
 
+    fun getCustomRequest(request: String): String
 }
