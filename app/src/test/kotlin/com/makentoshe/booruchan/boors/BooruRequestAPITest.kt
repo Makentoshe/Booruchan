@@ -1,5 +1,6 @@
-package com.makentoshe.booruchan.boors.gelbooru
+package com.makentoshe.booruchan.boors
 
+import com.makentoshe.booruchan.boors.gelbooru.GelbooruRequestAPI
 import junit.framework.Assert.assertEquals
 import org.junit.Test
 
