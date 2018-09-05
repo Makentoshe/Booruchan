@@ -41,6 +41,8 @@ dependencies {
     implementation "com.google.code.gson:gson:$gson_version"
     // Mokk
     testImplementation "io.mockk:mockk:$mokk_version"
+    // Jsoup
+    implementation 'org.jsoup:jsoup:1.10.3'
 
     implementation 'com.android.support:appcompat-v7:27.1.1'
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'
