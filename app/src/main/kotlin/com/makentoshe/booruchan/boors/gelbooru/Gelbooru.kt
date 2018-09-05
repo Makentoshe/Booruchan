@@ -2,13 +2,14 @@ package com.makentoshe.booruchan.boors.gelbooru
 
 import com.makentoshe.booruchan.boors.Boor
 import com.makentoshe.booruchan.boors.HttpClient
-import com.makentoshe.booruchan.boors.entity.Post
+import com.makentoshe.booruchan.boors.Posts
 import com.makentoshe.booruchan.boors.parser.AutocompleteSearchParser
+import com.makentoshe.booruchan.boors.parser.PostParser
 import kotlinx.coroutines.experimental.async
 import kotlinx.coroutines.experimental.runBlocking
 import java.util.*
 
-class Gelbooru: Boor(GelbooruRequestAPI()) {
+class Gelbooru : Boor(GelbooruRequestAPI()) {
 
     override fun getBooruName(): String {
         return "Gelbooru"
@@ -32,7 +33,16 @@ class Gelbooru: Boor(GelbooruRequestAPI()) {
                 .parse(Scanner(async.await()).useDelimiter("\\A").next())
     }
 
-    class Post: com.makentoshe.booruchan.boors.entity.Post() {
+    override fun getPostsByTags(
+            limit: Int, tags: String, page: Int, httpClient: HttpClient,
+            onResult: (Posts<out com.makentoshe.booruchan.boors.entity.Post>) -> Unit) = runBlocking {
+        val async = async {
+            httpClient.get(getApi().getPostsByTagsRequest(limit, tags, page)).stream()
+        }
+        onResult.invoke(PostParser(Gelbooru.Post::class.java).parsePosts(async.await()))
+    }
+
+    class Post : com.makentoshe.booruchan.boors.entity.Post() {
 
         var previewHeight: Int = -1
 
@@ -104,9 +114,10 @@ class Gelbooru: Boor(GelbooruRequestAPI()) {
                         hasChildren = value.toBoolean()
                     }
                     "parent_id" -> {
-                        try{
+                        try {
                             parentId = value.toInt()
-                        } catch (e: Exception){}
+                        } catch (e: Exception) {
+                        }
                     }
                 }
             }
