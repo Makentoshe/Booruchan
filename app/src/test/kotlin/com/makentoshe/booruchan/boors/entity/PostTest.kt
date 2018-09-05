@@ -8,7 +8,7 @@ import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
 
 @RunWith(JUnit4::class)
-class PostTest {
+open class PostTest {
 
     private lateinit var post: Post
 
