@@ -27,11 +27,4 @@ class GelbooruTest {
         assertEquals(expected, instance.getBooruName())
     }
 
-//    @Test
-//    fun `get autocomplete tips`() = runBlocking {
-//        val str = "[\"hatsune_miku\",\"hatsuyuki_(kantai_collection)\",\"hatsune_miku_(append)\",\"hatsune_miku_(cosplay)\",\"hatsuzuki_(kantai_collection)\",\"hatsukaze_(kantai_collection)\",\"hatsushimo_(kantai_collection)\",\"hatsuharu_(kantai_collection)\",\"hatsune_mikuo\",\"hatsuzuki_527\"]"
-//
-//        println(instance.getAutocompleteSearchVariations("hats"))
-//    }
-
 }

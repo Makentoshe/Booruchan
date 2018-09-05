@@ -1,7 +1,12 @@
 package com.makentoshe.booruchan.boors.gelbooru
 
 import com.makentoshe.booruchan.boors.Boor
+import com.makentoshe.booruchan.boors.HttpClient
 import com.makentoshe.booruchan.boors.entity.Post
+import com.makentoshe.booruchan.boors.parser.AutocompleteSearchParser
+import kotlinx.coroutines.experimental.async
+import kotlinx.coroutines.experimental.runBlocking
+import java.util.*
 
 class Gelbooru: Boor(GelbooruRequestAPI()) {
 
@@ -18,13 +23,14 @@ class Gelbooru: Boor(GelbooruRequestAPI()) {
         return "$day $month $year in $daytime"
     }
 
-//    override fun getAutocompleteSearchVariations(term: String): List<String> = runBlocking {
-//        val async = async {
-//            HttpRequest.get(getApi().getAutocompleteSearchRequest(term)).stream()
-//        }
-//        return@runBlocking parseJsonForAutocomplete(
-//                Scanner(async.await()).useDelimiter("\\A").next())
-//    }
+    override fun getAutocompleteSearchVariations(httpClient: HttpClient, term: String)
+            : List<String> = runBlocking {
+        val async = async {
+            httpClient.get(getApi().getAutocompleteSearchRequest(term)).stream()
+        }
+        return@runBlocking AutocompleteSearchParser()
+                .parse(Scanner(async.await()).useDelimiter("\\A").next())
+    }
 
     class Post: com.makentoshe.booruchan.boors.entity.Post() {
 
