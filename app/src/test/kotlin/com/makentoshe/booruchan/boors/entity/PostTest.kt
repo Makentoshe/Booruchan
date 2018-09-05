@@ -87,7 +87,7 @@ open class PostTest {
         assertEquals(Post.Rating.WTF, post.rating)
     }
 
-    protected fun generateData(): HashMap<String, String> {
+    protected open fun generateData(): HashMap<String, String> {
         val data = HashMap<String, String>()
         data["sample_url"] = "sampleUrl"
         data["preview_url"] = "previewUrl"
