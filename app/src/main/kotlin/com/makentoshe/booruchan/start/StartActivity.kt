@@ -1,11 +1,13 @@
 package com.makentoshe.booruchan.start
 
+import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.StyleableAnkoComponent
+import com.makentoshe.booruchan.appsettings.AppSettingsActivity
 import com.makentoshe.booruchan.styles.AstarteStyle
 import org.jetbrains.anko.*
 
@@ -26,9 +28,9 @@ class StartActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
             R.id.action_app_settings -> {
-                //do something
+                startActivity(Intent(this, AppSettingsActivity::class.java))
             }
         }
-        return false
+        return true
     }
 }

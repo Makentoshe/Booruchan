@@ -1,7 +1,9 @@
-package com.makentoshe.booruchan.start
+package com.makentoshe.booruchan.appsettings
 
 import android.os.Build
 import android.support.v4.content.ContextCompat
+import android.view.Gravity
+import android.view.View
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.StyleableAnkoComponent
 import com.makentoshe.booruchan.styles.Style
@@ -9,15 +11,14 @@ import org.jetbrains.anko.*
 import org.jetbrains.anko.appcompat.v7.titleResource
 import org.jetbrains.anko.appcompat.v7.toolbar
 
-class StartActivityView(style: Style) : StyleableAnkoComponent<StartActivity>(style) {
+class AppSettingsActivityView(style: Style): StyleableAnkoComponent<AppSettingsActivity>(style) {
 
-    override fun createView(ui: AnkoContext<StartActivity>) = with(ui) {
+    override fun createView(ui: AnkoContext<AppSettingsActivity>): View = with(ui) {
         verticalLayout {
-
             val toolbar = toolbar {
                 setTitleTextColor(ContextCompat.getColor(ui.ctx, style.toolbarTextColor))
-                id = R.id.activity_start_toolbar
-                titleResource = R.string.app_name
+                id = R.id.activity_appsettings_toolbar
+                titleResource = R.string.app_settings_title
                 backgroundColorResource = style.toolbarBackgroundColor
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     elevation = dip(4).toFloat()
@@ -27,12 +28,7 @@ class StartActivityView(style: Style) : StyleableAnkoComponent<StartActivity>(st
                 height = dip(style.dpToolbarHeight)
             }
             ui.owner.setSupportActionBar(toolbar)
-            setOverflowIconColor(style.toolbarTextColor, ui.owner)
-
-            textView {
-                padding = dip(8)
-                text = "Sup, its just a start"
-            }
         }
     }
+
 }

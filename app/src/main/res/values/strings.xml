@@ -3,4 +3,5 @@
     <string name="name">Name</string>
     <string name="password">Password</string>
     <string name="app_settings">Application settings</string>
+    <string name="app_settings_title">Booruchan main settings</string>
 </resources>
