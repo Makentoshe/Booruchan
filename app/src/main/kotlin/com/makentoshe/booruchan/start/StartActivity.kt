@@ -18,17 +18,17 @@ class StartActivity : AppCompatActivity() {
         StartActivityView(style).setContentView(this)
     }
 
-//    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-//        menuInflater.inflate(R.menu.activity_start_overflow, menu)
-//        return true
-//    }
-//
-//    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-//        when (item?.itemId) {
-//            R.id.action_app_settings -> {
-//                //do something
-//            }
-//        }
-//        return false
-//    }
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.activity_start_overflow, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when (item?.itemId) {
+            R.id.action_app_settings -> {
+                //do something
+            }
+        }
+        return false
+    }
 }

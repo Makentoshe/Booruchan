@@ -23,6 +23,7 @@ class StartActivityView(style: Style) : StyleableAnkoComponent<StartActivity>(st
                 height = dip(style.dpToolbarHeight)
             }
             ui.owner.setSupportActionBar(toolbar)
+            setOverflowIconColor(style.toolbarTextColor, ui.owner)
 
             textView {
                 padding = dip(8)
