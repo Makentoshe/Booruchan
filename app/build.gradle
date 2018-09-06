@@ -24,6 +24,11 @@ android {
         main.java.srcDirs += 'src/main/kotlin'
         test.java.srcDirs += 'src/test/kotlin'
     }
+    testOptions {
+        unitTests {
+            includeAndroidResources = true
+        }
+    }
 }
 
 dependencies {
@@ -43,6 +48,8 @@ dependencies {
     testImplementation "io.mockk:mockk:$mokk_version"
     // Jsoup
     implementation 'org.jsoup:jsoup:1.10.3'
+    // Robolectric
+    testImplementation "org.robolectric:robolectric:3.8"
 
     implementation 'com.android.support:appcompat-v7:27.1.1'
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'
