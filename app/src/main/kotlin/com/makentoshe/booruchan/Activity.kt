@@ -8,7 +8,7 @@ import com.makentoshe.booruchan.appsettings.AppSettings
 @SuppressLint("Registered")
 abstract class Activity: AppCompatActivity() {
 
-    protected fun getAppSettings(): AppSettings {
+    fun getAppSettings(): AppSettings {
         return (application as Booruchan).appSettings
     }
 
