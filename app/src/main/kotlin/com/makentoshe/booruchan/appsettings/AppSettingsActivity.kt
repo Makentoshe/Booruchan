@@ -12,7 +12,7 @@ class AppSettingsActivity: AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        AppSettingsActivityView(AstarteStyle()).setContentView(this)
+        AppSettingsActivityView(style).setContentView(this)
     }
 
 }

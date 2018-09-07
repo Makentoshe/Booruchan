@@ -42,6 +42,8 @@ dependencies {
     implementation "org.jetbrains.anko:anko-sdk25-coroutines:$anko_version"
     implementation "org.jetbrains.anko:anko-appcompat-v7:$anko_version"
     implementation "org.jetbrains.anko:anko-appcompat-v7-coroutines:$anko_version"
+    // Anko ConstraintLayout
+    implementation "org.jetbrains.anko:anko-constraint-layout:$anko_version"
     // Gson
     implementation "com.google.code.gson:gson:$gson_version"
     // Mokk

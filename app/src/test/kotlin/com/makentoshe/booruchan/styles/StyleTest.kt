@@ -10,4 +10,9 @@ abstract class StyleTest(protected val style: Style) {
         assertEquals(style.dpToolbarHeight, 56)
     }
 
+    @Test
+    fun `test companion object`() {
+        assertEquals(0, Style.Astarte)
+    }
+
 }

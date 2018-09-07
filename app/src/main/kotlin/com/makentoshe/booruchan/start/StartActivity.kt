@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import com.makentoshe.booruchan.R
-import com.makentoshe.booruchan.StyleableAnkoComponent
 import com.makentoshe.booruchan.appsettings.AppSettingsActivity
 import com.makentoshe.booruchan.styles.AstarteStyle
 import org.jetbrains.anko.*

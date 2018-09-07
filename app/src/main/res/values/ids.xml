@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <item name="activity_start_toolbar" type="id">StartActivity_Toolbar</item>
-    <item name="activity_appsettings_toolbar" type="id">ActivirtyAppSettings_Toolbar</item>
+    <item name="activity_appsettings_toolbar" type="id">ActivityAppSettings_Toolbar</item>
+    <item name="activity_appsettings_style" type="id">ActivityAppSettings_Style</item>
 </resources>
