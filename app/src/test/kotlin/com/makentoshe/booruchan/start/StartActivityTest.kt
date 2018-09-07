@@ -1,7 +1,7 @@
 package com.makentoshe.booruchan.start
 
 import com.makentoshe.booruchan.R
-import com.makentoshe.booruchan.appsettings.AppSettingsActivity
+import com.makentoshe.booruchan.appsettings.view.AppSettingsActivity
 import junit.framework.Assert.assertEquals
 import junit.framework.Assert.assertTrue
 import org.junit.Test

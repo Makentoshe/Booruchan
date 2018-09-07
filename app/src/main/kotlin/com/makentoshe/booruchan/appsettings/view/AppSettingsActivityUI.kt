@@ -16,7 +16,7 @@ import org.jetbrains.anko.*
 import org.jetbrains.anko.appcompat.v7.titleResource
 import org.jetbrains.anko.appcompat.v7.toolbar
 
-class AppSettingsActivityView(style: Style, private val presenter: AppSettingsActivityPresenter)
+class AppSettingsActivityUI(style: Style, private val presenter: AppSettingsActivityPresenter)
     : StyleableAnkoComponent<AppSettingsActivity>(style) {
 
     override fun createView(ui: AnkoContext<AppSettingsActivity>): View = with(ui) {
@@ -57,11 +57,7 @@ class AppSettingsActivityView(style: Style, private val presenter: AppSettingsAc
                     weight = 3f
                 }
                 presenter.setStyleSpinnerData(spinner)
-                val items = arrayOf("Astarte", "Shuvi", "S", "A", "S")
-                spinner.adapter = ArrayAdapter<String>(ui.ctx,
-                        android.R.layout.simple_spinner_dropdown_item, items)
-
-                setListener(spinner)
+                presenter.setStyleSpinnerListener(spinner)
 
             }.lparams {
                 width = matchParent
@@ -69,16 +65,4 @@ class AppSettingsActivityView(style: Style, private val presenter: AppSettingsAc
             }
         }
     }
-
-    private fun setListener(spinner: Spinner) {
-        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onNothingSelected(parent: AdapterView<*>?) {}
-
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                println(parent?.getItemAtPosition(position))
-            }
-
-        }
-    }
-
 }

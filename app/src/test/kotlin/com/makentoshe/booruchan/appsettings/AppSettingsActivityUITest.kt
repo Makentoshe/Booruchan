@@ -13,7 +13,7 @@ import org.robolectric.Robolectric
 import org.robolectric.RobolectricTestRunner
 
 @RunWith(RobolectricTestRunner::class)
-class AppSettingsActivityViewTest {
+class AppSettingsActivityUITest {
 
     private lateinit var view: View
     private lateinit var style: Style
