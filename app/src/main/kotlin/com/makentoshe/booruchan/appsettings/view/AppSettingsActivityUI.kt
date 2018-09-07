@@ -20,14 +20,36 @@ class AppSettingsActivityUI(style: Style, private val presenter: AppSettingsActi
 
     override fun createView(ui: AnkoContext<AppSettingsActivity>): View = with(ui) {
         verticalLayout {
+
             createToolbar(this) {
                 ui.owner.setSupportActionBar(it)
             }
+            createStyle(this)
+        }
+    }
 
+    private inline fun createToolbar(linearLayoutContext: @AnkoViewDslMarker _LinearLayout, then: (Toolbar) -> Unit) {
+        with(linearLayoutContext) {
+            then.invoke(toolbar {
+                setTitleTextColor(ContextCompat.getColor(linearLayoutContext.context, style.toolbarTextColor))
+                id = R.id.activity_appsettings_toolbar
+                titleResource = R.string.app_settings_title
+                backgroundColorResource = style.toolbarBackgroundColor
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    elevation = dip(4).toFloat()
+                }
+                lparams {
+                    width = matchParent
+                    height = dip(style.dpToolbarHeight)
+                }
+            })
+        }
+    }
+
+    private fun createStyle(linearLayoutContext: @AnkoViewDslMarker _LinearLayout) {
+        with(linearLayoutContext) {
             linearLayout {
                 orientation = LinearLayout.HORIZONTAL
-                id = R.id.activity_appsettings_style
-
                 textView {
                     text = "Color theme"
                     leftPadding = dip(8)
@@ -58,24 +80,6 @@ class AppSettingsActivityUI(style: Style, private val presenter: AppSettingsActi
                 width = matchParent
                 height = dip(style.dpToolbarHeight)
             }
-        }
-    }
-
-    private fun createToolbar(linearLayoutContext: @AnkoViewDslMarker _LinearLayout, then: (Toolbar) -> Unit) {
-        with(linearLayoutContext) {
-            then.invoke(toolbar {
-                setTitleTextColor(ContextCompat.getColor(linearLayoutContext.context, style.toolbarTextColor))
-                id = R.id.activity_appsettings_toolbar
-                titleResource = R.string.app_settings_title
-                backgroundColorResource = style.toolbarBackgroundColor
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    elevation = dip(4).toFloat()
-                }
-                lparams {
-                    width = matchParent
-                    height = dip(style.dpToolbarHeight)
-                }
-            })
         }
     }
 }
