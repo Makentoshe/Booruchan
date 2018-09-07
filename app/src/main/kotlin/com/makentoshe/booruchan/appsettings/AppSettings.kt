@@ -7,6 +7,10 @@ import java.lang.IllegalArgumentException
 
 class AppSettings {
 
+    companion object {
+        const val NAME = "ApplicationSettings"
+    }
+
     private var style: Style = AstarteStyle()
     private var styleVal: Int = Style.Astarte
 
