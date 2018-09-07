@@ -1,5 +1,6 @@
 package com.makentoshe.booruchan.appsettings.presenter
 
+import android.widget.AdapterView
 import android.widget.Spinner
 import com.makentoshe.booruchan.appsettings.AppSettingsSave
 import com.makentoshe.booruchan.appsettings.model.StyleModel
@@ -15,8 +16,8 @@ class AppSettingsActivityPresenter(activity: AppSettingsActivityView) {
         styleModel.setStyleSpinnerData(spinner)
     }
 
-    fun setStyleSpinnerListener(spinner: Spinner) {
-        styleModel.setStyleSelectListener(spinner)
+    fun setStyleOnSelect(adapterView: AdapterView<*>, position: Int) {
+        styleModel.setStyleOnSelect(adapterView, position)
     }
 
 

@@ -22,7 +22,7 @@ class StartActivityViewTest {
     fun init() {
         val activity = Robolectric.setupActivity(StartActivity::class.java)
         view = activity.window.decorView
-        style = activity.style
+        style = activity.getAppSettings().getStyle()
     }
 
     @Test
