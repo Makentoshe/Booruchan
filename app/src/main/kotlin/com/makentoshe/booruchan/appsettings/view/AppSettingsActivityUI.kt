@@ -1,4 +1,4 @@
-package com.makentoshe.booruchan.appsettings
+package com.makentoshe.booruchan.appsettings.view
 
 import android.os.Build
 import android.support.v4.content.ContextCompat
@@ -10,12 +10,14 @@ import android.widget.LinearLayout
 import android.widget.Spinner
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.StyleableAnkoComponent
+import com.makentoshe.booruchan.appsettings.presenter.AppSettingsActivityPresenter
 import com.makentoshe.booruchan.styles.Style
 import org.jetbrains.anko.*
 import org.jetbrains.anko.appcompat.v7.titleResource
 import org.jetbrains.anko.appcompat.v7.toolbar
 
-class AppSettingsActivityView(style: Style): StyleableAnkoComponent<AppSettingsActivity>(style) {
+class AppSettingsActivityView(style: Style, private val presenter: AppSettingsActivityPresenter)
+    : StyleableAnkoComponent<AppSettingsActivity>(style) {
 
     override fun createView(ui: AnkoContext<AppSettingsActivity>): View = with(ui) {
         verticalLayout {
@@ -47,7 +49,6 @@ class AppSettingsActivityView(style: Style): StyleableAnkoComponent<AppSettingsA
                     height = matchParent
                     weight = 7f
                 }
-
                 val spinner = spinner {
                     gravity = Gravity.CENTER_VERTICAL
                 }.lparams {
@@ -55,6 +56,7 @@ class AppSettingsActivityView(style: Style): StyleableAnkoComponent<AppSettingsA
                     height = wrapContent
                     weight = 3f
                 }
+                presenter.setStyleSpinnerData(spinner)
                 val items = arrayOf("Astarte", "Shuvi", "S", "A", "S")
                 spinner.adapter = ArrayAdapter<String>(ui.ctx,
                         android.R.layout.simple_spinner_dropdown_item, items)

@@ -3,6 +3,7 @@ package com.makentoshe.booruchan.appsettings
 import android.support.v7.widget.Toolbar
 import android.view.View
 import com.makentoshe.booruchan.R
+import com.makentoshe.booruchan.appsettings.view.AppSettingsActivity
 import com.makentoshe.booruchan.styles.Style
 import junit.framework.Assert
 import org.junit.Before
