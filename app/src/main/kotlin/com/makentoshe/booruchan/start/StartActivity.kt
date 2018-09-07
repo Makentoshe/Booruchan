@@ -1,16 +1,16 @@
 package com.makentoshe.booruchan.start
 
 import android.content.Intent
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import com.makentoshe.booruchan.Activity
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.appsettings.AppSettingsActivity
 import com.makentoshe.booruchan.styles.AstarteStyle
 import org.jetbrains.anko.*
 
-class StartActivity : AppCompatActivity() {
+class StartActivity : Activity() {
 
     val style = AstarteStyle()
 
