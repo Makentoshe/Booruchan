@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="MaterialIndigo500">#3F51B5</color>
+    <color name="MaterialIndigo700">#303F9F</color>
+    <color name="PinkAssent200">#FF4081</color>
+    <color name="MaterialPurple700">#7b1fa2</color>
+    <color name="MaterialPurple500">#9c27b0</color>
+    <color name="MaterialPurple200">#e040fb</color>
 </resources>

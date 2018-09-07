@@ -1,6 +1,7 @@
 package com.makentoshe.booruchan.appsettings
 
 import com.makentoshe.booruchan.styles.AstarteStyle
+import com.makentoshe.booruchan.styles.ShuviStyle
 import com.makentoshe.booruchan.styles.Style
 import java.lang.IllegalArgumentException
 
@@ -14,6 +15,11 @@ class AppSettings {
             Style.Astarte -> {
                 checkStyleValuesIsValid(value) {
                     replaceStyleValues(AstarteStyle(), value)
+                }
+            }
+            Style.Shuvi -> {
+                checkStyleValuesIsValid(value) {
+                    replaceStyleValues(ShuviStyle(), value)
                 }
             }
             else -> throw IllegalArgumentException("Theme code $value is not defined.")

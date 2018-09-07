@@ -1,5 +1,6 @@
 package com.makentoshe.booruchan.styles
 
+import com.makentoshe.booruchan.R
 import junit.framework.Assert.assertEquals
 import org.junit.Test
 
@@ -12,7 +13,8 @@ abstract class StyleTest(protected val style: Style) {
 
     @Test
     fun `test companion object`() {
-        assertEquals(0, Style.Astarte)
+        assertEquals(R.style.Astarte, Style.Astarte)
+        assertEquals(R.style.Shuvi, Style.Shuvi)
     }
 
 }

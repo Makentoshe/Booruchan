@@ -2,12 +2,12 @@ package com.makentoshe.booruchan.styles
 
 import com.makentoshe.booruchan.R
 
-class AstarteStyle: Style {
+class ShuviStyle: Style {
 
     override val toolbarBackgroundColor: Int
-        get() = R.color.MaterialIndigo500
+        get() = R.color.MaterialPurple500
 
     override val toolbarTextColor: Int
         get() = android.R.color.white
-
+    
 }
