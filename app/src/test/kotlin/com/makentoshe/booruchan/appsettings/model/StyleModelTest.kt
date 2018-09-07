@@ -3,10 +3,13 @@ package com.makentoshe.booruchan.appsettings.model
 import android.content.Context
 import android.content.SharedPreferences
 import android.support.v7.app.AppCompatActivity
+import android.widget.AdapterView
 import android.widget.Spinner
 import com.makentoshe.booruchan.appsettings.AppSettings
 import com.makentoshe.booruchan.appsettings.AppSettingsSave
+import com.makentoshe.booruchan.appsettings.view.RecreateableView
 import com.makentoshe.booruchan.styles.Style
+import io.mockk.every
 import io.mockk.mockk
 import junit.framework.Assert.assertEquals
 import org.junit.Before
@@ -30,9 +33,13 @@ class StyleModelTest {
         appSettings.setStyle(Style.Shuvi)
 
         val sharedPreferences = activity.getSharedPreferences(AppSettings.NAME, Context.MODE_PRIVATE)
+
         val appSettingsSave = AppSettingsSave(sharedPreferences, appSettings)
 
-        model = StyleModel(activity, appSettings, appSettingsSave, mockk())
+        val recreateableView = mockk<RecreateableView>()
+        every { recreateableView.recreate() } returns Unit
+
+        model = StyleModel(activity, appSettings, appSettingsSave, recreateableView)
     }
 
     @Test
@@ -47,6 +54,18 @@ class StyleModelTest {
         val spinner = Spinner(activity)
         model.setStyleSpinnerData(spinner)
         assertEquals(Style.arrayOfStyleNames.size, spinner.adapter.count)
+    }
+
+
+    @Test
+    fun `check style changing`() {
+        val spinner = Spinner(activity)
+        model.setStyleSpinnerData(spinner)
+        spinner.setSelection(0)
+        val adapterView = mockk<AdapterView<*>>()
+        every { adapterView.getItemAtPosition(0) } returns Style.AstarteName
+        model.setStyleOnSelect(adapterView, 0)
+        assertEquals(Style.Astarte, appSettings.getStyleVal())
     }
 
 }
