@@ -3,7 +3,7 @@ package com.makentoshe.booruchan
 import android.app.Application
 import android.content.Context
 import com.makentoshe.booruchan.appsettings.AppSettings
-import com.makentoshe.booruchan.appsettings.AppSettingsLoad
+import com.makentoshe.booruchan.appsettings.saveload.AppSettingsLoad
 
 class Booruchan: Application() {
 

@@ -1,6 +1,7 @@
-package com.makentoshe.booruchan.appsettings
+package com.makentoshe.booruchan.appsettings.saveload
 
 import android.content.SharedPreferences
+import com.makentoshe.booruchan.appsettings.AppSettings
 import com.makentoshe.booruchan.styles.Style
 
 class AppSettingsLoad(private val sharedPreferences: SharedPreferences,

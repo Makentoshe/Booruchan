@@ -1,4 +1,4 @@
-package com.makentoshe.booruchan.appsettings
+package com.makentoshe.booruchan.appsettings.saveload
 
 abstract class AppSettingsDumpLoad {
 
