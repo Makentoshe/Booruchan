@@ -10,7 +10,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Astarte">
-        <activity android:name=".start.StartActivity">
+        <activity android:name=".start.view.StartActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

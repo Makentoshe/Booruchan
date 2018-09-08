@@ -3,6 +3,7 @@ package com.makentoshe.booruchan.start
 import android.support.v7.widget.Toolbar
 import android.view.View
 import com.makentoshe.booruchan.R
+import com.makentoshe.booruchan.start.view.StartActivity
 import com.makentoshe.booruchan.styles.Style
 import junit.framework.Assert.assertEquals
 import junit.framework.Assert.assertNotNull
@@ -13,7 +14,7 @@ import org.robolectric.Robolectric
 import org.robolectric.RobolectricTestRunner
 
 @RunWith(RobolectricTestRunner::class)
-class StartActivityViewTest {
+class StartActivityUITest {
 
     private lateinit var view: View
     private lateinit var style: Style
