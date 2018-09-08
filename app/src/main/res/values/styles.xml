@@ -12,4 +12,10 @@
         <item name="colorAccent">@color/MaterialPurple200</item>
     </style>
 
+    <style name="Rin" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/MaterialYellow500</item>
+        <item name="colorPrimaryDark">@color/MaterialYellow700</item>
+        <item name="colorAccent">@color/MaterialYellow200</item>
+    </style>
+
 </resources>

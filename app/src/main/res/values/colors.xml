@@ -6,4 +6,7 @@
     <color name="MaterialPurple700">#7b1fa2</color>
     <color name="MaterialPurple500">#9c27b0</color>
     <color name="MaterialPurple200">#e040fb</color>
+    <color name="MaterialYellow700">#FBC02D</color>
+    <color name="MaterialYellow500">#ffeb3b</color>
+    <color name="MaterialYellow200">#fff59d</color>
 </resources>

@@ -7,7 +7,6 @@ import android.view.MenuItem
 import com.makentoshe.booruchan.Activity
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.appsettings.view.AppSettingsActivity
-import com.makentoshe.booruchan.styles.AstarteStyle
 import org.jetbrains.anko.*
 
 class StartActivity : Activity() {

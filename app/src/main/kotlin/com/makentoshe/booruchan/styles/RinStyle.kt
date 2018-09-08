@@ -2,20 +2,19 @@ package com.makentoshe.booruchan.styles
 
 import com.makentoshe.booruchan.R
 
-class AstarteStyle: Style {
+class RinStyle : Style {
 
     @Style.StyleID
     override val styleId: Int
-        get() = Style.Astarte
+        get() = Style.Rin
 
     @Style.StyleName
     override val styleName: String
-        get() = Style.AstarteName
-
-    override val toolbarBackgroundColor: Int
-        get() = R.color.MaterialIndigo500
+        get() = Style.RinName
 
     override val toolbarTextColor: Int
         get() = android.R.color.white
 
+    override val toolbarBackgroundColor: Int
+        get() = R.color.MaterialYellow500
 }
