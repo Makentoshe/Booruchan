@@ -1,6 +1,7 @@
 package com.makentoshe.booruchan.appsettings
 
 import com.makentoshe.booruchan.styles.AstarteStyle
+import com.makentoshe.booruchan.styles.RinStyle
 import com.makentoshe.booruchan.styles.ShuviStyle
 import com.makentoshe.booruchan.styles.Style
 import junit.framework.Assert.assertEquals
@@ -29,6 +30,10 @@ class AppSettingsTest {
         appSettings.setStyle(Style.Astarte)
         assertEquals(Style.Astarte, appSettings.getStyleVal())
         assertTrue(appSettings.getStyle() is AstarteStyle)
+
+        appSettings.setStyle(Style.Rin)
+        assertEquals(Style.Rin, appSettings.getStyleVal())
+        assertTrue(appSettings.getStyle() is RinStyle)
     }
 
 }

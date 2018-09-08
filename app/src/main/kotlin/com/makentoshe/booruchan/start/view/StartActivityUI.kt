@@ -46,7 +46,7 @@ class StartActivityUI(style: Style, private val presenter: StartActivityPresente
     private fun createListWithServices(llcontext: @AnkoViewDslMarker _LinearLayout) = with(llcontext) {
         listView {
             adapter = presenter.createAdapter()
-            onItemClick { parent, view, position, id ->
+            onItemClick { _, _, position, _ ->
                 presenter.onServicesListItemClick(position)
             }
         }.lparams {
