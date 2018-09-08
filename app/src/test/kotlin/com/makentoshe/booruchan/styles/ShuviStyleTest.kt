@@ -9,13 +9,20 @@ import org.junit.runners.JUnit4
 @RunWith(JUnit4::class)
 class ShuviStyleTest: StyleTest(ShuviStyle()) {
 
-    @Test
-    fun `toolbar background color`() {
+    override fun `style id`() {
+        Assert.assertEquals(Style.Shuvi, style.styleId)
+    }
+
+    override fun `style name`() {
+        Assert.assertEquals(Style.ShuviName, style.styleName)
+    }
+
+    override fun `toolbar background color`() {
         Assert.assertEquals(R.color.MaterialPurple500, style.toolbarBackgroundColor)
     }
 
     @Test
-    fun `toolbar text color`() {
+    override fun `toolbar text color`() {
         Assert.assertEquals(android.R.color.white, style.toolbarTextColor)
     }
 

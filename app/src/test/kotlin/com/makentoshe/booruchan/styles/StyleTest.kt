@@ -15,6 +15,18 @@ abstract class StyleTest(protected val style: Style) {
     fun `test companion object`() {
         assertEquals(R.style.Astarte, Style.Astarte)
         assertEquals(R.style.Shuvi, Style.Shuvi)
+        assertEquals(R.style.Rin, Style.Rin)
     }
 
+    @Test
+    abstract fun `toolbar background color`()
+
+    @Test
+    abstract fun `toolbar text color`()
+
+    @Test
+    abstract fun `style id`()
+
+    @Test
+    abstract fun `style name`()
 }
