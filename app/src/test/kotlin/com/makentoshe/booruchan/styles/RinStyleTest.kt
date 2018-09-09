@@ -13,7 +13,7 @@ class RinStyleTest : StyleTest(RinStyle()) {
     }
 
     override fun `toolbar text color`() {
-        assertEquals(android.R.color.white, style.toolbarTextColor)
+        assertEquals(android.R.color.white, style.toolbarForegroundColor)
     }
 
     override fun `style id`() {

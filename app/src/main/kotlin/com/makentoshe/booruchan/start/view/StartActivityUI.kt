@@ -21,7 +21,7 @@ class StartActivityUI(style: Style, private val presenter: StartActivityPresente
             createToolbar(ui.ctx, this) {
                 ui.owner.setSupportActionBar(it)
             }
-            setOverflowIconColor(style.toolbarTextColor, ui.owner)
+            setOverflowIconColor(style.toolbarForegroundColor, ui.owner)
 
             createListWithServices(this)
         }
@@ -30,7 +30,7 @@ class StartActivityUI(style: Style, private val presenter: StartActivityPresente
     private fun createToolbar(context: Context, llcontext: @AnkoViewDslMarker _LinearLayout,
                               then: (Toolbar) -> Unit) = with(llcontext) {
         then.invoke(toolbar {
-            setTitleTextColor(ContextCompat.getColor(context, style.toolbarTextColor))
+            setTitleTextColor(ContextCompat.getColor(context, style.toolbarForegroundColor))
             id = R.id.activity_start_toolbar
             titleResource = R.string.app_name
             backgroundColorResource = style.toolbarBackgroundColor

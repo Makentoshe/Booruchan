@@ -12,7 +12,7 @@ class RinStyle : Style {
     override val styleName: String
         get() = Style.RinName
 
-    override val toolbarTextColor: Int
+    override val toolbarForegroundColor: Int
         get() = android.R.color.white
 
     override val toolbarBackgroundColor: Int

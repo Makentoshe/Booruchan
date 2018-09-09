@@ -22,7 +22,7 @@ class AppSettingsActivityUI(style: Style, private val presenter: AppSettingsActi
         verticalLayout {
             createToolbar(this) {
                 ui.owner.setSupportActionBar(it)
-                val indicator = createHomeIcon(style.toolbarTextColor, ui.owner)
+                val indicator = createHomeIcon(style.toolbarForegroundColor, ui.owner)
                 ui.owner.supportActionBar?.setHomeAsUpIndicator(indicator)
                 ui.owner.supportActionBar?.setDisplayHomeAsUpEnabled(true)
                 ui.owner.supportActionBar?.setHomeButtonEnabled(true)
@@ -34,7 +34,7 @@ class AppSettingsActivityUI(style: Style, private val presenter: AppSettingsActi
     private inline fun createToolbar(linearLayoutContext: @AnkoViewDslMarker _LinearLayout, then: (Toolbar) -> Unit) {
         with(linearLayoutContext) {
             then.invoke(toolbar {
-                setTitleTextColor(ContextCompat.getColor(linearLayoutContext.context, style.toolbarTextColor))
+                setTitleTextColor(ContextCompat.getColor(linearLayoutContext.context, style.toolbarForegroundColor))
                 id = R.id.activity_appsettings_toolbar
                 titleResource = R.string.app_settings_title
                 backgroundColorResource = style.toolbarBackgroundColor

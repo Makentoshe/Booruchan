@@ -15,7 +15,7 @@ class AstarteStyle: Style {
     override val toolbarBackgroundColor: Int
         get() = R.color.MaterialIndigo500
 
-    override val toolbarTextColor: Int
+    override val toolbarForegroundColor: Int
         get() = android.R.color.white
 
 }

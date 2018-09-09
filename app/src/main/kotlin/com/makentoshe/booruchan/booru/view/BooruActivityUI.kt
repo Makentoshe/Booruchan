@@ -55,7 +55,7 @@ class BooruActivityUI(style: Style) : StyleableAnkoComponent<BooruActivity>(styl
 
     private fun _FrameLayout.createToolbar() {
         toolbar = toolbar {
-            setTitleTextColor(ContextCompat.getColor(context, style.toolbarTextColor))
+            setTitleTextColor(ContextCompat.getColor(context, style.toolbarForegroundColor))
             title = "Gelbooru"
             backgroundColorResource = style.toolbarBackgroundColor
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -75,9 +75,9 @@ class BooruActivityUI(style: Style) : StyleableAnkoComponent<BooruActivity>(styl
                     R.string.drawer_open, R.string.drawer_close)
             toggle.isDrawerIndicatorEnabled = true
             toggle.drawerArrowDrawable.color = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                ui.ctx.resources.getColor(style.toolbarTextColor, theme)
+                ui.ctx.resources.getColor(style.toolbarForegroundColor, theme)
             } else {
-                ui.ctx.resources.getColor(style.toolbarTextColor)
+                ui.ctx.resources.getColor(style.toolbarForegroundColor)
             }
             drawerLayout.addDrawerListener(toggle)
             toggle.syncState()

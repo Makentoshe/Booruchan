@@ -23,7 +23,7 @@ class ShuviStyleTest: StyleTest(ShuviStyle()) {
 
     @Test
     override fun `toolbar text color`() {
-        Assert.assertEquals(android.R.color.white, style.toolbarTextColor)
+        Assert.assertEquals(android.R.color.white, style.toolbarForegroundColor)
     }
 
 }

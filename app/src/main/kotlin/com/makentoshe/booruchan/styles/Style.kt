@@ -59,7 +59,7 @@ interface Style {
     }
 
     @get:ColorRes
-    val toolbarTextColor: Int
+    val toolbarForegroundColor: Int
 
     @get:ColorRes
     val toolbarBackgroundColor: Int

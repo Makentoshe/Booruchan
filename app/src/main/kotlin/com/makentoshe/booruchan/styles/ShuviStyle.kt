@@ -15,7 +15,7 @@ class ShuviStyle : Style {
     override val toolbarBackgroundColor: Int
         get() = R.color.MaterialPurple500
 
-    override val toolbarTextColor: Int
+    override val toolbarForegroundColor: Int
         get() = android.R.color.white
 
 }
