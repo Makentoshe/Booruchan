@@ -6,4 +6,5 @@
     <string name="app_settings_title">Booruchan main settings</string>
     <string name="drawer_close">Close drawer</string>
     <string name="drawer_open">Open drawer</string>
+    <string name="search_hint">Ex: blue_sky cloud 1girl</string>
 </resources>

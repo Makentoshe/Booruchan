@@ -9,4 +9,5 @@
     <color name="MaterialYellow700">#FBC02D</color>
     <color name="MaterialYellow500">#ffeb3b</color>
     <color name="MaterialYellow200">#fff59d</color>
+    <color name="MaterialGrey100">#f5f5f5</color>
 </resources>

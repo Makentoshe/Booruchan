@@ -3,4 +3,8 @@
     <item name="activity_start_toolbar" type="id">StartActivity_Toolbar</item>
     <item name="activity_appsettings_toolbar" type="id">ActivityAppSettings_Toolbar</item>
     <item name="activity_appsettings_style" type="id">ActivityAppSettings_Style</item>
+    <item name="action_show_search" type="id">Action_ShowSearch</item>
+    <item name="activity_booru_toolbar" type="id">ActivityBooru_Toolbar</item>
+    <item name="activity_booru_toolbar_search" type="id">ActivityBooru_Toolbar_Search</item>
+    <item name="activity_booru_toolbar_search_alpha" type="id">ActivityBooru_Toolbar_Search_Alpha</item>
 </resources>
