@@ -17,4 +17,8 @@ class RinStyle : Style {
 
     override val toolbarBackgroundColor: Int
         get() = R.color.MaterialYellow500
+
+
+    override val searchIcon: Int
+        get() = R.drawable.ic_magnify_vector_black
 }

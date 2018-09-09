@@ -1,6 +1,8 @@
 package com.makentoshe.booruchan.styles
 
+import android.graphics.drawable.AdaptiveIconDrawable
 import android.support.annotation.ColorRes
+import android.support.annotation.DrawableRes
 import android.support.annotation.IntDef
 import android.support.annotation.StringDef
 import com.makentoshe.booruchan.R
@@ -68,6 +70,11 @@ interface Style {
         get() = 56
 
     @get:ColorRes
-    val backgroudColor: Int
+    val backgroundColor: Int
         get() = android.R.color.white
+
+    @get:DrawableRes
+    val searchIcon: Int
+        get() = R.drawable.ic_magnify_vector_white
+
 }
