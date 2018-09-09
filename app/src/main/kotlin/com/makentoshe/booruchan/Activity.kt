@@ -3,6 +3,8 @@ package com.makentoshe.booruchan
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.view.View
+import android.view.inputmethod.InputMethodManager
 import com.makentoshe.booruchan.appsettings.AppSettings
 
 @SuppressLint("Registered")
@@ -25,6 +27,17 @@ abstract class Activity: AppCompatActivity() {
         if (currentStyleVal != getAppSettings().getStyleVal()) {
             recreate()
         }
+    }
+
+    fun hideKeyboard() {
+        val imm = getSystemService(android.app.Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+        //Find the currently focused view, so we can grab the correct window token from it.
+        var view = currentFocus
+        //If no view currently has focus, create a new one, just so we can grab a window token from it
+        if (view == null) {
+            view = View(this)
+        }
+        imm.hideSoftInputFromWindow(view.windowToken, 0)
     }
 
 }
