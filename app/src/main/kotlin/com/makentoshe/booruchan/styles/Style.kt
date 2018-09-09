@@ -40,7 +40,7 @@ interface Style {
         val arrayOfStyleNames = arrayOf(AstarteName, ShuviName, RinName)
 
         fun getStyleIndex(@StyleID value: Int): Int {
-            return when(value) {
+            return when (value) {
                 Astarte -> 0
                 Shuvi -> 1
                 Rin -> 2
@@ -49,7 +49,7 @@ interface Style {
         }
 
         fun getStyleValByName(@StyleName name: String): Int {
-            return when(name) {
+            return when (name) {
                 AstarteName -> Astarte
                 ShuviName -> Shuvi
                 RinName -> Rin
@@ -66,4 +66,8 @@ interface Style {
 
     val dpToolbarHeight: Int
         get() = 56
+
+    @get:ColorRes
+    val backgroudColor: Int
+        get() = android.R.color.white
 }
