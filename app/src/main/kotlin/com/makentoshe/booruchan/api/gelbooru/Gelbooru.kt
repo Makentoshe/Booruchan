@@ -1,10 +1,10 @@
-package com.makentoshe.booruchan.boors.gelbooru
+package com.makentoshe.booruchan.api.gelbooru
 
-import com.makentoshe.booruchan.boors.Boor
-import com.makentoshe.booruchan.boors.HttpClient
-import com.makentoshe.booruchan.boors.Posts
-import com.makentoshe.booruchan.boors.parser.AutocompleteSearchParser
-import com.makentoshe.booruchan.boors.parser.PostParser
+import com.makentoshe.booruchan.api.Boor
+import com.makentoshe.booruchan.api.HttpClient
+import com.makentoshe.booruchan.api.Posts
+import com.makentoshe.booruchan.api.parser.AutocompleteSearchParser
+import com.makentoshe.booruchan.api.parser.PostParser
 import kotlinx.coroutines.experimental.async
 import kotlinx.coroutines.experimental.runBlocking
 import java.util.*
@@ -35,14 +35,14 @@ class Gelbooru : Boor(GelbooruRequestAPI()) {
 
     override fun getPostsByTags(
             limit: Int, tags: String, page: Int, httpClient: HttpClient,
-            onResult: (Posts<out com.makentoshe.booruchan.boors.entity.Post>) -> Unit) = runBlocking {
+            onResult: (Posts<out com.makentoshe.booruchan.api.entity.Post>) -> Unit) = runBlocking {
         val async = async {
             httpClient.get(getApi().getPostsByTagsRequest(limit, tags, page)).stream()
         }
-        onResult.invoke(PostParser(Gelbooru.Post::class.java).parsePosts(async.await()))
+        onResult.invoke(PostParser(Post::class.java).parsePosts(async.await()))
     }
 
-    class Post : com.makentoshe.booruchan.boors.entity.Post() {
+    class Post : com.makentoshe.booruchan.api.entity.Post() {
 
         var previewHeight: Int = -1
 

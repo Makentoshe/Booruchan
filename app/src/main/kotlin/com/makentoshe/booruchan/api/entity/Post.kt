@@ -1,4 +1,4 @@
-package com.makentoshe.booruchan.boors.entity
+package com.makentoshe.booruchan.api.entity
 
 import java.io.Serializable
 

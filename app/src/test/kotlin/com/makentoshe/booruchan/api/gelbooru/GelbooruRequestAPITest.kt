@@ -1,6 +1,6 @@
-package com.makentoshe.booruchan.boors.gelbooru
+package com.makentoshe.booruchan.api.gelbooru
 
-import com.makentoshe.booruchan.boors.BooruRequestAPITest
+import com.makentoshe.booruchan.api.BooruRequestAPITest
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
 

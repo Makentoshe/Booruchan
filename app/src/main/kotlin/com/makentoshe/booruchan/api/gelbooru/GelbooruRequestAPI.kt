@@ -1,6 +1,6 @@
-package com.makentoshe.booruchan.boors.gelbooru
+package com.makentoshe.booruchan.api.gelbooru
 
-import com.makentoshe.booruchan.boors.BoorRequestAPI
+import com.makentoshe.booruchan.api.BoorRequestAPI
 
 class GelbooruRequestAPI: BoorRequestAPI {
 

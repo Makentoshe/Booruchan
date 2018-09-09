@@ -1,6 +1,6 @@
-package com.makentoshe.booruchan.boors.gelbooru
+package com.makentoshe.booruchan.api.gelbooru
 
-import com.makentoshe.booruchan.boors.entity.PostTest
+import com.makentoshe.booruchan.api.entity.PostTest
 import junit.framework.Assert
 import org.junit.Before
 import org.junit.Test

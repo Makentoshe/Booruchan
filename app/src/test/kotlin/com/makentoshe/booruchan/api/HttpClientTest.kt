@@ -1,4 +1,4 @@
-package com.makentoshe.booruchan.boors
+package com.makentoshe.booruchan.api
 
 import com.github.kevinsawicki.http.HttpRequest
 import junit.framework.Assert.assertEquals

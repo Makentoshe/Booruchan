@@ -1,4 +1,4 @@
-package com.makentoshe.booruchan.boors.parser
+package com.makentoshe.booruchan.api.parser
 
 import com.google.gson.Gson
 import com.google.gson.JsonObject

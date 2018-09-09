@@ -1,9 +1,9 @@
-package com.makentoshe.booruchan.boors.parser
+package com.makentoshe.booruchan.api.parser
 
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import com.makentoshe.booruchan.boors.Posts
-import com.makentoshe.booruchan.boors.entity.Post
+import com.makentoshe.booruchan.api.Posts
+import com.makentoshe.booruchan.api.entity.Post
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Attributes
 import java.io.InputStream

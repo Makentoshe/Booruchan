@@ -1,5 +1,6 @@
-package com.makentoshe.booruchan.boors.entity
+package com.makentoshe.booruchan.api.entity
 
+import com.makentoshe.booruchan.api.entity.Comment
 import junit.framework.Assert
 import junit.framework.Assert.assertEquals
 import junit.framework.Assert.assertNotNull

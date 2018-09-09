@@ -3,7 +3,7 @@ package com.makentoshe.booruchan.start.model
 import android.content.Context
 import android.widget.ArrayAdapter
 import android.widget.ListAdapter
-import com.makentoshe.booruchan.boors.gelbooru.Gelbooru
+import com.makentoshe.booruchan.api.gelbooru.Gelbooru
 
 class ServicesGenerator(private val context: Context) {
 

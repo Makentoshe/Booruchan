@@ -1,9 +1,6 @@
 package com.makentoshe.booruchan.start.model
 
-import android.R
-import android.widget.ArrayAdapter
-import android.widget.ListAdapter
-import com.makentoshe.booruchan.boors.gelbooru.Gelbooru
+import com.makentoshe.booruchan.api.gelbooru.Gelbooru
 import junit.framework.Assert.assertEquals
 import junit.framework.Assert.assertTrue
 import org.junit.Before

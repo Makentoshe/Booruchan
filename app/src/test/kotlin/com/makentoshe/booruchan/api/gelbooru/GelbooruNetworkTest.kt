@@ -1,6 +1,6 @@
-package com.makentoshe.booruchan.boors.gelbooru
+package com.makentoshe.booruchan.api.gelbooru
 
-import com.makentoshe.booruchan.boors.HttpClient
+import com.makentoshe.booruchan.api.HttpClient
 import io.mockk.every
 import io.mockk.mockk
 import junit.framework.Assert.assertEquals

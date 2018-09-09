@@ -1,6 +1,6 @@
-package com.makentoshe.booruchan.boors.parser
+package com.makentoshe.booruchan.api.parser
 
-import com.makentoshe.booruchan.boors.gelbooru.Gelbooru
+import com.makentoshe.booruchan.api.gelbooru.Gelbooru
 import junit.framework.Assert.assertEquals
 import junit.framework.Assert.assertNotNull
 import org.junit.Test

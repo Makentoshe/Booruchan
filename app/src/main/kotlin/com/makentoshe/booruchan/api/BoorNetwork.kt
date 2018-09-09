@@ -1,6 +1,6 @@
-package com.makentoshe.booruchan.boors
+package com.makentoshe.booruchan.api
 
-import com.makentoshe.booruchan.boors.entity.Post
+import com.makentoshe.booruchan.api.entity.Post
 
 abstract class BoorNetwork(private val api: BoorRequestAPI) {
 

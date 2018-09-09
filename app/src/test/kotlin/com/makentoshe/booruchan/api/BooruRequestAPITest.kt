@@ -1,5 +1,6 @@
-package com.makentoshe.booruchan.boors
+package com.makentoshe.booruchan.api
 
+import com.makentoshe.booruchan.api.BoorRequestAPI
 import junit.framework.Assert.assertEquals
 import org.junit.Test
 

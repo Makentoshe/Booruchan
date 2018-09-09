@@ -1,4 +1,4 @@
-package com.makentoshe.booruchan.boors
+package com.makentoshe.booruchan.api
 
 abstract class Boor(private val requestAPI: BoorRequestAPI): BoorNetwork(requestAPI) {
 

@@ -1,5 +1,6 @@
-package com.makentoshe.booruchan.boors.parser
+package com.makentoshe.booruchan.api.parser
 
+import com.makentoshe.booruchan.api.parser.AutocompleteSearchParser
 import junit.framework.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
