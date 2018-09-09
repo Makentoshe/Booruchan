@@ -3,18 +3,30 @@ package com.makentoshe.booruchan.start.model
 import android.content.Context
 import android.widget.ArrayAdapter
 import android.widget.ListAdapter
+import com.makentoshe.booruchan.api.Boor
 import com.makentoshe.booruchan.api.gelbooru.Gelbooru
 
 class ServicesGenerator(private val context: Context) {
 
     private var servicesList: ArrayList<String>? = null
+    private var classesList: ArrayList<Class<Boor>>? = null
 
     fun generateList(): List<String> {
         if (servicesList == null) {
             servicesList = ArrayList()
-            servicesList?.add(Gelbooru::class.java.simpleName)
+            for (c in generateClassList()) {
+                servicesList?.add(c.simpleName)
+            }
         }
         return servicesList!!
+    }
+
+    fun generateClassList(): List<Class<Boor>> {
+        if (classesList == null) {
+            classesList = ArrayList()
+            classesList?.add(Gelbooru::class.java as Class<Boor>)
+        }
+        return classesList!!
     }
 
     fun createAdapter(services: List<String>): ListAdapter {

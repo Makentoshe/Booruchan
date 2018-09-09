@@ -2,7 +2,10 @@ package com.makentoshe.booruchan.start.model
 
 import android.support.v7.app.AppCompatActivity
 import com.makentoshe.booruchan.R
+import com.makentoshe.booruchan.api.Boor
+import com.makentoshe.booruchan.api.gelbooru.Gelbooru
 import com.makentoshe.booruchan.appsettings.view.AppSettingsActivity
+import com.makentoshe.booruchan.booru.view.BooruActivity
 import com.makentoshe.booruchan.start.view.StartActivity
 import junit.framework.Assert
 import org.junit.Before
@@ -33,13 +36,12 @@ class StartActivityNavigatorTest {
         Assert.assertEquals(AppSettingsActivity::class.java.name, intent.component!!.className)
     }
 
-    @Ignore
     @Test
     fun `navigator should start BooruActivity`() {
-        navigator.startAppSettingsActivity()
+        navigator.startBooruActivity(Gelbooru::class.java as Class<Boor>)
         val shadowActivity = Shadows.shadowOf(activity)
         val intent = shadowActivity.peekNextStartedActivity()
-        Assert.assertEquals(AppSettingsActivity::class.java.name, intent.component!!.className)
+        Assert.assertEquals(BooruActivity::class.java.name, intent.component!!.className)
     }
 
 

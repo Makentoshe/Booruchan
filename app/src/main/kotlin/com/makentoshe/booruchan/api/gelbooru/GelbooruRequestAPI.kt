@@ -1,8 +1,9 @@
 package com.makentoshe.booruchan.api.gelbooru
 
 import com.makentoshe.booruchan.api.BoorRequestAPI
+import java.io.Serializable
 
-class GelbooruRequestAPI: BoorRequestAPI {
+class GelbooruRequestAPI: BoorRequestAPI, Serializable {
 
     override fun getPostViewByIdRequest(id: Int): String {
         return getCustomRequest("index.php?page=post&s=view&id=$id")

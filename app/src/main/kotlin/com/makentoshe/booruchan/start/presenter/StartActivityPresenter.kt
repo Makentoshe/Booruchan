@@ -19,7 +19,7 @@ class StartActivityPresenter(activityView: StartActivityView) {
     }
 
     fun onServicesListItemClick(position: Int) {
-        navigator.startBooruActivity(position, generateListOfServices())
+        navigator.startBooruActivity(servicesGenerator.generateClassList()[position])
     }
 
     fun startAppSettingsActivity() {

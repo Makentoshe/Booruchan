@@ -18,6 +18,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".appsettings.view.AppSettingsActivity" />
+        <activity android:name=".booru.view.BooruActivity" />
     </application>
 
 </manifest>

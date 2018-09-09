@@ -1,5 +1,6 @@
 package com.makentoshe.booruchan.start.model
 
+import com.makentoshe.booruchan.api.Boor
 import com.makentoshe.booruchan.api.gelbooru.Gelbooru
 import junit.framework.Assert.assertEquals
 import junit.framework.Assert.assertTrue
@@ -20,10 +21,17 @@ class ServicesGeneratorTest {
     }
 
     @Test
-    fun `generate list `() {
+    fun `generate services list`() {
         val list = servicesGenerator.generateList()
         assertEquals(1, list.size)
         assertTrue(list.contains(Gelbooru::class.java.simpleName))
+    }
+
+    @Test
+    fun `generate class list`() {
+        val list = servicesGenerator.generateClassList()
+        assertEquals(1, list.size)
+        assertTrue(list.contains(Gelbooru::class.java as Class<Boor>))
     }
 
     @Test
