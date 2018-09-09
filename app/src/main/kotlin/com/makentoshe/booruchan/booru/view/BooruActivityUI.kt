@@ -45,7 +45,7 @@ class BooruActivityUI(style: Style) : StyleableAnkoComponent<BooruActivity>(styl
     }
 
     private fun _DrawerLayout.createContentView() {
-        frameLayout {
+        verticalLayout {
             createToolbar()
             textView {
                 text = "Content"
@@ -53,7 +53,7 @@ class BooruActivityUI(style: Style) : StyleableAnkoComponent<BooruActivity>(styl
         }.lparams(matchParent, matchParent)
     }
 
-    private fun _FrameLayout.createToolbar() {
+    private fun _LinearLayout.createToolbar() {
         toolbar = toolbar {
             setTitleTextColor(ContextCompat.getColor(context, style.toolbarForegroundColor))
             title = "Gelbooru"
