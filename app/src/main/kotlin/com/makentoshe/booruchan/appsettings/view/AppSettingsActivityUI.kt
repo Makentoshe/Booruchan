@@ -20,11 +20,14 @@ class AppSettingsActivityUI(style: Style, private val presenter: AppSettingsActi
 
     override fun createView(ui: AnkoContext<AppSettingsActivity>): View = with(ui) {
         verticalLayout {
-
             createToolbar(this) {
                 ui.owner.setSupportActionBar(it)
+                val indicator = createHomeIcon(style.toolbarTextColor, ui.owner)
+                ui.owner.supportActionBar?.setHomeAsUpIndicator(indicator)
+                ui.owner.supportActionBar?.setDisplayHomeAsUpEnabled(true)
+                ui.owner.supportActionBar?.setHomeButtonEnabled(true)
             }
-            createStyle(this)
+            createStyleChangeSetting(this)
         }
     }
 
@@ -46,7 +49,7 @@ class AppSettingsActivityUI(style: Style, private val presenter: AppSettingsActi
         }
     }
 
-    private fun createStyle(linearLayoutContext: @AnkoViewDslMarker _LinearLayout) {
+    private fun createStyleChangeSetting(linearLayoutContext: @AnkoViewDslMarker _LinearLayout) {
         with(linearLayoutContext) {
             linearLayout {
                 orientation = LinearLayout.HORIZONTAL

@@ -1,5 +1,7 @@
 package com.makentoshe.booruchan
 
+import android.graphics.PorterDuff
+import android.graphics.drawable.Drawable
 import android.os.Build
 import android.support.annotation.ColorRes
 import android.support.v4.content.ContextCompat
@@ -25,6 +27,21 @@ abstract class StyleableAnkoComponent<T : AppCompatActivity>(protected val style
                 removeOnGlobalLayoutListener(decorView, listener)
             }
         }
+    }
+
+    fun createHomeIcon(@ColorRes color: Int, activity: T): Drawable {
+        val arrow = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            activity.resources.getDrawable(R.drawable.abc_ic_ab_back_material, activity.theme)
+        } else {
+            activity.resources.getDrawable(R.drawable.abc_ic_ab_back_material)
+        }
+        val colorInt = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            activity.resources.getColor(color, activity.theme)
+        } else {
+            activity.resources.getColor(color)
+        }
+        arrow.setColorFilter(colorInt, PorterDuff.Mode.SRC_ATOP)
+        return arrow
     }
 
     private fun addOnGlobalLayoutListener(

@@ -3,6 +3,7 @@ package com.makentoshe.booruchan.appsettings.view
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.view.MenuItem
 import com.makentoshe.booruchan.Activity
 import com.makentoshe.booruchan.appsettings.AppSettings
 import com.makentoshe.booruchan.appsettings.presenter.AppSettingsActivityPresenter
@@ -16,6 +17,16 @@ class AppSettingsActivity: Activity(), AppSettingsActivityView, RecreateableView
         presenter = AppSettingsActivityPresenter(this)
         super.onCreate(savedInstanceState)
         AppSettingsActivityUI(getAppSettings().getStyle(), presenter).setContentView(this)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> {
+                finish()
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 
 
