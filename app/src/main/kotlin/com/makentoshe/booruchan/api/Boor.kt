@@ -1,6 +1,8 @@
 package com.makentoshe.booruchan.api
 
-abstract class Boor(private val requestAPI: BoorRequestAPI): BoorNetwork(requestAPI) {
+import java.io.Serializable
+
+abstract class Boor(private val requestAPI: BoorRequestAPI): BoorNetwork(requestAPI), Serializable {
 
     abstract fun getBooruName(): String
 
