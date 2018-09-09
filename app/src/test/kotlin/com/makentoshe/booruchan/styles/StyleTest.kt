@@ -29,4 +29,7 @@ abstract class StyleTest(protected val style: Style) {
 
     @Test
     abstract fun `style name`()
+
+    @Test
+    abstract fun `search icon`()
 }

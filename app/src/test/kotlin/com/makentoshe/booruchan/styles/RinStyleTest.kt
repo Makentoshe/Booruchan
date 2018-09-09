@@ -23,4 +23,8 @@ class RinStyleTest : StyleTest(RinStyle()) {
     override fun `style name`() {
         assertEquals(Style.RinName, style.styleName)
     }
+
+    override fun `search icon`() {
+        assertEquals(R.drawable.ic_magnify_vector_black, style.searchIcon)
+    }
 }

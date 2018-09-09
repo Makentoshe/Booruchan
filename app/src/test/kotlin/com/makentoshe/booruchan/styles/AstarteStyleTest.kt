@@ -24,4 +24,8 @@ class AstarteStyleTest: StyleTest(AstarteStyle()) {
         assertEquals(android.R.color.white, style.toolbarForegroundColor)
     }
 
+    override fun `search icon`() {
+        assertEquals(R.drawable.ic_magnify_vector_white, style.searchIcon)
+    }
+
 }

@@ -26,4 +26,8 @@ class ShuviStyleTest: StyleTest(ShuviStyle()) {
         Assert.assertEquals(android.R.color.white, style.toolbarForegroundColor)
     }
 
+    override fun `search icon`() {
+        Assert.assertEquals(R.drawable.ic_magnify_vector_white, style.searchIcon)
+    }
+
 }
