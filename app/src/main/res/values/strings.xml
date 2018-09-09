@@ -4,4 +4,6 @@
     <string name="password">Password</string>
     <string name="app_settings">Application settings</string>
     <string name="app_settings_title">Booruchan main settings</string>
+    <string name="drawer_close">Close drawer</string>
+    <string name="drawer_open">Open drawer</string>
 </resources>
