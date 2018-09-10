@@ -5,6 +5,7 @@ import android.animation.ObjectAnimator
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.os.Build
+import android.support.constraint.ConstraintLayout
 import android.support.constraint.ConstraintSet.PARENT_ID
 import android.support.v4.content.ContextCompat
 import android.support.v4.widget.DrawerLayout
@@ -12,10 +13,13 @@ import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.widget.Toolbar
 import android.view.Gravity
 import android.view.View
+import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
 import com.makentoshe.booruchan.Activity
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.StyleableAnkoComponent
 import com.makentoshe.booruchan.styles.Style
+import com.makentoshe.booruchan.view.DelayAutocompleteEditText
 import org.jetbrains.anko.*
 import org.jetbrains.anko.appcompat.v7.toolbar
 import org.jetbrains.anko.cardview.v7.cardView
@@ -96,7 +100,7 @@ class BooruActivityUI(style: Style)
                 elevation = dip(4).toFloat()
             }
 
-            cardView{
+            cardView {
                 background.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP)
                 preventCornerOverlap = false
                 radius = dip(4).toFloat()
@@ -104,9 +108,9 @@ class BooruActivityUI(style: Style)
                     elevation = dip(0.5f).toFloat()
                 }
 
-                editText {
-                    hintResource = R.string.search_hint
-                }
+                include<ConstraintLayout>(R.layout.delay_autocomplete_edit_text)
+                        .findViewById<DelayAutocompleteEditText>(R.id.DelayAutocompleteEditText)
+                        .init(style)
 
             }.lparams(width = matchParent, height = matchParent) {
                 margin = dip(7)
