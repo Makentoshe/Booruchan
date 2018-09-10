@@ -24,8 +24,10 @@ class DelayAutocompleteEditText(context: Context, attrs: AttributeSet)
         this.autoCompleteDelay = autoCompleteDelay
     }
 
-    fun init(style: Style) {
+    fun init(style: Style): DelayAutocompleteEditText {
         initClearIcon(style)
+        initProgressBar()
+        return this
     }
 
     private fun initClearIcon(style: Style) {
@@ -49,13 +51,13 @@ class DelayAutocompleteEditText(context: Context, attrs: AttributeSet)
                 override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
                 override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
             })
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
+        } catch (e: Exception) {}
     }
 
-    private fun initProgressBar(style: Style) {
-
+    private fun initProgressBar() {
+        try {
+            progressBar = (parent as View).findViewById(R.id.DelayAutocompleteEditTextProgress)
+        } catch (e: Exception) {}
     }
 
     private val handler = CustomHandler(object : Consumer<Message> {
@@ -66,9 +68,7 @@ class DelayAutocompleteEditText(context: Context, attrs: AttributeSet)
     })
 
     override fun performFiltering(text: CharSequence, keyCode: Int) {
-        if (progressBar != null) {
-            progressBar!!.visibility = View.VISIBLE
-        }
+        progressBar?.visibility = View.VISIBLE
         handler.removeMessages(MESSAGE_TEXT_CHANGED)
         handler.sendMessageDelayed(handler.obtainMessage(MESSAGE_TEXT_CHANGED, text), autoCompleteDelay)
     }
@@ -78,9 +78,7 @@ class DelayAutocompleteEditText(context: Context, attrs: AttributeSet)
     }
 
     override fun onFilterComplete(count: Int) {
-        if (progressBar != null) {
-            progressBar!!.visibility = View.INVISIBLE
-        }
+        progressBar?.visibility = View.INVISIBLE
         super.onFilterComplete(count)
     }
 
