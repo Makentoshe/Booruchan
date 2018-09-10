@@ -2,12 +2,16 @@
 <resources>
     <color name="MaterialIndigo500">#3F51B5</color>
     <color name="MaterialIndigo700">#303F9F</color>
-    <color name="PinkAssent200">#FF4081</color>
+    <color name="MaterialIndigo200">#9fa8da</color>
+    <color name="IndigoAssent200">#536dfe</color>
+
     <color name="MaterialPurple700">#7b1fa2</color>
     <color name="MaterialPurple500">#9c27b0</color>
-    <color name="MaterialPurple200">#e040fb</color>
+    <color name="PurpleAssent200">#e040fb</color>
+
     <color name="MaterialYellow700">#FBC02D</color>
     <color name="MaterialYellow500">#ffeb3b</color>
-    <color name="MaterialYellow200">#fff59d</color>
+    <color name="MaterialYellow200">#ffeb3b</color>
+
     <color name="MaterialGrey100">#f5f5f5</color>
 </resources>

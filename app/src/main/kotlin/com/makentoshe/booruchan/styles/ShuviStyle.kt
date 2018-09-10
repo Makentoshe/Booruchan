@@ -3,6 +3,8 @@ package com.makentoshe.booruchan.styles
 import com.makentoshe.booruchan.R
 
 class ShuviStyle : Style {
+    override val assentColor: Int
+        get() = R.color.PurpleAssent200
 
     @Style.StyleID
     override val styleId: Int

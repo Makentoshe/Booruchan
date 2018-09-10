@@ -54,6 +54,10 @@ class DelayAutocompleteEditText(context: Context, attrs: AttributeSet)
         }
     }
 
+    private fun initProgressBar(style: Style) {
+
+    }
+
     private val handler = CustomHandler(object : Consumer<Message> {
         @Throws(Exception::class)
         override fun accept(t: Message) {

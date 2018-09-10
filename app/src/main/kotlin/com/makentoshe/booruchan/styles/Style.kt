@@ -1,6 +1,5 @@
 package com.makentoshe.booruchan.styles
 
-import android.graphics.drawable.AdaptiveIconDrawable
 import android.support.annotation.ColorRes
 import android.support.annotation.DrawableRes
 import android.support.annotation.IntDef
@@ -59,6 +58,9 @@ interface Style {
             }
         }
     }
+
+    @get:ColorRes
+    val assentColor: Int
 
     @get:ColorRes
     val toolbarForegroundColor: Int
