@@ -77,4 +77,8 @@ interface Style {
     val searchIcon: Int
         get() = R.drawable.ic_magnify_vector_white
 
+    @get:DrawableRes
+    val crossIcon: Int
+        get() = R.drawable.ic_close_vector_black
+
 }
