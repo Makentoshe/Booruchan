@@ -10,8 +10,10 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.util.AttributeSet
 import android.view.View
+import android.view.inputmethod.EditorInfo
 import android.widget.ImageView
 import com.makentoshe.booruchan.R
+import com.makentoshe.booruchan.api.Boor
 import com.makentoshe.booruchan.styles.Style
 
 class DelayAutocompleteEditText(context: Context, attrs: AttributeSet)
@@ -29,6 +31,17 @@ class DelayAutocompleteEditText(context: Context, attrs: AttributeSet)
         initClearIcon(style)
         initProgressBar()
         initSelecting()
+        return this
+    }
+
+    fun setActionSearch(boor: Boor): DelayAutocompleteEditText {
+        setOnEditorActionListener { _, actionId , _ ->
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+//                Toast.makeText(activity, "BodyNavigation is not updatable", Toast.LENGTH_LONG).show()
+                return@setOnEditorActionListener true
+            }
+            return@setOnEditorActionListener false
+        }
         return this
     }
 

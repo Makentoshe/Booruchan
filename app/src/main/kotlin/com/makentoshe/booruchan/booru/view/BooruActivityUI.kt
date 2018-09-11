@@ -111,7 +111,8 @@ class BooruActivityUI(style: Style, private val presenter: BooruPresenter)
 
                 include<ConstraintLayout>(R.layout.delay_autocomplete_edit_text)
                         .findViewById<DelayAutocompleteEditText>(R.id.DelayAutocompleteEditText)
-                        .init(style).setAdapter(presenter.getAutocompleteAdapter())
+                        .init(style).setActionSearch(presenter.getBoor())
+                        .setAdapter(presenter.getAutocompleteAdapter())
 
             }.lparams(width = matchParent, height = matchParent) {
                 margin = dip(7)
