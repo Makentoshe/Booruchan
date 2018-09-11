@@ -3,6 +3,11 @@ package com.makentoshe.booruchan.styles
 import com.makentoshe.booruchan.R
 
 class RinStyle : Style {
+    override val avdFromCrossToMagnify: Int
+        get() = R.drawable.avd_close_magnify_vector_black
+
+    override val avdFromMagnifyToCross: Int
+        get() = R.drawable.avd_magnify_close_vector_black
 
     override val assentColor: Int
         get() = android.R.color.black

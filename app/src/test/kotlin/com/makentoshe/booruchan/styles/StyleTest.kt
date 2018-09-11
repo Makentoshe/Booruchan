@@ -32,4 +32,13 @@ abstract class StyleTest(protected val style: Style) {
 
     @Test
     abstract fun `search icon`()
+
+    @Test
+    abstract fun `avd from cross to magnify`()
+
+    @Test
+    abstract fun `avd from magnify to cross`()
+
+    @Test
+    abstract fun `assent color`()
 }

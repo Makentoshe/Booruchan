@@ -2,12 +2,24 @@ package com.makentoshe.booruchan.styles
 
 import com.makentoshe.booruchan.R
 import junit.framework.Assert
+import junit.framework.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
 
 @RunWith(JUnit4::class)
 class ShuviStyleTest: StyleTest(ShuviStyle()) {
+    override fun `assent color`() {
+        assertEquals(R.color.PurpleAssent200, style.assentColor)
+    }
+
+    override fun `avd from cross to magnify`() {
+        assertEquals(R.drawable.avd_close_magnify_vector_white, style.avdFromCrossToMagnify)
+    }
+
+    override fun `avd from magnify to cross`() {
+        assertEquals(R.drawable.avd_magnify_close_vector_white, style.avdFromMagnifyToCross)
+    }
 
     override fun `style id`() {
         Assert.assertEquals(Style.Shuvi, style.styleId)

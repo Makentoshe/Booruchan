@@ -3,6 +3,13 @@ package com.makentoshe.booruchan.styles
 import com.makentoshe.booruchan.R
 
 class ShuviStyle : Style {
+
+    override val avdFromCrossToMagnify: Int
+        get() = R.drawable.avd_close_magnify_vector_white
+
+    override val avdFromMagnifyToCross: Int
+        get() = R.drawable.avd_magnify_close_vector_white
+
     override val assentColor: Int
         get() = R.color.PurpleAssent200
 

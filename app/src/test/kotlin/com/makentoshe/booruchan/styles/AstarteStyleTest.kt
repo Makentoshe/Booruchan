@@ -8,6 +8,18 @@ import org.junit.runners.JUnit4
 @RunWith(JUnit4::class)
 class AstarteStyleTest: StyleTest(AstarteStyle()) {
 
+    override fun `assent color`() {
+        assertEquals(R.color.IndigoAssent200, style.assentColor)
+    }
+
+    override fun `avd from cross to magnify`() {
+        assertEquals(R.drawable.avd_close_magnify_vector_white, style.avdFromCrossToMagnify)
+    }
+
+    override fun `avd from magnify to cross`() {
+        assertEquals(R.drawable.avd_magnify_close_vector_white, style.avdFromMagnifyToCross)
+    }
+
     override fun `style id`() {
         assertEquals(Style.Astarte, style.styleId)
     }

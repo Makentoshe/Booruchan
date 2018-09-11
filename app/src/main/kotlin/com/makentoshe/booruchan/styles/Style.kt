@@ -83,4 +83,9 @@ interface Style {
     val crossIcon: Int
         get() = R.drawable.ic_close_vector_black
 
+    @get:DrawableRes
+    val avdFromMagnifyToCross: Int
+
+    @get:DrawableRes
+    val avdFromCrossToMagnify: Int
 }

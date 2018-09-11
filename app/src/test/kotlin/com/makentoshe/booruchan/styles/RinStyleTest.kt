@@ -8,6 +8,18 @@ import org.junit.runners.JUnit4
 @RunWith(JUnit4::class)
 class RinStyleTest : StyleTest(RinStyle()) {
 
+    override fun `assent color`() {
+        assertEquals(android.R.color.black, style.assentColor)
+    }
+
+    override fun `avd from cross to magnify`() {
+        assertEquals(R.drawable.avd_close_magnify_vector_black, style.avdFromCrossToMagnify)
+    }
+
+    override fun `avd from magnify to cross`() {
+        assertEquals(R.drawable.avd_magnify_close_vector_black, style.avdFromMagnifyToCross)
+    }
+
     override fun `toolbar background color`() {
         assertEquals(R.color.MaterialYellow500, style.toolbarBackgroundColor)
     }
