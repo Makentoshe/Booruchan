@@ -1,23 +1,27 @@
 package com.makentoshe.booruchan.booru.view
 
+import android.content.Context
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import com.makentoshe.booruchan.Activity
 import com.makentoshe.booruchan.R
+import com.makentoshe.booruchan.booru.presenter.BooruPresenter
 import org.jetbrains.anko.setContentView
 
-class BooruActivity : Activity() {
+class BooruActivity : Activity(), BooruView {
 
     private lateinit var slideableSearchLayout: SlideableSearchLayout
+    private lateinit var presenter: BooruPresenter
 
     companion object {
         const val BOOR_EXTRA = "ExtraBoor"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        presenter = BooruPresenter(this)
         super.onCreate(savedInstanceState)
-        val userInterface = BooruActivityUI(getAppSettings().getStyle())
+        val userInterface = BooruActivityUI(getAppSettings().getStyle(), presenter)
         slideableSearchLayout = userInterface
         userInterface.setContentView(this)
     }
@@ -41,6 +45,10 @@ class BooruActivity : Activity() {
             return
         }
         super.onBackPressed()
+    }
+
+    override fun getContext(): Context {
+        return this
     }
 
 }

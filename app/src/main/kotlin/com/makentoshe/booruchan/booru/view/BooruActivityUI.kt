@@ -18,6 +18,7 @@ import android.view.inputmethod.EditorInfo
 import com.makentoshe.booruchan.Activity
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.StyleableAnkoComponent
+import com.makentoshe.booruchan.booru.presenter.BooruPresenter
 import com.makentoshe.booruchan.styles.Style
 import com.makentoshe.booruchan.view.DelayAutocompleteEditText
 import org.jetbrains.anko.*
@@ -30,7 +31,7 @@ import org.jetbrains.anko.sdk25.coroutines.onClick
 import org.jetbrains.anko.support.v4._DrawerLayout
 import org.jetbrains.anko.support.v4.drawerLayout
 
-class BooruActivityUI(style: Style)
+class BooruActivityUI(style: Style, private val presenter: BooruPresenter)
     : StyleableAnkoComponent<BooruActivity>(style), SlideableSearchLayout {
 
     private lateinit var toolbar: Toolbar
@@ -76,7 +77,7 @@ class BooruActivityUI(style: Style)
         toolbar = toolbar {
             id = R.id.activity_booru_toolbar
             setTitleTextColor(ContextCompat.getColor(context, style.toolbarForegroundColor))
-            title = "Gelbooru"
+            title = presenter.getBoor().getBooruName()
             backgroundColorResource = style.toolbarBackgroundColor
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 elevation = dip(4).toFloat()
@@ -110,7 +111,7 @@ class BooruActivityUI(style: Style)
 
                 include<ConstraintLayout>(R.layout.delay_autocomplete_edit_text)
                         .findViewById<DelayAutocompleteEditText>(R.id.DelayAutocompleteEditText)
-                        .init(style)
+                        .init(style).setAdapter(presenter.getAutocompleteAdapter())
 
             }.lparams(width = matchParent, height = matchParent) {
                 margin = dip(7)
