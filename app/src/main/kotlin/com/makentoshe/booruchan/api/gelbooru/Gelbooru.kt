@@ -7,9 +7,10 @@ import com.makentoshe.booruchan.api.parser.AutocompleteSearchParser
 import com.makentoshe.booruchan.api.parser.PostParser
 import kotlinx.coroutines.experimental.async
 import kotlinx.coroutines.experimental.runBlocking
+import java.io.Serializable
 import java.util.*
 
-class Gelbooru : Boor(GelbooruRequestAPI()) {
+class Gelbooru : Boor(GelbooruRequestAPI()), Serializable {
 
     override fun getBooruName(): String {
         return "Gelbooru"
