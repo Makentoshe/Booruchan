@@ -1,5 +1,6 @@
 package com.makentoshe.booruchan.view
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Handler
 import android.os.Message
@@ -27,6 +28,7 @@ class DelayAutocompleteEditText(context: Context, attrs: AttributeSet)
     fun init(style: Style): DelayAutocompleteEditText {
         initClearIcon(style)
         initProgressBar()
+        initSelecting()
         return this
     }
 
@@ -58,6 +60,31 @@ class DelayAutocompleteEditText(context: Context, attrs: AttributeSet)
         try {
             progressBar = (parent as View).findViewById(R.id.DelayAutocompleteEditTextProgress)
         } catch (e: Exception) {}
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun initSelecting() {
+        var previousString = ""
+        addTextChangedListener(object: TextWatcher {
+            override fun afterTextChanged(s: Editable?) {}
+
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
+                previousString = s.toString()
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+        })
+        setOnItemClickListener { parent, _, position, _ ->
+            val selectedString = parent.getItemAtPosition(position) as String
+            val previousStringSplit = previousString.split(" ")
+            val stringToReplace = previousStringSplit[previousStringSplit.size - 1]
+            if (stringToReplace == "") {
+                setText("$previousString $selectedString")
+            } else {
+                setText(previousString.replace(stringToReplace, selectedString))
+            }
+            setSelection(text.count())
+        }
     }
 
     private val handler = CustomHandler(object : Consumer<Message> {
