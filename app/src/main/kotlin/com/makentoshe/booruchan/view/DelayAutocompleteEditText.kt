@@ -114,6 +114,7 @@ class DelayAutocompleteEditText(context: Context, attrs: AttributeSet)
                 setText(resultStringBuilder)
             }
             setSelection(text.count())
+            progressBar?.visibility = View.GONE
         }
     }
 
