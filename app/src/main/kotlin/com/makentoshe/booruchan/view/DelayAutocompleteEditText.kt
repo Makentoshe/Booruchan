@@ -53,19 +53,21 @@ class DelayAutocompleteEditText(context: Context, attrs: AttributeSet)
                 override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
                 override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
             })
-        } catch (e: Exception) {}
+        } catch (e: Exception) {
+        }
     }
 
     private fun initProgressBar() {
         try {
             progressBar = (parent as View).findViewById(R.id.DelayAutocompleteEditTextProgress)
-        } catch (e: Exception) {}
+        } catch (e: Exception) {
+        }
     }
 
     @SuppressLint("SetTextI18n")
     private fun initSelecting() {
         var previousString = ""
-        addTextChangedListener(object: TextWatcher {
+        addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {}
 
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
@@ -75,13 +77,28 @@ class DelayAutocompleteEditText(context: Context, attrs: AttributeSet)
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
         })
         setOnItemClickListener { parent, _, position, _ ->
+            stopAutocompleteSearch()
             val selectedString = parent.getItemAtPosition(position) as String
-            val previousStringSplit = previousString.split(" ")
-            val stringToReplace = previousStringSplit[previousStringSplit.size - 1]
-            if (stringToReplace == "") {
-                setText("$previousString $selectedString")
+            //если в поле ввода содержится часть слова из подсказки - вводят первое слово
+            if (selectedString.contains(previousString)) {
+                setText(selectedString)
             } else {
-                setText(previousString.replace(stringToReplace, selectedString))
+                val previousStringSplit = previousString.split(" ")
+                //определяем лимит - если слово не закончено - не учитываем его
+                val limit = if (previousString[previousString.length - 1] == ' ') {
+                    previousStringSplit.size
+                } else { //не закончено
+                    previousStringSplit.size - 1 //не учитываем
+                }
+                val resultStringBuilder = StringBuilder(previousStringSplit[0])
+                for (i in 1 until limit) {
+                    resultStringBuilder.append(" ").append(previousStringSplit[i])
+                }
+                if (previousString[previousString.length - 1] != ' ') {
+                    resultStringBuilder.append(" ")
+                }
+                resultStringBuilder.append(selectedString)
+                setText(resultStringBuilder)
             }
             setSelection(text.count())
         }
