@@ -6,4 +6,6 @@ interface SlideableSearchLayout {
 
     fun hideSearchLayout(): Boolean
 
+    fun isLayoutDisplaying(): Boolean
+
 }

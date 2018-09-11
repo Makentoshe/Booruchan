@@ -11,6 +11,10 @@ import org.jetbrains.anko.setContentView
 
 class BooruActivity : Activity(), BooruView {
 
+    override fun getContext(): Context {
+        return this
+    }
+
     private lateinit var slideableSearchLayout: SlideableSearchLayout
     private lateinit var presenter: BooruPresenter
 
@@ -35,7 +39,11 @@ class BooruActivity : Activity(), BooruView {
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         if (item?.itemId == R.id.action_show_search) {
-            slideableSearchLayout.showSearchLayout()
+            if (slideableSearchLayout.isLayoutDisplaying()) {
+                slideableSearchLayout.hideSearchLayout()
+            } else {
+                slideableSearchLayout.showSearchLayout()
+            }
         }
         return true
     }
@@ -45,10 +53,6 @@ class BooruActivity : Activity(), BooruView {
             return
         }
         super.onBackPressed()
-    }
-
-    override fun getContext(): Context {
-        return this
     }
 
 }

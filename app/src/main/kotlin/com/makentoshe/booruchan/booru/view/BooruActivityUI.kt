@@ -1,7 +1,5 @@
 package com.makentoshe.booruchan.booru.view
 
-import android.animation.Animator
-import android.animation.ObjectAnimator
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.os.Build
@@ -13,9 +11,6 @@ import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.widget.Toolbar
 import android.view.Gravity
 import android.view.View
-import android.view.ViewGroup
-import android.view.inputmethod.EditorInfo
-import com.makentoshe.booruchan.Activity
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.StyleableAnkoComponent
 import com.makentoshe.booruchan.booru.presenter.BooruPresenter
@@ -69,7 +64,7 @@ class BooruActivityUI(style: Style, private val presenter: BooruPresenter)
             createSearchView()
             createToolbar()
             createSearchViewAlpha()
-            searchLayoutAnimator = SearchLayoutAnimator(searchView, searchViewAlpha, ui.owner)
+            searchLayoutAnimator = SearchLayoutAnimator(searchView, searchViewAlpha, ui.owner, style)
         }.lparams(matchParent, matchParent)
     }
 
@@ -173,124 +168,8 @@ class BooruActivityUI(style: Style, private val presenter: BooruPresenter)
         return searchLayoutAnimator.hide()
     }
 
-    private class SearchLayoutAnimator(private val searchView: View,
-                                       private val searchViewAlpha: View,
-                                       private val activity: Activity) {
-
-        private val translationStart = searchView.translationY
-        private val translationEnd = searchView.height.toFloat()
-        private var lockToShow = false
-        private var lockToHide = true
-        private val duration = 200L
-        @Volatile
-        private var firstIsFinish = false
-
-        fun show() {
-            if (!lockToShow) {
-                lockToShow = true
-                searchViewShowAnimation()
-                searchViewAlphaShowAnimation()
-            }
-        }
-
-        fun hide(): Boolean {
-            if (!lockToHide) {
-                activity.hideKeyboard()
-                lockToHide = true
-                searchViewHideAnimation()
-                searchViewAlphaHideAnimation()
-                return true
-            }
-            return false
-        }
-
-        private fun searchViewShowAnimation() {
-            val a = ObjectAnimator.ofFloat(searchView, "translationY", translationStart, translationEnd)
-            a.duration = duration
-            a.addListener(object : Animator.AnimatorListener {
-                override fun onAnimationRepeat(animation: Animator?) {}
-                override fun onAnimationEnd(animation: Animator?) {
-                    if (firstIsFinish) {
-                        lockToHide = false
-                        firstIsFinish = false
-                    } else {
-                        firstIsFinish = true
-                    }
-                    searchView.visibility = View.VISIBLE
-                }
-
-                override fun onAnimationCancel(animation: Animator?) {}
-                override fun onAnimationStart(animation: Animator?) {
-                    searchView.visibility = View.VISIBLE
-                }
-            })
-            a.start()
-        }
-
-        private fun searchViewAlphaShowAnimation() {
-            val a = ObjectAnimator.ofFloat(searchViewAlpha, "alpha", 0f, 0.5f)
-            a.duration = duration
-            a.addListener(object : Animator.AnimatorListener {
-                override fun onAnimationRepeat(animation: Animator?) {}
-                override fun onAnimationEnd(animation: Animator?) {
-                    if (firstIsFinish) {
-                        lockToHide = false
-                        firstIsFinish = false
-                    } else {
-                        firstIsFinish = true
-                    }
-                    searchView.visibility = View.VISIBLE
-                }
-
-                override fun onAnimationCancel(animation: Animator?) {}
-                override fun onAnimationStart(animation: Animator?) {
-                    searchViewAlpha.visibility = View.VISIBLE
-                }
-            })
-            a.start()
-        }
-
-        private fun searchViewHideAnimation() {
-            val a = ObjectAnimator.ofFloat(searchView, "translationY", translationEnd, translationStart)
-            a.duration = duration
-            a.addListener(object : Animator.AnimatorListener {
-                override fun onAnimationRepeat(animation: Animator?) {}
-                override fun onAnimationEnd(animation: Animator?) {
-                    if (firstIsFinish) {
-                        lockToShow = false
-                        firstIsFinish = false
-                    } else {
-                        firstIsFinish = true
-                    }
-                    searchView.visibility = View.GONE
-                }
-
-                override fun onAnimationCancel(animation: Animator?) {}
-                override fun onAnimationStart(animation: Animator?) {}
-            })
-            a.start()
-        }
-
-        private fun searchViewAlphaHideAnimation() {
-            val a = ObjectAnimator.ofFloat(searchViewAlpha, "alpha", 0.5f, 0f)
-            a.duration = duration
-            a.addListener(object : Animator.AnimatorListener {
-                override fun onAnimationRepeat(animation: Animator?) {}
-                override fun onAnimationEnd(animation: Animator?) {
-                    if (firstIsFinish) {
-                        lockToShow = false
-                        firstIsFinish = false
-                    } else {
-                        firstIsFinish = true
-                    }
-                    searchViewAlpha.visibility = View.GONE
-                }
-
-                override fun onAnimationCancel(animation: Animator?) {}
-                override fun onAnimationStart(animation: Animator?) {}
-            })
-            a.start()
-        }
+    override fun isLayoutDisplaying(): Boolean {
+        return searchLayoutAnimator.isDisplaying()
     }
 
 }
