@@ -9,6 +9,8 @@ import android.support.annotation.DrawableRes
 import android.support.annotation.RequiresApi
 import android.support.v7.view.menu.ActionMenuItemView
 import android.view.View
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import com.makentoshe.booruchan.Activity
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.styles.Style
@@ -140,14 +142,13 @@ class SearchLayoutAnimator(private val searchView: View, private val searchViewA
         a.start()
     }
 
-
     @SuppressLint("RestrictedApi")
     private fun changeIconToMagnify() {
         val view: ActionMenuItemView = activity.findViewById(R.id.action_show_search)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             changeIconAVD(view, style.avdFromCrossToMagnify)
         } else {
-            view.setIcon(activity.resources.getDrawable(style.searchIcon))
+            changeIcon(view, style.searchIcon)
         }
     }
 
@@ -157,10 +158,9 @@ class SearchLayoutAnimator(private val searchView: View, private val searchViewA
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             changeIconAVD(view, style.avdFromMagnifyToCross)
         } else {
-            view.setIcon(activity.resources.getDrawable(style.crossIcon))
+            changeIcon(view, style.crossIcon)
         }
     }
-
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     @SuppressLint("RestrictedApi")
@@ -168,5 +168,36 @@ class SearchLayoutAnimator(private val searchView: View, private val searchViewA
         val drawable = activity.resources.getDrawable(avd, activity.theme)
         view.setIcon(drawable)
         (drawable as AnimatedVectorDrawable).start()
+    }
+
+    @SuppressLint("RestrictedApi")
+    private fun changeIcon(view: ActionMenuItemView, @DrawableRes end: Int) {
+        val drawableEnd = activity.resources.getDrawable(end)
+
+        val animation = AnimationUtils.loadAnimation(activity, R.anim.alpha_from_one)
+        animation.setAnimationListener(object : Animation.AnimationListener {
+            override fun onAnimationRepeat(animation: Animation?) {}
+
+            override fun onAnimationEnd(animation: Animation?) {
+                val animation2 = AnimationUtils.loadAnimation(activity, R.anim.alpha_to_one)
+                view.alpha = 0f
+                view.setIcon(drawableEnd)
+                animation2.setAnimationListener(object : Animation.AnimationListener {
+                    override fun onAnimationRepeat(animation: Animation?) {}
+
+                    override fun onAnimationEnd(animation: Animation?) {
+                        view.alpha = 1f
+                    }
+
+                    override fun onAnimationStart(animation: Animation?) {}
+
+                })
+                view.startAnimation(animation2)
+            }
+
+            override fun onAnimationStart(animation: Animation?) {}
+
+        })
+        view.startAnimation(animation)
     }
 }

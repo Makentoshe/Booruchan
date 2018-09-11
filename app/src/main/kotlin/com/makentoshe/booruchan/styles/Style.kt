@@ -80,8 +80,12 @@ interface Style {
         get() = R.drawable.ic_magnify_vector_white
 
     @get:DrawableRes
-    val crossIcon: Int
+    val clearIcon: Int
         get() = R.drawable.ic_close_vector_black
+
+    @get:DrawableRes
+    val crossIcon: Int
+        get() = R.drawable.ic_close_vector_white
 
     @get:DrawableRes
     val avdFromMagnifyToCross: Int

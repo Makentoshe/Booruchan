@@ -49,7 +49,7 @@ class DelayAutocompleteEditText(context: Context, attrs: AttributeSet)
         try {
             clearIcon = (parent as View).findViewById(R.id.DelayAutocompleteEditTextClear)
             clearIcon?.apply {
-                setImageResource(style.crossIcon)
+                setImageResource(style.clearIcon)
                 setOnClickListener {
                     this@DelayAutocompleteEditText.setText("")
                 }

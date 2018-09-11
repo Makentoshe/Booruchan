@@ -3,6 +3,7 @@ package com.makentoshe.booruchan.styles
 import com.makentoshe.booruchan.R
 
 class RinStyle : Style {
+
     override val avdFromCrossToMagnify: Int
         get() = R.drawable.avd_close_magnify_vector_black
 
@@ -28,4 +29,7 @@ class RinStyle : Style {
 
     override val searchIcon: Int
         get() = R.drawable.ic_magnify_vector_black
+
+    override val crossIcon: Int
+        get() = R.drawable.ic_close_vector_black
 }

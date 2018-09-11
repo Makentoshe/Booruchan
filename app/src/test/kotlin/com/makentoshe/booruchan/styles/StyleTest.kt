@@ -41,4 +41,10 @@ abstract class StyleTest(protected val style: Style) {
 
     @Test
     abstract fun `assent color`()
+
+    @Test
+    abstract fun `cross icon`()
+
+    @Test
+    abstract fun `clear icon`()
 }

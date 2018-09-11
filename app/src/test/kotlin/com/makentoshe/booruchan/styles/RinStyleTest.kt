@@ -8,6 +8,14 @@ import org.junit.runners.JUnit4
 @RunWith(JUnit4::class)
 class RinStyleTest : StyleTest(RinStyle()) {
 
+    override fun `clear icon`() {
+        assertEquals(R.drawable.ic_close_vector_black, style.clearIcon)
+    }
+
+    override fun `cross icon`() {
+        assertEquals(R.drawable.ic_close_vector_black, style.crossIcon)
+    }
+
     override fun `assent color`() {
         assertEquals(android.R.color.black, style.assentColor)
     }

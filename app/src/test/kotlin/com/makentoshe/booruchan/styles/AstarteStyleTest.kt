@@ -8,6 +8,14 @@ import org.junit.runners.JUnit4
 @RunWith(JUnit4::class)
 class AstarteStyleTest: StyleTest(AstarteStyle()) {
 
+    override fun `clear icon`() {
+        assertEquals(R.drawable.ic_close_vector_black, style.clearIcon)
+    }
+
+    override fun `cross icon`() {
+        assertEquals(R.drawable.ic_close_vector_white, style.crossIcon)
+    }
+
     override fun `assent color`() {
         assertEquals(R.color.IndigoAssent200, style.assentColor)
     }
