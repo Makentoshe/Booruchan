@@ -1,35 +1,32 @@
 package com.makentoshe.booruchan.start.view
 
-import android.content.Context
+import android.arch.lifecycle.ViewModelProviders
 import android.os.Build
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.Toolbar
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.common.StyleableAnkoComponent
-import com.makentoshe.booruchan.start.presenter.StartActivityPresenter
 import com.makentoshe.booruchan.common.styles.Style
+import com.makentoshe.booruchan.start.StartViewModel
 import org.jetbrains.anko.*
 import org.jetbrains.anko.appcompat.v7.titleResource
 import org.jetbrains.anko.appcompat.v7.toolbar
 import org.jetbrains.anko.sdk25.coroutines.onItemClick
 
-class StartActivityUI(style: Style, private val presenter: StartActivityPresenter)
-    : StyleableAnkoComponent<StartActivity>(style) {
+class StartActivityUI(style: Style) : StyleableAnkoComponent<StartActivity>(style) {
 
     override fun createView(ui: AnkoContext<StartActivity>) = with(ui) {
+        val viewModel = ViewModelProviders.of(ui.owner)[StartViewModel::class.java]
         verticalLayout {
-            createToolbar(ui.ctx, this) {
-                ui.owner.setSupportActionBar(it)
-            }
-            setOverflowIconColor(style.toolbarForegroundColor, ui.owner)
-
-            createListWithServices(this)
+            createToolbar()
+                    .setSupportActionBar(ui.owner)
+                    .setOverflowIconColor(style.toolbarForegroundColor)
+            createContent(viewModel, ui.owner)
         }
     }
 
-    private fun createToolbar(context: Context, llcontext: @AnkoViewDslMarker _LinearLayout,
-                              then: (Toolbar) -> Unit) = with(llcontext) {
-        then.invoke(toolbar {
+    private fun _LinearLayout.createToolbar(): Toolbar {
+        return toolbar {
             setTitleTextColor(ContextCompat.getColor(context, style.toolbarForegroundColor))
             id = R.id.activity_start_toolbar
             titleResource = R.string.app_name
@@ -40,18 +37,20 @@ class StartActivityUI(style: Style, private val presenter: StartActivityPresente
         }.lparams {
             width = matchParent
             height = dip(style.dpToolbarHeight)
-        })
+        }
     }
 
-    private fun createListWithServices(llcontext: @AnkoViewDslMarker _LinearLayout) = with(llcontext) {
+    private fun _LinearLayout.createContent(viewModel: StartViewModel, activity: StartActivity) {
         listView {
-            adapter = presenter.createAdapter()
-            onItemClick { _, _, position, _ ->
-                presenter.onServicesListItemClick(position)
+            adapter = viewModel.createAdapter(context)
+            onItemClick { adapter, _, position, _ ->
+                val service = adapter?.getItemAtPosition(position) as String
+                viewModel.clickOnService(activity, service)
             }
         }.lparams {
             width = matchParent
             height = matchParent
         }
     }
+
 }

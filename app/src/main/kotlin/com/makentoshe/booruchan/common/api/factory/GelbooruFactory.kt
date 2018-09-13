@@ -1,11 +1,11 @@
-package com.makentoshe.booruchan.start.model.api.factory
+package com.makentoshe.booruchan.common.api.factory
 
 import com.makentoshe.booruchan.common.api.Boor
 import com.makentoshe.booruchan.common.api.gelbooru.Gelbooru
 
 class GelbooruFactory: Factory {
 
-    override fun createServiceInstance(): Boor {
+    override fun createService(): Boor {
         return Gelbooru()
     }
 }
