@@ -4,7 +4,7 @@ import android.support.v7.widget.Toolbar
 import android.view.View
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.start.view.StartActivity
-import com.makentoshe.booruchan.styles.Style
+import com.makentoshe.booruchan.common.styles.Style
 import junit.framework.Assert.assertEquals
 import junit.framework.Assert.assertNotNull
 import org.junit.Before

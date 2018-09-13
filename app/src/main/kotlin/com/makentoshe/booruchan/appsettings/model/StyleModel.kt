@@ -4,10 +4,10 @@ import android.content.Context
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
-import com.makentoshe.booruchan.appsettings.AppSettings
-import com.makentoshe.booruchan.appsettings.AppSettingsSave
+import com.makentoshe.booruchan.common.settings.application.AppSettings
+import com.makentoshe.booruchan.common.settings.application.AppSettingsSave
 import com.makentoshe.booruchan.appsettings.view.RecreateableView
-import com.makentoshe.booruchan.styles.Style
+import com.makentoshe.booruchan.common.styles.Style
 
 class StyleModel(private val context: Context,
                  private val appSettings: AppSettings,

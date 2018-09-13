@@ -8,8 +8,8 @@ import android.widget.BaseAdapter
 import android.widget.Filter
 import android.widget.Filterable
 import android.widget.TextView
-import com.makentoshe.booruchan.api.Boor
-import com.makentoshe.booruchan.api.HttpClient
+import com.makentoshe.booruchan.common.api.Boor
+import com.makentoshe.booruchan.common.api.HttpClient
 import kotlinx.coroutines.experimental.runBlocking
 
 class AutocompleteAdapter(private val context: Context, private val boor: Boor) : BaseAdapter(), Filterable {

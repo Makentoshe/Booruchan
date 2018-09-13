@@ -1,14 +1,13 @@
 package com.makentoshe.booruchan.appsettings.model
 
 import android.content.Context
-import android.content.SharedPreferences
 import android.support.v7.app.AppCompatActivity
 import android.widget.AdapterView
 import android.widget.Spinner
-import com.makentoshe.booruchan.appsettings.AppSettings
-import com.makentoshe.booruchan.appsettings.AppSettingsSave
+import com.makentoshe.booruchan.common.settings.application.AppSettings
+import com.makentoshe.booruchan.common.settings.application.AppSettingsSave
 import com.makentoshe.booruchan.appsettings.view.RecreateableView
-import com.makentoshe.booruchan.styles.Style
+import com.makentoshe.booruchan.common.styles.Style
 import io.mockk.every
 import io.mockk.mockk
 import junit.framework.Assert.assertEquals

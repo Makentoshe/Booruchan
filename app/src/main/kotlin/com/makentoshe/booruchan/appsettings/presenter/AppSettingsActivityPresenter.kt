@@ -2,7 +2,7 @@ package com.makentoshe.booruchan.appsettings.presenter
 
 import android.widget.AdapterView
 import android.widget.Spinner
-import com.makentoshe.booruchan.appsettings.AppSettingsSave
+import com.makentoshe.booruchan.common.settings.application.AppSettingsSave
 import com.makentoshe.booruchan.appsettings.model.StyleModel
 import com.makentoshe.booruchan.appsettings.view.AppSettingsActivityView
 

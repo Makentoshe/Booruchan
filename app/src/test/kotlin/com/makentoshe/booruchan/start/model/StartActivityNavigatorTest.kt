@@ -2,8 +2,8 @@ package com.makentoshe.booruchan.start.model
 
 import android.support.v7.app.AppCompatActivity
 import com.makentoshe.booruchan.R
-import com.makentoshe.booruchan.api.Boor
-import com.makentoshe.booruchan.api.gelbooru.Gelbooru
+import com.makentoshe.booruchan.common.api.Boor
+import com.makentoshe.booruchan.common.api.gelbooru.Gelbooru
 import com.makentoshe.booruchan.appsettings.view.AppSettingsActivity
 import com.makentoshe.booruchan.booru.view.BooruActivity
 import com.makentoshe.booruchan.start.view.StartActivity

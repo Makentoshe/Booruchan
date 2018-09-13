@@ -1,9 +1,10 @@
 package com.makentoshe.booruchan.appsettings
 
-import com.makentoshe.booruchan.styles.AstarteStyle
-import com.makentoshe.booruchan.styles.RinStyle
-import com.makentoshe.booruchan.styles.ShuviStyle
-import com.makentoshe.booruchan.styles.Style
+import com.makentoshe.booruchan.common.settings.application.AppSettings
+import com.makentoshe.booruchan.common.styles.AstarteStyle
+import com.makentoshe.booruchan.common.styles.RinStyle
+import com.makentoshe.booruchan.common.styles.ShuviStyle
+import com.makentoshe.booruchan.common.styles.Style
 import junit.framework.Assert.assertEquals
 import junit.framework.Assert.assertTrue
 import org.junit.Test

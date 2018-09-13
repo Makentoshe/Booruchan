@@ -5,9 +5,9 @@ import android.os.Build
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.Toolbar
 import com.makentoshe.booruchan.R
-import com.makentoshe.booruchan.StyleableAnkoComponent
+import com.makentoshe.booruchan.common.StyleableAnkoComponent
 import com.makentoshe.booruchan.start.presenter.StartActivityPresenter
-import com.makentoshe.booruchan.styles.Style
+import com.makentoshe.booruchan.common.styles.Style
 import org.jetbrains.anko.*
 import org.jetbrains.anko.appcompat.v7.titleResource
 import org.jetbrains.anko.appcompat.v7.toolbar

@@ -4,8 +4,8 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.MenuItem
-import com.makentoshe.booruchan.Activity
-import com.makentoshe.booruchan.appsettings.AppSettings
+import com.makentoshe.booruchan.common.Activity
+import com.makentoshe.booruchan.common.settings.application.AppSettings
 import com.makentoshe.booruchan.appsettings.presenter.AppSettingsActivityPresenter
 import org.jetbrains.anko.setContentView
 

@@ -1,6 +1,6 @@
 package com.makentoshe.booruchan.start.model.api.factory
 
-import com.makentoshe.booruchan.api.gelbooru.Gelbooru
+import com.makentoshe.booruchan.common.api.gelbooru.Gelbooru
 import junit.framework.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith

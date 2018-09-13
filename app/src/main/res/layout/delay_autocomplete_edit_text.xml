@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.makentoshe.booruchan.view.DelayAutocompleteEditText
+    <com.makentoshe.booruchan.common.view.DelayAutocompleteEditText
         android:id="@+id/DelayAutocompleteEditText"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -20,7 +20,7 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="RtlHardcoded,RtlSymmetry">
 
-    </com.makentoshe.booruchan.view.DelayAutocompleteEditText>
+    </com.makentoshe.booruchan.common.view.DelayAutocompleteEditText>
 
     <ImageView
         android:visibility="gone"

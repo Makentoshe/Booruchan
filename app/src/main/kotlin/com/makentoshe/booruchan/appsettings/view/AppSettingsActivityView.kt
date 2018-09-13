@@ -2,7 +2,7 @@ package com.makentoshe.booruchan.appsettings.view
 
 import android.content.Context
 import android.content.SharedPreferences
-import com.makentoshe.booruchan.appsettings.AppSettings
+import com.makentoshe.booruchan.common.settings.application.AppSettings
 
 interface AppSettingsActivityView {
 

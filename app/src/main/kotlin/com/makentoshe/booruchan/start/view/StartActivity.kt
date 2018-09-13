@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
-import com.makentoshe.booruchan.Activity
+import com.makentoshe.booruchan.common.Activity
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.start.presenter.StartActivityPresenter
 import org.jetbrains.anko.*

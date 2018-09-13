@@ -4,7 +4,7 @@ import android.content.Context
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import com.makentoshe.booruchan.Activity
+import com.makentoshe.booruchan.common.Activity
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.booru.presenter.BooruPresenter
 import org.jetbrains.anko.setContentView

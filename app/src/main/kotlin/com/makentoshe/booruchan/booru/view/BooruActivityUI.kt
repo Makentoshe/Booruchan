@@ -12,10 +12,10 @@ import android.support.v7.widget.Toolbar
 import android.view.Gravity
 import android.view.View
 import com.makentoshe.booruchan.R
-import com.makentoshe.booruchan.StyleableAnkoComponent
+import com.makentoshe.booruchan.common.StyleableAnkoComponent
 import com.makentoshe.booruchan.booru.presenter.BooruPresenter
-import com.makentoshe.booruchan.styles.Style
-import com.makentoshe.booruchan.view.DelayAutocompleteEditText
+import com.makentoshe.booruchan.common.styles.Style
+import com.makentoshe.booruchan.common.view.DelayAutocompleteEditText
 import org.jetbrains.anko.*
 import org.jetbrains.anko.appcompat.v7.toolbar
 import org.jetbrains.anko.cardview.v7.cardView

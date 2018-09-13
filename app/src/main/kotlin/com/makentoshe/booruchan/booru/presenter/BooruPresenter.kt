@@ -1,6 +1,6 @@
 package com.makentoshe.booruchan.booru.presenter
 
-import com.makentoshe.booruchan.api.Boor
+import com.makentoshe.booruchan.common.api.Boor
 import com.makentoshe.booruchan.booru.model.AutocompleteAdapter
 import com.makentoshe.booruchan.booru.model.Extractor
 import com.makentoshe.booruchan.booru.view.BooruView

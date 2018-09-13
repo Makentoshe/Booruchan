@@ -11,9 +11,9 @@ import android.support.v7.view.menu.ActionMenuItemView
 import android.view.View
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
-import com.makentoshe.booruchan.Activity
+import com.makentoshe.booruchan.common.Activity
 import com.makentoshe.booruchan.R
-import com.makentoshe.booruchan.styles.Style
+import com.makentoshe.booruchan.common.styles.Style
 
 class SearchLayoutAnimator(private val searchView: View, private val searchViewAlpha: View,
                            private val activity: Activity, private val style: Style) {
