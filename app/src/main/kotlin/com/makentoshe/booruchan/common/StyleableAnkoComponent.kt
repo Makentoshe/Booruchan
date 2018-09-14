@@ -5,6 +5,8 @@ import android.graphics.drawable.Drawable
 import android.os.Build
 import android.support.annotation.ColorRes
 import android.support.v4.content.ContextCompat
+import android.support.v4.widget.DrawerLayout
+import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.AppCompatImageView
 import android.support.v7.widget.Toolbar
@@ -52,4 +54,19 @@ abstract class StyleableAnkoComponent<T : AppCompatActivity>(protected val style
         return this
     }
 
+    protected fun Toolbar.setHamburgerIcon(activity: Activity, drawerLayout: DrawerLayout): Toolbar {
+        activity.setSupportActionBar(this)
+        activity.supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        val toggle = ActionBarDrawerToggle(activity, drawerLayout, this,
+                R.string.drawer_open, R.string.drawer_close)
+        toggle.isDrawerIndicatorEnabled = true
+        toggle.drawerArrowDrawable.color = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            activity.resources.getColor(style.toolbarForegroundColor, activity.theme)
+        } else {
+            activity.resources.getColor(style.toolbarForegroundColor)
+        }
+        drawerLayout.addDrawerListener(toggle)
+        toggle.syncState()
+        return this
+    }
 }
