@@ -12,30 +12,31 @@ import android.util.AttributeSet
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.ImageView
-import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.common.api.Boor
 import com.makentoshe.booruchan.common.styles.Style
+import kotlinx.coroutines.experimental.async
+import kotlinx.coroutines.experimental.runBlocking
 
-class DelayAutocompleteEditText(context: Context, attrs: AttributeSet)
+class DelayAutocompleteEditText(context: Context, attrs: AttributeSet? = null)
     : AppCompatAutoCompleteTextView(context, attrs) {
+
+    init {
+        runBlocking {
+            async {
+                initSelecting()
+            }.join()
+        }
+    }
 
     private var autoCompleteDelay = DEFAULT_AUTOCOMPLETE_DELAY
     private var progressBar: ProgressBar? = null
-    private var clearIcon: ImageView? = null
 
     fun setAutoCompleteDelay(autoCompleteDelay: Long) {
         this.autoCompleteDelay = autoCompleteDelay
     }
 
-    fun init(style: Style): DelayAutocompleteEditText {
-        initClearIcon(style)
-        initProgressBar()
-        initSelecting()
-        return this
-    }
-
     fun setActionSearch(boor: Boor): DelayAutocompleteEditText {
-        setOnEditorActionListener { _, actionId , _ ->
+        setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
 //                Toast.makeText(activity, "BodyNavigation is not updatable", Toast.LENGTH_LONG).show()
                 return@setOnEditorActionListener true
@@ -45,10 +46,9 @@ class DelayAutocompleteEditText(context: Context, attrs: AttributeSet)
         return this
     }
 
-    private fun initClearIcon(style: Style) {
-        try {
-            clearIcon = (parent as View).findViewById(R.id.DelayAutocompleteEditTextClear)
-            clearIcon?.apply {
+    fun setClearIcon(clearIcon: ImageView, style: Style): DelayAutocompleteEditText = runBlocking {
+        async {
+            clearIcon.apply {
                 setImageResource(style.clearIcon)
                 setOnClickListener {
                     this@DelayAutocompleteEditText.setText("")
@@ -57,24 +57,21 @@ class DelayAutocompleteEditText(context: Context, attrs: AttributeSet)
             addTextChangedListener(object : TextWatcher {
                 override fun afterTextChanged(s: Editable) {
                     if (s.isNotEmpty()) {
-                        clearIcon?.visibility = View.VISIBLE
+                        clearIcon.visibility = View.VISIBLE
                     } else {
-                        clearIcon?.visibility = View.GONE
+                        clearIcon.visibility = View.GONE
                     }
                 }
 
                 override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
                 override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
             })
-        } catch (e: Exception) {
-        }
+        }.join()
+        return@runBlocking this@DelayAutocompleteEditText
     }
 
-    private fun initProgressBar() {
-        try {
-            progressBar = (parent as View).findViewById(R.id.DelayAutocompleteEditTextProgress)
-        } catch (e: Exception) {
-        }
+    fun setProgressBar(progressBar: ProgressBar) {
+        this.progressBar = progressBar
     }
 
     @SuppressLint("SetTextI18n")
