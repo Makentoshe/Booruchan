@@ -13,13 +13,8 @@ class RinStyle : Style {
     override val assentColor: Int
         get() = android.R.color.black
 
-    @Style.StyleID
     override val styleId: Int
         get() = Style.Rin
-
-    @Style.StyleName
-    override val styleName: String
-        get() = Style.RinName
 
     override val toolbarForegroundColor: Int
         get() = android.R.color.black

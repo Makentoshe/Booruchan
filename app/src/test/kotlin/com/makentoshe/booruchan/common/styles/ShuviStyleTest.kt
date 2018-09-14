@@ -33,10 +33,6 @@ class ShuviStyleTest: StyleTest(ShuviStyle()) {
         Assert.assertEquals(Style.Shuvi, style.styleId)
     }
 
-    override fun `style name`() {
-        Assert.assertEquals(Style.ShuviName, style.styleName)
-    }
-
     override fun `toolbar background color`() {
         Assert.assertEquals(R.color.MaterialPurple500, style.toolbarBackgroundColor)
     }

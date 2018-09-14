@@ -32,10 +32,6 @@ class AstarteStyleTest: StyleTest(AstarteStyle()) {
         assertEquals(Style.Astarte, style.styleId)
     }
 
-    override fun `style name`() {
-        assertEquals(Style.AstarteName, style.styleName)
-    }
-
     override fun `toolbar background color`() {
         assertEquals(R.color.MaterialIndigo500, style.toolbarBackgroundColor)
     }

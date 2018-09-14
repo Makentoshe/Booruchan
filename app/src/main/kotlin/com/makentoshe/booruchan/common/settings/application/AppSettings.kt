@@ -1,5 +1,6 @@
 package com.makentoshe.booruchan.common.settings.application
 
+import android.support.annotation.StyleRes
 import com.makentoshe.booruchan.common.styles.AstarteStyle
 import com.makentoshe.booruchan.common.styles.RinStyle
 import com.makentoshe.booruchan.common.styles.ShuviStyle
@@ -14,7 +15,7 @@ class AppSettings {
     private var style: Style = AstarteStyle()
     private var styleVal: Int = Style.Astarte
 
-    fun setStyle(@Style.StyleID value: Int) {
+    fun setStyle(@StyleRes value: Int) {
         when(value) {
             Style.Astarte -> {
                 checkStyleValuesIsValid(value) {
