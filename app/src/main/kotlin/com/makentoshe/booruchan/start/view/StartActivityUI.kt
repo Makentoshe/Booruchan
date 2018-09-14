@@ -2,8 +2,6 @@ package com.makentoshe.booruchan.start.view
 
 import android.annotation.SuppressLint
 import android.arch.lifecycle.ViewModelProviders
-import android.os.Build
-import android.support.v4.content.ContextCompat
 import android.support.v7.widget.Toolbar
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.common.StyleableAnkoComponent
@@ -20,6 +18,7 @@ class StartActivityUI(style: Style) : StyleableAnkoComponent<StartActivity>(styl
     override fun createView(ui: AnkoContext<StartActivity>) = with(ui) {
         val viewModel = ViewModelProviders.of(ui.owner)[StartViewModel::class.java]
         verticalLayout {
+            id = R.id.start_main
             createToolbar()
                     .setSupportActionBar(ui.owner)
                     .setOverflowIconColor(style.toolbarForegroundColor)
@@ -31,7 +30,7 @@ class StartActivityUI(style: Style) : StyleableAnkoComponent<StartActivity>(styl
     private fun _LinearLayout.createToolbar(): Toolbar {
         return toolbar {
             setTitleTextColorResource(style.toolbarForegroundColor)
-            id = R.id.activity_start_toolbar
+            id = R.id.start_toolbar
             titleResource = R.string.app_name
             backgroundColorResource = style.toolbarBackgroundColor
             forLollipop {
@@ -45,6 +44,7 @@ class StartActivityUI(style: Style) : StyleableAnkoComponent<StartActivity>(styl
 
     private fun _LinearLayout.createContent(viewModel: StartViewModel, activity: StartActivity) {
         listView {
+            id = R.id.start_content
             adapter = viewModel.createAdapter(context)
             onItemClick { adapter, _, position, _ ->
                 val service = adapter?.getItemAtPosition(position) as String
