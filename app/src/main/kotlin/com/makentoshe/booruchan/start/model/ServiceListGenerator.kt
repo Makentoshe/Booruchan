@@ -8,17 +8,16 @@ import com.makentoshe.booruchan.common.api.gelbooru.Gelbooru
 
 class ServiceListGenerator {
 
-    val servicesList: ArrayList<String> by lazy {
+    val servicesList: List<String> by lazy {
         val list = ArrayList<String>()
         for (c in classesList) {
             list.add(c.simpleName)
         }
         return@lazy list
     }
-    val classesList: ArrayList<Class<Boor>> by lazy {
-        val list = ArrayList<Class<Boor>>()
-        list.add(Gelbooru::class.java as Class<Boor>)
-        return@lazy list
+
+    val classesList: List<Class<Boor>> by lazy {
+        return@lazy listOf(Gelbooru::class.java as Class<Boor>)
     }
 
     fun createAdapter(context: Context, services: List<String>): ListAdapter {

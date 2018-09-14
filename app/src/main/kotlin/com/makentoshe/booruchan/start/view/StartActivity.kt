@@ -23,13 +23,10 @@ class StartActivity : Activity() {
         return true
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        item?.itemId?.let {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
             ViewModelProviders.of(this)[StartViewModel::class.java]
-                    .clickOnOverflow(it, this)
+                    .clickOnOverflow(item.itemId, this)
             return true
-        }
-        return false
     }
 
 }
