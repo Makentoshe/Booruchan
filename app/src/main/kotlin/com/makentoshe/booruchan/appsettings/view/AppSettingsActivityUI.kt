@@ -24,6 +24,7 @@ class AppSettingsActivityUI(style: Style)
     override fun createView(ui: AnkoContext<AppSettingsActivity>): View = with(ui) {
         val viewModel = ViewModelProviders.of(ui.owner)[AppSettingsViewModel::class.java]
         verticalLayout {
+            id = R.id.appsettings_main
             createToolbar()
                     .setSupportActionBar(ui.owner)
                     .setHomeIcon(style.toolbarForegroundColor, ui.owner)
@@ -34,7 +35,7 @@ class AppSettingsActivityUI(style: Style)
     @SuppressLint("NewApi")
     private fun _LinearLayout.createToolbar(): Toolbar {
         return toolbar {
-            id = R.id.activity_appsettings_toolbar
+            id = R.id.appsettings_toolbar
             titleResource = R.string.app_settings_title
             setTitleTextColorResource(style.toolbarForegroundColor)
             backgroundColorResource = style.toolbarBackgroundColor
@@ -50,6 +51,7 @@ class AppSettingsActivityUI(style: Style)
 
     private fun _LinearLayout.createStyleSettingStroke(viewModel: AppSettingsViewModel, activity: Activity) {
         linearLayout {
+            id = R.id.appsettings_style
             orientation = LinearLayout.HORIZONTAL
             createSettingTitle(R.string.color_theme)
             createSettingValueSpinner()

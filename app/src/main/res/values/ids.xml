@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <item name="start_toolbar" type="id">StartActivity_Toolbar</item>
-    <item name="activity_appsettings_toolbar" type="id">ActivityAppSettings_Toolbar</item>
+    <item name="appsettings_toolbar" type="id">ActivityAppSettings_Toolbar</item>
     <item name="activity_appsettings_style" type="id">ActivityAppSettings_Style</item>
     <item name="action_show_search" type="id">Action_ShowSearch</item>
     <item name="activity_booru_toolbar" type="id">ActivityBooru_Toolbar</item>
@@ -9,4 +9,6 @@
     <item name="activity_booru_toolbar_search_alpha" type="id">ActivityBooru_Toolbar_Search_Alpha</item>
     <item name="start_content" type="id" />
     <item name="start_main" type="id" />
+    <item name="appsettings_main" type="id" />
+    <item name="appsettings_style" type="id" />
 </resources>

@@ -32,7 +32,7 @@ class AppSettingsActivityUITest {
 
     @Test
     fun `test toolbar title`() {
-        val toolbar = view.findViewById<Toolbar>(R.id.activity_appsettings_toolbar)
+        val toolbar = view.findViewById<Toolbar>(R.id.appsettings_toolbar)
         val expectedToolbarTitle = view.context.getString(R.string.app_settings_title)
         Assert.assertEquals(expectedToolbarTitle, toolbar.title)
     }
