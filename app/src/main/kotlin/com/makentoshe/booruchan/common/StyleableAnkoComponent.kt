@@ -23,7 +23,7 @@ abstract class StyleableAnkoComponent<T : AppCompatActivity>(protected val style
     }
 
     protected fun Toolbar.setOverflowIconColor(@ColorRes color: Int): Toolbar {
-        overflowIcon?.setColorFilter(ContextCompat.getColor(context, color), PorterDuff.Mode.DST)
+        overflowIcon?.setColorFilter(ContextCompat.getColor(context, color), PorterDuff.Mode.SRC_ATOP)
         return this
     }
 
@@ -32,20 +32,24 @@ abstract class StyleableAnkoComponent<T : AppCompatActivity>(protected val style
         return this
     }
 
-
-    fun createHomeIcon(@ColorRes color: Int, activity: T): Drawable {
+    protected fun Toolbar.setHomeIcon(@ColorRes colorRes: Int, activity: AppCompatActivity): Toolbar {
         val arrow = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            activity.resources.getDrawable(R.drawable.abc_ic_ab_back_material, activity.theme)
+            context.resources.getDrawable(R.drawable.abc_ic_ab_back_material, context.theme)
         } else {
-            activity.resources.getDrawable(R.drawable.abc_ic_ab_back_material)
+            context.resources.getDrawable(R.drawable.abc_ic_ab_back_material)
         }
         val colorInt = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            activity.resources.getColor(color, activity.theme)
+            context.resources.getColor(colorRes, context.theme)
         } else {
-            activity.resources.getColor(color)
+            context.resources.getColor(colorRes)
         }
         arrow.setColorFilter(colorInt, PorterDuff.Mode.SRC_ATOP)
-        return arrow
+        activity.supportActionBar?.apply {
+            setHomeAsUpIndicator(arrow)
+            setDisplayHomeAsUpEnabled(true)
+           setHomeButtonEnabled(true)
+        }
+        return this
     }
 
 }

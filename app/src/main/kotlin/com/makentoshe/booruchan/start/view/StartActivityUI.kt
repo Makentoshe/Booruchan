@@ -1,11 +1,13 @@
 package com.makentoshe.booruchan.start.view
 
+import android.annotation.SuppressLint
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Build
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.Toolbar
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.common.StyleableAnkoComponent
+import com.makentoshe.booruchan.common.forLollipop
 import com.makentoshe.booruchan.common.styles.Style
 import com.makentoshe.booruchan.start.StartViewModel
 import org.jetbrains.anko.*
@@ -25,13 +27,14 @@ class StartActivityUI(style: Style) : StyleableAnkoComponent<StartActivity>(styl
         }
     }
 
+    @SuppressLint("NewApi")
     private fun _LinearLayout.createToolbar(): Toolbar {
         return toolbar {
-            setTitleTextColor(ContextCompat.getColor(context, style.toolbarForegroundColor))
+            setTitleTextColorResource(style.toolbarForegroundColor)
             id = R.id.activity_start_toolbar
             titleResource = R.string.app_name
             backgroundColorResource = style.toolbarBackgroundColor
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            forLollipop {
                 elevation = dip(4).toFloat()
             }
         }.lparams {

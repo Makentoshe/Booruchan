@@ -1,5 +1,6 @@
-package com.makentoshe.booruchan.appsettings
+package com.makentoshe.booruchan.common.settings.application
 
+import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.common.settings.application.AppSettings
 import com.makentoshe.booruchan.common.styles.AstarteStyle
 import com.makentoshe.booruchan.common.styles.RinStyle
@@ -23,18 +24,27 @@ class AppSettingsTest {
     }
 
     @Test
-    fun `change style`() {
+    fun `set Shuvi style`() {
         appSettings.setStyle(Style.Shuvi)
-        assertEquals(Style.Shuvi, appSettings.getStyleVal())
-        assertTrue(appSettings.getStyle() is ShuviStyle)
+        assertEquals(R.style.Shuvi, appSettings.getStyle().styleId)
+    }
 
+    @Test
+    fun `set Astarte style`() {
         appSettings.setStyle(Style.Astarte)
-        assertEquals(Style.Astarte, appSettings.getStyleVal())
-        assertTrue(appSettings.getStyle() is AstarteStyle)
+        assertEquals(R.style.Astarte, appSettings.getStyle().styleId)
+    }
 
+    @Test
+    fun `set Rin style`() {
         appSettings.setStyle(Style.Rin)
-        assertEquals(Style.Rin, appSettings.getStyleVal())
-        assertTrue(appSettings.getStyle() is RinStyle)
+        assertEquals(R.style.Rin, appSettings.getStyle().styleId)
+    }
+
+    @Test
+    fun `set another style will cause set upping default style`() {
+        appSettings.setStyle(R.style.Base_AlertDialog_AppCompat)
+        assertEquals(R.style.Astarte, appSettings.getStyle().styleId)
     }
 
 }
