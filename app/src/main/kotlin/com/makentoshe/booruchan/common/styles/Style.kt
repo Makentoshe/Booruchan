@@ -26,15 +26,6 @@ interface Style {
             }
         }
 
-        fun getStyleIdByName(name: String): Int {
-            return when (name) {
-                AstarteName -> Astarte
-                ShuviName -> Shuvi
-                RinName -> Rin
-                else -> throw IllegalArgumentException()
-            }
-        }
-
         fun getStyleByName(name: String): Style {
             return when (name) {
                 AstarteName -> AstarteStyle()
@@ -47,9 +38,6 @@ interface Style {
 
     @get:StyleRes
     val styleId: Int
-
-    @get:ColorRes
-    val assentColor: Int
 
     @get:ColorRes
     val toolbarForegroundColor: Int
@@ -65,20 +53,10 @@ interface Style {
         get() = android.R.color.white
 
     @get:DrawableRes
-    val searchIcon: Int
-        get() = R.drawable.ic_magnify_vector_white
-
-    @get:DrawableRes
-    val clearIcon: Int
-        get() = R.drawable.ic_close_vector_black
-
-    @get:DrawableRes
-    val crossIcon: Int
-        get() = R.drawable.ic_close_vector_white
+    val avdFromCrossToMagnify: Int
+        get() = R.drawable.avd_close_magnify_vector_white
 
     @get:DrawableRes
     val avdFromMagnifyToCross: Int
-
-    @get:DrawableRes
-    val avdFromCrossToMagnify: Int
+        get() = R.drawable.avd_magnify_close_vector_white
 }

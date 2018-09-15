@@ -3,18 +3,9 @@ package com.makentoshe.booruchan.common.styles
 import com.makentoshe.booruchan.R
 
 class AstarteStyle: Style {
-    override val avdFromCrossToMagnify: Int
-        get() = R.drawable.avd_close_magnify_vector_white
-
-    override val avdFromMagnifyToCross: Int
-        get() = R.drawable.avd_magnify_close_vector_white
-
-    override val assentColor: Int
-        get() = R.color.IndigoAssent200
 
     override val styleId: Int
         get() = Style.Astarte
-
 
     override val toolbarBackgroundColor: Int
         get() = R.color.MaterialIndigo500

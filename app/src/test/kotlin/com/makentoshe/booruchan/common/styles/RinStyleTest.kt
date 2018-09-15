@@ -8,26 +8,6 @@ import org.junit.runners.JUnit4
 @RunWith(JUnit4::class)
 class RinStyleTest : StyleTest(RinStyle()) {
 
-    override fun `clear icon`() {
-        assertEquals(R.drawable.ic_close_vector_black, style.clearIcon)
-    }
-
-    override fun `cross icon`() {
-        assertEquals(R.drawable.ic_close_vector_black, style.crossIcon)
-    }
-
-    override fun `assent color`() {
-        assertEquals(android.R.color.black, style.assentColor)
-    }
-
-    override fun `avd from cross to magnify`() {
-        assertEquals(R.drawable.avd_close_magnify_vector_black, style.avdFromCrossToMagnify)
-    }
-
-    override fun `avd from magnify to cross`() {
-        assertEquals(R.drawable.avd_magnify_close_vector_black, style.avdFromMagnifyToCross)
-    }
-
     override fun `toolbar background color`() {
         assertEquals(R.color.MaterialYellow500, style.toolbarBackgroundColor)
     }
@@ -40,7 +20,4 @@ class RinStyleTest : StyleTest(RinStyle()) {
         assertEquals(Style.Rin, style.styleId)
     }
 
-    override fun `search icon`() {
-        assertEquals(R.drawable.ic_magnify_vector_black, style.searchIcon)
-    }
 }
