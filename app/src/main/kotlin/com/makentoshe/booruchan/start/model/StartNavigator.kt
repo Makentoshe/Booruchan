@@ -9,9 +9,8 @@ import com.makentoshe.booruchan.common.api.factory.Factory
 class StartNavigator {
 
     fun startBooruActivity(activity: AppCompatActivity, serviceName: String) {
-        val boor = Factory.createFactory(serviceName).createService()
         val intent = Intent(activity, BooruActivity::class.java)
-        intent.putExtra(BooruActivity.BOOR_EXTRA, boor)
+        intent.putExtra(BooruActivity.BOORU_EXTRA, serviceName)
         activity.startActivity(intent)
     }
 

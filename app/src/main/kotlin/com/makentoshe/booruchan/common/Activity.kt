@@ -2,6 +2,7 @@ package com.makentoshe.booruchan.common
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.os.Handler
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.view.inputmethod.InputMethodManager
@@ -25,7 +26,9 @@ abstract class Activity: AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         if (currentStyleVal != getAppSettings().getStyleVal()) {
-            recreate()
+            Handler().postDelayed( {
+                recreate()
+            }, 0)
         }
     }
 

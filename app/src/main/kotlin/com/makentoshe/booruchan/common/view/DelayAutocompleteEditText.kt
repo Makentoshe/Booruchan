@@ -2,8 +2,10 @@ package com.makentoshe.booruchan.common.view
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.graphics.PorterDuff
 import android.os.Handler
 import android.os.Message
+import android.support.v4.content.ContextCompat
 import android.widget.ProgressBar
 import android.support.v7.widget.AppCompatAutoCompleteTextView
 import android.text.Editable
@@ -15,6 +17,7 @@ import android.widget.ImageView
 import com.makentoshe.booruchan.common.api.Boor
 import com.makentoshe.booruchan.common.styles.Style
 import kotlinx.coroutines.experimental.async
+import kotlinx.coroutines.experimental.launch
 import kotlinx.coroutines.experimental.runBlocking
 
 class DelayAutocompleteEditText(context: Context, attrs: AttributeSet? = null)
@@ -22,7 +25,7 @@ class DelayAutocompleteEditText(context: Context, attrs: AttributeSet? = null)
 
     init {
         runBlocking {
-            async {
+            launch {
                 initSelecting()
             }.join()
         }
@@ -47,9 +50,11 @@ class DelayAutocompleteEditText(context: Context, attrs: AttributeSet? = null)
     }
 
     fun setClearIcon(clearIcon: ImageView, style: Style): DelayAutocompleteEditText = runBlocking {
-        async {
+        launch {
             clearIcon.apply {
-                setImageResource(style.clearIcon)
+                val drawable = ContextCompat.getDrawable(context, style.avdFromMagnifyToCross)
+                drawable?.setColorFilter(ContextCompat.getColor(context, android.R.color.black), PorterDuff.Mode.SRC_ATOP)
+                setImageDrawable(drawable)
                 setOnClickListener {
                     this@DelayAutocompleteEditText.setText("")
                 }
@@ -145,18 +150,14 @@ class DelayAutocompleteEditText(context: Context, attrs: AttributeSet? = null)
             } catch (e: Exception) {
                 throw RuntimeException(e)
             }
-
         }
     }
 
     private interface Consumer<T> {
-
         fun accept(t: T)
-
     }
 
     companion object {
-
         private val MESSAGE_TEXT_CHANGED = 100
         private val DEFAULT_AUTOCOMPLETE_DELAY = 750L
     }

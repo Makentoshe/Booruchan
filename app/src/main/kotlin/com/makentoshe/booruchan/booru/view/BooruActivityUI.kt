@@ -1,6 +1,8 @@
 package com.makentoshe.booruchan.booru.view
 
 import android.annotation.SuppressLint
+import android.arch.lifecycle.ViewModel
+import android.arch.lifecycle.ViewModelProviders
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.support.constraint.ConstraintSet.PARENT_ID
@@ -15,8 +17,8 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.ProgressBar
 import com.makentoshe.booruchan.R
+import com.makentoshe.booruchan.booru.BooruViewModel
 import com.makentoshe.booruchan.common.StyleableAnkoComponent
-import com.makentoshe.booruchan.booru.presenter.BooruPresenter
 import com.makentoshe.booruchan.common.forLollipop
 import com.makentoshe.booruchan.common.styles.Style
 import com.makentoshe.booruchan.common.view.DelayAutocompleteEditText
@@ -32,14 +34,12 @@ import org.jetbrains.anko.support.v4._DrawerLayout
 import org.jetbrains.anko.support.v4.drawerLayout
 
 //todo fix UI decreased speed
-class BooruActivityUI(style: Style, private val presenter: BooruPresenter)
-    : StyleableAnkoComponent<BooruActivity>(style), SlideableSearchLayout {
-
-    private lateinit var searchLayoutAnimator: SearchLayoutAnimator
+class BooruActivityUI(style: Style) : StyleableAnkoComponent<BooruActivity>(style) {
 
     override fun createView(ui: AnkoContext<BooruActivity>): View = with(ui) {
+        val viewModel =  ViewModelProviders.of(ui.owner)[BooruViewModel::class.java]
         drawerLayout {
-            createContentView(ui)
+            createContentView(viewModel, ui)
             createPanelView()
             lparams(width = matchParent, height = matchParent)
         }
@@ -56,27 +56,26 @@ class BooruActivityUI(style: Style, private val presenter: BooruPresenter)
             height = matchParent
             gravity = Gravity.START
         }
-
     }
 
-    private fun _DrawerLayout.createContentView(ui: AnkoContext<BooruActivity>) {
+    private fun _DrawerLayout.createContentView(viewModel: BooruViewModel, ui: AnkoContext<BooruActivity>) {
         constraintLayout {
-            val searchLayout = createSearchViewLayout()
-            val searchAlphaLayout = createSearchViewAlpha()
-            createToolbar()
+            createSearchViewLayout(viewModel)
+            createSearchViewAlpha(ui, viewModel)
+            createToolbar(viewModel)
                     .setSupportActionBar(ui.owner)
                     .setHomeIcon(style.toolbarForegroundColor, ui.owner)
                     .setHamburgerIcon(ui.owner, this@createContentView)
-            searchLayoutAnimator = SearchLayoutAnimator(searchLayout, searchAlphaLayout, ui.owner, style)
         }.lparams(matchParent, matchParent)
     }
 
     @SuppressLint("NewApi")
-    private fun _ConstraintLayout.createToolbar(): Toolbar {
+    private fun _ConstraintLayout.createToolbar(viewModel: BooruViewModel): Toolbar {
         return toolbar {
-            id = R.id.activity_booru_toolbar
+            id = R.id.booru_content_toolbar
             setTitleTextColor(ContextCompat.getColor(context, style.toolbarForegroundColor))
-            title = presenter.getBoor().getBooruName()
+            title = viewModel.booru.getBooruName()
+            subtitle = "Posts"
             backgroundColorResource = style.toolbarBackgroundColor
             forLollipop {
                 elevation = dip(4).toFloat()
@@ -91,28 +90,28 @@ class BooruActivityUI(style: Style, private val presenter: BooruPresenter)
     }
 
     @SuppressLint("NewApi")
-    private fun _ConstraintLayout.createSearchViewLayout(): LinearLayout {
+    private fun _ConstraintLayout.createSearchViewLayout(viewModel: BooruViewModel): LinearLayout {
         return linearLayout {
-            id = R.id.activity_booru_toolbar_search
+            id = R.id.booru_content_search
             visibility = View.GONE
             backgroundResource = style.toolbarBackgroundColor
             translationY = -dip(style.dpToolbarHeight).toFloat()
             forLollipop {
                 elevation = dip(4).toFloat()
             }
-            createSearchViewInputLayout()
+            createSearchViewInputLayout(viewModel)
 
         }.lparams {
             width = matchConstraint
             height = dip(style.dpToolbarHeight)
             leftToLeft = PARENT_ID
             rightToRight = PARENT_ID
-            topToBottom = R.id.activity_booru_toolbar
+            topToBottom = R.id.booru_content_toolbar
         }
     }
 
     @SuppressLint("NewApi")
-    private fun _LinearLayout.createSearchViewInputLayout() {
+    private fun _LinearLayout.createSearchViewInputLayout(viewModel: BooruViewModel) {
         cardView {
             background.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP)
             preventCornerOverlap = false
@@ -122,7 +121,7 @@ class BooruActivityUI(style: Style, private val presenter: BooruPresenter)
             }
 
             constraintLayout {
-                createDelayAutocompleteEditText()
+                createDelayAutocompleteEditText(viewModel)
                         .setClearIcon(createClearIconForDelayAutocompleteEditText(), style)
                         .setProgressBar(createProgressBarForDelayAutocompleteEditText())
 
@@ -133,7 +132,7 @@ class BooruActivityUI(style: Style, private val presenter: BooruPresenter)
         }
     }
 
-    private fun _ConstraintLayout.createDelayAutocompleteEditText(): DelayAutocompleteEditText {
+    private fun _ConstraintLayout.createDelayAutocompleteEditText(viewModel: BooruViewModel): DelayAutocompleteEditText {
         return delayAutocompleteEditText {
             id = R.id.booru_toolbar_search_delayautocompleteedittext
             hintResource = R.string.search_hint
@@ -141,8 +140,8 @@ class BooruActivityUI(style: Style, private val presenter: BooruPresenter)
             inputType = EditorInfo.TYPE_CLASS_TEXT
             singleLine = true
             setPadding(dip(3), 0, dip(37), 0)
-            setAdapter(presenter.getAutocompleteAdapter())
-            setActionSearch(presenter.getBoor())
+            setAdapter(viewModel.getAutocompleteAdapter(context, viewModel.booru))
+            setActionSearch(viewModel.booru)
         }.lparams(matchConstraint, matchConstraint) {
             leftToLeft = PARENT_ID
             rightToRight = PARENT_ID
@@ -177,15 +176,15 @@ class BooruActivityUI(style: Style, private val presenter: BooruPresenter)
         }
     }
 
-    private fun _ConstraintLayout.createSearchViewAlpha(): FrameLayout {
+    private fun _ConstraintLayout.createSearchViewAlpha(ui: AnkoContext<BooruActivity>, viewModel: BooruViewModel): FrameLayout {
         return frameLayout {
-            id = R.id.activity_booru_toolbar_search_alpha
+            id = R.id.booru_content_alpha
             visibility = View.GONE
             alpha = 1f
             backgroundResource = android.R.color.black
 
             onClick {
-                hideSearchLayout()
+                viewModel.hideSearchLabel(ui.owner, style)
             }
 
         }.lparams {
@@ -193,24 +192,11 @@ class BooruActivityUI(style: Style, private val presenter: BooruPresenter)
             height = 0
             leftToLeft = PARENT_ID
             rightToRight = PARENT_ID
-            topToBottom = R.id.activity_booru_toolbar
+            topToBottom = R.id.booru_content_toolbar
             bottomToBottom = PARENT_ID
         }
     }
 
-    override fun showSearchLayout() {
-        searchLayoutAnimator.show()
-    }
-
-    override fun hideSearchLayout(): Boolean {
-        return searchLayoutAnimator.hide()
-    }
-
-    override fun isLayoutDisplaying(): Boolean {
-        return searchLayoutAnimator.isDisplaying()
-    }
-
-    private inline fun ViewManager.delayAutocompleteEditText(init: DelayAutocompleteEditText.() -> Unit)
-            = ankoView({ DelayAutocompleteEditText(it) }, 0, init)
+    private inline fun ViewManager.delayAutocompleteEditText(init: DelayAutocompleteEditText.() -> Unit) = ankoView({ DelayAutocompleteEditText(it) }, 0, init)
 
 }

@@ -5,10 +5,10 @@ import com.makentoshe.booruchan.R
 class RinStyle : Style {
 
     override val avdFromCrossToMagnify: Int
-        get() = R.drawable.avd_close_magnify_vector_black
+        get() = R.drawable.avd_close_magnify_vector_white
 
     override val avdFromMagnifyToCross: Int
-        get() = R.drawable.avd_magnify_close_vector_black
+        get() = R.drawable.avd_magnify_close_vector_white
 
     override val assentColor: Int
         get() = android.R.color.black
@@ -21,9 +21,6 @@ class RinStyle : Style {
 
     override val toolbarBackgroundColor: Int
         get() = R.color.MaterialYellow500
-
-    override val searchIcon: Int
-        get() = R.drawable.ic_magnify_vector_black
 
     override val crossIcon: Int
         get() = R.drawable.ic_close_vector_black

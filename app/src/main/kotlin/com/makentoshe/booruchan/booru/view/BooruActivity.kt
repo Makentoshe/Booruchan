@@ -1,58 +1,62 @@
 package com.makentoshe.booruchan.booru.view
 
-import android.content.Context
+import android.arch.lifecycle.ViewModelProviders
+import android.graphics.PorterDuff
 import android.os.Bundle
+import android.support.v4.content.ContextCompat
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import com.makentoshe.booruchan.common.Activity
 import com.makentoshe.booruchan.R
-import com.makentoshe.booruchan.booru.presenter.BooruPresenter
+import com.makentoshe.booruchan.booru.BooruViewModel
+import com.makentoshe.booruchan.booru.BooruViewModelFactory
+import com.makentoshe.booruchan.common.api.factory.Factory
 import org.jetbrains.anko.setContentView
 
-class BooruActivity : Activity(), BooruView {
-
-    override fun getContext(): Context {
-        return this
-    }
-
-    private lateinit var slideableSearchLayout: SlideableSearchLayout
-    private lateinit var presenter: BooruPresenter
+class BooruActivity : Activity() {
 
     companion object {
-        const val BOOR_EXTRA = "ExtraBoor"
+        const val BOORU_EXTRA = "ExtraBooru"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        presenter = BooruPresenter(this)
+        createViewModel()
         super.onCreate(savedInstanceState)
-        val userInterface = BooruActivityUI(getAppSettings().getStyle(), presenter)
-        slideableSearchLayout = userInterface
-        userInterface.setContentView(this)
+        BooruActivityUI(getAppSettings().getStyle()).setContentView(this)
+    }
+
+    private fun createViewModel() {
+        val boor = Factory.createFactory(intent.getStringExtra(BOORU_EXTRA)).createService()
+        ViewModelProviders.of(this, BooruViewModelFactory(boor))[BooruViewModel::class.java]
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        val style = getAppSettings().getStyle()
         val item = menu.add(Menu.NONE, R.id.action_show_search, Menu.NONE, "Show search view")
-        item.setIcon(getAppSettings().getStyle().searchIcon)
+        val icon = ContextCompat.getDrawable(this, style.avdFromCrossToMagnify)
+        icon?.setColorFilter(ContextCompat.getColor(this, style.toolbarForegroundColor), PorterDuff.Mode.SRC_ATOP)
+        item.icon = icon
         item.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS)
         return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        if (item?.itemId == R.id.action_show_search) {
-            if (slideableSearchLayout.isLayoutDisplaying()) {
-                slideableSearchLayout.hideSearchLayout()
-            } else {
-                slideableSearchLayout.showSearchLayout()
+        when (item?.itemId) {
+            R.id.action_show_search -> {
+                ViewModelProviders.of(this)[BooruViewModel::class.java]
+                        .changeSearchLabelState(this, getAppSettings().getStyle())
             }
         }
-        return true
+        return super.onOptionsItemSelected(item)
     }
 
     override fun onBackPressed() {
-        if (slideableSearchLayout.hideSearchLayout()) {
+        if (findViewById<View>(R.id.booru_content_alpha).visibility == View.VISIBLE) {
+            ViewModelProviders.of(this)[BooruViewModel::class.java]
+                    .hideSearchLabel(this, getAppSettings().getStyle())
             return
         }
         super.onBackPressed()
     }
-
 }
