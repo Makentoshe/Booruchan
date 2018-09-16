@@ -1,5 +1,6 @@
 package com.makentoshe.booruchan.booru.model.gallery.post.ordinf
 
+import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.booru.model.gallery.Gallery
@@ -13,6 +14,8 @@ class PostOrderedInfinityGallery(private val viewModel: PostOrderedInfinityViewM
         swipeRefreshLayout {
             recyclerView {
                 id = R.id.booru_content_gallery
+                adapter = viewModel.getGalleryAdapter()
+                layoutManager = LinearLayoutManager(this.context)
                 lparams(matchParent, matchParent)
             }
         }.lparams(matchParent, matchParent)

@@ -74,12 +74,13 @@ class BooruActivityUI(style: Style) : StyleableAnkoComponent<BooruActivity>(styl
     private fun _DrawerLayout.createContentView(viewModel: BooruViewModel, ui: AnkoContext<BooruActivity>) {
         constraintLayout {
             createSearchViewLayout(viewModel)
-            createSearchViewAlpha(ui, viewModel)
             createToolbar(viewModel)
                     .setSupportActionBar(ui.owner)
                     .setHomeIcon(style.toolbarForegroundColor, ui.owner)
                     .setHamburgerIcon(ui.owner, this@createContentView)
             createGallery(GalleryFactory.createFactory(gallery), ui)
+            createSearchViewAlpha(ui, viewModel)
+
         }.lparams(matchParent, matchParent)
     }
 
