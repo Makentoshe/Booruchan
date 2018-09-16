@@ -1,23 +1,21 @@
 package com.makentoshe.booruchan.start.view
 
+import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
-import com.makentoshe.booruchan.Activity
+import com.makentoshe.booruchan.common.Activity
 import com.makentoshe.booruchan.R
-import com.makentoshe.booruchan.start.presenter.StartActivityPresenter
+import com.makentoshe.booruchan.start.StartViewModel
 import org.jetbrains.anko.*
 
-class StartActivity : Activity(), StartActivityView {
-
-    private lateinit var presenter: StartActivityPresenter
+class StartActivity : Activity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        presenter = StartActivityPresenter(this)
         super.onCreate(savedInstanceState)
-        StartActivityUI(getAppSettings().getStyle(), presenter).setContentView(this)
+        StartActivityUI(getAppSettings().getStyle()).setContentView(this)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -25,20 +23,10 @@ class StartActivity : Activity(), StartActivityView {
         return true
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when (item?.itemId) {
-            R.id.action_app_settings -> {
-                presenter.startAppSettingsActivity()
-            }
-        }
-        return true
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+            ViewModelProviders.of(this)[StartViewModel::class.java]
+                    .clickOnOverflow(item.itemId, this)
+            return true
     }
 
-    override fun getContext(): Context {
-        return this
-    }
-
-    override fun getActivity(): AppCompatActivity {
-        return this
-    }
 }

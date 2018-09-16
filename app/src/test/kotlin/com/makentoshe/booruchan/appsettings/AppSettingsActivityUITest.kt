@@ -4,7 +4,7 @@ import android.support.v7.widget.Toolbar
 import android.view.View
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.appsettings.view.AppSettingsActivity
-import com.makentoshe.booruchan.styles.Style
+import com.makentoshe.booruchan.common.styles.Style
 import junit.framework.Assert
 import org.junit.Before
 import org.junit.Test
@@ -32,7 +32,7 @@ class AppSettingsActivityUITest {
 
     @Test
     fun `test toolbar title`() {
-        val toolbar = view.findViewById<Toolbar>(R.id.activity_appsettings_toolbar)
+        val toolbar = view.findViewById<Toolbar>(R.id.appsettings_toolbar)
         val expectedToolbarTitle = view.context.getString(R.string.app_settings_title)
         Assert.assertEquals(expectedToolbarTitle, toolbar.title)
     }
