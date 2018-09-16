@@ -9,6 +9,7 @@ import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.booru.model.AutocompleteAdapter
 import com.makentoshe.booruchan.booru.model.animator.ViewAnimator
 import com.makentoshe.booruchan.common.api.Boor
+import com.makentoshe.booruchan.common.hideKeyboard
 import com.makentoshe.booruchan.common.styles.Style
 
 class BooruViewModel(val booru: Boor) : ViewModel() {
@@ -37,6 +38,7 @@ class BooruViewModel(val booru: Boor) : ViewModel() {
         val alphaLabel = activity.findViewById<View>(R.id.booru_content_alpha)
         val icon = activity.findViewById<ActionMenuItemView>(R.id.action_show_search)
         animator.hideSearchAndAlphaLabels(searchLabel, alphaLabel, icon, style)
+        hideKeyboard(activity)
     }
 
     fun getAutocompleteAdapter(context: Context, boor: Boor): AutocompleteAdapter {
