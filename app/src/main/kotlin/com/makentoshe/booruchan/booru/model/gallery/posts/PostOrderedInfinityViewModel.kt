@@ -1,4 +1,4 @@
-package com.makentoshe.booruchan.booru.model.gallery.post.ordinf
+package com.makentoshe.booruchan.booru.model.gallery.posts
 
 import android.arch.lifecycle.ViewModel
 import android.support.v7.widget.RecyclerView

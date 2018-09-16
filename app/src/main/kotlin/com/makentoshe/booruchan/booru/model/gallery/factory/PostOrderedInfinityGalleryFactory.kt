@@ -1,9 +1,10 @@
-package com.makentoshe.booruchan.booru.model.gallery.post.ordinf
+package com.makentoshe.booruchan.booru.model.gallery.factory
 
 import android.arch.lifecycle.ViewModelProviders
 import android.support.v7.app.AppCompatActivity
 import com.makentoshe.booruchan.booru.model.gallery.Gallery
-import com.makentoshe.booruchan.booru.model.gallery.GalleryFactory
+import com.makentoshe.booruchan.booru.model.gallery.posts.PostOrderedInfinityGallery
+import com.makentoshe.booruchan.booru.model.gallery.posts.PostOrderedInfinityViewModel
 
 class PostOrderedInfinityGalleryFactory: GalleryFactory {
 

@@ -1,7 +1,7 @@
-package com.makentoshe.booruchan.booru.model.gallery
+package com.makentoshe.booruchan.booru.model.gallery.factory
 
 import android.support.v7.app.AppCompatActivity
-import com.makentoshe.booruchan.booru.model.gallery.post.ordinf.PostOrderedInfinityGalleryFactory
+import com.makentoshe.booruchan.booru.model.gallery.Gallery
 import com.makentoshe.booruchan.booru.view.BooruActivityUI
 import java.lang.IllegalArgumentException
 

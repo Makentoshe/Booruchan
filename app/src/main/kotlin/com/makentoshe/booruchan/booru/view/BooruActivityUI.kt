@@ -18,7 +18,7 @@ import android.widget.LinearLayout
 import android.widget.ProgressBar
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.booru.BooruViewModel
-import com.makentoshe.booruchan.booru.model.gallery.GalleryFactory
+import com.makentoshe.booruchan.booru.model.gallery.factory.GalleryFactory
 import com.makentoshe.booruchan.common.StyleableAnkoComponent
 import com.makentoshe.booruchan.common.forLollipop
 import com.makentoshe.booruchan.common.styles.Style
