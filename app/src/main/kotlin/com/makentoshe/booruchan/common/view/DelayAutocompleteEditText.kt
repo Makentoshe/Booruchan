@@ -14,6 +14,7 @@ import android.util.AttributeSet
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.ImageView
+import com.makentoshe.booruchan.booru.BooruViewModel
 import com.makentoshe.booruchan.common.api.Boor
 import com.makentoshe.booruchan.common.styles.Style
 import kotlinx.coroutines.experimental.async
@@ -38,10 +39,10 @@ class DelayAutocompleteEditText(context: Context, attrs: AttributeSet? = null)
         this.autoCompleteDelay = autoCompleteDelay
     }
 
-    fun setActionSearch(boor: Boor): DelayAutocompleteEditText {
+    fun setActionSearch(viewModel: BooruViewModel): DelayAutocompleteEditText {
         setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-//                Toast.makeText(activity, "BodyNavigation is not updatable", Toast.LENGTH_LONG).show()
+                viewModel.searchTermLiveData.value = this.text.toString()
                 return@setOnEditorActionListener true
             }
             return@setOnEditorActionListener false

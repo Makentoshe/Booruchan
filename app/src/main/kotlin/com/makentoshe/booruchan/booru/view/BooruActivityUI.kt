@@ -38,16 +38,16 @@ import org.jetbrains.anko.support.v4.drawerLayout
 class BooruActivityUI(style: Style) : StyleableAnkoComponent<BooruActivity>(style) {
 
     companion object {
-        const val GALLERY_POST = 0x00000000
-        const val GALLERY_COMMENT = 0x00000004
+        const val GALLERY_POST_ORD_INF = 0x00000000
+        const val GALLERY_COMMENT = 0x10000000
     }
 
-    @IntDef(GALLERY_POST, GALLERY_COMMENT)
+    @IntDef(GALLERY_POST_ORD_INF, GALLERY_COMMENT)
     @Retention(AnnotationRetention.SOURCE)
     annotation class Gallery
 
     @Gallery
-    private var gallery = GALLERY_POST
+    private var gallery = GALLERY_POST_ORD_INF
 
     override fun createView(ui: AnkoContext<BooruActivity>): View = with(ui) {
         val viewModel =  ViewModelProviders.of(ui.owner)[BooruViewModel::class.java]
@@ -78,16 +78,18 @@ class BooruActivityUI(style: Style) : StyleableAnkoComponent<BooruActivity>(styl
                     .setSupportActionBar(ui.owner)
                     .setHomeIcon(style.toolbarForegroundColor, ui.owner)
                     .setHamburgerIcon(ui.owner, this@createContentView)
-            createGallery(GalleryFactory.createFactory(gallery, viewModel.booru), ui)
+            createGallery(viewModel, ui)
             createSearchViewAlpha(ui, viewModel)
 
         }.lparams(matchParent, matchParent)
     }
 
-    private fun _ConstraintLayout.createGallery(galleryFactory: GalleryFactory, ui: AnkoContext<BooruActivity>) {
-        val gallery = galleryFactory.createGallery(ui.owner)
+    private fun _ConstraintLayout.createGallery(viewModel: BooruViewModel, ui: AnkoContext<BooruActivity>) {
+        val gallery =  GalleryFactory
+                .createFactory(gallery, viewModel.booru)
+                .createGallery(ui.owner)
         frameLayout {
-            gallery.createView(this)
+            gallery.createView(this, viewModel)
         }.lparams {
             width = 0
             height = 0
@@ -171,7 +173,7 @@ class BooruActivityUI(style: Style) : StyleableAnkoComponent<BooruActivity>(styl
             singleLine = true
             setPadding(dip(3), 0, dip(37), 0)
             setAdapter(viewModel.getAutocompleteAdapter(context, viewModel.booru))
-            setActionSearch(viewModel.booru)
+            setActionSearch(viewModel)
         }.lparams(matchConstraint, matchConstraint) {
             leftToLeft = PARENT_ID
             rightToRight = PARENT_ID

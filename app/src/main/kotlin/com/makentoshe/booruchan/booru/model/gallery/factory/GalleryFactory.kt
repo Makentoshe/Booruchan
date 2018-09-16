@@ -14,7 +14,7 @@ interface GalleryFactory {
 
         fun createFactory(@BooruActivityUI.Gallery gallery: Int, booru: Boor): GalleryFactory {
             return when (gallery) {
-                BooruActivityUI.GALLERY_POST -> PostOrderedInfinityGalleryFactory(booru)
+                BooruActivityUI.GALLERY_POST_ORD_INF -> PostOrderedInfinityGalleryFactory(booru)
 //                BooruActivityUI.GALLERY_COMMENT -> CommentGalleryFactory()
                 else -> throw IllegalArgumentException(gallery.toString())
             }

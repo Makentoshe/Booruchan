@@ -6,8 +6,12 @@ import android.view.ViewGroup
 import com.makentoshe.booruchan.booru.view.posts.PostOrderedInfinityAdapterViewHolderUI
 import org.jetbrains.anko.*
 
-class PostOrderedInfinityAdapter(private val viewModel: PostOrderedInfinityViewModel)
+class PostOrderedInfinityAdapter(private val viewModel: PostOrderedInfinityViewModel, private val searchTerm: String)
     : RecyclerView.Adapter<PostOrderedInfinityAdapter.ViewHolder>() {
+
+    init {
+        println("Create with term $searchTerm")
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
