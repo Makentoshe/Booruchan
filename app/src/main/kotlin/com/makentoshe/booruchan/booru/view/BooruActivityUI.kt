@@ -78,7 +78,7 @@ class BooruActivityUI(style: Style) : StyleableAnkoComponent<BooruActivity>(styl
                     .setSupportActionBar(ui.owner)
                     .setHomeIcon(style.toolbarForegroundColor, ui.owner)
                     .setHamburgerIcon(ui.owner, this@createContentView)
-            createGallery(GalleryFactory.createFactory(gallery), ui)
+            createGallery(GalleryFactory.createFactory(gallery, viewModel.booru), ui)
             createSearchViewAlpha(ui, viewModel)
 
         }.lparams(matchParent, matchParent)

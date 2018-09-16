@@ -6,7 +6,8 @@ import android.view.ViewGroup
 import com.makentoshe.booruchan.booru.view.posts.PostOrderedInfinityAdapterViewHolderUI
 import org.jetbrains.anko.*
 
-class PostOrderedInfinityAdapter : RecyclerView.Adapter<PostOrderedInfinityAdapter.ViewHolder>() {
+class PostOrderedInfinityAdapter(private val viewModel: PostOrderedInfinityViewModel)
+    : RecyclerView.Adapter<PostOrderedInfinityAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
@@ -15,11 +16,13 @@ class PostOrderedInfinityAdapter : RecyclerView.Adapter<PostOrderedInfinityAdapt
     }
 
     override fun getItemCount(): Int {
-        return 10
+        return Int.MAX_VALUE
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {}
-
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        //todo implement this
+        println("Load row $position")
+    }
 
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
