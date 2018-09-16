@@ -103,6 +103,7 @@ class BooruActivityUI(style: Style) : StyleableAnkoComponent<BooruActivity>(styl
         return toolbar {
             id = R.id.booru_content_toolbar
             setTitleTextColor(ContextCompat.getColor(context, style.toolbarForegroundColor))
+            setSubtitleTextColor(ContextCompat.getColor(context, style.toolbarForegroundColor))
             title = viewModel.booru.getBooruName()
             subtitle = "Posts"
             backgroundColorResource = style.toolbarBackgroundColor
