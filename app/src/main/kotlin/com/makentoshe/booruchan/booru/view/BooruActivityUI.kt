@@ -79,12 +79,12 @@ class BooruActivityUI(style: Style) : StyleableAnkoComponent<BooruActivity>(styl
                     .setSupportActionBar(ui.owner)
                     .setHomeIcon(style.toolbarForegroundColor, ui.owner)
                     .setHamburgerIcon(ui.owner, this@createContentView)
-            createGallery(GalleryFactory.createFactory(gallery), viewModel)
+            createGallery(GalleryFactory.createFactory(gallery), ui)
         }.lparams(matchParent, matchParent)
     }
 
-    private fun _ConstraintLayout.createGallery(galleryFactory: GalleryFactory, viewModel: BooruViewModel) {
-        val gallery = galleryFactory.createGallery(viewModel)
+    private fun _ConstraintLayout.createGallery(galleryFactory: GalleryFactory, ui: AnkoContext<BooruActivity>) {
+        val gallery = galleryFactory.createGallery(ui.owner)
         frameLayout {
             gallery.createView(this)
         }.lparams {
