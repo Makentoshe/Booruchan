@@ -1,10 +1,10 @@
 package com.makentoshe.booruchan.booru.view
 
 import android.annotation.SuppressLint
-import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProviders
 import android.graphics.Color
 import android.graphics.PorterDuff
+import android.support.annotation.IntDef
 import android.support.constraint.ConstraintSet.PARENT_ID
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.Toolbar
@@ -18,6 +18,7 @@ import android.widget.LinearLayout
 import android.widget.ProgressBar
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.booru.BooruViewModel
+import com.makentoshe.booruchan.booru.model.gallery.GalleryFactory
 import com.makentoshe.booruchan.common.StyleableAnkoComponent
 import com.makentoshe.booruchan.common.forLollipop
 import com.makentoshe.booruchan.common.styles.Style
@@ -35,6 +36,18 @@ import org.jetbrains.anko.support.v4.drawerLayout
 
 //todo fix UI decreased speed
 class BooruActivityUI(style: Style) : StyleableAnkoComponent<BooruActivity>(style) {
+
+    companion object {
+        const val GALLERY_POST = 0x00000000
+        const val GALLERY_COMMENT = 0x00000004
+    }
+
+    @IntDef(GALLERY_POST, GALLERY_COMMENT)
+    @Retention(AnnotationRetention.SOURCE)
+    annotation class Gallery
+
+    @Gallery
+    private var gallery = GALLERY_POST
 
     override fun createView(ui: AnkoContext<BooruActivity>): View = with(ui) {
         val viewModel =  ViewModelProviders.of(ui.owner)[BooruViewModel::class.java]
@@ -66,7 +79,22 @@ class BooruActivityUI(style: Style) : StyleableAnkoComponent<BooruActivity>(styl
                     .setSupportActionBar(ui.owner)
                     .setHomeIcon(style.toolbarForegroundColor, ui.owner)
                     .setHamburgerIcon(ui.owner, this@createContentView)
+            createGallery(GalleryFactory.createFactory(gallery), viewModel)
         }.lparams(matchParent, matchParent)
+    }
+
+    private fun _ConstraintLayout.createGallery(galleryFactory: GalleryFactory, viewModel: BooruViewModel) {
+        val gallery = galleryFactory.createGallery(viewModel)
+        frameLayout {
+            gallery.createView(this)
+        }.lparams {
+            width = 0
+            height = 0
+            leftToLeft = PARENT_ID
+            rightToRight = PARENT_ID
+            topToBottom = R.id.booru_content_toolbar
+            bottomToBottom = PARENT_ID
+        }
     }
 
     @SuppressLint("NewApi")

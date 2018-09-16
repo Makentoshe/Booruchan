@@ -14,4 +14,5 @@
     <item name="booru_toolbar_search_delayautocompleteedittext" type="id" />
     <item name="booru_toolbar_search_clear" type="id" />
     <item name="booru_toolbar_search_progressbar" type="id" />
+    <item name="booru_content_gallery" type="id" />
 </resources>
