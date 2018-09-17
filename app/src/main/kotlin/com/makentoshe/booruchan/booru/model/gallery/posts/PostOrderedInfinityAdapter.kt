@@ -4,6 +4,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
 import com.makentoshe.booruchan.booru.view.posts.PostOrderedInfinityAdapterViewHolderUI
+import com.makentoshe.booruchan.common.api.HttpClient
 import kotlinx.coroutines.experimental.*
 import org.jetbrains.anko.*
 import java.util.*
@@ -25,9 +26,9 @@ class PostOrderedInfinityAdapter(private val viewModel: PostOrderedInfinityViewM
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) = runBlocking {
         val job = GlobalScope.launch(Dispatchers.Default) {
-            //todo implement post loading here
-            delay(1000)
-            println("Load row $position")
+            viewModel.booru.getPostsByTags(3, searchTerm, position, HttpClient()) {
+                //do something with loaded posts
+            }
         }
         jobScheduler.addJob(job)
     }
