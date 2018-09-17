@@ -5,14 +5,18 @@ import android.view.View
 import android.view.ViewGroup
 import com.makentoshe.booruchan.booru.view.posts.PostOrderedInfinityAdapterViewHolderUI
 import com.makentoshe.booruchan.common.api.HttpClient
+import com.makentoshe.booruchan.common.api.Posts
+import com.makentoshe.booruchan.common.api.entity.Post
 import kotlinx.coroutines.experimental.*
 import org.jetbrains.anko.*
 import java.util.*
+import kotlin.NoSuchElementException
 
 class PostOrderedInfinityAdapter(private val viewModel: PostOrderedInfinityViewModel, private val searchTerm: String)
     : RecyclerView.Adapter<PostOrderedInfinityAdapter.ViewHolder>() {
 
     private val jobScheduler = JobScheduler(10)
+    private val postsContainer = PostsContainer()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
@@ -25,12 +29,23 @@ class PostOrderedInfinityAdapter(private val viewModel: PostOrderedInfinityViewM
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) = runBlocking {
-        val job = GlobalScope.launch(Dispatchers.Default) {
-            viewModel.booru.getPostsByTags(3, searchTerm, position, HttpClient()) {
-                //do something with loaded posts
+       getPostsFromContainerOrLoad(position) {
+
+       }
+    }
+
+    private fun getPostsFromContainerOrLoad(position: Int, doNext: (Posts<out Post>) -> (Unit)) {
+        try {
+            doNext.invoke(postsContainer.getPostsPackage(position))
+        } catch (e: NoSuchElementException) {
+            val job = GlobalScope.launch(Dispatchers.Default) {
+                viewModel.booru.getPostsByTags(3, searchTerm, position, HttpClient()) {
+                    postsContainer.addPostsPackage(position, it)
+                    doNext.invoke(it)
+                }
             }
+            jobScheduler.addJob(job)
         }
-        jobScheduler.addJob(job)
     }
 
 
@@ -51,6 +66,27 @@ class PostOrderedInfinityAdapter(private val viewModel: PostOrderedInfinityViewM
                 jobDeque.removeFirst().cancel()
             }
             jobDeque.addLast(job)
+        }
+
+    }
+
+    class PostsContainer(private val packageSize: Int = 50) {
+
+        private val postsPackage = ArrayDeque<Pair<Int, Posts<out Post>>>()
+
+        fun addPostsPackage(index: Int, posts: Posts<out Post>) {
+            val pair = Pair(index, posts)
+            if (postsPackage.size >= packageSize) {
+                postsPackage.removeFirst()
+            }
+            postsPackage.addLast(pair)
+        }
+
+        fun getPostsPackage(index: Int): Posts<out Post> {
+            postsPackage.forEach {
+                if (it.first == index) return it.second
+            }
+            throw NoSuchElementException()
         }
 
     }
