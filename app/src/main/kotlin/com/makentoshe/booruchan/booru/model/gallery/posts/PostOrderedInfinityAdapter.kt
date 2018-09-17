@@ -2,6 +2,7 @@ package com.makentoshe.booruchan.booru.model.gallery.posts
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.support.v4.app.FragmentActivity
 import android.support.v7.widget.CardView
 import android.support.v7.widget.RecyclerView
 import android.view.View
@@ -37,9 +38,8 @@ class PostOrderedInfinityAdapter(private val viewModel: PostOrderedInfinityViewM
     override fun onBindViewHolder(holder: ViewHolder, position: Int) = runBlocking {
         getPostsFromContainerOrLoad(position) { posts ->
             posts.forEachWithIndex { postIndex, post ->
-                val index = position * posts.count() + postIndex
-                getPostPreviewFromContainerOrLoad(index, post) {
-                    //todo set bitmap to image view in ui thread
+                PostPreviewDownload(post.previewUrl).download {
+                    setBitmapToImageView(it, holder.getPostPreviewView(postIndex))
                 }
             }
         }
@@ -59,17 +59,9 @@ class PostOrderedInfinityAdapter(private val viewModel: PostOrderedInfinityViewM
         }
     }
 
-    private fun getPostPreviewFromContainerOrLoad(index: Int, post: Post, `do`: (Bitmap) -> (Unit)) {
-        try {
-            val bitmap = postsContainer.getPostPreview(index)
-            `do`.invoke(bitmap)
-            println("get bitmap from container in position $index")
-        } catch (e: NoSuchElementException) {
-            PostPreviewDownload(post.previewUrl).download {
-                postsContainer.addPostPreview(index, it)
-                `do`.invoke(it)
-                println("load bitmap in position $index")
-            }
+    private fun setBitmapToImageView(bitmap: Bitmap, imageView: ImageView) {
+        (imageView.context as FragmentActivity).runOnUiThread {
+            imageView.setImageBitmap(bitmap)
         }
     }
 
@@ -112,10 +104,9 @@ class PostOrderedInfinityAdapter(private val viewModel: PostOrderedInfinityViewM
 
     }
 
-    class PostsContainer(private val packageSize: Int = 50, private val previewsSize: Int = 50) {
+    class PostsContainer(private val packageSize: Int = 50) {
 
         private val postsPackage = ArrayDeque<Pair<Int, Posts<out Post>>>()
-        private val postsPreview = ArrayDeque<Pair<Int, Bitmap>>()
 
         fun addPostsPackage(index: Int, posts: Posts<out Post>) {
             val pair = Pair(index, posts)
@@ -127,21 +118,6 @@ class PostOrderedInfinityAdapter(private val viewModel: PostOrderedInfinityViewM
 
         fun getPostsPackage(index: Int): Posts<out Post> {
             postsPackage.forEach {
-                if (it.first == index) return it.second
-            }
-            throw NoSuchElementException()
-        }
-
-        fun addPostPreview(index: Int, bitmap: Bitmap) {
-            val pair = Pair(index, bitmap)
-            if (postsPreview.size >= previewsSize) {
-                postsPreview.removeFirst().second.recycle()
-            }
-            postsPreview.addLast(pair)
-        }
-
-        fun getPostPreview(index: Int): Bitmap {
-            postsPreview.forEach {
                 if (it.first == index) return it.second
             }
             throw NoSuchElementException()
