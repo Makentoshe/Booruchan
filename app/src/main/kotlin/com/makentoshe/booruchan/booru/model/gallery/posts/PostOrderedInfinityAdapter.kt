@@ -2,10 +2,12 @@ package com.makentoshe.booruchan.booru.model.gallery.posts
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.support.v7.widget.CardView
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.booru.view.posts.PostOrderedInfinityAdapterViewHolderUI
 import com.makentoshe.booruchan.common.api.HttpClient
 import com.makentoshe.booruchan.common.api.Posts
@@ -14,6 +16,7 @@ import kotlinx.coroutines.experimental.*
 import org.jetbrains.anko.*
 import java.util.*
 import kotlin.NoSuchElementException
+import kotlin.collections.ArrayList
 
 class PostOrderedInfinityAdapter(private val viewModel: PostOrderedInfinityViewModel, private val searchTerm: String)
     : RecyclerView.Adapter<PostOrderedInfinityAdapter.ViewHolder>() {
@@ -71,6 +74,24 @@ class PostOrderedInfinityAdapter(private val viewModel: PostOrderedInfinityViewM
     }
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+
+        private val postsMainView = ArrayList<CardView>()
+        private val postsPreviewView = ArrayList<ImageView>()
+
+        init {
+            view.childrenSequence().forEach { child ->
+                postsMainView.add(child as CardView)
+                postsPreviewView.add(child.findViewById(R.id.booru_content_gallery_post_preview))
+            }
+        }
+
+        fun getPostMainView(index: Int): CardView {
+            return postsMainView[index]
+        }
+
+        fun getPostPreviewView(index: Int): ImageView {
+            return postsPreviewView[index]
+        }
 
         companion object {
             const val SIDE = 110
