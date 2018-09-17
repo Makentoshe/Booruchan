@@ -26,7 +26,7 @@ class PostOrderedInfinityAdapterViewHolderUI : AnkoComponent<ViewGroup> {
             gravity = Gravity.CENTER
             lparams(matchParent, dip(PostOrderedInfinityAdapter.ViewHolder.SIDE + 10))
 
-            (0..3).forEach { _ ->
+            (0..2).forEach { _ ->
                 createPostView()
             }
         }
