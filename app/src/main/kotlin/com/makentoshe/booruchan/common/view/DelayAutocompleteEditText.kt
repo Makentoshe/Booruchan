@@ -6,6 +6,7 @@ import android.graphics.PorterDuff
 import android.os.Handler
 import android.os.Message
 import android.support.v4.content.ContextCompat
+import android.support.v7.app.AppCompatActivity
 import android.widget.ProgressBar
 import android.support.v7.widget.AppCompatAutoCompleteTextView
 import android.text.Editable
@@ -15,7 +16,9 @@ import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.ImageView
 import com.makentoshe.booruchan.booru.BooruViewModel
+import com.makentoshe.booruchan.common.Activity
 import com.makentoshe.booruchan.common.api.Boor
+import com.makentoshe.booruchan.common.hideKeyboard
 import com.makentoshe.booruchan.common.styles.Style
 import kotlinx.coroutines.experimental.async
 import kotlinx.coroutines.experimental.launch
@@ -43,6 +46,9 @@ class DelayAutocompleteEditText(context: Context, attrs: AttributeSet? = null)
         setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                 viewModel.searchTermLiveData.value = this.text.toString()
+                (this.context as Activity).let {
+                    viewModel.hideSearchLabel(it, it.getAppSettings().getStyle())
+                }
                 return@setOnEditorActionListener true
             }
             return@setOnEditorActionListener false
