@@ -22,7 +22,7 @@ class PostOrderedInfinityGallery(private val viewModel: PostOrderedInfinityViewM
                 lparams(matchParent, matchParent)
 
                 galleryViewModel.addSearchTermObserver(context.context as LifecycleOwner) {
-                    swapAdapter(viewModel.getGalleryAdapter(it), false)
+                    swapAdapter(viewModel.newGalleryAdapter(it), false)
                 }
             }
         }.lparams(matchParent, matchParent)

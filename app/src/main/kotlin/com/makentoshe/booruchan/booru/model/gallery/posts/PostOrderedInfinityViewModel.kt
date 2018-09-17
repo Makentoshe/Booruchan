@@ -7,8 +7,23 @@ import com.makentoshe.booruchan.common.api.Boor
 
 class PostOrderedInfinityViewModel(val booru: Boor) : ViewModel() {
 
-    fun getGalleryAdapter(searchTerm: String? = ""): RecyclerView.Adapter<*>? {
-        return PostOrderedInfinityAdapter(this, searchTerm!!)
+    private lateinit var currentGalleryAdapter: PostOrderedInfinityAdapter
+
+    fun getGalleryAdapter(searchTerm: String? = ""): RecyclerView.Adapter<*> {
+        return if (this::currentGalleryAdapter.isInitialized) {
+            currentGalleryAdapter
+        } else {
+            newGalleryAdapter(searchTerm)
+        }
+    }
+
+    fun newGalleryAdapter(searchTerm: String? = ""): RecyclerView.Adapter<*> {
+        val adapter = PostOrderedInfinityAdapter(this, searchTerm!!)
+        try {
+            return adapter
+        } finally {
+            currentGalleryAdapter = adapter
+        }
     }
 
     class PostOrderedInfinityViewModelFactory(private val booru: Boor)
