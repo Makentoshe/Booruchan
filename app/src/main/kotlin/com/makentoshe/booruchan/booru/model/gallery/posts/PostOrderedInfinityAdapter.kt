@@ -22,6 +22,7 @@ class PostOrderedInfinityAdapter(private val viewModel: PostOrderedInfinityViewM
     : RecyclerView.Adapter<PostOrderedInfinityAdapter.ViewHolder>() {
 
     private val previewLoadScheduler = JobScheduler(21)
+    private val postDataLoadScheduler = JobScheduler(10)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
@@ -45,14 +46,15 @@ class PostOrderedInfinityAdapter(private val viewModel: PostOrderedInfinityViewM
     }
 
     private fun loadPostsData(position: Int, doNext: (Posts<out Post>) -> (Unit)) {
-        GlobalScope.launch(Dispatchers.Default) {
+        val job = GlobalScope.launch(Dispatchers.Default) {
             viewModel.booru.getPostsByTags(3, searchTerm, position, HttpClient()) {
                 doNext.invoke(it)
             }
         }
+        postDataLoadScheduler.addJob(job)
     }
 
-    private fun setBitmapToImageView(bitmap: Bitmap, imageView: ImageView) {
+    private fun setBitmapToImageView(bitmap: Bitmap?, imageView: ImageView) {
         (imageView.context as FragmentActivity).runOnUiThread {
             imageView.setImageBitmap(bitmap)
         }
@@ -100,9 +102,10 @@ class PostOrderedInfinityAdapter(private val viewModel: PostOrderedInfinityViewM
 
     class PostPreviewDownload(private val url: String) {
 
-        fun download(`do`: (Bitmap) -> (Unit)): Job {
+        fun download(`do`: (Bitmap?) -> (Unit)): Job {
             return GlobalScope.launch {
-                val bitmap = BitmapFactory.decodeStream(HttpClient().get(url).stream())
+                val stream = HttpClient().get(url).stream()
+                val bitmap = BitmapFactory.decodeStream(stream)
                 `do`.invoke(bitmap)
             }
         }
