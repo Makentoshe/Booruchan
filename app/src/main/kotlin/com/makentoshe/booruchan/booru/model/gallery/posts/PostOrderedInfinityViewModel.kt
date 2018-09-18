@@ -26,6 +26,14 @@ class PostOrderedInfinityViewModel(val booru: Boor) : ViewModel() {
         }
     }
 
+    fun getSearchTerm(): String {
+        return if (this::currentGalleryAdapter.isInitialized) {
+            currentGalleryAdapter.searchTerm
+        } else {
+            ""
+        }
+    }
+
     class PostOrderedInfinityViewModelFactory(private val booru: Boor)
         : ViewModelProvider.NewInstanceFactory() {
 

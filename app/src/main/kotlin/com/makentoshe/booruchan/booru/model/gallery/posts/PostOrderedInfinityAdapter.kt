@@ -18,7 +18,7 @@ import org.jetbrains.anko.*
 import java.util.*
 import kotlin.collections.ArrayList
 
-class PostOrderedInfinityAdapter(private val viewModel: PostOrderedInfinityViewModel, private val searchTerm: String)
+class PostOrderedInfinityAdapter(private val viewModel: PostOrderedInfinityViewModel, val searchTerm: String)
     : RecyclerView.Adapter<PostOrderedInfinityAdapter.ViewHolder>() {
 
     private val previewLoadScheduler = JobScheduler(21)

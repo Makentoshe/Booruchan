@@ -1,9 +1,7 @@
 package com.makentoshe.booruchan.booru.model.gallery.posts
 
 import android.annotation.SuppressLint
-import android.arch.lifecycle.LifecycleOwner
 import android.support.design.widget.FloatingActionButton
-import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.View
@@ -33,11 +31,15 @@ class PostOrderedInfinityGallery(private val viewModel: PostOrderedInfinityViewM
 
     override fun onSearchStarted(): (String?) -> (Unit) {
         return {
-            if (this@PostOrderedInfinityGallery::recyclerView.isInitialized) {
-                recyclerView.apply {
-                    adapter = viewModel.newGalleryAdapter(it)
-                    scrollToPosition(0)
-                }
+            createNewGalleryAdapterAndScrollToStartPosition(it)
+        }
+    }
+
+    private fun createNewGalleryAdapterAndScrollToStartPosition(searchTerm: String?) {
+        if (this@PostOrderedInfinityGallery::recyclerView.isInitialized) {
+            recyclerView.apply {
+                adapter = viewModel.newGalleryAdapter(searchTerm)
+                scrollToPosition(0)
             }
         }
     }
@@ -47,8 +49,8 @@ class PostOrderedInfinityGallery(private val viewModel: PostOrderedInfinityViewM
             swipeRefreshLayout {
 
                 setOnRefreshListener {
-                    onSearchStarted()
-                    this.isRefreshing = false
+                    createNewGalleryAdapterAndScrollToStartPosition(viewModel.getSearchTerm())
+                    this@swipeRefreshLayout.isRefreshing = false
                 }
 
                 recyclerView = recyclerView {
@@ -75,7 +77,6 @@ class PostOrderedInfinityGallery(private val viewModel: PostOrderedInfinityViewM
             }.lparams(matchParent, matchParent)
         }
     }
-
 
     @SuppressLint("NewApi")
     private fun createFloatingActionButton(rlcontext: @AnkoViewDslMarker _RelativeLayout) {
