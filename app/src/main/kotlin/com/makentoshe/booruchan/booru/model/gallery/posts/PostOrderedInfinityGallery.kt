@@ -2,6 +2,7 @@ package com.makentoshe.booruchan.booru.model.gallery.posts
 
 import android.annotation.SuppressLint
 import android.arch.lifecycle.LifecycleOwner
+import android.support.design.widget.FloatingActionButton
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -20,6 +21,7 @@ class PostOrderedInfinityGallery(private val viewModel: PostOrderedInfinityViewM
                                  private val appSettings: AppSettings) : Gallery {
 
     private lateinit var recyclerView: RecyclerView
+    private lateinit var floatingActionButton: FloatingActionButton
 
     override fun createView(context: @AnkoViewDslMarker _FrameLayout, galleryViewModel: GalleryViewModel)
             : View = with(context) {
@@ -52,7 +54,20 @@ class PostOrderedInfinityGallery(private val viewModel: PostOrderedInfinityViewM
                 recyclerView = recyclerView {
                     id = R.id.booru_content_gallery
                     adapter = viewModel.getGalleryAdapter()
-                    layoutManager = LinearLayoutManager(this.context)
+                    val llm = LinearLayoutManager(this.context)
+                    layoutManager = llm
+
+                    addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                        override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
+                            if (this@PostOrderedInfinityGallery::floatingActionButton.isInitialized) {
+                                if (llm.findFirstVisibleItemPosition() >= 3) {
+                                    floatingActionButton.show()
+                                } else {
+                                    floatingActionButton.hide()
+                                }
+                            }
+                        }
+                    })
 
                     lparams(matchParent, matchParent)
                 }
@@ -65,7 +80,8 @@ class PostOrderedInfinityGallery(private val viewModel: PostOrderedInfinityViewM
     @SuppressLint("NewApi")
     private fun createFloatingActionButton(rlcontext: @AnkoViewDslMarker _RelativeLayout) {
         with(rlcontext) {
-            floatingActionButton {
+            floatingActionButton = floatingActionButton {
+                visibility = View.GONE
                 id = R.id.booru_content_gallery_fab
                 setImageResource(appSettings.getStyle().iconArrowUp)
                 forLollipop {
