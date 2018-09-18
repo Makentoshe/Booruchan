@@ -88,6 +88,12 @@ class PostOrderedInfinityGallery(private val viewModel: PostOrderedInfinityViewM
                     elevation = dip(4).toFloat()
                 }
 
+                setOnClickListener {
+                    if (this@PostOrderedInfinityGallery::recyclerView.isInitialized) {
+                        recyclerView.smoothScrollToPosition(0)
+                    }
+                }
+
             }.lparams {
                 alignParentBottom()
                 alignParentRight()
