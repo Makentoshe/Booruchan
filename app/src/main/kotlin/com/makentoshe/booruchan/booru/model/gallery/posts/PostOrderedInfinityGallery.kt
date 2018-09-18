@@ -2,6 +2,7 @@ package com.makentoshe.booruchan.booru.model.gallery.posts
 
 import android.annotation.SuppressLint
 import android.arch.lifecycle.LifecycleOwner
+import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.View
@@ -32,7 +33,7 @@ class PostOrderedInfinityGallery(private val viewModel: PostOrderedInfinityViewM
         return {
             if (this@PostOrderedInfinityGallery::recyclerView.isInitialized) {
                 recyclerView.apply {
-                    swapAdapter(viewModel.newGalleryAdapter(it), true)
+                    adapter = viewModel.newGalleryAdapter(it)
                     scrollToPosition(0)
                 }
             }
@@ -42,6 +43,12 @@ class PostOrderedInfinityGallery(private val viewModel: PostOrderedInfinityViewM
     private fun createGalleryView(rlcontext: @AnkoViewDslMarker _RelativeLayout) {
         with(rlcontext) {
             swipeRefreshLayout {
+
+                setOnRefreshListener {
+                    onSearchStarted()
+                    this.isRefreshing = false
+                }
+
                 recyclerView = recyclerView {
                     id = R.id.booru_content_gallery
                     adapter = viewModel.getGalleryAdapter()
