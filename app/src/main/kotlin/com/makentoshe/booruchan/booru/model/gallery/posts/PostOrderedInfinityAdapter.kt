@@ -28,6 +28,9 @@ class PostOrderedInfinityAdapter(private val dataLoader: AdapterDataLoader)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) = runBlocking {
+        for (i in 0..2) {
+            holder.getPostPreviewView(i).setImageDrawable(null)
+        }
         dataLoader.getPostsData(position) { posts ->
             for (postIndex in 0 until posts.count() step 1) {
                 dataLoader.getPostPreview(posts.getPost(postIndex)) { bitmap ->
