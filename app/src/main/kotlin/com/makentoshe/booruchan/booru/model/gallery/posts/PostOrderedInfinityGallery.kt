@@ -1,31 +1,76 @@
 package com.makentoshe.booruchan.booru.model.gallery.posts
 
+import android.annotation.SuppressLint
 import android.arch.lifecycle.LifecycleOwner
 import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.view.View
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.booru.model.gallery.Gallery
 import com.makentoshe.booruchan.booru.model.gallery.GalleryViewModel
+import com.makentoshe.booruchan.common.forLollipop
+import com.makentoshe.booruchan.common.settings.application.AppSettings
 import org.jetbrains.anko.*
+import org.jetbrains.anko.design.floatingActionButton
 import org.jetbrains.anko.recyclerview.v7.recyclerView
 import org.jetbrains.anko.support.v4.swipeRefreshLayout
 
-class PostOrderedInfinityGallery(private val viewModel: PostOrderedInfinityViewModel) : Gallery {
+class PostOrderedInfinityGallery(private val viewModel: PostOrderedInfinityViewModel,
+                                 private val appSettings: AppSettings) : Gallery {
+
+    private lateinit var recyclerView: RecyclerView
 
     override fun createView(context: @AnkoViewDslMarker _FrameLayout, galleryViewModel: GalleryViewModel)
             : View = with(context) {
-        swipeRefreshLayout {
-            recyclerView {
-                id = R.id.booru_content_gallery
-                adapter = viewModel.getGalleryAdapter()
-                layoutManager = LinearLayoutManager(this.context)
-                lparams(matchParent, matchParent)
+        relativeLayout {
+            createGalleryView(this)
+            createFloatingActionButton(this)
+        }.lparams(matchParent, matchParent)
+    }
 
-                galleryViewModel.addSearchTermObserver(context.context as LifecycleOwner) {
-                    swapAdapter(viewModel.newGalleryAdapter(it), false)
+    override fun onSearchStarted(): (String?) -> (Unit) {
+        return {
+            if (this@PostOrderedInfinityGallery::recyclerView.isInitialized) {
+                recyclerView.apply {
+                    swapAdapter(viewModel.newGalleryAdapter(it), true)
                     scrollToPosition(0)
                 }
             }
-        }.lparams(matchParent, matchParent)
+        }
     }
+
+    private fun createGalleryView(rlcontext: @AnkoViewDslMarker _RelativeLayout) {
+        with(rlcontext) {
+            swipeRefreshLayout {
+                recyclerView = recyclerView {
+                    id = R.id.booru_content_gallery
+                    adapter = viewModel.getGalleryAdapter()
+                    layoutManager = LinearLayoutManager(this.context)
+
+                    lparams(matchParent, matchParent)
+                }
+
+            }.lparams(matchParent, matchParent)
+        }
+    }
+
+
+    @SuppressLint("NewApi")
+    private fun createFloatingActionButton(rlcontext: @AnkoViewDslMarker _RelativeLayout) {
+        with(rlcontext) {
+            floatingActionButton {
+                id = R.id.booru_content_gallery_fab
+                setImageResource(appSettings.getStyle().iconArrowUp)
+                forLollipop {
+                    elevation = dip(4).toFloat()
+                }
+
+            }.lparams {
+                alignParentBottom()
+                alignParentRight()
+                setMargins(0, 0, dip(20), dip(20))
+            }
+        }
+    }
+
 }

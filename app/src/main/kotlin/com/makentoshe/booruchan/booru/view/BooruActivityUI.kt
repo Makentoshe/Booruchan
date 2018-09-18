@@ -90,6 +90,7 @@ class BooruActivityUI(style: Style) : StyleableAnkoComponent<BooruActivity>(styl
                 .createGallery(ui.owner)
         frameLayout {
             gallery.createView(this, viewModel)
+            viewModel.addSearchTermObserver(ui.owner, gallery.onSearchStarted())
         }.lparams {
             width = 0
             height = 0

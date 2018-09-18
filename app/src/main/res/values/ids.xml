@@ -18,4 +18,5 @@
     <item name="booru_content_gallery_row" type="id" />
     <item name="booru_content_gallery_post_main" type="id" />
     <item name="booru_content_gallery_post_preview" type="id" />
+    <item name="booru_content_gallery_fab" type="id" />
 </resources>

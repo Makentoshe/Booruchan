@@ -1,14 +1,14 @@
 package com.makentoshe.booruchan.booru.model.gallery.factory
 
-import android.support.v7.app.AppCompatActivity
 import com.makentoshe.booruchan.booru.model.gallery.Gallery
 import com.makentoshe.booruchan.booru.view.BooruActivityUI
+import com.makentoshe.booruchan.common.Activity
 import com.makentoshe.booruchan.common.api.Boor
 import java.lang.IllegalArgumentException
 
 interface GalleryFactory {
 
-    fun createGallery(activity: AppCompatActivity): Gallery
+    fun createGallery(activity: Activity): Gallery
 
     companion object {
 
