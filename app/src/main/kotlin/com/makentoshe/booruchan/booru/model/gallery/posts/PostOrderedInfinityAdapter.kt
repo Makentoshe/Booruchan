@@ -1,6 +1,8 @@
 package com.makentoshe.booruchan.booru.model.gallery.posts
 
+import android.content.Context
 import android.graphics.Bitmap
+import android.os.Looper
 import android.support.v4.app.FragmentActivity
 import android.support.v7.widget.CardView
 import android.support.v7.widget.RecyclerView
@@ -10,8 +12,10 @@ import android.widget.ImageView
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.booru.model.gallery.common.AdapterDataLoader
 import com.makentoshe.booruchan.booru.view.posts.PostOrderedInfinityAdapterViewHolderUI
+import es.dmoral.toasty.Toasty
 import kotlinx.coroutines.experimental.*
 import org.jetbrains.anko.*
+import java.lang.Exception
 import kotlin.collections.ArrayList
 
 class PostOrderedInfinityAdapter(private val dataLoader: AdapterDataLoader)
@@ -32,11 +36,25 @@ class PostOrderedInfinityAdapter(private val dataLoader: AdapterDataLoader)
             holder.getPostPreviewView(i).setImageDrawable(null)
         }
         dataLoader.getPostsData(position) { posts ->
+            if (posts == null) {
+                callMessageWhichDisplayingAnError(holder.itemView.context)
+                return@getPostsData
+            }
             for (postIndex in 0 until posts.count() step 1) {
                 dataLoader.getPostPreview(posts.getPost(postIndex)) { bitmap ->
+                    if (bitmap == null) {
+                        callMessageWhichDisplayingAnError(holder.itemView.context)
+                        return@getPostPreview
+                    }
                     setBitmapToImageView(bitmap, holder.getPostPreviewView(postIndex))
                 }
             }
+        }
+    }
+
+    private fun callMessageWhichDisplayingAnError(context: Context) {
+        (context as FragmentActivity).runOnUiThread {
+            Toasty.error(context, context.getString(R.string.network_error)).show()
         }
     }
 

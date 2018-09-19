@@ -3,7 +3,6 @@ package com.makentoshe.booruchan.booru.model.gallery.common
 import com.makentoshe.booruchan.common.api.HttpClient
 import com.makentoshe.booruchan.common.api.gelbooru.Gelbooru
 import io.mockk.*
-import kotlinx.coroutines.experimental.delay
 import kotlinx.coroutines.experimental.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
@@ -54,7 +53,9 @@ class AdapterDataLoaderTest {
             bool = true
             return@getPostsData
         }
-        delay(1000)
+        while (!bool) {
+            Thread.yield()
+        }
         assertTrue(bool)
     }
 

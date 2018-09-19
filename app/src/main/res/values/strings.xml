@@ -8,4 +8,5 @@
     <string name="drawer_open">Open drawer</string>
     <string name="search_hint">Ex: blue_sky cloud 1girl</string>
     <string name="color_theme">Color theme</string>
+    <string name="network_error">The error was occur while a posts was loading… May be the network troubles?</string>
 </resources>
