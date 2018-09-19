@@ -10,6 +10,7 @@ import com.makentoshe.booruchan.booru.model.gallery.Gallery
 import com.makentoshe.booruchan.booru.model.gallery.GalleryViewModel
 import com.makentoshe.booruchan.common.forLollipop
 import com.makentoshe.booruchan.common.settings.application.AppSettings
+import es.dmoral.toasty.Toasty
 import org.jetbrains.anko.*
 import org.jetbrains.anko.design.floatingActionButton
 import org.jetbrains.anko.recyclerview.v7.recyclerView
@@ -51,6 +52,7 @@ class PostOrderedInfinityGallery(private val viewModel: PostOrderedInfinityViewM
                 setOnRefreshListener {
                     createNewGalleryAdapterAndScrollToStartPosition(viewModel.getSearchTerm())
                     this@swipeRefreshLayout.isRefreshing = false
+                    Toasty.success(context, context.getString(R.string.updated)).show()
                 }
 
                 recyclerView = recyclerView {
