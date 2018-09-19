@@ -1,10 +1,10 @@
 package com.makentoshe.booruchan.booru.view
 
 import android.annotation.SuppressLint
-import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProviders
 import android.graphics.Color
 import android.graphics.PorterDuff
+import android.support.annotation.IntDef
 import android.support.constraint.ConstraintSet.PARENT_ID
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.Toolbar
@@ -18,6 +18,7 @@ import android.widget.LinearLayout
 import android.widget.ProgressBar
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.booru.BooruViewModel
+import com.makentoshe.booruchan.booru.model.gallery.factory.GalleryFactory
 import com.makentoshe.booruchan.common.StyleableAnkoComponent
 import com.makentoshe.booruchan.common.forLollipop
 import com.makentoshe.booruchan.common.styles.Style
@@ -35,6 +36,18 @@ import org.jetbrains.anko.support.v4.drawerLayout
 
 //todo fix UI decreased speed
 class BooruActivityUI(style: Style) : StyleableAnkoComponent<BooruActivity>(style) {
+
+    companion object {
+        const val GALLERY_POST_ORD_INF = 0x00000000
+        const val GALLERY_COMMENT = 0x10000000
+    }
+
+    @IntDef(GALLERY_POST_ORD_INF, GALLERY_COMMENT)
+    @Retention(AnnotationRetention.SOURCE)
+    annotation class Gallery
+
+    @Gallery
+    private var gallery = GALLERY_POST_ORD_INF
 
     override fun createView(ui: AnkoContext<BooruActivity>): View = with(ui) {
         val viewModel =  ViewModelProviders.of(ui.owner)[BooruViewModel::class.java]
@@ -61,12 +74,31 @@ class BooruActivityUI(style: Style) : StyleableAnkoComponent<BooruActivity>(styl
     private fun _DrawerLayout.createContentView(viewModel: BooruViewModel, ui: AnkoContext<BooruActivity>) {
         constraintLayout {
             createSearchViewLayout(viewModel)
-            createSearchViewAlpha(ui, viewModel)
             createToolbar(viewModel)
                     .setSupportActionBar(ui.owner)
                     .setHomeIcon(style.toolbarForegroundColor, ui.owner)
                     .setHamburgerIcon(ui.owner, this@createContentView)
+            createGallery(viewModel, ui)
+            createSearchViewAlpha(ui, viewModel)
+
         }.lparams(matchParent, matchParent)
+    }
+
+    private fun _ConstraintLayout.createGallery(viewModel: BooruViewModel, ui: AnkoContext<BooruActivity>) {
+        val gallery =  GalleryFactory
+                .createFactory(gallery, viewModel.booru)
+                .createGallery(ui.owner)
+        frameLayout {
+            gallery.createView(this, viewModel)
+            viewModel.addSearchTermObserver(ui.owner, gallery.onSearchStarted())
+        }.lparams {
+            width = 0
+            height = 0
+            leftToLeft = PARENT_ID
+            rightToRight = PARENT_ID
+            topToBottom = R.id.booru_content_toolbar
+            bottomToBottom = PARENT_ID
+        }
     }
 
     @SuppressLint("NewApi")
@@ -74,6 +106,7 @@ class BooruActivityUI(style: Style) : StyleableAnkoComponent<BooruActivity>(styl
         return toolbar {
             id = R.id.booru_content_toolbar
             setTitleTextColor(ContextCompat.getColor(context, style.toolbarForegroundColor))
+            setSubtitleTextColor(ContextCompat.getColor(context, style.toolbarForegroundColor))
             title = viewModel.booru.getBooruName()
             subtitle = "Posts"
             backgroundColorResource = style.toolbarBackgroundColor
@@ -141,7 +174,7 @@ class BooruActivityUI(style: Style) : StyleableAnkoComponent<BooruActivity>(styl
             singleLine = true
             setPadding(dip(3), 0, dip(37), 0)
             setAdapter(viewModel.getAutocompleteAdapter(context, viewModel.booru))
-            setActionSearch(viewModel.booru)
+            setActionSearch(viewModel)
         }.lparams(matchConstraint, matchConstraint) {
             leftToLeft = PARENT_ID
             rightToRight = PARENT_ID

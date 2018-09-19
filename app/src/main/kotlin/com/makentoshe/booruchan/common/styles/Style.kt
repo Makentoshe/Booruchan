@@ -59,4 +59,8 @@ interface Style {
     @get:DrawableRes
     val avdFromMagnifyToCross: Int
         get() = R.drawable.avd_magnify_close_vector_white
+
+    @get:DrawableRes
+    val iconArrowUp: Int
+        get() = R.drawable.ic_arrow_vector
 }
