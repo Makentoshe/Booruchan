@@ -7,7 +7,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.View
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.booru.model.gallery.Gallery
-import com.makentoshe.booruchan.booru.model.gallery.GalleryViewModel
+import com.makentoshe.booruchan.booru.model.ContainerViewModel
 import com.makentoshe.booruchan.common.forLollipop
 import com.makentoshe.booruchan.common.settings.application.AppSettings
 import es.dmoral.toasty.Toasty
@@ -22,7 +22,7 @@ class PostOrderedInfinityGallery(private val viewModel: PostOrderedInfinityViewM
     private lateinit var recyclerView: RecyclerView
     private lateinit var floatingActionButton: FloatingActionButton
 
-    override fun createView(context: @AnkoViewDslMarker _FrameLayout, galleryViewModel: GalleryViewModel)
+    override fun createView(context: @AnkoViewDslMarker _FrameLayout, containerViewModel: ContainerViewModel)
             : View = with(context) {
         relativeLayout {
             createGalleryView(this)

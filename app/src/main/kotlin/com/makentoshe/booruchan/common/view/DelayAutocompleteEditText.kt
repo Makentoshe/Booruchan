@@ -16,6 +16,7 @@ import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.ImageView
 import com.makentoshe.booruchan.booru.BooruViewModel
+import com.makentoshe.booruchan.booru.model.ContainerViewModel
 import com.makentoshe.booruchan.common.Activity
 import com.makentoshe.booruchan.common.api.Boor
 import com.makentoshe.booruchan.common.hideKeyboard
@@ -42,10 +43,10 @@ class DelayAutocompleteEditText(context: Context, attrs: AttributeSet? = null)
         this.autoCompleteDelay = autoCompleteDelay
     }
 
-    fun setActionSearch(viewModel: BooruViewModel): DelayAutocompleteEditText {
+    fun setActionSearch(viewModel: ContainerViewModel): DelayAutocompleteEditText {
         setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                viewModel.searchTermLiveData.value = this.text.toString()
+                viewModel.addValueForObserver(text.toString())
                 (this.context as Activity).let {
                     viewModel.hideSearchLabel(it, it.getAppSettings().getStyle())
                 }

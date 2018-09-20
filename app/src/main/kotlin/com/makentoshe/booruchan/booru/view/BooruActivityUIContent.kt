@@ -15,6 +15,7 @@ import android.widget.LinearLayout
 import android.widget.ProgressBar
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.booru.BooruViewModel
+import com.makentoshe.booruchan.booru.model.ContainerViewModel
 import com.makentoshe.booruchan.booru.model.gallery.factory.GalleryFactory
 import com.makentoshe.booruchan.common.StyleableAnkoComponent
 import com.makentoshe.booruchan.common.forLollipop
@@ -31,7 +32,7 @@ import org.jetbrains.anko.sdk25.coroutines.onClick
 import org.jetbrains.anko.support.v4._DrawerLayout
 
 class BooruActivityUIContent(style: Style,
-                             private val viewModel: BooruViewModel,
+                             private val viewModel: ContainerViewModel,
                              private val dlContext: _DrawerLayout)
     :StyleableAnkoComponent<BooruActivity>(style) {
 
@@ -40,13 +41,13 @@ class BooruActivityUIContent(style: Style,
 
     override fun createView(ui: AnkoContext<BooruActivity>): View = with(dlContext) {
         constraintLayout {
-            createSearchViewLayout(viewModel)
-            createToolbar(viewModel)
+            createSearchViewLayout()
+            createToolbar()
                     .setSupportActionBar(ui.owner)
                     .setHomeIcon(style.toolbarForegroundColor, ui.owner)
                     .setHamburgerIcon(ui.owner, dlContext)
 //            createGallery(viewModel, ui)
-            createSearchViewAlpha(ui, viewModel)
+            createSearchViewAlpha(ui)
 
         }.lparams(matchParent, matchParent)
     }
@@ -54,7 +55,7 @@ class BooruActivityUIContent(style: Style,
 
     private fun _ConstraintLayout.createGallery(viewModel: BooruViewModel, ui: AnkoContext<BooruActivity>) {
         val gallery =  GalleryFactory
-                .createFactory(gallery, viewModel.booru)
+                .createFactory(gallery, viewModel.getBooru())
                 .createGallery(ui.owner)
         frameLayout {
             gallery.createView(this, viewModel)
@@ -70,12 +71,12 @@ class BooruActivityUIContent(style: Style,
     }
 
     @SuppressLint("NewApi")
-    private fun _ConstraintLayout.createToolbar(viewModel: BooruViewModel): Toolbar {
+    private fun _ConstraintLayout.createToolbar(): Toolbar {
         return toolbar {
             id = R.id.booru_content_toolbar
             setTitleTextColor(ContextCompat.getColor(context, style.toolbarForegroundColor))
             setSubtitleTextColor(ContextCompat.getColor(context, style.toolbarForegroundColor))
-            title = viewModel.booru.getBooruName()
+            title = viewModel.getBooru().getBooruName()
             subtitle = "Posts"
             backgroundColorResource = style.toolbarBackgroundColor
             forLollipop {
@@ -91,7 +92,7 @@ class BooruActivityUIContent(style: Style,
     }
 
     @SuppressLint("NewApi")
-    private fun _ConstraintLayout.createSearchViewLayout(viewModel: BooruViewModel): LinearLayout {
+    private fun _ConstraintLayout.createSearchViewLayout(): LinearLayout {
         return linearLayout {
             id = R.id.booru_content_search
             visibility = View.GONE
@@ -100,7 +101,7 @@ class BooruActivityUIContent(style: Style,
             forLollipop {
                 elevation = dip(4).toFloat()
             }
-            createSearchViewInputLayout(viewModel)
+            createSearchViewInputLayout()
 
         }.lparams {
             width = matchConstraint
@@ -112,7 +113,7 @@ class BooruActivityUIContent(style: Style,
     }
 
     @SuppressLint("NewApi")
-    private fun _LinearLayout.createSearchViewInputLayout(viewModel: BooruViewModel) {
+    private fun _LinearLayout.createSearchViewInputLayout() {
         cardView {
             background.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP)
             preventCornerOverlap = false
@@ -122,7 +123,7 @@ class BooruActivityUIContent(style: Style,
             }
 
             constraintLayout {
-                createDelayAutocompleteEditText(viewModel)
+                createDelayAutocompleteEditText()
                         .setClearIcon(createClearIconForDelayAutocompleteEditText(), style)
                         .setProgressBar(createProgressBarForDelayAutocompleteEditText())
 
@@ -133,7 +134,7 @@ class BooruActivityUIContent(style: Style,
         }
     }
 
-    private fun _ConstraintLayout.createDelayAutocompleteEditText(viewModel: BooruViewModel): DelayAutocompleteEditText {
+    private fun _ConstraintLayout.createDelayAutocompleteEditText(): DelayAutocompleteEditText {
         return delayAutocompleteEditText {
             id = R.id.booru_toolbar_search_delayautocompleteedittext
             hintResource = R.string.search_hint
@@ -141,7 +142,7 @@ class BooruActivityUIContent(style: Style,
             inputType = EditorInfo.TYPE_CLASS_TEXT
             singleLine = true
             setPadding(dip(3), 0, dip(37), 0)
-            setAdapter(viewModel.getAutocompleteAdapter(context, viewModel.booru))
+            setAdapter(viewModel.getAutocompleteAdapter(context))
             setActionSearch(viewModel)
         }.lparams(matchConstraint, matchConstraint) {
             leftToLeft = ConstraintSet.PARENT_ID
@@ -177,7 +178,7 @@ class BooruActivityUIContent(style: Style,
         }
     }
 
-    private fun _ConstraintLayout.createSearchViewAlpha(ui: AnkoContext<BooruActivity>, viewModel: BooruViewModel): FrameLayout {
+    private fun _ConstraintLayout.createSearchViewAlpha(ui: AnkoContext<BooruActivity>): FrameLayout {
         return frameLayout {
             id = R.id.booru_content_alpha
             visibility = View.GONE

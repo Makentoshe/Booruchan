@@ -1,12 +1,10 @@
 package com.makentoshe.booruchan.booru.view
 
-import android.graphics.Color
 import android.support.constraint.ConstraintLayout.LayoutParams.PARENT_ID
 import android.view.Gravity
 import android.view.View
 import android.widget.ImageView
 import com.makentoshe.booruchan.R
-import com.makentoshe.booruchan.booru.BooruViewModel
 import com.makentoshe.booruchan.common.StyleableAnkoComponent
 import com.makentoshe.booruchan.common.styles.Style
 import org.jetbrains.anko.*
@@ -18,12 +16,13 @@ import android.graphics.Shader
 import android.support.v4.content.ContextCompat
 import android.view.ViewManager
 import android.widget.ImageView.ScaleType
+import com.makentoshe.booruchan.booru.model.PanelViewModel
 import com.makeramen.roundedimageview.RoundedImageView
 import org.jetbrains.anko.custom.ankoView
 
 
 class BooruActivityUIPanel(style: Style,
-                           private val viewModel: BooruViewModel,
+                           private val viewModel: PanelViewModel,
                            private val dlContext: _DrawerLayout)
     : StyleableAnkoComponent<BooruActivity>(style) {
 
