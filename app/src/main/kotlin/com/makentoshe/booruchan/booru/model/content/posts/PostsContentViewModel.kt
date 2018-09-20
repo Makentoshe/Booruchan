@@ -8,7 +8,7 @@ import com.makentoshe.booruchan.booru.model.content.common.Downloader
 import com.makentoshe.booruchan.common.api.Boor
 import com.makentoshe.booruchan.common.api.HttpClient
 
-class PostOrderedInfinityViewModel(val booru: Boor, client: HttpClient) : ViewModel() {
+class PostsContentViewModel(val booru: Boor, client: HttpClient) : ViewModel() {
 
     private lateinit var currentGalleryAdapter: PostOrderedInfinityAdapter
     private val downloader = Downloader(client)
@@ -37,12 +37,12 @@ class PostOrderedInfinityViewModel(val booru: Boor, client: HttpClient) : ViewMo
         return searchTerm
     }
 
-    class PostOrderedInfinityViewModelFactory(private val booru: Boor)
+    class Factory(private val booru: Boor)
         : ViewModelProvider.NewInstanceFactory() {
 
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            if (modelClass == PostOrderedInfinityViewModel::class.java) {
-                return PostOrderedInfinityViewModel(booru, HttpClient()) as T
+            if (modelClass == PostsContentViewModel::class.java) {
+                return PostsContentViewModel(booru, HttpClient()) as T
             }
             return super.create(modelClass)
         }

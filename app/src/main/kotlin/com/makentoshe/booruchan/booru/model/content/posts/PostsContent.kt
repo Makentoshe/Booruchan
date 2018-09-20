@@ -16,8 +16,8 @@ import org.jetbrains.anko.design.floatingActionButton
 import org.jetbrains.anko.recyclerview.v7.recyclerView
 import org.jetbrains.anko.support.v4.swipeRefreshLayout
 
-class PostOrderedInfinityContent(private val viewModel: PostOrderedInfinityViewModel,
-                                 private val appSettings: AppSettings) : Content {
+class PostsContent(private val viewModel: PostsContentViewModel,
+                   private val appSettings: AppSettings) : Content {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var floatingActionButton: FloatingActionButton
@@ -37,7 +37,7 @@ class PostOrderedInfinityContent(private val viewModel: PostOrderedInfinityViewM
     }
 
     private fun createNewGalleryAdapterAndScrollToStartPosition(searchTerm: String?) {
-        if (this@PostOrderedInfinityContent::recyclerView.isInitialized) {
+        if (this@PostsContent::recyclerView.isInitialized) {
             recyclerView.apply {
                 adapter = viewModel.newGalleryAdapter(searchTerm)
                 scrollToPosition(0)
@@ -63,7 +63,7 @@ class PostOrderedInfinityContent(private val viewModel: PostOrderedInfinityViewM
 
                     addOnScrollListener(object : RecyclerView.OnScrollListener() {
                         override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
-                            if (this@PostOrderedInfinityContent::floatingActionButton.isInitialized) {
+                            if (this@PostsContent::floatingActionButton.isInitialized) {
                                 if (llm.findFirstVisibleItemPosition() >= 3) {
                                     floatingActionButton.show()
                                 } else {
@@ -92,7 +92,7 @@ class PostOrderedInfinityContent(private val viewModel: PostOrderedInfinityViewM
                 }
 
                 setOnClickListener {
-                    if (this@PostOrderedInfinityContent::recyclerView.isInitialized) {
+                    if (this@PostsContent::recyclerView.isInitialized) {
                         recyclerView.smoothScrollToPosition(0)
                     }
                 }

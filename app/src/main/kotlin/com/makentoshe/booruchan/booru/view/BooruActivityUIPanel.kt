@@ -59,11 +59,11 @@ class BooruActivityUIPanel(style: Style,
 
     private fun _ConstraintLayout.createServicesList() {
         listView {
-            adapter = viewModel.getServiceListAdapter(context)
+            adapter = viewModel.getServiceListAdapter(context, style)
 
             viewModel.setSelectedItemPositionToStart()
             onItemClick { _, view, pos, _ ->
-                viewModel.onItemSelect(view!!, pos, this@listView)
+                viewModel.onItemSelect(view!!, pos, this@listView, style)
             }
 
         }.lparams(width = matchParent, height = wrapContent) {

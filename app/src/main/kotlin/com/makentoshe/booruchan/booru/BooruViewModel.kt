@@ -72,9 +72,10 @@ class BooruViewModel(private val booru: Boor) : ViewModel(), ContentViewModel, P
         return true
     }
 
-    override fun getServiceListAdapter(context: Context): ListAdapter {
+    override fun getServiceListAdapter(context: Context, style: Style): ListAdapter {
         val strings: Array<CharSequence> = context.resources.getTextArray(R.array.subservices)
-        return SelectableServiceAdapter(context, android.R.layout.simple_list_item_1, strings.asList())
+        return SelectableServiceAdapter(context, android.R.layout.simple_list_item_1,
+                strings.asList(), style.assentSecondaryColor)
     }
 
     private val selectedItemPositionLiveData = MutableLiveData<Int>()
@@ -89,11 +90,11 @@ class BooruViewModel(private val booru: Boor) : ViewModel(), ContentViewModel, P
         selectedItemPositionLiveData.value = 0
     }
 
-    override fun onItemSelect(view: View, position: Int, listView: ListView) {
+    override fun onItemSelect(view: View, position: Int, listView: ListView, style: Style) {
         if (selectedItemPositionLiveData.value != position) {
             val prevView = listView.getViewByPosition(selectedItemPositionLiveData.value!!)
-            prevView.backgroundResource = android.R.color.white
-            view.backgroundResource = R.color.MaterialIndigo200
+            prevView.backgroundResource = style.backgroundColor
+            view.backgroundResource = style.assentSecondaryColor
             selectedItemPositionLiveData.value = position
         }
     }

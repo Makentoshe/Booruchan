@@ -52,6 +52,9 @@ interface Style {
     val backgroundColor: Int
         get() = android.R.color.white
 
+    @get:ColorRes
+    val assentSecondaryColor: Int
+
     @get:DrawableRes
     val avdFromCrossToMagnify: Int
         get() = R.drawable.avd_close_magnify_vector_white

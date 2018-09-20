@@ -5,6 +5,7 @@ import android.view.View
 import android.widget.ListAdapter
 import android.widget.ListView
 import com.makentoshe.booruchan.common.api.Boor
+import com.makentoshe.booruchan.common.styles.Style
 
 interface PanelViewModel {
 
@@ -12,10 +13,10 @@ interface PanelViewModel {
 
     fun isUserLoggedIn(): Boolean
 
-    fun getServiceListAdapter(context: Context): ListAdapter
+    fun getServiceListAdapter(context: Context, style: Style): ListAdapter
 
     fun setSelectedItemPositionToStart()
 
-    fun onItemSelect(view: View, position: Int, listView: ListView)
+    fun onItemSelect(view: View, position: Int, listView: ListView, style: Style)
 
 }

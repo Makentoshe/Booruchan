@@ -8,6 +8,10 @@ import org.junit.runners.JUnit4
 @RunWith(JUnit4::class)
 class AstarteStyleTest: StyleTest(AstarteStyle()) {
 
+    override fun `secondary assent`() {
+        assertEquals(R.color.MaterialIndigo200, style.assentSecondaryColor)
+    }
+
     override fun `style id`() {
         assertEquals(Style.Astarte, style.styleId)
     }

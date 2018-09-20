@@ -9,12 +9,12 @@ import org.robolectric.Robolectric
 import org.robolectric.RobolectricTestRunner
 
 @RunWith(RobolectricTestRunner::class)
-class PostOrderedInfinityContentFactoryTest {
+class PostsContentFactoryTest {
 
     @Test
     fun `should create gallery`() {
         val activity = Robolectric.setupActivity(ActivityImpl::class.java)
-        val gallery = PostOrderedInfinityContentFactory(mockk()).createContent(activity)
+        val gallery = PostsContentFactory(mockk()).createContent(activity)
         assertNotNull(gallery)
     }
 

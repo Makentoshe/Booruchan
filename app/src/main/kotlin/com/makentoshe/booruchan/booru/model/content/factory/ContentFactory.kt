@@ -12,7 +12,7 @@ interface ContentFactory {
 
         fun createFactory(contentID: Int, booru: Boor): ContentFactory {
             return when (contentID) {
-                0 -> PostOrderedInfinityContentFactory(booru)
+                0 -> PostsContentFactory(booru)
                 1 -> CommentContentFactory(booru)
                 2 -> UsersContentFactory(booru)
                 3 -> SettingsContentFactory(booru)
