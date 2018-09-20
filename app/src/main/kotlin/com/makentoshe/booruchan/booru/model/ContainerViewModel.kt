@@ -22,4 +22,5 @@ interface ContainerViewModel {
 
     fun getAutocompleteAdapter(context: Context): AutocompleteAdapter
 
+    fun addSelectedItemPositionObserver(owner: LifecycleOwner, observer: (Int?) -> (Unit))
 }

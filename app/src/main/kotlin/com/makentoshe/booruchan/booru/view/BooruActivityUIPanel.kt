@@ -19,6 +19,8 @@ import android.widget.ImageView.ScaleType
 import com.makentoshe.booruchan.booru.model.PanelViewModel
 import com.makeramen.roundedimageview.RoundedImageView
 import org.jetbrains.anko.custom.ankoView
+import org.jetbrains.anko.sdk25.coroutines.onClick
+import org.jetbrains.anko.sdk25.coroutines.onItemClick
 
 
 class BooruActivityUIPanel(style: Style,
@@ -61,6 +63,12 @@ class BooruActivityUIPanel(style: Style,
     private fun _ConstraintLayout.createServicesList() {
         listView {
             adapter = viewModel.getServiceListAdapter(context)
+
+            viewModel.setSelectedItemPositionToStart()
+            onItemClick { _, view, pos, _ ->
+                viewModel.onItemSelect(view!!, pos, this@listView)
+            }
+
         }.lparams(width = matchParent, height = wrapContent) {
             topToBottom = R.id.booru_panel_background_image
             startToStart = PARENT_ID

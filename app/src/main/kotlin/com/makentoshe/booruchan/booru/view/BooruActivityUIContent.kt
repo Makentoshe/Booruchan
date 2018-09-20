@@ -46,20 +46,25 @@ class BooruActivityUIContent(style: Style,
                     .setSupportActionBar(ui.owner)
                     .setHomeIcon(style.toolbarForegroundColor, ui.owner)
                     .setHamburgerIcon(ui.owner, dlContext)
-//            createGallery(viewModel, ui)
+            createGallery(ui)
             createSearchViewAlpha(ui)
 
         }.lparams(matchParent, matchParent)
     }
 
 
-    private fun _ConstraintLayout.createGallery(viewModel: BooruViewModel, ui: AnkoContext<BooruActivity>) {
-        val gallery =  GalleryFactory
-                .createFactory(gallery, viewModel.getBooru())
-                .createGallery(ui.owner)
+    private fun _ConstraintLayout.createGallery(ui: AnkoContext<BooruActivity>) {
+//        val gallery =  GalleryFactory
+//                .createFactory(gallery, viewModel.getBooru())
+//                .createGallery(ui.owner)
         frameLayout {
-            gallery.createView(this, viewModel)
-            viewModel.addSearchTermObserver(ui.owner, gallery.onSearchStarted())
+
+            viewModel.addSelectedItemPositionObserver(ui.owner) {
+                println("New content: $it")
+            }
+
+//            gallery.createView(this, viewModel)
+//            viewModel.addSearchTermObserver(ui.owner, gallery.onSearchStarted())
         }.lparams {
             width = 0
             height = 0

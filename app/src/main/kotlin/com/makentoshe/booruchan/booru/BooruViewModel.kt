@@ -1,20 +1,23 @@
 package com.makentoshe.booruchan.booru
 
 import android.arch.lifecycle.*
+import android.arch.lifecycle.Observer
 import android.content.Context
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.view.menu.ActionMenuItemView
 import android.view.View
-import android.widget.ArrayAdapter
 import android.widget.ListAdapter
+import android.widget.ListView
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.booru.model.AutocompleteAdapter
 import com.makentoshe.booruchan.booru.model.animator.ViewAnimator
 import com.makentoshe.booruchan.booru.model.ContainerViewModel
 import com.makentoshe.booruchan.booru.model.PanelViewModel
+import com.makentoshe.booruchan.booru.model.panel.SelectableServiceAdapter
 import com.makentoshe.booruchan.common.api.Boor
 import com.makentoshe.booruchan.common.hideKeyboard
 import com.makentoshe.booruchan.common.styles.Style
+import org.jetbrains.anko.backgroundResource
 
 class BooruViewModel(private val booru: Boor) : ViewModel(), ContainerViewModel, PanelViewModel {
 
@@ -70,7 +73,41 @@ class BooruViewModel(private val booru: Boor) : ViewModel(), ContainerViewModel,
     }
 
     override fun getServiceListAdapter(context: Context): ListAdapter {
-        return ArrayAdapter.createFromResource(context, R.array.subservices, android.R.layout.simple_list_item_1)
+        val strings: Array<CharSequence> = context.resources.getTextArray(R.array.subservices)
+        return SelectableServiceAdapter(context, android.R.layout.simple_list_item_1, strings.asList())
+    }
+
+    private val selectedItemPositionLiveData = MutableLiveData<Int>()
+
+    override fun addSelectedItemPositionObserver(owner: LifecycleOwner, observer: (Int?) -> (Unit)) {
+        selectedItemPositionLiveData.observe(owner, Observer<Int> {
+            observer(it)
+        })
+    }
+
+    override fun setSelectedItemPositionToStart() {
+        selectedItemPositionLiveData.value = 0
+    }
+
+    override fun onItemSelect(view: View, position: Int, listView: ListView) {
+        if (selectedItemPositionLiveData.value != position) {
+            val prevView = listView.getViewByPosition(selectedItemPositionLiveData.value!!)
+            prevView.backgroundResource = android.R.color.white
+            view.backgroundResource = R.color.MaterialIndigo200
+            selectedItemPositionLiveData.value = position
+        }
+    }
+
+    private fun ListView.getViewByPosition(pos: Int): View {
+        val firstListItemPosition = firstVisiblePosition
+        val lastListItemPosition = firstListItemPosition + childCount - 1
+
+        return if (pos < firstListItemPosition || pos > lastListItemPosition) {
+            adapter.getView(pos, null, this)
+        } else {
+            val childIndex = pos - firstListItemPosition
+            getChildAt(childIndex)
+        }
     }
 
 }
