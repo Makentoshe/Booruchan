@@ -7,7 +7,7 @@ import com.makentoshe.booruchan.booru.model.content.posts.PostOrderedInfinityVie
 import com.makentoshe.booruchan.common.settings.application.AppSettings
 import org.jetbrains.anko.*
 
-class CommentsContent(private val viewModel: PostOrderedInfinityViewModel,
+class CommentsContent(private val viewModel: CommentsContentViewModel,
                       private val appSettings: AppSettings) : Content {
 
 
