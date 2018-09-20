@@ -1,8 +1,7 @@
-package com.makentoshe.booruchan.booru.model.gallery.posts
+package com.makentoshe.booruchan.booru.model.content.posts
 
 import android.content.Context
 import android.graphics.Bitmap
-import android.os.Looper
 import android.support.v4.app.FragmentActivity
 import android.support.v7.widget.CardView
 import android.support.v7.widget.RecyclerView
@@ -10,12 +9,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import com.makentoshe.booruchan.R
-import com.makentoshe.booruchan.booru.model.gallery.common.AdapterDataLoader
+import com.makentoshe.booruchan.booru.model.content.common.AdapterDataLoader
 import com.makentoshe.booruchan.booru.view.posts.PostOrderedInfinityAdapterViewHolderUI
 import es.dmoral.toasty.Toasty
 import kotlinx.coroutines.experimental.*
 import org.jetbrains.anko.*
-import java.lang.Exception
 import kotlin.collections.ArrayList
 
 class PostOrderedInfinityAdapter(private val dataLoader: AdapterDataLoader)

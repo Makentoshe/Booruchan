@@ -1,4 +1,4 @@
-package com.makentoshe.booruchan.booru.model.gallery.common
+package com.makentoshe.booruchan.booru.model.content.common
 
 import com.makentoshe.booruchan.common.api.HttpClient
 import com.makentoshe.booruchan.common.api.gelbooru.Gelbooru

@@ -14,9 +14,8 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.ProgressBar
 import com.makentoshe.booruchan.R
-import com.makentoshe.booruchan.booru.BooruViewModel
-import com.makentoshe.booruchan.booru.model.ContainerViewModel
-import com.makentoshe.booruchan.booru.model.gallery.factory.GalleryFactory
+import com.makentoshe.booruchan.booru.model.content.ContentViewModel
+import com.makentoshe.booruchan.booru.model.content.factory.ContentFactory
 import com.makentoshe.booruchan.common.StyleableAnkoComponent
 import com.makentoshe.booruchan.common.forLollipop
 import com.makentoshe.booruchan.common.styles.Style
@@ -32,12 +31,9 @@ import org.jetbrains.anko.sdk25.coroutines.onClick
 import org.jetbrains.anko.support.v4._DrawerLayout
 
 class BooruActivityUIContent(style: Style,
-                             private val viewModel: ContainerViewModel,
+                             private val viewModel: ContentViewModel,
                              private val dlContext: _DrawerLayout)
     :StyleableAnkoComponent<BooruActivity>(style) {
-
-    @BooruActivityUI.Gallery
-    private var gallery = BooruActivityUI.GALLERY_POST_ORD_INF
 
     override fun createView(ui: AnkoContext<BooruActivity>): View = with(dlContext) {
         constraintLayout {
@@ -54,17 +50,18 @@ class BooruActivityUIContent(style: Style,
 
 
     private fun _ConstraintLayout.createGallery(ui: AnkoContext<BooruActivity>) {
-//        val gallery =  GalleryFactory
-//                .createFactory(gallery, viewModel.getBooru())
-//                .createGallery(ui.owner)
         frameLayout {
 
-            viewModel.addSelectedItemPositionObserver(ui.owner) {
-                println("New content: $it")
+            viewModel.addSelectedItemPositionObserver(ui.owner) { contentID ->
+                println("New content: $contentID")
+                this.removeAllViews()
+                val content =  ContentFactory
+                        .createFactory(contentID!!, viewModel.getBooru())
+                        .createContent(ui.owner)
+                content.createView(this, viewModel)
+                viewModel.addSearchTermObserver(ui.owner, content.onSearchStarted())
             }
 
-//            gallery.createView(this, viewModel)
-//            viewModel.addSearchTermObserver(ui.owner, gallery.onSearchStarted())
         }.lparams {
             width = 0
             height = 0

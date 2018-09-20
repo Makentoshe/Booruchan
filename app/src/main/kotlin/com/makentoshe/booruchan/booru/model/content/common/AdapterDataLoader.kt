@@ -1,4 +1,4 @@
-package com.makentoshe.booruchan.booru.model.gallery.common
+package com.makentoshe.booruchan.booru.model.content.common
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory

@@ -1,4 +1,4 @@
-package com.makentoshe.booruchan.booru.model.gallery.factory
+package com.makentoshe.booruchan.booru.model.content.factory
 
 import com.makentoshe.booruchan.common.Activity
 import io.mockk.mockk
@@ -9,12 +9,12 @@ import org.robolectric.Robolectric
 import org.robolectric.RobolectricTestRunner
 
 @RunWith(RobolectricTestRunner::class)
-class PostOrderedInfinityGalleryFactoryTest {
+class PostOrderedInfinityContentFactoryTest {
 
     @Test
     fun `should create gallery`() {
         val activity = Robolectric.setupActivity(ActivityImpl::class.java)
-        val gallery = PostOrderedInfinityGalleryFactory(mockk()).createGallery(activity)
+        val gallery = PostOrderedInfinityContentFactory(mockk()).createContent(activity)
         assertNotNull(gallery)
     }
 

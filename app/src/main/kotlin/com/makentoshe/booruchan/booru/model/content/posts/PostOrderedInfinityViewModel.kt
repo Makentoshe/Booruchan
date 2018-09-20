@@ -1,10 +1,10 @@
-package com.makentoshe.booruchan.booru.model.gallery.posts
+package com.makentoshe.booruchan.booru.model.content.posts
 
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
 import android.support.v7.widget.RecyclerView
-import com.makentoshe.booruchan.booru.model.gallery.common.AdapterDataLoaderBuilder
-import com.makentoshe.booruchan.booru.model.gallery.common.Downloader
+import com.makentoshe.booruchan.booru.model.content.common.AdapterDataLoaderBuilder
+import com.makentoshe.booruchan.booru.model.content.common.Downloader
 import com.makentoshe.booruchan.common.api.Boor
 import com.makentoshe.booruchan.common.api.HttpClient
 

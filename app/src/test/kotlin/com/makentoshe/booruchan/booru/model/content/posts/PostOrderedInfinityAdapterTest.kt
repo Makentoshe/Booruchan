@@ -1,11 +1,11 @@
-package com.makentoshe.booruchan.booru.model.gallery.posts
+package com.makentoshe.booruchan.booru.model.content.posts
 
 import android.graphics.BitmapFactory
 import android.support.v7.app.AppCompatActivity
 import android.widget.FrameLayout
 import android.widget.ImageView
 import com.makentoshe.booruchan.R
-import com.makentoshe.booruchan.booru.model.gallery.common.AdapterDataLoader
+import com.makentoshe.booruchan.booru.model.content.common.AdapterDataLoader
 import io.mockk.*
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull

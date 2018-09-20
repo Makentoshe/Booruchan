@@ -16,10 +16,9 @@ import android.graphics.Shader
 import android.support.v4.content.ContextCompat
 import android.view.ViewManager
 import android.widget.ImageView.ScaleType
-import com.makentoshe.booruchan.booru.model.PanelViewModel
+import com.makentoshe.booruchan.booru.model.panel.PanelViewModel
 import com.makeramen.roundedimageview.RoundedImageView
 import org.jetbrains.anko.custom.ankoView
-import org.jetbrains.anko.sdk25.coroutines.onClick
 import org.jetbrains.anko.sdk25.coroutines.onItemClick
 
 

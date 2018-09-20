@@ -11,15 +11,15 @@ import android.widget.ListView
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.booru.model.AutocompleteAdapter
 import com.makentoshe.booruchan.booru.model.animator.ViewAnimator
-import com.makentoshe.booruchan.booru.model.ContainerViewModel
-import com.makentoshe.booruchan.booru.model.PanelViewModel
+import com.makentoshe.booruchan.booru.model.content.ContentViewModel
+import com.makentoshe.booruchan.booru.model.panel.PanelViewModel
 import com.makentoshe.booruchan.booru.model.panel.SelectableServiceAdapter
 import com.makentoshe.booruchan.common.api.Boor
 import com.makentoshe.booruchan.common.hideKeyboard
 import com.makentoshe.booruchan.common.styles.Style
 import org.jetbrains.anko.backgroundResource
 
-class BooruViewModel(private val booru: Boor) : ViewModel(), ContainerViewModel, PanelViewModel {
+class BooruViewModel(private val booru: Boor) : ViewModel(), ContentViewModel, PanelViewModel {
 
     private val animator: ViewAnimator by lazy {
         ViewAnimator()

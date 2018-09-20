@@ -1,4 +1,4 @@
-package com.makentoshe.booruchan.booru.model.gallery.common
+package com.makentoshe.booruchan.booru.model.content.common
 
 import kotlinx.coroutines.experimental.Job
 import java.util.*

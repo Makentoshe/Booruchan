@@ -1,4 +1,4 @@
-package com.makentoshe.booruchan.booru.model
+package com.makentoshe.booruchan.booru.model.panel
 
 import android.content.Context
 import android.view.View

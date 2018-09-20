@@ -1,12 +1,13 @@
-package com.makentoshe.booruchan.booru.model
+package com.makentoshe.booruchan.booru.model.content
 
 import android.arch.lifecycle.LifecycleOwner
 import android.content.Context
 import android.support.v7.app.AppCompatActivity
+import com.makentoshe.booruchan.booru.model.AutocompleteAdapter
 import com.makentoshe.booruchan.common.api.Boor
 import com.makentoshe.booruchan.common.styles.Style
 
-interface ContainerViewModel {
+interface ContentViewModel {
 
     fun getBooru(): Boor
 

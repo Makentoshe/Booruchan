@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import com.makentoshe.booruchan.R
-import com.makentoshe.booruchan.booru.model.gallery.posts.PostOrderedInfinityAdapter
+import com.makentoshe.booruchan.booru.model.content.posts.PostOrderedInfinityAdapter
 import com.makentoshe.booruchan.common.forLollipop
 import org.jetbrains.anko.*
 import org.jetbrains.anko.cardview.v7._CardView
