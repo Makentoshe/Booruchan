@@ -1,15 +1,12 @@
 package com.makentoshe.booruchan.booru.model.content.settings
 
-import android.support.design.widget.FloatingActionButton
-import android.support.v7.widget.RecyclerView
 import android.view.View
 import com.makentoshe.booruchan.booru.model.content.Content
 import com.makentoshe.booruchan.booru.model.content.ContentViewModel
-import com.makentoshe.booruchan.booru.model.content.posts.PostOrderedInfinityViewModel
 import com.makentoshe.booruchan.common.settings.application.AppSettings
 import org.jetbrains.anko.*
 
-class SettingsContent(private val viewModel: PostOrderedInfinityViewModel,
+class SettingsContent(private val viewModel: SettingsContentViewModel,
                       private val appSettings: AppSettings) : Content {
 
 
