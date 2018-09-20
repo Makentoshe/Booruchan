@@ -6,8 +6,6 @@ import android.support.annotation.LayoutRes
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
-import com.makentoshe.booruchan.R
-import com.makentoshe.booruchan.common.styles.Style
 import org.jetbrains.anko.backgroundResource
 
 class SelectableServiceAdapter(context: Context, @LayoutRes resource: Int, objects: List<CharSequence>,

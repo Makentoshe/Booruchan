@@ -93,7 +93,7 @@ class BooruViewModel(private val booru: Boor) : ViewModel(), ContentViewModel, P
     override fun onItemSelect(view: View, position: Int, listView: ListView, style: Style) {
         if (selectedItemPositionLiveData.value != position) {
             val prevView = listView.getViewByPosition(selectedItemPositionLiveData.value!!)
-            prevView.backgroundResource = style.backgroundColor
+            prevView.backgroundResource = android.R.color.transparent
             view.backgroundResource = style.assentSecondaryColor
             selectedItemPositionLiveData.value = position
         }

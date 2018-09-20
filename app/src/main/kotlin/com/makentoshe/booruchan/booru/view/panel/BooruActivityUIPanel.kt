@@ -1,5 +1,8 @@
-package com.makentoshe.booruchan.booru.view
+package com.makentoshe.booruchan.booru.view.panel
 
+import android.content.Context
+import android.graphics.Color
+import android.graphics.PorterDuff
 import android.graphics.Shader
 import android.support.constraint.ConstraintLayout.LayoutParams.PARENT_ID
 import android.support.v4.content.ContextCompat
@@ -9,6 +12,7 @@ import android.widget.ImageView
 import android.widget.ImageView.ScaleType
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.booru.model.panel.PanelViewModel
+import com.makentoshe.booruchan.booru.view.BooruActivity
 import com.makentoshe.booruchan.common.StyleableAnkoComponent
 import com.makentoshe.booruchan.common.roundedImageView
 import com.makentoshe.booruchan.common.styles.Style
@@ -75,13 +79,18 @@ class BooruActivityUIPanel(style: Style,
 
     private fun _ConstraintLayout.createRoundedImageView() {
         roundedImageView {
-            setImageDrawable(ContextCompat.getDrawable(context, R.drawable.kotlin))
-            rotation = 137f
+            backgroundResource = style.toolbarBackgroundColor
+            mutateBackground(true)
+            val imageDrawable = ContextCompat.getDrawable(context, style.avdFromMagnifyToCross)
+            val filterColor = ContextCompat.getColor(context, style.toolbarForegroundColor)
+            imageDrawable?.setColorFilter(filterColor, PorterDuff.Mode.SRC_ATOP)
+            setImageDrawable(imageDrawable)
             scaleType = ScaleType.CENTER_CROP
             isOval = true
-            tileModeX= Shader.TileMode.CLAMP
+            rotation = 45f
+            tileModeX = Shader.TileMode.CLAMP
             tileModeY = Shader.TileMode.CLAMP
-            cornerRadius = 10f
+            padding = dip(20)
 
         }.lparams(dip(70), dip(70)) {
             bottomToBottom = R.id.booru_panel_background_image
