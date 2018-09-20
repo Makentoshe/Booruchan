@@ -48,7 +48,7 @@ class AdapterDataLoaderTest {
     fun `should return posts data`() = runBlocking {
         var bool = false
         adapterDataLoader.getPostsData(1) {
-            assertEquals(1, it.count())
+            assertEquals(1, it!!.count())
             assertEquals(4125493, it.count)
             bool = true
             return@getPostsData

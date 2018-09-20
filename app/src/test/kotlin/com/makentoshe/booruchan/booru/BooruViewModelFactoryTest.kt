@@ -21,8 +21,8 @@ class BooruViewModelFactoryTest {
         val viewModel = ViewModelProviders
                 .of(activity, BooruViewModelFactory(Gelbooru()))[BooruViewModel::class.java]
         assertNotNull(viewModel)
-        assertNotNull(viewModel.booru)
-        assertTrue(viewModel.booru is Gelbooru)
+        assertNotNull(viewModel.getBooru())
+        assertTrue(viewModel.getBooru() is Gelbooru)
     }
 
     class TestViewModel: ViewModel()
