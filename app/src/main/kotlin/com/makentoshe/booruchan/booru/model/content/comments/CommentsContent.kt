@@ -1,7 +1,5 @@
 package com.makentoshe.booruchan.booru.model.content.comments
 
-import android.support.design.widget.FloatingActionButton
-import android.support.v7.widget.RecyclerView
 import android.view.View
 import com.makentoshe.booruchan.booru.model.content.Content
 import com.makentoshe.booruchan.booru.model.content.ContentViewModel

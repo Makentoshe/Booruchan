@@ -38,7 +38,7 @@ class BooruActivityUIContent(style: Style,
     override fun createView(ui: AnkoContext<BooruActivity>): View = with(dlContext) {
         constraintLayout {
             createSearchViewLayout()
-            createToolbar()
+            createToolbar(ui)
                     .setSupportActionBar(ui.owner)
                     .setHomeIcon(style.toolbarForegroundColor, ui.owner)
                     .setHamburgerIcon(ui.owner, dlContext)
@@ -73,13 +73,15 @@ class BooruActivityUIContent(style: Style,
     }
 
     @SuppressLint("NewApi")
-    private fun _ConstraintLayout.createToolbar(): Toolbar {
+    private fun _ConstraintLayout.createToolbar(ui: AnkoContext<BooruActivity>): Toolbar {
         return toolbar {
             id = R.id.booru_content_toolbar
             setTitleTextColor(ContextCompat.getColor(context, style.toolbarForegroundColor))
             setSubtitleTextColor(ContextCompat.getColor(context, style.toolbarForegroundColor))
             title = viewModel.getBooru().getBooruName()
-            subtitle = "Posts"
+            viewModel.addSelectedItemPositionObserver(ui.owner) {
+                subtitle = viewModel.getSubtitleResByIndex(context, it!!)
+            }
             backgroundColorResource = style.toolbarBackgroundColor
             forLollipop {
                 elevation = dip(4).toFloat()
