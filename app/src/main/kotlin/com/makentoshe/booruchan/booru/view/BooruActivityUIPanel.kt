@@ -1,25 +1,23 @@
 package com.makentoshe.booruchan.booru.view
 
+import android.graphics.Shader
 import android.support.constraint.ConstraintLayout.LayoutParams.PARENT_ID
+import android.support.v4.content.ContextCompat
 import android.view.Gravity
 import android.view.View
 import android.widget.ImageView
+import android.widget.ImageView.ScaleType
 import com.makentoshe.booruchan.R
+import com.makentoshe.booruchan.booru.model.panel.PanelViewModel
 import com.makentoshe.booruchan.common.StyleableAnkoComponent
+import com.makentoshe.booruchan.common.roundedImageView
 import com.makentoshe.booruchan.common.styles.Style
 import org.jetbrains.anko.*
 import org.jetbrains.anko.constraint.layout._ConstraintLayout
 import org.jetbrains.anko.constraint.layout.constraintLayout
 import org.jetbrains.anko.constraint.layout.matchConstraint
-import org.jetbrains.anko.support.v4._DrawerLayout
-import android.graphics.Shader
-import android.support.v4.content.ContextCompat
-import android.view.ViewManager
-import android.widget.ImageView.ScaleType
-import com.makentoshe.booruchan.booru.model.panel.PanelViewModel
-import com.makeramen.roundedimageview.RoundedImageView
-import org.jetbrains.anko.custom.ankoView
 import org.jetbrains.anko.sdk25.coroutines.onItemClick
+import org.jetbrains.anko.support.v4._DrawerLayout
 
 
 class BooruActivityUIPanel(style: Style,
@@ -92,5 +90,4 @@ class BooruActivityUIPanel(style: Style,
         }
     }
 
-    private inline fun ViewManager.roundedImageView(init: RoundedImageView.() -> Unit) = ankoView({ RoundedImageView(it) }, 0, init)
 }

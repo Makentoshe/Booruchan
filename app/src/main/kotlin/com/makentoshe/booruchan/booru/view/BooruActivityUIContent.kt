@@ -7,7 +7,6 @@ import android.support.constraint.ConstraintSet
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.Toolbar
 import android.view.View
-import android.view.ViewManager
 import android.view.inputmethod.EditorInfo
 import android.widget.FrameLayout
 import android.widget.ImageView
@@ -17,6 +16,7 @@ import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.booru.model.content.ContentViewModel
 import com.makentoshe.booruchan.booru.model.content.factory.ContentFactory
 import com.makentoshe.booruchan.common.StyleableAnkoComponent
+import com.makentoshe.booruchan.common.delayAutocompleteEditText
 import com.makentoshe.booruchan.common.forLollipop
 import com.makentoshe.booruchan.common.styles.Style
 import com.makentoshe.booruchan.common.view.DelayAutocompleteEditText
@@ -26,7 +26,6 @@ import org.jetbrains.anko.cardview.v7.cardView
 import org.jetbrains.anko.constraint.layout._ConstraintLayout
 import org.jetbrains.anko.constraint.layout.constraintLayout
 import org.jetbrains.anko.constraint.layout.matchConstraint
-import org.jetbrains.anko.custom.ankoView
 import org.jetbrains.anko.sdk25.coroutines.onClick
 import org.jetbrains.anko.support.v4._DrawerLayout
 
@@ -202,8 +201,5 @@ class BooruActivityUIContent(style: Style,
             bottomToBottom = ConstraintSet.PARENT_ID
         }
     }
-
-    private inline fun ViewManager.delayAutocompleteEditText(init: DelayAutocompleteEditText.() -> Unit) = ankoView({ DelayAutocompleteEditText(it) }, 0, init)
-
 
 }

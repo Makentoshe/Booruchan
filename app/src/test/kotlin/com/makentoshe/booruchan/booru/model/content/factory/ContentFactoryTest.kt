@@ -28,7 +28,7 @@ class ContentFactoryTest {
         assertNotNull(ContentFactory.createFactory(3, mockk()))
     }
 
-    @Test(expected = IllegalArgumentException::class)
+    @Test
     fun `should create comments content factory`() {
         assertNotNull(ContentFactory.createFactory(1, mockk()))
     }

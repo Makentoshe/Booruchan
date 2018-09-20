@@ -1,10 +1,7 @@
 package com.makentoshe.booruchan.common.settings.application
 
 import com.makentoshe.booruchan.R
-import com.makentoshe.booruchan.common.settings.application.AppSettings
 import com.makentoshe.booruchan.common.styles.AstarteStyle
-import com.makentoshe.booruchan.common.styles.RinStyle
-import com.makentoshe.booruchan.common.styles.ShuviStyle
 import com.makentoshe.booruchan.common.styles.Style
 import junit.framework.Assert.assertEquals
 import junit.framework.Assert.assertTrue
@@ -44,6 +41,14 @@ class AppSettingsTest {
     @Test
     fun `set another style will cause set upping default style`() {
         appSettings.setStyle(R.style.Base_AlertDialog_AppCompat)
+        assertEquals(R.style.Astarte, appSettings.getStyle().styleId)
+    }
+
+    @Test
+    fun `set Astarte style when another style is set upped`() {
+        appSettings.setStyle(Style.Rin)
+        assertEquals(R.style.Rin, appSettings.getStyle().styleId)
+        appSettings.setStyle(Style.Astarte)
         assertEquals(R.style.Astarte, appSettings.getStyle().styleId)
     }
 
