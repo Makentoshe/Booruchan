@@ -45,7 +45,7 @@ class BooruActivityUIContent(style: Style,
                     .setSupportActionBar(ui.owner)
                     .setHomeIcon(style.toolbarForegroundColor, ui.owner)
                     .setHamburgerIcon(ui.owner, dlContext)
-            createGallery(viewModel, ui)
+//            createGallery(viewModel, ui)
             createSearchViewAlpha(ui, viewModel)
 
         }.lparams(matchParent, matchParent)

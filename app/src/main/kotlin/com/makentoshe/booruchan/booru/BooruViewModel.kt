@@ -5,6 +5,8 @@ import android.content.Context
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.view.menu.ActionMenuItemView
 import android.view.View
+import android.widget.ArrayAdapter
+import android.widget.ListAdapter
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.booru.model.AutocompleteAdapter
 import com.makentoshe.booruchan.booru.model.animator.ViewAnimator
@@ -52,6 +54,14 @@ class BooruViewModel(val booru: Boor) : ViewModel(), GalleryViewModel {
         searchTermLiveData.observe(owner, Observer<String> {
             observer.invoke(it)
         })
+    }
+
+    fun isUserLoggedIn(): Boolean {
+        return true
+    }
+
+    fun getServiceListAdapter(context: Context): ListAdapter {
+        return ArrayAdapter.createFromResource(context, R.array.subservices, android.R.layout.simple_list_item_1)
     }
 
 }
