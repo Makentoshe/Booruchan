@@ -1,6 +1,5 @@
 package com.makentoshe.booruchan.common.api
 
-import com.makentoshe.booruchan.common.api.BoorRequestAPI
 import junit.framework.Assert.assertEquals
 import org.junit.Test
 
@@ -64,6 +63,13 @@ abstract class BooruRequestAPITest(private val api: BoorRequestAPI) {
         assertEquals(expected, url)
     }
 
+    @Test
+    fun getListOfLastCommentsRequest() {
+        val url = api.getListOfLastCommentsRequest()
+        val expected = getListOfLastCommentsRequestExpected()
+        assertEquals(expected, url)
+    }
+
     abstract fun getPostByIdRequestExpected(id: Int): String
 
     abstract fun getPostsByTagsRequestExpected(limit: Int, tags: String, page: Int): String
@@ -77,5 +83,7 @@ abstract class BooruRequestAPITest(private val api: BoorRequestAPI) {
     abstract fun getCommentByPostIdRequestExpected(id: Int): String
 
     abstract fun getCustomRequestExpected(str: String): String
+
+    abstract fun getListOfLastCommentsRequestExpected(): String
 
 }

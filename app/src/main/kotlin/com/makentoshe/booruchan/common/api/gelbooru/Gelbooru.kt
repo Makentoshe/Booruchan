@@ -3,8 +3,11 @@ package com.makentoshe.booruchan.common.api.gelbooru
 import com.makentoshe.booruchan.common.api.Boor
 import com.makentoshe.booruchan.common.api.HttpClient
 import com.makentoshe.booruchan.common.api.Posts
+import com.makentoshe.booruchan.common.api.entity.Comment
 import com.makentoshe.booruchan.common.api.parser.AutocompleteSearchParser
+import com.makentoshe.booruchan.common.api.parser.CommentParser
 import com.makentoshe.booruchan.common.api.parser.PostParser
+import kotlinx.coroutines.experimental.GlobalScope
 import kotlinx.coroutines.experimental.async
 import kotlinx.coroutines.experimental.runBlocking
 import java.io.Serializable
@@ -41,6 +44,15 @@ class Gelbooru : Boor(GelbooruRequestAPI()), Serializable {
             httpClient.get(getApi().getPostsByTagsRequest(limit, tags, page)).stream()
         }
         onResult.invoke(PostParser(Post::class.java).parsePosts(async.await()))
+    }
+
+    override fun getListOfLastComments(
+            httpClient: HttpClient,
+            onResult: (List<com.makentoshe.booruchan.common.api.entity.Comment>) -> Unit) = runBlocking {
+       val async = GlobalScope.async {
+           httpClient.get(getApi().getListOfLastCommentsRequest()).stream()
+       }
+        onResult.invoke(CommentParser(Comment::class.java).parseComments(async.await()))
     }
 
     class Post : com.makentoshe.booruchan.common.api.entity.Post() {
@@ -126,5 +138,7 @@ class Gelbooru : Boor(GelbooruRequestAPI()), Serializable {
 
 
     }
+
+    class Comment: com.makentoshe.booruchan.common.api.entity.Comment()
 
 }

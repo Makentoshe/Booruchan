@@ -45,4 +45,20 @@ class GelbooruNetworkTest {
         }
     }
 
+    @Test
+    fun `load list of comments`() {
+        val xml = "<?xml version=\"1.1\" encoding=\"UTF-8\" ?>" +
+                "<comments type=\"array\">\n" +
+                "<comment created_at=\"2018-09-21 11:33\" post_id=\"4412644\" body=\"source or link to video plz!! T.T\" creator=\"Anonymous\" id=\"2283115\" creator_id=\"9455\"/>\n" +
+                "</comments>"
+        val stream =  ByteArrayInputStream(xml.toByteArray())
+        val mockedClient = mockk<HttpClient>()
+        every {
+            mockedClient.get(instance.getApi().getListOfLastCommentsRequest()).stream()
+        } returns stream
+        instance.getListOfLastComments(mockedClient) {
+            assertEquals(1, it.count())
+        }
+    }
+
 }
