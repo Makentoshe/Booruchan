@@ -4,6 +4,10 @@ import com.makentoshe.booruchan.common.api.BoorRequestAPI
 import java.io.Serializable
 
 class GelbooruRequestAPI: BoorRequestAPI, Serializable {
+    override fun getListOfCommentsViewRequest(page: Int): String {
+        return getCustomRequest("index.php?page=comment&s=list&pid=$page")
+    }
+
     override fun getListOfLastCommentsRequest(): String {
         return getCustomRequest("index.php?page=dapi&s=comment&q=index")
     }

@@ -17,4 +17,6 @@ interface BoorRequestAPI {
     fun getCustomRequest(request: String): String
 
     fun getListOfLastCommentsRequest(): String
+
+    fun getListOfCommentsViewRequest(page: Int): String
 }

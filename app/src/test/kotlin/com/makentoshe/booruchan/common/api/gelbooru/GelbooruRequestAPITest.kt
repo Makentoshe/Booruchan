@@ -6,6 +6,11 @@ import org.junit.runners.JUnit4
 
 @RunWith(JUnit4::class)
 class GelbooruRequestAPITest : BooruRequestAPITest(GelbooruRequestAPI()) {
+
+    override fun getListOfCommentsViewRequestExpected(page: Int): String {
+        return "https://gelbooru.com/index.php?page=comment&s=list&pid=$page"
+    }
+
     override fun getListOfLastCommentsRequestExpected(): String {
         return "https://gelbooru.com/index.php?page=dapi&s=comment&q=index"
     }

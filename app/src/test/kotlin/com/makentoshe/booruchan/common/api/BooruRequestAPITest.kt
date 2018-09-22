@@ -70,6 +70,13 @@ abstract class BooruRequestAPITest(private val api: BoorRequestAPI) {
         assertEquals(expected, url)
     }
 
+    @Test
+    fun getListOfCommentsViewRequest() {
+        val url = api.getListOfCommentsViewRequest(1)
+        val expected = getListOfCommentsViewRequestExpected(1)
+        assertEquals(expected, url)
+    }
+
     abstract fun getPostByIdRequestExpected(id: Int): String
 
     abstract fun getPostsByTagsRequestExpected(limit: Int, tags: String, page: Int): String
@@ -85,5 +92,7 @@ abstract class BooruRequestAPITest(private val api: BoorRequestAPI) {
     abstract fun getCustomRequestExpected(str: String): String
 
     abstract fun getListOfLastCommentsRequestExpected(): String
+
+    abstract fun getListOfCommentsViewRequestExpected(page: Int): String
 
 }
