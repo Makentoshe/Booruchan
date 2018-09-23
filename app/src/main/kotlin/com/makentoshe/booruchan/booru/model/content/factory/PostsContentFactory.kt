@@ -10,9 +10,7 @@ import com.makentoshe.booruchan.common.api.Boor
 class PostsContentFactory(private val booru: Boor) : ContentFactory {
 
     override fun createContent(activity: Activity): Content {
-        val viewModel = ViewModelProviders
-                .of(activity, PostsContentViewModel.Factory(booru))[PostsContentViewModel::class.java]
-        return PostsContent(viewModel, activity.getAppSettings())
+        return PostsContent(activity.getAppSettings())
     }
 
 

@@ -10,9 +10,7 @@ import com.makentoshe.booruchan.common.api.Boor
 class CommentContentFactory(private val booru: Boor) : ContentFactory {
 
     override fun createContent(activity: Activity): Content {
-        val viewModel = ViewModelProviders.of(activity,
-                CommentsContentViewModel.Factory(booru))[CommentsContentViewModel::class.java]
-        return CommentsContent(viewModel, activity.getAppSettings())
+        return CommentsContent(activity.getAppSettings())
     }
 
 }

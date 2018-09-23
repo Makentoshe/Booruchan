@@ -53,7 +53,7 @@ class BooruActivityUIPanel(style: Style,
             scaleType = ImageView.ScaleType.FIT_START
             adjustViewBounds = true
             if (viewModel.isUserLoggedIn()) {
-                setImageDrawable(ContextCompat.getDrawable(context, R.drawable.kotlin))
+//                setImageDrawable(ContextCompat.getDrawable(context, R.drawable.kotlin))
             } else {
                 //show something else
             }

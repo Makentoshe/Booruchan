@@ -20,4 +20,5 @@
     <item name="booru_content_gallery_post_preview" type="id" />
     <item name="booru_content_gallery_fab" type="id" />
     <item name="booru_panel_background_image" type="id" />
+    <item name="booru_content_container" type="id" />
 </resources>

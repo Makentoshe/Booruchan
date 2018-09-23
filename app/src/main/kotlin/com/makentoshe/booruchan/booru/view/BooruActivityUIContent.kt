@@ -32,7 +32,7 @@ import org.jetbrains.anko.support.v4._DrawerLayout
 class BooruActivityUIContent(style: Style,
                              private val viewModel: ContentViewModel,
                              private val dlContext: _DrawerLayout)
-    :StyleableAnkoComponent<BooruActivity>(style) {
+    : StyleableAnkoComponent<BooruActivity>(style) {
 
     override fun createView(ui: AnkoContext<BooruActivity>): View = with(dlContext) {
         constraintLayout {
@@ -50,15 +50,16 @@ class BooruActivityUIContent(style: Style,
 
     private fun _ConstraintLayout.createGallery(ui: AnkoContext<BooruActivity>) {
         frameLayout {
-
+            id = R.id.booru_content_container
             viewModel.addSelectedItemPositionObserver(ui.owner) { contentID ->
                 println("New content: $contentID")
-                this.removeAllViews()
-                val content =  ContentFactory
+                val content = ContentFactory
                         .createFactory(contentID!!, viewModel.getBooru())
                         .createContent(ui.owner)
-                content.createView(this, viewModel)
-                viewModel.addSearchTermObserver(ui.owner, content.onSearchStarted())
+                ui.owner.supportFragmentManager.beginTransaction()
+                        .replace(R.id.booru_content_container, content.createView(viewModel))
+                        .commitNow()
+//                viewModel.addSearchTermObserver(ui.owner, content.onSearchStarted())
             }
 
         }.lparams {
