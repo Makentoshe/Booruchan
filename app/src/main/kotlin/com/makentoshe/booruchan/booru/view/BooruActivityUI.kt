@@ -5,6 +5,7 @@ import android.support.annotation.IntDef
 import android.view.View
 import android.widget.FrameLayout
 import com.makentoshe.booruchan.booru.BooruViewModel
+import com.makentoshe.booruchan.booru.view.content.BooruActivityUIContent
 import com.makentoshe.booruchan.booru.view.panel.BooruActivityUIPanel
 import com.makentoshe.booruchan.common.StyleableAnkoComponent
 import com.makentoshe.booruchan.common.styles.Style

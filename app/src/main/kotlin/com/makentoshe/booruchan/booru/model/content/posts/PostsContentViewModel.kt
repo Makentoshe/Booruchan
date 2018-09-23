@@ -7,8 +7,11 @@ import com.makentoshe.booruchan.booru.model.content.common.AdapterDataLoaderBuil
 import com.makentoshe.booruchan.booru.model.content.common.Downloader
 import com.makentoshe.booruchan.common.api.Boor
 import com.makentoshe.booruchan.common.api.HttpClient
+import com.makentoshe.booruchan.common.settings.application.AppSettings
 
-class PostsContentViewModel(val booru: Boor, client: HttpClient) : ViewModel() {
+class PostsContentViewModel(@JvmField val booru: Boor,
+                            @JvmField val appSettings: AppSettings,
+                            client: HttpClient) : ViewModel() {
 
     private lateinit var currentGalleryAdapter: PostOrderedInfinityAdapter
     private val downloader = Downloader(client)
@@ -37,12 +40,17 @@ class PostsContentViewModel(val booru: Boor, client: HttpClient) : ViewModel() {
         return searchTerm
     }
 
-    class Factory(private val booru: Boor)
+    override fun onCleared() {
+        super.onCleared()
+        println("Clear VM")
+    }
+
+    class Factory(private val booru: Boor, private val appSettings: AppSettings)
         : ViewModelProvider.NewInstanceFactory() {
 
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             if (modelClass == PostsContentViewModel::class.java) {
-                return PostsContentViewModel(booru, HttpClient()) as T
+                return PostsContentViewModel(booru, appSettings, HttpClient()) as T
             }
             return super.create(modelClass)
         }

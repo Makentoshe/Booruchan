@@ -5,8 +5,9 @@ import com.makentoshe.booruchan.common.styles.AstarteStyle
 import com.makentoshe.booruchan.common.styles.RinStyle
 import com.makentoshe.booruchan.common.styles.ShuviStyle
 import com.makentoshe.booruchan.common.styles.Style
+import java.io.Serializable
 
-class AppSettings {
+class AppSettings: Serializable {
 
     companion object {
         const val NAME = "ApplicationSettings"

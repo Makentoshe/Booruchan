@@ -1,4 +1,4 @@
-package com.makentoshe.booruchan.booru.view
+package com.makentoshe.booruchan.booru.view.content
 
 import android.annotation.SuppressLint
 import android.graphics.Color
@@ -15,6 +15,7 @@ import android.widget.ProgressBar
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.booru.model.content.ContentViewModel
 import com.makentoshe.booruchan.booru.model.content.factory.ContentFactory
+import com.makentoshe.booruchan.booru.view.BooruActivity
 import com.makentoshe.booruchan.common.StyleableAnkoComponent
 import com.makentoshe.booruchan.common.delayAutocompleteEditText
 import com.makentoshe.booruchan.common.forLollipop
@@ -59,7 +60,7 @@ class BooruActivityUIContent(style: Style,
                 ui.owner.supportFragmentManager.beginTransaction()
                         .replace(R.id.booru_content_container, content.createView(viewModel))
                         .commitNow()
-//                viewModel.addSearchTermObserver(ui.owner, content.onSearchStarted())
+                viewModel.addSearchTermObserver(ui.owner, content.onSearchStarted())
             }
 
         }.lparams {
