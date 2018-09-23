@@ -46,6 +46,7 @@ class BooruActivity : Activity() {
             R.id.action_show_search -> {
                 ViewModelProviders.of(this)[BooruViewModel::class.java]
                         .changeSearchLabelState(this, getAppSettings().getStyle())
+                return true
             }
         }
         return super.onOptionsItemSelected(item)

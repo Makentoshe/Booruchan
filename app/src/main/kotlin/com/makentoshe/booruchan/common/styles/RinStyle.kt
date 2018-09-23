@@ -3,6 +3,8 @@ package com.makentoshe.booruchan.common.styles
 import com.makentoshe.booruchan.R
 
 class RinStyle : Style {
+    override val assentSecondaryColor: Int
+        get() = R.color.MaterialYellow200
 
     override val styleId: Int
         get() = Style.Rin

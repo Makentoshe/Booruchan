@@ -4,6 +4,9 @@ import com.makentoshe.booruchan.R
 
 class AstarteStyle: Style {
 
+    override val assentSecondaryColor: Int
+        get() = R.color.MaterialIndigo200
+
     override val styleId: Int
         get() = Style.Astarte
 

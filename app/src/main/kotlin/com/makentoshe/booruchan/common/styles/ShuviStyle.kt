@@ -4,6 +4,9 @@ import com.makentoshe.booruchan.R
 
 class ShuviStyle : Style {
 
+    override val assentSecondaryColor: Int
+        get() = R.color.MaterialPurple200
+
     override val styleId: Int
         get() = Style.Shuvi
 

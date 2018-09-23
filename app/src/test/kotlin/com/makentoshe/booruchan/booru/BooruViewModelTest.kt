@@ -21,7 +21,7 @@ class BooruViewModelTest {
 
     @Test
     fun `should contain booru`() {
-        assertNotNull(viewModel.booru)
+        assertNotNull(viewModel.getBooru())
     }
 
     @Test

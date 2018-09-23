@@ -60,4 +60,7 @@ abstract class StyleTest(protected val style: Style) {
     @Test
     abstract fun `style id`()
 
+    @Test
+    abstract fun `secondary assent`()
+
 }

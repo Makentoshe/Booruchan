@@ -1,10 +1,13 @@
 package com.makentoshe.booruchan.common
 
-import android.content.Context
 import android.os.Build
 import android.support.v7.app.AppCompatActivity
 import android.view.View
+import android.view.ViewManager
 import android.view.inputmethod.InputMethodManager
+import com.makentoshe.booruchan.common.view.DelayAutocompleteEditText
+import com.makeramen.roundedimageview.RoundedImageView
+import org.jetbrains.anko.custom.ankoView
 
 inline fun forSdk(sdk: Int, `do`: () -> Unit, `else`: () -> Unit) {
     if (Build.VERSION.SDK_INT >= sdk) `do`.invoke() else `else`.invoke()
@@ -28,3 +31,7 @@ fun hideKeyboard(activity: AppCompatActivity) {
     }
     imm.hideSoftInputFromWindow(view.windowToken, 0)
 }
+
+inline fun ViewManager.delayAutocompleteEditText(init: DelayAutocompleteEditText.() -> Unit) = ankoView({ DelayAutocompleteEditText(it) }, 0, init)
+
+inline fun ViewManager.roundedImageView(init: RoundedImageView.() -> Unit) = ankoView({ RoundedImageView(it) }, 0, init)
