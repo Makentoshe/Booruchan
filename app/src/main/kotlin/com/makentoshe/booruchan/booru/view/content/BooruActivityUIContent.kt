@@ -13,10 +13,11 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.ProgressBar
 import com.makentoshe.booruchan.R
-import com.makentoshe.booruchan.booru.model.content.ContentViewModel
+import com.makentoshe.booruchan.booru.BooruViewModel
+import com.makentoshe.booruchan.booru.ContentViewModel
+import com.makentoshe.booruchan.booru.PanelViewModel
 import com.makentoshe.booruchan.booru.model.content.factory.ContentFactory
 import com.makentoshe.booruchan.booru.view.BooruActivity
-import com.makentoshe.booruchan.common.Booruchan
 import com.makentoshe.booruchan.common.StyleableAnkoComponent
 import com.makentoshe.booruchan.common.delayAutocompleteEditText
 import com.makentoshe.booruchan.common.forLollipop
@@ -32,7 +33,9 @@ import org.jetbrains.anko.sdk25.coroutines.onClick
 import org.jetbrains.anko.support.v4._DrawerLayout
 
 class BooruActivityUIContent(style: Style,
-                             private val viewModel: ContentViewModel,
+                             private val booruViewModel: BooruViewModel,
+                             private val contentViewModel: ContentViewModel,
+                             private val panelViewModel: PanelViewModel,
                              private val dlContext: _DrawerLayout)
     : StyleableAnkoComponent<BooruActivity>(style) {
 
@@ -49,21 +52,20 @@ class BooruActivityUIContent(style: Style,
         }.lparams(matchParent, matchParent)
     }
 
-
     private fun _ConstraintLayout.createGallery(ui: AnkoContext<BooruActivity>) {
         frameLayout {
             id = R.id.booru_content_container
-            viewModel.addSelectedItemPositionObserver(ui.owner) { contentID ->
+            panelViewModel.addSelectedItemPositionObserver(ui.owner) { contentID ->
                 println("New content: $contentID")
                 val content = ContentFactory
-                        .createFactory(contentID!!, viewModel.getBooru())
+                        .createFactory(contentID!!, contentViewModel.booru)
                         .createContent(ui.owner)
-                val fragmentView = content.createView(viewModel)
+                val fragmentView = content.createView(contentViewModel)
                 ui.owner.supportFragmentManager.beginTransaction()
                         .replace(R.id.booru_content_container, fragmentView)
                         .commitNow()
-                viewModel.removeSearchTermObservers(ui.owner)
-                viewModel.addSearchTermObserver(ui.owner, fragmentView.onSearchStarted().get()!!)
+                contentViewModel.removeSearchTermObservers(ui.owner)
+                contentViewModel.addSearchTermObserver(ui.owner, fragmentView.onSearchStarted().get()!!)
                 ui.owner.getRefWatcher().watch(fragmentView)
             }
 
@@ -83,9 +85,9 @@ class BooruActivityUIContent(style: Style,
             id = R.id.booru_content_toolbar
             setTitleTextColor(ContextCompat.getColor(context, style.toolbarForegroundColor))
             setSubtitleTextColor(ContextCompat.getColor(context, style.toolbarForegroundColor))
-            title = viewModel.getBooru().getBooruName()
-            viewModel.addSelectedItemPositionObserver(ui.owner) {
-                subtitle = viewModel.getSubtitleResByIndex(context, it!!)
+            title = contentViewModel.booru.getBooruName()
+            panelViewModel.addSelectedItemPositionObserver(ui.owner) {
+                subtitle = contentViewModel.getSubtitleResByIndex(context, it!!)
             }
             backgroundColorResource = style.toolbarBackgroundColor
             forLollipop {
@@ -151,8 +153,8 @@ class BooruActivityUIContent(style: Style,
             inputType = EditorInfo.TYPE_CLASS_TEXT
             singleLine = true
             setPadding(dip(3), 0, dip(37), 0)
-            setAdapter(viewModel.getAutocompleteAdapter(context))
-            setActionSearch(viewModel)
+            setAdapter(contentViewModel.getAutocompleteAdapter(context))
+            setActionSearch(contentViewModel, booruViewModel)
         }.lparams(matchConstraint, matchConstraint) {
             leftToLeft = ConstraintSet.PARENT_ID
             rightToRight = ConstraintSet.PARENT_ID
@@ -195,7 +197,7 @@ class BooruActivityUIContent(style: Style,
             backgroundResource = android.R.color.black
 
             onClick {
-                viewModel.hideSearchLabel(ui.owner, style)
+                booruViewModel.hideSearchLabel(ui.owner, style)
             }
 
         }.lparams {

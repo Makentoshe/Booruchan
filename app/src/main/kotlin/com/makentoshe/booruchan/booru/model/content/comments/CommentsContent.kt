@@ -8,7 +8,7 @@ import com.makentoshe.booruchan.common.settings.application.AppSettings
 
 class CommentsContent(private val appSettings: AppSettings) : Content {
 
-    override fun createView(contentViewModel: ContentViewModel): ContentFragment {
+    override fun createView(contentViewModel: com.makentoshe.booruchan.booru.ContentViewModel): ContentFragment {
         return CommentsFragment()
     }
 

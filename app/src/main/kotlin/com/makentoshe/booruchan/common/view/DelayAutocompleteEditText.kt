@@ -14,7 +14,8 @@ import android.util.AttributeSet
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.ImageView
-import com.makentoshe.booruchan.booru.model.content.ContentViewModel
+import com.makentoshe.booruchan.booru.BooruViewModel
+import com.makentoshe.booruchan.booru.ContentViewModel
 import com.makentoshe.booruchan.common.Activity
 import com.makentoshe.booruchan.common.styles.Style
 import kotlinx.coroutines.experimental.launch
@@ -38,12 +39,12 @@ class DelayAutocompleteEditText(context: Context, attrs: AttributeSet? = null)
         this.autoCompleteDelay = autoCompleteDelay
     }
 
-    fun setActionSearch(viewModel: ContentViewModel): DelayAutocompleteEditText {
+    fun setActionSearch(contentViewModel: ContentViewModel, booruViewModel: BooruViewModel): DelayAutocompleteEditText {
         setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                viewModel.addValueForObserver(text.toString())
+                contentViewModel.addValueForObserver(text.toString())
                 (this.context as Activity).let {
-                    viewModel.hideSearchLabel(it, it.getAppSettings().getStyle())
+                    booruViewModel.hideSearchLabel(it, it.getAppSettings().getStyle())
                 }
                 return@setOnEditorActionListener true
             }

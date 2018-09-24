@@ -19,19 +19,13 @@ import com.makentoshe.booruchan.common.hideKeyboard
 import com.makentoshe.booruchan.common.styles.Style
 import org.jetbrains.anko.backgroundResource
 
-class BooruViewModel(private val booru: Boor) : ViewModel(), ContentViewModel, PanelViewModel {
+class BooruViewModel(@JvmField val booru: Boor) : ViewModel() {
 
     private val animator: ViewAnimator by lazy {
         ViewAnimator()
     }
 
-    override fun getBooru(): Boor {
-        return booru
-    }
-
-    private val searchTermLiveData = MutableLiveData<String>()
-
-    override fun changeSearchLabelState(activity: AppCompatActivity, style: Style) {
+    fun changeSearchLabelState(activity: AppCompatActivity, style: Style) {
         if (animator.isDisplay()) {
             hideSearchLabel(activity, style)
         } else {
@@ -39,80 +33,19 @@ class BooruViewModel(private val booru: Boor) : ViewModel(), ContentViewModel, P
         }
     }
 
-    override fun showSearchLabel(activity: AppCompatActivity, style: Style) {
+    fun showSearchLabel(activity: AppCompatActivity, style: Style) {
         val searchLabel = activity.findViewById<View>(R.id.booru_content_search)
         val alphaLabel = activity.findViewById<View>(R.id.booru_content_alpha)
         val icon = activity.findViewById<ActionMenuItemView>(R.id.action_show_search)
         animator.showSearchAndAlphaLabels(searchLabel, alphaLabel, icon, style)
     }
 
-    override fun hideSearchLabel(activity: AppCompatActivity, style: Style) {
+    fun hideSearchLabel(activity: AppCompatActivity, style: Style) {
         val searchLabel = activity.findViewById<View>(R.id.booru_content_search)
         val alphaLabel = activity.findViewById<View>(R.id.booru_content_alpha)
         val icon = activity.findViewById<ActionMenuItemView>(R.id.action_show_search)
         animator.hideSearchAndAlphaLabels(searchLabel, alphaLabel, icon, style)
         hideKeyboard(activity)
-    }
-
-    override fun getAutocompleteAdapter(context: Context): AutocompleteAdapter {
-        return AutocompleteAdapter(context, booru)
-    }
-
-    override fun addSearchTermObserver(owner: LifecycleOwner, observer: (String) -> (Unit)) {
-        searchTermLiveData.observe(owner, Observer<String> {
-            observer.invoke(it!!)
-        })
-    }
-
-    override fun removeSearchTermObservers(owner: LifecycleOwner) {
-        searchTermLiveData.removeObservers(owner)
-    }
-
-    override fun addValueForObserver(value: String) {
-        searchTermLiveData.value = value
-    }
-
-    override fun isUserLoggedIn(): Boolean {
-        return true
-    }
-
-    override fun getServiceListAdapter(context: Context, style: Style): ListAdapter {
-        val strings: Array<CharSequence> = context.resources.getTextArray(R.array.subservices)
-        return SelectableServiceAdapter(context, android.R.layout.simple_list_item_1,
-                strings.asList(), style.assentSecondaryColor)
-    }
-
-    private val selectedItemPositionLiveData = MutableLiveData<Int>()
-
-    override fun addSelectedItemPositionObserver(owner: LifecycleOwner, observer: (Int?) -> (Unit)) {
-        selectedItemPositionLiveData.observe(owner, Observer<Int> {
-            observer(it)
-        })
-    }
-
-    override fun setSelectedItemPositionToStart() {
-        selectedItemPositionLiveData.value = 0
-    }
-
-    override fun onItemSelect(view: View, position: Int, listView: ListView, style: Style) {
-        if (selectedItemPositionLiveData.value != position) {
-            val prevView = listView.getViewByPosition(selectedItemPositionLiveData.value!!)
-            prevView.backgroundResource = android.R.color.transparent
-            view.backgroundResource = style.assentSecondaryColor
-            selectedItemPositionLiveData.value = position
-        }
-    }
-
-    private fun ListView.getViewByPosition(pos: Int): View {
-        val firstListItemPosition = firstVisiblePosition
-        val lastListItemPosition = firstListItemPosition + childCount - 1
-
-        return if (pos < firstListItemPosition || pos > lastListItemPosition) {
-            adapter.getView(pos, null, this)
-        } else {
-            val childIndex = pos - firstListItemPosition
-            getChildAt(childIndex)
-        }
     }
 
 }

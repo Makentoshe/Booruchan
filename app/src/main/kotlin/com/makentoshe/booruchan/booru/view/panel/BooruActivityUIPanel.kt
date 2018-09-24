@@ -11,7 +11,7 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.ImageView.ScaleType
 import com.makentoshe.booruchan.R
-import com.makentoshe.booruchan.booru.model.panel.PanelViewModel
+import com.makentoshe.booruchan.booru.PanelViewModel
 import com.makentoshe.booruchan.booru.view.BooruActivity
 import com.makentoshe.booruchan.common.StyleableAnkoComponent
 import com.makentoshe.booruchan.common.roundedImageView
