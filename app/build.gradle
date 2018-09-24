@@ -80,7 +80,18 @@ dependencies {
 
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.6.1'
     releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.1'
-    debugImplementation 'com.squareup.leakcanary:leakcanary-support-fragment:1.6.1'
+    testImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.1'
+    androidTestImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.1'
+}
+
+configurations.all { config ->
+    if (config.name.contains('UnitTest')) {
+        config.resolutionStrategy.eachDependency { details ->
+            if (details.requested.group == 'com.squareup.leakcanary' && details.requested.name == 'leakcanary-android') {
+                details.useTarget(group: details.requested.group, name: 'leakcanary-android-no-op', version: details.requested.version)
+            }
+        }
+    }
 }
 
 kotlin {
