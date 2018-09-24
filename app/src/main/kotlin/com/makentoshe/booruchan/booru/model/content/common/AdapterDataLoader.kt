@@ -41,4 +41,11 @@ class AdapterDataLoader(val searchTerm: String,
         }
     }
 
+    fun clearScheduler() {
+        postDataLoadScheduler.jobDeque.forEach {
+            it.cancel()
+        }
+        postDataLoadScheduler.jobDeque.clear()
+    }
+
 }

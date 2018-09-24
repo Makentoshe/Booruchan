@@ -41,6 +41,7 @@ class PostsContentViewModel(@JvmField val booru: Boor,
     }
 
     override fun onCleared() {
+        currentGalleryAdapter.clear()
         super.onCleared()
         println("Clear VM")
     }

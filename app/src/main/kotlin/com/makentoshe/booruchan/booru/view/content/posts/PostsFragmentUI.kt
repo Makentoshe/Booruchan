@@ -30,7 +30,12 @@ class PostsFragmentUI(private val viewModel: PostsContentViewModel) : AnkoCompon
     private fun _RelativeLayout.createGalleryView() {
         swipeRefreshLayout {
             setOnRefreshListener {
-                createNewGalleryAdapterAndScrollToStartPosition(viewModel.getSearchTerm())
+                if (this@PostsFragmentUI::recyclerView.isInitialized) {
+                    recyclerView.apply {
+                        adapter = viewModel.newGalleryAdapter(viewModel.getSearchTerm())
+                        scrollToPosition(0)
+                    }
+                }
                 this@swipeRefreshLayout.isRefreshing = false
                 Toasty.success(context, context.getString(R.string.updated)).show()
             }
@@ -55,15 +60,6 @@ class PostsFragmentUI(private val viewModel: PostsContentViewModel) : AnkoCompon
                 lparams(matchParent, matchParent)
             }
         }.lparams(matchParent, matchParent)
-    }
-
-    fun createNewGalleryAdapterAndScrollToStartPosition(searchTerm: String?) {
-        if (this@PostsFragmentUI::recyclerView.isInitialized) {
-            recyclerView.apply {
-                adapter = viewModel.newGalleryAdapter(searchTerm)
-                scrollToPosition(0)
-            }
-        }
     }
 
     @SuppressLint("NewApi")

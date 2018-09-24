@@ -58,10 +58,14 @@ class BooruViewModel(private val booru: Boor) : ViewModel(), ContentViewModel, P
         return AutocompleteAdapter(context, booru)
     }
 
-    override fun addSearchTermObserver(owner: LifecycleOwner, observer: (String?) -> (Unit)) {
+    override fun addSearchTermObserver(owner: LifecycleOwner, observer: (String) -> (Unit)) {
         searchTermLiveData.observe(owner, Observer<String> {
-            observer.invoke(it)
+            observer.invoke(it!!)
         })
+    }
+
+    override fun removeSearchTermObservers(owner: LifecycleOwner) {
+        searchTermLiveData.removeObservers(owner)
     }
 
     override fun addValueForObserver(value: String) {

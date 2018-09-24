@@ -7,12 +7,17 @@ import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import com.makentoshe.booruchan.common.settings.application.AppSettings
+import com.squareup.leakcanary.RefWatcher
 
 @SuppressLint("Registered")
 abstract class Activity: AppCompatActivity() {
 
     fun getAppSettings(): AppSettings {
         return (application as Booruchan).appSettings
+    }
+
+    fun getRefWatcher(): RefWatcher {
+        return (application as Booruchan).refWatcher
     }
 
     private var currentStyleVal: Int = -1

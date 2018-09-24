@@ -2,19 +2,21 @@ package com.makentoshe.booruchan.booru.view.content.posts
 
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
-import android.support.v4.app.Fragment
+import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.booru.model.content.posts.PostsContentViewModel
+import com.makentoshe.booruchan.booru.view.content.ContentFragment
 import com.makentoshe.booruchan.common.api.Boor
 import com.makentoshe.booruchan.common.settings.application.AppSettings
 import org.jetbrains.anko.AnkoContext
+import java.lang.ref.WeakReference
 
-class PostsFragment : Fragment() {
+class PostsFragment : ContentFragment() {
 
     lateinit var viewModel: PostsContentViewModel
-    lateinit var ui: PostsFragmentUI
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,8 +28,16 @@ class PostsFragment : Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        ui = PostsFragmentUI(viewModel)
-        return ui.createView(AnkoContext.create(activity!!, this))
+        return PostsFragmentUI(viewModel).createView(AnkoContext.create(activity!!, this))
+    }
+
+    override fun onSearchStarted(): WeakReference<(String) -> Unit> {
+        return WeakReference<(String) -> Unit>({
+            activity?.findViewById<RecyclerView>(R.id.booru_content_gallery)?.apply {
+                adapter = viewModel.newGalleryAdapter(it)
+                scrollToPosition(0)
+            }
+        })
     }
 
     override fun onDestroy() {

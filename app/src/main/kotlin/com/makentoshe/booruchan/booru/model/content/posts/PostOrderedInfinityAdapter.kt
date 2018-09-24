@@ -62,6 +62,10 @@ class PostOrderedInfinityAdapter(private val dataLoader: AdapterDataLoader)
         }
     }
 
+    fun clear() {
+        dataLoader.clearScheduler()
+    }
+
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
         private val postsMainView = ArrayList<CardView>()

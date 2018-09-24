@@ -16,6 +16,7 @@ import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.booru.model.content.ContentViewModel
 import com.makentoshe.booruchan.booru.model.content.factory.ContentFactory
 import com.makentoshe.booruchan.booru.view.BooruActivity
+import com.makentoshe.booruchan.common.Booruchan
 import com.makentoshe.booruchan.common.StyleableAnkoComponent
 import com.makentoshe.booruchan.common.delayAutocompleteEditText
 import com.makentoshe.booruchan.common.forLollipop
@@ -57,10 +58,13 @@ class BooruActivityUIContent(style: Style,
                 val content = ContentFactory
                         .createFactory(contentID!!, viewModel.getBooru())
                         .createContent(ui.owner)
+                val fragmentView = content.createView(viewModel)
                 ui.owner.supportFragmentManager.beginTransaction()
-                        .replace(R.id.booru_content_container, content.createView(viewModel))
+                        .replace(R.id.booru_content_container, fragmentView)
                         .commitNow()
-                viewModel.addSearchTermObserver(ui.owner, content.onSearchStarted())
+                viewModel.removeSearchTermObservers(ui.owner)
+                viewModel.addSearchTermObserver(ui.owner, fragmentView.onSearchStarted().get()!!)
+                ui.owner.getRefWatcher().watch(fragmentView)
             }
 
         }.lparams {

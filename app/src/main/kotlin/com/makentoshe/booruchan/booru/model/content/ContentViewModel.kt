@@ -13,7 +13,7 @@ interface ContentViewModel {
 
     fun getBooru(): Boor
 
-    fun addSearchTermObserver(owner: LifecycleOwner, observer: (String?) -> (Unit))
+    fun addSearchTermObserver(owner: LifecycleOwner, observer: (String) -> (Unit))
 
     fun addValueForObserver(value: String)
 
@@ -31,4 +31,6 @@ interface ContentViewModel {
         val subtitles = context.resources.getStringArray(R.array.subservices)
         return subtitles[index]
     }
+
+    fun removeSearchTermObservers(owner: LifecycleOwner)
 }
