@@ -2,6 +2,7 @@ package com.makentoshe.booruchan.appsettings.view
 
 import android.annotation.SuppressLint
 import android.arch.lifecycle.ViewModelProviders
+import android.content.Context
 import android.support.annotation.StringRes
 import android.support.v7.widget.Toolbar
 import android.view.Gravity
@@ -12,6 +13,8 @@ import com.makentoshe.booruchan.appsettings.AppSettingsViewModel
 import com.makentoshe.booruchan.common.StyleableAnkoComponent
 import com.makentoshe.booruchan.common.Activity
 import com.makentoshe.booruchan.common.forLollipop
+import com.makentoshe.booruchan.common.settings.application.AppSettings
+import com.makentoshe.booruchan.common.settings.application.AppSettingsSave
 import com.makentoshe.booruchan.common.styles.Style
 import org.jetbrains.anko.*
 import org.jetbrains.anko.appcompat.v7.titleResource
@@ -58,11 +61,22 @@ class AppSettingsActivityUI(style: Style)
                     .setSpinnerAdapter(viewModel.createStyleSpinnerAdapter(context))
                     .setSelectedItem(Style.getStyleIndex(activity.getAppSettings().getStyle().styleId))
                     .setOnItemSelectedListener { adapter, _, pos, _ ->
-                        viewModel.onStyleSelected(activity, adapter?.getItemAtPosition(pos) as String)
+                        onStyleSelected(activity, adapter?.getItemAtPosition(pos) as String)
                     }
         }.lparams {
             width = matchParent
             height = dip(style.dpToolbarHeight)
+        }
+    }
+
+    private fun onStyleSelected(activity: Activity, styleTitle: String) {
+        val sharedPreferences = activity.getSharedPreferences(AppSettings.NAME, Context.MODE_PRIVATE)
+        val appSettingsSave = AppSettingsSave(sharedPreferences, activity.getAppSettings())
+        val style = Style.getStyleByName(styleTitle)
+        if (activity.getAppSettings().getStyle().styleId != style.styleId) {
+            activity.getAppSettings().setStyle(style.styleId)
+            appSettingsSave.saveStyle()
+            activity.recreate()
         }
     }
 

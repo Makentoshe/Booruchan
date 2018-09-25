@@ -19,11 +19,4 @@ class AppSettingsViewModel: ViewModel() {
         return styleSetting.createSpinnerAdapter(context)
     }
 
-    fun onStyleSelected(activity: Activity, styleTitle: String) {
-        val sharedPreferences = activity.getSharedPreferences(AppSettings.NAME, Context.MODE_PRIVATE)
-        val appSettingsSave = AppSettingsSave(sharedPreferences, activity.getAppSettings())
-        val style = Style.getStyleByName(styleTitle)
-        styleSetting.styleSelected(style, activity, appSettingsSave)
-    }
-
 }
