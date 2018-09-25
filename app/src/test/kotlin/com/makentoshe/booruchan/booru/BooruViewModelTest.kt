@@ -17,12 +17,7 @@ import java.util.concurrent.TimeUnit
 @RunWith(RobolectricTestRunner::class)
 class BooruViewModelTest {
 
-    private val viewModel = BooruViewModel(Gelbooru())
-
-    @Test
-    fun `should contain booru`() {
-        assertNotNull(viewModel.booru)
-    }
+    private val viewModel = BooruViewModel()
 
     @Test
     fun `should change search label state`() {

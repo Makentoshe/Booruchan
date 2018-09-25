@@ -19,7 +19,7 @@ import com.makentoshe.booruchan.common.hideKeyboard
 import com.makentoshe.booruchan.common.styles.Style
 import org.jetbrains.anko.backgroundResource
 
-class BooruViewModel(@JvmField val booru: Boor) : ViewModel() {
+class BooruViewModel : ViewModel() {
 
     private val animator: ViewAnimator by lazy {
         ViewAnimator()

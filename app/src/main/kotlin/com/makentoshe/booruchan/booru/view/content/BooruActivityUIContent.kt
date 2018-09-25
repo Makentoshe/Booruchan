@@ -66,7 +66,6 @@ class BooruActivityUIContent(style: Style,
                         .commitNow()
                 contentViewModel.removeSearchTermObservers(ui.owner)
                 contentViewModel.addSearchTermObserver(ui.owner, fragmentView.onSearchStarted().get()!!)
-                ui.owner.getRefWatcher().watch(fragmentView)
             }
 
         }.lparams {
