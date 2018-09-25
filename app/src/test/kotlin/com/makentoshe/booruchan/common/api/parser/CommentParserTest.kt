@@ -1,6 +1,9 @@
 package com.makentoshe.booruchan.common.api.parser
 
+import com.makentoshe.booruchan.common.api.HttpClient
 import com.makentoshe.booruchan.common.api.gelbooru.Gelbooru
+import kotlinx.coroutines.experimental.delay
+import kotlinx.coroutines.experimental.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Test
@@ -33,6 +36,13 @@ class CommentParserTest {
         val comments = parser.parseComments(ByteArrayInputStream(" sas ".toByteArray()))
         assertNotNull(comments)
         assertEquals(3 ,comments.size)
+    }
+
+    @Test
+    fun `sas`()= runBlocking {
+        Gelbooru().getListOfComments(0, HttpClient()) {
+
+        }
     }
 
 }
