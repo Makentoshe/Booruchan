@@ -10,6 +10,10 @@
     <string name="color_theme">Color theme</string>
     <string name="network_error">The error was occur while a posts was loading… May be the network troubles?</string>
     <string name="updated">Updated</string>
+    <string name="date">Date</string>
+    <string name="user">User</string>
+    <string name="score">Score</string>
+    <string name="tags">Tags</string>
 
     <string-array name="subservices">
         <item>Posts</item>

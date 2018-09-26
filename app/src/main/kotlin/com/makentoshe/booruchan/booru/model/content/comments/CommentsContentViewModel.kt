@@ -4,6 +4,7 @@ import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
 import android.support.v7.widget.RecyclerView
 import com.makentoshe.booruchan.booru.model.content.common.Downloader
+import com.makentoshe.booruchan.booru.view.content.comments.ProgressBarController
 import com.makentoshe.booruchan.common.api.Boor
 import com.makentoshe.booruchan.common.api.HttpClient
 import com.makentoshe.booruchan.common.settings.application.AppSettings
@@ -16,16 +17,16 @@ class CommentsContentViewModel(@JvmField val booru: Boor,
     private val dataLoader = CommentsContentDataLoader(downloader, booru)
     private lateinit var adapter: CommentsContentAdapter
 
-    fun newGalleryAdapter(): RecyclerView.Adapter<*> {
-        adapter = CommentsContentAdapter(dataLoader)
+    fun newGalleryAdapter(controller: ProgressBarController): RecyclerView.Adapter<*> {
+        adapter = CommentsContentAdapter(dataLoader, controller)
         return adapter
     }
 
-    fun getGalleryAdapter(): RecyclerView.Adapter<*> {
+    fun getGalleryAdapter(controller: ProgressBarController): RecyclerView.Adapter<*> {
         return if (this::adapter.isInitialized) {
             adapter
         } else {
-            newGalleryAdapter()
+            newGalleryAdapter(controller)
         }
     }
 

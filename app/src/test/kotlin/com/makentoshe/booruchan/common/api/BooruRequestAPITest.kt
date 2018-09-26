@@ -58,7 +58,7 @@ abstract class BooruRequestAPITest(private val api: BoorRequestAPI) {
     @Test
     fun getCommentByPostIdRequest() {
         val postID = 393939
-        val url = api.getCommentByPostIdRequest(postID)
+        val url = api.getCommentsByPostIdRequest(postID)
         val expected = getCommentByPostIdRequestExpected(postID)
         assertEquals(expected, url)
     }

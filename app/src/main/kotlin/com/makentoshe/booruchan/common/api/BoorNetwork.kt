@@ -10,8 +10,8 @@ abstract class BoorNetwork(private val api: BoorRequestAPI) : Serializable {
                                 onResult: ((Posts<out Post>) -> Unit))
 
     abstract fun getAutocompleteSearchVariations(httpClient: HttpClient, term: String): List<String>
-//
-//    abstract fun getCommentByPostId(id: Int, onResult: (List<Any>) -> Unit)
+
+    abstract suspend fun getCommentsByPostId(id: Int, httpClient: HttpClient, action: (List<Comment>) -> Unit)
 
     abstract fun getListOfLastComments(httpClient: HttpClient, onResult: (List<Comment>) -> (Unit))
 

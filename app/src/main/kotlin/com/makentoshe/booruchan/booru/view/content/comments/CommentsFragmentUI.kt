@@ -1,10 +1,13 @@
 package com.makentoshe.booruchan.booru.view.content.comments
 
 import android.annotation.SuppressLint
+import android.content.res.ColorStateList
+import android.graphics.Color
 import android.support.design.widget.FloatingActionButton
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.View
+import android.widget.ProgressBar
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.booru.model.content.comments.CommentsContentViewModel
 import com.makentoshe.booruchan.common.forLollipop
@@ -14,16 +17,28 @@ import org.jetbrains.anko.design.floatingActionButton
 import org.jetbrains.anko.recyclerview.v7.recyclerView
 import org.jetbrains.anko.support.v4.swipeRefreshLayout
 
-class CommentsFragmentUI(private val viewModel: CommentsContentViewModel): AnkoComponent<CommentsFragment> {
+class CommentsFragmentUI(private val viewModel: CommentsContentViewModel)
+    : AnkoComponent<CommentsFragment>, ProgressBarController {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var floatingActionButton: FloatingActionButton
+    private lateinit var progressBar: ProgressBar
 
     override fun createView(ui: AnkoContext<CommentsFragment>): View = with(ui) {
         relativeLayout {
+            createProgressBar()
             createGalleryView()
             createFloatingActionButton()
             lparams(matchParent, matchParent)
+        }
+    }
+
+    private fun _RelativeLayout.createProgressBar() {
+        progressBar = horizontalProgressBar {
+            isIndeterminate = true
+            max = 1
+        }.lparams(matchParent, dip(10)) {
+            alignParentTop()
         }
     }
 
@@ -32,7 +47,7 @@ class CommentsFragmentUI(private val viewModel: CommentsContentViewModel): AnkoC
             setOnRefreshListener {
                 if (this@CommentsFragmentUI::recyclerView.isInitialized) {
                     recyclerView.apply {
-                        adapter = viewModel.newGalleryAdapter()
+                        adapter = viewModel.newGalleryAdapter(this@CommentsFragmentUI)
                         scrollToPosition(0)
                     }
                 }
@@ -42,7 +57,7 @@ class CommentsFragmentUI(private val viewModel: CommentsContentViewModel): AnkoC
 
             recyclerView = recyclerView {
                 id = R.id.booru_content_gallery
-                adapter = viewModel.getGalleryAdapter()
+                adapter = viewModel.getGalleryAdapter(this@CommentsFragmentUI)
                 val llm = LinearLayoutManager(this.context)
                 layoutManager = llm
 
@@ -82,4 +97,19 @@ class CommentsFragmentUI(private val viewModel: CommentsContentViewModel): AnkoC
             setMargins(0, 0, dip(20), dip(20))
         }
     }
+
+    override fun hideProgressBar() {
+        progressBar.visibility = View.GONE
+    }
+
+    override fun showProgressBar() {
+        progressBar.visibility = View.VISIBLE
+    }
+
+    override fun errorProgressBar() {
+        progressBar.progress = 1
+        progressBar.indeterminateDrawable.setColorFilter(Color.RED, android.graphics.PorterDuff.Mode.SRC_IN)
+        progressBar.isIndeterminate = false
+    }
+
 }

@@ -1,6 +1,8 @@
 package com.makentoshe.booruchan.common
 
 import android.os.Build
+import android.os.Handler
+import android.os.Looper
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.view.ViewManager
@@ -35,3 +37,7 @@ fun hideKeyboard(activity: AppCompatActivity) {
 inline fun ViewManager.delayAutocompleteEditText(init: DelayAutocompleteEditText.() -> Unit) = ankoView({ DelayAutocompleteEditText(it) }, 0, init)
 
 inline fun ViewManager.roundedImageView(init: RoundedImageView.() -> Unit) = ankoView({ RoundedImageView(it) }, 0, init)
+
+fun runOnUi(action: ()-> (Unit)) {
+    Handler(Looper.getMainLooper()).post(action)
+}

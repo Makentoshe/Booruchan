@@ -23,7 +23,7 @@ class CommentParser<T : Comment>(private val clazz: Class<T>) {
     private fun parseCommentsXml(document: Document): List<Comment> {
         val root = document.body().child(0)
         val comments = ArrayList<Comment>()
-        for (i in 0 until root.childNodeSize() / 2 step 1) {
+        for (i in 0 until root.childNodeSize() step 1) {
             val comment = clazz.newInstance()
             comment.fill(parseAttributesToMap(root.child(i).attributes()))
             comments.add(comment)

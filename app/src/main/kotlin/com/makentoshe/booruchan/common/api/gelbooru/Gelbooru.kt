@@ -3,7 +3,6 @@ package com.makentoshe.booruchan.common.api.gelbooru
 import com.makentoshe.booruchan.common.api.Boor
 import com.makentoshe.booruchan.common.api.HttpClient
 import com.makentoshe.booruchan.common.api.Posts
-import com.makentoshe.booruchan.common.api.entity.Post
 import com.makentoshe.booruchan.common.api.parser.AutocompleteSearchParser
 import com.makentoshe.booruchan.common.api.parser.CommentParser
 import com.makentoshe.booruchan.common.api.parser.HtmlParser
@@ -56,18 +55,30 @@ class Gelbooru : Boor(GelbooruRequestAPI()), Serializable {
         onResult.invoke(CommentParser(Comment::class.java).parseComments(async.await()))
     }
 
-    override suspend fun getListOfLastCommentedPostIds(page: Int, httpClient: HttpClient, action: (IntArray) -> Unit) {
+    override suspend fun getListOfLastCommentedPostIds(
+            page: Int, httpClient: HttpClient, action: (IntArray) -> Unit) {
         val async = GlobalScope.async {
             httpClient.get(getApi().getListOfCommentsViewRequest(page)).stream()
         }
         action(HtmlParser().parse(async.await()))
     }
 
-    override suspend fun getPostById(postId: Int, httpClient: HttpClient, action: (com.makentoshe.booruchan.common.api.entity.Post) -> Unit) {
+    override suspend fun getPostById(
+            postId: Int, httpClient: HttpClient,
+            action: (com.makentoshe.booruchan.common.api.entity.Post) -> Unit) {
         val async = GlobalScope.async {
             httpClient.get(getApi().getPostByIdRequest(postId)).stream()
         }
         action(PostParser(Post::class.java).parsePosts(async.await()).getPost(0))
+    }
+
+    override suspend fun getCommentsByPostId(
+            id: Int, httpClient: HttpClient,
+            action: (List<com.makentoshe.booruchan.common.api.entity.Comment>) -> Unit) {
+        val async = GlobalScope.async {
+            httpClient.get(getApi().getCommentsByPostIdRequest(id)).stream()
+        }
+        action(CommentParser(Comment::class.java).parseComments(async.await()))
     }
 
     class Post : com.makentoshe.booruchan.common.api.entity.Post() {
