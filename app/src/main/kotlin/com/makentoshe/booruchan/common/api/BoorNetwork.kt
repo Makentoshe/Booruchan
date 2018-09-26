@@ -15,6 +15,8 @@ abstract class BoorNetwork(private val api: BoorRequestAPI) : Serializable {
 
     abstract fun getListOfLastComments(httpClient: HttpClient, onResult: (List<Comment>) -> (Unit))
 
-    abstract fun getListOfComments(page: Int, httpClient: HttpClient, action: (List<Comment>) -> (Unit))
+    abstract suspend fun getListOfLastCommentedPostIds(page: Int, httpClient: HttpClient, action: (IntArray) -> (Unit))
+
+    abstract suspend fun getPostById(postId: Int, httpClient: HttpClient, action: (Post) -> Unit)
 
 }

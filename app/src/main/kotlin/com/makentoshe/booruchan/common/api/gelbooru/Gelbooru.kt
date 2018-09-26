@@ -3,11 +3,11 @@ package com.makentoshe.booruchan.common.api.gelbooru
 import com.makentoshe.booruchan.common.api.Boor
 import com.makentoshe.booruchan.common.api.HttpClient
 import com.makentoshe.booruchan.common.api.Posts
-import com.makentoshe.booruchan.common.api.entity.Comment
+import com.makentoshe.booruchan.common.api.entity.Post
 import com.makentoshe.booruchan.common.api.parser.AutocompleteSearchParser
 import com.makentoshe.booruchan.common.api.parser.CommentParser
+import com.makentoshe.booruchan.common.api.parser.HtmlParser
 import com.makentoshe.booruchan.common.api.parser.PostParser
-import kotlinx.coroutines.experimental.CoroutineScope
 import kotlinx.coroutines.experimental.GlobalScope
 import kotlinx.coroutines.experimental.async
 import kotlinx.coroutines.experimental.runBlocking
@@ -50,19 +50,24 @@ class Gelbooru : Boor(GelbooruRequestAPI()), Serializable {
     override fun getListOfLastComments(
             httpClient: HttpClient,
             onResult: (List<com.makentoshe.booruchan.common.api.entity.Comment>) -> Unit) = runBlocking {
-       val async = GlobalScope.async {
-           httpClient.get(getApi().getListOfLastCommentsRequest()).stream()
-       }
+        val async = GlobalScope.async {
+            httpClient.get(getApi().getListOfLastCommentsRequest()).stream()
+        }
         onResult.invoke(CommentParser(Comment::class.java).parseComments(async.await()))
     }
 
-    override fun getListOfComments(
-            page: Int, httpClient: HttpClient,
-            action: (List<com.makentoshe.booruchan.common.api.entity.Comment>) -> Unit) = runBlocking {
+    override suspend fun getListOfLastCommentedPostIds(page: Int, httpClient: HttpClient, action: (IntArray) -> Unit) {
         val async = GlobalScope.async {
             httpClient.get(getApi().getListOfCommentsViewRequest(page)).stream()
         }
-        action(CommentParser(Comment::class.java).parseComments(async.await()))
+        action(HtmlParser().parse(async.await()))
+    }
+
+    override suspend fun getPostById(postId: Int, httpClient: HttpClient, action: (com.makentoshe.booruchan.common.api.entity.Post) -> Unit) {
+        val async = GlobalScope.async {
+            httpClient.get(getApi().getPostByIdRequest(postId)).stream()
+        }
+        action(PostParser(Post::class.java).parsePosts(async.await()).getPost(0))
     }
 
     class Post : com.makentoshe.booruchan.common.api.entity.Post() {
@@ -149,6 +154,6 @@ class Gelbooru : Boor(GelbooruRequestAPI()), Serializable {
 
     }
 
-    class Comment: com.makentoshe.booruchan.common.api.entity.Comment()
+    class Comment : com.makentoshe.booruchan.common.api.entity.Comment()
 
 }
