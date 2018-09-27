@@ -8,6 +8,10 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.booru.view.content.comments.CommentsContentViewHolderUI
+import com.makentoshe.booruchan.booru.view.content.comments.CommentsContentViewHolderUI.CommentUIBuilder.Ids.Companion.body
+import com.makentoshe.booruchan.booru.view.content.comments.CommentsContentViewHolderUI.CommentUIBuilder.Ids.Companion.createdAt
+import com.makentoshe.booruchan.booru.view.content.comments.CommentsContentViewHolderUI.CommentUIBuilder.Ids.Companion.creator
+import com.makentoshe.booruchan.booru.view.content.comments.CommentsContentViewHolderUI.Ids.Companion.commentsLayout
 import com.makentoshe.booruchan.booru.view.content.comments.CommentsContentViewHolderUI.Ids.Companion.postDataDate
 import com.makentoshe.booruchan.booru.view.content.comments.CommentsContentViewHolderUI.Ids.Companion.postDataLayout
 import com.makentoshe.booruchan.booru.view.content.comments.CommentsContentViewHolderUI.Ids.Companion.postDataScore
@@ -16,9 +20,11 @@ import com.makentoshe.booruchan.booru.view.content.comments.CommentsContentViewH
 import com.makentoshe.booruchan.booru.view.content.comments.CommentsContentViewHolderUI.Ids.Companion.postPreviewImageView
 import com.makentoshe.booruchan.booru.view.content.comments.CommentsContentViewHolderUI.Ids.Companion.progressBar
 import com.makentoshe.booruchan.booru.view.content.comments.ProgressBarController
+import com.makentoshe.booruchan.common.api.entity.Comment
 import com.makentoshe.booruchan.common.api.entity.Post
 import com.makentoshe.booruchan.common.runOnUi
 import org.jetbrains.anko.AnkoContext
+import org.jetbrains.anko.collections.forEachByIndex
 import java.lang.StringBuilder
 import java.util.*
 
@@ -48,11 +54,19 @@ class CommentsContentAdapter(private val dataLoader: CommentsContentDataLoader,
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        println("$position ${postIdsList[position]}")
-        dataLoader.getPostById(postIdsList[position]) {post ->
+        holder.clear()
+        dataLoader.getPostById(postIdsList[position]) { post ->
             setupPostData(holder, post)
             dataLoader.getPostPreview(post) { bitmap ->
                 runOnUi { holder.setPostPreview(bitmap) }
+                dataLoader.getCommentsByPost(post) { comments ->
+                    runOnUi {
+                        holder.showCommentsLayout()
+                        comments.forEachByIndex {comment ->
+                            holder.addCommentView(comment)
+                        }
+                    }
+                }
             }
         }
     }
@@ -60,10 +74,11 @@ class CommentsContentAdapter(private val dataLoader: CommentsContentDataLoader,
     private fun setupPostData(holder: ViewHolder, post: Post) {
         runOnUi {
             holder.showPostView()
-            holder.setPostDate(post.createdAt)
+            holder.setPostDate(dataLoader.convertTime(post.createdAt))
             holder.setPostUser(post.creatorId.toString())
             holder.setPostScore(post.score.toString())
             holder.setPostTags(post.tags)
+            holder.hideProgressBar()
         }
     }
 
@@ -102,13 +117,40 @@ class CommentsContentAdapter(private val dataLoader: CommentsContentDataLoader,
         fun showPostView() {
             itemView.findViewById<View>(postDataLayout).visibility = View.VISIBLE
             itemView.findViewById<View>(postPreviewImageView).visibility = View.VISIBLE
-            hideProgressBar()
         }
 
         fun hideProgressBar() {
             itemView.findViewById<View>(progressBar).visibility = View.GONE
         }
 
+        fun showCommentsLayout() {
+            itemView.findViewById<View>(commentsLayout).visibility = View.VISIBLE
+        }
+
+        fun addCommentView(comment: Comment) {
+            val commentView = createAndSetupCommentView()
+            fillViewByData(commentView, comment)
+        }
+
+        private fun createAndSetupCommentView(): View {
+            val layout = itemView.findViewById<ViewGroup>(commentsLayout)
+            val view = CommentsContentViewHolderUI.CommentUIBuilder()
+                    .createView(AnkoContext.create(context, layout))
+            layout.addView(view)
+            return view
+        }
+
+        private fun fillViewByData(view: View, comment: Comment) {
+            view.findViewById<TextView>(body).text = comment.body
+            view.findViewById<TextView>(creator).text = comment.creator
+            view.findViewById<TextView>(createdAt).text = comment.createdAt
+        }
+
+        fun clear() {
+            val layout = itemView.findViewById<ViewGroup>(commentsLayout)
+            layout.removeAllViews()
+            layout.visibility = View.GONE
+        }
     }
 
 }

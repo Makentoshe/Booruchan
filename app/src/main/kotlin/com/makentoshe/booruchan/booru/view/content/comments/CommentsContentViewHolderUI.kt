@@ -1,10 +1,13 @@
 package com.makentoshe.booruchan.booru.view.content.comments
 
+import android.annotation.SuppressLint
+import android.graphics.Typeface
 import android.support.constraint.ConstraintLayout.LayoutParams.PARENT_ID
+import android.text.TextUtils
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
-import com.makentoshe.booruchan.R
+import com.makentoshe.booruchan.common.forLollipop
 import org.jetbrains.anko.*
 import org.jetbrains.anko.cardview.v7._CardView
 import org.jetbrains.anko.cardview.v7.cardView
@@ -69,6 +72,8 @@ class CommentsContentViewHolderUI : AnkoComponent<ViewGroup> {
         textView {
             this.id = id
             singleLine = true
+            maxLines = 1
+            ellipsize = TextUtils.TruncateAt.END
             this.text = text
         }.lparams(matchParent, wrapContent) {
             weight = 2f
@@ -79,22 +84,76 @@ class CommentsContentViewHolderUI : AnkoComponent<ViewGroup> {
         verticalLayout {
             id = Ids.commentsLayout
             visibility = View.GONE
-        }.lparams(width = matchParent, height = dip(300)) {
+        }.lparams(width = matchParent, height = wrapContent) {
+            topToBottom = Ids.postDataLayout
             endToEnd = PARENT_ID
             startToStart = PARENT_ID
+            setMargins(dip(20), 0, dip(4), dip(8))
         }
     }
 
     private fun _ConstraintLayout.createProgressBarView() {
         verticalLayout {
+            id = Ids.progressBar
             gravity = Gravity.CENTER
             horizontalProgressBar {
                 isIndeterminate = true
                 max = 1
-                id = Ids.progressBar
             }.lparams(matchParent, dip(25))
         }.lparams(matchParent, dip(100)) {
-            setMargins(dip(8), 0, dip(8), 0)
+            setMargins(dip(8), dip(4), dip(8), 0)
+        }
+
+    }
+
+    class CommentUIBuilder : AnkoComponent<View> {
+
+        @SuppressLint("NewApi")
+        override fun createView(ui: AnkoContext<View>): View = with(ui) {
+            frameLayout {
+
+                cardView {
+                    radius = 0f
+                    forLollipop {
+                        elevation = dip(4).toFloat()
+                    }
+                    verticalLayout {
+
+                        linearLayout {
+                            textView {
+                                id = Ids.creator
+                                setTypeface(null, Typeface.BOLD)
+                            }.lparams {weight = 1f}
+
+                            linearLayout {
+                                gravity = Gravity.END
+                                textView {
+                                    id = Ids.createdAt
+                                    setTypeface(null, Typeface.BOLD)
+                                }
+                            }.lparams {weight = 1f}
+                        }
+
+                        textView {
+                            id = Ids.body
+                        }
+
+                    }.lparams(width = matchParent) { margin = dip(4) }
+
+                }.lparams(width = matchParent, height = wrapContent) {
+                    setMargins(dip(4), dip(4), dip(4), dip(8))
+                }
+
+                lparams(width = matchParent, height = wrapContent)
+            }
+        }
+
+        class Ids {
+            companion object {
+                const val body = 1
+                const val creator = 2
+                const val createdAt = 3
+            }
         }
 
     }
@@ -108,7 +167,7 @@ class CommentsContentViewHolderUI : AnkoComponent<ViewGroup> {
             const val postDataScore = 5
             const val postDataTags = 6
             const val commentsLayout = 7
-            const val progressBar = 7
+            const val progressBar = 8
         }
     }
 

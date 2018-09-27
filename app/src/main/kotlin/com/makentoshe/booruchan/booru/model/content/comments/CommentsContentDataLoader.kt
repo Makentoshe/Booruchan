@@ -6,6 +6,7 @@ import com.makentoshe.booruchan.booru.model.content.common.DataLoader
 import com.makentoshe.booruchan.booru.model.content.common.Downloader
 import com.makentoshe.booruchan.booru.model.content.common.JobScheduler
 import com.makentoshe.booruchan.common.api.Boor
+import com.makentoshe.booruchan.common.api.entity.Comment
 import com.makentoshe.booruchan.common.api.entity.Post
 import kotlinx.coroutines.experimental.GlobalScope
 import kotlinx.coroutines.experimental.launch
@@ -34,6 +35,16 @@ class CommentsContentDataLoader(private val downloader: Downloader,
             action(BitmapFactory.decodeStream(it!!))
         }
         postPreviewLoadingScheduler.addJob(job)
+    }
+
+    fun getCommentsByPost(post: Post, action: (List<Comment>) -> Unit) {
+        GlobalScope.launch {
+            booru.getCommentsByPostId(post.id, downloader.client, action)
+        }
+    }
+
+    fun convertTime(time: String): String {
+        return booru.convertLocalTimeToDefault(time)
     }
 
 }
