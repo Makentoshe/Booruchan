@@ -18,7 +18,7 @@ class CommentsContentViewModel(@JvmField val booru: Boor,
     private lateinit var adapter: CommentsContentAdapter
 
     fun newGalleryAdapter(controller: ProgressBarController): RecyclerView.Adapter<*> {
-        adapter = CommentsContentAdapter(dataLoader, controller)
+        adapter = CommentsContentAdapter(dataLoader, controller, appSettings.getStyle())
         return adapter
     }
 

@@ -55,6 +55,9 @@ interface Style {
     @get:ColorRes
     val assentSecondaryColor: Int
 
+    @get:ColorRes
+    val hintColor: Int
+
     @get:DrawableRes
     val avdFromCrossToMagnify: Int
         get() = R.drawable.avd_close_magnify_vector_white

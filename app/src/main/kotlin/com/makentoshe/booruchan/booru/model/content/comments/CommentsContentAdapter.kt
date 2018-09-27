@@ -11,25 +11,25 @@ import com.makentoshe.booruchan.booru.view.content.comments.CommentsContentViewH
 import com.makentoshe.booruchan.booru.view.content.comments.CommentsContentViewHolderUI.CommentUIBuilder.Ids.Companion.body
 import com.makentoshe.booruchan.booru.view.content.comments.CommentsContentViewHolderUI.CommentUIBuilder.Ids.Companion.createdAt
 import com.makentoshe.booruchan.booru.view.content.comments.CommentsContentViewHolderUI.CommentUIBuilder.Ids.Companion.creator
-import com.makentoshe.booruchan.booru.view.content.comments.CommentsContentViewHolderUI.Ids.Companion.commentsLayout
-import com.makentoshe.booruchan.booru.view.content.comments.CommentsContentViewHolderUI.Ids.Companion.postDataDate
-import com.makentoshe.booruchan.booru.view.content.comments.CommentsContentViewHolderUI.Ids.Companion.postDataLayout
-import com.makentoshe.booruchan.booru.view.content.comments.CommentsContentViewHolderUI.Ids.Companion.postDataScore
-import com.makentoshe.booruchan.booru.view.content.comments.CommentsContentViewHolderUI.Ids.Companion.postDataTags
-import com.makentoshe.booruchan.booru.view.content.comments.CommentsContentViewHolderUI.Ids.Companion.postDataUser
-import com.makentoshe.booruchan.booru.view.content.comments.CommentsContentViewHolderUI.Ids.Companion.postPreviewImageView
-import com.makentoshe.booruchan.booru.view.content.comments.CommentsContentViewHolderUI.Ids.Companion.progressBar
+import com.makentoshe.booruchan.booru.view.content.comments.CommentsContentViewHolderUI.Id.commentsLayout
+import com.makentoshe.booruchan.booru.view.content.comments.CommentsContentViewHolderUI.Id.postDataDate
+import com.makentoshe.booruchan.booru.view.content.comments.CommentsContentViewHolderUI.Id.postDataLayout
+import com.makentoshe.booruchan.booru.view.content.comments.CommentsContentViewHolderUI.Id.postDataScore
+import com.makentoshe.booruchan.booru.view.content.comments.CommentsContentViewHolderUI.Id.postDataTags
+import com.makentoshe.booruchan.booru.view.content.comments.CommentsContentViewHolderUI.Id.postPreviewImageView
+import com.makentoshe.booruchan.booru.view.content.comments.CommentsContentViewHolderUI.Id.progressBar
 import com.makentoshe.booruchan.booru.view.content.comments.ProgressBarController
 import com.makentoshe.booruchan.common.api.entity.Comment
 import com.makentoshe.booruchan.common.api.entity.Post
 import com.makentoshe.booruchan.common.runOnUi
+import com.makentoshe.booruchan.common.styles.Style
 import org.jetbrains.anko.AnkoContext
 import org.jetbrains.anko.collections.forEachByIndex
 import java.lang.StringBuilder
 import java.util.*
 
 class CommentsContentAdapter(private val dataLoader: CommentsContentDataLoader,
-                             private val controller: ProgressBarController)
+                             private val controller: ProgressBarController, private val style: Style)
     : RecyclerView.Adapter<CommentsContentAdapter.ViewHolder>() {
 
     private var postIdsList = ArrayList<Int>()
@@ -45,7 +45,7 @@ class CommentsContentAdapter(private val dataLoader: CommentsContentDataLoader,
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(CommentsContentViewHolderUI()
+        return ViewHolder(CommentsContentViewHolderUI(style)
                 .createView(AnkoContext.create(parent.context!!, parent)))
     }
 
@@ -75,7 +75,6 @@ class CommentsContentAdapter(private val dataLoader: CommentsContentDataLoader,
         runOnUi {
             holder.showPostView()
             holder.setPostDate(dataLoader.convertTime(post.createdAt))
-            holder.setPostUser(post.creatorId.toString())
             holder.setPostScore(post.score.toString())
             holder.setPostTags(post.tags)
             holder.hideProgressBar()
@@ -93,27 +92,19 @@ class CommentsContentAdapter(private val dataLoader: CommentsContentDataLoader,
         }
 
         fun setPostDate(date: String) {
-            setData(postDataDate, StringBuilder(context.getString(R.string.date)).append(": ").append(date))
-        }
-
-        fun setPostUser(user: String) {
-            setData(postDataUser, StringBuilder(context.getString(R.string.user)).append(": ").append(user))
+            itemView.findViewById<TextView>(postDataDate).text = date
         }
 
         fun setPostScore(score: String) {
-            setData(postDataScore, StringBuilder(context.getString(R.string.score)).append(": ").append(score))
+            itemView.findViewById<TextView>(postDataScore).text = score
         }
 
         fun setPostTags(tags: Array<String>) {
-            val builder = StringBuilder(context.getString(R.string.tags)).append(": ")
+            val builder = StringBuilder()
             tags.forEach { builder.append(it).append(" ") }
-            setData(postDataTags, builder)
+            itemView.findViewById<TextView>(postDataTags).hint = builder
         }
-
-        fun setData(id: Int, text: CharSequence) {
-            itemView.findViewById<TextView>(id).text = text
-        }
-
+        
         fun showPostView() {
             itemView.findViewById<View>(postDataLayout).visibility = View.VISIBLE
             itemView.findViewById<View>(postPreviewImageView).visibility = View.VISIBLE
