@@ -25,11 +25,11 @@ class CommentsContentViewHolderUI(private val style: Style) : AnkoComponent<View
         frameLayout {
             cardView {
                 radius = 0f
-                forLollipop { elevation = 0f }
+                forLollipop { elevation = 4f }
                 createPostView()
 
             }.lparams(matchParent, wrapContent) {
-                setMargins(0, dip(8), 0, dip(8))
+                setMargins(dip(8), dip(8), dip(8), dip(8))
             }
             lparams(matchParent, wrapContent)
         }
@@ -140,41 +140,32 @@ class CommentsContentViewHolderUI(private val style: Style) : AnkoComponent<View
 
         @SuppressLint("NewApi")
         override fun createView(ui: AnkoContext<View>): View = with(ui) {
-            frameLayout {
+            cardView {
+                radius = 0f
+                lparams(width = matchParent, height = wrapContent)
 
-                cardView {
-                    radius = 0f
-                    forLollipop {
-                        elevation = dip(4).toFloat()
-                    }
-                    verticalLayout {
+                verticalLayout {
+
+                    linearLayout {
+                        textView {
+                            id = Ids.creator
+                            setTypeface(null, Typeface.BOLD)
+                        }.lparams { weight = 1f }
 
                         linearLayout {
+                            gravity = Gravity.END
                             textView {
-                                id = Ids.creator
+                                id = Ids.createdAt
                                 setTypeface(null, Typeface.BOLD)
-                            }.lparams { weight = 1f }
+                            }
+                        }.lparams { weight = 1f }
+                    }
 
-                            linearLayout {
-                                gravity = Gravity.END
-                                textView {
-                                    id = Ids.createdAt
-                                    setTypeface(null, Typeface.BOLD)
-                                }
-                            }.lparams { weight = 1f }
-                        }
+                    textView {
+                        id = Ids.body
+                    }
 
-                        textView {
-                            id = Ids.body
-                        }
-
-                    }.lparams(width = matchParent) { margin = dip(4) }
-
-                }.lparams(width = matchParent, height = wrapContent) {
-                    setMargins(dip(4), dip(4), dip(4), dip(8))
-                }
-
-                lparams(width = matchParent, height = wrapContent)
+                }.lparams(width = matchParent) { margin = dip(4) }
             }
         }
 
