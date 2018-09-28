@@ -69,6 +69,10 @@ class CommentsFragmentUI(private val viewModel: CommentsContentViewModel)
                             } else {
                                 floatingActionButton.hide()
                             }
+                            if (llm.findLastVisibleItemPosition() >=
+                                    viewModel.getGalleryAdapter(this@CommentsFragmentUI).itemCount - 1) {
+                                floatingActionButton.hide()
+                            }
                         }
                     }
                 })

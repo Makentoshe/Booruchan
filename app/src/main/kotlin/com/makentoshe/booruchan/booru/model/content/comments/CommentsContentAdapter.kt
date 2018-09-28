@@ -22,14 +22,13 @@ import com.makentoshe.booruchan.booru.view.content.comments.ProgressBarControlle
 import com.makentoshe.booruchan.common.api.entity.Comment
 import com.makentoshe.booruchan.common.api.entity.Post
 import com.makentoshe.booruchan.common.runOnUi
-import com.makentoshe.booruchan.common.styles.Style
 import org.jetbrains.anko.AnkoContext
 import org.jetbrains.anko.collections.forEachByIndex
 import java.lang.StringBuilder
 import java.util.*
 
 class CommentsContentAdapter(private val dataLoader: CommentsContentDataLoader,
-                             private val controller: ProgressBarController, private val style: Style)
+                             private val controller: ProgressBarController)
     : RecyclerView.Adapter<CommentsContentAdapter.ViewHolder>() {
 
     private var postIdsList = ArrayList<Int>()
@@ -45,7 +44,7 @@ class CommentsContentAdapter(private val dataLoader: CommentsContentDataLoader,
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(CommentsContentViewHolderUI(style)
+        return ViewHolder(CommentsContentViewHolderUI()
                 .createView(AnkoContext.create(parent.context!!, parent)))
     }
 
@@ -104,7 +103,7 @@ class CommentsContentAdapter(private val dataLoader: CommentsContentDataLoader,
             tags.forEach { builder.append(it).append(" ") }
             itemView.findViewById<TextView>(postDataTags).hint = builder
         }
-        
+
         fun showPostView() {
             itemView.findViewById<View>(postDataLayout).visibility = View.VISIBLE
             itemView.findViewById<View>(postPreviewImageView).visibility = View.VISIBLE

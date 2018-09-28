@@ -11,14 +11,13 @@ import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.booru.view.content.comments.CommentsContentViewHolderUI.Id.postDataScore
 import com.makentoshe.booruchan.booru.view.content.comments.CommentsContentViewHolderUI.Id.postDataTags
 import com.makentoshe.booruchan.common.forLollipop
-import com.makentoshe.booruchan.common.styles.Style
 import org.jetbrains.anko.*
 import org.jetbrains.anko.cardview.v7._CardView
 import org.jetbrains.anko.cardview.v7.cardView
 import org.jetbrains.anko.constraint.layout._ConstraintLayout
 import org.jetbrains.anko.constraint.layout.constraintLayout
 
-class CommentsContentViewHolderUI(private val style: Style) : AnkoComponent<ViewGroup> {
+class CommentsContentViewHolderUI : AnkoComponent<ViewGroup> {
 
     @SuppressLint("NewApi")
     override fun createView(ui: AnkoContext<ViewGroup>): View = with(ui) {
@@ -156,6 +155,7 @@ class CommentsContentViewHolderUI(private val style: Style) : AnkoComponent<View
                             gravity = Gravity.END
                             textView {
                                 id = Ids.createdAt
+                                textSize = 12f
                                 setTypeface(null, Typeface.BOLD)
                             }
                         }.lparams { weight = 1f }
