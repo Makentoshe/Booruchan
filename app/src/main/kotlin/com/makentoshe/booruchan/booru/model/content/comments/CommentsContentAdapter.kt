@@ -25,7 +25,7 @@ import org.jetbrains.anko.collections.forEachByIndex
 import java.lang.StringBuilder
 
 class CommentsContentAdapter(private val dataLoader: CommentsContentDataLoader,
-                             @JvmField val postIdsList: IntArray)
+                             @JvmField val postIdsList: List<Int>)
     : RecyclerView.Adapter<CommentsContentAdapter.ViewHolder>() {
 
     init {

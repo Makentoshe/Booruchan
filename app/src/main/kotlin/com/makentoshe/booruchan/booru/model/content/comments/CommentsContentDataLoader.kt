@@ -14,9 +14,9 @@ import kotlinx.coroutines.experimental.launch
 class CommentsContentDataLoader(private val downloader: Downloader,
                                 private val booru: Boor) : DataLoader() {
 
-    private val postLoadingScheduler = JobScheduler(5)
-    private val postPreviewLoadingScheduler = JobScheduler(5)
-    private val commentsLoadingScheduler = JobScheduler(6)
+    private val postLoadingScheduler = JobScheduler(8)
+    private val postPreviewLoadingScheduler = JobScheduler(8)
+    private val commentsLoadingScheduler = JobScheduler(9)
 
     fun getPostIds(page: Int, action: (IntArray) -> (Unit)) {
         GlobalScope.launch {
@@ -42,7 +42,9 @@ class CommentsContentDataLoader(private val downloader: Downloader,
         val job = GlobalScope.launch {
             booru.getCommentsByPostId(post.id, downloader.client, action)
         }
-        commentsLoadingScheduler.addJob(job)
+        synchronized(commentsLoadingScheduler.jobDeque) {
+            commentsLoadingScheduler.addJob(job)
+        }
     }
 
     fun convertTime(time: String): String {
@@ -56,8 +58,11 @@ class CommentsContentDataLoader(private val downloader: Downloader,
         postLoadingScheduler.jobDeque.forEach { it.cancel() }
         postLoadingScheduler.jobDeque.clear()
 
-        commentsLoadingScheduler.jobDeque.forEach { it.cancel() }
-        commentsLoadingScheduler.jobDeque.clear()
+
+        synchronized(commentsLoadingScheduler.jobDeque) {
+            commentsLoadingScheduler.jobDeque.forEach { it.cancel() }
+            commentsLoadingScheduler.jobDeque.clear()
+        }
     }
 
 }
