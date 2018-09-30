@@ -16,6 +16,7 @@ class CommentsContentDataLoader(private val downloader: Downloader,
 
     private val postLoadingScheduler = JobScheduler(5)
     private val postPreviewLoadingScheduler = JobScheduler(5)
+    private val commentsLoadingScheduler = JobScheduler(6)
 
     fun getPostIds(page: Int, action: (IntArray) -> (Unit)) {
         GlobalScope.launch {
@@ -38,13 +39,25 @@ class CommentsContentDataLoader(private val downloader: Downloader,
     }
 
     fun getCommentsByPost(post: Post, action: (List<Comment>) -> Unit) {
-        GlobalScope.launch {
+        val job = GlobalScope.launch {
             booru.getCommentsByPostId(post.id, downloader.client, action)
         }
+        commentsLoadingScheduler.addJob(job)
     }
 
     fun convertTime(time: String): String {
         return booru.convertLocalTimeToDefault(time)
+    }
+
+    override fun clearSchedulers() {
+        postPreviewLoadingScheduler.jobDeque.forEach { it.cancel() }
+        postPreviewLoadingScheduler.jobDeque.clear()
+
+        postLoadingScheduler.jobDeque.forEach { it.cancel() }
+        postLoadingScheduler.jobDeque.clear()
+
+        commentsLoadingScheduler.jobDeque.forEach { it.cancel() }
+        commentsLoadingScheduler.jobDeque.clear()
     }
 
 }

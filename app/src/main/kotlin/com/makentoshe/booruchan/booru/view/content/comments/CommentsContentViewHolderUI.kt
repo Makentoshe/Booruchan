@@ -40,7 +40,7 @@ class CommentsContentViewHolderUI : AnkoComponent<ViewGroup> {
             createPostPreviewView()
             createPostDataView()
             createCommentsView()
-        }.lparams(matchParent, matchParent)
+        }.lparams(matchParent, wrapContent)
 
     }
 

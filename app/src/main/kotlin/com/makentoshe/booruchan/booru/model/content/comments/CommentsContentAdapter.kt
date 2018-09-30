@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.booru.view.content.comments.CommentsContentViewHolderUI
 import com.makentoshe.booruchan.booru.view.content.comments.CommentsContentViewHolderUI.CommentUIBuilder.Ids.Companion.body
 import com.makentoshe.booruchan.booru.view.content.comments.CommentsContentViewHolderUI.CommentUIBuilder.Ids.Companion.createdAt
@@ -18,29 +17,19 @@ import com.makentoshe.booruchan.booru.view.content.comments.CommentsContentViewH
 import com.makentoshe.booruchan.booru.view.content.comments.CommentsContentViewHolderUI.Id.postDataTags
 import com.makentoshe.booruchan.booru.view.content.comments.CommentsContentViewHolderUI.Id.postPreviewImageView
 import com.makentoshe.booruchan.booru.view.content.comments.CommentsContentViewHolderUI.Id.progressBar
-import com.makentoshe.booruchan.booru.view.content.comments.ProgressBarController
 import com.makentoshe.booruchan.common.api.entity.Comment
 import com.makentoshe.booruchan.common.api.entity.Post
 import com.makentoshe.booruchan.common.runOnUi
 import org.jetbrains.anko.AnkoContext
 import org.jetbrains.anko.collections.forEachByIndex
 import java.lang.StringBuilder
-import java.util.*
 
 class CommentsContentAdapter(private val dataLoader: CommentsContentDataLoader,
-                             private val controller: ProgressBarController)
+                             @JvmField val postIdsList: IntArray)
     : RecyclerView.Adapter<CommentsContentAdapter.ViewHolder>() {
 
-    private var postIdsList = ArrayList<Int>()
-
     init {
-        dataLoader.getPostIds(1) {
-            postIdsList.addAll(it.toList())
-            runOnUi {
-                notifyDataSetChanged()
-                controller.hideProgressBar()
-            }
-        }
+        setHasStableIds(true)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -52,6 +41,10 @@ class CommentsContentAdapter(private val dataLoader: CommentsContentDataLoader,
         return postIdsList.size
     }
 
+    override fun getItemId(position: Int): Long {
+        return postIdsList[position].toLong()
+    }
+
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.clear()
         dataLoader.getPostById(postIdsList[position]) { post ->
@@ -61,9 +54,7 @@ class CommentsContentAdapter(private val dataLoader: CommentsContentDataLoader,
                 dataLoader.getCommentsByPost(post) { comments ->
                     runOnUi {
                         holder.showCommentsLayout()
-                        comments.forEachByIndex {comment ->
-                            holder.addCommentView(comment)
-                        }
+                        comments.forEachByIndex { holder.addCommentView(it) }
                     }
                 }
             }
@@ -80,6 +71,9 @@ class CommentsContentAdapter(private val dataLoader: CommentsContentDataLoader,
         }
     }
 
+    fun clear() {
+        dataLoader.clearSchedulers()
+    }
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
@@ -138,8 +132,9 @@ class CommentsContentAdapter(private val dataLoader: CommentsContentDataLoader,
 
         fun clear() {
             val layout = itemView.findViewById<ViewGroup>(commentsLayout)
-            layout.removeAllViews()
             layout.visibility = View.GONE
+            layout.removeAllViews()
+            itemView.findViewById<ImageView>(postPreviewImageView).setImageBitmap(null)
         }
     }
 
