@@ -20,6 +20,7 @@ class ExampleUnitTest {
 
     @Test
     fun sas() = runBlocking {
-        Gelbooru().getListOfLastComments(0, HttpClient())
+        val list = Gelbooru().getListOfLastCommentedPosts(0, HttpClient())
+        println(list)
     }
 }

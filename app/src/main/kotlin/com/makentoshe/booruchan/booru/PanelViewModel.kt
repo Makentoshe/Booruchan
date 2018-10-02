@@ -31,7 +31,7 @@ class PanelViewModel(@JvmField val booru: Boor): ViewModel() {
     }
 
     fun setSelectedItemPositionToStart() {
-        selectedItemPositionLiveData.value = 1
+        selectedItemPositionLiveData.value = 0
     }
 
     fun onItemSelect(view: View, position: Int, listView: ListView, style: Style) {
