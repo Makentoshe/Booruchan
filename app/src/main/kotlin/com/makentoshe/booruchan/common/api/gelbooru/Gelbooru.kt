@@ -3,10 +3,8 @@ package com.makentoshe.booruchan.common.api.gelbooru
 import com.makentoshe.booruchan.common.api.Boor
 import com.makentoshe.booruchan.common.api.HttpClient
 import com.makentoshe.booruchan.common.api.Posts
-import com.makentoshe.booruchan.common.api.parser.AutocompleteSearchParser
-import com.makentoshe.booruchan.common.api.parser.CommentParser
-import com.makentoshe.booruchan.common.api.parser.HtmlParser
-import com.makentoshe.booruchan.common.api.parser.PostParser
+import com.makentoshe.booruchan.common.api.parser.*
+import kotlinx.coroutines.experimental.Deferred
 import kotlinx.coroutines.experimental.GlobalScope
 import kotlinx.coroutines.experimental.async
 import kotlinx.coroutines.experimental.runBlocking
@@ -61,6 +59,13 @@ class Gelbooru : Boor(GelbooruRequestAPI()), Serializable {
             httpClient.get(getApi().getListOfCommentsViewRequest(page)).stream()
         }
         action(HtmlParser().parse(async.await()))
+    }
+
+    suspend fun getListOfLastComments(page: Int, httpClient: HttpClient) {
+        val async = GlobalScope.async {
+            httpClient.get(getApi().getListOfCommentsViewRequest(page)).stream()
+        }
+        HtmlParserAlt().parse(async.await())
     }
 
     override suspend fun getPostById(

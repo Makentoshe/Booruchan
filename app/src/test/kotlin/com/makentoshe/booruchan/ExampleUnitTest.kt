@@ -1,5 +1,8 @@
 package com.makentoshe.booruchan
 
+import com.makentoshe.booruchan.common.api.HttpClient
+import com.makentoshe.booruchan.common.api.gelbooru.Gelbooru
+import kotlinx.coroutines.experimental.runBlocking
 import org.junit.Test
 
 import org.junit.Assert.*
@@ -13,5 +16,10 @@ class ExampleUnitTest {
     @Test
     fun addition_isCorrect() {
         assertEquals(4, 2 + 2)
+    }
+
+    @Test
+    fun sas() = runBlocking {
+        Gelbooru().getListOfLastComments(0, HttpClient())
     }
 }

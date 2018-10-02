@@ -47,18 +47,18 @@ class CommentsContentAdapter(private val dataLoader: CommentsContentDataLoader,
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.clear()
-        dataLoader.getPostById(postIdsList[position]) { post ->
-            setupPostData(holder, post)
-            dataLoader.getPostPreview(post) { bitmap ->
-                runOnUi { holder.setPostPreview(bitmap) }
-                dataLoader.getCommentsByPost(post) { comments ->
-                    runOnUi {
-                        holder.showCommentsLayout()
-                        comments.forEachByIndex { holder.addCommentView(it) }
-                    }
-                }
-            }
-        }
+//        dataLoader.getPostById(postIdsList[position]) { post ->
+//            setupPostData(holder, post)
+//            dataLoader.getPostPreview(post) { bitmap ->
+//                runOnUi { holder.setPostPreview(bitmap) }
+//                dataLoader.getCommentsByPost(post) { comments ->
+//                    runOnUi {
+//                        holder.showCommentsLayout()
+//                        comments.forEachByIndex { holder.addCommentView(it) }
+//                    }
+//                }
+//            }
+//        }
     }
 
     private fun setupPostData(holder: ViewHolder, post: Post) {
