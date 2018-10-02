@@ -2,7 +2,6 @@ package com.makentoshe.booruchan.booru.view.content
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import com.makentoshe.booruchan.booru.view.content.comments.CommentsFragment
 import com.makentoshe.booruchan.common.api.Boor
 import com.makentoshe.booruchan.common.settings.application.AppSettings
 import java.lang.ref.WeakReference
@@ -36,7 +35,7 @@ abstract class ContentFragment : Fragment() {
         const val booruArg = "BooruArg"
         const val appSettingsArg = "AppSettingsArg"
 
-        fun <F : ContentFragment> new(`class`: Class<out F>): ContentFragmentBuilder<F> {
+        fun <F : ContentFragment> newBuilder(`class`: Class<out F>): ContentFragmentBuilder<F> {
             return ContentFragmentBuilder(`class`.newInstance())
         }
 

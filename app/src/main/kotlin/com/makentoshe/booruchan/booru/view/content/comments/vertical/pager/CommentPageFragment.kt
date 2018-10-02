@@ -1,4 +1,4 @@
-package com.makentoshe.booruchan.booru.view.content.comments
+package com.makentoshe.booruchan.booru.view.content.comments.vertical.pager
 
 import android.graphics.Color
 import android.os.Bundle

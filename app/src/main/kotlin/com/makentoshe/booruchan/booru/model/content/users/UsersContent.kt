@@ -9,7 +9,7 @@ import com.makentoshe.booruchan.common.settings.application.AppSettings
 class UsersContent(private val appSettings: AppSettings) : Content {
 
     override fun createView(contentViewModel: ContentViewModel): ContentFragment {
-        return ContentFragment.new(UsersFragment::class.java).build(contentViewModel.booru, appSettings)
+        return ContentFragment.newBuilder(UsersFragment::class.java).build(contentViewModel.booru, appSettings)
     }
 
 }

@@ -2,9 +2,6 @@ package com.makentoshe.booruchan.booru.model.content.comments
 
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
-import android.support.v4.util.ArraySet
-import android.support.v7.widget.RecyclerView
-import com.makentoshe.booruchan.booru.model.content.common.Downloader
 import com.makentoshe.booruchan.common.api.Boor
 import com.makentoshe.booruchan.common.api.HttpClient
 import com.makentoshe.booruchan.common.settings.application.AppSettings

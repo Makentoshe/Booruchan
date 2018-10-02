@@ -1,4 +1,4 @@
-package com.makentoshe.booruchan.booru.view.content.comments
+package com.makentoshe.booruchan.booru.view.content.comments.vertical.pager
 
 import android.view.Gravity
 import android.view.View
