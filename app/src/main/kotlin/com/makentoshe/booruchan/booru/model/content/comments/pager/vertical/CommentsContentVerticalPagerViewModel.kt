@@ -9,6 +9,7 @@ class CommentsContentVerticalPagerViewModel(
         private val booru: Boor, client: HttpClient): ViewModel() {
 
 
+
     class Factory(private val booru: Boor)
         : ViewModelProvider.NewInstanceFactory() {
 

@@ -44,7 +44,7 @@ class Gelbooru : Boor(GelbooruRequestAPI()), Serializable {
         onResult.invoke(PostParser(Post::class.java).parsePosts(async.await()))
     }
 
-    suspend fun getListOfLastCommentedPosts(page: Int, httpClient: HttpClient):
+    override suspend fun getListOfLastCommentedPosts(page: Int, httpClient: HttpClient):
             ArrayList<Pair<com.makentoshe.booruchan.common.api.entity.Post, List<com.makentoshe.booruchan.common.api.entity.Comment>>> {
         val async = GlobalScope.async {
             httpClient.get(getApi().getListOfCommentsViewRequest(page)).stream()

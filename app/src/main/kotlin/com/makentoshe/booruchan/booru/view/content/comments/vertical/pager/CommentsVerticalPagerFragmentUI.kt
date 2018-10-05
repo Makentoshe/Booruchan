@@ -15,6 +15,7 @@ class CommentsVerticalPagerFragmentUI(private val viewModel: CommentsContentVert
         verticalViewPager {
             id = Id.viewPager
             adapter = CommentsContentVerticalPagerAdapter(ui.owner.childFragmentManager)
+            offscreenPageLimit = 1
             onPageChangeListener {
                 onPageSelected { println(it) }
             }

@@ -35,7 +35,7 @@ interface HtmlParser {
 
 class GelbooruHtmlCommentParser(private val commentClass: Class<out Comment>, private val postClass: Class<out Post>): HtmlParser {
 
-    override fun parse(inputStream: InputStream): ArrayList<Pair<Post, List<Comment>>> {
+    override fun parse(inputStream: InputStream): List<Pair<Post, List<Comment>>> {
         val document = Jsoup.parse(Scanner(inputStream).useDelimiter("\\A").next())
         val commentedPostsList = document.select("div#comment-list > .post")
         val list = ArrayList<Pair<Post, List<Comment>>>()
