@@ -20,7 +20,7 @@ class CommentsVerticalPagerFragment : ContentFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val factory = CommentsContentVerticalPagerViewModel.Factory(booru)
+        val factory = CommentsContentVerticalPagerViewModel.Factory(booru, appSettings)
         viewModel = ViewModelProviders.of(this, factory)[CommentsContentVerticalPagerViewModel::class.java]
         println("Create ${this::class.java.simpleName}")
     }

@@ -31,4 +31,8 @@
     <item name="booru_content_comment_viewholder_commentsview_comment_body" type="id" />
     <item name="booru_content_comment_viewholder_commentsview_comment_creator" type="id" />
     <item name="booru_content_comment_viewholder_commentsview_comment_createdAt" type="id" />
+    <item name="booru_comment_fanb" type="id" />
+    <item name="booru_comment_fanb_collapse" type="id" />
+    <item name="booru_comment_fanb_expand" type="id" />
+    <item name="booru_comment_viewpager" type="id" />
 </resources>

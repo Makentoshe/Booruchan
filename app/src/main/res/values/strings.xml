@@ -14,6 +14,9 @@
     <string name="user">User</string>
     <string name="score">Score</string>
     <string name="tags">Tags</string>
+    <string name="go_to_page">Go to page</string>
+    <string name="cancel">Cancel</string>
+    <string name="go">Go</string>
 
     <string-array name="subservices">
         <item>Posts</item>

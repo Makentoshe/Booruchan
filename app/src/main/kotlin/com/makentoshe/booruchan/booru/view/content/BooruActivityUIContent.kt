@@ -19,10 +19,10 @@ import com.makentoshe.booruchan.booru.PanelViewModel
 import com.makentoshe.booruchan.booru.model.content.factory.ContentFactory
 import com.makentoshe.booruchan.booru.view.BooruActivity
 import com.makentoshe.booruchan.common.StyleableAnkoComponent
-import com.makentoshe.booruchan.common.delayAutocompleteEditText
 import com.makentoshe.booruchan.common.forLollipop
 import com.makentoshe.booruchan.common.styles.Style
 import com.makentoshe.booruchan.common.view.DelayAutocompleteEditText
+import com.makentoshe.booruchan.common.view.delayAutocompleteEditText
 import org.jetbrains.anko.*
 import org.jetbrains.anko.appcompat.v7.toolbar
 import org.jetbrains.anko.cardview.v7.cardView
@@ -46,6 +46,7 @@ class BooruActivityUIContent(style: Style,
                     .setSupportActionBar(ui.owner)
                     .setHomeIcon(style.toolbarForegroundColor, ui.owner)
                     .setHamburgerIcon(ui.owner, dlContext)
+                    .setOverflowIconColor(style.toolbarForegroundColor)
             createGallery(ui)
             createSearchViewAlpha(ui)
 

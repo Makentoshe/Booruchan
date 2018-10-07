@@ -1,14 +1,10 @@
 package com.makentoshe.booruchan.common.view
 
 import android.content.Context
-import android.view.MotionEvent
 import android.support.v4.view.ViewPager
 import android.util.AttributeSet
+import android.view.MotionEvent
 import android.view.View
-import android.view.ViewManager
-import org.jetbrains.anko.custom.ankoView
-
-inline fun ViewManager.verticalViewPager(init: VerticalViewPager.() -> Unit) = ankoView({ VerticalViewPager(it) }, 0, init)
 
 class VerticalViewPager : ViewPager {
 
