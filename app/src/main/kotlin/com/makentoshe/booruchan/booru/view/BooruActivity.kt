@@ -12,8 +12,8 @@ import android.view.View
 import com.makentoshe.booruchan.common.Activity
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.booru.BooruViewModel
-import com.makentoshe.booruchan.booru.ContentViewModel
-import com.makentoshe.booruchan.booru.PanelViewModel
+import com.makentoshe.booruchan.booru.content.ContentViewModel
+import com.makentoshe.booruchan.booru.panel.PanelViewModel
 import com.makentoshe.booruchan.common.api.factory.Factory
 import org.jetbrains.anko.setContentView
 

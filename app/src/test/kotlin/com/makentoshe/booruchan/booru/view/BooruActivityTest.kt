@@ -1,12 +1,8 @@
 package com.makentoshe.booruchan.booru.view
 
-import android.arch.lifecycle.ViewModelProviders
 import android.view.View
 import com.makentoshe.booruchan.R
-import com.makentoshe.booruchan.booru.BooruViewModel
 import com.makentoshe.booruchan.common.api.gelbooru.Gelbooru
-import io.mockk.spyk
-import io.mockk.verify
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test

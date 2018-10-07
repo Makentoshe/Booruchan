@@ -1,18 +1,15 @@
 package com.makentoshe.booruchan.booru.view
 
 import android.arch.lifecycle.ViewModelProviders
-import android.support.annotation.IntDef
-import android.support.v4.app.FragmentActivity
 import android.view.View
 import android.widget.FrameLayout
 import com.makentoshe.booruchan.R
+import com.makentoshe.booruchan.booru.content.view.BooruActivityContentUI
 import com.makentoshe.booruchan.booru.BooruViewModel
-import com.makentoshe.booruchan.booru.ContentViewModel
-import com.makentoshe.booruchan.booru.PanelViewModel
-import com.makentoshe.booruchan.booru.view.content.BooruActivityUIContent
-import com.makentoshe.booruchan.booru.view.panel.BooruActivityUIPanel
+import com.makentoshe.booruchan.booru.content.ContentViewModel
+import com.makentoshe.booruchan.booru.panel.PanelViewModel
+import com.makentoshe.booruchan.booru.panel.view.BooruActivityUIPanel
 import com.makentoshe.booruchan.common.StyleableAnkoComponent
-import com.makentoshe.booruchan.common.api.Boor
 import com.makentoshe.booruchan.common.styles.Style
 import org.jetbrains.anko.AnkoContext
 import org.jetbrains.anko.matchParent
@@ -27,13 +24,11 @@ class BooruActivityUI(style: Style) : StyleableAnkoComponent<BooruActivity>(styl
         val contentViewModel = ViewModelProviders.of(owner)[ContentViewModel::class.java]
         val view = drawerLayout {
             id = R.id.booru_main
-            BooruActivityUIContent(style, booruViewModel, contentViewModel, panelViewModel, this).createView(ui)
+            BooruActivityContentUI(style, booruViewModel, contentViewModel, panelViewModel, this).createView(ui)
             BooruActivityUIPanel(style, panelViewModel, this).createView(ui)
         }
         view.layoutParams = FrameLayout.LayoutParams(matchParent, matchParent)
         return@with view
     }
-
-
 
 }

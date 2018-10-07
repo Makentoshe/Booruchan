@@ -1,7 +1,6 @@
 package com.makentoshe.booruchan.booru
 
 import android.content.Intent
-import android.support.v7.view.menu.ActionMenuItemView
 import android.view.View
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.booru.view.BooruActivity
@@ -12,7 +11,6 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import org.robolectric.RobolectricTestRunner
-import java.util.concurrent.TimeUnit
 
 @RunWith(RobolectricTestRunner::class)
 class BooruViewModelTest {
