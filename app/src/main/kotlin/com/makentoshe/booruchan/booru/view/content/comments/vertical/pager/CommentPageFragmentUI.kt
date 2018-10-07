@@ -7,13 +7,12 @@ import com.makentoshe.booruchan.common.runOnUi
 import org.jetbrains.anko.*
 import org.jetbrains.anko.recyclerview.v7.recyclerView
 
-class CommentPageFragmentUI(private val page: Int, private val color: Int,
+class CommentPageFragmentUI(private val page: Int,
                             private val viewModel: CommentPageFragmentViewModel)
     : AnkoComponent<CommentPageFragment> {
 
     override fun createView(ui: AnkoContext<CommentPageFragment>): View = with(ui) {
         relativeLayout {
-            backgroundColor = color
             recyclerView {
                 viewModel.getCommentedPosts(page * 10, ui.owner) {
                     runOnUi {

@@ -14,14 +14,11 @@ import java.util.*
 class CommentPageFragment : Fragment() {
 
     private var page = -1
-    private var color = -1
     private lateinit var viewModel: CommentPageFragmentViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         page = arguments?.getInt(ARG_PAGE)!!
-        val rnd = Random()
-        color = Color.argb(40, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256))
         initViewModels()
     }
 
@@ -32,7 +29,7 @@ class CommentPageFragment : Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return CommentPageFragmentUI(page, color, viewModel).createView(AnkoContext.create(activity!!, this))
+        return CommentPageFragmentUI(page, viewModel).createView(AnkoContext.create(activity!!, this))
     }
 
     override fun onDestroy() {
