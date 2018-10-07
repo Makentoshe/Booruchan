@@ -20,8 +20,6 @@ class PostsFragment : ContentFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val booru = arguments?.getSerializable(booruArg) as Boor
-        val appSettings = arguments?.getSerializable(appSettingsArg) as AppSettings
         val factory = PostsContentViewModel.Factory(booru, appSettings)
         viewModel = ViewModelProviders.of(this, factory)[PostsContentViewModel::class.java]
         println("Create ${this::class.java.simpleName}")
@@ -45,18 +43,4 @@ class PostsFragment : ContentFragment() {
         println("Destroy ${this::class.java.simpleName}")
     }
 
-    companion object {
-
-        private const val booruArg = "BooruArg"
-        private const val appSettingsArg = "AppSettingsArg"
-
-        fun new(booru: Boor, appSettings: AppSettings): PostsFragment {
-            val fragment = PostsFragment()
-            val args = Bundle()
-            args.putSerializable(booruArg, booru)
-            args.putSerializable(appSettingsArg, appSettings)
-            fragment.arguments = args
-            return fragment
-        }
-    }
 }

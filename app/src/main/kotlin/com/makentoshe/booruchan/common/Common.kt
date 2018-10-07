@@ -1,13 +1,17 @@
 package com.makentoshe.booruchan.common
 
+import android.content.Context
+import android.graphics.Point
 import android.os.Build
+import android.os.Handler
+import android.os.Looper
 import android.support.v7.app.AppCompatActivity
 import android.view.View
-import android.view.ViewManager
+import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
-import com.makentoshe.booruchan.common.view.DelayAutocompleteEditText
-import com.makeramen.roundedimageview.RoundedImageView
-import org.jetbrains.anko.custom.ankoView
+import kotlinx.coroutines.experimental.CoroutineScope
+import kotlinx.coroutines.experimental.android.UI
+import kotlinx.coroutines.experimental.launch
 
 inline fun forSdk(sdk: Int, `do`: () -> Unit, `else`: () -> Unit) {
     if (Build.VERSION.SDK_INT >= sdk) `do`.invoke() else `else`.invoke()
@@ -32,6 +36,15 @@ fun hideKeyboard(activity: AppCompatActivity) {
     imm.hideSoftInputFromWindow(view.windowToken, 0)
 }
 
-inline fun ViewManager.delayAutocompleteEditText(init: DelayAutocompleteEditText.() -> Unit) = ankoView({ DelayAutocompleteEditText(it) }, 0, init)
+fun getScreenSize(context: Context): ScreenSize {
+    val wm = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
+    val size = Point()
+    wm.defaultDisplay.getSize(size)
+    return ScreenSize(size.x, size.y)
+}
 
-inline fun ViewManager.roundedImageView(init: RoundedImageView.() -> Unit) = ankoView({ RoundedImageView(it) }, 0, init)
+data class ScreenSize(val width: Int, val height: Int)
+
+fun runOnUi(action: () -> (Unit)) {
+    Handler(Looper.getMainLooper()).post(action)
+}

@@ -22,4 +22,17 @@
     <item name="booru_panel_background_image" type="id" />
     <item name="booru_content_container" type="id" />
     <item name="booru_main" type="id" />
+    <item name="booru_content_comment_viewholder_postview" type="id" />
+    <item name="booru_content_comment_viewholder_postview_preview" type="id" />
+    <item name="booru_content_comment_viewholder_commentsview" type="id" />
+    <item name="booru_content_comment_viewholder_postview_date" type="id" />
+    <item name="booru_content_comment_viewholder_postview_tags" type="id" />
+    <item name="booru_content_comment_viewholder_postview_score" type="id" />
+    <item name="booru_content_comment_viewholder_commentsview_comment_body" type="id" />
+    <item name="booru_content_comment_viewholder_commentsview_comment_creator" type="id" />
+    <item name="booru_content_comment_viewholder_commentsview_comment_createdAt" type="id" />
+    <item name="booru_comment_fanb" type="id" />
+    <item name="booru_comment_fanb_collapse" type="id" />
+    <item name="booru_comment_fanb_expand" type="id" />
+    <item name="booru_comment_viewpager" type="id" />
 </resources>

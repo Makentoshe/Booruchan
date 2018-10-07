@@ -57,7 +57,7 @@ class BooruActivity : Activity() {
     }
 
     private fun removeOptionsMenu(menu: Menu) {
-        menu.removeGroup(Menu.FIRST)
+        menu.removeItem(R.id.action_show_search)
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {

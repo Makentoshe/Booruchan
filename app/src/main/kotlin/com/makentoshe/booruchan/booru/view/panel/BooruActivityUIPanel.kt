@@ -14,8 +14,8 @@ import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.booru.PanelViewModel
 import com.makentoshe.booruchan.booru.view.BooruActivity
 import com.makentoshe.booruchan.common.StyleableAnkoComponent
-import com.makentoshe.booruchan.common.roundedImageView
 import com.makentoshe.booruchan.common.styles.Style
+import com.makentoshe.booruchan.common.view.roundedImageView
 import org.jetbrains.anko.*
 import org.jetbrains.anko.constraint.layout._ConstraintLayout
 import org.jetbrains.anko.constraint.layout.constraintLayout

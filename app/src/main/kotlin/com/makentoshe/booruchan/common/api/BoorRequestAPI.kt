@@ -12,7 +12,7 @@ interface BoorRequestAPI {
 
     fun getUserProfileViewByIdRequest(id: String): String
 
-    fun getCommentByPostIdRequest(id: Int): String
+    fun getCommentsByPostIdRequest(id: Int): String
 
     fun getCustomRequest(request: String): String
 

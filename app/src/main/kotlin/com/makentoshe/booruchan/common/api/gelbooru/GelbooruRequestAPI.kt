@@ -33,7 +33,7 @@ class GelbooruRequestAPI: BoorRequestAPI, Serializable {
         return getCustomRequest("index.php?page=autocomplete&term=$term")
     }
 
-    override fun getCommentByPostIdRequest(id: Int): String {
+    override fun getCommentsByPostIdRequest(id: Int): String {
         return getCustomRequest("index.php?page=dapi&s=comment&q=index&post_id=$id")
     }
 

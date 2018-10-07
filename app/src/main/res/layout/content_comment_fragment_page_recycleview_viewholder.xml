@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        app:cardCornerRadius="0dp"
+        android:elevation="4dp">
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:background="@color/MaterialPurple500" />
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:background="@color/MaterialIndigo500"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginLeft="8dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:text="Sasas ads dwerf sd sdfwefasd qw qwd asdf sdf f wef rtgrt qwer asdf sdfg rth qert  qwef qer rfgsdf "
+                        android:layout_weight="1"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:text="Sasas ads dwerf sd sdfwefasd qw qwd asdf sdf f wef rtgrt qwer asdf sdfg rth qert  qwef qer rfgsdf "
+                        android:layout_weight="1"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:maxLines="3"
+                        android:ellipsize="marquee"
+                        android:text="Sasas ads dwerf sd sdfwefasd qw qwd asdf sdf f wef rtgrt qwer asdf sdfg rth qert  qwef qer rfgsdf "
+                        android:layout_weight="3"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </android.support.constraint.ConstraintLayout>
+
+    </android.support.v7.widget.CardView>
+
+</FrameLayout>

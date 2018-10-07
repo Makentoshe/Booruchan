@@ -9,6 +9,6 @@ import com.makentoshe.booruchan.common.settings.application.AppSettings
 class PostsContent(private val appSettings: AppSettings) : Content {
 
     override fun createView(contentViewModel: ContentViewModel): ContentFragment {
-        return PostsFragment.new(contentViewModel.booru, appSettings)
+        return ContentFragment.newBuilder(PostsFragment::class.java).build(contentViewModel.booru, appSettings)
     }
 }
