@@ -26,7 +26,7 @@ class GelbooruNetworkTest {
         val stream = ByteArrayInputStream(json.toByteArray())
         val mockedClient = mockk<HttpClient>()
         every {
-            mockedClient.get(instance.getApi().getAutocompleteSearchRequest("any term")).stream()
+            runBlocking { mockedClient.get(instance.getApi().getAutocompleteSearchRequest("any term")).stream() }
         } returns stream
         val result = instance.getAutocompleteSearchVariations(mockedClient, "any term")
         assertEquals(10, result.size)
@@ -40,7 +40,7 @@ class GelbooruNetworkTest {
         val stream = ByteArrayInputStream(xml.toByteArray())
         val mockedClient = mockk<HttpClient>()
         every {
-            mockedClient.get(instance.getApi().getPostsByTagsRequest(1, "", 1)).stream()
+            runBlocking { mockedClient.get(instance.getApi().getPostsByTagsRequest(1, "", 1)).stream() }
         } returns stream
         assertEquals(1, instance.getPostsByTags(1, "", 1, mockedClient).count())
     }
@@ -53,7 +53,7 @@ class GelbooruNetworkTest {
         val stream = ByteArrayInputStream(xml.toByteArray())
         val mockedClient = mockk<HttpClient>()
         every {
-            mockedClient.get(instance.getApi().getPostByIdRequest(1)).stream()
+            runBlocking { mockedClient.get(instance.getApi().getPostByIdRequest(1)).stream() }
         } returns stream
         val post = instance.getPostById(1, mockedClient)
         assertNotNull(post)

@@ -30,12 +30,12 @@ class AdapterDataLoaderTest {
         val mockedClient = mockk<HttpClient>()
         val gelbooru = Gelbooru()
         every {
-            mockedClient.get(gelbooru.getApi().getPostsByTagsRequest(3, searchTerm, 1)).stream()
+            runBlocking { mockedClient.get(gelbooru.getApi().getPostsByTagsRequest(3, searchTerm, 1)).stream() }
         } returns ByteArrayInputStream(xml.toByteArray())
         val downloader = Downloader(mockedClient)
 
         every {
-            mockedClient.get(mockedUrl).stream()
+            runBlocking { mockedClient.get(mockedUrl).stream() }
         } returns ByteArrayInputStream("".toByteArray())
 
         adapterDataLoader = AdapterDataLoader(searchTerm, downloader, gelbooru)
