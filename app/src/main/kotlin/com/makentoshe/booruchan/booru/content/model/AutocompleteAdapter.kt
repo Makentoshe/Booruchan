@@ -18,17 +18,15 @@ class AutocompleteAdapter(private val context: Context, private val boor: Boor) 
 
     override fun getFilter(): Filter {
         return object : Filter() {
-            override fun performFiltering(constraint: CharSequence?): FilterResults {
+            override fun performFiltering(constraint: CharSequence?): FilterResults = runBlocking {
                 val results = FilterResults()
                 if (constraint != null) {
-                    runBlocking {
-                        val tips = boor.getAutocompleteSearchVariations(
-                                HttpClient(), split(constraint.toString()))
-                        results.values = tips
-                        results.count = tips.size
-                    }
+                    val tips = boor.getAutocompleteSearchVariations(
+                            HttpClient(), split(constraint.toString()))
+                    results.values = tips
+                    results.count = tips.size
                 }
-                return results
+                return@runBlocking results
             }
 
             override fun publishResults(constraint: CharSequence?, results: FilterResults?) {

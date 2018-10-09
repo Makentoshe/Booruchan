@@ -18,9 +18,4 @@ class ExampleUnitTest {
         assertEquals(4, 2 + 2)
     }
 
-    @Test
-    fun sas() = runBlocking {
-        val list = Gelbooru().getListOfLastCommentedPosts(0, HttpClient())
-        println(list)
-    }
 }

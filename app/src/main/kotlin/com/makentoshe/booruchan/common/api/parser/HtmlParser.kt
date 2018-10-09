@@ -17,11 +17,18 @@ interface HtmlParser {
 
     fun parse(inputStream: InputStream): Any
 
+    fun parse(string: String): Any
+
     companion object {
 
         fun parseComments(inputStream: InputStream, booruClass: Class<out Boor>): ArrayList<Pair<Post, List<Comment>>> {
             val parser = getCommentsParser(booruClass)
             return parser.parse(inputStream) as ArrayList<Pair<Post, List<Comment>>>
+        }
+
+        fun parseComments(string: String, booruClass: Class<out Boor>): ArrayList<Pair<Post, List<Comment>>> {
+            val parser = getCommentsParser(booruClass)
+            return parser.parse(string) as ArrayList<Pair<Post, List<Comment>>>
         }
 
         private fun getCommentsParser(booruClass: Class<out Boor>): HtmlParser {
@@ -35,14 +42,18 @@ interface HtmlParser {
 
 class GelbooruHtmlCommentParser(private val commentClass: Class<out Comment>, private val postClass: Class<out Post>): HtmlParser {
 
-    override fun parse(inputStream: InputStream): List<Pair<Post, List<Comment>>> {
-        val document = Jsoup.parse(Scanner(inputStream).useDelimiter("\\A").next())
+    override fun parse(string: String): List<Pair<Post, List<Comment>>>  {
+        val document = Jsoup.parse(string)
         val commentedPostsList = document.select("div#comment-list > .post")
         val list = ArrayList<Pair<Post, List<Comment>>>()
         commentedPostsList.forEach {
             list.add(parseCommentedPost(it))
         }
         return list
+    }
+
+    override fun parse(inputStream: InputStream): List<Pair<Post, List<Comment>>> {
+        return parse(Scanner(inputStream).useDelimiter("\\A").next())
     }
 
     private fun parseCommentedPost(element: Element): Pair<Post, List<Comment>> {

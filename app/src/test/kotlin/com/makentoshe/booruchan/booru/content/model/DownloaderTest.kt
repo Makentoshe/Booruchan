@@ -23,13 +23,12 @@ class DownloaderTest {
         val url = "Mocked url"
         val client = mockk<HttpClient>()
         every { client.get(url).stream() } returns ByteArrayInputStream(string.toByteArray())
-        val job = Downloader(client).download(url) {
+        Downloader(client).download(url) {
             val resultString = BufferedReader(InputStreamReader(it)).use {
                 br -> br.lines().collect(Collectors.joining(System.lineSeparator()))
             }
             assertEquals(string, resultString)
-        }
-        job.join()
+        }.join()
     }
 
 }

@@ -21,7 +21,7 @@ class AdapterDataLoader(val searchTerm: String = "",
             var errWasNotShown = true
             do {
                 try {
-                    booru.getPostsByTags(3, searchTerm, position, downloader.client, action)
+                    action(booru.getPostsByTags(3, searchTerm, position, downloader.client))
                     break
                 } catch (e: Exception) {
                     if (errWasNotShown) {

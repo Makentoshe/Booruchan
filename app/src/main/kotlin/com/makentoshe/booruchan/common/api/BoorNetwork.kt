@@ -9,13 +9,11 @@ import java.io.Serializable
 
 abstract class BoorNetwork(private val api: BoorRequestAPI) : Serializable {
 
-    abstract fun getPostsByTags(limit: Int, tags: String, page: Int, httpClient: HttpClient,
-                                onResult: ((Posts<out Post>) -> Unit))
+    abstract suspend fun getAutocompleteSearchVariations(httpClient: HttpClient, term: String): List<String>
 
-    abstract fun getAutocompleteSearchVariations(httpClient: HttpClient, term: String): List<String>
+    abstract suspend fun getPostById(postId: Int, httpClient: HttpClient): Post
 
-    abstract suspend fun getPostById(postId: Int, httpClient: HttpClient, action: (Post) -> Unit)
+    abstract suspend fun getListOfLastCommentedPosts(page: Int, httpClient: HttpClient): List<Pair<Post, List<Comment>>>
 
-    abstract suspend fun getListOfLastCommentedPosts(page: Int, httpClient: HttpClient)
-            : List<Pair<Post, List<Comment>>>
+    abstract suspend fun getPostsByTags(limit: Int, tags: String, page: Int, httpClient: HttpClient): Posts<out Post>
 }
