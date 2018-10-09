@@ -9,19 +9,22 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import com.makentoshe.booruchan.R
+import com.makentoshe.booruchan.booru.content.posts.ViewModel
 import com.makentoshe.booruchan.booru.content.posts.infinity.ordered.view.ViewHolderUI
 import es.dmoral.toasty.Toasty
 import kotlinx.coroutines.experimental.*
 import org.jetbrains.anko.*
+import org.jetbrains.anko.sdk25.coroutines.onClick
+import java.lang.Exception
 import kotlin.collections.ArrayList
 
-class RecycleViewAdapter(private val dataLoader: AdapterDataLoader)
+class RecycleViewAdapter(private val dataLoader: AdapterDataLoader,
+                         private val viewModel: ViewModel)
     : RecyclerView.Adapter<RecycleViewAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(
-                ViewHolderUI()
-                        .createView(AnkoContext.create(parent.context!!, parent)))
+        return ViewHolder(ViewHolderUI()
+                .createView(AnkoContext.create(parent.context!!, parent)))
     }
 
     override fun getItemCount(): Int {
@@ -29,23 +32,23 @@ class RecycleViewAdapter(private val dataLoader: AdapterDataLoader)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) = runBlocking {
-        for (i in 0..2) {
-            holder.getPostPreviewView(i).setImageDrawable(null)
-        }
-        dataLoader.getPostsData(position) { posts ->
-            if (posts == null) {
-                callMessageWhichDisplayingAnError(holder.itemView.context)
-                return@getPostsData
-            }
-            for (postIndex in 0 until posts.count() step 1) {
-                dataLoader.getPostPreview(posts.getPost(postIndex)) { bitmap ->
-                    if (bitmap == null) {
-                        callMessageWhichDisplayingAnError(holder.itemView.context)
-                        return@getPostPreview
+        holder.clear()
+        try {
+            dataLoader.getPostsData2(position) { posts ->
+                for (postIndex in 0 until posts.count() step 1) {
+                    dataLoader.getPostPreview(posts.getPost(postIndex)) { bitmap ->
+                        if (bitmap == null) {
+                            callMessageWhichDisplayingAnError(holder.itemView.context)
+                            return@getPostPreview
+                        }
+                        setBitmapToImageView(bitmap, holder.getPostPreviewView(postIndex))
+                        holder.onClick(position, viewModel)
                     }
-                    setBitmapToImageView(bitmap, holder.getPostPreviewView(postIndex))
                 }
             }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            callMessageWhichDisplayingAnError(holder.itemView.context)
         }
     }
 
@@ -83,6 +86,20 @@ class RecycleViewAdapter(private val dataLoader: AdapterDataLoader)
 
         fun getPostPreviewView(index: Int): ImageView {
             return postsPreviewView[index]
+        }
+
+        fun onClick(position: Int, viewModel: ViewModel) {
+            postsMainView.forEachIndexed { index, cardView ->
+                cardView.onClick {
+                    viewModel.startSampleActivity(itemView.context as FragmentActivity, position * 3 + index)
+                }
+            }
+
+        }
+
+        fun clear() {
+            postsPreviewView.forEach { it.setImageDrawable(null) }
+            postsMainView.forEach { it.setOnClickListener(null) }
         }
 
         companion object {
