@@ -1,7 +1,7 @@
 package com.makentoshe.booruchan.common.api
 
-import com.github.kevinsawicki.http.HttpRequest
-import junit.framework.Assert.assertEquals
+import junit.framework.Assert.assertNotNull
+import kotlinx.coroutines.experimental.runBlocking
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
@@ -10,9 +10,9 @@ import org.junit.runners.JUnit4
 class HttpClientTest {
 
     @Test
-    fun `get method should return HttpRequest instance`() {
+    fun `get method should return HttpGet instance`() = runBlocking {
         val client = HttpClient().get("https://www.google.com/")
-        assertEquals(HttpRequest::class.java, client.javaClass)
+        assertNotNull(client)
     }
 
 }

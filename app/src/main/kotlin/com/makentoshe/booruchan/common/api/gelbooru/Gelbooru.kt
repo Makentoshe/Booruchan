@@ -3,13 +3,10 @@ package com.makentoshe.booruchan.common.api.gelbooru
 import com.makentoshe.booruchan.common.api.Boor
 import com.makentoshe.booruchan.common.api.HttpClient
 import com.makentoshe.booruchan.common.api.Posts
-import com.makentoshe.booruchan.common.api.parser.*
-import kotlinx.coroutines.experimental.GlobalScope
-import kotlinx.coroutines.experimental.async
-import kotlinx.coroutines.experimental.runBlocking
+import com.makentoshe.booruchan.common.api.parser.AutocompleteSearchParser
+import com.makentoshe.booruchan.common.api.parser.HtmlParser
+import com.makentoshe.booruchan.common.api.parser.PostParser
 import java.io.Serializable
-import java.util.*
-import kotlin.collections.ArrayList
 
 class Gelbooru : Boor(GelbooruRequestAPI()), Serializable {
 
@@ -26,39 +23,32 @@ class Gelbooru : Boor(GelbooruRequestAPI()), Serializable {
         return "$day $month $year in $daytime"
     }
 
-    override fun getAutocompleteSearchVariations(httpClient: HttpClient, term: String)
-            : List<String> = runBlocking {
-        val async = async {
-            httpClient.get(getApi().getAutocompleteSearchRequest(term)).stream()
-        }
-        return@runBlocking AutocompleteSearchParser()
-                .parse(Scanner(async.await()).useDelimiter("\\A").next())
+    override suspend fun getAutocompleteSearchVariations(
+            httpClient: HttpClient, term: String): List<String> {
+        val result = httpClient.get(getApi().getAutocompleteSearchRequest(term)).stream()
+        return AutocompleteSearchParser().parse(result)
     }
 
-    override fun getPostsByTags(
-            limit: Int, tags: String, page: Int, httpClient: HttpClient,
-            onResult: (Posts<out com.makentoshe.booruchan.common.api.entity.Post>) -> Unit) = runBlocking {
-        val async = async {
-            httpClient.get(getApi().getPostsByTagsRequest(limit, tags, page)).stream()
-        }
-        onResult.invoke(PostParser(Post::class.java).parsePosts(async.await()))
+    override suspend fun getPostsByTags(
+            limit: Int,
+            tags: String,
+            page: Int,
+            httpClient: HttpClient): Posts<out com.makentoshe.booruchan.common.api.entity.Post> {
+        val result = httpClient.get(getApi().getPostsByTagsRequest(limit, tags, page)).stream()
+        return PostParser(Post::class.java).parsePosts(result)
     }
 
-    override suspend fun getListOfLastCommentedPosts(page: Int, httpClient: HttpClient):
+    override suspend fun getListOfLastCommentedPosts(
+            page: Int, httpClient: HttpClient):
             ArrayList<Pair<com.makentoshe.booruchan.common.api.entity.Post, List<com.makentoshe.booruchan.common.api.entity.Comment>>> {
-        val async = GlobalScope.async {
-            httpClient.get(getApi().getListOfCommentsViewRequest(page)).stream()
-        }
-        return HtmlParser.parseComments(async.await(), this::class.java)
+        val result = httpClient.get(getApi().getListOfCommentsViewRequest(page)).stream()
+        return HtmlParser.parseComments(result, this::class.java)
     }
 
     override suspend fun getPostById(
-            postId: Int, httpClient: HttpClient,
-            action: (com.makentoshe.booruchan.common.api.entity.Post) -> Unit) {
-        val async = GlobalScope.async {
-            httpClient.get(getApi().getPostByIdRequest(postId)).stream()
-        }
-        action(PostParser(Post::class.java).parsePosts(async.await()).getPost(0))
+            postId: Int, httpClient: HttpClient): com.makentoshe.booruchan.common.api.entity.Post {
+        val result = httpClient.get(getApi().getPostByIdRequest(postId)).stream()
+        return PostParser(Post::class.java).parsePosts(result).getPost(0)
     }
 
     class Post : com.makentoshe.booruchan.common.api.entity.Post() {

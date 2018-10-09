@@ -1,7 +1,6 @@
 package com.makentoshe.booruchan.start.model
 
 import android.support.v7.app.AppCompatActivity
-import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.appsettings.view.AppSettingsActivity
 import com.makentoshe.booruchan.booru.view.BooruActivity
 import org.junit.Assert

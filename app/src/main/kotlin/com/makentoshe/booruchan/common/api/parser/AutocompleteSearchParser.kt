@@ -2,9 +2,15 @@ package com.makentoshe.booruchan.common.api.parser
 
 import com.google.gson.Gson
 import com.google.gson.JsonObject
+import java.io.InputStream
 import java.text.ParseException
+import java.util.*
 
 class AutocompleteSearchParser {
+
+    fun parse(inputStream: InputStream): ArrayList<String> {
+        return parse(Scanner(inputStream).useDelimiter("\\A").next())
+    }
 
     fun parse(json: String): ArrayList<String> {
         return try {

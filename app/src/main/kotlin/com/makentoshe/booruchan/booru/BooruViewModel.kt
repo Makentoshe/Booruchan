@@ -1,23 +1,13 @@
 package com.makentoshe.booruchan.booru
 
 import android.arch.lifecycle.*
-import android.arch.lifecycle.Observer
-import android.content.Context
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.view.menu.ActionMenuItemView
 import android.view.View
-import android.widget.ListAdapter
-import android.widget.ListView
 import com.makentoshe.booruchan.R
-import com.makentoshe.booruchan.booru.model.AutocompleteAdapter
-import com.makentoshe.booruchan.booru.model.animator.ViewAnimator
-import com.makentoshe.booruchan.booru.model.content.ContentViewModel
-import com.makentoshe.booruchan.booru.model.panel.PanelViewModel
-import com.makentoshe.booruchan.booru.model.panel.SelectableServiceAdapter
-import com.makentoshe.booruchan.common.api.Boor
+import com.makentoshe.booruchan.booru.content.posts.infinity.ordered.model.animator.ViewAnimator
 import com.makentoshe.booruchan.common.hideKeyboard
 import com.makentoshe.booruchan.common.styles.Style
-import org.jetbrains.anko.backgroundResource
 
 class BooruViewModel : ViewModel() {
 

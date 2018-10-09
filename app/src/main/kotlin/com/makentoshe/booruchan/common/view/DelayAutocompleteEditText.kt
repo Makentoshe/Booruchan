@@ -15,7 +15,7 @@ import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.ImageView
 import com.makentoshe.booruchan.booru.BooruViewModel
-import com.makentoshe.booruchan.booru.ContentViewModel
+import com.makentoshe.booruchan.booru.content.ContentViewModel
 import com.makentoshe.booruchan.common.Activity
 import com.makentoshe.booruchan.common.styles.Style
 import kotlinx.coroutines.experimental.launch

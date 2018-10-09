@@ -4,7 +4,6 @@ import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import com.makentoshe.booruchan.appsettings.view.AppSettingsActivity
 import com.makentoshe.booruchan.booru.view.BooruActivity
-import com.makentoshe.booruchan.common.api.factory.Factory
 
 class StartNavigator {
 

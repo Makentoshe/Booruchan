@@ -11,10 +11,9 @@ import java.text.ParseException
 import java.util.*
 import kotlin.math.roundToInt
 
-class PostParser<T: Post>(private val clazz: Class<T>) {
+class PostParser<T : Post>(private val clazz: Class<T>) {
 
-    fun parsePosts(inputStream: InputStream): Posts<T> {
-        val string = Scanner(inputStream).useDelimiter("\\A").next()
+    fun parsePosts(string: String): Posts<T> {
         return try {
             parsePostsXml(string)
         } catch (e: Exception) {
@@ -26,6 +25,8 @@ class PostParser<T: Post>(private val clazz: Class<T>) {
             }
         }
     }
+
+    fun parsePosts(inputStream: InputStream): Posts<T> = parsePosts(Scanner(inputStream).useDelimiter("\\A").next())
 
     private fun parsePostsXml(xml: String): Posts<T> {
         val root = Jsoup.parse(xml).body().child(0)
@@ -41,7 +42,7 @@ class PostParser<T: Post>(private val clazz: Class<T>) {
 
     private fun parsePostsJson(json: String): Posts<T> {
         val posts = Posts<T>(-1, 0)
-        val type =  object : TypeToken<Array<T>>() {}.rawType
+        val type = object : TypeToken<Array<T>>() {}.rawType
         val postsArray = Gson().fromJson(json, type) as Array<Any>
         for (postData in postsArray) {
             val post = clazz.newInstance()
@@ -53,13 +54,13 @@ class PostParser<T: Post>(private val clazz: Class<T>) {
 
     private fun correctMapValues(map: MutableMap<String, Any>): Map<String, String> {
         for (data in map) {
-            try{
+            try {
                 if (data.value is String) continue
                 if (data.value is Double) {
                     data.setValue((data.value as Double).roundToInt().toString())
-                }
-                else data.setValue(data.value.toString())
-            } catch (e: NullPointerException) {}
+                } else data.setValue(data.value.toString())
+            } catch (e: NullPointerException) {
+            }
         }
         return map as Map<String, String>
     }
