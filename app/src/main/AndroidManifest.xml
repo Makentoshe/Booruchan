@@ -13,14 +13,17 @@
         android:supportsRtl="true"
         android:theme="@style/Astarte">
         <activity android:name=".start.view.StartActivity">
+
+        </activity>
+        <activity android:name=".appsettings.view.AppSettingsActivity" />
+        <activity android:name=".booru.view.BooruActivity" />
+        <activity android:name=".sample.view.SampleActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".appsettings.view.AppSettingsActivity" />
-        <activity android:name=".booru.view.BooruActivity" />
     </application>
 
 </manifest>

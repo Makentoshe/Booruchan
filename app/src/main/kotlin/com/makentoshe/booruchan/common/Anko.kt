@@ -1,10 +1,14 @@
-package com.makentoshe.booruchan.common.view
+package com.makentoshe.booruchan.common
 
 import android.annotation.SuppressLint
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.RecyclerView
 import android.view.ViewManager
+import com.makentoshe.booruchan.common.view.DelayAutocompleteEditText
+import com.makentoshe.booruchan.common.view.FloatingActionNavigationButton
+import com.makentoshe.booruchan.common.view.VerticalViewPager
 import com.makeramen.roundedimageview.RoundedImageView
+import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import kotlinx.coroutines.experimental.CoroutineScope
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
@@ -21,6 +25,10 @@ inline fun ViewManager.roundedImageView(init: RoundedImageView.() -> Unit) = ank
 inline fun ViewManager.floatingActionNavigationButton(init: FloatingActionNavigationButton.() -> Unit) = ankoView({ FloatingActionNavigationButton(it) }, 0, init)
 
 fun ViewManager.floatingActionNavigationButton() = floatingActionNavigationButton {}
+
+fun ViewManager.slidingUpPanel(init: SlidingUpPanelLayout.() -> Unit) = ankoView({SlidingUpPanelLayout(it)}, 0, init)
+
+fun ViewManager.backdrop(init: BackdropImpl.() -> Unit) = ankoView({BackdropImpl(it)}, 0, init)
 
 fun RecyclerView.onScroll(
         context: CoroutineContext = UI,

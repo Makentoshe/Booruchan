@@ -85,6 +85,11 @@ dependencies {
     implementation 'com.github.kittinunf.fuel:fuel:1.15.0'
     implementation 'com.github.kittinunf.fuel:fuel-android:1.15.0'
     implementation 'com.github.kittinunf.fuel:fuel-coroutines:1.15.0'
+
+    implementation 'com.sothree.slidinguppanel:library:3.4.0'
+    androidExtensions {
+        experimental = true
+    }
 }
 
 configurations.all { config ->

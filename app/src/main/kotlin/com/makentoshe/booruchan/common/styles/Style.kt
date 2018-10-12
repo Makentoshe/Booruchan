@@ -1,9 +1,12 @@
 package com.makentoshe.booruchan.common.styles
 
-import android.support.annotation.*
+import android.support.annotation.ColorRes
+import android.support.annotation.DrawableRes
+import android.support.annotation.StyleRes
 import com.makentoshe.booruchan.R
+import java.io.Serializable
 
-interface Style {
+interface Style : Serializable {
 
     companion object {
         const val Astarte = R.style.Astarte
@@ -34,6 +37,8 @@ interface Style {
                 else -> throw IllegalArgumentException()
             }
         }
+
+        const val dpToolbarHeight = 56
     }
 
     @get:StyleRes
@@ -44,6 +49,7 @@ interface Style {
 
     @get:ColorRes
     val toolbarBackgroundColor: Int
+
 
     val dpToolbarHeight: Int
         get() = 56
@@ -69,4 +75,12 @@ interface Style {
     @get:DrawableRes
     val iconArrowUp: Int
         get() = R.drawable.ic_arrow_vector
+
+    @get:DrawableRes
+    val avdFromMenuToCross: Int
+        get() = R.drawable.avd_menu_close_vector
+
+    @get:DrawableRes
+    val avdFromCrossToMenu
+        get() = R.drawable.avd_close_menu_vector
 }

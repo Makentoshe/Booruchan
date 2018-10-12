@@ -22,7 +22,7 @@ import com.makentoshe.booruchan.common.StyleableAnkoComponent
 import com.makentoshe.booruchan.common.forLollipop
 import com.makentoshe.booruchan.common.styles.Style
 import com.makentoshe.booruchan.common.view.DelayAutocompleteEditText
-import com.makentoshe.booruchan.common.view.delayAutocompleteEditText
+import com.makentoshe.booruchan.common.delayAutocompleteEditText
 import org.jetbrains.anko.*
 import org.jetbrains.anko.appcompat.v7.toolbar
 import org.jetbrains.anko.cardview.v7.cardView

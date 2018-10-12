@@ -1,13 +1,15 @@
 package com.makentoshe.booruchan.common.settings.application
 
+import android.os.Parcelable
 import android.support.annotation.StyleRes
 import com.makentoshe.booruchan.common.styles.AstarteStyle
 import com.makentoshe.booruchan.common.styles.RinStyle
 import com.makentoshe.booruchan.common.styles.ShuviStyle
 import com.makentoshe.booruchan.common.styles.Style
-import java.io.Serializable
+import kotlinx.android.parcel.Parcelize
 
-class AppSettings: Serializable {
+@Parcelize
+class AppSettings: Parcelable {
 
     companion object {
         const val NAME = "ApplicationSettings"

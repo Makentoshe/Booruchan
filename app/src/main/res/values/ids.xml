@@ -35,4 +35,6 @@
     <item name="booru_comment_fanb_collapse" type="id" />
     <item name="booru_comment_fanb_expand" type="id" />
     <item name="booru_comment_viewpager" type="id" />
+    <item name="sample_backdrop_toolbar" type="id" />
+    <item name="sample_backdrop_toolbar_menu" type="id" />
 </resources>

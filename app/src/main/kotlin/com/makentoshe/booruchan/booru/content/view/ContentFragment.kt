@@ -16,7 +16,7 @@ abstract class ContentFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         booru = arguments!!.getSerializable(booruArg) as Boor
-        appSettings = arguments!!.getSerializable(appSettingsArg) as AppSettings
+        appSettings = arguments!!.getParcelable(appSettingsArg) as AppSettings
     }
 
     class ContentFragmentBuilder<F: ContentFragment>(private val fragment: F) {
@@ -24,7 +24,7 @@ abstract class ContentFragment : Fragment() {
         fun build(booru: Boor, appSettings: AppSettings): F {
             val args = Bundle()
             args.putSerializable(booruArg, booru)
-            args.putSerializable(appSettingsArg, appSettings)
+            args.putParcelable(appSettingsArg, appSettings)
             fragment.arguments = args
             return fragment
         }

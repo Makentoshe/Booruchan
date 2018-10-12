@@ -1,9 +1,12 @@
 package com.makentoshe.booruchan.common.styles
 
 import android.annotation.SuppressLint
+import android.os.Parcelable
 import com.makentoshe.booruchan.R
+import kotlinx.android.parcel.Parcelize
 
-class AstarteStyle: Style {
+@Parcelize
+class AstarteStyle: Style, Parcelable {
     override val hintColor: Int
         @SuppressLint("PrivateResource")
         get() = R.color.abc_hint_foreground_material_dark

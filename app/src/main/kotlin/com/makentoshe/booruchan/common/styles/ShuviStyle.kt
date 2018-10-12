@@ -1,9 +1,12 @@
 package com.makentoshe.booruchan.common.styles
 
 import android.annotation.SuppressLint
+import android.os.Parcelable
 import com.makentoshe.booruchan.R
+import kotlinx.android.parcel.Parcelize
 
-class ShuviStyle : Style {
+@Parcelize
+class ShuviStyle : Style, Parcelable {
 
     override val hintColor: Int
         @SuppressLint("PrivateResource")
