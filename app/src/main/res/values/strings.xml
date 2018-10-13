@@ -17,6 +17,9 @@
     <string name="go_to_page">Go to page</string>
     <string name="cancel">Cancel</string>
     <string name="go">Go</string>
+    <string name="id">Id:</string>
+    <string name="time">Posted:</string>
+    <string name="rating">Rating:</string>
 
     <string-array name="subservices">
         <item>Posts</item>

@@ -10,6 +10,7 @@ import com.makentoshe.booruchan.common.api.Boor
 import com.makentoshe.booruchan.common.api.HttpClient
 import com.makentoshe.booruchan.common.api.entity.Post
 import com.makentoshe.booruchan.sample.view.PageFragment
+import java.io.File
 
 class PageViewModel(@JvmField val booru: Boor, @JvmField val tags: String,
                     @JvmField val position: Int, private val client: HttpClient) : ViewModel() {
@@ -17,8 +18,14 @@ class PageViewModel(@JvmField val booru: Boor, @JvmField val tags: String,
     suspend fun loadPostData(): Post =
             booru.getPostsByTags(1, tags, position, client).getPost(0)
 
-    suspend fun loadPostImage(post: Post): Bitmap =
-            BitmapFactory.decodeStream(client.get(post.sampleUrl).stream())
+    suspend fun loadPostImage(post: Post): Bitmap {
+        return when (File(post.sampleUrl).extension.toLowerCase()) {
+            "gif" -> BitmapFactory.decodeStream(client.get(post.previewUrl).stream())
+            "webm" -> BitmapFactory.decodeStream(client.get(post.previewUrl).stream())
+            else -> BitmapFactory.decodeStream(client.get(post.sampleUrl).stream())
+        }
+    }
+
 
     class Factory(private val arguments: Bundle, private val booru: Boor) : ViewModelProvider.NewInstanceFactory() {
 

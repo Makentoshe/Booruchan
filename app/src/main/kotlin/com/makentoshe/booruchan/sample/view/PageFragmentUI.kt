@@ -35,7 +35,6 @@ class PageFragmentUI(private val viewModel: PageViewModel,
                     CoroutineScope(context).launch {
                         if (!this@PageFragmentUI::post.isInitialized) post = viewModel.loadPostData()
                         runOnUi { sampleViewModel.setPost(post) }
-                        //todo add gif or webm check
                         val bitmap = viewModel.loadPostImage(post)
                         runOnUi {
                             setImageBitmap(bitmap)

@@ -1,5 +1,6 @@
 package com.makentoshe.booruchan.sample.view
 
+import android.annotation.SuppressLint
 import android.graphics.PorterDuff
 import android.graphics.drawable.GradientDrawable
 import android.support.v4.content.ContextCompat
@@ -8,11 +9,9 @@ import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import android.widget.TextView
 import com.makentoshe.booruchan.R
-import com.makentoshe.booruchan.common.BackdropImpl
-import com.makentoshe.booruchan.common.BackdropView
-import com.makentoshe.booruchan.common.StyleableAnkoComponent
-import com.makentoshe.booruchan.common.backdrop
+import com.makentoshe.booruchan.common.*
 import com.makentoshe.booruchan.common.styles.Style
 import com.makentoshe.booruchan.sample.SampleViewModel
 import com.makentoshe.booruchan.sample.model.ViewPagerAdapter
@@ -22,7 +21,7 @@ import org.jetbrains.anko.appcompat.v7.toolbar
 import org.jetbrains.anko.cardview.v7.cardView
 import org.jetbrains.anko.support.v4.onPageChangeListener
 import org.jetbrains.anko.support.v4.viewPager
-import java.util.*
+import java.lang.StringBuilder
 
 class SampleActivityUI(style: Style, private val viewModel: SampleViewModel)
     : StyleableAnkoComponent<SampleActivity>(style) {
@@ -76,28 +75,52 @@ class SampleActivityUI(style: Style, private val viewModel: SampleViewModel)
     class BackdropContentViewBuilder(private val style: Style, private val viewModel: SampleViewModel)
         : ViewBuilder<View> {
 
+        @SuppressLint("NewApi")
         override fun build(ui: AnkoContext<SampleActivity>): View = with(ui.ctx) {
             return scrollView {
                 verticalLayout {
 
-                    val id = textView {
-                        text = "Image data"
-                        gravity = Gravity.CENTER
-                        textSize = dip(16).toFloat()
-                    }
+                    val id = textDataView(context.getString(R.string.id))
+                    separate()
+                    val time = textDataView(context.getString(R.string.time))
+                    separate()
+                    val rating = textDataView(context.getString(R.string.rating))
+                    separate()
 
                     viewModel.setPostObserver(ui.owner) {
-                        id.text = Arrays.toString(it.tags)
+                        id.text = StringBuilder(context.getString(R.string.id)).append(" ")
+                                .append(it.id)
+                        time.text = StringBuilder(context.getString(R.string.time)).append(" ")
+                                .append(viewModel.booru.convertLocalTimeToDefault(it.createdAt))
+                        rating.text = StringBuilder(context.getString(R.string.rating)).append(" ")
+                                .append(it.rating)
                     }
                 }
             }
         }
 
+        private fun _LinearLayout.textDataView(text: String): TextView {
+            return textView {
+                this.text = text
+                textColor = ContextCompat.getColor(context, style.toolbarForegroundColor)
+                textSize = sp(12).toFloat()
+            }.lparams { setMargins(dip(16), 0, 0, 0) }
+        }
+
+        private fun _LinearLayout.separate() {
+            cardView {
+                radius = dip(1).toFloat()
+                backgroundColorResource = style.hintColor
+            }.lparams(Int.MAX_VALUE, dip(2)) {
+                setMargins(dip(16), 0, 0, dip(16))
+            }
+        }
     }
 
     class BackdropPanelViewBuilder(private val style: Style, private val viewModel: SampleViewModel)
-        :ViewBuilder<View> {
+        : ViewBuilder<View> {
 
+        @SuppressLint("NewApi")
         override fun build(ui: AnkoContext<SampleActivity>): View = with(ui.ctx) {
             val colors = arrayOf(
                     ContextCompat.getColor(this, android.R.color.transparent),
@@ -107,10 +130,10 @@ class SampleActivityUI(style: Style, private val viewModel: SampleViewModel)
             verticalLayout {
                 backgroundDrawable = gradient
                 layoutParams = LinearLayout.LayoutParams(matchParent, matchParent)
-
+                forLollipop { elevation = 0f }
                 cardView {
-                    radius = dip(8).toFloat()
-                    layoutParams = ViewGroup.LayoutParams(matchParent, matchParent)
+                    radius = dip(16).toFloat()
+                    layoutParams = ViewGroup.LayoutParams(matchParent, getScreenSize(context).height)
 
                     viewPager {
                         id = R.id.sample_backdrop_sliding_viewpager
