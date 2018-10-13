@@ -11,6 +11,7 @@ class SampleActivity: Activity() {
     companion object {
         const val BOORU_EXTRA = "Booru"
         const val START_ID = "Start Id"
+        const val TAGS_EXTRA = "Tags"
     }
 
     private lateinit var viewModel: SampleViewModel

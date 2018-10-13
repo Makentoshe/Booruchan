@@ -98,7 +98,7 @@ open class PostTest {
         data["creator_id"] = "293322"
         data["score"] = "4"
         data["has_comments"] = "true"
-        data["tags"] = "hatsune_miku astarte shuvi idi hahoi"
+        data["tagsString"] = "hatsune_miku astarte shuvi idi hahoi"
         return data
     }
 
