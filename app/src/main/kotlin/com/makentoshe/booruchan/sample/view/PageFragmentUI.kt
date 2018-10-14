@@ -1,5 +1,6 @@
 package com.makentoshe.booruchan.sample.view
 
+import android.view.Gravity
 import android.view.View
 import android.widget.ProgressBar
 import com.makentoshe.booruchan.common.api.entity.Post
@@ -29,7 +30,6 @@ class PageFragmentUI(private val viewModel: PageViewModel,
     private fun _LinearLayout.createImageView(progressBar: ProgressBar, ui: AnkoContext<PageFragment>) {
         imageView {
             var isLoaded = false
-
             sampleViewModel.setPageObserver(ui.owner) { it, context ->
                 if (it == viewModel.position && !isLoaded) {
                     CoroutineScope(context).launch {
@@ -48,9 +48,8 @@ class PageFragmentUI(private val viewModel: PageViewModel,
                     println("Choose post ${viewModel.position}")
                 }
             }
-
         }.lparams(matchParent, matchParent) {
-            margin = dip(8)
+            setMargins(dip(8), dip(8), dip(8), dip(72))
         }
     }
 }

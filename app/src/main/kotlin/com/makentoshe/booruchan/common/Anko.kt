@@ -1,6 +1,5 @@
 package com.makentoshe.booruchan.common
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.RecyclerView
@@ -22,7 +21,6 @@ inline fun ViewManager.delayAutocompleteEditText(init: DelayAutocompleteEditText
 
 inline fun ViewManager.roundedImageView(init: RoundedImageView.() -> Unit) = ankoView({ RoundedImageView(it) }, 0, init)
 
-@SuppressLint("NewApi")
 inline fun ViewManager.floatingActionNavigationButton(init: FloatingActionNavigationButton.() -> Unit) = ankoView({ FloatingActionNavigationButton(it) }, 0, init)
 
 fun ViewManager.floatingActionNavigationButton() = floatingActionNavigationButton {}
