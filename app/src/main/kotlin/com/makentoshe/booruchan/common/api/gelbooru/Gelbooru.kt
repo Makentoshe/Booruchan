@@ -73,8 +73,6 @@ class Gelbooru : Boor(GelbooruRequestAPI()), Serializable {
 
         var hasChildren: Boolean = false
 
-        lateinit var source: String
-
         lateinit var md5: String
 
         var parentId: Int = -1

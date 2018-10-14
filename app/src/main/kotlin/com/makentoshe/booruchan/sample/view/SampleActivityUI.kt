@@ -2,10 +2,10 @@ package com.makentoshe.booruchan.sample.view
 
 import android.annotation.SuppressLint
 import android.graphics.PorterDuff
-import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.Toolbar
+import android.text.TextUtils
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
@@ -20,7 +20,6 @@ import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import org.jetbrains.anko.*
 import org.jetbrains.anko.appcompat.v7.toolbar
 import org.jetbrains.anko.cardview.v7.cardView
-import org.jetbrains.anko.sdk25.coroutines.onClick
 import org.jetbrains.anko.support.v4.onPageChangeListener
 import org.jetbrains.anko.support.v4.viewPager
 
@@ -29,7 +28,6 @@ class SampleActivityUI(style: Style, private val viewModel: SampleViewModel)
 
     override fun createView(ui: AnkoContext<SampleActivity>): View = with(ui) {
         verticalLayout {
-//            addView(BannerViewBuilder2Lines2ActionsImageImpl(style, this).build(ui))
             val actionBar = ActionBarBuilder(style).build(ui).setSupportActionBar(ui.owner)
             addView(actionBar)
             val backdrop = BackdropViewBuilder(style, viewModel).build(ui)
@@ -88,6 +86,8 @@ class SampleActivityUI(style: Style, private val viewModel: SampleViewModel)
                     separate()
                     val rating = textDataView(context.getString(R.string.rating))
                     separate()
+                    val source = textDataView(context.getString(R.string.source))
+                    separate()
 
                     viewModel.setPostObserver(ui.owner) {
                         id.text = StringBuilder(context.getString(R.string.id)).append(" ")
@@ -96,6 +96,8 @@ class SampleActivityUI(style: Style, private val viewModel: SampleViewModel)
                                 .append(viewModel.booru.convertLocalTimeToDefault(it.createdAt))
                         rating.text = StringBuilder(context.getString(R.string.rating)).append(" ")
                                 .append(it.rating)
+                        source.text = StringBuilder(context.getString(R.string.source)).append(" ")
+                                .append(it.source)
                     }
                 }
             }
@@ -105,6 +107,9 @@ class SampleActivityUI(style: Style, private val viewModel: SampleViewModel)
             return textView {
                 this.text = text
                 textColor = ContextCompat.getColor(context, style.toolbarForegroundColor)
+                linksClickable = true
+                maxLines = 1
+                ellipsize = TextUtils.TruncateAt.MARQUEE
             }.lparams { setMargins(dip(16), 0, 0, 0) }
         }
 
@@ -147,90 +152,4 @@ class SampleActivityUI(style: Style, private val viewModel: SampleViewModel)
         }
 
     }
-
-    abstract class BannerViewBuilder2Lines2ActionsImage(private val style: Style) : ViewBuilder<View> {
-
-        override fun build(ui: AnkoContext<SampleActivity>): View = with(ui.ctx) {
-            verticalLayout {
-                linearLayout {
-                    createImageView()
-                    textView(getTextMessage()) {
-                        textSize = 12f
-                        maxLines = 2
-                        gravity = Gravity.CENTER_VERTICAL
-                    }.lparams {
-                        setMargins(dip(16), 0, dip(8), 0)
-                    }
-                }
-                linearLayout {
-                    gravity = Gravity.END
-                    createActionButton(getFirstAction(), this@verticalLayout)
-                    createActionButton(getSecondAction(), this@verticalLayout)
-                }
-                lparams(width = matchParent) {
-                    setMargins(0, dip(24), dip(8), dip(8))
-                }
-            }
-        }
-
-        private fun _LinearLayout.createActionButton(action: Action, banner: View) {
-            button(action.text) {
-                backgroundColorResource = android.R.color.transparent
-                onClick { action.action(banner) }
-            }.lparams { setMargins(dip(8), 0, 0, 0) }
-        }
-
-        private fun _LinearLayout.createImageView() {
-            if (getImageResource() != -1 || getImageDrawable() != null) {
-                imageView {
-                    if (getImageResource() != -1) {
-                        imageResource = getImageResource()
-                    }
-                    getImageDrawable()?.let { setImageDrawable(it) }
-                }.lparams(dip(40), dip(40)) {
-                    setMargins(dip(16), 0, 0, 0)
-                }
-            }
-        }
-
-        abstract fun getFirstAction(): Action
-
-        abstract fun getSecondAction(): Action
-
-        abstract fun getTextMessage(): String
-
-        open fun getImageResource(): Int = -1
-
-        open fun getImageDrawable(): Drawable? = null
-
-        data class Action(@JvmField val text: String, @JvmField val action: (View) -> Unit)
-    }
-
-    class BannerViewBuilder2Lines2ActionsImageImpl(style: Style, private val parent: ViewGroup)
-        : BannerViewBuilder2Lines2ActionsImage(style) {
-
-        override fun getTextMessage(): String {
-            return "Two line text string with two actions. One to two lines is preferable on mobile"
-        }
-
-        override fun getFirstAction(): Action {
-            return Action("Details") {
-                println("Show details")
-            }
-        }
-
-        override fun getSecondAction(): Action {
-            return Action("Dismiss") {
-                println("Dismiss banner ")
-                it.post {
-                    it.visibility = View.GONE
-                    this.parent.removeView(it)
-                }
-            }
-        }
-
-        override fun getImageResource(): Int = R.drawable.ic_launcher_background
-
-    }
-
 }

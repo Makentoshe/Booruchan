@@ -30,6 +30,8 @@ abstract class Post: Serializable {
 
     var hasComments: Boolean = false
 
+    lateinit var source: String
+
     open fun fill(attributes: Map<String, String>) {
         raw = attributes
         //create Entry
@@ -66,6 +68,9 @@ abstract class Post: Serializable {
                 }
                 "created_at" -> {
                     createdAt = value
+                }
+                "source" -> {
+                    source = value
                 }
             }
         }
