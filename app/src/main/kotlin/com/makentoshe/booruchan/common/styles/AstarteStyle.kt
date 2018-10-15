@@ -9,6 +9,12 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 class AstarteStyle: Style, Parcelable {
+
+    @IgnoredOnParcel
+    override val chip: ChipStyle = ChipStyle(
+            R.color.MaterialIndigo200, android.R.color.white,
+            R.color.MaterialIndigo700, android.R.color.white)
+
     @IgnoredOnParcel
     override val backdrop = BackdropStyle(R.color.MaterialIndigo500, android.R.color.white)
 

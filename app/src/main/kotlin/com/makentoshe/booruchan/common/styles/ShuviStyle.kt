@@ -10,6 +10,11 @@ import kotlinx.android.parcel.Parcelize
 class ShuviStyle : Style, Parcelable {
 
     @IgnoredOnParcel
+    override val chip: ChipStyle = ChipStyle(
+            R.color.MaterialIndigo200, android.R.color.white,
+            R.color.MaterialIndigo700, android.R.color.white)
+
+    @IgnoredOnParcel
     override val backdrop = BackdropStyle(R.color.MaterialPurple500, android.R.color.white)
 
     @IgnoredOnParcel

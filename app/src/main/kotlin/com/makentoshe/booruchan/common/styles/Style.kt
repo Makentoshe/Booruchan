@@ -56,6 +56,8 @@ interface Style : Serializable {
 
     val backdrop: BackdropStyle
 
+    val chip: ChipStyle
+
     @get:ColorRes
     val assentSecondaryColor: Int
 
@@ -119,4 +121,5 @@ class FloatingActionButtonStyle(primaryColorRes: Int, onPrimaryColorRes: Int) : 
 class BackdropStyle(primaryColorRes: Int, onPrimaryColorRes: Int)
     : ViewStyle(primaryColorRes, onPrimaryColorRes), Parcelable
 
-class ChipStyle(primaryColorRes: Int, onPrimaryColorRes: Int) : ViewStyle(primaryColorRes, onPrimaryColorRes), Parcelable
+class ChipStyle(primaryColorRes: Int, onPrimaryColorRes: Int, secondaryColorRes: Int, onSecondaryColorRes: Int)
+    : AdvancedViewStyle(primaryColorRes, onPrimaryColorRes, secondaryColorRes, onSecondaryColorRes), Parcelable

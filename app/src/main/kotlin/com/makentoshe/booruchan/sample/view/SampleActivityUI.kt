@@ -1,16 +1,17 @@
 package com.makentoshe.booruchan.sample.view
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.graphics.PorterDuff
 import android.graphics.drawable.GradientDrawable
+import android.support.design.chip.Chip
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.Toolbar
 import android.text.TextUtils
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
-import android.widget.TextView
+import android.widget.*
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.common.*
 import com.makentoshe.booruchan.common.styles.Style
@@ -88,6 +89,9 @@ class SampleActivityUI(style: Style, private val viewModel: SampleViewModel)
                     separate()
                     val source = textDataView(context.getString(R.string.source))
                     separate()
+                    val chippedTags = ChippedTagsViewBuilder(style)
+                    addView(chippedTags.build(ui))
+                    separate()
 
                     viewModel.setPostObserver(ui.owner) {
                         id.text = StringBuilder(context.getString(R.string.id)).append(" ")
@@ -98,6 +102,7 @@ class SampleActivityUI(style: Style, private val viewModel: SampleViewModel)
                                 .append(it.rating)
                         source.text = StringBuilder(context.getString(R.string.source)).append(" ")
                                 .append(it.source)
+                        chippedTags.update(it.tags)
                     }
                 }
             }
@@ -113,12 +118,33 @@ class SampleActivityUI(style: Style, private val viewModel: SampleViewModel)
             }.lparams { setMargins(dip(16), 0, 0, 0) }
         }
 
+        private fun _LinearLayout.tagsDataView(text: String): LinearLayout {
+            lateinit var view: LinearLayout
+            verticalLayout {
+                textView(text) {
+                    textColor = ContextCompat.getColor(context, style.backdrop.onPrimaryColorRes)
+                }.lparams { setMargins(dip(16), 0, 0, dip(8)) }
+
+                horizontalScrollView {
+                    view = linearLayout { }
+                }.lparams { setMargins(dip(16), 0, 0, dip(16)) }
+            }
+            return view
+        }
+
         private fun _LinearLayout.separate() {
             cardView {
                 radius = dip(1).toFloat()
-                backgroundColorResource = style.hintColor
+                backgroundColorResource = style.chip.secondaryColorRes
             }.lparams(Int.MAX_VALUE, dip(2)) {
                 setMargins(dip(16), 0, 0, dip(16))
+            }
+        }
+
+        private fun LinearLayout.addTagsToTagsDataView(tags: Array<String>) {
+            removeAllViews()
+            for (tag in tags) {
+                addView(Chip(context).apply { text = tag })
             }
         }
     }
@@ -149,6 +175,64 @@ class SampleActivityUI(style: Style, private val viewModel: SampleViewModel)
                     }
                 }
             }
+        }
+
+    }
+
+    class ChippedTagsViewBuilder(private val style: Style) : ViewBuilder<View> {
+
+        private lateinit var container: LinearLayout
+
+        override fun build(ui: AnkoContext<SampleActivity>): View = with(ui.ctx) {
+            verticalLayout {
+                textView(R.string.tags) {
+                    textColor = ContextCompat.getColor(context, style.backdrop.onPrimaryColorRes)
+                }.lparams { setMargins(dip(16), 0, 0, dip(8)) }
+
+                horizontalScrollView {
+                    container = linearLayout { }
+                }.lparams { setMargins(dip(16), 0, 0, dip(16)) }
+            }
+        }
+
+        fun update(tags: Array<String>) {
+            tags.forEachIndexed { i, tag ->
+                val view = container.getChildAt(i)
+                if (view == null) {
+                    container.addView(createChip(tag))
+                } else {
+                    (view as Chip).chip.apply {
+                        text = tag
+                        isChecked = false
+                    }
+                }
+            }
+            if (container.childCount > tags.size) {
+                for (i in tags.size until container.childCount step 1) {
+                    container.getChildAt(i)?.visibility = View.GONE
+                }
+            }
+        }
+
+        private fun createChip(tag: String) = Chip(container.context).apply {
+            chip.text = tag
+//            chip.backgroundDrawable?.
+//                    setColorFilter(style.chip.getSecondaryColor(context), PorterDuff.Mode.SRC_ATOP)
+            chip.isCheckable = true
+            chip.setOnCheckedChangeListener { chip, checked ->
+                println("$tag\t$checked")
+            }
+        }
+
+        private class Chip(context: Context) : FrameLayout(context) {
+
+            @JvmField val chip = android.support.design.chip.Chip(context)
+
+            init {
+                addView(chip)
+                setPadding(0, 0, dip(8), 0)
+            }
+
         }
 
     }

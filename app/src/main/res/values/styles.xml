@@ -1,18 +1,18 @@
 <resources>
 
-    <style name="Astarte" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="Astarte" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="colorPrimary">@color/MaterialIndigo500</item>
         <item name="colorPrimaryDark">@color/MaterialIndigo700</item>
         <item name="colorAccent">@color/IndigoAssent200</item>
     </style>
 
-    <style name="Shuvi" parent="Theme.AppCompat.DayNight.NoActionBar">
+    <style name="Shuvi" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="colorPrimary">@color/MaterialPurple500</item>
         <item name="colorPrimaryDark">@color/MaterialPurple700</item>
         <item name="colorAccent">@color/PurpleAssent200</item>
     </style>
 
-    <style name="Rin" parent="Theme.AppCompat.DayNight.NoActionBar">
+    <style name="Rin" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="colorPrimary">@color/MaterialYellow500</item>
         <item name="colorPrimaryDark">@color/MaterialYellow700</item>
         <item name="colorAccent">@android:color/black</item>
