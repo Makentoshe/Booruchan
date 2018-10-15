@@ -51,7 +51,7 @@ class BooruActivity : Activity() {
         val style = getAppSettings().getStyle()
         val item = menu.add(Menu.FIRST, R.id.action_show_search, Menu.NONE, "Show search view")
         val icon = ContextCompat.getDrawable(this, style.avdFromCrossToMagnify)
-        icon?.setColorFilter(ContextCompat.getColor(this, style.toolbarForegroundColor), PorterDuff.Mode.SRC_ATOP)
+        icon?.setColorFilter(ContextCompat.getColor(this, style.toolbar.onPrimaryColorRes), PorterDuff.Mode.SRC_ATOP)
         item.icon = icon
         item.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS)
     }

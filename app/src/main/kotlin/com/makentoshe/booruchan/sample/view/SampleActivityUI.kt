@@ -44,11 +44,11 @@ class SampleActivityUI(style: Style, private val viewModel: SampleViewModel)
 
         override fun build(ui: AnkoContext<SampleActivity>): Toolbar = with(ui.ctx) {
             return toolbar {
-                backgroundColorResource = style.toolbarBackgroundColor
+                backgroundColorResource = style.toolbar.primaryColorRes
                 title = ""
                 setNavigationIcon(style.avdFromMenuToCross)
                 navigationIcon?.setColorFilter(
-                        ContextCompat.getColor(context, style.toolbarForegroundColor),
+                        ContextCompat.getColor(context, style.toolbar.onPrimaryColorRes),
                         PorterDuff.Mode.SRC_ATOP)
             }
         }
@@ -60,9 +60,9 @@ class SampleActivityUI(style: Style, private val viewModel: SampleViewModel)
         override fun build(ui: AnkoContext<SampleActivity>): BackdropImpl = with(ui.ctx) {
             return backdrop {
                 setGravity(Gravity.BOTTOM)
-                panelHeight = dip(style.dpToolbarHeight)
+                panelHeight = dip(style.toolbar.dpHeight)
                 coveredFadeColor = ContextCompat.getColor(context, android.R.color.transparent)
-                backgroundColorResource = style.toolbarBackgroundColor
+                backgroundColorResource = style.backdrop.primaryColorRes
                 panelState = SlidingUpPanelLayout.PanelState.EXPANDED
                 isTouchEnabled = false
 
@@ -106,7 +106,7 @@ class SampleActivityUI(style: Style, private val viewModel: SampleViewModel)
         private fun _LinearLayout.textDataView(text: String): TextView {
             return textView {
                 this.text = text
-                textColor = ContextCompat.getColor(context, style.toolbarForegroundColor)
+                textColor = ContextCompat.getColor(context, style.backdrop.onPrimaryColorRes)
                 linksClickable = true
                 maxLines = 1
                 ellipsize = TextUtils.TruncateAt.MARQUEE
@@ -130,7 +130,7 @@ class SampleActivityUI(style: Style, private val viewModel: SampleViewModel)
         override fun build(ui: AnkoContext<SampleActivity>): View = with(ui.ctx) {
             val colors = arrayOf(
                     ContextCompat.getColor(this, android.R.color.transparent),
-                    ContextCompat.getColor(this, style.backgroundColor))
+                    ContextCompat.getColor(this, style.view.primaryColorRes))
             val gradient = GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, colors.toIntArray())
 
             verticalLayout {

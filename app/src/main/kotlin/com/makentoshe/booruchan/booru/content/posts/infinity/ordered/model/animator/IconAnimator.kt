@@ -20,18 +20,18 @@ class IconAnimator {
     @SuppressLint("NewApi")
     fun toCross(iconView: ActionMenuItemView, style: Style) {
         forLollipop({
-            changeIconAVD(iconView, style.avdFromMagnifyToCross, style.toolbarForegroundColor)
+            changeIconAVD(iconView, style.avdFromMagnifyToCross, style.toolbar.onPrimaryColorRes)
         }, {
-            changeIcon(iconView, style.avdFromMagnifyToCross, style.toolbarForegroundColor)
+            changeIcon(iconView, style.avdFromMagnifyToCross, style.toolbar.onPrimaryColorRes)
         })
     }
 
     @SuppressLint("NewApi")
     fun toMagnify(iconView: ActionMenuItemView, style: Style) {
         forLollipop ({
-            changeIconAVD(iconView, style.avdFromCrossToMagnify, style.toolbarForegroundColor)
+            changeIconAVD(iconView, style.avdFromCrossToMagnify, style.toolbar.onPrimaryColorRes)
         }, {
-            changeIcon(iconView, style.avdFromCrossToMagnify, style.toolbarForegroundColor)
+            changeIcon(iconView, style.avdFromCrossToMagnify, style.toolbar.onPrimaryColorRes)
         })
     }
 

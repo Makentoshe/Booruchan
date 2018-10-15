@@ -19,12 +19,12 @@ class ShuviStyleTest: StyleTest(ShuviStyle()) {
     }
 
     override fun `toolbar background color`() {
-        Assert.assertEquals(R.color.MaterialPurple500, style.toolbarBackgroundColor)
+        Assert.assertEquals(R.color.MaterialPurple500, style.toolbar.primaryColorRes)
     }
 
     @Test
     override fun `toolbar text color`() {
-        Assert.assertEquals(android.R.color.white, style.toolbarForegroundColor)
+        Assert.assertEquals(android.R.color.white, style.toolbar.onPrimaryColorRes)
     }
 
 }

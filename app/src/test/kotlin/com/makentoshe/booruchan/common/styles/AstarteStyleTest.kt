@@ -17,11 +17,11 @@ class AstarteStyleTest: StyleTest(AstarteStyle()) {
     }
 
     override fun `toolbar background color`() {
-        assertEquals(R.color.MaterialIndigo500, style.toolbarBackgroundColor)
+        assertEquals(R.color.MaterialIndigo500, style.toolbar.primaryColorRes)
     }
 
     override fun `toolbar text color`() {
-        assertEquals(android.R.color.white, style.toolbarForegroundColor)
+        assertEquals(android.R.color.white, style.toolbar.onPrimaryColorRes)
     }
 
 

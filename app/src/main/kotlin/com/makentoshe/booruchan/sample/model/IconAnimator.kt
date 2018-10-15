@@ -20,18 +20,18 @@ class IconAnimator {
     @SuppressLint("NewApi")
     fun toCross(toolbar: Toolbar, style: Style) {
         forLollipop({
-            changeIconAVD(toolbar, style.avdFromMenuToCross, style.toolbarForegroundColor)
+            changeIconAVD(toolbar, style.avdFromMenuToCross, style.toolbar.onPrimaryColorRes)
         }, {
-            changeIcon(toolbar, style.avdFromMenuToCross, style.toolbarForegroundColor)
+            changeIcon(toolbar, style.avdFromMenuToCross, style.toolbar.onPrimaryColorRes)
         })
     }
 
     @SuppressLint("NewApi")
     fun toMenu(toolbar: Toolbar, style: Style) {
         forLollipop ({
-            changeIconAVD(toolbar, style.avdFromCrossToMenu, style.toolbarForegroundColor)
+            changeIconAVD(toolbar, style.avdFromCrossToMenu, style.toolbar.onPrimaryColorRes)
         }, {
-            changeIcon(toolbar, style.avdFromCrossToMenu, style.toolbarForegroundColor)
+            changeIcon(toolbar, style.avdFromCrossToMenu, style.toolbar.onPrimaryColorRes)
         })
     }
 

@@ -3,10 +3,23 @@ package com.makentoshe.booruchan.common.styles
 import android.annotation.SuppressLint
 import android.os.Parcelable
 import com.makentoshe.booruchan.R
+import kotlinx.android.parcel.IgnoredOnParcel
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 class ShuviStyle : Style, Parcelable {
+
+    @IgnoredOnParcel
+    override val backdrop = BackdropStyle(R.color.MaterialPurple500, android.R.color.white)
+
+    @IgnoredOnParcel
+    override val toolbar = ToolbarStyle(R.color.MaterialPurple500, android.R.color.white)
+
+    @IgnoredOnParcel
+    override val view: ViewStyle = ViewStyle(android.R.color.white, android.R.color.black)
+
+    @IgnoredOnParcel
+    override val floatingActionButton = FloatingActionButtonStyle(R.color.MaterialPurple500, android.R.color.white)
 
     override val hintColor: Int
         @SuppressLint("PrivateResource")
@@ -17,11 +30,5 @@ class ShuviStyle : Style, Parcelable {
 
     override val styleId: Int
         get() = Style.Shuvi
-
-    override val toolbarBackgroundColor: Int
-        get() = R.color.MaterialPurple500
-
-    override val toolbarForegroundColor: Int
-        get() = android.R.color.white
 
 }

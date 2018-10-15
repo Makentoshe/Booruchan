@@ -30,7 +30,7 @@ class AppSettingsActivityUI(style: Style)
             id = R.id.appsettings_main
             createToolbar()
                     .setSupportActionBar(ui.owner)
-                    .setHomeIcon(style.toolbarForegroundColor, ui.owner)
+                    .setHomeIcon(style.toolbar.onPrimaryColorRes, ui.owner)
             createStyleSettingStroke(viewModel, ui.owner)
         }
     }
@@ -40,14 +40,14 @@ class AppSettingsActivityUI(style: Style)
         return toolbar {
             id = R.id.appsettings_toolbar
             titleResource = R.string.app_settings_title
-            setTitleTextColorResource(style.toolbarForegroundColor)
-            backgroundColorResource = style.toolbarBackgroundColor
+            setTitleTextColorResource(style.toolbar.onPrimaryColorRes)
+            backgroundColorResource = style.toolbar.primaryColorRes
             forLollipop {
                 elevation = dip(4).toFloat()
             }
             lparams {
                 width = matchParent
-                height = dip(style.dpToolbarHeight)
+                height = style.toolbar.getHeightInPixel(context)
             }
         }
     }
@@ -65,7 +65,7 @@ class AppSettingsActivityUI(style: Style)
                     }
         }.lparams {
             width = matchParent
-            height = dip(style.dpToolbarHeight)
+            height = style.toolbar.getHeightInPixel(context)
         }
     }
 

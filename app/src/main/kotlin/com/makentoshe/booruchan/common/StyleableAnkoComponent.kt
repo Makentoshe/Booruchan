@@ -61,9 +61,9 @@ abstract class StyleableAnkoComponent<T : AppCompatActivity>(protected val style
                 R.string.drawer_open, R.string.drawer_close)
         toggle.isDrawerIndicatorEnabled = true
         toggle.drawerArrowDrawable.color = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            activity.resources.getColor(style.toolbarForegroundColor, activity.theme)
+            activity.resources.getColor(style.toolbar.onPrimaryColorRes, activity.theme)
         } else {
-            activity.resources.getColor(style.toolbarForegroundColor)
+            activity.resources.getColor(style.toolbar.onPrimaryColorRes)
         }
         drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
