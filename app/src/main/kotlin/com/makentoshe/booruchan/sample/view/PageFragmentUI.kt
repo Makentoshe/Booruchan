@@ -31,21 +31,22 @@ class PageFragmentUI(private val viewModel: PageViewModel,
         imageView {
             var isLoaded = false
             sampleViewModel.setPageObserver(ui.owner) { it, context ->
-                if (it == viewModel.position && !isLoaded) {
-                    CoroutineScope(context).launch {
-                        if (!this@PageFragmentUI::post.isInitialized) post = viewModel.loadPostData()
-                        runOnUi { sampleViewModel.setPost(post) }
-                        val bitmap = viewModel.loadPostImage(post)
-                        runOnUi {
-                            setImageBitmap(bitmap)
-                            progressBar.visibility = View.GONE
-                            isLoaded = true
+                if (it == viewModel.position) {
+                    if (!isLoaded) {
+                        CoroutineScope(context).launch {
+                            if (!this@PageFragmentUI::post.isInitialized) post = viewModel.loadPostData()
+                            runOnUi { sampleViewModel.setPost(post) }
+                            val bitmap = viewModel.loadPostImage(post)
+                            runOnUi {
+                                setImageBitmap(bitmap)
+                                progressBar.visibility = View.GONE
+                                isLoaded = true
+                            }
                         }
+                    } else {
+                        if (!this@PageFragmentUI::post.isInitialized) return@setPageObserver
+                        runOnUi { sampleViewModel.setPost(post) }
                     }
-                } else {
-                    if (!this@PageFragmentUI::post.isInitialized) return@setPageObserver
-                    runOnUi { sampleViewModel.setPost(post) }
-                    println("Choose post ${viewModel.position}")
                 }
             }
         }.lparams(matchParent, matchParent) {

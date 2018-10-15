@@ -35,7 +35,7 @@ fun RecyclerView.onScroll(
         handler: suspend CoroutineScope.(v: RecyclerView?, dx: Int, dy: Int) -> Unit) {
 
     addOnScrollListener(object : RecyclerView.OnScrollListener() {
-        override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
+        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
             CoroutineScope(context).launch {
                 handler(recyclerView, dx, dy)
             }
