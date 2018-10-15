@@ -5,6 +5,12 @@ import com.makentoshe.booruchan.R
 
 class ShuviStyle : Style {
 
+    override val toolbar = ToolbarStyle(R.color.MaterialPurple500, android.R.color.white)
+
+    override val view: ViewStyle = ViewStyle(android.R.color.white, android.R.color.black)
+
+    override val floatingActionButton = FloatingActionButtonStyle(R.color.MaterialPurple500, android.R.color.white)
+
     override val hintColor: Int
         @SuppressLint("PrivateResource")
         get() = R.color.abc_hint_foreground_material_dark
@@ -14,11 +20,5 @@ class ShuviStyle : Style {
 
     override val styleId: Int
         get() = Style.Shuvi
-
-    override val toolbarBackgroundColor: Int
-        get() = R.color.MaterialPurple500
-
-    override val toolbarForegroundColor: Int
-        get() = android.R.color.white
 
 }

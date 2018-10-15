@@ -1,7 +1,10 @@
 package com.makentoshe.booruchan.common.styles
 
+import android.content.Context
 import android.support.annotation.*
+import android.support.v4.content.ContextCompat
 import com.makentoshe.booruchan.R
+import org.jetbrains.anko.dip
 
 interface Style {
 
@@ -39,18 +42,11 @@ interface Style {
     @get:StyleRes
     val styleId: Int
 
-    @get:ColorRes
-    val toolbarForegroundColor: Int
+    val toolbar: ToolbarStyle
 
-    @get:ColorRes
-    val toolbarBackgroundColor: Int
+    val view: ViewStyle
 
-    val dpToolbarHeight: Int
-        get() = 56
-
-    @get:ColorRes
-    val backgroundColor: Int
-        get() = android.R.color.white
+    val floatingActionButton: FloatingActionButtonStyle
 
     @get:ColorRes
     val assentSecondaryColor: Int
@@ -70,3 +66,26 @@ interface Style {
     val iconArrowUp: Int
         get() = R.drawable.ic_arrow_vector
 }
+
+open class ViewStyle(@JvmField @ColorRes val primaryColorRes: Int,
+                     @JvmField @ColorRes val onPrimaryColorRes: Int) {
+
+    fun getPrimaryColor(context: Context) = ContextCompat.getColor(context, primaryColorRes)
+
+    fun getOnPrimaryColor(context: Context) = ContextCompat.getColor(context, onPrimaryColorRes)
+
+}
+
+class ToolbarStyle(primaryColorRes: Int, onPrimaryColorRes: Int) : ViewStyle(primaryColorRes, onPrimaryColorRes) {
+
+    @JvmField val dpHeight = 56
+
+    fun getHeightInPixel(context: Context) = context.dip(dpHeight)
+
+}
+
+class FloatingActionButtonStyle(primaryColorRes: Int, onPrimaryColorRes: Int) :ViewStyle(primaryColorRes, onPrimaryColorRes)
+
+class BackdropStyle(primaryColorRes: Int, onPrimaryColorRes: Int): ViewStyle(primaryColorRes, onPrimaryColorRes)
+
+class ChipStyle(primaryColorRes: Int, onPrimaryColorRes: Int): ViewStyle(primaryColorRes, onPrimaryColorRes)

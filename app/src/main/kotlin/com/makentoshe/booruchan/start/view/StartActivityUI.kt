@@ -21,7 +21,7 @@ class StartActivityUI(style: Style) : StyleableAnkoComponent<StartActivity>(styl
             id = R.id.start_main
             createToolbar()
                     .setSupportActionBar(ui.owner)
-                    .setOverflowIconColor(style.toolbarForegroundColor)
+                    .setOverflowIconColor(style.toolbar.onPrimaryColorRes)
             createContent(viewModel, ui.owner)
         }
     }
@@ -29,16 +29,16 @@ class StartActivityUI(style: Style) : StyleableAnkoComponent<StartActivity>(styl
     @SuppressLint("NewApi")
     private fun _LinearLayout.createToolbar(): Toolbar {
         return toolbar {
-            setTitleTextColorResource(style.toolbarForegroundColor)
+            setTitleTextColorResource(style.toolbar.onPrimaryColorRes)
             id = R.id.start_toolbar
             titleResource = R.string.app_name
-            backgroundColorResource = style.toolbarBackgroundColor
+            backgroundColorResource = style.toolbar.primaryColorRes
             forLollipop {
                 elevation = dip(4).toFloat()
             }
         }.lparams {
             width = matchParent
-            height = dip(style.dpToolbarHeight)
+            height = style.toolbar.getHeightInPixel(context)
         }
     }
 

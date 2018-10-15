@@ -9,7 +9,7 @@ abstract class StyleTest(protected val style: Style) {
 
     @Test
     open fun `toolbar height in dp`() {
-        assertEquals(style.dpToolbarHeight, 56)
+        assertEquals(style.toolbar.dpHeight, 56)
     }
 
     @Test
