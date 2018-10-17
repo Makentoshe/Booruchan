@@ -6,10 +6,6 @@ import java.lang.ref.WeakReference
 
 class UsersFragment : ContentFragment() {
 
-    override fun onSearchStarted(): WeakReference<(String) -> Unit> {
-        return WeakReference<(String) -> Unit> {}
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         println("Create ${this::class.java.simpleName}")

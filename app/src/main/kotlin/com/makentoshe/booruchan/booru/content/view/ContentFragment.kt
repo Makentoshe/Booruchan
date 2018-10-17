@@ -11,7 +11,7 @@ abstract class ContentFragment : Fragment() {
     protected lateinit var booru: Boor
     protected lateinit var appSettings: AppSettings
 
-    abstract fun onSearchStarted(): WeakReference<(String) -> Unit>
+    open fun onSearchStarted(): (String) -> Unit = {}
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

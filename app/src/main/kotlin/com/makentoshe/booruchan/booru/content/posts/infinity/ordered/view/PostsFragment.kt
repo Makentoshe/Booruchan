@@ -27,13 +27,14 @@ class PostsFragment : ContentFragment() {
         return PostsFragmentUI(viewModel).createView(AnkoContext.create(activity!!, this))
     }
 
-    override fun onSearchStarted(): WeakReference<(String) -> Unit> {
-        return WeakReference<(String) -> Unit>({
+    override fun onSearchStarted(): (String) -> Unit {
+        return {
+            println(it)
             activity?.findViewById<RecyclerView>(R.id.booru_content_gallery)?.apply {
                 adapter = viewModel.newGalleryAdapter(it)
                 scrollToPosition(0)
             }
-        })
+        }
     }
 
     override fun onDestroy() {

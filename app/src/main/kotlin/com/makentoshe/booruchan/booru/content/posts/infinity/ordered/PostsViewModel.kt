@@ -22,7 +22,7 @@ class PostsViewModel(@JvmField val booru: Boor,
     private var searchTerm = ""
     private val navigator = BooruPostNavigator()
 
-    fun getGalleryAdapter(searchTerm: String? = ""): RecyclerView.Adapter<*> {
+    fun getGalleryAdapter(searchTerm: String = ""): RecyclerView.Adapter<*> {
         return if (this::currentGalleryAdapter.isInitialized) {
             currentGalleryAdapter
         } else {
@@ -30,8 +30,8 @@ class PostsViewModel(@JvmField val booru: Boor,
         }
     }
 
-    fun newGalleryAdapter(searchTerm: String? = ""): RecyclerView.Adapter<*> {
-        val adapter = RecycleViewAdapter(adapterLoaderBuilder.build(searchTerm!!), this)
+    fun newGalleryAdapter(searchTerm: String = ""): RecyclerView.Adapter<*> {
+        val adapter = RecycleViewAdapter(adapterLoaderBuilder.build(searchTerm), this)
         try {
             return adapter
         } finally {
