@@ -16,7 +16,7 @@ class GelbooruRequestAPITest : BooruRequestAPITest(GelbooruRequestAPI()) {
     }
 
     override fun getPostsByTagsRequestExpected(limit: Int, tags: String, page: Int): String {
-        return "https://gelbooru.com/index.php?page=dapi&q=index&s=post&limit=$limit&tags=$tags&pid=$page"
+        return "https://gelbooru.com/index.php?page=dapi&q=index&s=post&limit=$limit&tagsString=$tags&pid=$page"
     }
 
     override fun getPostViewByIdRequestExpected(id: Int): String {

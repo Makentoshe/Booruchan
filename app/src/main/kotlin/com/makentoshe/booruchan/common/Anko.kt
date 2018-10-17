@@ -1,10 +1,16 @@
-package com.makentoshe.booruchan.common.view
+package com.makentoshe.booruchan.common
 
-import android.annotation.SuppressLint
+import android.content.Context
+import android.support.design.chip.Chip
+import android.support.design.chip.ChipGroup
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.RecyclerView
 import android.view.ViewManager
+import com.makentoshe.booruchan.common.view.DelayAutocompleteEditText
+import com.makentoshe.booruchan.common.view.FloatingActionNavigationButton
+import com.makentoshe.booruchan.common.view.VerticalViewPager
 import com.makeramen.roundedimageview.RoundedImageView
+import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import kotlinx.coroutines.experimental.CoroutineScope
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
@@ -17,17 +23,18 @@ inline fun ViewManager.delayAutocompleteEditText(init: DelayAutocompleteEditText
 
 inline fun ViewManager.roundedImageView(init: RoundedImageView.() -> Unit) = ankoView({ RoundedImageView(it) }, 0, init)
 
-@SuppressLint("NewApi")
 inline fun ViewManager.floatingActionNavigationButton(init: FloatingActionNavigationButton.() -> Unit) = ankoView({ FloatingActionNavigationButton(it) }, 0, init)
 
-fun ViewManager.floatingActionNavigationButton() = floatingActionNavigationButton {}
+fun Context.backdrop(init: BackdropImpl.() -> Unit) = ankoView({BackdropImpl(it)}, 0, init)
+
+fun ViewManager.chipGroup(init: ChipGroup.() -> Unit)= ankoView({ChipGroup(it)}, 0, init)
 
 fun RecyclerView.onScroll(
         context: CoroutineContext = UI,
         handler: suspend CoroutineScope.(v: RecyclerView?, dx: Int, dy: Int) -> Unit) {
 
     addOnScrollListener(object : RecyclerView.OnScrollListener() {
-        override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
+        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
             CoroutineScope(context).launch {
                 handler(recyclerView, dx, dy)
             }

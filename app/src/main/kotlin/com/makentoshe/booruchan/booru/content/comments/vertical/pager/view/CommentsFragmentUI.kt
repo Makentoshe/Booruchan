@@ -11,8 +11,8 @@ import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.booru.content.comments.vertical.pager.model.CommentsPagerAdapter
 import com.makentoshe.booruchan.booru.content.comments.vertical.pager.CommentsViewModel
 import com.makentoshe.booruchan.common.view.FloatingActionNavigationButton
-import com.makentoshe.booruchan.common.view.floatingActionNavigationButton
-import com.makentoshe.booruchan.common.view.verticalViewPager
+import com.makentoshe.booruchan.common.floatingActionNavigationButton
+import com.makentoshe.booruchan.common.verticalViewPager
 import org.jetbrains.anko.*
 import org.jetbrains.anko.sdk25.coroutines.onClick
 import org.jetbrains.anko.support.v4.onPageChangeListener
@@ -35,14 +35,15 @@ class CommentsFragmentUI(private val viewModel: CommentsViewModel)
             }
             floatingActionNavigationButton {
                 blockExpand = true
-                val color = ContextCompat.getColor(context, viewModel.appSettings.getStyle().toolbarBackgroundColor)
+                val style = viewModel.appSettings.getStyle()
+                val color = ContextCompat.getColor(context, style.floatingActionButton.primaryColorRes)
                 background.setColorFilter(color, PorterDuff.Mode.SRC_ATOP)
                 textView {
                     id = R.id.booru_comment_fanb_collapse
                     gravity = Gravity.CENTER
                     text = "1"
                     textSize = dip(14).toFloat()
-                    textColorResource = viewModel.appSettings.getStyle().toolbarForegroundColor
+                    textColorResource = style.floatingActionButton.onPrimaryColorRes
                 }
                 createDialogOnClick(this@relativeLayout)
             }.lparams(dip(56), dip(56)) {

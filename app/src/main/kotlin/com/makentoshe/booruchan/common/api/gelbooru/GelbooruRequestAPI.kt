@@ -26,7 +26,7 @@ class GelbooruRequestAPI: BoorRequestAPI, Serializable {
 
     override fun getPostsByTagsRequest(limit: Int, tags: String, page: Int): String {
         return getCustomRequest(
-                "index.php?page=dapi&q=index&s=post&limit=$limit&tags=$tags&pid=$page")
+                "index.php?page=dapi&q=index&s=post&limit=$limit&tagsString=$tags&pid=$page")
     }
 
     override fun getAutocompleteSearchRequest(term: String): String {

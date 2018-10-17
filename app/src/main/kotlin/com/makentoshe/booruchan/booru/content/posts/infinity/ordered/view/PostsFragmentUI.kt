@@ -8,10 +8,12 @@ import android.view.View
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.booru.content.posts.infinity.ordered.PostsViewModel
 import com.makentoshe.booruchan.common.forLollipop
+import com.makentoshe.booruchan.common.onScroll
 import es.dmoral.toasty.Toasty
 import org.jetbrains.anko.*
 import org.jetbrains.anko.design.floatingActionButton
 import org.jetbrains.anko.recyclerview.v7.recyclerView
+import org.jetbrains.anko.support.v4.onRefresh
 import org.jetbrains.anko.support.v4.swipeRefreshLayout
 
 class PostsFragmentUI(private val viewModel: PostsViewModel) : AnkoComponent<PostsFragment> {
@@ -29,7 +31,7 @@ class PostsFragmentUI(private val viewModel: PostsViewModel) : AnkoComponent<Pos
 
     private fun _RelativeLayout.createGalleryView() {
         swipeRefreshLayout {
-            setOnRefreshListener {
+            onRefresh {
                 if (this@PostsFragmentUI::recyclerView.isInitialized) {
                     recyclerView.apply {
                         adapter = viewModel.newGalleryAdapter(viewModel.getSearchTerm())
@@ -46,17 +48,15 @@ class PostsFragmentUI(private val viewModel: PostsViewModel) : AnkoComponent<Pos
                 val llm = LinearLayoutManager(this.context)
                 layoutManager = llm
 
-                addOnScrollListener(object : RecyclerView.OnScrollListener() {
-                    override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
-                        if (this@PostsFragmentUI::floatingActionButton.isInitialized) {
-                            if (llm.findFirstVisibleItemPosition() >= 3) {
-                                floatingActionButton.show()
-                            } else {
-                                floatingActionButton.hide()
-                            }
+                onScroll { v, dx, dy ->
+                    if (this@PostsFragmentUI::floatingActionButton.isInitialized) {
+                        if (llm.findFirstVisibleItemPosition() >= 3) {
+                            floatingActionButton.show()
+                        } else {
+                            floatingActionButton.hide()
                         }
                     }
-                })
+                }
                 lparams(matchParent, matchParent)
             }
         }.lparams(matchParent, matchParent)

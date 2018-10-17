@@ -21,6 +21,9 @@
         </activity>
         <activity android:name=".appsettings.view.AppSettingsActivity" />
         <activity android:name=".booru.view.BooruActivity" />
+        <activity android:name=".sample.view.SampleActivity" >
+
+        </activity>
     </application>
 
 </manifest>

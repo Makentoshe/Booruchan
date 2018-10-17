@@ -1,9 +1,27 @@
 package com.makentoshe.booruchan.common.styles
 
 import android.annotation.SuppressLint
+import android.os.Parcelable
 import com.makentoshe.booruchan.R
+import kotlinx.android.parcel.IgnoredOnParcel
+import kotlinx.android.parcel.Parcelize
 
-class RinStyle : Style {
+@Parcelize
+class RinStyle : Style, Parcelable {
+
+    @IgnoredOnParcel
+    override val chip: ChipStyle = ChipStyle(
+            R.color.MaterialIndigo200, android.R.color.white,
+            R.color.MaterialIndigo700, android.R.color.white)
+
+    @IgnoredOnParcel
+    override val backdrop = BackdropStyle(R.color.MaterialYellow500, android.R.color.white)
+    @IgnoredOnParcel
+    override val toolbar = ToolbarStyle(R.color.MaterialYellow500, android.R.color.black)
+    @IgnoredOnParcel
+    override val view: ViewStyle = ViewStyle(android.R.color.white, android.R.color.black)
+    @IgnoredOnParcel
+    override val floatingActionButton = FloatingActionButtonStyle(R.color.MaterialYellow500, android.R.color.black)
 
     override val hintColor: Int
         @SuppressLint("PrivateResource")
@@ -14,11 +32,5 @@ class RinStyle : Style {
 
     override val styleId: Int
         get() = Style.Rin
-
-    override val toolbarForegroundColor: Int
-        get() = android.R.color.black
-
-    override val toolbarBackgroundColor: Int
-        get() = R.color.MaterialYellow500
 
 }

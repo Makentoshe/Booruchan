@@ -22,7 +22,7 @@ import com.makentoshe.booruchan.common.StyleableAnkoComponent
 import com.makentoshe.booruchan.common.forLollipop
 import com.makentoshe.booruchan.common.styles.Style
 import com.makentoshe.booruchan.common.view.DelayAutocompleteEditText
-import com.makentoshe.booruchan.common.view.delayAutocompleteEditText
+import com.makentoshe.booruchan.common.delayAutocompleteEditText
 import org.jetbrains.anko.*
 import org.jetbrains.anko.appcompat.v7.toolbar
 import org.jetbrains.anko.cardview.v7.cardView
@@ -44,9 +44,9 @@ class BooruActivityContentUI(style: Style,
             createSearchViewLayout()
             createToolbar(ui)
                     .setSupportActionBar(ui.owner)
-                    .setHomeIcon(style.toolbarForegroundColor, ui.owner)
+                    .setHomeIcon(style.toolbar.onPrimaryColorRes, ui.owner)
                     .setHamburgerIcon(ui.owner, dlContext)
-                    .setOverflowIconColor(style.toolbarForegroundColor)
+                    .setOverflowIconColor(style.toolbar.onPrimaryColorRes)
             createGallery(ui)
             createSearchViewAlpha(ui)
 
@@ -83,19 +83,19 @@ class BooruActivityContentUI(style: Style,
     private fun _ConstraintLayout.createToolbar(ui: AnkoContext<BooruActivity>): Toolbar {
         return toolbar {
             id = R.id.booru_content_toolbar
-            setTitleTextColor(ContextCompat.getColor(context, style.toolbarForegroundColor))
-            setSubtitleTextColor(ContextCompat.getColor(context, style.toolbarForegroundColor))
+            setTitleTextColor(ContextCompat.getColor(context, style.toolbar.onPrimaryColorRes))
+            setSubtitleTextColor(ContextCompat.getColor(context, style.toolbar.onPrimaryColorRes))
             title = contentViewModel.booru.getBooruName()
             panelViewModel.addSelectedItemPositionObserver(ui.owner) {
                 subtitle = contentViewModel.getSubtitleResByIndex(context, it!!)
             }
-            backgroundColorResource = style.toolbarBackgroundColor
+            backgroundColorResource = style.toolbar.primaryColorRes
             forLollipop {
                 elevation = dip(4).toFloat()
             }
         }.lparams {
             width = 0
-            height = dip(style.dpToolbarHeight)
+            height = style.toolbar.getHeightInPixel(context)
             leftToLeft = ConstraintSet.PARENT_ID
             rightToRight = ConstraintSet.PARENT_ID
             topToTop = ConstraintSet.PARENT_ID
@@ -107,8 +107,8 @@ class BooruActivityContentUI(style: Style,
         return linearLayout {
             id = R.id.booru_content_search
             visibility = View.GONE
-            backgroundResource = style.toolbarBackgroundColor
-            translationY = -dip(style.dpToolbarHeight).toFloat()
+            backgroundResource = style.toolbar.primaryColorRes
+            translationY = -style.toolbar.getHeightInPixel(context).toFloat()
             forLollipop {
                 elevation = dip(4).toFloat()
             }
@@ -116,7 +116,7 @@ class BooruActivityContentUI(style: Style,
 
         }.lparams {
             width = matchConstraint
-            height = dip(style.dpToolbarHeight)
+            height = style.toolbar.getHeightInPixel(context)
             leftToLeft = ConstraintSet.PARENT_ID
             rightToRight = ConstraintSet.PARENT_ID
             topToBottom = R.id.booru_content_toolbar

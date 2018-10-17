@@ -13,7 +13,7 @@ import com.makentoshe.booruchan.booru.panel.PanelViewModel
 import com.makentoshe.booruchan.booru.view.BooruActivity
 import com.makentoshe.booruchan.common.StyleableAnkoComponent
 import com.makentoshe.booruchan.common.styles.Style
-import com.makentoshe.booruchan.common.view.roundedImageView
+import com.makentoshe.booruchan.common.roundedImageView
 import org.jetbrains.anko.*
 import org.jetbrains.anko.constraint.layout._ConstraintLayout
 import org.jetbrains.anko.constraint.layout.constraintLayout
@@ -29,7 +29,7 @@ class BooruActivityUIPanel(style: Style,
 
     override fun createView(ui: AnkoContext<BooruActivity>): View = with(dlContext) {
         constraintLayout {
-            backgroundResource = style.backgroundColor
+            backgroundResource = style.view.primaryColorRes
             setOnClickListener {
                 //listener for avoiding gesture control beyond the panel
             }
@@ -77,10 +77,10 @@ class BooruActivityUIPanel(style: Style,
 
     private fun _ConstraintLayout.createRoundedImageView() {
         roundedImageView {
-            backgroundResource = style.toolbarBackgroundColor
+            backgroundResource = style.toolbar.primaryColorRes
             mutateBackground(true)
             val imageDrawable = ContextCompat.getDrawable(context, style.avdFromMagnifyToCross)
-            val filterColor = ContextCompat.getColor(context, style.toolbarForegroundColor)
+            val filterColor = ContextCompat.getColor(context, style.toolbar.onPrimaryColorRes)
             imageDrawable?.setColorFilter(filterColor, PorterDuff.Mode.SRC_ATOP)
             setImageDrawable(imageDrawable)
             scaleType = ScaleType.CENTER_CROP

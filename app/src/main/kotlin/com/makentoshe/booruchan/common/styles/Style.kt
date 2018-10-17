@@ -1,9 +1,18 @@
 package com.makentoshe.booruchan.common.styles
 
-import android.support.annotation.*
-import com.makentoshe.booruchan.R
 
-interface Style {
+import android.content.Context
+import android.os.Parcelable
+import android.support.annotation.ColorRes
+import android.support.annotation.DrawableRes
+import android.support.annotation.StyleRes
+import android.support.v4.content.ContextCompat
+import com.makentoshe.booruchan.R
+import kotlinx.android.parcel.Parcelize
+import org.jetbrains.anko.dip
+import java.io.Serializable
+
+interface Style : Serializable {
 
     companion object {
         const val Astarte = R.style.Astarte
@@ -39,18 +48,15 @@ interface Style {
     @get:StyleRes
     val styleId: Int
 
-    @get:ColorRes
-    val toolbarForegroundColor: Int
+    val toolbar: ToolbarStyle
 
-    @get:ColorRes
-    val toolbarBackgroundColor: Int
+    val view: ViewStyle
 
-    val dpToolbarHeight: Int
-        get() = 56
+    val floatingActionButton: FloatingActionButtonStyle
 
-    @get:ColorRes
-    val backgroundColor: Int
-        get() = android.R.color.white
+    val backdrop: BackdropStyle
+
+    val chip: ChipStyle
 
     @get:ColorRes
     val assentSecondaryColor: Int
@@ -69,4 +75,51 @@ interface Style {
     @get:DrawableRes
     val iconArrowUp: Int
         get() = R.drawable.ic_arrow_vector
+
+
+    @get:DrawableRes
+    val avdFromMenuToCross: Int
+        get() = R.drawable.avd_menu_close_vector
+
+    @get:DrawableRes
+    val avdFromCrossToMenu
+        get() = R.drawable.avd_close_menu_vector
+
 }
+
+@Parcelize
+open class ViewStyle(@JvmField @ColorRes val primaryColorRes: Int,
+                     @JvmField @ColorRes val onPrimaryColorRes: Int) : Parcelable {
+
+    fun getPrimaryColor(context: Context) = ContextCompat.getColor(context, primaryColorRes)
+
+    fun getOnPrimaryColor(context: Context) = ContextCompat.getColor(context, onPrimaryColorRes)
+
+}
+
+open class AdvancedViewStyle(primaryColorRes: Int, onPrimaryColorRes: Int,
+                             @JvmField @ColorRes val secondaryColorRes: Int,
+                             @JvmField @ColorRes val onSecondaryColorRes: Int)
+    : ViewStyle(primaryColorRes, onPrimaryColorRes), Parcelable {
+
+    fun getSecondaryColor(context: Context) = ContextCompat.getColor(context, primaryColorRes)
+
+    fun getOnSecondaryColor(context: Context) = ContextCompat.getColor(context, onPrimaryColorRes)
+}
+
+class ToolbarStyle(primaryColorRes: Int, onPrimaryColorRes: Int) : ViewStyle(primaryColorRes, onPrimaryColorRes), Parcelable {
+
+    @JvmField
+    val dpHeight = 56
+
+    fun getHeightInPixel(context: Context) = context.dip(dpHeight)
+
+}
+
+class FloatingActionButtonStyle(primaryColorRes: Int, onPrimaryColorRes: Int) : ViewStyle(primaryColorRes, onPrimaryColorRes), Parcelable
+
+class BackdropStyle(primaryColorRes: Int, onPrimaryColorRes: Int)
+    : ViewStyle(primaryColorRes, onPrimaryColorRes), Parcelable
+
+class ChipStyle(primaryColorRes: Int, onPrimaryColorRes: Int, secondaryColorRes: Int, onSecondaryColorRes: Int)
+    : AdvancedViewStyle(primaryColorRes, onPrimaryColorRes, secondaryColorRes, onSecondaryColorRes), Parcelable
