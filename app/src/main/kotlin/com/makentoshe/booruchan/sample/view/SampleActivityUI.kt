@@ -5,6 +5,7 @@ import android.content.Context
 import android.graphics.PorterDuff
 import android.graphics.drawable.GradientDrawable
 import android.support.design.chip.Chip
+import android.support.design.chip.ChipGroup
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.Toolbar
 import android.text.TextUtils
@@ -118,20 +119,6 @@ class SampleActivityUI(style: Style, private val viewModel: SampleViewModel)
             }.lparams { setMargins(dip(16), 0, 0, 0) }
         }
 
-        private fun _LinearLayout.tagsDataView(text: String): LinearLayout {
-            lateinit var view: LinearLayout
-            verticalLayout {
-                textView(text) {
-                    textColor = ContextCompat.getColor(context, style.backdrop.onPrimaryColorRes)
-                }.lparams { setMargins(dip(16), 0, 0, dip(8)) }
-
-                horizontalScrollView {
-                    view = linearLayout { }
-                }.lparams { setMargins(dip(16), 0, 0, dip(16)) }
-            }
-            return view
-        }
-
         private fun _LinearLayout.separate() {
             cardView {
                 radius = dip(1).toFloat()
@@ -141,12 +128,6 @@ class SampleActivityUI(style: Style, private val viewModel: SampleViewModel)
             }
         }
 
-        private fun LinearLayout.addTagsToTagsDataView(tags: Array<String>) {
-            removeAllViews()
-            for (tag in tags) {
-                addView(Chip(context).apply { text = tag })
-            }
-        }
     }
 
     class BackdropPanelViewBuilder(private val style: Style, private val viewModel: SampleViewModel)
@@ -181,7 +162,7 @@ class SampleActivityUI(style: Style, private val viewModel: SampleViewModel)
 
     class ChippedTagsViewBuilder(private val style: Style) : ViewBuilder<View> {
 
-        private lateinit var container: LinearLayout
+        private lateinit var container: ChipGroup
 
         override fun build(ui: AnkoContext<SampleActivity>): View = with(ui.ctx) {
             verticalLayout {
@@ -189,8 +170,8 @@ class SampleActivityUI(style: Style, private val viewModel: SampleViewModel)
                     textColor = ContextCompat.getColor(context, style.backdrop.onPrimaryColorRes)
                 }.lparams { setMargins(dip(16), 0, 0, dip(8)) }
 
-                horizontalScrollView {
-                    container = linearLayout { }
+                container = chipGroup {
+                    gravity = Gravity.FILL_HORIZONTAL
                 }.lparams { setMargins(dip(16), 0, 0, dip(16)) }
             }
         }
@@ -201,13 +182,10 @@ class SampleActivityUI(style: Style, private val viewModel: SampleViewModel)
                 if (view == null) {
                     container.addView(createChip(tag))
                 } else {
-                    (view as Chip).chip.apply {
-                        text = tag
-                        isChecked = false
-                    }
+                    (view as Chip).text = tag
                 }
             }
-            if (container.childCount > tags.size) {
+            if (tags.size < container.childCount) {
                 for (i in tags.size until container.childCount step 1) {
                     container.getChildAt(i)?.visibility = View.GONE
                 }
@@ -215,25 +193,13 @@ class SampleActivityUI(style: Style, private val viewModel: SampleViewModel)
         }
 
         private fun createChip(tag: String) = Chip(container.context).apply {
-            chip.text = tag
-//            chip.backgroundDrawable?.
-//                    setColorFilter(style.chip.getSecondaryColor(context), PorterDuff.Mode.SRC_ATOP)
-            chip.isCheckable = true
-            chip.setOnCheckedChangeListener { chip, checked ->
+            text = tag
+            isCheckable = true
+            setOnCheckedChangeListener { chip, checked ->
                 println("$tag\t$checked")
             }
         }
 
-        private class Chip(context: Context) : FrameLayout(context) {
-
-            @JvmField val chip = android.support.design.chip.Chip(context)
-
-            init {
-                addView(chip)
-                setPadding(0, 0, dip(8), 0)
-            }
-
-        }
 
     }
 }

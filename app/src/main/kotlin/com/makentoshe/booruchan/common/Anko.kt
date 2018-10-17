@@ -1,6 +1,8 @@
 package com.makentoshe.booruchan.common
 
 import android.content.Context
+import android.support.design.chip.Chip
+import android.support.design.chip.ChipGroup
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.RecyclerView
 import android.view.ViewManager
@@ -23,12 +25,9 @@ inline fun ViewManager.roundedImageView(init: RoundedImageView.() -> Unit) = ank
 
 inline fun ViewManager.floatingActionNavigationButton(init: FloatingActionNavigationButton.() -> Unit) = ankoView({ FloatingActionNavigationButton(it) }, 0, init)
 
-fun ViewManager.floatingActionNavigationButton() = floatingActionNavigationButton {}
-
-fun ViewManager.slidingUpPanel(init: SlidingUpPanelLayout.() -> Unit) = ankoView({SlidingUpPanelLayout(it)}, 0, init)
-
-fun ViewManager.backdrop(init: BackdropImpl.() -> Unit) = ankoView({BackdropImpl(it)}, 0, init)
 fun Context.backdrop(init: BackdropImpl.() -> Unit) = ankoView({BackdropImpl(it)}, 0, init)
+
+fun ViewManager.chipGroup(init: ChipGroup.() -> Unit)= ankoView({ChipGroup(it)}, 0, init)
 
 fun RecyclerView.onScroll(
         context: CoroutineContext = UI,
