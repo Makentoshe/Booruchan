@@ -37,10 +37,6 @@ class RecycleViewAdapter(private val dataLoader: AdapterDataLoader,
             dataLoader.getPostsData2(position) { posts ->
                 for (postIndex in 0 until posts.count() step 1) {
                     dataLoader.getPostPreview(posts.getPost(postIndex)) { bitmap ->
-                        if (bitmap == null) {
-                            callMessageWhichDisplayingAnError(holder.itemView.context)
-                            return@getPostPreview
-                        }
                         setBitmapToImageView(bitmap, holder.getPostPreviewView(postIndex))
                         holder.onClick(position, viewModel)
                     }

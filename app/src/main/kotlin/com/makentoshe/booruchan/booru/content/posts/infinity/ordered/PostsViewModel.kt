@@ -42,7 +42,8 @@ class PostsViewModel(@JvmField val booru: Boor,
 
     fun getSearchTerm() = searchTerm
 
-    override fun startSampleActivity(activity: FragmentActivity, itemId: Int) = navigator.startSampleActivity(activity, itemId, booru)
+    override fun startSampleActivity(activity: FragmentActivity, itemId: Int) =
+            navigator.startSampleActivity(activity, itemId, booru, searchTerm)
 
     override fun onCleared() {
         currentGalleryAdapter.clear()

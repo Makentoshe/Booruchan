@@ -92,7 +92,6 @@ class SampleActivityUI(style: Style, private val viewModel: SampleViewModel)
                     separate()
                     val chippedTags = ChippedTagsViewBuilder(style)
                     addView(chippedTags.build(ui))
-                    separate()
 
                     viewModel.setPostObserver(ui.owner) {
                         id.text = StringBuilder(context.getString(R.string.id)).append(" ")
@@ -157,7 +156,6 @@ class SampleActivityUI(style: Style, private val viewModel: SampleViewModel)
                 }
             }
         }
-
     }
 
     class ChippedTagsViewBuilder(private val style: Style) : ViewBuilder<View> {
