@@ -8,7 +8,7 @@ import com.makentoshe.booruchan.common.api.parser.HtmlParser
 import com.makentoshe.booruchan.common.api.parser.PostParser
 import java.io.Serializable
 
-class Gelbooru : Boor(GelbooruRequestAPI()), Serializable {
+class Gelbooru(httpClient: HttpClient) : Boor(GelbooruRequestAPI(), httpClient), Serializable {
 
     override fun getBooruName(): String {
         return "Gelbooru"
@@ -23,32 +23,23 @@ class Gelbooru : Boor(GelbooruRequestAPI()), Serializable {
         return "$day $month $year in $daytime"
     }
 
-    override suspend fun getAutocompleteSearchVariations(
-            httpClient: HttpClient, term: String): List<String> {
-        val result = httpClient.get(getApi().getAutocompleteSearchRequest(term)).stream()
+    override suspend fun getAutocompleteSearchVariations(term: String): List<String> {
+        val result = client.get(getApi().getAutocompleteSearchRequest(term)).stream()
         return AutocompleteSearchParser().parse(result)
     }
 
     override suspend fun getPostsByTags(
             limit: Int,
             tags: String,
-            page: Int,
-            httpClient: HttpClient): Posts<out com.makentoshe.booruchan.common.api.entity.Post> {
-        val result = httpClient.get(getApi().getPostsByTagsRequest(limit, tags, page)).stream()
+            page: Int): Posts<out com.makentoshe.booruchan.common.api.entity.Post> {
+        val result = client.get(getApi().getPostsByTagsRequest(limit, tags, page)).stream()
         return PostParser(Post::class.java).parsePosts(result)
     }
 
-    override suspend fun getListOfLastCommentedPosts(
-            page: Int, httpClient: HttpClient):
+    override suspend fun getListOfLastCommentedPosts(page: Int):
             ArrayList<Pair<com.makentoshe.booruchan.common.api.entity.Post, List<com.makentoshe.booruchan.common.api.entity.Comment>>> {
-        val result = httpClient.get(getApi().getListOfCommentsViewRequest(page)).stream()
+        val result = client.get(getApi().getListOfCommentsViewRequest(page)).stream()
         return HtmlParser.parseComments(result, this::class.java)
-    }
-
-    override suspend fun getPostById(
-            postId: Int, httpClient: HttpClient): com.makentoshe.booruchan.common.api.entity.Post {
-        val result = httpClient.get(getApi().getPostByIdRequest(postId)).stream()
-        return PostParser(Post::class.java).parsePosts(result).getPost(0)
     }
 
     class Post : com.makentoshe.booruchan.common.api.entity.Post() {

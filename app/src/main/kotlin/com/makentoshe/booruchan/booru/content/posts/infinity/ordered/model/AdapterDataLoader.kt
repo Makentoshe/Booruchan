@@ -11,8 +11,7 @@ import kotlinx.coroutines.experimental.GlobalScope
 import kotlinx.coroutines.experimental.delay
 import kotlinx.coroutines.experimental.launch
 
-class AdapterDataLoader(val searchTerm: String = "",
-                        private val downloader: Downloader,
+class AdapterDataLoader(val searchTerm: String = "", downloader: Downloader,
                         private val booru: Boor) : PreviewLoader(downloader) {
 
     private val postDataLoadScheduler = JobScheduler(10)
@@ -22,7 +21,7 @@ class AdapterDataLoader(val searchTerm: String = "",
             var errWasNotShown = true
             do {
                 try {
-                    action(booru.getPostsByTags(3, searchTerm, position, downloader.client))
+                    action(booru.getPostsByTags(3, searchTerm, position))
                     break
                 } catch (e: Exception) {
                     if (errWasNotShown) {
@@ -39,7 +38,7 @@ class AdapterDataLoader(val searchTerm: String = "",
     fun getPostsData2(position: Int, action: (Posts<out Post>) -> Unit) {
         val job = GlobalScope.launch(Dispatchers.Default) {
             delay(100)
-            action(booru.getPostsByTags(3, searchTerm, position, downloader.client))
+            action(booru.getPostsByTags(3, searchTerm, position))
         }
         postDataLoadScheduler.addJob(job)
     }

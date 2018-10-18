@@ -1,11 +1,12 @@
 package com.makentoshe.booruchan.common.api.factory
 
 import com.makentoshe.booruchan.common.api.Boor
+import com.makentoshe.booruchan.common.api.HttpClient
 import com.makentoshe.booruchan.common.api.gelbooru.Gelbooru
 
 interface Factory {
 
-    fun createService(): Boor
+    fun createService(client: HttpClient): Boor
 
     companion object {
 

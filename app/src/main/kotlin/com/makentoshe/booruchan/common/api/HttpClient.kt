@@ -7,8 +7,10 @@ import com.github.kittinunf.fuel.core.Request
 import kotlinx.coroutines.experimental.runBlocking
 import java.io.ByteArrayInputStream
 import java.io.InputStream
+import java.io.Serializable
 
-class HttpClient {
+
+class HttpClient : Serializable {
 
     fun get(url: String): HttpGet {
         return HttpGet(url)

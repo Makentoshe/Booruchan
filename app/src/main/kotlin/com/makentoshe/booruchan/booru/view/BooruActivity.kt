@@ -17,6 +17,7 @@ import com.makentoshe.booruchan.booru.BooruViewModel
 import com.makentoshe.booruchan.booru.content.ContentViewModel
 import com.makentoshe.booruchan.booru.content.view.ContentFragment
 import com.makentoshe.booruchan.booru.panel.PanelViewModel
+import com.makentoshe.booruchan.common.api.HttpClient
 import com.makentoshe.booruchan.common.api.factory.Factory
 import com.makentoshe.booruchan.sample.view.SampleActivity
 import org.jetbrains.anko.setContentView
@@ -35,7 +36,7 @@ class BooruActivity : Activity() {
     }
 
     private fun createViewModels() {
-        val booru = Factory.createFactory(intent.getStringExtra(BOORU_EXTRA)).createService()
+        val booru = Factory.createFactory(intent.getStringExtra(BOORU_EXTRA)).createService(HttpClient())
         ViewModelProviders.of(this, PanelViewModel.Factory(booru))[PanelViewModel::class.java]
         ViewModelProviders.of(this, ContentViewModel.Factory(booru))[ContentViewModel::class.java]
         ViewModelProviders.of(this)[BooruViewModel::class.java]
