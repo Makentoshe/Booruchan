@@ -3,22 +3,18 @@ package com.makentoshe.booruchan.booru.content.posts.infinity.ordered
 import android.arch.lifecycle.ViewModelProvider
 import android.support.v4.app.FragmentActivity
 import android.support.v7.widget.RecyclerView
-import com.makentoshe.booruchan.booru.content.posts.infinity.ordered.model.AdapterDataLoaderBuilder
-import com.makentoshe.booruchan.booru.content.model.Downloader
 import com.makentoshe.booruchan.booru.content.posts.BooruPostNavigator
 import com.makentoshe.booruchan.booru.content.posts.ViewModel
+import com.makentoshe.booruchan.booru.content.posts.infinity.ordered.model.AdapterDataLoaderBuilder
 import com.makentoshe.booruchan.booru.content.posts.infinity.ordered.model.RecycleViewAdapter
 import com.makentoshe.booruchan.common.api.Boor
-import com.makentoshe.booruchan.common.api.HttpClient
 import com.makentoshe.booruchan.common.settings.application.AppSettings
 
 class PostsViewModel(@JvmField val booru: Boor,
-                     @JvmField val appSettings: AppSettings,
-                     client: HttpClient) : ViewModel() {
+                     @JvmField val appSettings: AppSettings) : ViewModel() {
 
     private lateinit var currentGalleryAdapter: RecycleViewAdapter
-    private val downloader = Downloader(client)
-    private val adapterLoaderBuilder = AdapterDataLoaderBuilder(downloader, booru)
+    private val adapterLoaderBuilder = AdapterDataLoaderBuilder(booru)
     private var searchTerm = ""
     private val navigator = BooruPostNavigator()
 
@@ -54,7 +50,7 @@ class PostsViewModel(@JvmField val booru: Boor,
     class Factory(private val booru: Boor, private val appSettings: AppSettings) : ViewModelProvider.NewInstanceFactory() {
         override fun <T : android.arch.lifecycle.ViewModel?> create(modelClass: Class<T>): T {
             if (modelClass == PostsViewModel::class.java) {
-                return PostsViewModel(booru, appSettings, HttpClient()) as T
+                return PostsViewModel(booru, appSettings) as T
             }
             return super.create(modelClass)
         }

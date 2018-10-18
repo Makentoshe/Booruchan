@@ -31,9 +31,8 @@ class Gelbooru(httpClient: HttpClient) : Boor(GelbooruRequestAPI(), httpClient),
     override suspend fun getPostsByTags(
             limit: Int,
             tags: String,
-            page: Int,
-            httpClient: HttpClient): Posts<out com.makentoshe.booruchan.common.api.entity.Post> {
-        val result = httpClient.get(getApi().getPostsByTagsRequest(limit, tags, page)).stream()
+            page: Int): Posts<out com.makentoshe.booruchan.common.api.entity.Post> {
+        val result = client.get(getApi().getPostsByTagsRequest(limit, tags, page)).stream()
         return PostParser(Post::class.java).parsePosts(result)
     }
 
