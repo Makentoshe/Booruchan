@@ -8,7 +8,7 @@ import com.makentoshe.booruchan.common.api.parser.HtmlParser
 import com.makentoshe.booruchan.common.api.parser.PostParser
 import java.io.Serializable
 
-class Gelbooru : Boor(GelbooruRequestAPI()), Serializable {
+class Gelbooru(httpClient: HttpClient) : Boor(GelbooruRequestAPI(), httpClient), Serializable {
 
     override fun getBooruName(): String {
         return "Gelbooru"
@@ -23,9 +23,8 @@ class Gelbooru : Boor(GelbooruRequestAPI()), Serializable {
         return "$day $month $year in $daytime"
     }
 
-    override suspend fun getAutocompleteSearchVariations(
-            httpClient: HttpClient, term: String): List<String> {
-        val result = httpClient.get(getApi().getAutocompleteSearchRequest(term)).stream()
+    override suspend fun getAutocompleteSearchVariations(term: String): List<String> {
+        val result = client.get(getApi().getAutocompleteSearchRequest(term)).stream()
         return AutocompleteSearchParser().parse(result)
     }
 

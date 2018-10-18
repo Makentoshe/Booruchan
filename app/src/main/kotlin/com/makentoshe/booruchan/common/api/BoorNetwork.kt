@@ -7,9 +7,9 @@ import kotlinx.coroutines.experimental.GlobalScope
 import kotlinx.coroutines.experimental.async
 import java.io.Serializable
 
-abstract class BoorNetwork(private val api: BoorRequestAPI) : Serializable {
+abstract class BoorNetwork(private val api: BoorRequestAPI, protected val client: HttpClient) : Serializable {
 
-    abstract suspend fun getAutocompleteSearchVariations(httpClient: HttpClient, term: String): List<String>
+    abstract suspend fun getAutocompleteSearchVariations(term: String): List<String>
 
     abstract suspend fun getPostById(postId: Int, httpClient: HttpClient): Post
 

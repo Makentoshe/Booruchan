@@ -21,8 +21,7 @@ class AutocompleteAdapter(private val context: Context, private val boor: Boor) 
             override fun performFiltering(constraint: CharSequence?): FilterResults = runBlocking {
                 val results = FilterResults()
                 if (constraint != null) {
-                    val tips = boor.getAutocompleteSearchVariations(
-                            HttpClient(), split(constraint.toString()))
+                    val tips = boor.getAutocompleteSearchVariations(split(constraint.toString()))
                     results.values = tips
                     results.count = tips.size
                 }
