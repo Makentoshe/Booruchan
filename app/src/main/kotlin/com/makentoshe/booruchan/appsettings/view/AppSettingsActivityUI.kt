@@ -85,7 +85,7 @@ class AppSettingsActivityUI(style: Style)
             textResource = titleResource
             leftPadding = dip(8)
             gravity = Gravity.CENTER_VERTICAL
-            textSize = dip(12).toFloat()
+            textSize = 14f
         }.lparams {
             width = wrapContent
             height = matchParent
