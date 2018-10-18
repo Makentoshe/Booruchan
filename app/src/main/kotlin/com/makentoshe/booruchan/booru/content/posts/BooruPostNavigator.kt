@@ -12,7 +12,7 @@ class BooruPostNavigator {
         intent.putExtra(SampleActivity.BOORU_EXTRA, booru)
         intent.putExtra(SampleActivity.START_ID, itemId)
         intent.putExtra(SampleActivity.TAGS_EXTRA, tags)
-        activity.startActivity(intent)
+        activity.startActivityForResult(intent, 1)
     }
 
 }

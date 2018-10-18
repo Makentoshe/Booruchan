@@ -2,12 +2,15 @@ package com.makentoshe.booruchan.sample
 
 import android.arch.lifecycle.*
 import android.content.Intent
+import android.support.v4.util.ArraySet
 import android.support.v7.widget.Toolbar
 import com.makentoshe.booruchan.common.BackdropView
 import com.makentoshe.booruchan.common.api.Boor
 import com.makentoshe.booruchan.common.api.entity.Post
+import com.makentoshe.booruchan.common.api.gelbooru.Gelbooru
 import com.makentoshe.booruchan.common.styles.Style
 import com.makentoshe.booruchan.sample.model.IconAnimator
+import com.makentoshe.booruchan.sample.model.IconBehaviour
 import com.makentoshe.booruchan.sample.view.SampleActivity.Companion.BOORU_EXTRA
 import com.makentoshe.booruchan.sample.view.SampleActivity.Companion.START_ID
 import com.makentoshe.booruchan.sample.view.SampleActivity.Companion.TAGS_EXTRA
@@ -15,13 +18,15 @@ import kotlinx.coroutines.experimental.GlobalScope
 import kotlinx.coroutines.experimental.cancel
 import kotlin.coroutines.experimental.CoroutineContext
 
-class SampleViewModel(@JvmField val booru: Boor, val pageId: Int, @JvmField val tagsString: String)
-    : ViewModel() {
+class SampleViewModel(@JvmField val booru: Boor, @JvmField val pageId: Int,
+                      @JvmField val tagsString: String) : ViewModel() {
 
     private val toolbarMenuIcon = IconAnimator()
     private var currentPage = MutableLiveData<Int>()
     private var post = MutableLiveData<Post>()
     private var coroutineContext: CoroutineContext = GlobalScope.coroutineContext
+    @JvmField var searchIconBehaviour: IconBehaviour? = null
+    @JvmField val selectedTags = ArraySet<String>()
 
     fun setCurrentPage(int: Int) {
         currentPage.value = int

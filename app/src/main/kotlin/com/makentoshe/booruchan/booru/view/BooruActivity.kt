@@ -1,6 +1,7 @@
 package com.makentoshe.booruchan.booru.view
 
 import android.arch.lifecycle.ViewModelProviders
+import android.content.Intent
 import android.graphics.PorterDuff
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
@@ -9,13 +10,17 @@ import android.view.Gravity
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.EditText
 import com.makentoshe.booruchan.common.Activity
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.booru.BooruViewModel
 import com.makentoshe.booruchan.booru.content.ContentViewModel
+import com.makentoshe.booruchan.booru.content.view.ContentFragment
 import com.makentoshe.booruchan.booru.panel.PanelViewModel
 import com.makentoshe.booruchan.common.api.factory.Factory
+import com.makentoshe.booruchan.sample.view.SampleActivity
 import org.jetbrains.anko.setContentView
+import java.lang.StringBuilder
 
 class BooruActivity : Activity() {
 
@@ -83,5 +88,19 @@ class BooruActivity : Activity() {
             return
         }
         super.onBackPressed()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (requestCode == 1) {
+            if (resultCode == android.app.Activity.RESULT_OK) {
+                val tags = data?.getStringArrayExtra(SampleActivity.RESULT)!!
+                (supportFragmentManager.fragments[0] as ContentFragment).apply {
+                    val builder = StringBuilder()
+                    tags.forEach { builder.append(it).append(" ") }
+                    findViewById<EditText>(R.id.booru_toolbar_search_delayautocompleteedittext).setText(builder)
+                    onSearchStarted().invoke(builder.toString())
+                }
+            }
+        }
     }
 }

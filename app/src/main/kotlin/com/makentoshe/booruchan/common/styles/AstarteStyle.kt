@@ -12,7 +12,7 @@ class AstarteStyle: Style, Parcelable {
 
     @IgnoredOnParcel
     override val chip: ChipStyle = ChipStyle(
-            R.color.MaterialIndigo200, android.R.color.white,
+            R.color.MaterialIndigo200, android.R.color.black,
             R.color.MaterialIndigo700, android.R.color.white)
 
     @IgnoredOnParcel
