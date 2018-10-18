@@ -42,12 +42,6 @@ class Gelbooru(httpClient: HttpClient) : Boor(GelbooruRequestAPI(), httpClient),
         return HtmlParser.parseComments(result, this::class.java)
     }
 
-    override suspend fun getPostById(
-            postId: Int, httpClient: HttpClient): com.makentoshe.booruchan.common.api.entity.Post {
-        val result = httpClient.get(getApi().getPostByIdRequest(postId)).stream()
-        return PostParser(Post::class.java).parsePosts(result).getPost(0)
-    }
-
     class Post : com.makentoshe.booruchan.common.api.entity.Post() {
 
         var previewHeight: Int = -1
