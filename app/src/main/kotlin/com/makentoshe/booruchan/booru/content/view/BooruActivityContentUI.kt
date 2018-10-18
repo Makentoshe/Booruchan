@@ -95,7 +95,6 @@ class BooruActivityContentUI(style: Style,
             }
         }.lparams {
             width = 0
-            height = style.toolbar.getHeightInPixel(context)
             leftToLeft = ConstraintSet.PARENT_ID
             rightToRight = ConstraintSet.PARENT_ID
             topToTop = ConstraintSet.PARENT_ID
