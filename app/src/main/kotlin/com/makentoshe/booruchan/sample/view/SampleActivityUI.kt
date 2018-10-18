@@ -94,7 +94,7 @@ class BackdropContentViewBuilder(private val style: Style, private val viewModel
                 separate()
                 val source = textDataView(context.getString(R.string.source))
                 separate()
-                val chippedTags = ChippedTagsViewBuilder(style)
+                val chippedTags = ChippedTagsViewBuilder(style, viewModel)
                 addView(chippedTags.build(ui))
 
                 viewModel.setPostObserver(ui.owner) {
@@ -162,7 +162,7 @@ class BackdropPanelViewBuilder(private val style: Style, private val viewModel: 
     }
 }
 
-class ChippedTagsViewBuilder(private val style: Style) : ViewBuilder<View> {
+class ChippedTagsViewBuilder(private val style: Style, private val viewModel: SampleViewModel) : ViewBuilder<View> {
 
     private lateinit var container: ChipGroup
     private val selectedTags = ArraySet<String>()
@@ -182,12 +182,13 @@ class ChippedTagsViewBuilder(private val style: Style) : ViewBuilder<View> {
             setOnTagsSelectedListener(object : ChippedTagsViewBuilder.TagsSelectedListener() {
                 override fun onTagSelected(tag: String, set: Set<String>) {
                     println("Show icon")
-                    //show search icon
+                    viewModel.searchIconBehaviour?.showIcon()
                 }
 
                 override fun onTagDeselected(tag: String, set: Set<String>) {
                     if (set.isEmpty()) {
                         println("Hide icon")
+                        viewModel.searchIconBehaviour?.hideIcon()
                     }
                 }
             })
@@ -195,12 +196,17 @@ class ChippedTagsViewBuilder(private val style: Style) : ViewBuilder<View> {
     }
 
     fun update(tags: Array<String>) {
+        selectedTags.clear()
+        viewModel.searchIconBehaviour?.hideIcon()
         tags.forEachIndexed { i, tag ->
             val view = container.getChildAt(i)
             if (view == null) {
                 container.addView(createChip(tag))
             } else {
-                (view as Chip).text = tag
+                (view as Chip).apply {
+                    text = tag
+                    isChecked = false
+                }
             }
         }
         if (tags.size < container.childCount) {
