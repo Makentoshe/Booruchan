@@ -2,8 +2,8 @@ package com.makentoshe.booruchan.sample
 
 import android.arch.lifecycle.*
 import android.content.Intent
+import android.support.v4.util.ArraySet
 import android.support.v7.widget.Toolbar
-import android.view.MenuItem
 import com.makentoshe.booruchan.common.BackdropView
 import com.makentoshe.booruchan.common.api.Boor
 import com.makentoshe.booruchan.common.api.entity.Post
@@ -11,7 +11,6 @@ import com.makentoshe.booruchan.common.api.gelbooru.Gelbooru
 import com.makentoshe.booruchan.common.styles.Style
 import com.makentoshe.booruchan.sample.model.IconAnimator
 import com.makentoshe.booruchan.sample.model.IconBehaviour
-import com.makentoshe.booruchan.sample.model.SearchIconBehaviour
 import com.makentoshe.booruchan.sample.view.SampleActivity.Companion.BOORU_EXTRA
 import com.makentoshe.booruchan.sample.view.SampleActivity.Companion.START_ID
 import com.makentoshe.booruchan.sample.view.SampleActivity.Companion.TAGS_EXTRA
@@ -27,6 +26,7 @@ class SampleViewModel(@JvmField val booru: Boor, @JvmField val pageId: Int,
     private var post = MutableLiveData<Post>()
     private var coroutineContext: CoroutineContext = GlobalScope.coroutineContext
     @JvmField var searchIconBehaviour: IconBehaviour? = null
+    @JvmField val selectedTags = ArraySet<String>()
 
     fun setCurrentPage(int: Int) {
         currentPage.value = int
@@ -71,10 +71,10 @@ class SampleViewModel(@JvmField val booru: Boor, @JvmField val pageId: Int,
 
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             if (modelClass == SampleViewModel::class.java) {
-//                val booru = intent.getSerializableExtra(BOORU_EXTRA) as Boor
-//                val pageId = intent.getIntExtra(START_ID, 0)
-//                val tags = intent.getStringExtra(TAGS_EXTRA)
-                return SampleViewModel(Gelbooru(), 3, "hatsune_miku") as T
+                val booru = intent.getSerializableExtra(BOORU_EXTRA) as Boor
+                val pageId = intent.getIntExtra(START_ID, 0)
+                val tags = intent.getStringExtra(TAGS_EXTRA)
+                return SampleViewModel(booru, pageId, tags) as T
             }
             return super.create(modelClass)
         }

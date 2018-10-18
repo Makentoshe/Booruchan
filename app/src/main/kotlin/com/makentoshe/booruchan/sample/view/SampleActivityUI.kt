@@ -165,7 +165,6 @@ class BackdropPanelViewBuilder(private val style: Style, private val viewModel: 
 class ChippedTagsViewBuilder(private val style: Style, private val viewModel: SampleViewModel) : ViewBuilder<View> {
 
     private lateinit var container: ChipGroup
-    private val selectedTags = ArraySet<String>()
     private var tagsListener: TagsSelectedListener? = null
 
     override fun build(ui: AnkoContext<SampleActivity>): View = with(ui.ctx) {
@@ -196,7 +195,7 @@ class ChippedTagsViewBuilder(private val style: Style, private val viewModel: Sa
     }
 
     fun update(tags: Array<String>) {
-        selectedTags.clear()
+        viewModel.selectedTags.clear()
         viewModel.searchIconBehaviour?.hideIcon()
         tags.forEachIndexed { i, tag ->
             val view = container.getChildAt(i)
@@ -227,13 +226,13 @@ class ChippedTagsViewBuilder(private val style: Style, private val viewModel: Sa
             if (checked) {
                 setChipBackgroundColorResource(style.chip.secondaryColorRes)
                 textColorResource = style.chip.onSecondaryColorRes
-                selectedTags.add(tag)
-                tagsListener?.onTagSelected(tag, selectedTags)
+                viewModel.selectedTags.add(tag)
+                tagsListener?.onTagSelected(tag, viewModel.selectedTags)
             } else {
                 setChipBackgroundColorResource(style.chip.primaryColorRes)
                 textColorResource = style.chip.onPrimaryColorRes
-                selectedTags.remove(tag)
-                tagsListener?.onTagDeselected(tag, selectedTags)
+                viewModel.selectedTags.remove(tag)
+                tagsListener?.onTagDeselected(tag, viewModel.selectedTags)
             }
         }
     }
