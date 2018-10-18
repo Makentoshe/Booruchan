@@ -27,7 +27,7 @@ class PageViewModel(private val booru: Boor) : ViewModel() {
 
     private fun loadDataForObserver(page: Int) {
         GlobalScope.launch {
-            val value = booru.getListOfLastCommentedPosts(page, booru.client)
+            val value = booru.getListOfLastCommentedPosts(page)
             runOnUi { liveData.value = value }
         }
     }

@@ -36,10 +36,9 @@ class Gelbooru(httpClient: HttpClient) : Boor(GelbooruRequestAPI(), httpClient),
         return PostParser(Post::class.java).parsePosts(result)
     }
 
-    override suspend fun getListOfLastCommentedPosts(
-            page: Int, httpClient: HttpClient):
+    override suspend fun getListOfLastCommentedPosts(page: Int):
             ArrayList<Pair<com.makentoshe.booruchan.common.api.entity.Post, List<com.makentoshe.booruchan.common.api.entity.Comment>>> {
-        val result = httpClient.get(getApi().getListOfCommentsViewRequest(page)).stream()
+        val result = client.get(getApi().getListOfCommentsViewRequest(page)).stream()
         return HtmlParser.parseComments(result, this::class.java)
     }
 
