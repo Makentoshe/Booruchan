@@ -122,7 +122,7 @@ class SampleActivityUI(style: Style, private val viewModel: SampleViewModel)
             cardView {
                 radius = dip(1).toFloat()
                 backgroundColorResource = style.chip.secondaryColorRes
-            }.lparams(Int.MAX_VALUE, dip(2)) {
+            }.lparams(Int.MAX_VALUE, dip(1)) {
                 setMargins(dip(16), 0, 0, dip(16))
             }
         }
@@ -192,8 +192,19 @@ class SampleActivityUI(style: Style, private val viewModel: SampleViewModel)
 
         private fun createChip(tag: String) = Chip(container.context).apply {
             text = tag
+            isClickable = true
+            setChipBackgroundColorResource(style.chip.primaryColorRes)
+            textColorResource = style.chip.onPrimaryColorRes
             isCheckable = true
+            isCheckedIconVisible = false
             setOnCheckedChangeListener { chip, checked ->
+                if (checked) {
+                    setChipBackgroundColorResource(style.chip.secondaryColorRes)
+                    textColorResource = style.chip.onSecondaryColorRes
+                } else {
+                    setChipBackgroundColorResource(style.chip.primaryColorRes)
+                    textColorResource = style.chip.onPrimaryColorRes
+                }
                 println("$tag\t$checked")
             }
         }

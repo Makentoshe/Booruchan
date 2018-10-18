@@ -6,6 +6,7 @@ import android.support.v7.widget.Toolbar
 import com.makentoshe.booruchan.common.BackdropView
 import com.makentoshe.booruchan.common.api.Boor
 import com.makentoshe.booruchan.common.api.entity.Post
+import com.makentoshe.booruchan.common.api.gelbooru.Gelbooru
 import com.makentoshe.booruchan.common.styles.Style
 import com.makentoshe.booruchan.sample.model.IconAnimator
 import com.makentoshe.booruchan.sample.view.SampleActivity.Companion.BOORU_EXTRA
@@ -66,10 +67,10 @@ class SampleViewModel(@JvmField val booru: Boor, val pageId: Int, @JvmField val 
 
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             if (modelClass == SampleViewModel::class.java) {
-                val booru = intent.getSerializableExtra(BOORU_EXTRA) as Boor
-                val pageId = intent.getIntExtra(START_ID, 0)
-                val tags = intent.getStringExtra(TAGS_EXTRA)
-                return SampleViewModel(booru, pageId, tags) as T
+//                val booru = intent.getSerializableExtra(BOORU_EXTRA) as Boor
+//                val pageId = intent.getIntExtra(START_ID, 0)
+//                val tags = intent.getStringExtra(TAGS_EXTRA)
+                return SampleViewModel(Gelbooru(), 3, "hatsune_miku") as T
             }
             return super.create(modelClass)
         }
