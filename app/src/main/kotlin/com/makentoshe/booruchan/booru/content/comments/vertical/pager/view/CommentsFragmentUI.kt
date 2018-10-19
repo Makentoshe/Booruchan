@@ -42,7 +42,7 @@ class CommentsFragmentUI(private val viewModel: CommentsViewModel)
                     id = R.id.booru_comment_fanb_collapse
                     gravity = Gravity.CENTER
                     text = "1"
-                    textSize = dip(14).toFloat()
+                    textSize = 18f
                     textColorResource = style.floatingActionButton.onPrimaryColorRes
                 }
                 createDialogOnClick(this@relativeLayout)
