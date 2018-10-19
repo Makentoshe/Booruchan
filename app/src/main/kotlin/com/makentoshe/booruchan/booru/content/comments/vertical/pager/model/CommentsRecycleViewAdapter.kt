@@ -81,7 +81,8 @@ class CommentsRecycleViewAdapter(
             view.findViewById<TextView>(R.id.booru_content_comment_viewholder_commentsview_comment_body)
                     .text = comment.body
             view.findViewById<TextView>(R.id.booru_content_comment_viewholder_commentsview_comment_creator)
-                    .text = StringBuilder(comment.creator).append(">>").append(comment.id)
+                    .text = StringBuilder(comment.creator)
+//                    .append(">>").append(comment.id)
             view.findViewById<TextView>(R.id.booru_content_comment_viewholder_commentsview_comment_createdAt)
                     .text = comment.created_at
         }

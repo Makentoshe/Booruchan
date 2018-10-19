@@ -43,7 +43,7 @@ class ViewHolderUI : AnkoComponent<ViewGroup> {
 
             imageView {
                 id = R.id.booru_content_comment_viewholder_postview_preview
-            }.lparams(width = dip(100), height = dip(100))
+            }.lparams(width = dip(110), height = dip(110))
 
             linearLayout {
                 orientation = LinearLayout.VERTICAL
@@ -58,14 +58,14 @@ class ViewHolderUI : AnkoComponent<ViewGroup> {
 
                 textView {
                     id = R.id.booru_content_comment_viewholder_postview_tags
+                    textSize = 10f
                     ellipsize = TextUtils.TruncateAt.MARQUEE
-                    maxLines = 3
                 }.lparams(width = matchParent, height = dip(0)) { weight = 3f }
 
-            }.lparams(width = matchParent, height = dip(100)) {
+            }.lparams(width = matchParent, height = dip(110)) {
                 leftMargin = dip(8)
             }
-        }.lparams(width = matchParent, height = dip(100)) {
+        }.lparams(width = matchParent, height = dip(110)) {
             endToEnd = PARENT_ID
             startToStart = PARENT_ID
             topToTop = PARENT_ID
@@ -105,7 +105,8 @@ class ViewHolderUI : AnkoComponent<ViewGroup> {
                             gravity = Gravity.END
                             textView {
                                 id = R.id.booru_content_comment_viewholder_commentsview_comment_createdAt
-                                textSize = 12f
+                                textSize = 10f
+                                gravity = Gravity.CENTER_VERTICAL or Gravity.END
                                 setTypeface(null, Typeface.BOLD)
                             }
                         }.lparams { weight = 1f }
