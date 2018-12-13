@@ -1,0 +1,9 @@
+apply plugin: 'java-library'
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation'com.github.kittinunf.fuel:fuel:1.15.1'
+}
+
+sourceCompatibility = "7"
+targetCompatibility = "7"
