@@ -3,7 +3,7 @@ package com.makentoshe.network.fuel
 import com.makentoshe.network.HttpClient
 
 class FuelHttpClient(
-    private val params: List<Pair<String, Any?>>?
+    val params: List<Pair<String, Any?>>?
 ): HttpClient() {
     override fun get(url: String) = FuelHttpGet(url, params)
 
