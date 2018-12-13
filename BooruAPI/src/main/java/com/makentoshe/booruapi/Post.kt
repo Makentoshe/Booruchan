@@ -14,7 +14,7 @@ data class Post(
         sampleUrl: String = "",
         fileUrl: String = "",
         creatorId: Int = -1,
-        rating: Rating = Rating.WTF,
+        rating: Rating = Rating.UNSPECIFIED,
         tags: Array<Tag> = arrayOf()
     ) : this(HashMap<String, String>().apply {
         put("id", id.toString())
@@ -30,7 +30,7 @@ data class Post(
     })
 
     enum class Rating {
-        SAFE, QUESTIONABLE, EXPLICIT, WTF
+        SAFE, QUESTIONABLE, EXPLICIT, UNSPECIFIED
     }
 
     @JvmField
@@ -48,7 +48,7 @@ data class Post(
     @JvmField
     var creatorId = -1
 
-    lateinit var rating: Rating
+    var rating: Rating? = null
 
     lateinit var tags: Array<Tag>
 
@@ -88,11 +88,12 @@ data class Post(
             "s" -> Rating.SAFE
             "q" -> Rating.QUESTIONABLE
             "e" -> Rating.EXPLICIT
-            else -> Rating.WTF
+            else -> Rating.UNSPECIFIED
         }
     }
 
     private fun parseTags(str: String): Array<Tag> {
+        if (str.isBlank()) return arrayOf()
         val stags = str.split(" ").toTypedArray()
         return Array(stags.size) {
             val map = HashMap<String, String>()
