@@ -39,3 +39,5 @@ out/
 
 #File with the user confidential data for tests
 /src/Data
+
+report/
