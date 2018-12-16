@@ -5,7 +5,7 @@ import java.lang.StringBuilder
 
 data class Post(
     @JvmField val raw: Map<String, String>
-) : Serializable {
+) : Serializable, BooruType {
 
     constructor(
         id: Int = -1,

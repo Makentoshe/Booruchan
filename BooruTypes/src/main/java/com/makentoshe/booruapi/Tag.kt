@@ -2,7 +2,7 @@ package com.makentoshe.booruapi
 
 import java.io.Serializable
 
-data class Tag(val raw: Map<String, String>): Serializable {
+data class Tag(val raw: Map<String, String>): Serializable, BooruType {
 
     constructor(
         name: String,

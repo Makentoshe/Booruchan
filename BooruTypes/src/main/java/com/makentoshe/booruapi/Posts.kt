@@ -4,7 +4,7 @@ class Posts(
     posts: List<Post>,
     val count: Int = -1,
     val offset: Int = 0
-): ArrayList<Post>()  {
+): ArrayList<Post>(), BooruType  {
     init {
         addAll(posts)
     }

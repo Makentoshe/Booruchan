@@ -1,1 +1,1 @@
-include ':app', ':BooruAPI', ':Network', ':Parser', ':Repository'
+include ':app', ':BooruAPI', ':Network', ':Parser', ':Repository', ':BooruTypes'
