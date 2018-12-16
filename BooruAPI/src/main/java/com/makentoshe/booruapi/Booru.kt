@@ -1,5 +1,7 @@
 package com.makentoshe.booruapi
 
-abstract class Booru(protected val booruApi: BooruApi) {
-    abstract fun customRequest(request: String)
+import java.io.InputStream
+
+abstract class Booru(protected val api: BooruApi) {
+    abstract fun customGetRequest(request: String): InputStream
 }
