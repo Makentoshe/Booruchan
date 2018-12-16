@@ -1,8 +1,7 @@
 package com.makentoshe.booruapi
 
 import com.makentoshe.network.HttpClient
-import com.makentoshe.parser.ParserFactory
-import com.makentoshe.parser.ParserStyle
+import com.makentoshe.parser.JsonTagParser
 import java.io.InputStream
 
 
@@ -22,9 +21,6 @@ class Gelbooru(private val httpClient: HttpClient): Booru(GelbooruApi()){
     }
 
     override fun autocomplete(term: String): List<Tag> {
-        return ParserFactory()
-            .buildFactory(Tag::class)
-            .buildParser(ParserStyle.JSON)
-            .parse(httpClient.get(api.getAutocompleteRequest(term)).stream())
+        return JsonTagParser().parse(httpClient.get(api.getAutocompleteRequest(term)).stream())
     }
 }

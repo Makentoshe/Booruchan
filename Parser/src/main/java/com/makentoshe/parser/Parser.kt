@@ -7,5 +7,5 @@ interface Parser<R> {
 
     fun parse(inputStream: InputStream) = parse(Scanner(inputStream).useDelimiter("\\A").next())
 
-    fun parse(data: String): List<R>
+    fun parse(data: String): R
 }
