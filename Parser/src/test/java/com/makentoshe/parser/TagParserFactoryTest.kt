@@ -11,7 +11,7 @@ class TagParserFactoryTest {
 
     @Before
     fun init() {
-        factory = ParserFactory().buildFactory(ParserType.TAG)
+        factory = ParserFactory().buildFactory(Tag::class)
     }
 
     @Test

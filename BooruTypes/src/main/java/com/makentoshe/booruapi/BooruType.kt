@@ -1,3 +1,4 @@
 package com.makentoshe.booruapi
 
-interface BooruType
+interface BooruType {
+}
