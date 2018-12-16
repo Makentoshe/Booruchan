@@ -19,4 +19,12 @@ class GelbooruApiTest {
             api.getCustomRequest("/request")
         )
     }
+
+    @Test
+    fun `should create autocomplete request`() {
+        assertEquals(
+            "https://gelbooru.com/index.php?page=autocomplete&term=tag",
+            api.getAutocompleteRequest("tag")
+        )
+    }
 }

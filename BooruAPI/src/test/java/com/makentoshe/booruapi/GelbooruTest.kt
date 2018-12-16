@@ -10,41 +10,42 @@ import java.io.ByteArrayInputStream
 import java.io.InputStream
 
 class GelbooruTest {
-    private lateinit var booru: Booru
-
-    @Before
-    fun init() {
-        booru = Gelbooru(GelbooruHttpClient())
-    }
 
     @Test
     fun `should create custom get request`() {
+        val booru = Gelbooru(object : HttpClient() {
+            override fun get(url: String) = object : HttpGet(url) {
+                override fun stream() = ByteArrayInputStream(body().toByteArray())
+                override fun body() = "[\"blush\",\"blue_eyes\",\"blonde_hair\",\"black_hair\",\"blue_hair\"," +
+                        "\"black_legwear\",\"black_eyes\",\"black_gloves\",\"blood\",\"blunt_bangs\"]"
+                override fun code() = TODO("not implemented")
+                override fun message() = TODO("not implemented")
+            }
+
+            override fun post(url: String, body: ByteArray) = TODO("not implemented")
+        })
+
+        val tags = booru.autocomplete("bl")
+
+        assertEquals(10, tags.size)
+    }
+
+    @Test
+    fun `should return autocompleted list of tags`() {
+        val booru = Gelbooru(object : HttpClient() {
+            override fun get(url: String) = object : HttpGet(url) {
+                override fun stream() = ByteArrayInputStream(body().toByteArray())
+                override fun body() = url
+                override fun code() = TODO("not implemented")
+                override fun message() = TODO("not implemented")
+            }
+
+            override fun post(url: String, body: ByteArray) = TODO("not implemented")
+        })
+
         assertEquals(
             "https://gelbooru.com/request",
-            String(booru.customGetRequest("/request").readBytes())
+            String(booru.customGet("/request").readBytes())
         )
-    }
-}
-
-internal class GelbooruHttpClient: HttpClient() {
-    override fun get(url: String): HttpGet {
-        return object : HttpGet(url) {
-            private val curl = url
-            override fun code() = 3939
-
-            override fun message() = "Mocked"
-
-            override fun stream(): InputStream {
-                return ByteArrayInputStream(body().toByteArray())
-            }
-
-            override fun body(): String {
-                return curl
-            }
-        }
-    }
-
-    override fun post(url: String, body: ByteArray): HttpPost {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }
