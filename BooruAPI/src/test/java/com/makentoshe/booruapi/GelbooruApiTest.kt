@@ -39,4 +39,12 @@ class GelbooruApiTest {
             api.getPostsRequest(3, 1, tags)
         )
     }
+
+    @Test
+    fun `should create get preview request`() {
+        assertEquals(
+            "https://simg3.gelbooru.com/thumbnails/96/a5/thumbnail_96a57f14de79f42a60ef92d05517fe72.jpg",
+            api.getPreviewRequest("https://simg3.gelbooru.com/thumbnails/96/a5/thumbnail_96a57f14de79f42a60ef92d05517fe72.jpg")
+        )
+    }
 }

@@ -24,6 +24,8 @@ class GelbooruApi : BooruApi {
         }
         return getCustomRequest("/index.php?page=dapi&s=post&q=index&limit=$count&pid=$page&tags=$strTags")
     }
+
+    override fun getPreviewRequest(previewUrl: String) = previewUrl
 }
 
 class Gelbooru(private val httpClient: HttpClient) : Booru(GelbooruApi()) {
@@ -37,5 +39,9 @@ class Gelbooru(private val httpClient: HttpClient) : Booru(GelbooruApi()) {
 
     override fun getPosts(count: Int, page: Int, tags: Set<Tag>): Posts {
         return XmlPostsParser().parse(httpClient.get(api.getPostsRequest(count, page, tags)).stream())
+    }
+
+    override fun getPreview(previewUrl: String): InputStream {
+        return httpClient.get(previewUrl).stream()
     }
 }
