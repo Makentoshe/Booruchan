@@ -27,4 +27,16 @@ class GelbooruApiTest {
             api.getAutocompleteRequest("tag")
         )
     }
+
+    @Test
+    fun `should create posts request`() {
+        val tags = HashSet<Tag>().apply {
+            add(Tag("hatsune_miku"))
+            add(Tag("skirt"))
+        }
+        assertEquals(
+            "https://gelbooru.com/index.php?page=dapi&s=post&q=index&limit=3&pid=1&tags=hatsune_miku skirt",
+            api.getPostsRequest(3, 1, tags)
+        )
+    }
 }
