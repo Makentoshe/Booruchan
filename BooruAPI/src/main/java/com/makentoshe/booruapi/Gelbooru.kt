@@ -29,6 +29,9 @@ class GelbooruApi : BooruApi {
 }
 
 class Gelbooru(private val httpClient: HttpClient) : Booru(GelbooruApi()) {
+    override val title: String
+        get() = javaClass.simpleName
+
     override fun customGet(request: String): InputStream {
         return httpClient.get(api.getCustomRequest(request)).stream()
     }
