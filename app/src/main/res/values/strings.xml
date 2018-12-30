@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">BooruchanDynamic</string>
+    <string name="app_name">Booruchan</string>
+    <string name="settings">Settings</string>
 </resources>

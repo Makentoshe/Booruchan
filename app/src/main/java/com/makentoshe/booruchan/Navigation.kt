@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
+import com.makentoshe.booruchan.start.StartFragment
 import ru.terrakok.cicerone.Navigator
 import ru.terrakok.cicerone.commands.*
 import java.util.*
@@ -18,6 +19,11 @@ import java.util.*
 abstract class Screen : ru.terrakok.cicerone.Screen() {
     abstract val fragment: Fragment
     open val activityIntent: Intent? = null
+}
+
+class StartScreen : Screen() {
+    override val fragment: Fragment
+        get() = StartFragment()
 }
 
 /**

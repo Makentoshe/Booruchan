@@ -13,7 +13,7 @@ class AppActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         if (savedInstanceState == null) {
-//            Booruchan.INSTANCE.router.newRootScreen(StartScreen())
+            Booruchan.INSTANCE.router.newRootScreen(StartScreen())
 //            Booruchan.INSTANCE.router.newRootScreen(PostPageScreen(Booruchan.INSTANCE.boorus[0], 1))
 //            Booruchan.INSTANCE.router.newRootScreen(PostsScreen(Booruchan.INSTANCE.boorus[0]))
 //            Booruchan.INSTANCE.router.newRootScreen(BooruScreen(Booruchan.INSTANCE.boorus[0]))
@@ -30,12 +30,12 @@ class AppActivity : AppCompatActivity() {
         Booruchan.INSTANCE.navigatorHolder.removeNavigator()
     }
 
-//    override fun onBackPressed() {
-//        val list = supportFragmentManager.fragments
-//        for (i in list.lastIndex downTo 0) {
-//            val fragment = list[i]
-//            if (fragment is BackPressableFragment && fragment.onBackPressed()) return
-//        }
-//        super.onBackPressed()
-//    }
+    override fun onBackPressed() {
+        val list = supportFragmentManager.fragments
+        for (i in list.lastIndex downTo 0) {
+            val fragment = list[i]
+            if (fragment is BackPressableFragment && fragment.onBackPressed()) return
+        }
+        super.onBackPressed()
+    }
 }
