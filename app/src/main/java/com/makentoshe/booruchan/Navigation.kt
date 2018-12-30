@@ -6,6 +6,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
+import com.makentoshe.booruapi.Booru
+import com.makentoshe.booruchan.booru.BooruFragment
 import com.makentoshe.booruchan.settings.SettingsFragment
 import com.makentoshe.booruchan.start.StartFragment
 import ru.terrakok.cicerone.Navigator
@@ -31,6 +33,25 @@ class SettingsScreen : Screen() {
     override val fragment: Fragment
         get() = SettingsFragment()
 }
+
+class BooruScreen(private val booru: Booru) : Screen() {
+    override val fragment: Fragment
+        get() = BooruFragment().apply {
+            arguments = Bundle().apply {
+                putSerializable(Booru::class.java.simpleName, booru)
+            }
+        }
+}
+
+abstract class BooruContentScreen(private val booru: Booru, private val `class`: Class<Fragment>): Screen() {
+    override val fragment: Fragment
+        get() = `class`.newInstance().apply {
+            arguments = Bundle().apply {
+                putSerializable(Booru::class.java.simpleName, booru)
+            }
+        }
+}
+
 
 /**
  * Navigator is a class which manages application screens using default android classes - Activity and Fragment.<br>

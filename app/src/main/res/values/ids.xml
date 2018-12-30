@@ -3,4 +3,6 @@
     <item name="settings" type="id"/>
     <item name="toolbarcontainer" type="id"/>
     <item name="overflow" type="id"/>
+    <item name="boorucontent" type="id"/>
+    <item name="boorudrawer" type="id"/>
 </resources>

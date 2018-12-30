@@ -3,6 +3,7 @@ package com.makentoshe.booruchan
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.makentoshe.booruapi.Booru
+import com.makentoshe.booruchan.booru.BooruFragmentViewModel
 import com.makentoshe.booruchan.start.StartFragmentViewModel
 
 class ViewModelFactory(
@@ -11,6 +12,7 @@ class ViewModelFactory(
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         return when (modelClass) {
             StartFragmentViewModel::class.java -> StartFragmentViewModel() as T
+            BooruFragmentViewModel::class.java -> BooruFragmentViewModel(booru!!) as T
             else -> super.create(modelClass)
         }
     }
