@@ -46,7 +46,7 @@ public final class Booruchan extends Application {
         return style;
     }
 
-    public List<Booru> getBoorus() {
+    public List<Booru> getBooruList() {
         return boorus;
     }
 }
