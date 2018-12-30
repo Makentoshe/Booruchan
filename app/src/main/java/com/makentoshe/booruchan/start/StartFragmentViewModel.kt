@@ -7,14 +7,15 @@ import android.widget.ListAdapter
 import androidx.lifecycle.ViewModel
 import com.makentoshe.booruapi.Booru
 import com.makentoshe.booruchan.Booruchan
+import com.makentoshe.booruchan.SettingsScreen
 
 class StartFragmentViewModel: ViewModel() {
 
     fun onOverflowMenuClicked(item: MenuItem): Boolean {
-//        when(item.itemId) {
-//            com.makentoshe.booruchan.R.id.settings ->
-//                Booruchan.INSTANCE.router.navigateTo(SettingsScreen())
-//        }
+        when(item.itemId) {
+            com.makentoshe.booruchan.R.id.settings ->
+                Booruchan.INSTANCE.router.navigateTo(SettingsScreen())
+        }
         return true
     }
 
