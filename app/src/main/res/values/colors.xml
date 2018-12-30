@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#008577</color>
-    <color name="colorPrimaryDark">#00574B</color>
-    <color name="colorAccent">#D81B60</color>
+    <color name="MaterialTeal600">#00897b</color>
+    <color name="MaterialTeal900">#00574B</color>
+    <color name="TealAssent200">#64FFDA</color>
+    <color name="MaterialIndigo500">#3F51B5</color>
+    <color name="MaterialIndigo700">#303F9F</color>
+    <color name="IndigoAssent200">#536dfe</color>
+    <color name="MaterialPink800">#AD1457</color>
+    <color name="MaterialPink600">#D81B60</color>
+    <color name="MaterialIndigo200">#9fa8da</color>
 </resources>
