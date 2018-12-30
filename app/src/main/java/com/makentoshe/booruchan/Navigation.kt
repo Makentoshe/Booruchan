@@ -10,6 +10,20 @@ import ru.terrakok.cicerone.Navigator
 import ru.terrakok.cicerone.commands.*
 import java.util.*
 
+/**
+ * Screen is a base class for description and creation application screen.<br>
+ * NOTE: If you have described the creation of Intent then Activity will be started.<br>
+ * Recommendation: Use Intents for launch external application.
+ */
+abstract class Screen : ru.terrakok.cicerone.Screen() {
+    abstract val fragment: Fragment
+    open val activityIntent: Intent? = null
+}
+
+/**
+ * Navigator is a class which manages application screens using default android classes - Activity and Fragment.<br>
+ * This class is a rebuild of the original Navigator class from Cicerone library using kotlin.
+ */
 open class Navigator(
     private val activity: FragmentActivity,
     private val containerId: Int,
