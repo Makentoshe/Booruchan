@@ -4,7 +4,9 @@ import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModel
 import com.makentoshe.booruapi.Booru
+import com.makentoshe.booruchan.AccountScreen
 import com.makentoshe.booruchan.Navigator
+import com.makentoshe.booruchan.PostsScreen
 import com.makentoshe.booruchan.R
 
 class BooruFragmentViewModel(@JvmField val booru: Booru) : ViewModel() {
@@ -12,11 +14,11 @@ class BooruFragmentViewModel(@JvmField val booru: Booru) : ViewModel() {
     private val contentController = ContentController()
 
     fun onPostsClicked() {
-//        contentController.newScreen(PostsScreen(booru))
+        contentController.newScreen(PostsScreen(booru))
     }
 
     fun onAccountClicked() {
-//        contentController.newScreen(AccountScreen(booru))
+        contentController.newScreen(AccountScreen(booru))
     }
 
     override fun onCleared() {
@@ -26,6 +28,6 @@ class BooruFragmentViewModel(@JvmField val booru: Booru) : ViewModel() {
 
     fun update(fragmentActivity: FragmentActivity, fragmentManager: FragmentManager) {
         val navigator = Navigator(fragmentActivity, R.id.boorucontent, fragmentManager)
-        contentController.update(navigator)
+        contentController.update(navigator, PostsScreen(booru))
     }
 }
