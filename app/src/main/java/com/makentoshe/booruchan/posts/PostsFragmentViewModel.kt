@@ -19,6 +19,9 @@ class PostsFragmentViewModel(
     lateinit var uiController: UIController
         private set
 
+    val autocompleteRepository = DelayAutocompleteRepository(booru)
+    val autocompleteAdapter = DelayAutocompleteAdapter(autocompleteRepository)
+
     fun update() = launch {
         uiController = UIController(OverflowController(), drawerController)
     }

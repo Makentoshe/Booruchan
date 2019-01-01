@@ -142,6 +142,9 @@ class PostsFragmentUI(private val postsFragmentViewModel: PostsFragmentViewModel
 
                 delayAutoCompleteEditText {
                     setCursorColor(Color.BLACK)
+                    setAdapter(postsFragmentViewModel.autocompleteAdapter)
+                    setPadding(0, 0, dip(24), 0)
+                    singleLine = true
                     postsFragmentViewModel.uiController.addOverflowListener {
                         onTransition {
                             when (it.finishState) {
@@ -161,6 +164,20 @@ class PostsFragmentUI(private val postsFragmentViewModel: PostsFragmentViewModel
                 }.lparams(matchParent, matchParent)
 
             }.lparams(matchParent, matchParent)
+
+            imageView {
+                elevation = dip(2).toFloat()
+                imageResource = style.drawable.static.cross
+                setPadding(dip(4), dip(4), dip(4), dip(4))
+                setColorFilter(style.background.getOnBackgroundColor(context), PorterDuff.Mode.SRC_ATOP)
+                onClick {
+                    postsFragmentViewModel.uiController.action(Action.UIAction.ClearTextFieldClick)
+                }
+            }.lparams(height = dip(32), width = dip(32)) {
+                setMargins(0, 0, dip(8), 0)
+                addRule(RelativeLayout.CENTER_VERTICAL)
+                addRule(RelativeLayout.ALIGN_PARENT_RIGHT)
+            }
 
         }.lparams(width = matchParent, height = dip(56)) {
             alignParentTop()

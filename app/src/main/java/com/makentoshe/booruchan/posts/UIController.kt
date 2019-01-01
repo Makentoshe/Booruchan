@@ -17,6 +17,7 @@ class UIController(
         when (it) {
             is Action.UIAction.OverflowClick -> overflowClicked()
             is Action.UIAction.MenuClick -> menuClicked()
+            is Action.UIAction.ClearTextFieldClick -> clearClicked()
         }
     }
 
@@ -46,6 +47,10 @@ class UIController(
             is DrawerState.DrawerClose -> drawerController.openDrawer()
             else -> Unit
         }
+    }
+
+    private fun clearClicked() {
+        println("Click")
     }
 
     fun addOverflowListener(init: OverflowController.OverflowListener.() -> Unit) {
