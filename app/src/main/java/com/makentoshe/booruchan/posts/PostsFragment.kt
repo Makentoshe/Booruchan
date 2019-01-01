@@ -6,21 +6,24 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProviders
 import com.makentoshe.booruapi.Booru
+import com.makentoshe.booruchan.ViewModelFactory
+import org.jetbrains.anko.AnkoContext
 
 class PostsFragment : Fragment() {
+
+    private lateinit var postsFragmentViewModel: PostsFragmentViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val booru = arguments?.getSerializable(Booru::class.java.simpleName) as Booru
-//        val factory = ViewModelFactory(booru = booru)
-//        postsFragmentViewModel = ViewModelProviders.of(this, factory)[PostsFragmentViewModel::class.java]
-//        postsFragmentViewModel.update()
+        val factory = ViewModelFactory(booru = booru)
+        postsFragmentViewModel = ViewModelProviders.of(this, factory)[PostsFragmentViewModel::class.java]
+        postsFragmentViewModel.update()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return TextView(context).apply {
-            text = "Posts"
-        }
+        return PostsFragmentUI(postsFragmentViewModel).createView(AnkoContext.create(requireContext(), this))
     }
 }

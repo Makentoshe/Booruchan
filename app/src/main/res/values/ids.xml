@@ -5,4 +5,6 @@
     <item name="overflow" type="id"/>
     <item name="boorucontent" type="id"/>
     <item name="boorudrawer" type="id"/>
+    <item name="postsnavigation" type="id"/>
+    <item name="poststoolbar" type="id"/>
 </resources>
