@@ -7,7 +7,7 @@ import io.reactivex.subjects.BehaviorSubject
 import ru.terrakok.cicerone.Cicerone
 import ru.terrakok.cicerone.Router
 
-class ContentController {
+class ContentScreenController {
 
     private var localCicerone: Cicerone<Router> = Cicerone.create()
 

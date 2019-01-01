@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import com.makentoshe.booruapi.Booru
 import com.makentoshe.booruchan.ViewModelFactory
+import com.makentoshe.booruchan.booru.DrawerController
 import org.jetbrains.anko.AnkoContext
 
 class PostsFragment : Fragment() {
@@ -18,7 +19,8 @@ class PostsFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val booru = arguments?.getSerializable(Booru::class.java.simpleName) as Booru
-        val factory = ViewModelFactory(booru = booru)
+        val drawerController = arguments?.getSerializable(DrawerController::class.java.simpleName) as DrawerController
+        val factory = ViewModelFactory(booru = booru, drawerController = drawerController)
         postsFragmentViewModel = ViewModelProviders.of(this, factory)[PostsFragmentViewModel::class.java]
         postsFragmentViewModel.update()
     }

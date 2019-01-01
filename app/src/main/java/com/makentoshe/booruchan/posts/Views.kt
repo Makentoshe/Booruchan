@@ -4,9 +4,12 @@ import android.graphics.PorterDuff
 import android.graphics.drawable.Drawable
 import android.view.ViewManager
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.ColorInt
+import androidx.annotation.DrawableRes
 import androidx.core.content.ContextCompat
+import com.makentoshe.booruchan.Style
 import org.jetbrains.anko.custom.ankoView
 
 fun EditText.setCursorColor(@ColorInt color: Int) {
@@ -29,3 +32,8 @@ fun EditText.setCursorColor(@ColorInt color: Int) {
 
 fun ViewManager.delayAutoCompleteEditText(init: DelayAutocompleteEditText.() -> Unit) =
     ankoView({ DelayAutocompleteEditText(it) }, 0, init)
+
+fun ImageView.setToolbarIcon(style: Style, @DrawableRes icon: Int) {
+    setImageResource(icon)
+    setColorFilter(style.toolbar.getOnPrimaryColor(context), PorterDuff.Mode.SRC_ATOP)
+}

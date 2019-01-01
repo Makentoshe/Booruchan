@@ -9,6 +9,7 @@ import androidx.fragment.app.FragmentTransaction
 import com.makentoshe.booruapi.Booru
 import com.makentoshe.booruchan.account.AccountFragment
 import com.makentoshe.booruchan.booru.BooruFragment
+import com.makentoshe.booruchan.booru.DrawerController
 import com.makentoshe.booruchan.posts.PostsFragment
 import com.makentoshe.booruchan.settings.SettingsFragment
 import com.makentoshe.booruchan.start.StartFragment
@@ -45,18 +46,25 @@ class BooruScreen(private val booru: Booru) : Screen() {
         }
 }
 
-abstract class BooruContentScreen(private val booru: Booru, private val `class`: Class<out Fragment>): Screen() {
+abstract class BooruContentScreen(
+    private val booru: Booru,
+    private val drawerController: DrawerController,
+    private val `class`: Class<out Fragment>
+) : Screen() {
     override val fragment: Fragment
         get() = `class`.newInstance().apply {
             arguments = Bundle().apply {
                 putSerializable(Booru::class.java.simpleName, booru)
+                putSerializable(DrawerController::class.java.simpleName, drawerController)
             }
         }
 }
 
-class PostsScreen(booru: Booru): BooruContentScreen(booru, PostsFragment::class.java)
+class PostsScreen(booru: Booru, drawerController: DrawerController) :
+    BooruContentScreen(booru, drawerController, PostsFragment::class.java)
 
-class AccountScreen(booru: Booru): BooruContentScreen(booru, AccountFragment::class.java)
+class AccountScreen(booru: Booru, drawerController: DrawerController) :
+    BooruContentScreen(booru, drawerController, AccountFragment::class.java)
 
 /**
  * Navigator is a class which manages application screens using default android classes - Activity and Fragment.<br>

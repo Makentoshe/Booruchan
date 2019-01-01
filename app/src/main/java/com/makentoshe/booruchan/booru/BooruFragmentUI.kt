@@ -1,12 +1,14 @@
 package com.makentoshe.booruchan.booru
 
 import android.view.Gravity
+import androidx.core.view.GravityCompat
 import com.makentoshe.booruchan.Booruchan
 import com.makentoshe.booruchan.R
 import org.jetbrains.anko.*
 import org.jetbrains.anko.sdk27.coroutines.onClick
 import org.jetbrains.anko.support.v4._DrawerLayout
 import org.jetbrains.anko.support.v4.drawerLayout
+import org.jetbrains.anko.support.v4.drawerListener
 
 class BooruFragmentUI(private val booruFragmentViewModel: BooruFragmentViewModel) :
     AnkoComponent<BooruFragment> {
@@ -18,6 +20,14 @@ class BooruFragmentUI(private val booruFragmentViewModel: BooruFragmentViewModel
             id = R.id.boorudrawer
             createContent()
             createPanel()
+            booruFragmentViewModel.addDrawerListener {
+                onClose { closeDrawer(GravityCompat.START) }
+                onOpen { openDrawer(GravityCompat.START) }
+            }
+            drawerListener {
+                onDrawerOpened { booruFragmentViewModel.openDrawer() }
+                onDrawerClosed { booruFragmentViewModel.closeDrawer() }
+            }
         }
     }
 

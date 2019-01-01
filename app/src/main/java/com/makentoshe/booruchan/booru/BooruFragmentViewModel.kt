@@ -11,14 +11,23 @@ import com.makentoshe.booruchan.R
 
 class BooruFragmentViewModel(@JvmField val booru: Booru) : ViewModel() {
 
-    private val contentController = ContentController()
+    private val contentController = ContentScreenController()
+    private val drawerController = _DrawerController()
+
+    fun addDrawerListener(init: _DrawerController.DrawerListener.() -> Unit) {
+        drawerController.addDrawerListener(init)
+    }
+
+    fun openDrawer() = drawerController.newState(DrawerState.DrawerOpen)
+
+    fun closeDrawer() = drawerController.newState(DrawerState.DrawerClose)
 
     fun onPostsClicked() {
-        contentController.newScreen(PostsScreen(booru))
+        contentController.newScreen(PostsScreen(booru, DrawerController(drawerController)))
     }
 
     fun onAccountClicked() {
-        contentController.newScreen(AccountScreen(booru))
+        contentController.newScreen(AccountScreen(booru, DrawerController(drawerController)))
     }
 
     override fun onCleared() {
@@ -28,6 +37,7 @@ class BooruFragmentViewModel(@JvmField val booru: Booru) : ViewModel() {
 
     fun update(fragmentActivity: FragmentActivity, fragmentManager: FragmentManager) {
         val navigator = Navigator(fragmentActivity, R.id.boorucontent, fragmentManager)
-        contentController.update(navigator, PostsScreen(booru))
+        contentController.update(navigator, PostsScreen(booru, DrawerController(drawerController)))
+        drawerController.update()
     }
 }

@@ -1,10 +1,14 @@
 package com.makentoshe.booruchan.posts
 
 import com.makentoshe.booruchan.Action
+import com.makentoshe.booruchan.booru.DrawerController
+import com.makentoshe.booruchan.booru.DrawerState
 import io.reactivex.subjects.BehaviorSubject
 
 class UIController(
-    val overflowController: OverflowController) {
+    val overflowController: OverflowController,
+    val drawerController: DrawerController
+) {
 
     private val uiActionObservable = BehaviorSubject.create<Action.UIAction>()
     private val uiActionObserver = subscribe()
@@ -12,6 +16,7 @@ class UIController(
     private fun subscribe() = uiActionObservable.subscribe {
         when (it) {
             is Action.UIAction.OverflowClick -> overflowClicked()
+            is Action.UIAction.MenuClick -> menuClicked()
         }
     }
 
@@ -31,7 +36,19 @@ class UIController(
         }
     }
 
-    fun addOverflowListener(init: OverflowController.OverflowListener.() -> Unit)  {
+    private fun menuClicked() {
+        if (drawerController.state == null) {
+            drawerController.openDrawer()
+            return
+        }
+        when (drawerController.state) {
+            is DrawerState.DrawerOpen -> drawerController.closeDrawer()
+            is DrawerState.DrawerClose -> drawerController.openDrawer()
+            else -> Unit
+        }
+    }
+
+    fun addOverflowListener(init: OverflowController.OverflowListener.() -> Unit) {
         overflowController.addOverflowListener(init)
     }
 }

@@ -2,10 +2,14 @@ package com.makentoshe.booruchan.posts
 
 import androidx.lifecycle.ViewModel
 import com.makentoshe.booruapi.Booru
+import com.makentoshe.booruchan.booru.DrawerController
 import kotlinx.coroutines.*
 import kotlin.coroutines.CoroutineContext
 
-class PostsFragmentViewModel(val booru: Booru) : ViewModel(), CoroutineScope {
+class PostsFragmentViewModel(
+    val booru: Booru,
+    private val drawerController: DrawerController
+) : ViewModel(), CoroutineScope {
 
     private var job: Job = Job()
 
@@ -16,7 +20,7 @@ class PostsFragmentViewModel(val booru: Booru) : ViewModel(), CoroutineScope {
         private set
 
     fun update() = launch {
-        uiController = UIController(OverflowController())
+        uiController = UIController(OverflowController(), drawerController)
     }
 
     override fun onCleared() {

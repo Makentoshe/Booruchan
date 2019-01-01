@@ -4,7 +4,9 @@ import android.graphics.Color
 import android.graphics.PorterDuff
 import android.os.Handler
 import android.os.Looper
+import android.view.Gravity
 import android.view.View
+import android.widget.RelativeLayout
 import com.makentoshe.booruchan.*
 import com.makentoshe.booruchan.posts.animations.*
 import kotlinx.coroutines.delay
@@ -33,6 +35,7 @@ class PostsFragmentUI(private val postsFragmentViewModel: PostsFragmentViewModel
             backgroundColorResource = style.toolbar.primaryColorRes
             elevation = dip(4).toFloat()
             toolbarLayout({
+                setPadding(dip(72), 0, 0, 0)
                 title = postsFragmentViewModel.booru.title
                 subtitleResource = R.string.posts
                 setTitleTextColor(style.toolbar.getOnPrimaryColor(context))
@@ -40,8 +43,7 @@ class PostsFragmentUI(private val postsFragmentViewModel: PostsFragmentViewModel
                 setSubtitleTextColor(style.toolbar.getOnPrimaryColor(context))
             }, {
                 id = R.id.overflow
-                setImageResource(style.drawable.static.magnify)
-                setColorFilter(style.toolbar.getOnPrimaryColor(context), PorterDuff.Mode.SRC_ATOP)
+                setToolbarIcon(style, style.drawable.static.magnify)
                 setOnClickListener(::onOverflowIconClick)
                 postsFragmentViewModel.uiController.addOverflowListener {
                     onTransition {
@@ -62,8 +64,27 @@ class PostsFragmentUI(private val postsFragmentViewModel: PostsFragmentViewModel
                     }
                 }
             })
+            createToolbarMenu()
         }.lparams(width = matchParent)
     }
+
+    private fun _RelativeLayout.createToolbarMenu() {
+        frameLayout {
+            imageView {
+                setToolbarIcon(style, style.drawable.static.menu)
+            }.lparams(dip(24), dip(24)) {
+                gravity = Gravity.CENTER
+            }
+            onClick {
+                postsFragmentViewModel.uiController.action(Action.UIAction.MenuClick)
+            }
+        }.lparams(dip(56), dip(56)) {
+            setMargins(0, 0, dip(16), 0)
+            addRule(RelativeLayout.ALIGN_PARENT_LEFT)
+            addRule(RelativeLayout.CENTER_VERTICAL)
+        }
+    }
+
 
     private fun onOverflowIconClick(ignored: View) {
         postsFragmentViewModel.uiController.action(Action.UIAction.OverflowClick)
