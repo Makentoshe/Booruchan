@@ -4,9 +4,10 @@ import com.makentoshe.network.HttpClient
 import com.makentoshe.parser.JsonTagParser
 import com.makentoshe.parser.XmlPostsParser
 import java.io.InputStream
+import java.io.Serializable
 
 
-class GelbooruApi : BooruApi {
+class GelbooruApi : BooruApi, Serializable {
     override fun getCustomRequest(request: String): String {
         return "https://gelbooru.com$request"
     }
@@ -28,7 +29,7 @@ class GelbooruApi : BooruApi {
     override fun getPreviewRequest(previewUrl: String) = previewUrl
 }
 
-class Gelbooru(private val httpClient: HttpClient) : Booru(GelbooruApi()) {
+class Gelbooru(private val httpClient: HttpClient) : Booru(GelbooruApi()), Serializable {
     override val title: String
         get() = javaClass.simpleName
 
