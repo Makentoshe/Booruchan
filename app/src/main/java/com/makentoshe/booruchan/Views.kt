@@ -1,5 +1,9 @@
 package com.makentoshe.booruchan
 
+import android.app.Activity
+import android.content.Context
+import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
 import android.widget.RelativeLayout
 import org.jetbrains.anko.*
@@ -16,4 +20,14 @@ fun _RelativeLayout.toolbarLayout(
         addRule(RelativeLayout.ALIGN_PARENT_RIGHT)
         addRule(RelativeLayout.CENTER_VERTICAL)
     }
+}
+
+fun hideKeyboard(context: Context, view: View) {
+    (context.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager)
+        .hideSoftInputFromWindow(view.windowToken, 0)
+}
+
+fun showKeyboard(context: Context, view: View) {
+    (context.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager)
+        .showSoftInput(view, 0)
 }
