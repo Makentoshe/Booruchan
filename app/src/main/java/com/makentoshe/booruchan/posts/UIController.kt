@@ -7,7 +7,8 @@ import io.reactivex.subjects.BehaviorSubject
 
 class UIController(
     val overflowController: OverflowController,
-    val drawerController: DrawerController
+    val drawerController: DrawerController,
+    val clearIconController: ClearIconController
 ) {
 
     private val uiActionObservable = BehaviorSubject.create<Action.UIAction>()
@@ -49,11 +50,20 @@ class UIController(
         }
     }
 
-    private fun clearClicked() {
-        println("Click")
-    }
+    private fun clearClicked() = clearIconController.click()
 
     fun addOverflowListener(init: OverflowController.OverflowListener.() -> Unit) {
         overflowController.addOverflowListener(init)
     }
+
+}
+
+class ClearIconController {
+    private val clearIconObservable = BehaviorSubject.create<Unit>()
+
+    fun addOnClickListener(onClick: (Unit) -> Unit) {
+        clearIconObservable.subscribe(onClick)
+    }
+
+    fun click() = clearIconObservable.onNext(Unit)
 }

@@ -4,12 +4,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import com.makentoshe.booruapi.Booru
 import com.makentoshe.booruchan.ViewModelFactory
 import com.makentoshe.booruchan.booru.DrawerController
+import com.makentoshe.booruchan.posts.view.PostsFragmentUI
 import org.jetbrains.anko.AnkoContext
 
 class PostsFragment : Fragment() {
