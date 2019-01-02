@@ -64,20 +64,18 @@ class PostsFragmentUiContentSearch(
             addOnClearClickListener()
             addOnSpaceClickListener()
             addOnTipClickListener()
+            postsFragmentViewModel.selectedTagSetController.subscribe {
+                println(it.name)
+            }
         }.lparams(matchParent, matchParent)
     }
 
     private fun DelayAutocompleteEditText.addOnSearchActionClickListener() {
-        onEditorAction { v, actionId, event ->
+        onEditorAction { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                 addTagToListOfSelectedTags(Tag(text.toString()))
             }
         }
-    }
-
-    private fun DelayAutocompleteEditText.extractTagFromText(): Tag {
-        val tagTitle = text.subSequence(0, text.lastIndex - 1).toString()
-        return Tag(tagTitle)
     }
 
     private fun DelayAutocompleteEditText.addOverflowListener(parent: RelativeLayout) {
@@ -108,8 +106,8 @@ class PostsFragmentUiContentSearch(
     private fun DelayAutocompleteEditText.addOnSpaceClickListener() {
         textChangedListener {
             afterTextChanged {
-                if (text.last() == ' ') {
-                    val tagTitle = text.subSequence(0, text.lastIndex - 1).toString()
+                if (text.isNotBlank() && text.last() == ' ') {
+                    val tagTitle = text.toString().replace(" ", "")
                     addTagToListOfSelectedTags(Tag(tagTitle))
                 }
             }
@@ -125,7 +123,7 @@ class PostsFragmentUiContentSearch(
 
     private fun DelayAutocompleteEditText.addTagToListOfSelectedTags(tag: Tag) {
         setText("")
-        println(tag)
+        postsFragmentViewModel.selectedTagSetController.addTag(tag)
     }
 
     private fun _RelativeLayout.autocompleteDelayProgressBar(): ProgressBar {
