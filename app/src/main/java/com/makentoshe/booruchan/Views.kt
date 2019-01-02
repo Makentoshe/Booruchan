@@ -2,10 +2,12 @@ package com.makentoshe.booruchan
 
 import android.app.Activity
 import android.content.Context
+import android.graphics.drawable.Drawable
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
 import android.widget.RelativeLayout
+import androidx.annotation.DrawableRes
 import org.jetbrains.anko.*
 import org.jetbrains.anko.appcompat.v7._Toolbar
 import org.jetbrains.anko.appcompat.v7.toolbar
@@ -31,3 +33,5 @@ fun showKeyboard(context: Context, view: View) {
     (context.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager)
         .showSoftInput(view, 0)
 }
+
+fun View.getDrawable(@DrawableRes id: Int) = context.getDrawable(id)

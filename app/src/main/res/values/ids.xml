@@ -2,9 +2,12 @@
 <resources>
     <item name="settings" type="id"/>
     <item name="toolbarcontainer" type="id"/>
-    <item name="overflow" type="id"/>
+    <item name="toolbar_container_overflow" type="id"/>
     <item name="boorucontent" type="id"/>
     <item name="boorudrawer" type="id"/>
-    <item name="postsnavigation" type="id"/>
-    <item name="poststoolbar" type="id"/>
+    <item name="bottombar" type="id"/>
+    <item name="toolbar_container" type="id"/>
+    <item name="toolbar_container_toolbar" type="id"/>
+    <item name="toolbar_container_drawermenu" type="id"/>
+    <item name="content_viewpager" type="id"/>
 </resources>
