@@ -1,20 +1,12 @@
-package com.makentoshe.booruchan.posts
+package com.makentoshe.booruchan.posts.view
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.graphics.PorterDuff
-import android.graphics.drawable.Drawable
 import android.os.Handler
 import android.os.Message
 import android.view.View
-import android.view.ViewManager
-import android.widget.EditText
 import android.widget.ProgressBar
-import android.widget.TextView
-import androidx.annotation.ColorInt
 import androidx.appcompat.widget.AppCompatAutoCompleteTextView
-import androidx.core.content.ContextCompat
-import org.jetbrains.anko.custom.ankoView
 
 @SuppressLint("ViewConstructor")
 class DelayAutocompleteEditText(context: Context) : AppCompatAutoCompleteTextView(context) {
@@ -23,9 +15,10 @@ class DelayAutocompleteEditText(context: Context) : AppCompatAutoCompleteTextVie
     var delay: Long = DEFAULT_DELAY
     var progressBar: ProgressBar? = null
 
-    private val handler = AutoCompleteHandler { msg ->
-        super.performFiltering(msg.obj as CharSequence, msg.arg1)
-    }
+    private val handler =
+        AutoCompleteHandler { msg ->
+            super.performFiltering(msg.obj as CharSequence, msg.arg1)
+        }
 
     override fun performFiltering(text: CharSequence, keyCode: Int) {
         progressBar?.visibility = View.VISIBLE

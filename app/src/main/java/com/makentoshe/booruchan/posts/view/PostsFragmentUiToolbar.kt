@@ -7,13 +7,12 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.RelativeLayout
 import com.makentoshe.booruchan.*
-import com.makentoshe.booruchan.posts.OverflowState
+import com.makentoshe.booruchan.posts.model.OverflowState
 import com.makentoshe.booruchan.posts.PostsFragmentViewModel
 import com.makentoshe.booruchan.posts.animations.OverflowToCrossAnimator
 import com.makentoshe.booruchan.posts.animations.OverflowToMagnifyAnimator
 import com.makentoshe.booruchan.posts.animations.ToolbarHideElevationAnimator
 import com.makentoshe.booruchan.posts.animations.ToolbarShowElevationAnimator
-import com.makentoshe.booruchan.posts.setToolbarIcon
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.jetbrains.anko.*

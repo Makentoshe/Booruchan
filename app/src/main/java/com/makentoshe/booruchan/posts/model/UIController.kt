@@ -1,4 +1,4 @@
-package com.makentoshe.booruchan.posts
+package com.makentoshe.booruchan.posts.model
 
 import com.makentoshe.booruchan.Action
 import com.makentoshe.booruchan.booru.DrawerController
@@ -56,14 +56,4 @@ class UIController(
         overflowController.addOverflowListener(init)
     }
 
-}
-
-class ClearIconController {
-    private val clearIconObservable = BehaviorSubject.create<Unit>()
-
-    fun addOnClickListener(onClick: (Unit) -> Unit) {
-        clearIconObservable.subscribe(onClick)
-    }
-
-    fun click() = clearIconObservable.onNext(Unit)
 }

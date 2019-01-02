@@ -1,7 +1,6 @@
 package com.makentoshe.booruchan.posts.view
 
 import com.makentoshe.booruchan.Booruchan
-import com.makentoshe.booruchan.posts.PostsFragment
 import com.makentoshe.booruchan.posts.PostsFragmentViewModel
 import org.jetbrains.anko.AnkoComponent
 import org.jetbrains.anko.AnkoContext

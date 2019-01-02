@@ -5,18 +5,23 @@ import android.graphics.PorterDuff
 import android.os.Handler
 import android.os.Looper
 import android.view.View
+import android.view.inputmethod.EditorInfo
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.RelativeLayout
+import com.makentoshe.booruapi.Tag
 import com.makentoshe.booruchan.Action
 import com.makentoshe.booruchan.Booruchan
 import com.makentoshe.booruchan.hideKeyboard
 import com.makentoshe.booruchan.posts.*
 import com.makentoshe.booruchan.posts.animations.SearchHideAnimator
 import com.makentoshe.booruchan.posts.animations.SearchShowAnimator
+import com.makentoshe.booruchan.posts.model.OverflowState
 import com.makentoshe.booruchan.showKeyboard
 import org.jetbrains.anko.*
 import org.jetbrains.anko.cardview.v7.cardView
+import org.jetbrains.anko.sdk27.coroutines.onEditorAction
+import org.jetbrains.anko.sdk27.coroutines.textChangedListener
 
 class PostsFragmentUiContentSearch(
     private val postsFragmentViewModel: PostsFragmentViewModel
@@ -28,7 +33,7 @@ class PostsFragmentUiContentSearch(
         relativeLayout {
             lparams(width = matchParent, height = dip(56)) { alignParentTop() }
             elevation = dip(4).toFloat()
-//            translationY = -(dip(56).toFloat() + elevation)
+            translationY = -(dip(56).toFloat() + elevation)
             backgroundColorResource = style.toolbar.primaryColorRes
             setPadding(dip(8), dip(8), dip(8), dip(8))
             setOnClickListener { /* just handle */ }
@@ -53,9 +58,26 @@ class PostsFragmentUiContentSearch(
             setAdapter(postsFragmentViewModel.autocompleteAdapter)
             setPadding(0, 0, dip(36), 0)
             singleLine = true
+            imeOptions = EditorInfo.IME_ACTION_SEARCH
+            addOnSearchActionClickListener()
             addOverflowListener(parent)
             addOnClearClickListener()
+            addOnSpaceClickListener()
+            addOnTipClickListener()
         }.lparams(matchParent, matchParent)
+    }
+
+    private fun DelayAutocompleteEditText.addOnSearchActionClickListener() {
+        onEditorAction { v, actionId, event ->
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                addTagToListOfSelectedTags(Tag(text.toString()))
+            }
+        }
+    }
+
+    private fun DelayAutocompleteEditText.extractTagFromText(): Tag {
+        val tagTitle = text.subSequence(0, text.lastIndex - 1).toString()
+        return Tag(tagTitle)
     }
 
     private fun DelayAutocompleteEditText.addOverflowListener(parent: RelativeLayout) {
@@ -81,6 +103,29 @@ class PostsFragmentUiContentSearch(
         postsFragmentViewModel.uiController.clearIconController.addOnClickListener {
             setText("")
         }
+    }
+
+    private fun DelayAutocompleteEditText.addOnSpaceClickListener() {
+        textChangedListener {
+            afterTextChanged {
+                if (text.last() == ' ') {
+                    val tagTitle = text.subSequence(0, text.lastIndex - 1).toString()
+                    addTagToListOfSelectedTags(Tag(tagTitle))
+                }
+            }
+        }
+    }
+
+    private fun DelayAutocompleteEditText.addOnTipClickListener() {
+        setOnItemClickListener { parentAdapter, _, position, _ ->
+            val tag = parentAdapter.getItemAtPosition(position) as Tag
+            addTagToListOfSelectedTags(tag)
+        }
+    }
+
+    private fun DelayAutocompleteEditText.addTagToListOfSelectedTags(tag: Tag) {
+        setText("")
+        println(tag)
     }
 
     private fun _RelativeLayout.autocompleteDelayProgressBar(): ProgressBar {

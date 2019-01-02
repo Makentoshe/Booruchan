@@ -1,4 +1,4 @@
-package com.makentoshe.booruchan.posts
+package com.makentoshe.booruchan.posts.model
 
 import com.makentoshe.booruapi.Booru
 import com.makentoshe.booruapi.Tag

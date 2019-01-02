@@ -1,4 +1,4 @@
-package com.makentoshe.booruchan.posts
+package com.makentoshe.booruchan.posts.view
 
 import android.graphics.PorterDuff
 import android.graphics.drawable.Drawable

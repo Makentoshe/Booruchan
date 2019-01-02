@@ -1,4 +1,4 @@
-package com.makentoshe.booruchan.posts
+package com.makentoshe.booruchan.posts.model
 
 import android.view.LayoutInflater
 import android.view.View

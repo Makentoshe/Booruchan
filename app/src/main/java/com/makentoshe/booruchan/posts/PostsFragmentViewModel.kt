@@ -3,6 +3,7 @@ package com.makentoshe.booruchan.posts
 import androidx.lifecycle.ViewModel
 import com.makentoshe.booruapi.Booru
 import com.makentoshe.booruchan.booru.DrawerController
+import com.makentoshe.booruchan.posts.model.*
 import kotlinx.coroutines.*
 import kotlin.coroutines.CoroutineContext
 

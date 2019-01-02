@@ -10,7 +10,7 @@ import com.makentoshe.booruapi.Booru
 import com.makentoshe.booruchan.account.AccountFragment
 import com.makentoshe.booruchan.booru.BooruFragment
 import com.makentoshe.booruchan.booru.DrawerController
-import com.makentoshe.booruchan.posts.PostsFragment
+import com.makentoshe.booruchan.posts.view.PostsFragment
 import com.makentoshe.booruchan.settings.SettingsFragment
 import com.makentoshe.booruchan.start.StartFragment
 import ru.terrakok.cicerone.Navigator

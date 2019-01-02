@@ -1,4 +1,4 @@
-package com.makentoshe.booruchan.posts
+package com.makentoshe.booruchan.posts.model
 
 import android.annotation.SuppressLint
 import io.reactivex.disposables.Disposable

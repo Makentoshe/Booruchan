@@ -1,4 +1,4 @@
-package com.makentoshe.booruchan.posts
+package com.makentoshe.booruchan.posts.view
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,7 +9,7 @@ import androidx.lifecycle.ViewModelProviders
 import com.makentoshe.booruapi.Booru
 import com.makentoshe.booruchan.ViewModelFactory
 import com.makentoshe.booruchan.booru.DrawerController
-import com.makentoshe.booruchan.posts.view.PostsFragmentUI
+import com.makentoshe.booruchan.posts.PostsFragmentViewModel
 import org.jetbrains.anko.AnkoContext
 
 class PostsFragment : Fragment() {

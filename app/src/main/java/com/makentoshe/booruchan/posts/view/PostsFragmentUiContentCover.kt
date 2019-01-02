@@ -3,7 +3,7 @@ package com.makentoshe.booruchan.posts.view
 import android.graphics.Color
 import android.view.View
 import android.widget.RelativeLayout
-import com.makentoshe.booruchan.posts.OverflowState
+import com.makentoshe.booruchan.posts.model.OverflowState
 import com.makentoshe.booruchan.posts.PostsFragmentViewModel
 import com.makentoshe.booruchan.posts.animations.CoverHideAnimator
 import com.makentoshe.booruchan.posts.animations.CoverShowAnimator
