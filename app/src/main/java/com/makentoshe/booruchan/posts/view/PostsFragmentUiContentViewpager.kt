@@ -4,15 +4,15 @@ import android.graphics.Color
 import android.view.View
 import android.widget.RelativeLayout
 import androidx.fragment.app.FragmentManager
-import com.makentoshe.booruchan.Booruchan
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.posts.PostsFragmentViewModel
+import com.makentoshe.booruchan.posts.model.PostsRepository
 import com.makentoshe.booruchan.posts.model.ViewPagerAdapter
 import org.jetbrains.anko.*
 import org.jetbrains.anko.support.v4.viewPager
 
 class PostsFragmentUiContentViewpager(
-    private val postsFragmentViewModel: PostsFragmentViewModel,
+    private val viewModel: PostsFragmentViewModel,
     private val fragmentManager: FragmentManager
 ) : AnkoComponent<RelativeLayout> {
 
@@ -25,8 +25,8 @@ class PostsFragmentUiContentViewpager(
             viewPager {
                 id = R.id.content_viewpager
                 backgroundColor = Color.CYAN
-                postsFragmentViewModel.onNewSearchStarted {
-                    adapter = ViewPagerAdapter(fragmentManager, postsFragmentViewModel.booru, it)
+                viewModel.onNewSearchStarted {
+                    adapter = viewModel.getViewPagerAdapter(fragmentManager, it)
                 }
             }
         }

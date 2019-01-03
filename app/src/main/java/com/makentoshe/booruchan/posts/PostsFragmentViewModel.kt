@@ -1,11 +1,16 @@
 package com.makentoshe.booruchan.posts
 
+import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModel
+import androidx.viewpager.widget.PagerAdapter
 import com.makentoshe.booruapi.Booru
 import com.makentoshe.booruapi.Tag
 import com.makentoshe.booruchan.booru.DrawerController
 import com.makentoshe.booruchan.posts.model.*
-import kotlinx.coroutines.*
+import com.makentoshe.repository.cache.CacheImpl
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlin.coroutines.CoroutineContext
 
 class PostsFragmentViewModel(
@@ -26,10 +31,8 @@ class PostsFragmentViewModel(
 
     private lateinit var searchController: SearchController
 
-    private val autocompleteRepository = DelayAutocompleteRepository(booru)
-
     val autocompleteAdapter: DelayAutocompleteAdapter
-        get() = DelayAutocompleteAdapter(autocompleteRepository)
+        get() = DelayAutocompleteAdapter(DelayAutocompleteRepository(booru))
 
     fun startNewSearch() {
         searchController.newSearch(selectedTagSetController.tags)
@@ -64,5 +67,10 @@ class PostsFragmentViewModel(
     override fun onCleared() {
         super.onCleared()
         job.cancel()
+    }
+
+    fun getViewPagerAdapter(fragmentManager: FragmentManager, tags: Set<Tag>): PagerAdapter {
+        val repository = PostsRepository(booru, CacheImpl(12), 12, tags)
+        return ViewPagerAdapter(fragmentManager, booru, repository)
     }
 }

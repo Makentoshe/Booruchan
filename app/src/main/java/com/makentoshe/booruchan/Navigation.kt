@@ -12,6 +12,7 @@ import com.makentoshe.booruchan.account.AccountFragment
 import com.makentoshe.booruchan.booru.BooruFragment
 import com.makentoshe.booruchan.booru.DrawerController
 import com.makentoshe.booruchan.postpage.PostPageFragment
+import com.makentoshe.booruchan.posts.model.PostsRepository
 import com.makentoshe.booruchan.posts.view.PostsFragment
 import com.makentoshe.booruchan.settings.SettingsFragment
 import com.makentoshe.booruchan.start.StartFragment
@@ -69,13 +70,13 @@ class PostsScreen(booru: Booru, drawerController: DrawerController) :
 class AccountScreen(booru: Booru, drawerController: DrawerController) :
     BooruContentScreen(booru, drawerController, AccountFragment::class.java)
 
-class PostPageScreen(private val booru: Booru, private val position: Int, private val tags: HashSet<Tag>) : Screen() {
+class PostPageScreen(private val booru: Booru, private val position: Int, private val repository: PostsRepository) : Screen() {
     override val fragment: Fragment
         get() = PostPageFragment().apply {
             arguments = Bundle().apply {
                 putSerializable(Booru::class.java.simpleName, booru)
                 putInt(PostPageFragment::class.java.simpleName, position)
-                putSerializable(Set::class.java.simpleName, tags)
+                putSerializable(PostsRepository::class.java.simpleName, repository)
             }
         }
 }
