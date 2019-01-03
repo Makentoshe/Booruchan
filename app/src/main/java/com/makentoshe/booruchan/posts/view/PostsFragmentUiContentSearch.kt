@@ -76,6 +76,7 @@ class PostsFragmentUiContentSearch(
         onEditorAction { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                 addTagToListOfSelectedTags(Tag(text.toString()))
+                postsFragmentViewModel.startNewSearch()
             }
         }
     }
