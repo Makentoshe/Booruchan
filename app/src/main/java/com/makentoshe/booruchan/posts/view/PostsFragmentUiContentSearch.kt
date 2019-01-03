@@ -10,14 +10,11 @@ import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.RelativeLayout
 import com.makentoshe.booruapi.Tag
-import com.makentoshe.booruchan.Action
-import com.makentoshe.booruchan.Booruchan
-import com.makentoshe.booruchan.hideKeyboard
-import com.makentoshe.booruchan.posts.*
+import com.makentoshe.booruchan.*
+import com.makentoshe.booruchan.posts.PostsFragmentViewModel
 import com.makentoshe.booruchan.posts.animations.SearchHideAnimator
 import com.makentoshe.booruchan.posts.animations.SearchShowAnimator
 import com.makentoshe.booruchan.posts.model.OverflowState
-import com.makentoshe.booruchan.showKeyboard
 import org.jetbrains.anko.*
 import org.jetbrains.anko.cardview.v7.cardView
 import org.jetbrains.anko.sdk27.coroutines.onEditorAction
@@ -31,25 +28,33 @@ class PostsFragmentUiContentSearch(
 
     override fun createView(ui: AnkoContext<RelativeLayout>): View = with(ui) {
         relativeLayout {
-            lparams(width = matchParent, height = dip(56)) { alignParentTop() }
+            lparams(width = matchParent, height = wrapContent) { alignParentTop() }
+            visibility = View.GONE
             elevation = dip(4).toFloat()
             translationY = -(dip(56).toFloat() + elevation)
             backgroundColorResource = style.toolbar.primaryColorRes
-            setPadding(dip(8), dip(8), dip(8), dip(8))
             setOnClickListener { /* just handle */ }
+            setPadding(dip(8), 0, dip(8), 0)
             editTextContainerView(this)
+            tagsContainerView()
         }
     }
 
     private fun _RelativeLayout.editTextContainerView(parent: RelativeLayout) {
-        cardView {
-            elevation = dip(2).toFloat()
-            radius = dip(2).toFloat()
-            relativeLayout {
-                autocompleteEditText(parent).progressBar = autocompleteDelayProgressBar()
-                autocompleteDelayClearIcon()
-            }
-        }.lparams(matchParent, matchParent)
+        frameLayout {
+            id = R.id.search_container_edittext
+            setPadding(0, dip(8), 0, dip(8))
+            cardView {
+                elevation = dip(2).toFloat()
+                radius = dip(2).toFloat()
+                relativeLayout {
+                    autocompleteEditText(parent).progressBar = autocompleteDelayProgressBar()
+                    autocompleteDelayClearIcon()
+                }
+            }.lparams(width = matchParent, height = dip(40))
+        }.lparams(width = matchParent, height = dip(56)) {
+            alignParentTop()
+        }
     }
 
     private fun _RelativeLayout.autocompleteEditText(parent: RelativeLayout): DelayAutocompleteEditText {
@@ -64,9 +69,6 @@ class PostsFragmentUiContentSearch(
             addOnClearClickListener()
             addOnSpaceClickListener()
             addOnTipClickListener()
-            postsFragmentViewModel.selectedTagSetController.subscribe {
-                println(it.name)
-            }
         }.lparams(matchParent, matchParent)
     }
 
@@ -151,5 +153,33 @@ class PostsFragmentUiContentSearch(
 
     private fun onClearIconClick(ignored: View) {
         postsFragmentViewModel.uiController.action(Action.UIAction.ClearTextFieldClick)
+    }
+
+    private fun _RelativeLayout.tagsContainerView() {
+        chipGroup {
+            setPadding(0, 0, 0, dip(8))
+            postsFragmentViewModel.selectedTagSetController.subscribeOnAdd {
+                createChip(it)
+            }
+        }.lparams(width = matchParent, height = wrapContent) {
+            below(R.id.search_container_edittext)
+        }
+    }
+
+    private fun _ChipGroup.createChip(tag: Tag) {
+        chip {
+            backgroundDrawable?.setColorFilter(style.chip.getPrimaryColor(context), PorterDuff.Mode.SRC_ATOP)
+            textColorResource = style.chip.onPrimaryColorRes
+            text = tag.name
+            isCloseIconVisible = true
+            closeIcon?.setColorFilter(style.chip.getOnPrimaryColor(context), PorterDuff.Mode.SRC_ATOP)
+            setOnCloseIconClickListener {
+                postsFragmentViewModel.selectedTagSetController.removeTag(tag)
+            }
+            postsFragmentViewModel.selectedTagSetController.subscribeOnRemove {
+                if (tag == it) removeView(this)
+                println(postsFragmentViewModel.selectedTagSetController.tags)
+            }
+        }
     }
 }
