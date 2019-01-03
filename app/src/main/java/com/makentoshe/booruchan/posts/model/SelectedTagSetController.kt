@@ -8,6 +8,7 @@ class SelectedTagSetController(initialTagsSet: Set<Tag>) {
 
     private val setAddObservable = ReplaySubject.create<Tag>()
     private val setRemoveObservable = ReplaySubject.create<Tag>()
+
     init {
         initialTagsSet.forEach {
             setAddObservable.onNext(it)
@@ -22,10 +23,13 @@ class SelectedTagSetController(initialTagsSet: Set<Tag>) {
             return result
         }
 
-    fun addTag(tag: Tag) = setAddObservable.onNext(tag)
+    fun addTag(tag: Tag) {
+        if (tags.contains(tag)|| tag.name.isBlank()) return
+        setAddObservable.onNext(tag)
+    }
 
     @SuppressLint("CheckResult")
-    fun subscribeOnAdd(onClick: (Tag) -> Unit)  {
+    fun subscribeOnAdd(onClick: (Tag) -> Unit) {
         setAddObservable.subscribe(onClick)
     }
 

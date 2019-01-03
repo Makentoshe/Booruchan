@@ -157,12 +157,12 @@ class PostsFragmentUiContentSearch(
 
     private fun _RelativeLayout.tagsContainerView() {
         chipGroup {
-            setPadding(0, 0, 0, dip(8))
             postsFragmentViewModel.selectedTagSetController.subscribeOnAdd {
                 createChip(it)
             }
         }.lparams(width = matchParent, height = wrapContent) {
             below(R.id.search_container_edittext)
+            setMargins(0, 0, 0, dip(8))
         }
     }
 
