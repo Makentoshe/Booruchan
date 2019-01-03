@@ -77,6 +77,7 @@ class PostsFragmentUiContentSearch(
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                 addTagToListOfSelectedTags(Tag(text.toString()))
                 postsFragmentViewModel.startNewSearch()
+                postsFragmentViewModel.uiController.action(Action.UIAction.OverflowClick)
             }
         }
     }

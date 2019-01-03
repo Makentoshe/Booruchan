@@ -14,8 +14,12 @@ class PostsFragmentUI(private val postsFragmentViewModel: PostsFragmentViewModel
     override fun createView(ui: AnkoContext<PostsFragment>) = with(ui) {
         relativeLayout {
             backgroundColorResource = style.background.backgroundColorRes
-            PostsFragmentUiToolbar(postsFragmentViewModel).createView(AnkoContext.createDelegate(this))
-            PostsFragmentUiContent(postsFragmentViewModel).createView(AnkoContext.createDelegate(this))
+
+            PostsFragmentUiToolbar(postsFragmentViewModel)
+                .createView(AnkoContext.createDelegate(this))
+
+            PostsFragmentUiContent(postsFragmentViewModel, ui.owner.childFragmentManager)
+                .createView(AnkoContext.createDelegate(this))
         }
     }
 }
