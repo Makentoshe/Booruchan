@@ -33,7 +33,7 @@ class PostsFragmentUiContentSearch(
             elevation = dip(4).toFloat()
             translationY = -(dip(56).toFloat() + elevation)
             backgroundColorResource = style.toolbar.primaryColorRes
-            setOnClickListener { /* just handle */ }
+//            setOnClickListener { /* just handle */ }
             setPadding(dip(8), 0, dip(8), 0)
             editTextContainerView(this)
             tagsContainerView()

@@ -70,14 +70,12 @@ class AccountScreen(booru: Booru, drawerController: DrawerController) :
     BooruContentScreen(booru, drawerController, AccountFragment::class.java)
 
 class PostPageScreen(
-    private val booru: Booru,
     private val position: Int,
     private val postsRepository: PostsRepository,
     private val previewsRepository: PreviewsRepository) : Screen() {
     override val fragment: Fragment
         get() = PostPageFragment().apply {
             arguments = Bundle().apply {
-                putSerializable(Booru::class.java.simpleName, booru)
                 putInt(PostPageFragment::class.java.simpleName, position)
                 putSerializable(PostsRepository::class.java.simpleName, postsRepository)
                 putSerializable(PreviewsRepository::class.java.simpleName, previewsRepository)

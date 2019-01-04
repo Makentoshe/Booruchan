@@ -6,6 +6,7 @@ import android.os.Handler
 import android.os.Looper
 import android.view.Gravity
 import android.view.View
+import android.widget.Toast
 import com.makentoshe.booruchan.Booruchan
 import org.jetbrains.anko.*
 import org.jetbrains.anko.coroutines.experimental.asReference
@@ -43,10 +44,11 @@ class PostPageFragmentUI(
             }
             gravity = Gravity.CENTER
             verticalSpacing = dip(10)
-            setPadding(0, dip(10), 0, 0)
             viewModel.subscribeOnPosts {
-                adapter = viewModel.getGridAdapter(it)
+//                adapter = viewModel.getGridAdapter(it)
             }
-        }.lparams(matchParent, matchParent)
+        }.lparams(matchParent, matchParent) {
+            setMargins(0, dip(10), 0, 0)
+        }
     }
 }
