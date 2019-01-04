@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModelProviders
 import com.makentoshe.booruapi.Booru
 import com.makentoshe.booruchan.ViewModelFactory
 import com.makentoshe.booruchan.posts.model.PostsRepository
+import com.makentoshe.booruchan.posts.model.PreviewsRepository
 import org.jetbrains.anko.AnkoContext
 
 class PostPageFragment : Fragment() {
@@ -16,9 +17,10 @@ class PostPageFragment : Fragment() {
     private lateinit var viewModel: PostPageFragmentViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        println("$savedInstanceState $this")
         super.onCreate(savedInstanceState)
         viewModel = getViewModel()
-//        viewModel.update()
+        viewModel.update()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -29,12 +31,15 @@ class PostPageFragment : Fragment() {
         val booru = arguments!![Booru::class.java.simpleName] as Booru
         val position = arguments!!.getInt(PostPageFragment::class.java.simpleName)
         val postsRepository = arguments!!.getSerializable(PostsRepository::class.java.simpleName) as PostsRepository
+        val previewsRepository = arguments!!.getSerializable(PreviewsRepository::class.java.simpleName) as PreviewsRepository
 
         val factory = ViewModelFactory(
             booru = booru,
             position = position,
-            postsRepository = postsRepository
+            postsRepository = postsRepository,
+            previewsRepository = previewsRepository
         )
+
         return ViewModelProviders.of(this, factory)[PostPageFragmentViewModel::class.java]
     }
 

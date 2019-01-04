@@ -8,6 +8,7 @@ import android.view.Gravity
 import android.view.View
 import com.makentoshe.booruchan.Booruchan
 import org.jetbrains.anko.*
+import org.jetbrains.anko.coroutines.experimental.asReference
 
 class PostPageFragmentUI(
     private val viewModel: PostPageFragmentViewModel
@@ -17,9 +18,10 @@ class PostPageFragmentUI(
 
     override fun createView(ui: AnkoContext<PostPageFragment>) = with(ui) {
         relativeLayout {
-            progressBarLayout()
+//            progressBarLayout()
             textView {
                 viewModel.subscribeOnPosts {
+                    println(it.javaClass)
                     text = it.toString()
                 }
             }
@@ -31,13 +33,11 @@ class PostPageFragmentUI(
         progressBar {
             isIndeterminate = true
             indeterminateDrawable.setColorFilter(style.toolbar.getPrimaryColor(context), PorterDuff.Mode.SRC_ATOP)
-//            viewModel.uiController.subscribeOnAction {
-//                onPostsDownloaded {
-//                    Handler(Looper.getMainLooper()).post {
-//                        visibility = View.GONE
-//                    }
-//                }
-//            }
+            viewModel.subscribeOnPosts {
+
+
+                visibility = View.GONE
+            }
         }.lparams {
             centerInParent()
         }
@@ -52,6 +52,9 @@ class PostPageFragmentUI(
             gravity = Gravity.CENTER
             verticalSpacing = dip(10)
             setPadding(0, dip(10), 0, 0)
+            viewModel.subscribeOnPosts {
+
+            }
 //            viewModel.uiController.subscribeOnAction {
 //                onPostsDownloaded {
 //                    Handler(Looper.getMainLooper()).post {

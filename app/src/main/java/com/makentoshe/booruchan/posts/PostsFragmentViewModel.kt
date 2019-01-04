@@ -49,10 +49,11 @@ class PostsFragmentViewModel(
     }
 
     private fun searchControllerUpdate() {
-        searchController = if (!::searchController.isInitialized) {
-            SearchController().apply { newSearch(setOf()) }
+        searchController = if (::searchController.isInitialized && searchController.value != null) {
+            val value = searchController.value
+            SearchController().apply { newSearch(value!!) }
         } else {
-            SearchController()
+            SearchController().apply { newSearch(setOf()) }
         }
     }
 
@@ -70,7 +71,9 @@ class PostsFragmentViewModel(
     }
 
     fun getViewPagerAdapter(fragmentManager: FragmentManager, tags: Set<Tag>): PagerAdapter {
-        val repository = PostsRepository(booru, CacheImpl(12), 12, tags)
-        return ViewPagerAdapter(fragmentManager, booru, repository)
+        val postsCountInRequest = 12
+        val postsRepository = PostsRepository(booru, CacheImpl(12), postsCountInRequest, tags)
+        val previewsRepository = PreviewsRepository(booru, CacheImpl(postsCountInRequest * 3))
+        return ViewPagerAdapter(fragmentManager, booru, postsRepository, previewsRepository)
     }
 }

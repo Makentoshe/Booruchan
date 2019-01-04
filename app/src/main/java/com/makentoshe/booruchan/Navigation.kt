@@ -7,19 +7,18 @@ import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import com.makentoshe.booruapi.Booru
-import com.makentoshe.booruapi.Tag
 import com.makentoshe.booruchan.account.AccountFragment
 import com.makentoshe.booruchan.booru.BooruFragment
 import com.makentoshe.booruchan.booru.DrawerController
 import com.makentoshe.booruchan.postpage.PostPageFragment
 import com.makentoshe.booruchan.posts.model.PostsRepository
+import com.makentoshe.booruchan.posts.model.PreviewsRepository
 import com.makentoshe.booruchan.posts.view.PostsFragment
 import com.makentoshe.booruchan.settings.SettingsFragment
 import com.makentoshe.booruchan.start.StartFragment
 import ru.terrakok.cicerone.Navigator
 import ru.terrakok.cicerone.commands.*
 import java.util.*
-import kotlin.collections.HashSet
 
 /**
  * Screen is a base class for description and creation application screen.<br>
@@ -70,13 +69,18 @@ class PostsScreen(booru: Booru, drawerController: DrawerController) :
 class AccountScreen(booru: Booru, drawerController: DrawerController) :
     BooruContentScreen(booru, drawerController, AccountFragment::class.java)
 
-class PostPageScreen(private val booru: Booru, private val position: Int, private val repository: PostsRepository) : Screen() {
+class PostPageScreen(
+    private val booru: Booru,
+    private val position: Int,
+    private val postsRepository: PostsRepository,
+    private val previewsRepository: PreviewsRepository) : Screen() {
     override val fragment: Fragment
         get() = PostPageFragment().apply {
             arguments = Bundle().apply {
                 putSerializable(Booru::class.java.simpleName, booru)
                 putInt(PostPageFragment::class.java.simpleName, position)
-                putSerializable(PostsRepository::class.java.simpleName, repository)
+                putSerializable(PostsRepository::class.java.simpleName, postsRepository)
+                putSerializable(PreviewsRepository::class.java.simpleName, previewsRepository)
             }
         }
 }
