@@ -18,14 +18,8 @@ class PostPageFragmentUI(
 
     override fun createView(ui: AnkoContext<PostPageFragment>) = with(ui) {
         relativeLayout {
-//            progressBarLayout()
-            textView {
-                viewModel.subscribeOnPosts {
-                    println(it.javaClass)
-                    text = it.toString()
-                }
-            }
-//            contentLayout(ui)
+            progressBarLayout()
+            contentLayout(ui)
         }
     }
 
@@ -34,8 +28,6 @@ class PostPageFragmentUI(
             isIndeterminate = true
             indeterminateDrawable.setColorFilter(style.toolbar.getPrimaryColor(context), PorterDuff.Mode.SRC_ATOP)
             viewModel.subscribeOnPosts {
-
-
                 visibility = View.GONE
             }
         }.lparams {
@@ -53,15 +45,8 @@ class PostPageFragmentUI(
             verticalSpacing = dip(10)
             setPadding(0, dip(10), 0, 0)
             viewModel.subscribeOnPosts {
-
+                adapter = viewModel.getGridAdapter(it)
             }
-//            viewModel.uiController.subscribeOnAction {
-//                onPostsDownloaded {
-//                    Handler(Looper.getMainLooper()).post {
-//                        adapter = GridViewAdapter(it.posts, viewModel.previewRepository)
-//                    }
-//                }
-//            }
         }.lparams(matchParent, matchParent)
     }
 }

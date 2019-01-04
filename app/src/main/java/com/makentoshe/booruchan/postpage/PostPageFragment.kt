@@ -17,7 +17,6 @@ class PostPageFragment : Fragment() {
     private lateinit var viewModel: PostPageFragmentViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        println("$savedInstanceState $this")
         super.onCreate(savedInstanceState)
         viewModel = getViewModel()
         viewModel.update()

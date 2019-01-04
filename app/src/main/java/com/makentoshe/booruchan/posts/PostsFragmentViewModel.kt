@@ -73,7 +73,7 @@ class PostsFragmentViewModel(
     fun getViewPagerAdapter(fragmentManager: FragmentManager, tags: Set<Tag>): PagerAdapter {
         val postsCountInRequest = 12
         val postsRepository = PostsRepository(booru, CacheImpl(12), postsCountInRequest, tags)
-        val previewsRepository = PreviewsRepository(booru, CacheImpl(postsCountInRequest * 3))
+        val previewsRepository = PreviewsRepository(booru, CacheImpl(postsCountInRequest * 5))
         return ViewPagerAdapter(fragmentManager, booru, postsRepository, previewsRepository)
     }
 }

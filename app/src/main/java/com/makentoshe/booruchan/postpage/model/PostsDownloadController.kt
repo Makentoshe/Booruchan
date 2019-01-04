@@ -16,7 +16,7 @@ class PostsDownloadController(private val postsRepository: PostsRepository) : Se
         get() = postsObservable.value
 
     fun loadPosts(position: Int) {
-        postsObservable.onNext(postsRepository.get(position + 1))
+        postsObservable.onNext(postsRepository.get(position))
     }
 
     @SuppressLint("CheckResult")
@@ -26,11 +26,6 @@ class PostsDownloadController(private val postsRepository: PostsRepository) : Se
 
     fun update() {
         postsObservers.forEach { it.dispose() }
-        postsObservers.forEach {
-            println(it.isDisposed)
-        }
         postsObservers.clear()
-//        postsObservable = BehaviorSubject.create()
-//        if (value != null) postsObservable.onNext(value)
     }
 }

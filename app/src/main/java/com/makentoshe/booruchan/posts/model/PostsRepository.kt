@@ -15,6 +15,6 @@ class PostsRepository(
 ): Repository<Int, Posts>, Serializable {
 
     override fun get(key: Int): Posts {
-        return cache.get(key) { booru.getPosts(key, count, tags) }
+        return cache.get(key) { booru.getPosts(count, key, tags) }
     }
 }

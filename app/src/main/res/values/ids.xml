@@ -11,4 +11,5 @@
     <item name="toolbar_container_drawermenu" type="id"/>
     <item name="content_viewpager" type="id"/>
     <item name="search_container_edittext" type="id"/>
+    <item name="preview" type="id"/>
 </resources>

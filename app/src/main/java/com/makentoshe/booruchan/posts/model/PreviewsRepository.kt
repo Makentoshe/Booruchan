@@ -9,7 +9,7 @@ class PreviewsRepository(
     private val booru: Booru,
     private val cache: Cache<String, ByteArray>
 ) : Repository<String, ByteArray>, Serializable {
-    override fun get(key: String): ByteArray? {
+    override fun get(key: String): ByteArray {
         return cache.get(key) { booru.getPreview(key).readBytes() }
     }
 }

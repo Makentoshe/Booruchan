@@ -24,7 +24,6 @@ class PostsFragmentUiContentViewpager(
             }
             viewPager {
                 id = R.id.content_viewpager
-                backgroundColor = Color.CYAN
                 viewModel.onNewSearchStarted {
                     adapter = viewModel.getViewPagerAdapter(fragmentManager, it)
                 }
