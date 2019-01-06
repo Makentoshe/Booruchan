@@ -1,30 +1,23 @@
 package com.makentoshe.booruchan.postpage.model
 
 import android.content.Context
-import android.graphics.BitmapFactory
-import android.os.Handler
-import android.os.Looper
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
-import android.widget.FrameLayout
-import com.makentoshe.booruapi.Booru
 import com.makentoshe.booruapi.Post
 import com.makentoshe.booruapi.Posts
 import com.makentoshe.booruchan.R
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import org.jetbrains.anko.*
 import org.jetbrains.anko.cardview.v7.cardView
 
 class GridViewAdapter(
-    private val posts: Posts
+    private val posts: Posts,
+    private val previewsDownloadController: PreviewsDownloadController
 ) : BaseAdapter() {
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-        return convertView ?: PreviewUi(position, getItem(position)).createView(parent.context)
+        return convertView ?: PreviewUi(getItem(position), previewsDownloadController).createView(parent.context)
     }
 
     override fun getItem(position: Int) = posts[position]
@@ -33,9 +26,9 @@ class GridViewAdapter(
 
     override fun getCount() = posts.size
 
-    class PreviewUi(
-        private val position: Int,
-        private val post: Post
+    private class PreviewUi(
+        private val post: Post,
+        private val previewsDownloadController: PreviewsDownloadController
     ) {
 
         fun createView(context: Context): View = with(context) {
@@ -48,6 +41,10 @@ class GridViewAdapter(
 
                     imageView {
                         id = R.id.preview
+
+                        previewsDownloadController.subscribeOnPreview(post) { bitmap ->
+                            setImageBitmap(bitmap)
+                        }
 
                     }.lparams(matchParent, matchParent)
                 }
@@ -64,3 +61,4 @@ class GridViewAdapter(
         }
     }
 }
+

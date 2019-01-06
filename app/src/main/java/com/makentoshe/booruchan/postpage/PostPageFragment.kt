@@ -15,19 +15,16 @@ import org.jetbrains.anko.AnkoContext
 
 class PostPageFragment : Fragment() {
 
-//    private lateinit var viewModel: PostPageFragmentViewModel
+    private lateinit var viewModel: PostPageFragmentViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//        viewModel = getViewModel()
-//        viewModel.update()
+        viewModel = getViewModel()
+        viewModel.update()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return TextView(context).apply {
-            text = arguments!!.getInt(PostPageFragment::class.java.simpleName).toString()
-        }
-//        return PostPageFragmentUI(viewModel).createView(AnkoContext.create(requireContext(), this))
+        return PostPageFragmentUI(viewModel).createView(AnkoContext.create(requireContext(), this))
     }
 
     private fun getViewModel(): PostPageFragmentViewModel {

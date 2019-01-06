@@ -10,6 +10,7 @@ import android.widget.Toast
 import com.makentoshe.booruchan.Booruchan
 import org.jetbrains.anko.*
 import org.jetbrains.anko.coroutines.experimental.asReference
+import kotlin.random.Random
 
 class PostPageFragmentUI(
     private val viewModel: PostPageFragmentViewModel
@@ -45,7 +46,7 @@ class PostPageFragmentUI(
             gravity = Gravity.CENTER
             verticalSpacing = dip(10)
             viewModel.subscribeOnPosts {
-//                adapter = viewModel.getGridAdapter(it)
+                adapter = viewModel.getGridAdapter(it)
             }
         }.lparams(matchParent, matchParent) {
             setMargins(0, dip(10), 0, 0)

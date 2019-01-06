@@ -4,19 +4,19 @@ import android.os.Handler
 import android.os.Looper
 import android.widget.BaseAdapter
 import androidx.lifecycle.ViewModel
-import com.makentoshe.booruapi.Booru
 import com.makentoshe.booruapi.Posts
 import com.makentoshe.booruchan.postpage.model.GridViewAdapter
 import com.makentoshe.booruchan.postpage.model.PostsDownloadController
+import com.makentoshe.booruchan.postpage.model.PreviewsDownloadController
 import com.makentoshe.booruchan.posts.model.PostsRepository
 import com.makentoshe.booruchan.posts.model.PreviewsRepository
 import kotlinx.coroutines.*
 import kotlin.coroutines.CoroutineContext
 
 class PostPageFragmentViewModel(
-    private val position: Int,
+    position: Int,
     postsRepository: PostsRepository,
-    private val previewsRepository: PreviewsRepository
+    previewsRepository: PreviewsRepository
 ) : ViewModel(), CoroutineScope {
 
     private var job: Job = Job()
@@ -25,6 +25,8 @@ class PostPageFragmentViewModel(
         get() = Dispatchers.Default + job
 
     private val postsDownloadController = PostsDownloadController(postsRepository)
+
+    private val previewDownloadController = PreviewsDownloadController(this, previewsRepository)
 
     init {
         launch {
@@ -38,18 +40,19 @@ class PostPageFragmentViewModel(
         }
     }
 
-    val posts = postsDownloadController.value
 
     fun getGridAdapter(posts: Posts): BaseAdapter {
-        return GridViewAdapter(posts)
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-        job.cancel()
+        return GridViewAdapter(posts, previewDownloadController)
     }
 
     fun update() {
         postsDownloadController.update()
     }
+
+    override fun onCleared() {
+        postsDownloadController.update()
+        super.onCleared()
+        job.cancel()
+    }
+
 }
