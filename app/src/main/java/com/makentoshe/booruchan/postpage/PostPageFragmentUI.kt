@@ -2,15 +2,11 @@ package com.makentoshe.booruchan.postpage
 
 import android.content.res.Configuration
 import android.graphics.PorterDuff
-import android.os.Handler
-import android.os.Looper
 import android.view.Gravity
 import android.view.View
-import android.widget.Toast
+import android.widget.AdapterView
 import com.makentoshe.booruchan.Booruchan
 import org.jetbrains.anko.*
-import org.jetbrains.anko.coroutines.experimental.asReference
-import kotlin.random.Random
 
 class PostPageFragmentUI(
     private val viewModel: PostPageFragmentViewModel
@@ -48,8 +44,18 @@ class PostPageFragmentUI(
             viewModel.subscribeOnPosts {
                 adapter = viewModel.getGridAdapter(it)
             }
+            setOnItemClickListener(::onGridElementClick)
+            setOnItemLongClickListener(::onGridElementLongClick)
         }.lparams(matchParent, matchParent) {
             setMargins(0, dip(10), 0, 0)
         }
+    }
+
+    private fun onGridElementClick(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+        viewModel.navigateToPostDetailsScreen(position)
+    }
+
+    private fun onGridElementLongClick(parent: AdapterView<*>, view: View, position: Int, id: Long): Boolean {
+        return viewModel.onGridElementLongClick(position)
     }
 }

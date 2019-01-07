@@ -2,6 +2,8 @@ package com.makentoshe.booruchan.postpage
 
 import android.os.Handler
 import android.os.Looper
+import android.view.View
+import android.widget.AdapterView
 import android.widget.BaseAdapter
 import androidx.lifecycle.ViewModel
 import com.makentoshe.booruapi.Posts
@@ -29,20 +31,24 @@ class PostPageFragmentViewModel(
     private val previewDownloadController = PreviewsDownloadController(this, previewsRepository)
 
     init {
-        launch {
-            postsDownloadController.loadPosts(position)
-        }
+        launch { postsDownloadController.loadPosts(position) }
     }
 
-    fun subscribeOnPosts(action: (Posts) -> Unit) {
-        postsDownloadController.subscribe {
-            Handler(Looper.getMainLooper()).post { action(it) }
-        }
+    fun subscribeOnPosts(action: (Posts) -> Unit) = postsDownloadController.subscribe {
+        Handler(Looper.getMainLooper()).post { action(it) }
     }
-
 
     fun getGridAdapter(posts: Posts): BaseAdapter {
         return GridViewAdapter(posts, previewDownloadController)
+    }
+
+    fun navigateToPostDetailsScreen(position: Int) {
+        println("Click on $position")
+    }
+
+    fun onGridElementLongClick(position: Int): Boolean {
+        println("Long click on $position")
+        return true
     }
 
     fun update() {
