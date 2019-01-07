@@ -13,17 +13,20 @@ open class CacheImpl<K, V>(size: Int) : Cache<K, V> {
         var obj = getIfPresent(key)
         if (obj == null) {
             obj = loader()
-            try {
-                storage[key] = obj
-                keysQueue.add(key)
-            } catch (e: IllegalStateException) {
-                val polledKey = keysQueue.poll()
-                remove(polledKey)
-                storage[key] = obj
-                keysQueue.add(key)
-            }
+            addObjToStorage(key, obj)
         }
         return obj!!
+    }
+
+    private fun addObjToStorage(key: K, obj: V) {
+        try {
+            storage[key] = obj
+            keysQueue.add(key)
+        } catch (e: IllegalStateException) {
+            val polledKey = keysQueue.poll()
+            remove(polledKey)
+            addObjToStorage(key, obj)
+        }
     }
 
     override fun getIfPresent(key: K) = storage[key]
