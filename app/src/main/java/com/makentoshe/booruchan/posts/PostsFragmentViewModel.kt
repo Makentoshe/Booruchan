@@ -31,6 +31,9 @@ class PostsFragmentViewModel(
 
     private lateinit var searchController: SearchController
 
+    lateinit var viewPagerController: ViewPagerController
+
+
     val autocompleteAdapter: DelayAutocompleteAdapter
         get() = DelayAutocompleteAdapter(DelayAutocompleteRepository(booru))
 
@@ -46,6 +49,7 @@ class PostsFragmentViewModel(
         uiController = UIController(OverflowController(), drawerController, ClearIconController())
         searchControllerUpdate()
         selectedTagSetControllerUpdate()
+        viewPagerControllerUpdate()
     }
 
     private fun searchControllerUpdate() {
@@ -62,6 +66,14 @@ class PostsFragmentViewModel(
             SelectedTagSetController(selectedTagSetController.tags)
         } else {
             SelectedTagSetController(setOf())
+        }
+    }
+
+    private fun viewPagerControllerUpdate() {
+        viewPagerController = if (::viewPagerController.isInitialized) {
+            ViewPagerController(viewPagerController.value)
+        } else {
+            ViewPagerController(0)
         }
     }
 

@@ -13,6 +13,7 @@ import com.makentoshe.booruchan.postpage.model.PreviewsDownloadController
 import com.makentoshe.booruchan.posts.model.PostsRepository
 import com.makentoshe.booruchan.posts.model.PreviewsRepository
 import kotlinx.coroutines.*
+import java.lang.Exception
 import kotlin.coroutines.CoroutineContext
 
 class PostPageFragmentViewModel(
@@ -31,7 +32,13 @@ class PostPageFragmentViewModel(
     private val previewDownloadController = PreviewsDownloadController(this, previewsRepository)
 
     init {
-        launch { postsDownloadController.loadPosts(position) }
+        launch {
+            try {
+                postsDownloadController.loadPosts(position)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
     }
 
     fun subscribeOnPosts(action: (Posts) -> Unit) = postsDownloadController.subscribe {

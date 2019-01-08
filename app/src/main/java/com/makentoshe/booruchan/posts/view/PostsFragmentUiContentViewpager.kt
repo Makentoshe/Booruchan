@@ -1,14 +1,12 @@
 package com.makentoshe.booruchan.posts.view
 
-import android.graphics.Color
 import android.view.View
 import android.widget.RelativeLayout
 import androidx.fragment.app.FragmentManager
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.posts.PostsFragmentViewModel
-import com.makentoshe.booruchan.posts.model.PostsRepository
-import com.makentoshe.booruchan.posts.model.ViewPagerAdapter
 import org.jetbrains.anko.*
+import org.jetbrains.anko.support.v4.onPageChangeListener
 import org.jetbrains.anko.support.v4.viewPager
 
 class PostsFragmentUiContentViewpager(
@@ -26,7 +24,24 @@ class PostsFragmentUiContentViewpager(
                 id = R.id.content_viewpager
                 viewModel.onNewSearchStarted {
                     adapter = viewModel.getViewPagerAdapter(fragmentManager, it)
+                    viewModel.viewPagerController.gotoPage(0)
                 }
+
+                onPageChangeListener {
+                    onPageSelected {
+                        viewModel.viewPagerController.gotoPage(it)
+                    }
+                }
+
+                viewModel.viewPagerController.onPageGoto {
+                    if (currentItem < it) setCurrentItem(it, true)
+                    else {
+                        while (it != currentItem) {
+                            setCurrentItem(currentItem - 1, true)
+                        }
+                    }
+                }
+
             }
         }
     }
