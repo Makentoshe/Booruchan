@@ -6,6 +6,9 @@ import com.makentoshe.booruapi.Booru;
 import com.makentoshe.booruapi.Gelbooru;
 import com.makentoshe.network.HttpClient;
 import com.makentoshe.network.fuel.FuelClientFactory;
+import io.reactivex.exceptions.UndeliverableException;
+import io.reactivex.functions.Consumer;
+import io.reactivex.plugins.RxJavaPlugins;
 import ru.terrakok.cicerone.Cicerone;
 import ru.terrakok.cicerone.NavigatorHolder;
 import ru.terrakok.cicerone.Router;
@@ -25,7 +28,22 @@ public final class Booruchan extends Application {
         super.onCreate();
         INSTANCE = this;
         cicerone = Cicerone.create();
+        initRxErrorHandler();
         load();
+    }
+
+    private void initRxErrorHandler() {
+        RxJavaPlugins.setErrorHandler(new Consumer<Throwable>() {
+            @Override
+            public void accept(Throwable e) throws Exception {
+                if (e instanceof UndeliverableException) {
+                    /*
+                    Just ignore this exception - in the postpage screen throws each time after device rotation
+                     */
+                    return;
+                }
+            }
+        });
     }
 
     private void load() {

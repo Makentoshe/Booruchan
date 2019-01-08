@@ -6,6 +6,7 @@ import android.widget.ArrayAdapter
 import android.widget.ListAdapter
 import androidx.lifecycle.ViewModel
 import com.makentoshe.booruapi.Booru
+import com.makentoshe.booruchan.BooruScreen
 import com.makentoshe.booruchan.Booruchan
 import com.makentoshe.booruchan.SettingsScreen
 
@@ -20,7 +21,7 @@ class StartFragmentViewModel: ViewModel() {
     }
 
     fun onListItemClicked(booru: Booru) {
-//        Booruchan.INSTANCE.router.navigateTo(BooruScreen(booru))
+        Booruchan.INSTANCE.router.navigateTo(BooruScreen(booru))
     }
 
     fun getBooruListAdapter(context: Context): ListAdapter {

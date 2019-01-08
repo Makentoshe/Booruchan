@@ -35,7 +35,7 @@ class StartFragmentUI(
                 setTitleTextColor(style.toolbar.getOnPrimaryColor(context))
                 titleResource = R.string.app_name
             }, {
-                id = R.id.overflow
+                id = R.id.toolbar_container_overflow
                 setImageResource(style.drawable.static.overflow)
                 setColorFilter(style.toolbar.getOnPrimaryColor(context), PorterDuff.Mode.SRC_ATOP)
                 setOnClickListener(::createOverflowMenu)
