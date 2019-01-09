@@ -9,6 +9,7 @@ import com.makentoshe.booruchan.postpage.PostPageFragmentViewModel
 import com.makentoshe.booruchan.posts.PostsFragmentViewModel
 import com.makentoshe.booruchan.posts.model.PostsRepository
 import com.makentoshe.booruchan.posts.model.PreviewsRepository
+import com.makentoshe.booruchan.postsamples.PostsSampleFragmentViewModel
 import com.makentoshe.booruchan.start.StartFragmentViewModel
 
 class ViewModelFactory(
@@ -24,7 +25,8 @@ class ViewModelFactory(
             BooruFragmentViewModel::class.java -> BooruFragmentViewModel(booru!!) as T
             PostsFragmentViewModel::class.java -> PostsFragmentViewModel(booru!!, drawerController!!) as T
             PostPageFragmentViewModel::class.java ->
-                PostPageFragmentViewModel(position!!, postsRepository!!, previewsRepository!!) as T
+                PostPageFragmentViewModel(booru!!, position!!, postsRepository!!, previewsRepository!!) as T
+            PostsSampleFragmentViewModel::class.java -> PostsSampleFragmentViewModel(booru!!) as T
             else -> super.create(modelClass)
         }
     }

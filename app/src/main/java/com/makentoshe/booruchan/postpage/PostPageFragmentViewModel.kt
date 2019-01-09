@@ -6,7 +6,11 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.BaseAdapter
 import androidx.lifecycle.ViewModel
+import com.makentoshe.booruapi.Booru
 import com.makentoshe.booruapi.Posts
+import com.makentoshe.booruchan.Booruchan
+import com.makentoshe.booruchan.PostSamplesScreen
+import com.makentoshe.booruchan.StartScreen
 import com.makentoshe.booruchan.postpage.model.GridViewAdapter
 import com.makentoshe.booruchan.postpage.model.PostsDownloadController
 import com.makentoshe.booruchan.postpage.model.PreviewsDownloadController
@@ -17,7 +21,8 @@ import java.lang.Exception
 import kotlin.coroutines.CoroutineContext
 
 class PostPageFragmentViewModel(
-    position: Int,
+    private val booru: Booru,
+    private val position: Int,
     postsRepository: PostsRepository,
     previewsRepository: PreviewsRepository
 ) : ViewModel(), CoroutineScope {
@@ -50,7 +55,8 @@ class PostPageFragmentViewModel(
     }
 
     fun navigateToPostDetailsScreen(position: Int) {
-        println("Click on $position")
+        println("$position\t${this.position}")
+        Booruchan.INSTANCE.router.replaceScreen(PostSamplesScreen(booru))
     }
 
     fun onGridElementLongClick(position: Int): Boolean {

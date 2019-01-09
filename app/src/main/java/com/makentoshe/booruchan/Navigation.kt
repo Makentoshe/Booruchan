@@ -14,6 +14,7 @@ import com.makentoshe.booruchan.postpage.PostPageFragment
 import com.makentoshe.booruchan.posts.model.PostsRepository
 import com.makentoshe.booruchan.posts.model.PreviewsRepository
 import com.makentoshe.booruchan.posts.view.PostsFragment
+import com.makentoshe.booruchan.postsamples.PostSampleFragment
 import com.makentoshe.booruchan.settings.SettingsFragment
 import com.makentoshe.booruchan.start.StartFragment
 import ru.terrakok.cicerone.Navigator
@@ -70,15 +71,26 @@ class AccountScreen(booru: Booru, drawerController: DrawerController) :
     BooruContentScreen(booru, drawerController, AccountFragment::class.java)
 
 class PostPageScreen(
+    private val booru: Booru,
     private val position: Int,
     private val postsRepository: PostsRepository,
     private val previewsRepository: PreviewsRepository) : Screen() {
     override val fragment: Fragment
         get() = PostPageFragment().apply {
             arguments = Bundle().apply {
+                putSerializable(Booru::class.java.simpleName, booru)
                 putInt(PostPageFragment::class.java.simpleName, position)
                 putSerializable(PostsRepository::class.java.simpleName, postsRepository)
                 putSerializable(PreviewsRepository::class.java.simpleName, previewsRepository)
+            }
+        }
+}
+
+class PostSamplesScreen(private val booru: Booru): Screen() {
+    override val fragment: Fragment
+        get() = PostSampleFragment().apply {
+            arguments = Bundle().apply {
+                putSerializable(Booru::class.java.simpleName, booru)
             }
         }
 }
