@@ -86,11 +86,16 @@ class PostPageScreen(
         }
 }
 
-class PostSamplesScreen(private val booru: Booru): Screen() {
+class PostSamplesScreen(
+    private val booru: Booru,
+    private val startPosition: Int,
+    private val postsRepository: PostsRepository): Screen() {
     override val fragment: Fragment
         get() = PostSampleFragment().apply {
             arguments = Bundle().apply {
                 putSerializable(Booru::class.java.simpleName, booru)
+                putInt(Int::class.java.simpleName, startPosition)
+                putSerializable(PostsRepository::class.java.simpleName, postsRepository)
             }
         }
 }

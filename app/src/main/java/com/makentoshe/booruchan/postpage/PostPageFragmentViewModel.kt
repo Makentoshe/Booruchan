@@ -23,7 +23,7 @@ import kotlin.coroutines.CoroutineContext
 class PostPageFragmentViewModel(
     private val booru: Booru,
     private val position: Int,
-    postsRepository: PostsRepository,
+    private val postsRepository: PostsRepository,
     previewsRepository: PreviewsRepository
 ) : ViewModel(), CoroutineScope {
 
@@ -55,8 +55,9 @@ class PostPageFragmentViewModel(
     }
 
     fun navigateToPostDetailsScreen(position: Int) {
-        println("$position\t${this.position}")
-        Booruchan.INSTANCE.router.replaceScreen(PostSamplesScreen(booru))
+        val startPosition = position + this.position * postsRepository.count
+        val screen = PostSamplesScreen(booru, startPosition, postsRepository)
+        Booruchan.INSTANCE.router.navigateTo(screen)
     }
 
     fun onGridElementLongClick(position: Int): Boolean {
