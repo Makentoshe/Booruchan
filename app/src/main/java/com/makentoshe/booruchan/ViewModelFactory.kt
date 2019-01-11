@@ -26,7 +26,9 @@ class ViewModelFactory(
             PostsFragmentViewModel::class.java -> PostsFragmentViewModel(booru!!, drawerController!!) as T
             PostPageFragmentViewModel::class.java ->
                 PostPageFragmentViewModel(booru!!, position!!, postsRepository!!, previewsRepository!!) as T
-            PostsSampleFragmentViewModel::class.java -> PostsSampleFragmentViewModel(booru!!) as T
+            PostsSampleFragmentViewModel::class.java -> {
+                PostsSampleFragmentViewModel(booru!!, position!!, postsRepository!!) as T
+            }
             else -> super.create(modelClass)
         }
     }
