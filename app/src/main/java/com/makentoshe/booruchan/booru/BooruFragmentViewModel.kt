@@ -5,10 +5,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModel
 import com.makentoshe.booruapi.Booru
 import com.makentoshe.booruapi.Tag
-import com.makentoshe.booruchan.AccountScreen
-import com.makentoshe.booruchan.Navigator
-import com.makentoshe.booruchan.PostsScreen
-import com.makentoshe.booruchan.R
+import com.makentoshe.booruchan.*
 
 class BooruFragmentViewModel(@JvmField val booru: Booru, private val tags: Set<Tag>) : ViewModel() {
 
@@ -44,5 +41,9 @@ class BooruFragmentViewModel(@JvmField val booru: Booru, private val tags: Set<T
 
     private fun newPostsScreen(): PostsScreen {
         return PostsScreen(booru, DrawerController(drawerController), tags.toHashSet())
+    }
+
+    fun backToStartScreen() {
+        Booruchan.INSTANCE.router.backTo(StartScreen())
     }
 }

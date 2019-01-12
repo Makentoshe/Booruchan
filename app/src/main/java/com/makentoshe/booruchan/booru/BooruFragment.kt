@@ -11,7 +11,7 @@ import com.makentoshe.booruapi.Tag
 import com.makentoshe.booruchan.*
 import org.jetbrains.anko.*
 
-class BooruFragment : Fragment() {
+class BooruFragment : Fragment(), BackPressableFragment {
 
     private lateinit var booruFragmentViewModel: BooruFragmentViewModel
 
@@ -32,5 +32,10 @@ class BooruFragment : Fragment() {
 
         val factory = ViewModelFactory(booru = booru, tags = tags)
         return ViewModelProviders.of(this, factory)[BooruFragmentViewModel::class.java]
+    }
+
+    override fun onBackPressed(): Boolean {
+        booruFragmentViewModel.backToStartScreen()
+        return true
     }
 }
