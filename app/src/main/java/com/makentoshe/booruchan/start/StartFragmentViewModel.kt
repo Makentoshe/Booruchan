@@ -21,7 +21,7 @@ class StartFragmentViewModel: ViewModel() {
     }
 
     fun onListItemClicked(booru: Booru) {
-        Booruchan.INSTANCE.router.navigateTo(BooruScreen(booru))
+        Booruchan.INSTANCE.router.newChain(BooruScreen(booru))
     }
 
     fun getBooruListAdapter(context: Context): ListAdapter {

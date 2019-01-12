@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProviders
 import com.makentoshe.booruapi.Booru
 import com.makentoshe.booruapi.Post
+import com.makentoshe.booruapi.Tag
 import com.makentoshe.booruchan.*
 import com.makentoshe.booruchan.posts.model.PostsRepository
 
@@ -29,6 +30,10 @@ class PostSampleFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return TextView(context).apply {
             text = "${viewModel.getPost(viewModel.startPosition)}"
+            setOnLongClickListener {
+                viewModel.startNewSearch()
+                return@setOnLongClickListener true
+            }
         }
     }
 
@@ -48,4 +53,8 @@ class PostsSampleFragmentViewModel(
         return posts[position % postsRepository.count]
     }
 
+    fun startNewSearch() {
+        val set = hashSetOf(Tag("hatsune_miku"))
+        Booruchan.INSTANCE.router.newChain(BooruScreen(booru, set))
+    }
 }

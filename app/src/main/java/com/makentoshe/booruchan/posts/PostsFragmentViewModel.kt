@@ -15,7 +15,8 @@ import kotlin.coroutines.CoroutineContext
 
 class PostsFragmentViewModel(
     val booru: Booru,
-    private val drawerController: DrawerController
+    private val drawerController: DrawerController,
+    private val tags: Set<Tag>
 ) : ViewModel(), CoroutineScope {
 
     private var job: Job = Job()
@@ -57,7 +58,7 @@ class PostsFragmentViewModel(
             val value = searchController.value
             SearchController().apply { newSearch(value!!) }
         } else {
-            SearchController().apply { newSearch(setOf()) }
+            SearchController().apply { newSearch(tags) }
         }
     }
 

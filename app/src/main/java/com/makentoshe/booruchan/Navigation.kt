@@ -7,6 +7,7 @@ import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import com.makentoshe.booruapi.Booru
+import com.makentoshe.booruapi.Tag
 import com.makentoshe.booruchan.account.AccountFragment
 import com.makentoshe.booruchan.booru.BooruFragment
 import com.makentoshe.booruchan.booru.DrawerController
@@ -20,6 +21,7 @@ import com.makentoshe.booruchan.start.StartFragment
 import ru.terrakok.cicerone.Navigator
 import ru.terrakok.cicerone.commands.*
 import java.util.*
+import kotlin.collections.HashSet
 
 /**
  * Screen is a base class for description and creation application screen.<br>
@@ -41,11 +43,15 @@ class SettingsScreen : Screen() {
         get() = SettingsFragment()
 }
 
-class BooruScreen(private val booru: Booru) : Screen() {
+class BooruScreen(
+    private val booru: Booru,
+    private val tags: HashSet<Tag> = HashSet()
+) : Screen() {
     override val fragment: Fragment
         get() = BooruFragment().apply {
             arguments = Bundle().apply {
                 putSerializable(Booru::class.java.simpleName, booru)
+                putSerializable(Tag::class.java.simpleName, tags)
             }
         }
 }
@@ -64,8 +70,15 @@ abstract class BooruContentScreen(
         }
 }
 
-class PostsScreen(booru: Booru, drawerController: DrawerController) :
-    BooruContentScreen(booru, drawerController, PostsFragment::class.java)
+class PostsScreen(booru: Booru, drawerController: DrawerController, private val tags: HashSet<Tag> = HashSet()) :
+    BooruContentScreen(booru, drawerController, PostsFragment::class.java) {
+    override val fragment: Fragment
+        get() = super.fragment.apply {
+            arguments!!.apply {
+                putSerializable(Set::class.java.simpleName + Tag::class.java.simpleName, tags)
+            }
+        }
+}
 
 class AccountScreen(booru: Booru, drawerController: DrawerController) :
     BooruContentScreen(booru, drawerController, AccountFragment::class.java)
@@ -74,7 +87,8 @@ class PostPageScreen(
     private val booru: Booru,
     private val position: Int,
     private val postsRepository: PostsRepository,
-    private val previewsRepository: PreviewsRepository) : Screen() {
+    private val previewsRepository: PreviewsRepository
+) : Screen() {
     override val fragment: Fragment
         get() = PostPageFragment().apply {
             arguments = Bundle().apply {
@@ -89,7 +103,8 @@ class PostPageScreen(
 class PostSamplesScreen(
     private val booru: Booru,
     private val startPosition: Int,
-    private val postsRepository: PostsRepository): Screen() {
+    private val postsRepository: PostsRepository
+) : Screen() {
     override val fragment: Fragment
         get() = PostSampleFragment().apply {
             arguments = Bundle().apply {
