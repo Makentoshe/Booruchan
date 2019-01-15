@@ -210,3 +210,16 @@ class VerticalViewPager(context: Context, attrs: AttributeSet? = null) : ViewPag
     override fun onTouchEvent(ev: MotionEvent) = super.onTouchEvent(swapXY(ev))
 
 }
+
+class BlockableViewPager(context: Context, attrs: AttributeSet? = null) : ViewPager(context, attrs) {
+
+    var isBlocked = false
+
+    override fun onInterceptTouchEvent(ev: MotionEvent): Boolean {
+        return if (!isBlocked) super.onInterceptTouchEvent(ev) else false
+    }
+
+    override fun onTouchEvent(ev: MotionEvent): Boolean {
+        return if (!isBlocked) super.onTouchEvent(ev) else false
+    }
+}
