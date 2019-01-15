@@ -12,4 +12,5 @@
     <item name="content_viewpager" type="id"/>
     <item name="search_container_edittext" type="id"/>
     <item name="preview" type="id"/>
+    <item name="listview" type="id"/>
 </resources>

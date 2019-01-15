@@ -31,6 +31,7 @@ class StartFragmentUI(
             elevation = dip(10).toFloat()
             id = R.id.toolbarcontainer
             toolbarLayout({
+                id = R.id.toolbar_container_toolbar
                 backgroundColorResource = style.toolbar.primaryColorRes
                 setTitleTextColor(style.toolbar.getOnPrimaryColor(context))
                 titleResource = R.string.app_name
@@ -52,6 +53,7 @@ class StartFragmentUI(
 
     private fun _RelativeLayout.listViewLayout() {
         listView {
+            id = R.id.listview
             setOnItemClickListener(::onItemClick)
             adapter = startFragmentViewModel.getBooruListAdapter(context)
         }.lparams {
