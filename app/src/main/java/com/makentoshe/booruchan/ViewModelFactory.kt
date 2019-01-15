@@ -11,6 +11,8 @@ import com.makentoshe.booruchan.posts.PostsFragmentViewModel
 import com.makentoshe.booruchan.posts.model.PostsRepository
 import com.makentoshe.booruchan.posts.model.PreviewsRepository
 import com.makentoshe.booruchan.postsamples.PostsSampleFragmentViewModel
+import com.makentoshe.booruchan.postsamples.model.SamplePageController
+import com.makentoshe.booruchan.postsamples.view.PostSamplePageViewModel
 import com.makentoshe.booruchan.start.StartFragmentViewModel
 
 class ViewModelFactory(
@@ -19,8 +21,10 @@ class ViewModelFactory(
     private val position: Int? = null,
     private val postsRepository: PostsRepository? = null,
     private val previewsRepository: PreviewsRepository? = null,
-    private val tags: Set<Tag>? = null
+    private val tags: Set<Tag>? = null,
+    private val samplePageController: SamplePageController? = null
 ) : ViewModelProvider.NewInstanceFactory() {
+
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         return when (modelClass) {
 
@@ -42,6 +46,10 @@ class ViewModelFactory(
 
             PostsSampleFragmentViewModel::class.java -> {
                 PostsSampleFragmentViewModel(booru!!, position!!, postsRepository!!) as T
+            }
+
+            PostSamplePageViewModel::class.java -> {
+                PostSamplePageViewModel(position!!, samplePageController!!) as T
             }
 
             else -> super.create(modelClass)

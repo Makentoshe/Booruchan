@@ -16,6 +16,10 @@ import com.makentoshe.booruchan.posts.model.PostsRepository
 import com.makentoshe.booruchan.posts.model.PreviewsRepository
 import com.makentoshe.booruchan.posts.view.PostsFragment
 import com.makentoshe.booruchan.postsamples.PostSampleFragment
+import com.makentoshe.booruchan.postsamples.model.SamplePageController
+import com.makentoshe.booruchan.postsamples.view.PostSamplePageFragment
+import com.makentoshe.booruchan.postsamples.view.PostSamplePageInfoFragment
+import com.makentoshe.booruchan.postsamples.view.PostSamplePagePreviewFragment
 import com.makentoshe.booruchan.settings.SettingsFragment
 import com.makentoshe.booruchan.start.StartFragment
 import ru.terrakok.cicerone.Navigator
@@ -113,6 +117,29 @@ class PostSamplesScreen(
                 putSerializable(PostsRepository::class.java.simpleName, postsRepository)
             }
         }
+}
+
+class PostSamplePageScreen(
+    private val position: Int,
+    private val samplePageController: SamplePageController
+) : Screen() {
+    override val fragment: Fragment
+        get() = PostSamplePageFragment().apply {
+            arguments = Bundle().apply {
+                putInt(Int::class.java.simpleName, position)
+                putSerializable(SamplePageController::class.java.simpleName, samplePageController)
+            }
+        }
+}
+
+class PostSamplePagePreviewScreen() : Screen() {
+    override val fragment: Fragment
+        get() = PostSamplePagePreviewFragment()
+}
+
+class PostSamplePageInfoScreen(): Screen() {
+    override val fragment: Fragment
+        get() = PostSamplePageInfoFragment()
 }
 
 /**
