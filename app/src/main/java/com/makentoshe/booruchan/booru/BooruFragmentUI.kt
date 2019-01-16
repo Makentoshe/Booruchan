@@ -43,12 +43,14 @@ class BooruFragmentUI(private val booruFragmentViewModel: BooruFragmentViewModel
             backgroundColorResource = style.background.backgroundColorRes
 
             button(R.string.posts) {
+                id = R.id.posts
                 onClick {
                     booruFragmentViewModel.onPostsClicked()
                 }
             }.lparams(width = matchParent)
 
             button(R.string.account) {
+                id = R.id.account
                 onClick {
                     booruFragmentViewModel.onAccountClicked()
                 }

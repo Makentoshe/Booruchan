@@ -13,4 +13,6 @@
     <item name="search_container_edittext" type="id"/>
     <item name="preview" type="id"/>
     <item name="listview" type="id"/>
+    <item name="posts" type="id"/>
+    <item name="account" type="id"/>
 </resources>
