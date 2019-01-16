@@ -22,6 +22,7 @@ class PostSampleFragmentUiContent(
             addView(BlockableViewPager(context).apply {
                 id = R.id.viewpager
                 adapter = viewModel.getPagerAdapter(fragmentManager)
+                if (currentItem == 0) currentItem = viewModel.startPosition
                 viewModel.blockController.subscribe {
                     when (it) {
                         SamplePageController.Command.BLOCK -> {
