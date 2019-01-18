@@ -3,6 +3,7 @@ package com.makentoshe.booruchan.posts.view
 import android.graphics.Color
 import android.view.View
 import android.widget.RelativeLayout
+import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.posts.model.OverflowState
 import com.makentoshe.booruchan.posts.PostsFragmentViewModel
 import com.makentoshe.booruchan.posts.animations.CoverHideAnimator
@@ -15,6 +16,7 @@ class PostsFragmentUiContentCover(
 
     override fun createView(ui: AnkoContext<RelativeLayout>): View = with(ui) {
         frameLayout {
+            id = R.id.postpreviews_cover
             visibility = View.GONE
             alpha = 0f
             backgroundColor = Color.argb(150, 0, 0, 0)

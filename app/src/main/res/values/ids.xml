@@ -5,14 +5,23 @@
     <item name="toolbar_container_overflow" type="id"/>
     <item name="boorucontent" type="id"/>
     <item name="boorudrawer" type="id"/>
-    <item name="bottombar" type="id"/>
+    <item name="postpreviews_bottombar" type="id"/>
     <item name="toolbar_container" type="id"/>
     <item name="toolbar_container_toolbar" type="id"/>
     <item name="toolbar_container_drawermenu" type="id"/>
     <item name="content_viewpager" type="id"/>
-    <item name="search_container_edittext" type="id"/>
+    <item name="postpreviews_search_container" type="id"/>
     <item name="preview" type="id"/>
     <item name="listview" type="id"/>
     <item name="posts" type="id"/>
     <item name="account" type="id"/>
+    <item name="postpreviews_search" type="id"/>
+    <item name="postpreviews_cover" type="id"/>
+    <item name="postpreviews_search_container_dacet" type="id"/>
+    <item name="postpreviews_search_container_clear" type="id"/>
+    <item name="postpreviews_search_tags" type="id"/>
+    <item name="postpreviews_bottombar_left" type="id"/>
+    <item name="postpreviews_bottombar_center" type="id"/>
+    <item name="postpreviews_bottombar_right" type="id"/>
+    <item name="postpreviews_bottombar_center_textview" type="id"/>
 </resources>

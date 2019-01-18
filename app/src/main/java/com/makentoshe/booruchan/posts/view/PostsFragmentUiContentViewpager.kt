@@ -18,7 +18,7 @@ class PostsFragmentUiContentViewpager(
         relativeLayout {
             lparams(matchParent, matchParent) {
                 below(R.id.toolbar_container)
-                above(R.id.bottombar)
+                above(R.id.postpreviews_bottombar)
             }
             viewPager {
                 id = R.id.content_viewpager

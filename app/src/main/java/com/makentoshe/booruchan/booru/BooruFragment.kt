@@ -10,7 +10,7 @@ import com.makentoshe.booruapi.Booru
 import com.makentoshe.booruchan.*
 import org.jetbrains.anko.*
 
-class BooruFragment : Fragment() {
+class BooruFragment : Fragment(), BackPressableFragment {
 
     private lateinit var booruFragmentViewModel: BooruFragmentViewModel
 
@@ -24,5 +24,14 @@ class BooruFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return BooruFragmentUI(booruFragmentViewModel).createView(AnkoContext.create(requireContext(), this))
+    }
+
+    override fun onBackPressed(): Boolean {
+        val list = childFragmentManager.fragments
+        for (i in list.lastIndex downTo 0) {
+            val fragment = list[i]
+            if (fragment is BackPressableFragment && fragment.onBackPressed()) return true
+        }
+        return false
     }
 }
