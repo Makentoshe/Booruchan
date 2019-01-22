@@ -8,14 +8,18 @@ import com.makentoshe.booruapi.Post
 import com.makentoshe.booruapi.Tag
 import com.makentoshe.booruchan.BooruScreen
 import com.makentoshe.booruchan.Booruchan
+import com.makentoshe.booruchan.ImageRepository
+import com.makentoshe.booruchan.SampleImageRepository
 import com.makentoshe.booruchan.posts.model.PostsRepository
+import com.makentoshe.booruchan.posts.model.PreviewsRepository
 import com.makentoshe.booruchan.postsamples.model.SamplePageController
 import com.makentoshe.booruchan.postsamples.model.SamplePagePagerAdapter
 
 class PostsSampleFragmentViewModel(
     private val booru: Booru,
     val startPosition: Int,
-    private val postsRepository: PostsRepository
+    private val postsRepository: PostsRepository,
+    private val sampleRepository: ImageRepository
 ) : ViewModel() {
 
     val blockController = SamplePageController()
@@ -28,9 +32,8 @@ class PostsSampleFragmentViewModel(
         return posts[position % postsRepository.count]
     }
 
-    fun startNewSearch() {
-        val set = hashSetOf(Tag("hatsune_miku"))
-        Booruchan.INSTANCE.router.newChain(BooruScreen(booru, set))
+    fun startNewSearch(tags: Set<Tag> = setOf(Tag("hatsune_miku"))) {
+        Booruchan.INSTANCE.router.newChain(BooruScreen(booru, tags.toHashSet()))
     }
 
     fun getPagerAdapter(fragmentManager: FragmentManager): PagerAdapter {

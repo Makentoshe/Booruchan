@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProviders
 import com.makentoshe.booruapi.Booru
 import com.makentoshe.booruchan.*
 import com.makentoshe.booruchan.posts.model.PostsRepository
+import com.makentoshe.booruchan.posts.model.PreviewsRepository
 import com.makentoshe.booruchan.postsamples.view.PostSampleFragmentUi
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -29,12 +30,18 @@ class PostSampleFragment : Fragment() {
         return PostSampleFragmentUi(viewModel).createView(AnkoContext.create(requireContext(), this))
     }
 
-    private fun buildViewModel(arguments: Bundle) : PostsSampleFragmentViewModel {
+    private fun buildViewModel(arguments: Bundle): PostsSampleFragmentViewModel {
         val booru = arguments.getSerializable(Booru::class.java.simpleName) as Booru
         val startPosition = arguments.getInt(Int::class.java.simpleName)
         val postsRepository = arguments.getSerializable(PostsRepository::class.java.simpleName) as PostsRepository
+        val sampleRepository = arguments.getSerializable(ImageRepository::class.java.simpleName) as ImageRepository
 
-        val factory = ViewModelFactory(booru = booru, position = startPosition, postsRepository = postsRepository)
+        val factory = ViewModelFactory(
+            booru = booru,
+            position = startPosition,
+            postsRepository = postsRepository,
+            sampleRepository = sampleRepository
+        )
         return ViewModelProviders.of(this, factory)[PostsSampleFragmentViewModel::class.java]
     }
 
