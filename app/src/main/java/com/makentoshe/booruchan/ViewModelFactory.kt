@@ -13,6 +13,7 @@ import com.makentoshe.booruchan.posts.model.PreviewsRepository
 import com.makentoshe.booruchan.postsamples.PostsSampleFragmentViewModel
 import com.makentoshe.booruchan.postsamples.model.SamplePageController
 import com.makentoshe.booruchan.postsamplespage.PostSamplePageViewModel
+import com.makentoshe.booruchan.postsamplespagepreview.PostSamplePagePreviewFragmentViewModel
 import com.makentoshe.booruchan.start.StartFragmentViewModel
 import com.makentoshe.repository.Repository
 
@@ -51,7 +52,11 @@ class ViewModelFactory(
             }
 
             PostSamplePageViewModel::class.java -> {
-                PostSamplePageViewModel(position!!, samplePageController!!) as T
+                PostSamplePageViewModel(position!!, samplePageController!!, sampleRepository!!) as T
+            }
+
+            PostSamplePagePreviewFragmentViewModel::class.java -> {
+                PostSamplePagePreviewFragmentViewModel(sampleRepository!!, position!!) as T
             }
 
             else -> super.create(modelClass)

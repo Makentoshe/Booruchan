@@ -123,23 +123,33 @@ class PostSamplesScreen(
 
 class PostSamplePageScreen(
     private val position: Int,
-    private val samplePageController: SamplePageController
+    private val samplePageController: SamplePageController,
+    private val sampleRepository: ImageRepository
 ) : Screen() {
     override val fragment: Fragment
         get() = PostSamplePageFragment().apply {
             arguments = Bundle().apply {
                 putInt(Int::class.java.simpleName, position)
                 putSerializable(SamplePageController::class.java.simpleName, samplePageController)
+                putSerializable(ImageRepository::class.java.simpleName, sampleRepository)
             }
         }
 }
 
-class PostSamplePagePreviewScreen() : Screen() {
+class PostSamplePagePreviewScreen(
+    private val sampleRepository: ImageRepository,
+    private val position: Int
+) : Screen() {
     override val fragment: Fragment
-        get() = PostSamplePagePreviewFragment()
+        get() = PostSamplePagePreviewFragment().apply {
+            arguments = Bundle().apply {
+                putSerializable(ImageRepository::class.java.simpleName, sampleRepository)
+                putInt(Int::class.java.simpleName, position)
+            }
+        }
 }
 
-class PostSamplePageInfoScreen(): Screen() {
+class PostSamplePageInfoScreen() : Screen() {
     override val fragment: Fragment
         get() = PostSamplePageInfoFragment()
 }

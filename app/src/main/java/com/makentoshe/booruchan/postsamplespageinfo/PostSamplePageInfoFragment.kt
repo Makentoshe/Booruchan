@@ -1,4 +1,4 @@
-package com.makentoshe.booruchan.postsamples.view
+package com.makentoshe.booruchan.postsamplespageinfo
 
 import android.os.Bundle
 import android.view.LayoutInflater
