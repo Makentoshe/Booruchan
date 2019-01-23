@@ -3,4 +3,5 @@
     <string name="settings">Settings</string>
     <string name="posts">Posts</string>
     <string name="account">Account</string>
+    <string name="sample_download_error">Failed to download sample</string>
 </resources>

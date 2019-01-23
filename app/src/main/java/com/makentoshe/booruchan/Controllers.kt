@@ -9,25 +9,40 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 interface Controller<P, T> {
-    fun subscribe(param: P, action: (T?) -> Unit)
+    fun subscribe(param: P, action: (T) -> Unit)
 }
 
-abstract class DownloadController<P>(protected val coroutineScope: CoroutineScope): Controller<P, Bitmap>
+data class DownloadResult<T>(val data: T? = null, val exception: Exception? = null)
+
+abstract class DownloadController<P, T>(
+    protected val coroutineScope: CoroutineScope
+) : Controller<DownloadResult<P>, DownloadResult<T>>
 
 class ImageDownloadController(
     coroutineScope: CoroutineScope,
     private val repository: ImageRepository
-): DownloadController<Post>(coroutineScope) {
+) : DownloadController<Post, Bitmap>(coroutineScope) {
 
-    override fun subscribe(param: Post, action: (Bitmap?) -> Unit) {
-        coroutineScope.launch {
-            try {
-                val byteArray = repository.get(param.sampleUrl)!!
-                val bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.size)
-                Handler(Looper.getMainLooper()).post { action(bitmap) }
-            } catch (e: Exception) {
-                e.printStackTrace()
+    override fun subscribe(downloadRequest: DownloadResult<Post>, action: (DownloadResult<Bitmap>) -> Unit) {
+        if (downloadRequest.data == null) {
+            action.pushResult(DownloadResult(null, downloadRequest.exception))
+        } else {
+            coroutineScope.launch {
+                try {
+                    action.pushResult(DownloadResult(performDownload(downloadRequest)))
+                } catch (e: Exception) {
+                    action.pushResult(DownloadResult(null, e))
+                }
             }
         }
+    }
+
+    private fun ((DownloadResult<Bitmap>) -> Unit).pushResult(result: DownloadResult<Bitmap>) {
+        Handler(Looper.getMainLooper()).post { this.invoke(result) }
+    }
+
+    private fun performDownload(request: DownloadResult<Post>): Bitmap {
+        val byteArray = repository.get(request.data!!.sampleUrl)!!
+        return BitmapFactory.decodeByteArray(byteArray, 0, byteArray.size)
     }
 }
