@@ -23,10 +23,10 @@ class PostSampleFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = buildViewModel(arguments!!)
-        viewModel.update()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        viewModel.update()
         return PostSampleFragmentUi(viewModel).createView(AnkoContext.create(requireContext(), this))
     }
 

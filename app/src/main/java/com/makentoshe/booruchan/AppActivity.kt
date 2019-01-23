@@ -19,8 +19,9 @@ class AppActivity : AppCompatActivity() {
 //            Booruchan.INSTANCE.router.newRootScreen(
 //                PostSamplesScreen(
 //                    Booruchan.INSTANCE.booruList[0],
-//                    3,
-//                    PostsRepository(Booruchan.INSTANCE.booruList[0], CacheImpl(12), 1, setOf())
+//                    2,
+//                    PostsRepository(Booruchan.INSTANCE.booruList[0], CacheImpl(12), 1, setOf()),
+//                    SampleImageRepository(Booruchan.INSTANCE.booruList[0], CacheImpl(3))
 //                )
 //            )
 //            Booruchan.INSTANCE.router.newRootScreen(PostPageScreen(Booruchan.INSTANCE.boorus[0], 1))

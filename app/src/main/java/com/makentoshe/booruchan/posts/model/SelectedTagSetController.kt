@@ -1,13 +1,15 @@
 package com.makentoshe.booruchan.posts.model
 
-import android.annotation.SuppressLint
 import com.makentoshe.booruapi.Tag
+import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.subjects.ReplaySubject
 
 class SelectedTagSetController(initialTagsSet: Set<Tag>) {
 
     private val setAddObservable = ReplaySubject.create<Tag>()
     private val setRemoveObservable = ReplaySubject.create<Tag>()
+
+    private val disposables = CompositeDisposable()
 
     init {
         initialTagsSet.forEach {
@@ -24,19 +26,21 @@ class SelectedTagSetController(initialTagsSet: Set<Tag>) {
         }
 
     fun addTag(tag: Tag) {
-        if (tags.contains(tag)|| tag.name.isBlank()) return
+        if (tags.contains(tag) || tag.name.isBlank()) return
         setAddObservable.onNext(tag)
     }
 
-    @SuppressLint("CheckResult")
     fun subscribeOnAdd(onClick: (Tag) -> Unit) {
-        setAddObservable.subscribe(onClick)
+        disposables.add(setAddObservable.subscribe(onClick))
     }
 
-    @SuppressLint("CheckResult")
     fun subscribeOnRemove(onClick: (Tag) -> Unit) {
-        setRemoveObservable.subscribe(onClick)
+        disposables.add(setRemoveObservable.subscribe(onClick))
     }
 
     fun removeTag(tag: Tag) = setRemoveObservable.onNext(tag)
+
+    fun clear() {
+        disposables.clear()
+    }
 }

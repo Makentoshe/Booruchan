@@ -19,7 +19,7 @@ import com.makentoshe.booruchan.postsamples.PostSampleFragment
 import com.makentoshe.booruchan.postsamples.model.SamplePageController
 import com.makentoshe.booruchan.postsamplespage.PostSamplePageFragment
 import com.makentoshe.booruchan.postsamplespageinfo.PostSamplePageInfoFragment
-import com.makentoshe.booruchan.postsamplespagepreview.PostSamplePagePreviewFragment
+import com.makentoshe.booruchan.postsamplespageimage.PostSamplePageImageFragment
 import com.makentoshe.booruchan.settings.SettingsFragment
 import com.makentoshe.booruchan.start.StartFragment
 import ru.terrakok.cicerone.Navigator
@@ -124,7 +124,8 @@ class PostSamplesScreen(
 class PostSamplePageScreen(
     private val position: Int,
     private val samplePageController: SamplePageController,
-    private val sampleRepository: ImageRepository
+    private val sampleRepository: ImageRepository,
+    private val postsRepository: PostsRepository
 ) : Screen() {
     override val fragment: Fragment
         get() = PostSamplePageFragment().apply {
@@ -132,19 +133,22 @@ class PostSamplePageScreen(
                 putInt(Int::class.java.simpleName, position)
                 putSerializable(SamplePageController::class.java.simpleName, samplePageController)
                 putSerializable(ImageRepository::class.java.simpleName, sampleRepository)
+                putSerializable(PostsRepository::class.java.simpleName, postsRepository)
             }
         }
 }
 
 class PostSamplePagePreviewScreen(
     private val sampleRepository: ImageRepository,
-    private val position: Int
+    private val position: Int,
+    private val postsRepository: PostsRepository
 ) : Screen() {
     override val fragment: Fragment
-        get() = PostSamplePagePreviewFragment().apply {
+        get() = PostSamplePageImageFragment().apply {
             arguments = Bundle().apply {
                 putSerializable(ImageRepository::class.java.simpleName, sampleRepository)
                 putInt(Int::class.java.simpleName, position)
+                putSerializable(PostsRepository::class.java.simpleName, postsRepository)
             }
         }
 }

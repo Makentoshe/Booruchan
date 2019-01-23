@@ -64,6 +64,7 @@ class PostsFragmentViewModel(
 
     private fun selectedTagSetControllerUpdate() {
         selectedTagSetController = if (::selectedTagSetController.isInitialized) {
+            selectedTagSetController.clear()
             SelectedTagSetController(selectedTagSetController.tags)
         } else {
             SelectedTagSetController(setOf())
@@ -80,7 +81,9 @@ class PostsFragmentViewModel(
 
     override fun onCleared() {
         super.onCleared()
+        selectedTagSetController.clear()
         job.cancel()
+        println("OnCleared $this")
     }
 
     fun getViewPagerAdapter(fragmentManager: FragmentManager, tags: Set<Tag>): PagerAdapter {

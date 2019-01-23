@@ -9,6 +9,7 @@ import com.makentoshe.booruapi.Posts
 import com.makentoshe.booruchan.Booruchan
 import com.makentoshe.booruchan.PostSamplesScreen
 import com.makentoshe.booruchan.SampleImageRepository
+import com.makentoshe.booruchan.StartScreen
 import com.makentoshe.booruchan.postpage.model.GridViewAdapter
 import com.makentoshe.booruchan.postpage.model.PostsDownloadController
 import com.makentoshe.booruchan.postpage.model.PreviewsDownloadController

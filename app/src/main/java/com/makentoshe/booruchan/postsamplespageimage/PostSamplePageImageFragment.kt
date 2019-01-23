@@ -1,16 +1,17 @@
-package com.makentoshe.booruchan.postsamplespagepreview
+package com.makentoshe.booruchan.postsamplespageimage
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import com.makentoshe.booruchan.ImageRepository
 import com.makentoshe.booruchan.ViewModelFactory
+import com.makentoshe.booruchan.posts.model.PostsRepository
+import org.jetbrains.anko.AnkoContext
 
-class PostSamplePagePreviewFragment: Fragment() {
+class PostSamplePageImageFragment : Fragment() {
 
     private lateinit var viewModel: PostSamplePagePreviewFragmentViewModel
 
@@ -20,16 +21,20 @@ class PostSamplePagePreviewFragment: Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return TextView(context).apply {
-            text = "preview ${viewModel.position}"
-        }
+        return PostSamplePageImageFragmentUi(viewModel).createView(AnkoContext.create(requireContext(), this))
     }
 
     private fun buildViewModel(arguments: Bundle): PostSamplePagePreviewFragmentViewModel {
         val sampleRepository = arguments.getSerializable(ImageRepository::class.java.simpleName) as ImageRepository
         val position = arguments.getInt(Int::class.java.simpleName)
+        val postsRepository = arguments.getSerializable(PostsRepository::class.java.simpleName) as PostsRepository
 
-        val factory = ViewModelFactory(sampleRepository = sampleRepository, position = position)
+        val factory = ViewModelFactory(
+            sampleRepository = sampleRepository,
+            position = position,
+            postsRepository = postsRepository
+        )
         return ViewModelProviders.of(this, factory)[PostSamplePagePreviewFragmentViewModel::class.java]
     }
 }
+

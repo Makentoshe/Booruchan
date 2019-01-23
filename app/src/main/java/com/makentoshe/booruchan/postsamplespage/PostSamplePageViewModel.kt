@@ -4,13 +4,15 @@ import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModel
 import androidx.viewpager.widget.PagerAdapter
 import com.makentoshe.booruchan.ImageRepository
+import com.makentoshe.booruchan.posts.model.PostsRepository
 import com.makentoshe.booruchan.postsamples.model.SamplePageContentPagerAdapter
 import com.makentoshe.booruchan.postsamples.model.SamplePageController
 
 class PostSamplePageViewModel(
     private val position: Int,
     private val samplePageController: SamplePageController,
-    private val sampleRepository: ImageRepository
+    private val sampleRepository: ImageRepository,
+    private val postsRepository: PostsRepository
 ) : ViewModel() {
 
     fun block() = samplePageController.block()
@@ -20,6 +22,6 @@ class PostSamplePageViewModel(
     fun backToPreviews() = samplePageController.backToPreviews()
 
     fun getViewPagerAdapter(fragmentManager: FragmentManager): PagerAdapter {
-        return SamplePageContentPagerAdapter(fragmentManager, sampleRepository, position)
+        return SamplePageContentPagerAdapter(fragmentManager, sampleRepository, position, postsRepository)
     }
 }

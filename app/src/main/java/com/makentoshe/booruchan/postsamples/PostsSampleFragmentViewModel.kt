@@ -37,7 +37,7 @@ class PostsSampleFragmentViewModel(
     }
 
     fun getPagerAdapter(fragmentManager: FragmentManager): PagerAdapter {
-        return SamplePagePagerAdapter(fragmentManager, blockController, sampleRepository)
+        return SamplePagePagerAdapter(fragmentManager, blockController, sampleRepository, postsRepository)
     }
 
     fun update() {

@@ -18,10 +18,10 @@ class BooruFragment : Fragment(), BackPressableFragment {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         booruFragmentViewModel = buildViewModel(arguments!!)
-        booruFragmentViewModel.update(requireActivity(), childFragmentManager)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        booruFragmentViewModel.update(requireActivity(), childFragmentManager)
         return BooruFragmentUI(booruFragmentViewModel).createView(AnkoContext.create(requireContext(), this))
     }
 

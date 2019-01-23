@@ -20,10 +20,10 @@ class PostPageFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = getViewModel()
-        viewModel.update()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        viewModel.update()
         return PostPageFragmentUI(viewModel).createView(AnkoContext.create(requireContext(), this))
     }
 

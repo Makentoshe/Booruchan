@@ -22,6 +22,8 @@ import android.view.MotionEvent
 import android.opengl.ETC1.getHeight
 import android.opengl.ETC1.getWidth
 import androidx.viewpager.widget.ViewPager
+import android.R.attr.action
+import kotlin.math.absoluteValue
 
 
 fun _RelativeLayout.toolbarLayout(
@@ -201,6 +203,8 @@ class VerticalViewPager(context: Context, attrs: AttributeSet? = null) : ViewPag
         return ev
     }
 
+    // Return true to steal motion events from the children and have
+    // them dispatched to this ViewGroup through onTouchEvent()
     override fun onInterceptTouchEvent(ev: MotionEvent): Boolean {
         val intercepted = super.onInterceptTouchEvent(swapXY(ev))
         swapXY(ev) // return touch coordinates to original reference frame for any child views
@@ -215,10 +219,31 @@ class BlockableViewPager(context: Context, attrs: AttributeSet? = null) : ViewPa
 
     var isBlocked = false
 
+    // Return true to steal motion events from the children and have
+    // them dispatched to this ViewGroup through onTouchEvent()
     override fun onInterceptTouchEvent(ev: MotionEvent): Boolean {
-        return if (!isBlocked) super.onInterceptTouchEvent(ev) else false
+        return if (!isBlocked) handleInterceptTouchEvent(ev) else false
     }
 
+    private var sx = -1f
+    private var sy = -1f
+    private fun handleInterceptTouchEvent(ev: MotionEvent): Boolean {
+        when(ev.action) {
+            MotionEvent.ACTION_DOWN -> {
+                sx = ev.x
+                sy = ev.y
+            }
+            MotionEvent.ACTION_MOVE -> {
+                val dx = sx - ev.x
+                val dy = sy - ev.y
+
+                return dx.absoluteValue >= dy.absoluteValue && dx.absoluteValue > 25
+            }
+        }
+        return super.onInterceptTouchEvent(ev)
+    }
+
+    //return true if the event was handled, false otherwise.
     override fun onTouchEvent(ev: MotionEvent): Boolean {
         return if (!isBlocked) super.onTouchEvent(ev) else false
     }

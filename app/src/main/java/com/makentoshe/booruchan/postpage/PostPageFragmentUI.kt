@@ -7,6 +7,7 @@ import android.view.View
 import android.widget.AdapterView
 import com.makentoshe.booruchan.Booruchan
 import org.jetbrains.anko.*
+import org.jetbrains.anko.sdk27.coroutines.onClick
 
 class PostPageFragmentUI(
     private val viewModel: PostPageFragmentViewModel
