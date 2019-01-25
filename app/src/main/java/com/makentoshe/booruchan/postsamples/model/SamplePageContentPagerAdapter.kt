@@ -18,12 +18,11 @@ class SamplePageContentPagerAdapter(
 
     override fun getItem(position: Int): Fragment {
         return when (position) {
-            0 -> Fragment()
-            1 -> PostSamplePagePreviewScreen(sampleRepository, this.position, postsRepository).fragment
-            2 -> PostSamplePageInfoScreen().fragment
+            0 -> PostSamplePagePreviewScreen(sampleRepository, this.position, postsRepository).fragment
+            1 -> PostSamplePageInfoScreen().fragment
             else -> throw IllegalArgumentException()
         }
     }
 
-    override fun getCount() = 3
+    override fun getCount() = 2
 }

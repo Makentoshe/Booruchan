@@ -1,6 +1,8 @@
 package com.makentoshe.booruchan.postsamplespage
 
 import android.view.View
+import android.view.ViewGroup
+import android.view.ViewManager
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.VerticalViewPager
 import org.jetbrains.anko.AnkoComponent
@@ -19,32 +21,28 @@ class PostSamplePageFragmentUi(
         frameLayout {
             root = this
             lparams(matchParent, matchParent)
-            addView(VerticalViewPager(context).apply {
+            verticalViewPager {
                 id = R.id.content_viewpager
                 adapter = viewModel.getViewPagerAdapter(ui.owner.childFragmentManager)
-                currentItem = 1
-                onPageChangeListener {
-                    onPageSelected {
-                        when (it) {
-                            1 -> {
-                                viewModel.unblock()
-                                println("Can swap")
-                            }
-                            2 -> {
-                                viewModel.block()
-                                println("Cant swap")
-                            }
-                        }
-                    }
-                    val parentFragment = ui.owner.parentFragment
-                    onPageScrolled { position, positionOffset, positionOffsetPixels ->
-                        if (position == 0) {
-                            parentFragment?.view?.alpha = positionOffset
-                            if (positionOffset == 0f) viewModel.backToPreviews()
-                        }
-                    }
-                }
-            })
+                onPageSelected(::pageSelected)
+            }
+        }
+    }
+
+    private fun ViewGroup.verticalViewPager(action: VerticalViewPager.() -> Unit) {
+        addView(VerticalViewPager(context).apply(action))
+    }
+
+    private fun VerticalViewPager.onPageSelected(action: (Int) -> Unit) {
+        onPageChangeListener { onPageSelected(action) }
+    }
+
+    private fun pageSelected(page: Int) {
+        when (page) {
+            //can swap
+            0 -> viewModel.unblock()
+            //can't swap
+            1 -> viewModel.block()
         }
     }
 }
