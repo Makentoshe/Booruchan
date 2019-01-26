@@ -7,7 +7,6 @@ import com.makentoshe.booruchan.ImageRepository
 import com.makentoshe.booruchan.PostSamplePageInfoScreen
 import com.makentoshe.booruchan.PostSamplePagePreviewScreen
 import com.makentoshe.booruchan.posts.model.PostsRepository
-import java.lang.IllegalArgumentException
 
 class SamplePageContentPagerAdapter(
     fragmentManager: FragmentManager,
@@ -18,11 +17,12 @@ class SamplePageContentPagerAdapter(
 
     override fun getItem(position: Int): Fragment {
         return when (position) {
-            0 -> PostSamplePagePreviewScreen(sampleRepository, this.position, postsRepository).fragment
-            1 -> PostSamplePageInfoScreen().fragment
+            0 -> Fragment()
+            1 -> PostSamplePagePreviewScreen(sampleRepository, this.position, postsRepository).fragment
+            2 -> PostSamplePageInfoScreen().fragment
             else -> throw IllegalArgumentException()
         }
     }
 
-    override fun getCount() = 2
+    override fun getCount() = 3
 }

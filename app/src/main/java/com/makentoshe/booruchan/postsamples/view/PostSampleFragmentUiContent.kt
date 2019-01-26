@@ -1,6 +1,7 @@
 package com.makentoshe.booruchan.postsamples.view
 
 import android.view.View
+import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.fragment.app.FragmentManager
 import com.makentoshe.booruchan.BlockableViewPager
@@ -16,25 +17,42 @@ class PostSampleFragmentUiContent(
     private val viewModel: PostsSampleFragmentViewModel,
     private val fragmentManager: FragmentManager
 ) : AnkoComponent<LinearLayout> {
+
     override fun createView(ui: AnkoContext<LinearLayout>): View = with(ui) {
         frameLayout {
             lparams(matchParent, matchParent)
-            addView(BlockableViewPager(context).apply {
+            blockableViewPager {
                 id = R.id.viewpager
                 adapter = viewModel.getPagerAdapter(fragmentManager)
                 if (currentItem == 0) currentItem = viewModel.startPosition
-                viewModel.blockController.subscribe {
-                    when (it) {
-                        SamplePageController.Command.BLOCK -> {
-                            isBlocked = true
-                        }
-                        SamplePageController.Command.UNBLOCK -> {
-                            isBlocked = false
-                        }
-                        else -> viewModel.backToPreviews()
-                    }
-                }
-            })
+                commandSubscribe(::applyCommand)
+            }
         }
     }
+
+    private fun ViewGroup.blockableViewPager(action: BlockableViewPager.() -> Unit) {
+        addView(BlockableViewPager(context).apply(action))
+    }
+
+    private fun BlockableViewPager.commandSubscribe(action: (SamplePageController.Command, BlockableViewPager) -> Unit) {
+        viewModel.blockController.subscribe { action(it, this) }
+    }
+
+    private fun applyCommand(command: SamplePageController.Command, view: BlockableViewPager) {
+        when (command) {
+            SamplePageController.Command.BLOCK -> blockCommand(view)
+            SamplePageController.Command.UNBLOCK -> unblockCommand(view)
+            SamplePageController.Command.CLOSE -> closeCommand()
+        }
+    }
+
+    private fun blockCommand(view: BlockableViewPager) {
+        view.isBlocked = true
+    }
+
+    private fun unblockCommand(view: BlockableViewPager) {
+        view.isBlocked = false
+    }
+
+    private fun closeCommand() = viewModel.backToPreviews()
 }

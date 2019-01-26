@@ -39,13 +39,4 @@ class AppActivity : AppCompatActivity() {
         super.onPause()
         Booruchan.INSTANCE.navigatorHolder.removeNavigator()
     }
-
-    override fun onBackPressed() {
-        val list = supportFragmentManager.fragments
-        for (i in list.lastIndex downTo 0) {
-            val fragment = list[i]
-            if (fragment is BackPressableFragment && fragment.onBackPressed()) return
-        }
-        super.onBackPressed()
-    }
 }

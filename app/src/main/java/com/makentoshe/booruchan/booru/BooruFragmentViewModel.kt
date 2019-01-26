@@ -42,8 +42,4 @@ class BooruFragmentViewModel(@JvmField val booru: Booru, private val tags: Set<T
     private fun newPostsScreen(): PostsScreen {
         return PostsScreen(booru, DrawerController(drawerController), tags.toHashSet())
     }
-
-    fun backToStartScreen() {
-        Booruchan.INSTANCE.router.backTo(StartScreen())
-    }
 }
