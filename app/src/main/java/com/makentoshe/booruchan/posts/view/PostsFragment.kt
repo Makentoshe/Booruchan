@@ -8,7 +8,7 @@ import androidx.lifecycle.ViewModelProviders
 import com.makentoshe.booruapi.Booru
 import com.makentoshe.booruapi.Tag
 import com.makentoshe.booruchan.Backpressable
-import com.makentoshe.booruchan.ViewModelFactory
+import com.makentoshe.booruchan.PostFragmentViewModelFactory
 import com.makentoshe.booruchan.ViewModelFragment
 import com.makentoshe.booruchan.booru.model.DrawerController
 import com.makentoshe.booruchan.posts.PostsFragmentViewModel
@@ -22,7 +22,7 @@ class PostsFragment : ViewModelFragment<PostsFragmentViewModel>() {
         val drawerController = arguments.getSerializable(DrawerController::class.java.simpleName) as DrawerController
         val tags = arguments.getSerializable(Set::class.java.simpleName + Tag::class.java.simpleName) as Set<Tag>
 
-        val factory = ViewModelFactory(booru = booru, drawerController = drawerController, tags = tags)
+        val factory = PostFragmentViewModelFactory(booru, drawerController, tags)
         return ViewModelProviders.of(this, factory)[PostsFragmentViewModel::class.java]
     }
 

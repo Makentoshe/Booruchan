@@ -7,10 +7,10 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import com.makentoshe.booruchan.ImageRepository
+import com.makentoshe.booruchan.PostSamplePageFragmentViewModelFactory
 import com.makentoshe.booruchan.PostsRepository
-import com.makentoshe.booruchan.ViewModelFactory
 import com.makentoshe.booruchan.postsamples.model.SamplePageController
-import org.jetbrains.anko.*
+import org.jetbrains.anko.AnkoContext
 
 class PostSamplePageFragment : Fragment() {
 
@@ -33,12 +33,8 @@ class PostSamplePageFragment : Fragment() {
         val sampleRepository = arguments.getSerializable(ImageRepository::class.java.simpleName) as ImageRepository
         val postsRepository = arguments.getSerializable(PostsRepository::class.java.simpleName) as PostsRepository
 
-        val factory = ViewModelFactory(
-            position = position,
-            samplePageController = blockController,
-            sampleRepository = sampleRepository,
-            postsRepository = postsRepository
-        )
+        val factory =
+            PostSamplePageFragmentViewModelFactory(position, blockController, sampleRepository, postsRepository)
         return ViewModelProviders.of(this, factory)[PostSamplePageViewModel::class.java]
     }
 }

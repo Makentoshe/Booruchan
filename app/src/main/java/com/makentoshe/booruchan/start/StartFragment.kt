@@ -1,17 +1,18 @@
 package com.makentoshe.booruchan.start
 
 import android.os.Bundle
-import android.view.*
-import androidx.fragment.app.Fragment
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProviders
-import com.makentoshe.booruchan.ViewModelFactory
+import com.makentoshe.booruchan.StartFragmentViewModelFactory
 import com.makentoshe.booruchan.ViewModelFragment
 import org.jetbrains.anko.AnkoContext
 
 class StartFragment : ViewModelFragment<StartFragmentViewModel>() {
 
     override fun buildViewModel(arguments: Bundle?): StartFragmentViewModel {
-        val factory = ViewModelFactory()
+        val factory = StartFragmentViewModelFactory()
         return ViewModelProviders.of(this, factory)[StartFragmentViewModel::class.java]
     }
 

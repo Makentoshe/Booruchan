@@ -14,7 +14,7 @@ import kotlinx.coroutines.launch
 interface Controller<P, T> {
     /**
      * Method subscribes on [T] receive.
-     * Pass [P] as a param and you will be subscribed on return [T] in lambda.
+     * Do something with [P] and return [T] in lambda.
      */
     fun subscribe(param: P, action: (T) -> Unit)
 }

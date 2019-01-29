@@ -8,8 +8,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import com.makentoshe.booruapi.Booru
 import com.makentoshe.booruchan.ImageRepository
+import com.makentoshe.booruchan.PostSampleFragmentViewModelFactory
 import com.makentoshe.booruchan.PostsRepository
-import com.makentoshe.booruchan.ViewModelFactory
 import com.makentoshe.booruchan.postsamples.view.PostSampleFragmentUi
 import org.jetbrains.anko.AnkoContext
 
@@ -33,12 +33,7 @@ class PostSampleFragment : Fragment() {
         val postsRepository = arguments.getSerializable(PostsRepository::class.java.simpleName) as PostsRepository
         val sampleRepository = arguments.getSerializable(ImageRepository::class.java.simpleName) as ImageRepository
 
-        val factory = ViewModelFactory(
-            booru = booru,
-            position = startPosition,
-            postsRepository = postsRepository,
-            sampleRepository = sampleRepository
-        )
+        val factory = PostSampleFragmentViewModelFactory(booru, startPosition, postsRepository, sampleRepository)
         return ViewModelProviders.of(this, factory)[PostsSampleFragmentViewModel::class.java]
     }
 

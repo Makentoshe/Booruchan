@@ -4,8 +4,8 @@ import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
+import com.makentoshe.booruchan.PostSamplePageInfoFragmentViewModelFactory
 import com.makentoshe.booruchan.PostsRepository
-import com.makentoshe.booruchan.ViewModelFactory
 import org.jetbrains.anko.*
 
 
@@ -26,7 +26,7 @@ class PostSamplePageInfoFragment : Fragment() {
         val position = arguments.getInt(Int::class.java.simpleName)
         val postsRepository = arguments.getSerializable(PostsRepository::class.java.simpleName) as PostsRepository
 
-        val factory = ViewModelFactory(position = position, postsRepository = postsRepository)
+        val factory = PostSamplePageInfoFragmentViewModelFactory(position, postsRepository)
         return ViewModelProviders.of(this, factory)[PostSamplePageInfoFragmentViewModel::class.java]
     }
 }
