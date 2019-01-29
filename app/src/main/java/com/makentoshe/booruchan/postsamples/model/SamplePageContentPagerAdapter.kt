@@ -19,7 +19,7 @@ class SamplePageContentPagerAdapter(
         return when (position) {
             0 -> Fragment()
             1 -> PostSamplePagePreviewScreen(sampleRepository, this.position, postsRepository).fragment
-            2 -> PostSamplePageInfoScreen().fragment
+            2 -> PostSamplePageInfoScreen(this.position, postsRepository).fragment
             else -> throw IllegalArgumentException()
         }
     }

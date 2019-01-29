@@ -153,9 +153,17 @@ class PostSamplePagePreviewScreen(
         }
 }
 
-class PostSamplePageInfoScreen() : Screen() {
+class PostSamplePageInfoScreen(
+    private val position: Int,
+    private val postsRepository: PostsRepository
+) : Screen() {
     override val fragment: Fragment
-        get() = PostSamplePageInfoFragment()
+        get() = PostSamplePageInfoFragment().apply {
+            arguments = Bundle().apply {
+                putInt(Int::class.java.simpleName, position)
+                putSerializable(PostsRepository::class.java.simpleName, postsRepository)
+            }
+        }
 }
 
 /**

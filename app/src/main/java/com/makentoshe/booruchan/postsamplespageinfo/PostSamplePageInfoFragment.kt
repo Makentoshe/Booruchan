@@ -1,20 +1,32 @@
 package com.makentoshe.booruchan.postsamplespageinfo
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.widget.TextView
+import android.view.*
 import androidx.fragment.app.Fragment
-import com.makentoshe.booruchan.Booruchan
-import org.jetbrains.anko.backgroundColorResource
+import androidx.lifecycle.ViewModelProviders
+import com.makentoshe.booruchan.ViewModelFactory
+import com.makentoshe.booruchan.posts.model.PostsRepository
+import org.jetbrains.anko.*
+
 
 class PostSamplePageInfoFragment : Fragment() {
 
+    private lateinit var viewModel: PostSamplePageInfoFragmentViewModel
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewModel = buildViewModel(arguments!!)
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return TextView(context).apply {
-            text = "Info"
-            backgroundColorResource = Booruchan.INSTANCE.style.background.backgroundColorRes
-        }
+        return PostSamplePageInfoFragmentUi(viewModel).createView(AnkoContext.create(requireContext(), this))
+    }
+
+    private fun buildViewModel(arguments: Bundle): PostSamplePageInfoFragmentViewModel {
+        val position = arguments.getInt(Int::class.java.simpleName)
+        val postsRepository = arguments.getSerializable(PostsRepository::class.java.simpleName) as PostsRepository
+
+        val factory = ViewModelFactory(position = position, postsRepository = postsRepository)
+        return ViewModelProviders.of(this, factory)[PostSamplePageInfoFragmentViewModel::class.java]
     }
 }

@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.makentoshe.booruchan.posts.model.PostsRepository
+import com.makentoshe.booruchan.postsamples.model.SamplePageController
 import com.makentoshe.repository.cache.CacheImpl
 
 class AppActivity : AppCompatActivity() {
