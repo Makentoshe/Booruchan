@@ -8,7 +8,20 @@ import java.io.Serializable
 /**
  * Default image repository which contains byte arrays as an images.
  */
-abstract class ImageRepository: Repository<String, ByteArray>, Serializable
+abstract class ImageRepository : Repository<String, ByteArray>, Serializable
+
+/**
+ * Image repository for previews.
+ */
+class PreviewImageRepository(
+    private val booru: Booru,
+    private val cache: Cache<String, ByteArray>
+) : ImageRepository() {
+
+    override fun get(key: String): ByteArray {
+        return cache.get(key) { booru.getPreview(key).readBytes() }
+    }
+}
 
 /**
  * Image repository for samples.
@@ -16,7 +29,7 @@ abstract class ImageRepository: Repository<String, ByteArray>, Serializable
 class SampleImageRepository(
     private val booru: Booru,
     private val cache: Cache<String, ByteArray>
-): ImageRepository() {
+) : ImageRepository() {
 
     override fun get(key: String): ByteArray {
         return cache.get(key) { booru.getPreview(key).readBytes() }

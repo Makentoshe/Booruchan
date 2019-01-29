@@ -8,13 +8,12 @@ import com.makentoshe.booruapi.Booru
 import com.makentoshe.booruapi.Posts
 import com.makentoshe.booruchan.Booruchan
 import com.makentoshe.booruchan.PostSamplesScreen
+import com.makentoshe.booruchan.PreviewImageRepository
 import com.makentoshe.booruchan.SampleImageRepository
-import com.makentoshe.booruchan.StartScreen
 import com.makentoshe.booruchan.postpage.model.GridViewAdapter
 import com.makentoshe.booruchan.postpage.model.PostsDownloadController
 import com.makentoshe.booruchan.postpage.model.PreviewsDownloadController
 import com.makentoshe.booruchan.posts.model.PostsRepository
-import com.makentoshe.booruchan.posts.model.PreviewsRepository
 import com.makentoshe.repository.cache.CacheImpl
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -26,7 +25,7 @@ class PostPageFragmentViewModel(
     private val booru: Booru,
     private val position: Int,
     private val postsRepository: PostsRepository,
-    previewsRepository: PreviewsRepository
+    previewsRepository: PreviewImageRepository
 ) : ViewModel(), CoroutineScope {
 
     private var job: Job = Job()

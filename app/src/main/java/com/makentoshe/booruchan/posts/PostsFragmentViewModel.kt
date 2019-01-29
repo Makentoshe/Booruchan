@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.viewpager.widget.PagerAdapter
 import com.makentoshe.booruapi.Booru
 import com.makentoshe.booruapi.Tag
+import com.makentoshe.booruchan.PreviewImageRepository
 import com.makentoshe.booruchan.booru.DrawerController
 import com.makentoshe.booruchan.posts.model.*
 import com.makentoshe.repository.cache.CacheImpl
@@ -89,7 +90,7 @@ class PostsFragmentViewModel(
     fun getViewPagerAdapter(fragmentManager: FragmentManager, tags: Set<Tag>): PagerAdapter {
         val postsCountInRequest = 12
         val postsRepository = PostsRepository(booru, CacheImpl(12), postsCountInRequest, tags)
-        val previewsRepository = PreviewsRepository(booru, CacheImpl(postsCountInRequest * 5))
+        val previewsRepository = PreviewImageRepository(booru, CacheImpl(postsCountInRequest * 5))
         return ViewPagerAdapter(fragmentManager, booru, postsRepository, previewsRepository)
     }
 }

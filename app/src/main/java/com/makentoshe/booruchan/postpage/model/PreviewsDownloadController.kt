@@ -5,14 +5,14 @@ import android.graphics.BitmapFactory
 import android.os.Handler
 import android.os.Looper
 import com.makentoshe.booruapi.Post
-import com.makentoshe.booruchan.posts.model.PreviewsRepository
+import com.makentoshe.booruchan.PreviewImageRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import java.lang.Exception
 
 class PreviewsDownloadController(
     private val coroutineScope: CoroutineScope,
-    private val previewsRepository: PreviewsRepository
+    private val previewsRepository: PreviewImageRepository
 ) {
 
     fun subscribeOnPreview(post: Post, action: (Bitmap) -> Unit) {

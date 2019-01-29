@@ -9,7 +9,6 @@ import com.makentoshe.booruchan.booru.DrawerController
 import com.makentoshe.booruchan.postpage.PostPageFragmentViewModel
 import com.makentoshe.booruchan.posts.PostsFragmentViewModel
 import com.makentoshe.booruchan.posts.model.PostsRepository
-import com.makentoshe.booruchan.posts.model.PreviewsRepository
 import com.makentoshe.booruchan.postsamples.PostsSampleFragmentViewModel
 import com.makentoshe.booruchan.postsamples.model.SamplePageController
 import com.makentoshe.booruchan.postsamplespage.PostSamplePageViewModel
@@ -22,7 +21,7 @@ class ViewModelFactory(
     private val drawerController: DrawerController? = null,
     private val position: Int? = null,
     private val postsRepository: PostsRepository? = null,
-    private val previewsRepository: PreviewsRepository? = null,
+    private val previewsRepository: PreviewImageRepository? = null,
     private val tags: Set<Tag>? = null,
     private val samplePageController: SamplePageController? = null,
     private val sampleRepository: ImageRepository? = null

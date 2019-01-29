@@ -9,9 +9,7 @@ import com.makentoshe.booruapi.Tag
 import com.makentoshe.booruchan.BooruScreen
 import com.makentoshe.booruchan.Booruchan
 import com.makentoshe.booruchan.ImageRepository
-import com.makentoshe.booruchan.SampleImageRepository
 import com.makentoshe.booruchan.posts.model.PostsRepository
-import com.makentoshe.booruchan.posts.model.PreviewsRepository
 import com.makentoshe.booruchan.postsamples.model.SamplePageController
 import com.makentoshe.booruchan.postsamples.model.SamplePagePagerAdapter
 

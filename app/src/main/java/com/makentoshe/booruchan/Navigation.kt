@@ -13,7 +13,6 @@ import com.makentoshe.booruchan.booru.BooruFragment
 import com.makentoshe.booruchan.booru.DrawerController
 import com.makentoshe.booruchan.postpage.PostPageFragment
 import com.makentoshe.booruchan.posts.model.PostsRepository
-import com.makentoshe.booruchan.posts.model.PreviewsRepository
 import com.makentoshe.booruchan.posts.view.PostsFragment
 import com.makentoshe.booruchan.postsamples.PostSampleFragment
 import com.makentoshe.booruchan.postsamples.model.SamplePageController
@@ -91,7 +90,7 @@ class PostPageScreen(
     private val booru: Booru,
     private val position: Int,
     private val postsRepository: PostsRepository,
-    private val previewsRepository: PreviewsRepository
+    private val previewsRepository: PreviewImageRepository
 ) : Screen() {
     override val fragment: Fragment
         get() = PostPageFragment().apply {
@@ -99,7 +98,7 @@ class PostPageScreen(
                 putSerializable(Booru::class.java.simpleName, booru)
                 putInt(PostPageFragment::class.java.simpleName, position)
                 putSerializable(PostsRepository::class.java.simpleName, postsRepository)
-                putSerializable(PreviewsRepository::class.java.simpleName, previewsRepository)
+                putSerializable(PreviewImageRepository::class.java.simpleName, previewsRepository)
             }
         }
 }
