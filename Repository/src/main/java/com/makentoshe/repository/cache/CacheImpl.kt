@@ -1,10 +1,11 @@
 package com.makentoshe.repository.cache
 
+import java.io.Serializable
 import java.lang.IllegalStateException
 import java.util.HashMap
 import java.util.concurrent.ArrayBlockingQueue
 
-open class CacheImpl<K, V>(size: Int) : Cache<K, V> {
+open class CacheImpl<K, V>(size: Int) : Cache<K, V>, Serializable {
 
     protected val keysQueue = ArrayBlockingQueue<K>(size)
     protected val storage = HashMap<K, V>()
