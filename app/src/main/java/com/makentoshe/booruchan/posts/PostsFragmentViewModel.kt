@@ -5,8 +5,9 @@ import androidx.lifecycle.ViewModel
 import androidx.viewpager.widget.PagerAdapter
 import com.makentoshe.booruapi.Booru
 import com.makentoshe.booruapi.Tag
+import com.makentoshe.booruchan.PostsRepository
 import com.makentoshe.booruchan.PreviewImageRepository
-import com.makentoshe.booruchan.booru.DrawerController
+import com.makentoshe.booruchan.booru.model.DrawerController
 import com.makentoshe.booruchan.posts.model.*
 import com.makentoshe.repository.cache.CacheImpl
 import kotlinx.coroutines.CoroutineScope

@@ -1,8 +1,8 @@
 package com.makentoshe.booruchan.posts.model
 
 import com.makentoshe.booruchan.Action
-import com.makentoshe.booruchan.booru.DrawerController
-import com.makentoshe.booruchan.booru.DrawerState
+import com.makentoshe.booruchan.booru.model.DrawerController
+import com.makentoshe.booruchan.booru.model.DrawerState
 import io.reactivex.subjects.BehaviorSubject
 
 class UIController(

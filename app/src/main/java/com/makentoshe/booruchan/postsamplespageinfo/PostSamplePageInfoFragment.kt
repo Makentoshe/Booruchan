@@ -4,8 +4,8 @@ import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
+import com.makentoshe.booruchan.PostsRepository
 import com.makentoshe.booruchan.ViewModelFactory
-import com.makentoshe.booruchan.posts.model.PostsRepository
 import org.jetbrains.anko.*
 
 

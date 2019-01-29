@@ -8,6 +8,7 @@ import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.rule.ActivityTestRule
 import com.makentoshe.booruchan.*
 import com.makentoshe.booruchan.account.AccountFragment
+import com.makentoshe.booruchan.booru.view.BooruFragment
 import com.makentoshe.booruchan.posts.view.PostsFragment
 import org.hamcrest.CoreMatchers
 import org.junit.Before

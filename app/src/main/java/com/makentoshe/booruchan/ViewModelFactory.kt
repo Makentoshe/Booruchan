@@ -5,10 +5,9 @@ import androidx.lifecycle.ViewModelProvider
 import com.makentoshe.booruapi.Booru
 import com.makentoshe.booruapi.Tag
 import com.makentoshe.booruchan.booru.BooruFragmentViewModel
-import com.makentoshe.booruchan.booru.DrawerController
+import com.makentoshe.booruchan.booru.model.DrawerController
 import com.makentoshe.booruchan.postpage.PostPageFragmentViewModel
 import com.makentoshe.booruchan.posts.PostsFragmentViewModel
-import com.makentoshe.booruchan.posts.model.PostsRepository
 import com.makentoshe.booruchan.postsamples.PostsSampleFragmentViewModel
 import com.makentoshe.booruchan.postsamples.model.SamplePageController
 import com.makentoshe.booruchan.postsamplespage.PostSamplePageViewModel

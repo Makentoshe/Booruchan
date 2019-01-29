@@ -9,7 +9,7 @@ import androidx.lifecycle.ViewModelProviders
 import com.makentoshe.booruapi.Booru
 import com.makentoshe.booruapi.Tag
 import com.makentoshe.booruchan.ViewModelFactory
-import com.makentoshe.booruchan.booru.DrawerController
+import com.makentoshe.booruchan.booru.model.DrawerController
 import com.makentoshe.booruchan.posts.PostsFragmentViewModel
 import org.jetbrains.anko.AnkoContext
 

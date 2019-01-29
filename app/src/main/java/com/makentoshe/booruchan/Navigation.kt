@@ -9,10 +9,9 @@ import androidx.fragment.app.FragmentTransaction
 import com.makentoshe.booruapi.Booru
 import com.makentoshe.booruapi.Tag
 import com.makentoshe.booruchan.account.AccountFragment
-import com.makentoshe.booruchan.booru.BooruFragment
-import com.makentoshe.booruchan.booru.DrawerController
+import com.makentoshe.booruchan.booru.view.BooruFragment
+import com.makentoshe.booruchan.booru.model.DrawerController
 import com.makentoshe.booruchan.postpage.PostPageFragment
-import com.makentoshe.booruchan.posts.model.PostsRepository
 import com.makentoshe.booruchan.posts.view.PostsFragment
 import com.makentoshe.booruchan.postsamples.PostSampleFragment
 import com.makentoshe.booruchan.postsamples.model.SamplePageController

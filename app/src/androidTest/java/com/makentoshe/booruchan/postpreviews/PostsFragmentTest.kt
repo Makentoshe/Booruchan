@@ -17,7 +17,7 @@ import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.makentoshe.booruapi.Tag
 import com.makentoshe.booruchan.*
-import com.makentoshe.booruchan.booru.BooruFragment
+import com.makentoshe.booruchan.booru.view.BooruFragment
 import com.makentoshe.booruchan.postpage.PostPageFragment
 import com.makentoshe.booruchan.posts.view.DelayAutocompleteEditText
 import com.makentoshe.booruchan.posts.view.PostsFragment
@@ -29,7 +29,6 @@ import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-
 
 class PostsFragmentTest {
     @get:Rule

@@ -4,7 +4,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModel
 import androidx.viewpager.widget.PagerAdapter
 import com.makentoshe.booruchan.ImageRepository
-import com.makentoshe.booruchan.posts.model.PostsRepository
+import com.makentoshe.booruchan.PostsRepository
 import com.makentoshe.booruchan.postsamples.model.SamplePageContentPagerAdapter
 import com.makentoshe.booruchan.postsamples.model.SamplePageController
 

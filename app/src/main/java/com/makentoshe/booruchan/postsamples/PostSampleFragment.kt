@@ -8,8 +8,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import com.makentoshe.booruapi.Booru
 import com.makentoshe.booruchan.ImageRepository
+import com.makentoshe.booruchan.PostsRepository
 import com.makentoshe.booruchan.ViewModelFactory
-import com.makentoshe.booruchan.posts.model.PostsRepository
 import com.makentoshe.booruchan.postsamples.view.PostSampleFragmentUi
 import org.jetbrains.anko.AnkoContext
 

@@ -1,9 +1,10 @@
-package com.makentoshe.booruchan.booru
+package com.makentoshe.booruchan.booru.view
 
 import android.view.Gravity
 import androidx.core.view.GravityCompat
 import com.makentoshe.booruchan.Booruchan
 import com.makentoshe.booruchan.R
+import com.makentoshe.booruchan.booru.BooruFragmentViewModel
 import org.jetbrains.anko.*
 import org.jetbrains.anko.sdk27.coroutines.onClick
 import org.jetbrains.anko.support.v4._DrawerLayout

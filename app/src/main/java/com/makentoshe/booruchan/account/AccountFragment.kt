@@ -15,7 +15,7 @@ class AccountFragment : Fragment() {
         val booru = arguments?.getSerializable(Booru::class.java.simpleName) as Booru
 //        val factory = ViewModelFactory(booru = booru)
 //        postsFragmentViewModel = ViewModelProviders.of(this, factory)[PostsFragmentViewModel::class.java]
-//        postsFragmentViewModel.update()
+//        postsFragmentViewModel.onUiRecreate()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

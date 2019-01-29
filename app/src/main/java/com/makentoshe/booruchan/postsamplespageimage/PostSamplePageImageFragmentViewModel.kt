@@ -6,8 +6,7 @@ import com.makentoshe.booruapi.Post
 import com.makentoshe.booruchan.DownloadResult
 import com.makentoshe.booruchan.ImageDownloadController
 import com.makentoshe.booruchan.ImageRepository
-import com.makentoshe.booruchan.posts.model.PostsRepository
-import com.makentoshe.repository.Repository
+import com.makentoshe.booruchan.PostsRepository
 import kotlinx.coroutines.*
 import java.lang.Exception
 import kotlin.coroutines.CoroutineContext

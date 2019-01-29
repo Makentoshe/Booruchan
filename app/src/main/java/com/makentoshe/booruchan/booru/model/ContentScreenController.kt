@@ -1,8 +1,7 @@
-package com.makentoshe.booruchan.booru
+package com.makentoshe.booruchan.booru.model
 
 import com.makentoshe.booruchan.BooruContentScreen
 import com.makentoshe.booruchan.Navigator
-import com.makentoshe.booruchan.PostsScreen
 import io.reactivex.subjects.BehaviorSubject
 import ru.terrakok.cicerone.Cicerone
 import ru.terrakok.cicerone.Router

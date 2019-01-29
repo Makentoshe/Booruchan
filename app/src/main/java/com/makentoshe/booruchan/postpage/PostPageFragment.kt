@@ -7,9 +7,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import com.makentoshe.booruapi.Booru
+import com.makentoshe.booruchan.PostsRepository
 import com.makentoshe.booruchan.PreviewImageRepository
 import com.makentoshe.booruchan.ViewModelFactory
-import com.makentoshe.booruchan.posts.model.PostsRepository
 import org.jetbrains.anko.AnkoContext
 
 class PostPageFragment : Fragment() {

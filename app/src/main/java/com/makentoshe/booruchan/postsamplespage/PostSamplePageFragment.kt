@@ -7,8 +7,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import com.makentoshe.booruchan.ImageRepository
+import com.makentoshe.booruchan.PostsRepository
 import com.makentoshe.booruchan.ViewModelFactory
-import com.makentoshe.booruchan.posts.model.PostsRepository
 import com.makentoshe.booruchan.postsamples.model.SamplePageController
 import org.jetbrains.anko.*
 

@@ -1,4 +1,4 @@
-package com.makentoshe.booruchan.booru
+package com.makentoshe.booruchan.booru.model
 
 import java.io.Serializable
 

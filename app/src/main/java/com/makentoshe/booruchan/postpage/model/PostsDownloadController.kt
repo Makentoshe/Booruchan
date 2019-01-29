@@ -1,7 +1,7 @@
 package com.makentoshe.booruchan.postpage.model
 
 import com.makentoshe.booruapi.Posts
-import com.makentoshe.booruchan.posts.model.PostsRepository
+import com.makentoshe.booruchan.PostsRepository
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.subjects.BehaviorSubject
 import java.io.Serializable

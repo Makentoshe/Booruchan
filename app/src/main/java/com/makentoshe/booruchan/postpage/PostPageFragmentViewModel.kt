@@ -6,14 +6,10 @@ import android.widget.BaseAdapter
 import androidx.lifecycle.ViewModel
 import com.makentoshe.booruapi.Booru
 import com.makentoshe.booruapi.Posts
-import com.makentoshe.booruchan.Booruchan
-import com.makentoshe.booruchan.PostSamplesScreen
-import com.makentoshe.booruchan.PreviewImageRepository
-import com.makentoshe.booruchan.SampleImageRepository
+import com.makentoshe.booruchan.*
 import com.makentoshe.booruchan.postpage.model.GridViewAdapter
 import com.makentoshe.booruchan.postpage.model.PostsDownloadController
 import com.makentoshe.booruchan.postpage.model.PreviewsDownloadController
-import com.makentoshe.booruchan.posts.model.PostsRepository
 import com.makentoshe.repository.cache.CacheImpl
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

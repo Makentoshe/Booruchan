@@ -6,7 +6,7 @@ import androidx.fragment.app.FragmentStatePagerAdapter
 import com.makentoshe.booruchan.ImageRepository
 import com.makentoshe.booruchan.PostSamplePageInfoScreen
 import com.makentoshe.booruchan.PostSamplePagePreviewScreen
-import com.makentoshe.booruchan.posts.model.PostsRepository
+import com.makentoshe.booruchan.PostsRepository
 
 class SamplePageContentPagerAdapter(
     fragmentManager: FragmentManager,

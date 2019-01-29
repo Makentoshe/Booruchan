@@ -1,11 +1,7 @@
 package com.makentoshe.booruchan
 
 import android.os.Bundle
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.makentoshe.booruchan.posts.model.PostsRepository
-import com.makentoshe.booruchan.postsamples.model.SamplePageController
-import com.makentoshe.repository.cache.CacheImpl
 
 class AppActivity : AppCompatActivity() {
 
@@ -39,5 +35,13 @@ class AppActivity : AppCompatActivity() {
     override fun onPause() {
         super.onPause()
         Booruchan.INSTANCE.navigatorHolder.removeNavigator()
+    }
+
+    override fun onBackPressed() {
+        val fragment = supportFragmentManager.fragments.last()
+
+        if (fragment is Backpressable && fragment.onBackPressed()) return
+
+        super.onBackPressed()
     }
 }

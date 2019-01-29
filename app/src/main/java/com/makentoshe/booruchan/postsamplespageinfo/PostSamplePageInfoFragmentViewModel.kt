@@ -3,7 +3,7 @@ package com.makentoshe.booruchan.postsamplespageinfo
 import androidx.lifecycle.ViewModel
 import com.makentoshe.booruapi.Post
 import com.makentoshe.booruchan.DownloadResult
-import com.makentoshe.booruchan.posts.model.PostsRepository
+import com.makentoshe.booruchan.PostsRepository
 import kotlinx.coroutines.*
 import kotlin.coroutines.CoroutineContext
 

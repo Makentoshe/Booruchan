@@ -8,9 +8,10 @@ import androidx.lifecycle.ViewModel
 import com.makentoshe.booruapi.Booru
 import com.makentoshe.booruchan.BooruScreen
 import com.makentoshe.booruchan.Booruchan
+import com.makentoshe.booruchan.FragmentViewModel
 import com.makentoshe.booruchan.SettingsScreen
 
-class StartFragmentViewModel: ViewModel() {
+class StartFragmentViewModel: FragmentViewModel() {
 
     fun onOverflowMenuClicked(item: MenuItem): Boolean {
         when(item.itemId) {
