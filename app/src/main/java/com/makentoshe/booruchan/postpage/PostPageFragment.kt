@@ -20,19 +20,21 @@ class PostPageFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = getViewModel()
-        viewModel.update()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        viewModel.update()
         return PostPageFragmentUI(viewModel).createView(AnkoContext.create(requireContext(), this))
     }
 
     private fun getViewModel(): PostPageFragmentViewModel {
+        val booru = arguments!!.getSerializable(Booru::class.java.simpleName) as Booru
         val position = arguments!!.getInt(PostPageFragment::class.java.simpleName)
         val postsRepository = arguments!!.getSerializable(PostsRepository::class.java.simpleName) as PostsRepository
         val previewsRepository = arguments!!.getSerializable(PreviewsRepository::class.java.simpleName) as PreviewsRepository
 
         val factory = ViewModelFactory(
+            booru = booru,
             position = position,
             postsRepository = postsRepository,
             previewsRepository = previewsRepository

@@ -2,23 +2,30 @@ package com.makentoshe.booruchan.postpage
 
 import android.os.Handler
 import android.os.Looper
-import android.view.View
-import android.widget.AdapterView
 import android.widget.BaseAdapter
 import androidx.lifecycle.ViewModel
+import com.makentoshe.booruapi.Booru
 import com.makentoshe.booruapi.Posts
+import com.makentoshe.booruchan.Booruchan
+import com.makentoshe.booruchan.PostSamplesScreen
+import com.makentoshe.booruchan.SampleImageRepository
+import com.makentoshe.booruchan.StartScreen
 import com.makentoshe.booruchan.postpage.model.GridViewAdapter
 import com.makentoshe.booruchan.postpage.model.PostsDownloadController
 import com.makentoshe.booruchan.postpage.model.PreviewsDownloadController
 import com.makentoshe.booruchan.posts.model.PostsRepository
 import com.makentoshe.booruchan.posts.model.PreviewsRepository
-import kotlinx.coroutines.*
-import java.lang.Exception
+import com.makentoshe.repository.cache.CacheImpl
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 import kotlin.coroutines.CoroutineContext
 
 class PostPageFragmentViewModel(
-    position: Int,
-    postsRepository: PostsRepository,
+    private val booru: Booru,
+    private val position: Int,
+    private val postsRepository: PostsRepository,
     previewsRepository: PreviewsRepository
 ) : ViewModel(), CoroutineScope {
 
@@ -50,7 +57,10 @@ class PostPageFragmentViewModel(
     }
 
     fun navigateToPostDetailsScreen(position: Int) {
-        println("Click on $position")
+        val startPosition = position + this.position * postsRepository.count
+        val samplesRepository = SampleImageRepository(booru, CacheImpl(postsRepository.count))
+        val screen = PostSamplesScreen(booru, startPosition, postsRepository, samplesRepository)
+        Booruchan.INSTANCE.router.navigateTo(screen)
     }
 
     fun onGridElementLongClick(position: Int): Boolean {

@@ -7,6 +7,7 @@ import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import com.makentoshe.booruapi.Booru
+import com.makentoshe.booruapi.Tag
 import com.makentoshe.booruchan.account.AccountFragment
 import com.makentoshe.booruchan.booru.BooruFragment
 import com.makentoshe.booruchan.booru.DrawerController
@@ -14,11 +15,17 @@ import com.makentoshe.booruchan.postpage.PostPageFragment
 import com.makentoshe.booruchan.posts.model.PostsRepository
 import com.makentoshe.booruchan.posts.model.PreviewsRepository
 import com.makentoshe.booruchan.posts.view.PostsFragment
+import com.makentoshe.booruchan.postsamples.PostSampleFragment
+import com.makentoshe.booruchan.postsamples.model.SamplePageController
+import com.makentoshe.booruchan.postsamplespage.PostSamplePageFragment
+import com.makentoshe.booruchan.postsamplespageinfo.PostSamplePageInfoFragment
+import com.makentoshe.booruchan.postsamplespageimage.PostSamplePageImageFragment
 import com.makentoshe.booruchan.settings.SettingsFragment
 import com.makentoshe.booruchan.start.StartFragment
 import ru.terrakok.cicerone.Navigator
 import ru.terrakok.cicerone.commands.*
 import java.util.*
+import kotlin.collections.HashSet
 
 /**
  * Screen is a base class for description and creation application screen.<br>
@@ -40,11 +47,15 @@ class SettingsScreen : Screen() {
         get() = SettingsFragment()
 }
 
-class BooruScreen(private val booru: Booru) : Screen() {
+class BooruScreen(
+    private val booru: Booru,
+    private val tags: HashSet<Tag> = HashSet()
+) : Screen() {
     override val fragment: Fragment
         get() = BooruFragment().apply {
             arguments = Bundle().apply {
                 putSerializable(Booru::class.java.simpleName, booru)
+                putSerializable(Tag::class.java.simpleName, tags)
             }
         }
 }
@@ -63,22 +74,94 @@ abstract class BooruContentScreen(
         }
 }
 
-class PostsScreen(booru: Booru, drawerController: DrawerController) :
-    BooruContentScreen(booru, drawerController, PostsFragment::class.java)
+class PostsScreen(booru: Booru, drawerController: DrawerController, private val tags: HashSet<Tag> = HashSet()) :
+    BooruContentScreen(booru, drawerController, PostsFragment::class.java) {
+    override val fragment: Fragment
+        get() = super.fragment.apply {
+            arguments!!.apply {
+                putSerializable(Set::class.java.simpleName + Tag::class.java.simpleName, tags)
+            }
+        }
+}
 
 class AccountScreen(booru: Booru, drawerController: DrawerController) :
     BooruContentScreen(booru, drawerController, AccountFragment::class.java)
 
 class PostPageScreen(
+    private val booru: Booru,
     private val position: Int,
     private val postsRepository: PostsRepository,
-    private val previewsRepository: PreviewsRepository) : Screen() {
+    private val previewsRepository: PreviewsRepository
+) : Screen() {
     override val fragment: Fragment
         get() = PostPageFragment().apply {
             arguments = Bundle().apply {
+                putSerializable(Booru::class.java.simpleName, booru)
                 putInt(PostPageFragment::class.java.simpleName, position)
                 putSerializable(PostsRepository::class.java.simpleName, postsRepository)
                 putSerializable(PreviewsRepository::class.java.simpleName, previewsRepository)
+            }
+        }
+}
+
+class PostSamplesScreen(
+    private val booru: Booru,
+    private val startPosition: Int,
+    private val postsRepository: PostsRepository,
+    private val sampleRepository: ImageRepository
+) : Screen() {
+    override val fragment: Fragment
+        get() = PostSampleFragment().apply {
+            arguments = Bundle().apply {
+                putSerializable(Booru::class.java.simpleName, booru)
+                putInt(Int::class.java.simpleName, startPosition)
+                putSerializable(PostsRepository::class.java.simpleName, postsRepository)
+                putSerializable(ImageRepository::class.java.simpleName, sampleRepository)
+            }
+        }
+}
+
+class PostSamplePageScreen(
+    private val position: Int,
+    private val samplePageController: SamplePageController,
+    private val sampleRepository: ImageRepository,
+    private val postsRepository: PostsRepository
+) : Screen() {
+    override val fragment: Fragment
+        get() = PostSamplePageFragment().apply {
+            arguments = Bundle().apply {
+                putInt(Int::class.java.simpleName, position)
+                putSerializable(SamplePageController::class.java.simpleName, samplePageController)
+                putSerializable(ImageRepository::class.java.simpleName, sampleRepository)
+                putSerializable(PostsRepository::class.java.simpleName, postsRepository)
+            }
+        }
+}
+
+class PostSamplePagePreviewScreen(
+    private val sampleRepository: ImageRepository,
+    private val position: Int,
+    private val postsRepository: PostsRepository
+) : Screen() {
+    override val fragment: Fragment
+        get() = PostSamplePageImageFragment().apply {
+            arguments = Bundle().apply {
+                putSerializable(ImageRepository::class.java.simpleName, sampleRepository)
+                putInt(Int::class.java.simpleName, position)
+                putSerializable(PostsRepository::class.java.simpleName, postsRepository)
+            }
+        }
+}
+
+class PostSamplePageInfoScreen(
+    private val position: Int,
+    private val postsRepository: PostsRepository
+) : Screen() {
+    override val fragment: Fragment
+        get() = PostSamplePageInfoFragment().apply {
+            arguments = Bundle().apply {
+                putInt(Int::class.java.simpleName, position)
+                putSerializable(PostsRepository::class.java.simpleName, postsRepository)
             }
         }
 }
@@ -156,7 +239,7 @@ open class Navigator(
         )
 
         fragmentTransaction
-            .replace(containerId, fragment)
+            .add(containerId, fragment, screen.screenKey)
             .addToBackStack(screen.screenKey)
             .commit()
         localStackCopy!!.add(screen.screenKey)

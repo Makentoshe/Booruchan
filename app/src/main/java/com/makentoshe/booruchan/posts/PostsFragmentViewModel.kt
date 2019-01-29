@@ -15,7 +15,8 @@ import kotlin.coroutines.CoroutineContext
 
 class PostsFragmentViewModel(
     val booru: Booru,
-    private val drawerController: DrawerController
+    private val drawerController: DrawerController,
+    private val tags: Set<Tag>
 ) : ViewModel(), CoroutineScope {
 
     private var job: Job = Job()
@@ -57,12 +58,13 @@ class PostsFragmentViewModel(
             val value = searchController.value
             SearchController().apply { newSearch(value!!) }
         } else {
-            SearchController().apply { newSearch(setOf()) }
+            SearchController().apply { newSearch(tags) }
         }
     }
 
     private fun selectedTagSetControllerUpdate() {
         selectedTagSetController = if (::selectedTagSetController.isInitialized) {
+            selectedTagSetController.clear()
             SelectedTagSetController(selectedTagSetController.tags)
         } else {
             SelectedTagSetController(setOf())
@@ -79,13 +81,15 @@ class PostsFragmentViewModel(
 
     override fun onCleared() {
         super.onCleared()
+        selectedTagSetController.clear()
         job.cancel()
+        println("OnCleared $this")
     }
 
     fun getViewPagerAdapter(fragmentManager: FragmentManager, tags: Set<Tag>): PagerAdapter {
         val postsCountInRequest = 12
         val postsRepository = PostsRepository(booru, CacheImpl(12), postsCountInRequest, tags)
         val previewsRepository = PreviewsRepository(booru, CacheImpl(postsCountInRequest * 5))
-        return ViewPagerAdapter(fragmentManager, postsRepository, previewsRepository)
+        return ViewPagerAdapter(fragmentManager, booru, postsRepository, previewsRepository)
     }
 }

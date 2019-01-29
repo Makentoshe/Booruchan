@@ -10,8 +10,8 @@ import java.io.Serializable
 class PostsRepository(
     private val booru: Booru,
     private val cache: Cache<Int, Posts>,
-    private val count: Int,
-    private val tags: Set<Tag>
+    val count: Int,
+    val tags: Set<Tag>
 ): Repository<Int, Posts>, Serializable {
 
     override fun get(key: Int): Posts {

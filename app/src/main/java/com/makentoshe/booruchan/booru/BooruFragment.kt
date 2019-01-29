@@ -7,31 +7,30 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import com.makentoshe.booruapi.Booru
+import com.makentoshe.booruapi.Tag
 import com.makentoshe.booruchan.*
 import org.jetbrains.anko.*
 
-class BooruFragment : Fragment(), BackPressableFragment {
+class BooruFragment : Fragment() {
 
     private lateinit var booruFragmentViewModel: BooruFragmentViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val booru = arguments?.getSerializable(Booru::class.java.simpleName) as Booru
-        val factory = ViewModelFactory(booru = booru)
-        booruFragmentViewModel = ViewModelProviders.of(this, factory)[BooruFragmentViewModel::class.java]
-        booruFragmentViewModel.update(requireActivity(), childFragmentManager)
+        booruFragmentViewModel = buildViewModel(arguments!!)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        booruFragmentViewModel.update(requireActivity(), childFragmentManager)
         return BooruFragmentUI(booruFragmentViewModel).createView(AnkoContext.create(requireContext(), this))
     }
 
-    override fun onBackPressed(): Boolean {
-        val list = childFragmentManager.fragments
-        for (i in list.lastIndex downTo 0) {
-            val fragment = list[i]
-            if (fragment is BackPressableFragment && fragment.onBackPressed()) return true
-        }
-        return false
+    private fun buildViewModel(arguments: Bundle) : BooruFragmentViewModel {
+        val booru = arguments.getSerializable(Booru::class.java.simpleName) as Booru
+        //if was called from sample - the search must be started with this tags
+        val tags = arguments.getSerializable(Tag::class.java.simpleName) as Set<Tag>
+
+        val factory = ViewModelFactory(booru = booru, tags = tags)
+        return ViewModelProviders.of(this, factory)[BooruFragmentViewModel::class.java]
     }
 }

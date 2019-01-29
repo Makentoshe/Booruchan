@@ -24,4 +24,8 @@
     <item name="postpreviews_bottombar_center" type="id"/>
     <item name="postpreviews_bottombar_right" type="id"/>
     <item name="postpreviews_bottombar_center_textview" type="id"/>
+    <item name="viewpager" type="id"/>
+    <item name="sample_image_message" type="id"/>
+    <item name="sample_image_progressbar" type="id"/>
+    <item name="sample_image_view" type="id"/>
 </resources>

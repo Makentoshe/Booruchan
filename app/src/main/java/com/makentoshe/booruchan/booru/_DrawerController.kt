@@ -6,7 +6,7 @@ import io.reactivex.subjects.BehaviorSubject
 import java.io.Serializable
 
 class _DrawerController : Serializable {
-
+    @Transient
     private lateinit var drawerObservable: BehaviorSubject<DrawerState>
 
     val value: DrawerState?
