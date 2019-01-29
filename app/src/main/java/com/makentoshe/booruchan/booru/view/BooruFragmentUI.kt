@@ -18,7 +18,7 @@ class BooruFragmentUI(private val booruFragmentViewModel: BooruFragmentViewModel
 
     override fun createView(ui: AnkoContext<BooruFragment>) = with(ui) {
         drawerLayout {
-            id = R.id.boorudrawer
+            id = R.id.booru_drawer
             createContent()
             createPanel()
             booruFragmentViewModel.addDrawerListener {
@@ -34,24 +34,25 @@ class BooruFragmentUI(private val booruFragmentViewModel: BooruFragmentViewModel
 
     private fun _DrawerLayout.createContent() {
         frameLayout {
-            id = R.id.boorucontent
+            id = R.id.booru_drawer_content
             backgroundColorResource = style.background.backgroundColorRes
         }.lparams(matchParent, matchParent)
     }
 
     private fun _DrawerLayout.createPanel() {
         verticalLayout {
+            id = R.id.booru_drawer_panel
             backgroundColorResource = style.background.backgroundColorRes
 
             button(R.string.posts) {
-                id = R.id.posts
+                id = R.id.booru_drawer_panel_posts
                 onClick {
                     booruFragmentViewModel.onPostsClicked()
                 }
             }.lparams(width = matchParent)
 
             button(R.string.account) {
-                id = R.id.account
+                id = R.id.booru_drawer_panel_account
                 onClick {
                     booruFragmentViewModel.onAccountClicked()
                 }

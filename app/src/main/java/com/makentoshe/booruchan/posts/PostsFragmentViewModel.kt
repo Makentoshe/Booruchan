@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.viewpager.widget.PagerAdapter
 import com.makentoshe.booruapi.Booru
 import com.makentoshe.booruapi.Tag
+import com.makentoshe.booruchan.FragmentViewModel
 import com.makentoshe.booruchan.PostsRepository
 import com.makentoshe.booruchan.PreviewImageRepository
 import com.makentoshe.booruchan.booru.model.DrawerController
@@ -19,12 +20,7 @@ class PostsFragmentViewModel(
     val booru: Booru,
     private val drawerController: DrawerController,
     private val tags: Set<Tag>
-) : ViewModel(), CoroutineScope {
-
-    private var job: Job = Job()
-
-    override val coroutineContext: CoroutineContext
-        get() = Dispatchers.Default + job
+) : FragmentViewModel() {
 
     lateinit var uiController: UIController
         private set
@@ -48,7 +44,8 @@ class PostsFragmentViewModel(
         searchController.subscribe(action)
     }
 
-    fun update() {
+    override fun onUiRecreate() {
+        println("Recreate")
         uiController = UIController(OverflowController(), drawerController, ClearIconController())
         searchControllerUpdate()
         selectedTagSetControllerUpdate()
@@ -84,8 +81,6 @@ class PostsFragmentViewModel(
     override fun onCleared() {
         super.onCleared()
         selectedTagSetController.clear()
-        job.cancel()
-        println("OnCleared $this")
     }
 
     fun getViewPagerAdapter(fragmentManager: FragmentManager, tags: Set<Tag>): PagerAdapter {

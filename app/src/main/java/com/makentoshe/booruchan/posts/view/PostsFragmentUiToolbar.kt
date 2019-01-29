@@ -25,18 +25,18 @@ class PostsFragmentUiToolbar(
 
     override fun createView(ui: AnkoContext<RelativeLayout>): View = with(ui) {
         relativeLayout {
-            id = R.id.toolbar_container
+            id = R.id.postpreview_toolbar_container
             backgroundColorResource = style.toolbar.primaryColorRes
             elevation = dip(4).toFloat()
             createDrawerMenuView()
             createToolbarView()
-            val overflowImageView = createOverflowView().findViewById<ImageView>(R.id.toolbar_container_overflow)
+            val overflowImageView = createOverflowView().findViewById<ImageView>(R.id.postpreview_toolbar_container_overflow_icon)
             addOverflowListener(overflowImageView)
         }
     }
 
     private fun _RelativeLayout.createDrawerMenuView() = frameLayout {
-        id = R.id.toolbar_container_drawermenu
+        id = R.id.postpreview_toolbar_container_drawermenu
         setOnClickListener(::onDrawerMenuIconClick)
         imageView {
             setToolbarIcon(style, style.drawable.static.menu)
@@ -53,7 +53,7 @@ class PostsFragmentUiToolbar(
     }
 
     private fun _RelativeLayout.createToolbarView() = toolbar {
-        id = R.id.toolbar_container_toolbar
+        id = R.id.postpreview_toolbar_container_toolbar
         title = postsFragmentViewModel.booru.title
         subtitleResource = R.string.posts
         setTitleTextColor(style.toolbar.getOnPrimaryColor(context))
@@ -61,14 +61,15 @@ class PostsFragmentUiToolbar(
         setSubtitleTextColor(style.toolbar.getOnPrimaryColor(context))
     }.lparams(width = matchParent) {
         alignWithParent = true
-        rightOf(R.id.toolbar_container_drawermenu)
+        rightOf(R.id.postpreview_toolbar_container_drawermenu)
     }
 
     private fun _RelativeLayout.createOverflowView() = frameLayout {
         setOnClickListener(::onOverflowIconClick)
+        id = R.id.postpreview_toolbar_container_overflow
 
         imageView {
-            id = R.id.toolbar_container_overflow
+            id = R.id.postpreview_toolbar_container_overflow_icon
             setToolbarIcon(style, style.drawable.static.magnify)
         }.lparams(width = dip(24), height = dip(24)) {
             gravity = Gravity.CENTER

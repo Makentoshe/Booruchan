@@ -47,7 +47,7 @@ class PostsFragmentTest {
         activityTestRule.launchActivity(null)
         //click on mocked booru
         Espresso.onData(CoreMatchers.anything())
-            .inAdapterView(ViewMatchers.withId(R.id.listview))
+            .inAdapterView(ViewMatchers.withId(R.id.start_content_listview))
             .atPosition(booruPosition)
             .perform(ViewActions.click())
         booruFragment = activityTestRule.activity.getFragment()
@@ -57,17 +57,17 @@ class PostsFragmentTest {
     @Test
     fun should_open_drawer_layout_on_menu_icon_click() {
         //click drawer menu icon
-        onView(withId(R.id.toolbar_container_drawermenu)).perform(click())
+        onView(withId(R.id.postpreview_toolbar_container_drawermenu)).perform(click())
         //check that the drawer was opened
-        onView(withId(R.id.boorudrawer)).check(matches(isOpen(Gravity.START)))
+        onView(withId(R.id.booru_drawer)).check(matches(isOpen(Gravity.START)))
     }
 
     @Test
     fun should_show_search_layout_on_overflow_click() {
         //click overflow menu icon
-        onView(withId(R.id.toolbar_container_overflow)).perform(click())
+        onView(withId(R.id.postpreview_toolbar_container_overflow)).perform(click())
         //check that the search layout is visible
-        onView(withId(R.id.postpreviews_search)).check(matches(isDisplayed()))
+        onView(withId(R.id.postpreview_search)).check(matches(isDisplayed()))
     }
 
     @Test
@@ -75,9 +75,9 @@ class PostsFragmentTest {
         //click overflow menu icon
         should_show_search_layout_on_overflow_click()
         //click overflow menu icon again
-        onView(withId(R.id.toolbar_container_overflow)).perform(click())
+        onView(withId(R.id.postpreview_toolbar_container_overflow)).perform(click())
         //check that the search layout is not visible
-        onView(withId(R.id.postpreviews_search)).check(matches(not(isDisplayed())))
+        onView(withId(R.id.postpreview_search)).check(matches(not(isDisplayed())))
     }
 
     @Test
@@ -85,9 +85,9 @@ class PostsFragmentTest {
         //click overflow menu icon
         should_show_search_layout_on_overflow_click()
         //click on cover layout
-        onView(withId(R.id.postpreviews_cover)).perform(click())
+        onView(withId(R.id.postpreview_cover)).perform(click())
         //check that the search layout is not visible
-        onView(withId(R.id.postpreviews_search)).check(matches(not(isDisplayed())))
+        onView(withId(R.id.postpreview_search)).check(matches(not(isDisplayed())))
     }
 
     @Test
@@ -99,7 +99,7 @@ class PostsFragmentTest {
         //click on back button
         Espresso.pressBack()
         //check that the search layout is not visible
-        onView(withId(R.id.postpreviews_search)).check(matches(not(isDisplayed())))
+        onView(withId(R.id.postpreview_search)).check(matches(not(isDisplayed())))
     }
 
     @Test
@@ -107,7 +107,7 @@ class PostsFragmentTest {
         val term = "term"
         delayAutocompleteEditText_perform_text_typing(term)
         //check autocomplete terms
-        onView(withId(R.id.postpreviews_search_container_dacet)).check { view, _ ->
+        onView(withId(R.id.postpreview_search_container_dacet)).check { view, _ ->
             view as DelayAutocompleteEditText
             val adapter = view.adapter
             (0 until adapter.count).forEach {
@@ -122,7 +122,7 @@ class PostsFragmentTest {
         //perform text typing
         delayAutocompleteEditText_perform_text_typing("term")
         //click to clear icon
-        onView(withId(R.id.postpreviews_search_container_clear)).perform(click())
+        onView(withId(R.id.postpreview_search_container_clear)).perform(click())
         //check the edit text is empty
         check_edittext_is_empty()
     }
@@ -140,7 +140,7 @@ class PostsFragmentTest {
         //select item
         delayAutocompleteEditText_perform_item_selecting("test", 8)
         //check the tag added to chip group view
-        onView(withId(R.id.postpreviews_search_tags)).check { view, _ ->
+        onView(withId(R.id.postpreview_search_tags)).check { view, _ ->
             view as ChipGroup
             val child = view.getChildAt(0) as Chip
             assertEquals(child.text, "test8")
@@ -157,19 +157,6 @@ class PostsFragmentTest {
     }
 
     @Test
-    fun delayAutocompleteEditText_should_add_item_to_chipgroup_after_search_action() {
-        delayAutocompleteEditText_perform_text_typing("tag")
-        //press search ime action
-        onView(withId(R.id.postpreviews_search_container_dacet)).perform(ViewActions.pressImeActionButton()).noActivity()
-        //check the search layout is not visible or something else
-        onView(withId(R.id.postpreviews_search)).check(matches(not(isCompletelyDisplayed())))
-        //click overflow menu icon
-        should_show_search_layout_on_overflow_click()
-        //check the tag added to chip group view
-        check_tag_added_to_the_chipgroup("tag")
-    }
-
-    @Test
     fun delayAutocompleteEditText_should_add_item_to_chipgroup_after_space_typing() {
         delayAutocompleteEditText_should_be_cleared_on_space_typing()
         //check the tag added to chip group view
@@ -180,38 +167,27 @@ class PostsFragmentTest {
     fun delayAutocompleteEditText_should_remove_item_from_chipgroup_on_cross_icon_click() {
         delayAutocompleteEditText_should_add_item_to_chipgroup_after_space_typing()
         //click on cross icon
-        onView(withId(R.id.postpreviews_search_tags)).check { view, _ ->
+        onView(withId(R.id.postpreview_search_tags)).check { view, _ ->
             view as ChipGroup
             val child = view.getChildAt(0) as Chip
             child.performCloseIconClick()
         }
-        onView(withId(R.id.postpreviews_search_tags)).check { view, _ ->
+        onView(withId(R.id.postpreview_search_tags)).check { view, _ ->
             view as ChipGroup
             assertEquals(0, view.childCount)
         }
     }
 
     @Test
-    fun should_change_PostPagesFragments_after_search_action() {
-        val fragments1 = getPostPagesFragments()
-        delayAutocompleteEditText_should_add_item_to_chipgroup_after_search_action()
-        val fragments2 = getPostPagesFragments()
-        (0 until fragments2.size).forEach {
-            assertNotEquals(fragments1[it], fragments2[it])
-        }
-        assertNotEquals(fragments1, fragments2)
-    }
-
-    @Test
     fun should_display_bottombar_correctly_on_startup() {
         //left icon should be invisible
-        onView(withId(R.id.postpreviews_bottombar_left)).check { view, _ ->
+        onView(withId(R.id.postpreview_bottombar_left)).check { view, _ ->
             assertEquals(View.INVISIBLE, view.visibility)
         }
         //center text should display "0" number
-        onView(withId(R.id.postpreviews_bottombar_center_textview)).check(matches(withText("0")))
+        onView(withId(R.id.postpreview_bottombar_center_textview)).check(matches(withText("0")))
         //right icon should be visible
-        onView(withId(R.id.postpreviews_bottombar_right)).check { view, _ ->
+        onView(withId(R.id.postpreview_bottombar_right)).check { view, _ ->
             assertEquals(View.VISIBLE, view.visibility)
         }
     }
@@ -220,11 +196,11 @@ class PostsFragmentTest {
     fun should_display_left_icon_in_bottombar_if_page_is_not_zero() {
         assertEquals(2, getPostPagesFragments().size)
         //click on next page
-        onView(withId(R.id.postpreviews_bottombar_right)).perform(click())
+        onView(withId(R.id.postpreview_bottombar_right)).perform(click())
 
         assertEquals(3, getPostPagesFragments().size)
         //left icon should be visible
-        onView(withId(R.id.postpreviews_bottombar_left)).check { view, _ ->
+        onView(withId(R.id.postpreview_bottombar_left)).check { view, _ ->
             assertEquals(View.VISIBLE, view.visibility)
         }
     }
@@ -235,7 +211,7 @@ class PostsFragmentTest {
         //swipe right
         onView(isRoot()).perform(swipeRight())
         //left icon should be invisible
-        onView(withId(R.id.postpreviews_bottombar_left)).check { view, _ ->
+        onView(withId(R.id.postpreview_bottombar_left)).check { view, _ ->
             assertEquals(View.INVISIBLE, view.visibility)
         }
         //but right page stay in memory
@@ -252,7 +228,7 @@ class PostsFragmentTest {
         //click overflow menu icon
         should_show_search_layout_on_overflow_click()
         //type "term" string
-        onView(withId(R.id.postpreviews_search_container_dacet)).perform(typeText(term))
+        onView(withId(R.id.postpreview_search_container_dacet)).perform(typeText(term))
     }
 
     private fun delayAutocompleteEditText_perform_item_selecting(term: String, position: Int) {
@@ -264,7 +240,7 @@ class PostsFragmentTest {
 
     private fun check_tag_added_to_the_chipgroup(tagName: String, position: Int = 0){
         //check the tag added to chip group view
-        onView(withId(R.id.postpreviews_search_tags)).check { view, _ ->
+        onView(withId(R.id.postpreview_search_tags)).check { view, _ ->
             view as ChipGroup
             val child = view.getChildAt(position) as Chip
             assertEquals(child.text, tagName)
@@ -272,7 +248,7 @@ class PostsFragmentTest {
     }
 
     private fun check_edittext_is_empty() {
-        onView(withId(R.id.postpreviews_search_container_dacet)).check { view, _ ->
+        onView(withId(R.id.postpreview_search_container_dacet)).check { view, _ ->
             view as DelayAutocompleteEditText
             assertTrue(view.text.isEmpty())
         }

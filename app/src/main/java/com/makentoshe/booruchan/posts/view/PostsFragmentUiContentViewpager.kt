@@ -17,8 +17,8 @@ class PostsFragmentUiContentViewpager(
     override fun createView(ui: AnkoContext<RelativeLayout>): View = with(ui) {
         relativeLayout {
             lparams(matchParent, matchParent) {
-                below(R.id.toolbar_container)
-                above(R.id.postpreviews_bottombar)
+                below(R.id.postpreview_toolbar_container)
+                above(R.id.postpreview_bottombar)
             }
             viewPager {
                 id = R.id.content_viewpager

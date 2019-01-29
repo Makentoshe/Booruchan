@@ -11,6 +11,7 @@ import com.makentoshe.booruchan.account.AccountFragment
 import com.makentoshe.booruchan.booru.view.BooruFragment
 import com.makentoshe.booruchan.posts.view.PostsFragment
 import org.hamcrest.CoreMatchers
+import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -32,7 +33,7 @@ class BooruFragmentTest {
         activityTestRule.launchActivity(null)
         //click on mocked booru
         onData(CoreMatchers.anything())
-            .inAdapterView(withId(R.id.listview))
+            .inAdapterView(withId(R.id.start_content_listview))
             .atPosition(booruPosition)
             .perform(ViewActions.click())
         fragment = activityTestRule.activity.getFragment()
@@ -52,15 +53,21 @@ class BooruFragmentTest {
     @Test
     fun should_change_inner_fragments() {
         //open drawer
-        onView(withId(R.id.boorudrawer)).perform(DrawerActions.open())
+        onView(withId(R.id.booru_drawer)).perform(DrawerActions.open())
         //click on account button
-        onView(withId(R.id.account)).perform(ViewActions.click())
+        onView(withId(R.id.booru_drawer_panel_account)).perform(ViewActions.click())
         //PostsFragment should be replaced by AccountFragment
         fragment.containsFragment<AccountFragment>()
         //click on posts button
-        onView(withId(R.id.posts)).perform(ViewActions.click())
+        onView(withId(R.id.booru_drawer_panel_posts)).perform(ViewActions.click())
         //AccountFragment should be replaced by PostsFragment
         fragment.containsFragment<PostsFragment>()
+    }
+
+    @After
+    fun clear() {
+        Booruchan.INSTANCE.booruList.removeAt(booruPosition)
+        booruPosition = -1
     }
 
 }

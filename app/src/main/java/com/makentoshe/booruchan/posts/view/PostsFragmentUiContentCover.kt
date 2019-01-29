@@ -16,7 +16,7 @@ class PostsFragmentUiContentCover(
 
     override fun createView(ui: AnkoContext<RelativeLayout>): View = with(ui) {
         frameLayout {
-            id = R.id.postpreviews_cover
+            id = R.id.postpreview_cover
             visibility = View.GONE
             alpha = 0f
             backgroundColor = Color.argb(150, 0, 0, 0)

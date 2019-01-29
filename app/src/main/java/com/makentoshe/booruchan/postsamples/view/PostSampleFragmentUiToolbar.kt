@@ -14,7 +14,7 @@ class PostSampleFragmentUiToolbar(private val viewModel: PostsSampleFragmentView
     override fun createView(ui: AnkoContext<LinearLayout>): View = with(ui) {
         relativeLayout {
             lparams(width = matchParent, height = dip(56))
-            id = R.id.toolbar_container
+            id = R.id.postpreview_toolbar_container
             backgroundColorResource = style.toolbar.primaryColorRes
             elevation = dip(4).toFloat()
 

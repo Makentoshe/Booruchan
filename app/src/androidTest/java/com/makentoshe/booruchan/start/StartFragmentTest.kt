@@ -40,7 +40,7 @@ class StartFragmentTest {
     @Test
     fun should_navigate_to_SettingsFragment() {
         //call overflow menu
-        onView(withId(R.id.toolbar_container_overflow)).perform(ViewActions.click())
+        onView(withId(R.id.start_toolbar_container_overflow_icon)).perform(ViewActions.click())
         //select "settings" element
         onView(withText(R.string.settings)).perform(ViewActions.click())
         //check that the all good and we can see SettingsFragment
@@ -55,7 +55,7 @@ class StartFragmentTest {
     @Test
     fun should_navigate_to_BooruFragment() {
         //click on mocked booru
-        onData(anything()).inAdapterView(withId(R.id.listview)).atPosition(booruPosition).perform(click())
+        onData(anything()).inAdapterView(withId(R.id.start_content_listview)).atPosition(booruPosition).perform(click())
         //can we see BooruFragment?
         activityTestRule.activity.containsFragment<BooruFragment>()
     }

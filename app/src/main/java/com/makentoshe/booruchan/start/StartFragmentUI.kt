@@ -10,6 +10,8 @@ import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.toolbarLayout
 import org.jetbrains.anko.*
 import org.jetbrains.anko.appcompat.v7.titleResource
+import java.lang.Exception
+import java.lang.IndexOutOfBoundsException
 
 class StartFragmentUI(
     private val startFragmentViewModel: StartFragmentViewModel
@@ -27,16 +29,16 @@ class StartFragmentUI(
 
     private fun _RelativeLayout.toolbarLayout() {
         relativeLayout {
+            id = R.id.start_toolbar_container
             backgroundColorResource = style.toolbar.primaryColorRes
             elevation = dip(10).toFloat()
-            id = R.id.toolbarcontainer
             toolbarLayout({
-                id = R.id.toolbar_container_toolbar
+                id = R.id.start_toolbar_container_toolbar
                 backgroundColorResource = style.toolbar.primaryColorRes
                 setTitleTextColor(style.toolbar.getOnPrimaryColor(context))
                 titleResource = R.string.app_name
             }, {
-                id = R.id.toolbar_container_overflow
+                id = R.id.start_toolbar_container_overflow_icon
                 setImageResource(style.drawable.static.overflow)
                 setColorFilter(style.toolbar.getOnPrimaryColor(context), PorterDuff.Mode.SRC_ATOP)
                 setOnClickListener(::createOverflowMenu)
@@ -53,15 +55,18 @@ class StartFragmentUI(
 
     private fun _RelativeLayout.listViewLayout() {
         listView {
-            id = R.id.listview
+            id = R.id.start_content_listview
             setOnItemClickListener(::onItemClick)
             adapter = startFragmentViewModel.getBooruListAdapter(context)
         }.lparams {
-            below(R.id.toolbarcontainer)
+            below(R.id.start_toolbar_container)
         }
     }
 
     private fun onItemClick(adapterView: AdapterView<*>, view: View, position: Int, id: Long) {
-        startFragmentViewModel.onListItemClicked(Booruchan.INSTANCE.booruList[position])
+        try {
+            startFragmentViewModel.onListItemClicked(Booruchan.INSTANCE.booruList[position])
+        } catch (e: IndexOutOfBoundsException) {
+        }
     }
 }

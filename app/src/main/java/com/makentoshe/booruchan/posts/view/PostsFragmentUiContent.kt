@@ -14,7 +14,7 @@ class PostsFragmentUiContent(
 
     override fun createView(ui: AnkoContext<RelativeLayout>): View = with(ui) {
         relativeLayout {
-            lparams(matchParent, matchParent) { below(R.id.toolbar_container) }
+            lparams(matchParent, matchParent) { below(R.id.postpreview_toolbar_container) }
 
             PostsFragmentUiContentCover(postsFragmentViewModel)
                 .createView(AnkoContext.createDelegate(this))

@@ -28,7 +28,7 @@ class PostsFragmentUiContentSearch(
 
     override fun createView(ui: AnkoContext<RelativeLayout>): View = with(ui) {
         relativeLayout {
-            id = R.id.postpreviews_search
+            id = R.id.postpreview_search
             lparams(width = matchParent, height = wrapContent) { alignParentTop() }
             visibility = View.GONE
             elevation = dip(4).toFloat()
@@ -43,7 +43,7 @@ class PostsFragmentUiContentSearch(
 
     private fun _RelativeLayout.editTextContainerView(parent: RelativeLayout) {
         frameLayout {
-            id = R.id.postpreviews_search_container
+            id = R.id.postpreview_search_container
             setPadding(0, dip(8), 0, dip(8))
             cardView {
                 elevation = dip(2).toFloat()
@@ -60,7 +60,7 @@ class PostsFragmentUiContentSearch(
 
     private fun _RelativeLayout.autocompleteEditText(parent: RelativeLayout): DelayAutocompleteEditText {
         return delayAutoCompleteEditText {
-            id = R.id.postpreviews_search_container_dacet
+            id = R.id.postpreview_search_container_dacet
             setCursorColor(Color.BLACK)
             setAdapter(postsFragmentViewModel.autocompleteAdapter)
             setPadding(0, 0, dip(36), 0)
@@ -145,7 +145,7 @@ class PostsFragmentUiContentSearch(
 
     private fun _RelativeLayout.autocompleteDelayClearIcon(): ImageView {
         return imageView {
-            id = R.id.postpreviews_search_container_clear
+            id = R.id.postpreview_search_container_clear
             padding = dip(4)
             setImageResource(style.drawable.static.cross)
             setColorFilter(Color.BLACK, PorterDuff.Mode.SRC_ATOP)
@@ -162,12 +162,12 @@ class PostsFragmentUiContentSearch(
 
     private fun _RelativeLayout.tagsContainerView() {
         chipGroup {
-            id = R.id.postpreviews_search_tags
+            id = R.id.postpreview_search_tags
             postsFragmentViewModel.selectedTagSetController.subscribeOnAdd {
                 createChip(it)
             }
         }.lparams(width = matchParent, height = wrapContent) {
-            below(R.id.postpreviews_search_container)
+            below(R.id.postpreview_search_container)
             setMargins(0, 0, 0, dip(8))
         }
     }

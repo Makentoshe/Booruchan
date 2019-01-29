@@ -41,7 +41,7 @@ class BooruFragmentViewModel(@JvmField val booru: Booru, private val tags: Set<T
     }
 
     fun onUiRecreate(fragmentActivity: FragmentActivity, fragmentManager: FragmentManager) {
-        val navigator = Navigator(fragmentActivity, R.id.boorucontent, fragmentManager)
+        val navigator = Navigator(fragmentActivity, R.id.booru_drawer_content, fragmentManager)
         contentController.update(navigator, newPostsScreen())
         drawerController.update()
     }
