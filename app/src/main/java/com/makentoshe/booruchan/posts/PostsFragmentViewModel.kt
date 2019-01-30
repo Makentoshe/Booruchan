@@ -15,17 +15,63 @@ import com.makentoshe.repository.cache.CacheImpl
 class PostsFragmentViewModel(
     val booru: Booru,
     private val drawerController: DrawerController,
+    /* tags for default(on the startup) search */
     private val tags: Set<Tag>
 ) : FragmentViewModel() {
 
+    fun clickDrawerMenuIcon() {
+        if (drawerController.state == null) return drawerController.openDrawer()
+        when (drawerController.state) {
+            is DrawerState.DrawerOpen -> drawerController.closeDrawer()
+            is DrawerState.DrawerClose -> drawerController.openDrawer()
+        }
+    }
+
     private val clearIconController = ClearIconController()
+
+    fun clickClearIcon() = clearIconController.click()
+
+    fun addOnClearIconClickListener(action: () -> Unit) {
+        clearIconController.subscribe { action() }
+    }
+
+
 
     private val overflowController = OverflowController(this)
 
+    val overflowState: OverflowController.OverflowState?
+        get() = overflowController.state
+
+    fun clickOverflowIcon() {
+        if (overflowController.state == null) {
+            overflowController.newState(OverflowController.OverflowState.Cross)
+            return
+        }
+        when (overflowController.state) {
+            is OverflowController.OverflowState.Magnify ->
+                overflowController.newState(OverflowController.OverflowState.Cross)
+            is OverflowController.OverflowState.Cross ->
+                overflowController.newState(OverflowController.OverflowState.Magnify)
+            else -> Unit
+        }
+    }
+
+    fun addOnOverflowStateChangedListener(action: OverflowController.OverflowListener.() -> Unit) {
+        overflowController.subscribe(action)
+    }
+
+
+
+    private val searchController = SearchController()
+
+    fun startNewSearch() = searchController.newSearch(selectedTagSetController.tags)
+
+    fun onSearchStartedListener(action: (Set<Tag>) -> Unit) = searchController.subscribe(action)
+
+
+
     lateinit var selectedTagSetController: SelectedTagSetController
         private set
-
-    private lateinit var searchController: SearchController
 
     lateinit var viewPagerController: ViewPagerController
 
@@ -33,29 +79,12 @@ class PostsFragmentViewModel(
     val autocompleteAdapter: DelayAutocompleteAdapter
         get() = DelayAutocompleteAdapter(DelayAutocompleteRepository(booru))
 
-    fun startNewSearch() {
-        searchController.newSearch(selectedTagSetController.tags)
-    }
-
-    fun onNewSearchStarted(action: (Set<Tag>) -> Unit) {
-        searchController.subscribe(action)
-    }
-
     override fun onUiRecreate() {
         overflowController.update()
         clearIconController.clear()
-        searchControllerUpdate()
+        searchController.update(tags)
         selectedTagSetControllerUpdate()
         viewPagerControllerUpdate()
-    }
-
-    private fun searchControllerUpdate() {
-        searchController = if (::searchController.isInitialized && searchController.value != null) {
-            val value = searchController.value
-            SearchController().apply { newSearch(value!!) }
-        } else {
-            SearchController().apply { newSearch(tags) }
-        }
     }
 
     private fun selectedTagSetControllerUpdate() {
@@ -90,38 +119,4 @@ class PostsFragmentViewModel(
         return ViewPagerAdapter(fragmentManager, booru, postsRepository, previewsRepository)
     }
 
-    fun addOnClearIconClickListener(action: () -> Unit) {
-        clearIconController.subscribe { action() }
-    }
-
-    fun clickClearIcon() = clearIconController.click()
-
-    fun clickDrawerMenuIcon() {
-        if (drawerController.state == null) return drawerController.openDrawer()
-        when (drawerController.state) {
-            is DrawerState.DrawerOpen -> drawerController.closeDrawer()
-            is DrawerState.DrawerClose -> drawerController.openDrawer()
-        }
-    }
-
-    fun addOnOverflowStateChangedListener(action: OverflowController.OverflowListener.() -> Unit) {
-        overflowController.subscribe(action)
-    }
-
-    fun clickOverflowIcon() {
-        if (overflowController.state == null) {
-            overflowController.newState(OverflowController.OverflowState.Cross)
-            return
-        }
-        when (overflowController.state) {
-            is OverflowController.OverflowState.Magnify ->
-                overflowController.newState(OverflowController.OverflowState.Cross)
-            is OverflowController.OverflowState.Cross ->
-                overflowController.newState(OverflowController.OverflowState.Magnify)
-            else -> Unit
-        }
-    }
-
-    val overflowState: OverflowController.OverflowState?
-        get() = overflowController.state
 }
