@@ -4,7 +4,7 @@ import android.graphics.Bitmap
 import androidx.lifecycle.ViewModel
 import com.makentoshe.booruapi.Post
 import com.makentoshe.booruchan.DownloadResult
-import com.makentoshe.booruchan.ImageDownloadController
+import com.makentoshe.booruchan.SampleImageDownloadController
 import com.makentoshe.booruchan.ImageRepository
 import com.makentoshe.booruchan.PostsRepository
 import kotlinx.coroutines.*
@@ -22,7 +22,7 @@ class PostSamplePagePreviewFragmentViewModel(
     override val coroutineContext: CoroutineContext
         get() = Dispatchers.Default + job
 
-    private val sampleDownloadController = ImageDownloadController(this, samplesRepository)
+    private val sampleDownloadController = SampleImageDownloadController(this, samplesRepository)
 
     /**
      * @param position post index start from 0.

@@ -7,32 +7,28 @@ import com.makentoshe.booruapi.Tag
 import com.makentoshe.booruchan.*
 import com.makentoshe.booruchan.booru.model.ContentScreenController
 import com.makentoshe.booruchan.booru.model.DrawerController
-import com.makentoshe.booruchan.booru.model.DrawerState
-import com.makentoshe.booruchan.booru.model._DrawerController
 
 class BooruFragmentViewModel(@JvmField val booru: Booru, private val tags: Set<Tag>) : FragmentViewModel() {
 
     private val contentController = ContentScreenController()
-    private val drawerController = _DrawerController()
+    private val drawerController = DrawerController()
 
-    fun getDrawerState() = drawerController.value
+    fun getDrawerState() = drawerController.state
 
-    fun addDrawerListener(init: _DrawerController.DrawerListener.() -> Unit) {
-        drawerController.addDrawerListener(init)
+    fun addDrawerListener(init: DrawerController.DrawerListener.() -> Unit) {
+        drawerController.subscribe(init)
     }
 
-    fun openDrawer() = drawerController.newState(DrawerState.DrawerOpen)
+    fun openDrawer() = drawerController.openDrawer()
 
-    fun closeDrawer() = drawerController.newState(DrawerState.DrawerClose)
+    fun closeDrawer() = drawerController.closeDrawer()
 
     fun onPostsClicked() {
         contentController.newScreen(newPostsScreen())
     }
 
     fun onAccountClicked() {
-        contentController.newScreen(AccountScreen(booru,
-            DrawerController(drawerController)
-        ))
+        contentController.newScreen(AccountScreen(booru, drawerController))
     }
 
     override fun onCleared() {
@@ -47,6 +43,6 @@ class BooruFragmentViewModel(@JvmField val booru: Booru, private val tags: Set<T
     }
 
     private fun newPostsScreen(): PostsScreen {
-        return PostsScreen(booru, DrawerController(drawerController), tags.toHashSet())
+        return PostsScreen(booru, drawerController, tags.toHashSet())
     }
 }

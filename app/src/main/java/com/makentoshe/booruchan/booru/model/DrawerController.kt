@@ -1,13 +1,55 @@
 package com.makentoshe.booruchan.booru.model
 
+import com.makentoshe.booruchan.Controller
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.functions.Consumer
+import io.reactivex.subjects.BehaviorSubject
 import java.io.Serializable
 
-class DrawerController(private val drawerController: _DrawerController): Serializable {
+class DrawerController: Controller<DrawerController.DrawerListener>, Serializable {
+
+    @Transient
+    private val drawerObservable = BehaviorSubject.create<DrawerState>()
+    @Transient
+    private val disposables = CompositeDisposable()
+
+    override fun subscribe(action: DrawerListener.() -> Unit) {
+        val handler = DrawerListener()
+        handler.action()
+        disposables.add(drawerObservable.subscribe(handler))
+    }
 
     val state: DrawerState?
-        get() = drawerController.value
+        get() = drawerObservable.value
 
-    fun openDrawer() = drawerController.newState(DrawerState.DrawerOpen)
+    fun openDrawer() = newState(DrawerState.DrawerOpen)
 
-    fun closeDrawer() = drawerController.newState(DrawerState.DrawerClose)
+    fun closeDrawer() = newState(DrawerState.DrawerClose)
+
+    private fun newState(state: DrawerState) = drawerObservable.onNext(state)
+
+    fun update() {
+        disposables.clear()
+    }
+
+    class DrawerListener : Consumer<DrawerState> {
+
+        private var onDrawerClose: (() -> Unit)? = null
+        private var onDrawerOpen: (() -> Unit)? = null
+
+        override fun accept(t: DrawerState) {
+            when (t) {
+                DrawerState.DrawerClose -> onDrawerClose?.invoke()
+                DrawerState.DrawerOpen -> onDrawerOpen?.invoke()
+            }
+        }
+
+        fun onClose(onClose: (() -> Unit)) {
+            onDrawerClose = onClose
+        }
+
+        fun onOpen(onOpen: (() -> Unit)) {
+            onDrawerOpen = onOpen
+        }
+    }
 }

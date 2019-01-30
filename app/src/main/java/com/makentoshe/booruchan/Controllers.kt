@@ -11,7 +11,14 @@ import kotlinx.coroutines.launch
 /**
  * Default controller interface.
  */
-interface Controller<P, T> {
+interface Controller<T> {
+    fun subscribe(action: (T) -> Unit)
+}
+
+/**
+ * Default controller interface.
+ */
+interface DoubleController<P, T> {
     /**
      * Method subscribes on [T] receive.
      * Do something with [P] and return [T] in lambda.
@@ -19,37 +26,20 @@ interface Controller<P, T> {
     fun subscribe(param: P, action: (T) -> Unit)
 }
 
-
 /**
- * Any download will be wrapped in this class.
+ * Performs download.
  */
-data class DownloadResult<T>(val data: T? = null, val exception: Exception? = null)
-
-/**
- * Class for performing download.
- */
-abstract class DownloadController<P, T>(
+abstract class DownloadDoubleController<T, P>(
     protected val coroutineScope: CoroutineScope
-) : Controller<DownloadResult<P>, DownloadResult<T>>
+) : DoubleController<DownloadResult<T>, DownloadResult<P>> {
 
-/**
- * Class for performing sample image download using [Post] instance.
- */
-class ImageDownloadController(
-    coroutineScope: CoroutineScope,
-    private val repository: ImageRepository
-) : DownloadController<Post, Bitmap>(coroutineScope) {
-
-    /**
-     * Download and push result into lambda.
-     */
-    override fun subscribe(downloadRequest: DownloadResult<Post>, action: (DownloadResult<Bitmap>) -> Unit) {
-        if (downloadRequest.data == null) {
-            action.pushResult(DownloadResult(null, downloadRequest.exception))
+    override fun subscribe(param: DownloadResult<T>, action: (DownloadResult<P>) -> Unit) {
+        if (param.data == null) {
+            action.pushResult(DownloadResult(null, param.exception))
         } else {
             coroutineScope.launch {
                 try {
-                    action.pushResult(DownloadResult(performDownload(downloadRequest)))
+                    action.pushResult(DownloadResult(performDownload(param)))
                 } catch (e: Exception) {
                     action.pushResult(DownloadResult(null, e))
                 }
@@ -60,15 +50,49 @@ class ImageDownloadController(
     /**
      * Push the download result into the lambda.
      */
-    private fun ((DownloadResult<Bitmap>) -> Unit).pushResult(result: DownloadResult<Bitmap>) {
+    protected fun ((DownloadResult<P>) -> Unit).pushResult(result: DownloadResult<P>) {
         Handler(Looper.getMainLooper()).post { this.invoke(result) }
     }
 
     /**
      * Perform downloading the sample image.
      */
-    private fun performDownload(request: DownloadResult<Post>): Bitmap {
+    abstract fun performDownload(request: DownloadResult<T>): P
+}
+
+/**
+ * Class for performing sample image download using [Post] instance.
+ */
+class SampleImageDownloadController(
+    coroutineScope: CoroutineScope, private val repository: ImageRepository
+) : DownloadDoubleController<Post, Bitmap>(coroutineScope) {
+
+    /**
+     * Perform downloading the sample image.
+     */
+    override fun performDownload(request: DownloadResult<Post>): Bitmap {
         val byteArray = repository.get(request.data!!.sampleUrl)!!
         return BitmapFactory.decodeByteArray(byteArray, 0, byteArray.size)
     }
 }
+
+/**
+ * Class for performing file download using [Post] instance and return a byte array as a result.
+ */
+class FileImageDownloadController(
+    coroutineScope: CoroutineScope, private val repository: ImageRepository
+) : DownloadDoubleController<Post, ByteArray>(coroutineScope) {
+
+    /**
+     * Perform downloading the sample image.
+     */
+    override fun performDownload(request: DownloadResult<Post>): ByteArray {
+        return repository.get(request.data!!.fileUrl)!!
+    }
+}
+
+
+/**
+ * Any download will be wrapped in this class.
+ */
+data class DownloadResult<T>(val data: T? = null, val exception: Exception? = null)
