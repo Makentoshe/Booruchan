@@ -1,7 +1,6 @@
 package com.makentoshe.booruchan.posts
 
 import androidx.fragment.app.FragmentManager
-import androidx.lifecycle.ViewModel
 import androidx.viewpager.widget.PagerAdapter
 import com.makentoshe.booruapi.Booru
 import com.makentoshe.booruapi.Tag
@@ -11,16 +10,14 @@ import com.makentoshe.booruchan.PreviewImageRepository
 import com.makentoshe.booruchan.booru.model.DrawerController
 import com.makentoshe.booruchan.posts.model.*
 import com.makentoshe.repository.cache.CacheImpl
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlin.coroutines.CoroutineContext
 
 class PostsFragmentViewModel(
     val booru: Booru,
     private val drawerController: DrawerController,
     private val tags: Set<Tag>
 ) : FragmentViewModel() {
+
+    private val clearIconControler = ClearIconController()
 
     lateinit var uiController: UIController
         private set
@@ -45,8 +42,8 @@ class PostsFragmentViewModel(
     }
 
     override fun onUiRecreate() {
-        println("Recreate")
-        uiController = UIController(OverflowController(), drawerController, ClearIconController())
+        clearIconControler.clear()
+        uiController = UIController(OverflowController(), drawerController)
         searchControllerUpdate()
         selectedTagSetControllerUpdate()
         viewPagerControllerUpdate()
@@ -80,6 +77,7 @@ class PostsFragmentViewModel(
 
     override fun onCleared() {
         super.onCleared()
+        clearIconControler.clear()
         selectedTagSetController.clear()
     }
 
@@ -89,4 +87,10 @@ class PostsFragmentViewModel(
         val previewsRepository = PreviewImageRepository(booru, CacheImpl(postsCountInRequest * 5))
         return ViewPagerAdapter(fragmentManager, booru, postsRepository, previewsRepository)
     }
+
+    fun addOnClearIconClickListener(action: () -> Unit) {
+        clearIconControler.subscribe { action() }
+    }
+
+    fun clickClearIcon() = clearIconControler.click()
 }

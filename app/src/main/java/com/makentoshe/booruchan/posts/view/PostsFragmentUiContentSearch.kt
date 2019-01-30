@@ -104,7 +104,7 @@ class PostsFragmentUiContentSearch(
     }
 
     private fun DelayAutocompleteEditText.addOnClearClickListener() {
-        postsFragmentViewModel.uiController.clearIconController.addOnClickListener {
+        postsFragmentViewModel.addOnClearIconClickListener {
             setText("")
         }
     }
@@ -156,9 +156,7 @@ class PostsFragmentUiContentSearch(
         }
     }
 
-    private fun onClearIconClick(ignored: View) {
-        postsFragmentViewModel.uiController.action(Action.UIAction.ClearTextFieldClick)
-    }
+    private fun onClearIconClick(ignored: View) = postsFragmentViewModel.clickClearIcon()
 
     private fun _RelativeLayout.tagsContainerView() {
         chipGroup {

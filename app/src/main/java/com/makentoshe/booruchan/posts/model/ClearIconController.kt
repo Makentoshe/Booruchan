@@ -1,13 +1,19 @@
 package com.makentoshe.booruchan.posts.model
 
+import com.makentoshe.booruchan.Controller
+import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.subjects.BehaviorSubject
 
-class ClearIconController {
-    private val clearIconObservable = BehaviorSubject.create<Unit>()
+class ClearIconController: Controller<Unit> {
 
-    fun addOnClickListener(onClick: (Unit) -> Unit) {
-        clearIconObservable.subscribe(onClick)
+    private val clearIconObservable = BehaviorSubject.create<Unit>()
+    private val disposables = CompositeDisposable()
+
+    override fun subscribe(action: (Unit) -> Unit) {
+        disposables.add(clearIconObservable.subscribe(action))
     }
 
     fun click() = clearIconObservable.onNext(Unit)
+
+    fun clear() = disposables.clear()
 }
