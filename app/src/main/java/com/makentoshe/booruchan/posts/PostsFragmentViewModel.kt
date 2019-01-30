@@ -8,6 +8,7 @@ import com.makentoshe.booruchan.FragmentViewModel
 import com.makentoshe.booruchan.PostsRepository
 import com.makentoshe.booruchan.PreviewImageRepository
 import com.makentoshe.booruchan.booru.model.DrawerController
+import com.makentoshe.booruchan.booru.model.DrawerState
 import com.makentoshe.booruchan.posts.model.*
 import com.makentoshe.repository.cache.CacheImpl
 
@@ -17,7 +18,7 @@ class PostsFragmentViewModel(
     private val tags: Set<Tag>
 ) : FragmentViewModel() {
 
-    private val clearIconControler = ClearIconController()
+    private val clearIconController = ClearIconController()
 
     lateinit var uiController: UIController
         private set
@@ -42,8 +43,8 @@ class PostsFragmentViewModel(
     }
 
     override fun onUiRecreate() {
-        clearIconControler.clear()
-        uiController = UIController(OverflowController(), drawerController)
+        clearIconController.clear()
+        uiController = UIController(OverflowController())
         searchControllerUpdate()
         selectedTagSetControllerUpdate()
         viewPagerControllerUpdate()
@@ -77,7 +78,8 @@ class PostsFragmentViewModel(
 
     override fun onCleared() {
         super.onCleared()
-        clearIconControler.clear()
+        clearIconController.clear()
+        drawerController.update()
         selectedTagSetController.clear()
     }
 
@@ -89,8 +91,16 @@ class PostsFragmentViewModel(
     }
 
     fun addOnClearIconClickListener(action: () -> Unit) {
-        clearIconControler.subscribe { action() }
+        clearIconController.subscribe { action() }
     }
 
-    fun clickClearIcon() = clearIconControler.click()
+    fun clickClearIcon() = clearIconController.click()
+
+    fun clickDrawerMenuIcon() {
+        if (drawerController.state == null) return drawerController.openDrawer()
+        when (drawerController.state) {
+            is DrawerState.DrawerOpen -> drawerController.closeDrawer()
+            is DrawerState.DrawerClose -> drawerController.openDrawer()
+        }
+    }
 }

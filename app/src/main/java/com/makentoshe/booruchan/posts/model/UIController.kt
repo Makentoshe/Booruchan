@@ -6,8 +6,7 @@ import com.makentoshe.booruchan.booru.model.DrawerState
 import io.reactivex.subjects.BehaviorSubject
 
 class UIController(
-    val overflowController: OverflowController,
-    val drawerController: DrawerController
+    val overflowController: OverflowController
 ) {
 
     private val uiActionObservable = BehaviorSubject.create<Action.UIAction>()
@@ -16,7 +15,6 @@ class UIController(
     private fun subscribe() = uiActionObservable.subscribe {
         when (it) {
             is Action.UIAction.OverflowClick -> overflowClicked()
-            is Action.UIAction.MenuClick -> menuClicked()
         }
     }
 
@@ -32,18 +30,6 @@ class UIController(
                 overflowController.newState(OverflowState.Transition(OverflowState.Cross))
             is OverflowState.Cross ->
                 overflowController.newState(OverflowState.Transition(OverflowState.Magnify))
-            else -> Unit
-        }
-    }
-
-    private fun menuClicked() {
-        if (drawerController.state == null) {
-            drawerController.openDrawer()
-            return
-        }
-        when (drawerController.state) {
-            is DrawerState.DrawerOpen -> drawerController.closeDrawer()
-            is DrawerState.DrawerClose -> drawerController.openDrawer()
             else -> Unit
         }
     }

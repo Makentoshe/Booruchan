@@ -6,7 +6,7 @@ import io.reactivex.functions.Consumer
 import io.reactivex.subjects.BehaviorSubject
 import java.io.Serializable
 
-class DrawerController: Controller<DrawerController.DrawerListener>, Serializable {
+class DrawerController : Controller<DrawerController.DrawerListener>, Serializable {
 
     @Transient
     private val drawerObservable = BehaviorSubject.create<DrawerState>()
@@ -19,8 +19,7 @@ class DrawerController: Controller<DrawerController.DrawerListener>, Serializabl
         disposables.add(drawerObservable.subscribe(handler))
     }
 
-    val state: DrawerState?
-        get() = drawerObservable.value
+    val state = drawerObservable.value
 
     fun openDrawer() = newState(DrawerState.DrawerOpen)
 
@@ -28,9 +27,7 @@ class DrawerController: Controller<DrawerController.DrawerListener>, Serializabl
 
     private fun newState(state: DrawerState) = drawerObservable.onNext(state)
 
-    fun update() {
-        disposables.clear()
-    }
+    fun update() = disposables.clear()
 
     class DrawerListener : Consumer<DrawerState> {
 

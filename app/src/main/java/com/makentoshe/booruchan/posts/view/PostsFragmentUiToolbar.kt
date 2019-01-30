@@ -30,7 +30,8 @@ class PostsFragmentUiToolbar(
             elevation = dip(4).toFloat()
             createDrawerMenuView()
             createToolbarView()
-            val overflowImageView = createOverflowView().findViewById<ImageView>(R.id.postpreview_toolbar_container_overflow_icon)
+            val overflowImageView =
+                createOverflowView().findViewById<ImageView>(R.id.postpreview_toolbar_container_overflow_icon)
             addOverflowListener(overflowImageView)
         }
     }
@@ -48,9 +49,7 @@ class PostsFragmentUiToolbar(
         addRule(RelativeLayout.CENTER_VERTICAL)
     }
 
-    private fun onDrawerMenuIconClick(ignored: View) {
-        postsFragmentViewModel.uiController.action(Action.UIAction.MenuClick)
-    }
+    private fun onDrawerMenuIconClick(ignored: View) = postsFragmentViewModel.clickDrawerMenuIcon()
 
     private fun _RelativeLayout.createToolbarView() = toolbar {
         id = R.id.postpreview_toolbar_container_toolbar
