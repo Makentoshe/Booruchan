@@ -7,14 +7,12 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.RelativeLayout
 import com.makentoshe.booruchan.*
-import com.makentoshe.booruchan.posts.model.OverflowState
 import com.makentoshe.booruchan.posts.PostsFragmentViewModel
 import com.makentoshe.booruchan.posts.animations.OverflowToCrossAnimator
 import com.makentoshe.booruchan.posts.animations.OverflowToMagnifyAnimator
 import com.makentoshe.booruchan.posts.animations.ToolbarHideElevationAnimator
 import com.makentoshe.booruchan.posts.animations.ToolbarShowElevationAnimator
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import com.makentoshe.booruchan.posts.model.OverflowController
 import org.jetbrains.anko.*
 
 class PostsFragmentUiToolbar(
@@ -79,26 +77,20 @@ class PostsFragmentUiToolbar(
         addRule(RelativeLayout.CENTER_VERTICAL)
     }
 
-    private fun onOverflowIconClick(ignored: View) {
-        postsFragmentViewModel.uiController.action(Action.UIAction.OverflowClick)
-    }
+    private fun onOverflowIconClick(ignored: View) = postsFragmentViewModel.clickOverflowIcon()
 
     private fun _RelativeLayout.addOverflowListener(overflowImageView: ImageView) {
-        postsFragmentViewModel.uiController.addOverflowListener {
+        postsFragmentViewModel.addOnOverflowStateChangedListener {
             onTransition {
                 when (it.finishState) {
-                    OverflowState.Magnify -> Handler(Looper.getMainLooper()).postAtFrontOfQueue {
+                    OverflowController.OverflowState.Magnify -> Handler(Looper.getMainLooper()).postAtFrontOfQueue {
                         OverflowToMagnifyAnimator(overflowImageView, style).animate()
                         ToolbarShowElevationAnimator(this@addOverflowListener, it.transitionDuration).animate()
                     }
-                    OverflowState.Cross -> Handler(Looper.getMainLooper()).postAtFrontOfQueue {
+                    OverflowController.OverflowState.Cross -> Handler(Looper.getMainLooper()).postAtFrontOfQueue {
                         OverflowToCrossAnimator(overflowImageView, style).animate()
                         ToolbarHideElevationAnimator(this@addOverflowListener, it.transitionDuration).animate()
                     }
-                }
-                postsFragmentViewModel.launch {
-                    delay(it.transitionDuration)
-                    postsFragmentViewModel.uiController.overflowController.newState(it.finishState)
                 }
             }
         }

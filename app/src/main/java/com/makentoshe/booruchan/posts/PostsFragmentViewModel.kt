@@ -20,8 +20,7 @@ class PostsFragmentViewModel(
 
     private val clearIconController = ClearIconController()
 
-    lateinit var uiController: UIController
-        private set
+    private val overflowController = OverflowController(this)
 
     lateinit var selectedTagSetController: SelectedTagSetController
         private set
@@ -43,8 +42,8 @@ class PostsFragmentViewModel(
     }
 
     override fun onUiRecreate() {
+        overflowController.update()
         clearIconController.clear()
-        uiController = UIController(OverflowController())
         searchControllerUpdate()
         selectedTagSetControllerUpdate()
         viewPagerControllerUpdate()
@@ -78,8 +77,9 @@ class PostsFragmentViewModel(
 
     override fun onCleared() {
         super.onCleared()
+        overflowController.clear()
         clearIconController.clear()
-        drawerController.update()
+        drawerController.clear()
         selectedTagSetController.clear()
     }
 
@@ -103,4 +103,25 @@ class PostsFragmentViewModel(
             is DrawerState.DrawerClose -> drawerController.openDrawer()
         }
     }
+
+    fun addOnOverflowStateChangedListener(action: OverflowController.OverflowListener.() -> Unit) {
+        overflowController.subscribe(action)
+    }
+
+    fun clickOverflowIcon() {
+        if (overflowController.state == null) {
+            overflowController.newState(OverflowController.OverflowState.Cross)
+            return
+        }
+        when (overflowController.state) {
+            is OverflowController.OverflowState.Magnify ->
+                overflowController.newState(OverflowController.OverflowState.Cross)
+            is OverflowController.OverflowState.Cross ->
+                overflowController.newState(OverflowController.OverflowState.Magnify)
+            else -> Unit
+        }
+    }
+
+    val overflowState: OverflowController.OverflowState?
+        get() = overflowController.state
 }

@@ -14,7 +14,7 @@ import com.makentoshe.booruchan.*
 import com.makentoshe.booruchan.posts.PostsFragmentViewModel
 import com.makentoshe.booruchan.posts.animations.SearchHideAnimator
 import com.makentoshe.booruchan.posts.animations.SearchShowAnimator
-import com.makentoshe.booruchan.posts.model.OverflowState
+import com.makentoshe.booruchan.posts.model.OverflowController
 import org.jetbrains.anko.*
 import org.jetbrains.anko.cardview.v7.cardView
 import org.jetbrains.anko.sdk27.coroutines.onEditorAction
@@ -79,21 +79,21 @@ class PostsFragmentUiContentSearch(
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                 addTagToListOfSelectedTags(Tag(text.toString()))
                 postsFragmentViewModel.startNewSearch()
-                postsFragmentViewModel.uiController.action(Action.UIAction.OverflowClick)
+                postsFragmentViewModel.clickOverflowIcon()
             }
         }
     }
 
     private fun DelayAutocompleteEditText.addOverflowListener(parent: RelativeLayout) {
-        postsFragmentViewModel.uiController.addOverflowListener {
+        postsFragmentViewModel.addOnOverflowStateChangedListener {
             onTransition {
                 when (it.finishState) {
-                    OverflowState.Magnify -> Handler(Looper.getMainLooper()).postAtFrontOfQueue {
+                    OverflowController.OverflowState.Magnify -> Handler(Looper.getMainLooper()).postAtFrontOfQueue {
                         SearchHideAnimator(parent, it.transitionDuration).animate()
                         this@addOverflowListener.clearFocus()
                         hideKeyboard(context, this@addOverflowListener)
                     }
-                    OverflowState.Cross -> Handler(Looper.getMainLooper()).postAtFrontOfQueue {
+                    OverflowController.OverflowState.Cross -> Handler(Looper.getMainLooper()).postAtFrontOfQueue {
                         SearchShowAnimator(parent, it.transitionDuration).animate()
                         this@addOverflowListener.requestFocus()
                         showKeyboard(context, this@addOverflowListener)

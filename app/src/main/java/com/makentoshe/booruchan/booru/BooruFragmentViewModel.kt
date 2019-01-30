@@ -34,13 +34,13 @@ class BooruFragmentViewModel(@JvmField val booru: Booru, private val tags: Set<T
     override fun onCleared() {
         super.onCleared()
         contentController.clear()
-        drawerController.update()
+        drawerController.clear()
     }
 
     fun onUiRecreate(fragmentActivity: FragmentActivity, fragmentManager: FragmentManager) {
         val navigator = Navigator(fragmentActivity, R.id.booru_drawer_content, fragmentManager)
         contentController.update(navigator, newPostsScreen())
-        drawerController.update()
+        drawerController.clear()
     }
 
     private fun newPostsScreen(): PostsScreen {

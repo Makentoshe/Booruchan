@@ -19,7 +19,8 @@ class DrawerController : Controller<DrawerController.DrawerListener>, Serializab
         disposables.add(drawerObservable.subscribe(handler))
     }
 
-    val state = drawerObservable.value
+    val state: DrawerState?
+        get() = drawerObservable.value
 
     fun openDrawer() = newState(DrawerState.DrawerOpen)
 
@@ -27,7 +28,7 @@ class DrawerController : Controller<DrawerController.DrawerListener>, Serializab
 
     private fun newState(state: DrawerState) = drawerObservable.onNext(state)
 
-    fun update() = disposables.clear()
+    fun clear() = disposables.clear()
 
     class DrawerListener : Consumer<DrawerState> {
 

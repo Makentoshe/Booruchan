@@ -12,7 +12,7 @@ import com.makentoshe.booruchan.PostFragmentViewModelFactory
 import com.makentoshe.booruchan.ViewModelFragment
 import com.makentoshe.booruchan.booru.model.DrawerController
 import com.makentoshe.booruchan.posts.PostsFragmentViewModel
-import com.makentoshe.booruchan.posts.model.OverflowState
+import com.makentoshe.booruchan.posts.model.OverflowController
 import org.jetbrains.anko.AnkoContext
 
 class PostsFragment : ViewModelFragment<PostsFragmentViewModel>() {
@@ -32,15 +32,13 @@ class PostsFragment : ViewModelFragment<PostsFragmentViewModel>() {
     }
 
     override fun onBackPressed(): Boolean {
-        val overflowController = viewModel.uiController.overflowController
-
-        if (overflowController.value == OverflowState.Cross) {
-            overflowController.newState(OverflowState.Transition(OverflowState.Magnify))
+        if (viewModel.overflowState == OverflowController.OverflowState.Cross) {
+            viewModel.clickOverflowIcon()
             return true
         }
 
         //check inner fragment on backpress
-        val fragment = childFragmentManager.fragments.last()
+        val fragment = childFragmentManager.fragments.lastOrNull()
         return fragment is Backpressable && fragment.onBackPressed()
     }
 }

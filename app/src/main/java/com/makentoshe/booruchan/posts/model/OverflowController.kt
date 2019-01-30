@@ -1,25 +1,52 @@
 package com.makentoshe.booruchan.posts.model
 
-import android.annotation.SuppressLint
-import io.reactivex.disposables.Disposable
+import com.makentoshe.booruchan.Controller
+import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.functions.Consumer
 import io.reactivex.subjects.BehaviorSubject
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
-class OverflowController {
+class OverflowController(
+    private val coroutineScope: CoroutineScope
+) : Controller<OverflowController.OverflowListener> {
 
-    private val overflowStateObservable = BehaviorSubject.create<OverflowState>()
-    private val overflowStateObservers = HashMap<Any, Disposable>()
+    private val observable = BehaviorSubject.create<OverflowState>()
+    private val disposables = CompositeDisposable()
 
-    val value: OverflowState?
-        get() = overflowStateObservable.value
+    val state: OverflowState?
+        get() = observable.value
 
-    fun newState(state: OverflowState) = overflowStateObservable.onNext(state)
+    fun newState(finishState: OverflowState) = observable.onNext(OverflowState.Transition(finishState))
 
-    @SuppressLint("CheckResult")
-    fun addOverflowListener(init: OverflowListener.() -> Unit) {
+    override fun subscribe(action: OverflowListener.() -> Unit) {
         val handler = OverflowListener()
-        handler.init()
-        overflowStateObservable.subscribe(handler)
+        handler.action()
+        disposables.add(observable.subscribe(handler))
+    }
+
+    fun update() {
+        clear()
+        subscribe {
+            onTransition {
+                coroutineScope.launch {
+                    delay(it.transitionDuration)
+                    observable.onNext(it.finishState)
+                }
+            }
+        }
+    }
+
+    fun clear() = disposables.clear()
+
+    sealed class OverflowState {
+        @JvmField
+        val transitionDuration = 200L
+
+        object Magnify : OverflowState()
+        object Cross : OverflowState()
+        class Transition(val finishState: OverflowState) : OverflowState()
     }
 
     class OverflowListener : Consumer<OverflowState> {
