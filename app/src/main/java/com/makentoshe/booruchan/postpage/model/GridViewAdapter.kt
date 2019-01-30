@@ -7,13 +7,15 @@ import android.view.ViewGroup
 import android.widget.BaseAdapter
 import com.makentoshe.booruapi.Post
 import com.makentoshe.booruapi.Posts
+import com.makentoshe.booruchan.DownloadResult
+import com.makentoshe.booruchan.PreviewImageDownloadController
 import com.makentoshe.booruchan.R
 import org.jetbrains.anko.*
 import org.jetbrains.anko.cardview.v7.cardView
 
 class GridViewAdapter(
     private val posts: Posts,
-    private val previewsDownloadController: PreviewsDownloadController
+    private val previewsDownloadController: PreviewImageDownloadController
 ) : BaseAdapter() {
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
@@ -28,7 +30,7 @@ class GridViewAdapter(
 
     private class PreviewUi(
         private val post: Post,
-        private val previewsDownloadController: PreviewsDownloadController
+        private val previewsDownloadController: PreviewImageDownloadController
     ) {
 
         fun createView(context: Context): View = with(context) {
@@ -42,8 +44,8 @@ class GridViewAdapter(
                     imageView {
                         id = R.id.preview
 
-                        previewsDownloadController.subscribeOnPreview(post) { bitmap ->
-                            setImageBitmap(bitmap)
+                        previewsDownloadController.subscribe(DownloadResult(post)) {
+                            if (it.data != null) setImageBitmap(it.data) else /*TODO(err)*/ Unit
                         }
 
                     }.lparams(matchParent, matchParent)

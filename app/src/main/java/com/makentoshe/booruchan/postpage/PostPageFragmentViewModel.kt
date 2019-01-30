@@ -1,20 +1,15 @@
 package com.makentoshe.booruchan.postpage
 
-import android.os.Handler
-import android.os.Looper
 import android.widget.BaseAdapter
 import androidx.lifecycle.ViewModel
 import com.makentoshe.booruapi.Booru
 import com.makentoshe.booruapi.Posts
 import com.makentoshe.booruchan.*
 import com.makentoshe.booruchan.postpage.model.GridViewAdapter
-import com.makentoshe.booruchan.postpage.model.PostsDownloadController
-import com.makentoshe.booruchan.postpage.model.PreviewsDownloadController
 import com.makentoshe.repository.cache.CacheImpl
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
 import kotlin.coroutines.CoroutineContext
 
 class PostPageFragmentViewModel(
@@ -29,26 +24,16 @@ class PostPageFragmentViewModel(
     override val coroutineContext: CoroutineContext
         get() = Dispatchers.Default + job
 
-    private val postsDownloadController = PostsDownloadController(postsRepository)
+    private val postsDownloadController = PostsDownloadController(this, postsRepository)
 
-    private val previewDownloadController = PreviewsDownloadController(this, previewsRepository)
+    private val previewImageDownloadController = PreviewImageDownloadController(this, previewsRepository)
 
-    init {
-        launch {
-            try {
-                postsDownloadController.loadPosts(position)
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
-        }
-    }
-
-    fun subscribeOnPosts(action: (Posts) -> Unit) = postsDownloadController.subscribe {
-        Handler(Looper.getMainLooper()).post { action(it) }
+    fun subscribeOnPosts(action: (DownloadResult<Posts>) -> Unit) {
+        postsDownloadController.subscribe(DownloadResult(position), action)
     }
 
     fun getGridAdapter(posts: Posts): BaseAdapter {
-        return GridViewAdapter(posts, previewDownloadController)
+        return GridViewAdapter(posts, previewImageDownloadController)
     }
 
     fun navigateToPostDetailsScreen(position: Int) {
@@ -63,12 +48,7 @@ class PostPageFragmentViewModel(
         return true
     }
 
-    fun update() {
-        postsDownloadController.update()
-    }
-
     override fun onCleared() {
-        postsDownloadController.update()
         super.onCleared()
         job.cancel()
     }

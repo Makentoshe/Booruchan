@@ -5,6 +5,7 @@ import android.graphics.BitmapFactory
 import android.os.Handler
 import android.os.Looper
 import com.makentoshe.booruapi.Post
+import com.makentoshe.booruapi.Posts
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -77,6 +78,18 @@ class SampleImageDownloadController(
 }
 
 /**
+ * Class for performing preview image download using [Post] instance.
+ */
+class PreviewImageDownloadController(
+    coroutineScope: CoroutineScope, private val repository: ImageRepository
+): DownloadDoubleController<Post, Bitmap>(coroutineScope) {
+    override fun performDownload(request: DownloadResult<Post>): Bitmap {
+        val byteArray = repository.get(request.data!!.previewUrl)!!
+        return BitmapFactory.decodeByteArray(byteArray, 0, byteArray.size)
+    }
+}
+
+/**
  * Class for performing file download using [Post] instance and return a byte array as a result.
  */
 class FileImageDownloadController(
@@ -91,6 +104,19 @@ class FileImageDownloadController(
     }
 }
 
+/**
+ * Class for downloading [Posts].
+ */
+class PostsDownloadController(
+    coroutineScope: CoroutineScope,
+    private val repository: PostsRepository
+): DownloadDoubleController<Int, Posts>(coroutineScope) {
+
+    @Synchronized
+    override fun performDownload(request: DownloadResult<Int>): Posts {
+        return repository.get(request.data!!)
+    }
+}
 
 /**
  * Any download will be wrapped in this class.

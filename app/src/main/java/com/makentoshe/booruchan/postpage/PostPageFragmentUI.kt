@@ -7,7 +7,6 @@ import android.view.View
 import android.widget.AdapterView
 import com.makentoshe.booruchan.Booruchan
 import org.jetbrains.anko.*
-import org.jetbrains.anko.sdk27.coroutines.onClick
 
 class PostPageFragmentUI(
     private val viewModel: PostPageFragmentViewModel
@@ -43,7 +42,9 @@ class PostPageFragmentUI(
             gravity = Gravity.CENTER
             verticalSpacing = dip(10)
             viewModel.subscribeOnPosts {
-                adapter = viewModel.getGridAdapter(it)
+                if (it.data != null) {
+                    adapter = viewModel.getGridAdapter(it.data)
+                }
             }
             setOnItemClickListener(::onGridElementClick)
             setOnItemLongClickListener(::onGridElementLongClick)
