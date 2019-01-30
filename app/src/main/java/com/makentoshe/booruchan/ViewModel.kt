@@ -17,6 +17,7 @@ import com.makentoshe.booruchan.start.StartFragmentViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
+import ru.terrakok.cicerone.Router
 import kotlin.coroutines.CoroutineContext
 
 abstract class CoroutineViewModel : ViewModel(), CoroutineScope {
@@ -43,11 +44,11 @@ abstract class ViewModelFactory : ViewModelProvider.NewInstanceFactory() {
         return super.create(modelClass)
     }
 
-    abstract fun  build(): ViewModel
+    abstract fun build(): ViewModel
 }
 
 class StartFragmentViewModelFactory : ViewModelFactory() {
-    override fun build() = StartFragmentViewModel()
+    override fun build() = StartFragmentViewModel(Booruchan.INSTANCE.router, Booruchan.INSTANCE.booruList)
 }
 
 class BooruFragmentViewModelFactory(

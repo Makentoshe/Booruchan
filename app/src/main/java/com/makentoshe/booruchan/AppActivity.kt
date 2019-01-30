@@ -6,13 +6,15 @@ import androidx.appcompat.app.AppCompatActivity
 class AppActivity : AppCompatActivity() {
 
     private val navigator = Navigator(this, R.id.appcontainer)
+    private val router = Booruchan.INSTANCE.router
+    private val booruList = Booruchan.INSTANCE.booruList
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(Booruchan.INSTANCE.style.id)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         if (savedInstanceState == null) {
-            Booruchan.INSTANCE.router.newRootScreen(StartScreen())
+            router.newRootScreen(StartScreen())
 //            Booruchan.INSTANCE.router.newRootScreen(
 //                PostSamplesScreen(
 //                    Booruchan.INSTANCE.booruList[0],

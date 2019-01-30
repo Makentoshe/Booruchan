@@ -21,7 +21,9 @@ import com.makentoshe.booruchan.postsamplespageimage.PostSamplePageImageFragment
 import com.makentoshe.booruchan.settings.SettingsFragment
 import com.makentoshe.booruchan.start.StartFragment
 import ru.terrakok.cicerone.Navigator
+import ru.terrakok.cicerone.Router
 import ru.terrakok.cicerone.commands.*
+import java.io.Serializable
 import java.util.*
 import kotlin.collections.HashSet
 

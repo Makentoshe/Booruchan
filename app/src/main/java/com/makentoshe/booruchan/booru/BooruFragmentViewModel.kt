@@ -34,6 +34,7 @@ class BooruFragmentViewModel(@JvmField val booru: Booru, private val tags: Set<T
     override fun onCleared() {
         super.onCleared()
         contentController.clear()
+        drawerController.update()
     }
 
     fun onUiRecreate(fragmentActivity: FragmentActivity, fragmentManager: FragmentManager) {
