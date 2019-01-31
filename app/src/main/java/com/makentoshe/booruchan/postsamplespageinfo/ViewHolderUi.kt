@@ -67,16 +67,8 @@ class ViewHolderUi(
     private fun ChipGroup.setTags(tags: Array<Tag>) {
         for (tag in tags) {
             if (tag.name.isBlank()) continue
-            Handler(Looper.getMainLooper()).post {
-                addChip {
-                    text = tag.name
-                    onClick { }
-                }
-            }
+            val chip = Chip(context).apply { text = tag.name }
+            Handler(Looper.getMainLooper()).post { addView(chip) }
         }
-    }
-
-    private fun ChipGroup.addChip(action: Chip.() -> Unit) {
-        addView(Chip(context).apply(action))
     }
 }

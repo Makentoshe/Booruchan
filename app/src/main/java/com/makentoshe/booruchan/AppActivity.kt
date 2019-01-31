@@ -2,12 +2,14 @@ package com.makentoshe.booruchan
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 
 class AppActivity : AppCompatActivity() {
 
     private val navigator = Navigator(this, R.id.appcontainer)
     private val router = Booruchan.INSTANCE.router
     private val booruList = Booruchan.INSTANCE.booruList
+    val requestPermissionController = RequestPermissionController()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(Booruchan.INSTANCE.style.id)
@@ -32,11 +34,16 @@ class AppActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         Booruchan.INSTANCE.navigatorHolder.setNavigator(navigator)
+        requestPermissionController.subscribe {
+            ActivityCompat.requestPermissions(this, arrayOf(it), PERMISSION_REQUEST_CODE_WRITE_EXTERNAL_STORAGE)
+            println("Reqiest permission $it")
+        }
     }
 
     override fun onPause() {
         super.onPause()
         Booruchan.INSTANCE.navigatorHolder.removeNavigator()
+        requestPermissionController.clear()
     }
 
     override fun onBackPressed() {
@@ -45,5 +52,16 @@ class AppActivity : AppCompatActivity() {
         if (fragment is Backpressable && fragment.onBackPressed()) return
 
         super.onBackPressed()
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        if (requestCode == PERMISSION_REQUEST_CODE_WRITE_EXTERNAL_STORAGE && permissions.size == 1) {
+            println("GRANTED")
+        }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+    }
+
+    companion object {
+        private val PERMISSION_REQUEST_CODE_WRITE_EXTERNAL_STORAGE = 0
     }
 }

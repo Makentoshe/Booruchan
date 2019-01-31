@@ -6,10 +6,10 @@ import com.makentoshe.booruapi.Booru
 import com.makentoshe.booruapi.Tag
 import com.makentoshe.booruchan.booru.BooruFragmentViewModel
 import com.makentoshe.booruchan.booru.model.DrawerController
-import com.makentoshe.booruchan.postpreviewspage.PostPageFragmentViewModel
 import com.makentoshe.booruchan.postpreviews.PostsFragmentViewModel
+import com.makentoshe.booruchan.postpreviewspage.PostPageFragmentViewModel
 import com.makentoshe.booruchan.postsamples.PostsSampleFragmentViewModel
-import com.makentoshe.booruchan.postsamples.model.SamplePageController
+import com.makentoshe.booruchan.postsamples.model.SamplePageBlockController
 import com.makentoshe.booruchan.postsamplespage.PostSamplePageViewModel
 import com.makentoshe.booruchan.postsamplespageimage.PostSamplePagePreviewFragmentViewModel
 import com.makentoshe.booruchan.postsamplespageinfo.PostSamplePageInfoFragmentViewModel
@@ -78,14 +78,27 @@ class PostSampleFragmentViewModelFactory(
     private val booru: Booru,
     private val position: Int,
     private val postsRepository: PostsRepository,
-    private val sampleRepository: ImageRepository
+    private val sampleRepository: ImageRepository,
+    private val requestPermissionController: RequestPermissionController
 ) : ViewModelFactory() {
-    override fun build() = PostsSampleFragmentViewModel(booru, position, postsRepository, sampleRepository)
+    override fun build(): PostsSampleFragmentViewModel {
+        val fileRepository = FileImageRepository(booru)
+        val router = Booruchan.INSTANCE.router
+        return PostsSampleFragmentViewModel(
+            booru,
+            position,
+            postsRepository,
+            sampleRepository,
+            router,
+            fileRepository,
+            requestPermissionController
+        )
+    }
 }
 
 class PostSamplePageFragmentViewModelFactory(
     private val position: Int,
-    private val samplePageController: SamplePageController,
+    private val samplePageController: SamplePageBlockController,
     private val sampleRepository: ImageRepository,
     private val postsRepository: PostsRepository
 ) : ViewModelFactory() {

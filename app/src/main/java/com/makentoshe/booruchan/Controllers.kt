@@ -6,6 +6,8 @@ import android.os.Handler
 import android.os.Looper
 import com.makentoshe.booruapi.Post
 import com.makentoshe.booruapi.Posts
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.subjects.PublishSubject
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -82,7 +84,7 @@ class SampleImageDownloadController(
  */
 class PreviewImageDownloadController(
     coroutineScope: CoroutineScope, private val repository: ImageRepository
-): DownloadDoubleController<Post, Bitmap>(coroutineScope) {
+) : DownloadDoubleController<Post, Bitmap>(coroutineScope) {
     override fun performDownload(request: DownloadResult<Post>): Bitmap {
         val byteArray = repository.get(request.data!!.previewUrl)!!
         return BitmapFactory.decodeByteArray(byteArray, 0, byteArray.size)
@@ -110,7 +112,7 @@ class FileImageDownloadController(
 class PostsDownloadController(
     coroutineScope: CoroutineScope,
     private val repository: PostsRepository
-): DownloadDoubleController<Int, Posts>(coroutineScope) {
+) : DownloadDoubleController<Int, Posts>(coroutineScope) {
 
     @Synchronized
     override fun performDownload(request: DownloadResult<Int>): Posts {
@@ -122,3 +124,16 @@ class PostsDownloadController(
  * Any download will be wrapped in this class.
  */
 data class DownloadResult<T>(val data: T? = null, val exception: Exception? = null)
+
+class RequestPermissionController : Controller<String> {
+    private val observable = PublishSubject.create<String>()
+    private val disposables = CompositeDisposable()
+
+    override fun subscribe(action: (String) -> Unit) {
+        disposables.add(observable.subscribe(action))
+    }
+
+    fun action(permission: String) = observable.onNext(permission)
+
+    fun clear() = disposables.clear()
+}

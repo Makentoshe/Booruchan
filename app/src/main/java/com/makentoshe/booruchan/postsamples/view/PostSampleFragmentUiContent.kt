@@ -1,17 +1,22 @@
 package com.makentoshe.booruchan.postsamples.view
 
+import android.Manifest
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentManager
+import com.google.android.material.snackbar.Snackbar
 import com.makentoshe.booruchan.BlockableViewPager
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.postsamples.PostsSampleFragmentViewModel
-import com.makentoshe.booruchan.postsamples.model.SamplePageController
+import com.makentoshe.booruchan.postsamples.model.SamplePageBlockController
 import org.jetbrains.anko.AnkoComponent
 import org.jetbrains.anko.AnkoContext
 import org.jetbrains.anko.frameLayout
 import org.jetbrains.anko.matchParent
+import org.jetbrains.anko.support.v4.onPageChangeListener
 
 class PostSampleFragmentUiContent(
     private val viewModel: PostsSampleFragmentViewModel,
@@ -22,10 +27,18 @@ class PostSampleFragmentUiContent(
         frameLayout {
             lparams(matchParent, matchParent)
             blockableViewPager {
-                id = R.id.viewpager
+                id = R.id.postsample_content_viewpager
                 adapter = viewModel.getPagerAdapter(fragmentManager)
                 if (currentItem == 0) currentItem = viewModel.startPosition
                 commandSubscribe(::applyCommand)
+                onPageChangeListener { onPageSelected { viewModel.selectedPage = it } }
+            }
+            viewModel.onFileDownloadListener {
+                if (it == Manifest.permission.WRITE_EXTERNAL_STORAGE) {
+                    return@onFileDownloadListener viewModel.requestPermission(it)
+                }
+                val message = "File $it has been downloaded."
+                Snackbar.make(this, message, Snackbar.LENGTH_SHORT).show()
             }
         }
     }
@@ -34,15 +47,15 @@ class PostSampleFragmentUiContent(
         addView(BlockableViewPager(context).apply(action))
     }
 
-    private fun BlockableViewPager.commandSubscribe(action: (SamplePageController.Command, BlockableViewPager) -> Unit) {
-        viewModel.blockController.subscribe { action(it, this) }
+    private fun BlockableViewPager.commandSubscribe(action: (SamplePageBlockController.Command, BlockableViewPager) -> Unit) {
+        viewModel.onNewPageBlockCommandListener{ action(it, this) }
     }
 
-    private fun applyCommand(command: SamplePageController.Command, view: BlockableViewPager) {
+    private fun applyCommand(command: SamplePageBlockController.Command, view: BlockableViewPager) {
         when (command) {
-            SamplePageController.Command.BLOCK -> blockCommand(view)
-            SamplePageController.Command.UNBLOCK -> unblockCommand(view)
-            SamplePageController.Command.CLOSE -> closeCommand()
+            SamplePageBlockController.Command.BLOCK -> blockCommand(view)
+            SamplePageBlockController.Command.UNBLOCK -> unblockCommand(view)
+            SamplePageBlockController.Command.CLOSE -> closeCommand()
         }
     }
 

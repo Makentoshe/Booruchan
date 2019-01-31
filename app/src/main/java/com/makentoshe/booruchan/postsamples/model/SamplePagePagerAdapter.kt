@@ -8,7 +8,7 @@ import com.makentoshe.booruchan.PostsRepository
 
 class SamplePagePagerAdapter(
     fragmentManager: FragmentManager,
-    private val samplePageController: SamplePageController,
+    private val samplePageController: SamplePageBlockController,
     private val sampleRepository: ImageRepository,
     private val postsRepository: PostsRepository
 ) : FragmentStatePagerAdapter(fragmentManager) {

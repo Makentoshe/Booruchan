@@ -9,7 +9,7 @@ import androidx.lifecycle.ViewModelProviders
 import com.makentoshe.booruchan.ImageRepository
 import com.makentoshe.booruchan.PostSamplePageFragmentViewModelFactory
 import com.makentoshe.booruchan.PostsRepository
-import com.makentoshe.booruchan.postsamples.model.SamplePageController
+import com.makentoshe.booruchan.postsamples.model.SamplePageBlockController
 import org.jetbrains.anko.AnkoContext
 
 class PostSamplePageFragment : Fragment() {
@@ -29,7 +29,7 @@ class PostSamplePageFragment : Fragment() {
     private fun buildViewModel(arguments: Bundle): PostSamplePageViewModel {
         val position = arguments.getInt(Int::class.java.simpleName)
         val blockController =
-            arguments.getSerializable(SamplePageController::class.java.simpleName) as SamplePageController
+            arguments.getSerializable(SamplePageBlockController::class.java.simpleName) as SamplePageBlockController
         val sampleRepository = arguments.getSerializable(ImageRepository::class.java.simpleName) as ImageRepository
         val postsRepository = arguments.getSerializable(PostsRepository::class.java.simpleName) as PostsRepository
 

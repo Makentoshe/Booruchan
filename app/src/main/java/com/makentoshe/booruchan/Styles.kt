@@ -107,6 +107,10 @@ abstract class Style : Serializable {
                 @JvmField
                 @DrawableRes
                 val menu = R.drawable.ic_menu_vector
+
+                @JvmField
+                @DrawableRes
+                val download = R.drawable.ic_download
             }
         }
 

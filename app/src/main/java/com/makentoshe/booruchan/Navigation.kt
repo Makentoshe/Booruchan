@@ -14,7 +14,7 @@ import com.makentoshe.booruchan.booru.model.DrawerController
 import com.makentoshe.booruchan.postpreviewspage.PostPageFragment
 import com.makentoshe.booruchan.postpreviews.view.PostsFragment
 import com.makentoshe.booruchan.postsamples.PostSampleFragment
-import com.makentoshe.booruchan.postsamples.model.SamplePageController
+import com.makentoshe.booruchan.postsamples.model.SamplePageBlockController
 import com.makentoshe.booruchan.postsamplespage.PostSamplePageFragment
 import com.makentoshe.booruchan.postsamplespageinfo.PostSamplePageInfoFragment
 import com.makentoshe.booruchan.postsamplespageimage.PostSamplePageImageFragment
@@ -121,7 +121,7 @@ class PostSamplesScreen(
 
 class PostSamplePageScreen(
     private val position: Int,
-    private val samplePageController: SamplePageController,
+    private val samplePageController: SamplePageBlockController,
     private val sampleRepository: ImageRepository,
     private val postsRepository: PostsRepository
 ) : Screen() {
@@ -129,7 +129,7 @@ class PostSamplePageScreen(
         get() = PostSamplePageFragment().apply {
             arguments = Bundle().apply {
                 putInt(Int::class.java.simpleName, position)
-                putSerializable(SamplePageController::class.java.simpleName, samplePageController)
+                putSerializable(SamplePageBlockController::class.java.simpleName, samplePageController)
                 putSerializable(ImageRepository::class.java.simpleName, sampleRepository)
                 putSerializable(PostsRepository::class.java.simpleName, postsRepository)
             }
