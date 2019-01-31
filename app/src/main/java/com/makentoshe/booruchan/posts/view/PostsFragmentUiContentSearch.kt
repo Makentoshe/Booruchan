@@ -77,7 +77,9 @@ class PostsFragmentUiContentSearch(
     private fun DelayAutocompleteEditText.addOnSearchActionClickListener() {
         onEditorAction { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                addTagToListOfSelectedTags(Tag(text.toString()))
+                if (text.isNotBlank()) {
+                    addTagToListOfSelectedTags(Tag(text.toString()))
+                }
                 postsFragmentViewModel.startNewSearch()
                 postsFragmentViewModel.clickOverflowIcon()
             }
@@ -129,7 +131,7 @@ class PostsFragmentUiContentSearch(
 
     private fun DelayAutocompleteEditText.addTagToListOfSelectedTags(tag: Tag) {
         setText("")
-        postsFragmentViewModel.selectedTagSetController.addTag(tag)
+        postsFragmentViewModel.addTag(tag)
     }
 
     private fun _RelativeLayout.autocompleteDelayProgressBar(): ProgressBar {
@@ -161,9 +163,8 @@ class PostsFragmentUiContentSearch(
     private fun _RelativeLayout.tagsContainerView() {
         chipGroup {
             id = R.id.postpreview_search_tags
-            postsFragmentViewModel.selectedTagSetController.subscribeOnAdd {
-                createChip(it)
-            }
+            postsFragmentViewModel.onAddTagSubscribe { createChip(it) }
+            postsFragmentViewModel.compositeTagSet.forEach { createChip(it) }
         }.lparams(width = matchParent, height = wrapContent) {
             below(R.id.postpreview_search_container)
             setMargins(0, 0, 0, dip(8))
@@ -178,9 +179,9 @@ class PostsFragmentUiContentSearch(
             isCloseIconVisible = true
             closeIcon?.setColorFilter(style.chip.getOnPrimaryColor(context), PorterDuff.Mode.SRC_ATOP)
             setOnCloseIconClickListener {
-                postsFragmentViewModel.selectedTagSetController.removeTag(tag)
+                postsFragmentViewModel.removeTag(tag)
             }
-            postsFragmentViewModel.selectedTagSetController.subscribeOnRemove {
+            postsFragmentViewModel.onRemTagSubscribe {
                 if (tag == it) removeView(this)
             }
         }

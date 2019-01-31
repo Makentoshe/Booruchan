@@ -19,6 +19,11 @@ class PostsFragmentViewModel(
     private val tags: Set<Tag>
 ) : FragmentViewModel() {
 
+    private val clearIconController = ClearIconController()
+    private val overflowController = OverflowController(this)
+    private val searchController = SearchController()
+    private val compositeTagController = CompositeTagController(TagController(), TagController(), tags)
+
     fun clickDrawerMenuIcon() {
         if (drawerController.state == null) return drawerController.openDrawer()
         when (drawerController.state) {
@@ -27,17 +32,11 @@ class PostsFragmentViewModel(
         }
     }
 
-    private val clearIconController = ClearIconController()
-
     fun clickClearIcon() = clearIconController.click()
 
     fun addOnClearIconClickListener(action: () -> Unit) {
         clearIconController.subscribe { action() }
     }
-
-
-
-    private val overflowController = OverflowController(this)
 
     val overflowState: OverflowController.OverflowState?
         get() = overflowController.state
@@ -60,18 +59,21 @@ class PostsFragmentViewModel(
         overflowController.subscribe(action)
     }
 
-
-
-    private val searchController = SearchController()
-
-    fun startNewSearch() = searchController.newSearch(selectedTagSetController.tags)
+    fun startNewSearch() = searchController.newSearch(compositeTagSet)
 
     fun onSearchStartedListener(action: (Set<Tag>) -> Unit) = searchController.subscribe(action)
 
+    fun onAddTagSubscribe(action: (Tag) -> Unit) = compositeTagController.subscribeOnAdd(action)
 
+    fun onRemTagSubscribe(action: (Tag) -> Unit) = compositeTagController.subscribeOnRemove(action)
 
-    lateinit var selectedTagSetController: SelectedTagSetController
-        private set
+    fun addTag(tag: Tag) = compositeTagController.addTag(tag)
+
+    fun removeTag(tag: Tag) = compositeTagController.removeTag(tag)
+
+    val compositeTagSet: Set<Tag>
+        get() = compositeTagController.tagSet
+
 
     lateinit var viewPagerController: ViewPagerController
 
@@ -83,18 +85,11 @@ class PostsFragmentViewModel(
         overflowController.update()
         clearIconController.clear()
         searchController.update(tags)
-        selectedTagSetControllerUpdate()
+        compositeTagController.clear()
         viewPagerControllerUpdate()
     }
 
-    private fun selectedTagSetControllerUpdate() {
-        selectedTagSetController = if (::selectedTagSetController.isInitialized) {
-            selectedTagSetController.clear()
-            SelectedTagSetController(selectedTagSetController.tags)
-        } else {
-            SelectedTagSetController(setOf())
-        }
-    }
+
 
     private fun viewPagerControllerUpdate() {
         viewPagerController = if (::viewPagerController.isInitialized) {
@@ -109,7 +104,7 @@ class PostsFragmentViewModel(
         overflowController.clear()
         clearIconController.clear()
         drawerController.clear()
-        selectedTagSetController.clear()
+        compositeTagController.clear()
     }
 
     fun getViewPagerAdapter(fragmentManager: FragmentManager, tags: Set<Tag>): PagerAdapter {
