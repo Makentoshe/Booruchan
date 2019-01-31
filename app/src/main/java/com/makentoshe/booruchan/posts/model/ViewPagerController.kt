@@ -1,22 +1,30 @@
 package com.makentoshe.booruchan.posts.model
 
+import com.makentoshe.booruchan.Controller
+import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.subjects.BehaviorSubject
 
-class ViewPagerController(initialPage: Int) {
+class ViewPagerController(initialPage: Int) : Controller<Int> {
 
-    private val pagerObservable = BehaviorSubject.create<Int>()
+    private val observable = BehaviorSubject.create<Int>()
+    private val disposables = CompositeDisposable()
 
     init {
-        gotoPage(initialPage)
+        action(initialPage)
     }
 
-    val value: Int
-        get() = pagerObservable.value!!
-
-    fun gotoPage(pageNumber: Int) {
-        if (pageNumber < 0) return
-        pagerObservable.onNext(pageNumber)
+    override fun subscribe(action: (Int) -> Unit) {
+        disposables.add(observable.subscribe(action))
     }
 
-    fun onPageGoto(action: (Int) -> Unit) = pagerObservable.subscribe(action)
+    fun action(page: Int) {
+        if (page < 0) return
+        observable.onNext(page)
+    }
+
+    fun nextPage() = action(observable.value!! + 1)
+
+    fun prevPage() = action(observable.value!! - 1)
+
+    fun clear() = disposables.clear()
 }

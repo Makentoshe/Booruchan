@@ -163,7 +163,7 @@ class PostsFragmentUiContentSearch(
     private fun _RelativeLayout.tagsContainerView() {
         chipGroup {
             id = R.id.postpreview_search_tags
-            postsFragmentViewModel.onAddTagSubscribe { createChip(it) }
+            postsFragmentViewModel.onTagAddedListener { createChip(it) }
             postsFragmentViewModel.compositeTagSet.forEach { createChip(it) }
         }.lparams(width = matchParent, height = wrapContent) {
             below(R.id.postpreview_search_container)
@@ -181,7 +181,7 @@ class PostsFragmentUiContentSearch(
             setOnCloseIconClickListener {
                 postsFragmentViewModel.removeTag(tag)
             }
-            postsFragmentViewModel.onRemTagSubscribe {
+            postsFragmentViewModel.onTagRemovedListener {
                 if (tag == it) removeView(this)
             }
         }

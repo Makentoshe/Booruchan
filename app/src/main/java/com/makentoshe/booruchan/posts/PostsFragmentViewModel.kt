@@ -23,6 +23,7 @@ class PostsFragmentViewModel(
     private val overflowController = OverflowController(this)
     private val searchController = SearchController()
     private val compositeTagController = CompositeTagController(TagController(), TagController(), tags)
+    private val viewPagerController = ViewPagerController(0)
 
     fun clickDrawerMenuIcon() {
         if (drawerController.state == null) return drawerController.openDrawer()
@@ -63,9 +64,9 @@ class PostsFragmentViewModel(
 
     fun onSearchStartedListener(action: (Set<Tag>) -> Unit) = searchController.subscribe(action)
 
-    fun onAddTagSubscribe(action: (Tag) -> Unit) = compositeTagController.subscribeOnAdd(action)
+    fun onTagAddedListener(action: (Tag) -> Unit) = compositeTagController.subscribeOnAdd(action)
 
-    fun onRemTagSubscribe(action: (Tag) -> Unit) = compositeTagController.subscribeOnRemove(action)
+    fun onTagRemovedListener(action: (Tag) -> Unit) = compositeTagController.subscribeOnRemove(action)
 
     fun addTag(tag: Tag) = compositeTagController.addTag(tag)
 
@@ -74,9 +75,13 @@ class PostsFragmentViewModel(
     val compositeTagSet: Set<Tag>
         get() = compositeTagController.tagSet
 
+    fun gotoPage(page: Int) = viewPagerController.action(page)
 
-    lateinit var viewPagerController: ViewPagerController
+    fun gotoNextPage() = viewPagerController.nextPage()
 
+    fun gotoPrevPage() = viewPagerController.prevPage()
+
+    fun onPageChangeListener(action: (Int) -> Unit) = viewPagerController.subscribe(action)
 
     val autocompleteAdapter: DelayAutocompleteAdapter
         get() = DelayAutocompleteAdapter(DelayAutocompleteRepository(booru))
@@ -86,17 +91,7 @@ class PostsFragmentViewModel(
         clearIconController.clear()
         searchController.update(tags)
         compositeTagController.clear()
-        viewPagerControllerUpdate()
-    }
-
-
-
-    private fun viewPagerControllerUpdate() {
-        viewPagerController = if (::viewPagerController.isInitialized) {
-            ViewPagerController(viewPagerController.value)
-        } else {
-            ViewPagerController(0)
-        }
+        viewPagerController.clear()
     }
 
     override fun onCleared() {
@@ -105,6 +100,7 @@ class PostsFragmentViewModel(
         clearIconController.clear()
         drawerController.clear()
         compositeTagController.clear()
+        viewPagerController.clear()
     }
 
     fun getViewPagerAdapter(fragmentManager: FragmentManager, tags: Set<Tag>): PagerAdapter {

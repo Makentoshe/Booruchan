@@ -24,16 +24,16 @@ class PostsFragmentUiContentViewpager(
                 id = R.id.content_viewpager
                 viewModel.onSearchStartedListener {
                     adapter = viewModel.getViewPagerAdapter(fragmentManager, it)
-                    viewModel.viewPagerController.gotoPage(0)
+                    viewModel.gotoPage(0)
                 }
 
                 onPageChangeListener {
                     onPageSelected {
-                        viewModel.viewPagerController.gotoPage(it)
+                        viewModel.gotoPage(it)
                     }
                 }
 
-                viewModel.viewPagerController.onPageGoto {
+                viewModel.onPageChangeListener {
                     if (currentItem < it) setCurrentItem(it, true)
                     else {
                         while (it != currentItem) {
@@ -41,7 +41,6 @@ class PostsFragmentUiContentViewpager(
                         }
                     }
                 }
-
             }
         }
     }

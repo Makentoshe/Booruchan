@@ -32,15 +32,11 @@ class PostsFragmentUiContentBottombar(
     private fun _LinearLayout.createLeft() {
         frameLayout {
             id = R.id.postpreview_bottombar_left
-            postsFragmentViewModel.viewPagerController.onPageGoto {
+            postsFragmentViewModel.onPageChangeListener {
                 visibility = if (it == 0) View.INVISIBLE else View.VISIBLE
             }
 
-            onClick {
-                val currentPage = postsFragmentViewModel.viewPagerController.value
-                if (currentPage == 0) return@onClick
-                postsFragmentViewModel.viewPagerController.gotoPage(currentPage - 1)
-            }
+            onClick { postsFragmentViewModel.gotoPrevPage() }
 
             imageView {
                 imageResource = style.drawable.static.chevron
@@ -61,10 +57,11 @@ class PostsFragmentUiContentBottombar(
             textView {
                 id = R.id.postpreview_bottombar_center_textview
 
-                postsFragmentViewModel.viewPagerController.onPageGoto {
+                postsFragmentViewModel.onPageChangeListener {
                     text = it.toString()
                     textColorResource = style.toolbar.onPrimaryColorRes
                 }
+
             }.lparams {
                 gravity = Gravity.CENTER
             }
@@ -78,10 +75,7 @@ class PostsFragmentUiContentBottombar(
         frameLayout {
             id = R.id.postpreview_bottombar_right
 
-            onClick {
-                val currentPage = postsFragmentViewModel.viewPagerController.value
-                postsFragmentViewModel.viewPagerController.gotoPage(currentPage + 1)
-            }
+            onClick { postsFragmentViewModel.gotoNextPage() }
 
             imageView {
                 imageResource = style.drawable.static.chevron
