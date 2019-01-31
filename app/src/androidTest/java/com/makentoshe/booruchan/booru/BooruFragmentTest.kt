@@ -9,7 +9,7 @@ import androidx.test.rule.ActivityTestRule
 import com.makentoshe.booruchan.*
 import com.makentoshe.booruchan.account.AccountFragment
 import com.makentoshe.booruchan.booru.view.BooruFragment
-import com.makentoshe.booruchan.posts.view.PostsFragment
+import com.makentoshe.booruchan.postpreviews.view.PostsFragment
 import org.hamcrest.CoreMatchers
 import org.junit.After
 import org.junit.Before

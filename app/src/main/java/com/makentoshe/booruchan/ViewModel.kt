@@ -6,8 +6,8 @@ import com.makentoshe.booruapi.Booru
 import com.makentoshe.booruapi.Tag
 import com.makentoshe.booruchan.booru.BooruFragmentViewModel
 import com.makentoshe.booruchan.booru.model.DrawerController
-import com.makentoshe.booruchan.postpage.PostPageFragmentViewModel
-import com.makentoshe.booruchan.posts.PostsFragmentViewModel
+import com.makentoshe.booruchan.postpreviewspage.PostPageFragmentViewModel
+import com.makentoshe.booruchan.postpreviews.PostsFragmentViewModel
 import com.makentoshe.booruchan.postsamples.PostsSampleFragmentViewModel
 import com.makentoshe.booruchan.postsamples.model.SamplePageController
 import com.makentoshe.booruchan.postsamplespage.PostSamplePageViewModel
@@ -17,7 +17,6 @@ import com.makentoshe.booruchan.start.StartFragmentViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
-import ru.terrakok.cicerone.Router
 import kotlin.coroutines.CoroutineContext
 
 abstract class CoroutineViewModel : ViewModel(), CoroutineScope {

@@ -11,8 +11,8 @@ import com.makentoshe.booruapi.Tag
 import com.makentoshe.booruchan.account.AccountFragment
 import com.makentoshe.booruchan.booru.view.BooruFragment
 import com.makentoshe.booruchan.booru.model.DrawerController
-import com.makentoshe.booruchan.postpage.PostPageFragment
-import com.makentoshe.booruchan.posts.view.PostsFragment
+import com.makentoshe.booruchan.postpreviewspage.PostPageFragment
+import com.makentoshe.booruchan.postpreviews.view.PostsFragment
 import com.makentoshe.booruchan.postsamples.PostSampleFragment
 import com.makentoshe.booruchan.postsamples.model.SamplePageController
 import com.makentoshe.booruchan.postsamplespage.PostSamplePageFragment
@@ -21,9 +21,7 @@ import com.makentoshe.booruchan.postsamplespageimage.PostSamplePageImageFragment
 import com.makentoshe.booruchan.settings.SettingsFragment
 import com.makentoshe.booruchan.start.StartFragment
 import ru.terrakok.cicerone.Navigator
-import ru.terrakok.cicerone.Router
 import ru.terrakok.cicerone.commands.*
-import java.io.Serializable
 import java.util.*
 import kotlin.collections.HashSet
 
