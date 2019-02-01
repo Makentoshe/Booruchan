@@ -21,7 +21,7 @@ class PostSamplePageFragment : Fragment() {
         viewModel = buildViewModel(arguments!!)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return PostSamplePageFragmentUi(viewModel)
             .createView(AnkoContext.create(requireContext(), this))
     }

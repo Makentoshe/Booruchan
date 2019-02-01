@@ -1,4 +1,4 @@
-package com.makentoshe.booruchan.postsamples
+package com.makentoshe.booruchan.postsamples.view
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProviders
 import com.makentoshe.booruapi.Booru
 import com.makentoshe.booruchan.*
-import com.makentoshe.booruchan.postsamples.view.PostSampleFragmentUi
+import com.makentoshe.booruchan.postsamples.PostsSampleFragmentViewModel
 import org.jetbrains.anko.AnkoContext
 
 class PostSampleFragment : ViewModelFragment<PostsSampleFragmentViewModel>() {

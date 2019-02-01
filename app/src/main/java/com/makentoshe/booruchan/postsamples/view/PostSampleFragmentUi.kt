@@ -1,7 +1,6 @@
 package com.makentoshe.booruchan.postsamples.view
 
 import android.view.View
-import com.makentoshe.booruchan.postsamples.PostSampleFragment
 import com.makentoshe.booruchan.postsamples.PostsSampleFragmentViewModel
 import org.jetbrains.anko.AnkoComponent
 import org.jetbrains.anko.AnkoContext

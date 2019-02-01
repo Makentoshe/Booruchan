@@ -13,7 +13,7 @@ import com.makentoshe.booruchan.booru.view.BooruFragment
 import com.makentoshe.booruchan.booru.model.DrawerController
 import com.makentoshe.booruchan.postpreviewspage.PostPageFragment
 import com.makentoshe.booruchan.postpreviews.view.PostsFragment
-import com.makentoshe.booruchan.postsamples.PostSampleFragment
+import com.makentoshe.booruchan.postsamples.view.PostSampleFragment
 import com.makentoshe.booruchan.postsamples.model.SamplePageBlockController
 import com.makentoshe.booruchan.postsamplespage.PostSamplePageFragment
 import com.makentoshe.booruchan.postsamplespageinfo.PostSamplePageInfoFragment

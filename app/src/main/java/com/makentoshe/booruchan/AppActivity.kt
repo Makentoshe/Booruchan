@@ -3,6 +3,7 @@ package com.makentoshe.booruchan
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import com.makentoshe.repository.cache.CacheImpl
 
 class AppActivity : AppCompatActivity() {
 
@@ -36,7 +37,6 @@ class AppActivity : AppCompatActivity() {
         Booruchan.INSTANCE.navigatorHolder.setNavigator(navigator)
         requestPermissionController.subscribe {
             ActivityCompat.requestPermissions(this, arrayOf(it), PERMISSION_REQUEST_CODE_WRITE_EXTERNAL_STORAGE)
-            println("Reqiest permission $it")
         }
     }
 
@@ -54,11 +54,9 @@ class AppActivity : AppCompatActivity() {
         super.onBackPressed()
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-        if (requestCode == PERMISSION_REQUEST_CODE_WRITE_EXTERNAL_STORAGE && permissions.size == 1) {
-            println("GRANTED")
-        }
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.clear()
     }
 
     companion object {

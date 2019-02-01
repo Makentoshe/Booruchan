@@ -1,5 +1,7 @@
 package com.makentoshe.booruchan.postsamples.model
 
+import android.os.Bundle
+import android.os.Parcelable
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
@@ -25,4 +27,10 @@ class SamplePageContentPagerAdapter(
     }
 
     override fun getCount() = 3
+
+    override fun saveState(): Parcelable {
+        val bundle = super.saveState() as Bundle
+        bundle.putParcelableArray("states", null) // Never maintain any states from the base class, just null it out
+        return bundle
+    }
 }
