@@ -3,6 +3,7 @@ package com.makentoshe.booruchan.postsamplespage
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModel
 import androidx.viewpager.widget.PagerAdapter
+import com.makentoshe.booruchan.FragmentViewModel
 import com.makentoshe.booruchan.ImageRepository
 import com.makentoshe.booruchan.PostsRepository
 import com.makentoshe.booruchan.postsamples.model.SamplePageBlockController
@@ -13,7 +14,7 @@ class PostSamplePageViewModel(
     private val samplePageController: SamplePageBlockController,
     private val sampleRepository: ImageRepository,
     private val postsRepository: PostsRepository
-) : ViewModel() {
+) : FragmentViewModel() {
 
     fun block() = samplePageController.newState(SamplePageBlockController.Command.BLOCK)
 
