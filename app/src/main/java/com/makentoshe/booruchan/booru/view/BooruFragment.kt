@@ -16,8 +16,8 @@ import org.jetbrains.anko.AnkoContext
 
 class BooruFragment : ViewModelFragment<BooruFragmentViewModel>() {
 
-    override fun buildViewModel(arguments: Bundle?): BooruFragmentViewModel {
-        val booru = arguments!!.getSerializable(Booru::class.java.simpleName) as Booru
+    override fun buildViewModel(arguments: Bundle): BooruFragmentViewModel {
+        val booru = arguments.getSerializable(Booru::class.java.simpleName) as Booru
         //if was called from sample - the search must be started with this tags
         val tags = arguments.getSerializable(Tag::class.java.simpleName) as Set<Tag>
 

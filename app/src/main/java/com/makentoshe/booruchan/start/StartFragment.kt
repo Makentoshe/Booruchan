@@ -11,7 +11,7 @@ import org.jetbrains.anko.AnkoContext
 
 class StartFragment : ViewModelFragment<StartFragmentViewModel>() {
 
-    override fun buildViewModel(arguments: Bundle?): StartFragmentViewModel {
+    override fun buildViewModel(arguments: Bundle): StartFragmentViewModel {
         val factory = StartFragmentViewModelFactory()
         return ViewModelProviders.of(this, factory)[StartFragmentViewModel::class.java]
     }

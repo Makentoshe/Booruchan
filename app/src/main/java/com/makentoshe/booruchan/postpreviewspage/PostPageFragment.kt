@@ -19,8 +19,8 @@ class PostPageFragment : ViewModelFragment<PostPageFragmentViewModel>() {
         return PostPageFragmentUI(viewModel).createView(AnkoContext.create(requireContext(), this))
     }
 
-    override fun buildViewModel(arguments: Bundle?): PostPageFragmentViewModel {
-        val booru = arguments!!.getSerializable(Booru::class.java.simpleName) as Booru
+    override fun buildViewModel(arguments: Bundle): PostPageFragmentViewModel {
+        val booru = arguments.getSerializable(Booru::class.java.simpleName) as Booru
         val position = arguments.getInt(PostPageFragment::class.java.simpleName)
         val postsRepository = arguments.getSerializable(PostsRepository::class.java.simpleName) as PostsRepository
         val previewsRepository = arguments.getSerializable(PreviewImageRepository::class.java.simpleName) as PreviewImageRepository

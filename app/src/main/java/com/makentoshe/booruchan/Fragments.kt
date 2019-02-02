@@ -16,7 +16,7 @@ abstract class ViewModelFragment<VM : FragmentViewModel> : Fragment(), Backpress
     private lateinit var argumentViewModel: ArgumentViewModel
     private var bundle = Bundle.EMPTY
 
-    abstract fun buildViewModel(arguments: Bundle?): VM
+    abstract fun buildViewModel(arguments: Bundle): VM
 
     private fun buildArgumentViewModel(arguments: Bundle): ArgumentViewModel {
         val factory = ArgumentViewModelFactory(arguments)

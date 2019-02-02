@@ -14,8 +14,8 @@ class PostSamplePageImageFragment : ViewModelFragment<PostSamplePageImageFragmen
         return PostSamplePageImageFragmentUi(viewModel).createView(AnkoContext.create(requireContext(), this))
     }
 
-    override fun buildViewModel(arguments: Bundle?): PostSamplePageImageFragmentViewModel {
-        val sampleRepository = arguments!!.getSerializable(ImageRepository::class.java.simpleName) as ImageRepository
+    override fun buildViewModel(arguments: Bundle): PostSamplePageImageFragmentViewModel {
+        val sampleRepository = arguments.getSerializable(ImageRepository::class.java.simpleName) as ImageRepository
         val position = arguments.getInt(Int::class.java.simpleName)
         val postsRepository = arguments.getSerializable(PostsRepository::class.java.simpleName) as PostsRepository
 

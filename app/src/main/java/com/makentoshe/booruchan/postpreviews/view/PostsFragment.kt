@@ -17,8 +17,8 @@ import org.jetbrains.anko.AnkoContext
 
 class PostsFragment : ViewModelFragment<PostsFragmentViewModel>() {
 
-    override fun buildViewModel(arguments: Bundle?): PostsFragmentViewModel {
-        val booru = arguments!!.getSerializable(Booru::class.java.simpleName) as Booru
+    override fun buildViewModel(arguments: Bundle): PostsFragmentViewModel {
+        val booru = arguments.getSerializable(Booru::class.java.simpleName) as Booru
         val drawerController = arguments.getSerializable(DrawerController::class.java.simpleName) as DrawerController
         val tags = arguments.getSerializable(Set::class.java.simpleName + Tag::class.java.simpleName) as Set<Tag>
 

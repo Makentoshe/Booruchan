@@ -12,7 +12,7 @@ import com.makentoshe.booruchan.FragmentViewModel
 import com.makentoshe.booruchan.ViewModelFragment
 
 class AccountFragment : ViewModelFragment<AccountFragmentViewModel>() {
-    override fun buildViewModel(arguments: Bundle?): AccountFragmentViewModel {
+    override fun buildViewModel(arguments: Bundle): AccountFragmentViewModel {
         return ViewModelProviders.of(this)[AccountFragmentViewModel::class.java]
     }
 
