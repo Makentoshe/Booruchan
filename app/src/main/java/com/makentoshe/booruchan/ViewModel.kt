@@ -19,6 +19,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlin.coroutines.CoroutineContext
 
+abstract class ArgumentViewModel: ViewModel()
+
 abstract class CoroutineViewModel : ViewModel(), CoroutineScope {
     private var job = Job()
 

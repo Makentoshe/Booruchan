@@ -10,7 +10,7 @@ interface Backpressable {
     fun onBackPressed(): Boolean
 }
 
-abstract class ViewModelFragment<VM: FragmentViewModel>: Fragment(), Backpressable {
+abstract class ViewModelFragment<VM : FragmentViewModel> : Fragment(), Backpressable {
     abstract fun buildViewModel(arguments: Bundle?): VM
 
     protected lateinit var viewModel: VM
@@ -26,4 +26,9 @@ abstract class ViewModelFragment<VM: FragmentViewModel>: Fragment(), Backpressab
     }
 
     override fun onBackPressed() = false
+
+    fun putArguments(bundle: Bundle): ViewModelFragment<VM> {
+        arguments = bundle
+        return this
+    }
 }
