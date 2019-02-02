@@ -70,7 +70,7 @@ class PostsSampleFragmentViewModel(
         get() = sampleViewPagerCurrentItemController.getPage()
         set(value) = sampleViewPagerCurrentItemController.action(value)
 
-    fun backToPreviews() = router.exit()
+    fun backToPreviews() = router.backTo(BooruScreen(booru))
 
     fun saveByteArrayAsImageFile(post: Post, byteArray: ByteArray, context: Context) {
         fileImageDownloadPerformer.perform(post, byteArray, context)

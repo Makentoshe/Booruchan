@@ -27,7 +27,7 @@ class StartFragmentViewModel(
         return false
     }
 
-    fun onListItemClicked(booru: Booru) = router.newChain(BooruScreen(booru))
+    fun onListItemClicked(booru: Booru) = router.navigateTo(BooruScreen(booru))
 
     fun getBooruListAdapter(context: Context): ListAdapter {
         val boorusTitles = Array(booruList.size) { booruList[it].title }
