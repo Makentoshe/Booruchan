@@ -112,9 +112,7 @@ class PostSamplesScreen(
     private val sampleRepository: ImageRepository
 ) : Screen() {
     override val fragment: Fragment
-        get() = PostSampleFragment().apply {
-            arguments = this@PostSamplesScreen.arguments
-        }
+        get() = PostSampleFragment().putArguments(arguments)
 
     private val arguments: Bundle
         get() = Bundle().apply {
