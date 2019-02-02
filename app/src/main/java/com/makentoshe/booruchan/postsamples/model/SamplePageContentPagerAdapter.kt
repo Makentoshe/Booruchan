@@ -7,7 +7,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
 import com.makentoshe.booruchan.ImageRepository
 import com.makentoshe.booruchan.PostSamplePageInfoScreen
-import com.makentoshe.booruchan.PostSamplePagePreviewScreen
+import com.makentoshe.booruchan.PostSamplePageImageScreen
 import com.makentoshe.booruchan.PostsRepository
 
 class SamplePageContentPagerAdapter(
@@ -20,7 +20,7 @@ class SamplePageContentPagerAdapter(
     override fun getItem(position: Int): Fragment {
         return when (position) {
             0 -> Fragment()
-            1 -> PostSamplePagePreviewScreen(sampleRepository, this.position, postsRepository).fragment
+            1 -> PostSamplePageImageScreen(sampleRepository, this.position, postsRepository).fragment
             2 -> PostSamplePageInfoScreen(this.position, postsRepository).fragment
             else -> throw IllegalArgumentException()
         }

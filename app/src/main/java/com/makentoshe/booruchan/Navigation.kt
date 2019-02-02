@@ -141,7 +141,7 @@ class PostSamplePageScreen(
         }
 }
 
-class PostSamplePagePreviewScreen(
+class PostSamplePageImageScreen(
     private val sampleRepository: ImageRepository,
     private val position: Int,
     private val postsRepository: PostsRepository
