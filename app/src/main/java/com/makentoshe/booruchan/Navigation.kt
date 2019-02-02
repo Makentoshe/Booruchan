@@ -94,9 +94,7 @@ class PostPageScreen(
     private val previewsRepository: PreviewImageRepository
 ) : Screen() {
     override val fragment: Fragment
-        get() = PostPageFragment().apply {
-            arguments = this@PostPageScreen.arguments
-        }
+        get() = PostPageFragment().putArguments(arguments)
 
     private val arguments: Bundle
         get() = Bundle().apply {

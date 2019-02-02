@@ -17,15 +17,9 @@ class PostPageFragmentViewModel(
     private val position: Int,
     private val postsRepository: PostsRepository,
     previewsRepository: PreviewImageRepository
-) : ViewModel(), CoroutineScope {
-
-    private var job: Job = Job()
-
-    override val coroutineContext: CoroutineContext
-        get() = Dispatchers.Default + job
+) : FragmentViewModel() {
 
     private val postsDownloadController = PostsDownloadController(this, postsRepository)
-
     private val previewImageDownloadController = PreviewImageDownloadController(this, previewsRepository)
 
     fun subscribeOnPosts(action: (DownloadResult<Posts>) -> Unit) {
@@ -47,10 +41,4 @@ class PostPageFragmentViewModel(
         println("Long click on $position")
         return true
     }
-
-    override fun onCleared() {
-        super.onCleared()
-        job.cancel()
-    }
-
 }
