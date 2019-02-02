@@ -12,7 +12,7 @@ import com.makentoshe.booruchan.postpreviewspage.PostPageFragmentViewModel
 import com.makentoshe.booruchan.postsamples.PostsSampleFragmentViewModel
 import com.makentoshe.booruchan.postsamples.model.SamplePageBlockController
 import com.makentoshe.booruchan.postsamplespage.PostSamplePageViewModel
-import com.makentoshe.booruchan.postsamplespageimage.PostSamplePagePreviewFragmentViewModel
+import com.makentoshe.booruchan.postsamplespageimage.PostSamplePageImageFragmentViewModel
 import com.makentoshe.booruchan.postsamplespageinfo.PostSamplePageInfoFragmentViewModel
 import com.makentoshe.booruchan.start.StartFragmentViewModel
 import kotlinx.coroutines.CoroutineScope
@@ -111,7 +111,7 @@ class PostSamplePageImageFragmentViewModelFactory(
     private val position: Int,
     private val postsRepository: PostsRepository
 ) : ViewModelFactory() {
-    override fun build() = PostSamplePagePreviewFragmentViewModel(samplesRepository, position, postsRepository)
+    override fun build() = PostSamplePageImageFragmentViewModel(samplesRepository, position, postsRepository)
 }
 
 class PostSamplePageInfoFragmentViewModelFactory(

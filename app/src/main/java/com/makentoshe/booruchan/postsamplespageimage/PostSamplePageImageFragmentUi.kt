@@ -13,7 +13,7 @@ import com.makentoshe.booruchan.R
 import org.jetbrains.anko.*
 
 class PostSamplePageImageFragmentUi(
-    private val viewModel: PostSamplePagePreviewFragmentViewModel
+    private val viewModel: PostSamplePageImageFragmentViewModel
 ) : AnkoComponent<PostSamplePageImageFragment> {
 
     private val style = Booruchan.INSTANCE.style

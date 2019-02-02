@@ -3,24 +3,16 @@ package com.makentoshe.booruchan.postsamplespageimage
 import android.graphics.Bitmap
 import androidx.lifecycle.ViewModel
 import com.makentoshe.booruapi.Post
-import com.makentoshe.booruchan.DownloadResult
-import com.makentoshe.booruchan.SampleImageDownloadController
-import com.makentoshe.booruchan.ImageRepository
-import com.makentoshe.booruchan.PostsRepository
+import com.makentoshe.booruchan.*
 import kotlinx.coroutines.*
 import java.lang.Exception
 import kotlin.coroutines.CoroutineContext
 
-class PostSamplePagePreviewFragmentViewModel(
+class PostSamplePageImageFragmentViewModel(
     samplesRepository: ImageRepository,
     val position: Int,
     private val postsRepository: PostsRepository
-) : ViewModel(), CoroutineScope {
-
-    private var job = Job()
-
-    override val coroutineContext: CoroutineContext
-        get() = Dispatchers.Default + job
+) : FragmentViewModel() {
 
     private val sampleDownloadController = SampleImageDownloadController(this, samplesRepository)
 
@@ -41,10 +33,5 @@ class PostSamplePagePreviewFragmentViewModel(
     fun subscribe(action: (DownloadResult<Bitmap>) -> Unit) = launch {
         val result = getPost(position).await()
         sampleDownloadController.subscribe(result, action)
-    }
-
-    override fun onCleared() {
-        job.cancel()
-        super.onCleared()
     }
 }
