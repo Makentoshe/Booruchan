@@ -1,5 +1,6 @@
 package com.makentoshe.booruchan
 
+import android.os.Bundle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.makentoshe.booruapi.Booru
@@ -18,8 +19,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlin.coroutines.CoroutineContext
-
-abstract class ArgumentViewModel: ViewModel()
 
 abstract class CoroutineViewModel : ViewModel(), CoroutineScope {
     private var job = Job()
@@ -120,4 +119,10 @@ class PostSamplePageInfoFragmentViewModelFactory(
     private val postsRepository: PostsRepository
 ) : ViewModelFactory() {
     override fun build() = PostSamplePageInfoFragmentViewModel(position, postsRepository)
+}
+
+class ArgumentViewModel(@JvmField val arguments: Bundle): ViewModel()
+
+class ArgumentViewModelFactory(private val arguments: Bundle): ViewModelFactory() {
+    override fun build() = ArgumentViewModel(arguments)
 }

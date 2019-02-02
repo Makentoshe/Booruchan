@@ -54,11 +54,6 @@ class AppActivity : AppCompatActivity() {
         super.onBackPressed()
     }
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        outState.clear()
-    }
-
     companion object {
         private val PERMISSION_REQUEST_CODE_WRITE_EXTERNAL_STORAGE = 0
     }
