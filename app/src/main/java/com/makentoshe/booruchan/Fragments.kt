@@ -27,11 +27,6 @@ abstract class ViewModelFragment<VM : FragmentViewModel> : Fragment(), Backpress
         argumentViewModel = buildArgumentViewModel(bundle)
         viewModel = buildViewModel(argumentViewModel.arguments)
         super.onCreate(savedInstanceState)
-        println("\n")
-        println(this)
-        println(argumentViewModel.arguments)
-        println(arguments)
-        println("\n")
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
