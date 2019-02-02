@@ -1,21 +1,18 @@
 package com.makentoshe.booruchan.postsamplespageinfo
 
-import androidx.lifecycle.ViewModel
 import com.makentoshe.booruapi.Post
 import com.makentoshe.booruchan.DownloadResult
+import com.makentoshe.booruchan.FragmentViewModel
 import com.makentoshe.booruchan.PostsRepository
-import kotlinx.coroutines.*
-import kotlin.coroutines.CoroutineContext
+import kotlinx.coroutines.Deferred
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.withContext
 
 class PostSamplePageInfoFragmentViewModel(
     private val position: Int,
     private val postsRepository: PostsRepository
-) : ViewModel(), CoroutineScope {
-
-    private var job = Job()
-
-    override val coroutineContext: CoroutineContext
-        get() = Dispatchers.Default + job
+) : FragmentViewModel() {
 
     /**
      * @param position post index start from 0.
@@ -30,13 +27,6 @@ class PostSamplePageInfoFragmentViewModel(
         } catch (e: Exception) {
             return@async DownloadResult<Post>(exception = e)
         }
-    }
-
-
-
-    override fun onCleared() {
-        job.cancel()
-        super.onCleared()
     }
 
     fun getRecyclerAdapter() = RecyclerViewAdapter(this)

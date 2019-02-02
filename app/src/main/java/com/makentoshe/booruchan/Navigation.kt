@@ -162,9 +162,7 @@ class PostSamplePageInfoScreen(
     private val postsRepository: PostsRepository
 ) : Screen() {
     override val fragment: Fragment
-        get() = PostSamplePageInfoFragment().apply {
-            arguments = this@PostSamplePageInfoScreen.arguments
-        }
+        get() = PostSamplePageInfoFragment().putArguments(arguments)
 
     private val arguments: Bundle
         get() = Bundle().apply {
