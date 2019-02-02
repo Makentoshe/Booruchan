@@ -4,6 +4,8 @@
     <string name="posts">Posts</string>
     <string name="account">Account</string>
     <string name="sample_download_error">Failed to download sample</string>
+    <string name="posts_download_error">Failed to download posts</string>
+    <string name="tap_for_retry">Tap for retry</string>
 
     <string-array name="post_properties">
         <item>Id</item>

@@ -34,6 +34,10 @@
     <item name="postpreview_bottombar_right" type="id"/>
     <item name="postpreview_bottombar_center_textview" type="id"/>
 
+    <item name="postpreviewpage_progressbar" type="id"/>
+    <item name="postpreviewpage_messageview" type="id"/>
+
+
     <item name="viewpager" type="id"/>
     <item name="postsample_toolbar_container" type="id"/>
     <item name="postsample_toolbar_container_download" type="id"/>

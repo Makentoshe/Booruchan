@@ -1,16 +1,14 @@
 package com.makentoshe.booruchan.postpreviewspage
 
+import android.os.Handler
+import android.os.Looper
 import android.widget.BaseAdapter
-import androidx.lifecycle.ViewModel
 import com.makentoshe.booruapi.Booru
 import com.makentoshe.booruapi.Posts
 import com.makentoshe.booruchan.*
 import com.makentoshe.booruchan.postpreviewspage.model.GridViewAdapter
+import com.makentoshe.booruchan.postpreviewspage.model.PostsDownloadController
 import com.makentoshe.repository.cache.CacheImpl
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlin.coroutines.CoroutineContext
 
 class PostPageFragmentViewModel(
     private val booru: Booru,
@@ -19,11 +17,20 @@ class PostPageFragmentViewModel(
     previewsRepository: PreviewImageRepository
 ) : FragmentViewModel() {
 
-    private val postsDownloadController = PostsDownloadController(this, postsRepository)
     private val previewImageDownloadController = PreviewImageDownloadController(this, previewsRepository)
+    private val postsDownloadController =
+        PostsDownloadController(this, postsRepository)
 
-    fun subscribeOnPosts(action: (DownloadResult<Posts>) -> Unit) {
-        postsDownloadController.subscribe(DownloadResult(position), action)
+    init {
+        loadPosts()
+    }
+
+    fun loadPosts() = postsDownloadController.action(position)
+
+    fun addOnPostsReceiveListener(action: (DownloadResult<Posts>) -> Unit) {
+        postsDownloadController.subscribe {
+            Handler(Looper.getMainLooper()).post { action(it) }
+        }
     }
 
     fun getGridAdapter(posts: Posts): BaseAdapter {
@@ -41,4 +48,13 @@ class PostPageFragmentViewModel(
         println("Long click on $position")
         return true
     }
+
+    override fun onUiRecreate() {
+        postsDownloadController.clear()
+    }
+
+    override fun onCleared() {
+        postsDownloadController.clear()
+    }
 }
+
