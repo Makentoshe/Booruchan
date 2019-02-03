@@ -144,7 +144,8 @@ class PostSamplePageScreen(
 class PostSamplePageImageScreen(
     private val sampleRepository: ImageRepository,
     private val position: Int,
-    private val postsRepository: PostsRepository
+    private val postsRepository: PostsRepository,
+    private val samplePageBlockController: SamplePageBlockController
 ) : Screen() {
     override val fragment: Fragment
         get() = PostSamplePageImageFragment().putArguments(arguments)
@@ -154,6 +155,7 @@ class PostSamplePageImageScreen(
             putInt(Int::class.java.simpleName, position)
             putSerializable(ImageRepository::class.java.simpleName, sampleRepository)
             putSerializable(PostsRepository::class.java.simpleName, postsRepository)
+            putSerializable(SamplePageBlockController::class.java.simpleName, samplePageBlockController)
         }
 }
 
