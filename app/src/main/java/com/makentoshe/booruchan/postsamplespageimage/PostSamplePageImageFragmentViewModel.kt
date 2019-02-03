@@ -5,7 +5,7 @@ import android.os.Handler
 import android.os.Looper
 import com.makentoshe.booruapi.Post
 import com.makentoshe.booruchan.*
-import com.makentoshe.booruchan.postsamples.model.SamplePageBlockController
+import com.makentoshe.booruchan.postsamples.model.SamplePageHorizontalScrollBlockController
 import com.makentoshe.booruchan.postsamplespageimage.model.SampleImageDownloadController
 import kotlinx.coroutines.*
 import java.lang.Exception
@@ -14,7 +14,7 @@ class PostSamplePageImageFragmentViewModel(
     val position: Int,
     private val postsRepository: PostsRepository,
     samplesRepository: ImageRepository,
-    private val samplePageBlockController: SamplePageBlockController
+    private val samplePageHorizontalScrollBlockController: SamplePageHorizontalScrollBlockController
 ) : FragmentViewModel() {
 
     private val sampleImageDownloadController = SampleImageDownloadController(this, samplesRepository)
@@ -48,8 +48,8 @@ class PostSamplePageImageFragmentViewModel(
         sampleImageDownloadController.action(getPost(position).await())
     }
 
-    fun blockHorizontalScroll() = samplePageBlockController.newState(SamplePageBlockController.Command.BLOCK)
+    fun blockHorizontalScroll() = samplePageHorizontalScrollBlockController.newState(SamplePageHorizontalScrollBlockController.Command.BLOCK)
 
-    fun unblockHorizontalScroll() = samplePageBlockController.newState(SamplePageBlockController.Command.UNBLOCK)
+    fun unblockHorizontalScroll() = samplePageHorizontalScrollBlockController.newState(SamplePageHorizontalScrollBlockController.Command.UNBLOCK)
 }
 

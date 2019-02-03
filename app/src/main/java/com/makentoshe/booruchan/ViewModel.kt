@@ -10,7 +10,7 @@ import com.makentoshe.booruchan.booru.model.DrawerController
 import com.makentoshe.booruchan.postpreviews.PostsFragmentViewModel
 import com.makentoshe.booruchan.postpreviewspage.PostPageFragmentViewModel
 import com.makentoshe.booruchan.postsamples.PostsSampleFragmentViewModel
-import com.makentoshe.booruchan.postsamples.model.SamplePageBlockController
+import com.makentoshe.booruchan.postsamples.model.SamplePageHorizontalScrollBlockController
 import com.makentoshe.booruchan.postsamplespage.PostSamplePageViewModel
 import com.makentoshe.booruchan.postsamplespageimage.PostSamplePageImageFragmentViewModel
 import com.makentoshe.booruchan.postsamplespageinfo.PostSamplePageInfoFragmentViewModel
@@ -99,21 +99,21 @@ class PostSampleFragmentViewModelFactory(
 
 class PostSamplePageFragmentViewModelFactory(
     private val position: Int,
-    private val samplePageController: SamplePageBlockController,
+    private val samplePageHorizontalScrollController: SamplePageHorizontalScrollBlockController,
     private val sampleRepository: ImageRepository,
     private val postsRepository: PostsRepository
 ) : ViewModelFactory() {
-    override fun build() = PostSamplePageViewModel(position, samplePageController, sampleRepository, postsRepository)
+    override fun build() = PostSamplePageViewModel(position, samplePageHorizontalScrollController, sampleRepository, postsRepository)
 }
 
 class PostSamplePageImageFragmentViewModelFactory(
     private val samplesRepository: ImageRepository,
     private val position: Int,
     private val postsRepository: PostsRepository,
-    private val samplePageBlockController: SamplePageBlockController
+    private val samplePageHorizontalScrollBlockController: SamplePageHorizontalScrollBlockController
 ) : ViewModelFactory() {
     override fun build() =
-        PostSamplePageImageFragmentViewModel(position, postsRepository, samplesRepository, samplePageBlockController)
+        PostSamplePageImageFragmentViewModel(position, postsRepository, samplesRepository, samplePageHorizontalScrollBlockController)
 }
 
 class PostSamplePageInfoFragmentViewModelFactory(

@@ -4,14 +4,12 @@ import android.Manifest
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentManager
 import com.google.android.material.snackbar.Snackbar
 import com.makentoshe.booruchan.BlockableViewPager
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.postsamples.PostsSampleFragmentViewModel
-import com.makentoshe.booruchan.postsamples.model.SamplePageBlockController
+import com.makentoshe.booruchan.postsamples.model.SamplePageHorizontalScrollBlockController
 import org.jetbrains.anko.AnkoComponent
 import org.jetbrains.anko.AnkoContext
 import org.jetbrains.anko.frameLayout
@@ -47,15 +45,15 @@ class PostSampleFragmentUiContent(
         addView(BlockableViewPager(context).apply(action))
     }
 
-    private fun BlockableViewPager.commandSubscribe(action: (SamplePageBlockController.Command, BlockableViewPager) -> Unit) {
+    private fun BlockableViewPager.commandSubscribe(action: (SamplePageHorizontalScrollBlockController.Command, BlockableViewPager) -> Unit) {
         viewModel.onNewPageBlockCommandListener{ action(it, this) }
     }
 
-    private fun applyCommand(command: SamplePageBlockController.Command, view: BlockableViewPager) {
+    private fun applyCommand(command: SamplePageHorizontalScrollBlockController.Command, view: BlockableViewPager) {
         when (command) {
-            SamplePageBlockController.Command.BLOCK -> blockCommand(view)
-            SamplePageBlockController.Command.UNBLOCK -> unblockCommand(view)
-            SamplePageBlockController.Command.CLOSE -> closeCommand()
+            SamplePageHorizontalScrollBlockController.Command.BLOCK -> blockCommand(view)
+            SamplePageHorizontalScrollBlockController.Command.UNBLOCK -> unblockCommand(view)
+            SamplePageHorizontalScrollBlockController.Command.CLOSE -> closeCommand()
         }
     }
 

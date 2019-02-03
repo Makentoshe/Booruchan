@@ -5,21 +5,21 @@ import androidx.viewpager.widget.PagerAdapter
 import com.makentoshe.booruchan.FragmentViewModel
 import com.makentoshe.booruchan.ImageRepository
 import com.makentoshe.booruchan.PostsRepository
-import com.makentoshe.booruchan.postsamples.model.SamplePageBlockController
+import com.makentoshe.booruchan.postsamples.model.SamplePageHorizontalScrollBlockController
 import com.makentoshe.booruchan.postsamples.model.SamplePageContentPagerAdapter
 
 class PostSamplePageViewModel(
     private val position: Int,
-    private val samplePageBlockController: SamplePageBlockController,
+    private val samplePageHorizontalScrollBlockController: SamplePageHorizontalScrollBlockController,
     private val sampleRepository: ImageRepository,
     private val postsRepository: PostsRepository
 ) : FragmentViewModel() {
 
-    fun block() = samplePageBlockController.newState(SamplePageBlockController.Command.BLOCK)
+    fun block() = samplePageHorizontalScrollBlockController.newState(SamplePageHorizontalScrollBlockController.Command.BLOCK)
 
-    fun unblock() = samplePageBlockController.newState(SamplePageBlockController.Command.UNBLOCK)
+    fun unblock() = samplePageHorizontalScrollBlockController.newState(SamplePageHorizontalScrollBlockController.Command.UNBLOCK)
 
-    fun backToPreviews() = samplePageBlockController.newState(SamplePageBlockController.Command.CLOSE)
+    fun backToPreviews() = samplePageHorizontalScrollBlockController.newState(SamplePageHorizontalScrollBlockController.Command.CLOSE)
 
     fun getViewPagerAdapter(fragmentManager: FragmentManager): PagerAdapter {
         return SamplePageContentPagerAdapter(
@@ -27,7 +27,7 @@ class PostSamplePageViewModel(
             sampleRepository,
             position,
             postsRepository,
-            samplePageBlockController
+            samplePageHorizontalScrollBlockController
         )
     }
 }

@@ -4,14 +4,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import com.makentoshe.booruchan.ImageRepository
 import com.makentoshe.booruchan.PostSamplePageFragmentViewModelFactory
 import com.makentoshe.booruchan.PostsRepository
 import com.makentoshe.booruchan.ViewModelFragment
-import com.makentoshe.booruchan.postsamples.PostsSampleFragmentViewModel
-import com.makentoshe.booruchan.postsamples.model.SamplePageBlockController
+import com.makentoshe.booruchan.postsamples.model.SamplePageHorizontalScrollBlockController
 import org.jetbrains.anko.AnkoContext
 
 class PostSamplePageFragment : ViewModelFragment<PostSamplePageViewModel>() {
@@ -24,7 +22,7 @@ class PostSamplePageFragment : ViewModelFragment<PostSamplePageViewModel>() {
     override fun buildViewModel(arguments: Bundle): PostSamplePageViewModel {
         val position = arguments.getInt(Int::class.java.simpleName)
         val blockController =
-            arguments.getSerializable(SamplePageBlockController::class.java.simpleName) as SamplePageBlockController
+            arguments.getSerializable(SamplePageHorizontalScrollBlockController::class.java.simpleName) as SamplePageHorizontalScrollBlockController
         val sampleRepository = arguments.getSerializable(ImageRepository::class.java.simpleName) as ImageRepository
         val postsRepository = arguments.getSerializable(PostsRepository::class.java.simpleName) as PostsRepository
 

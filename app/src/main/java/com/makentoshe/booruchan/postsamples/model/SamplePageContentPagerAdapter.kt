@@ -15,7 +15,7 @@ class SamplePageContentPagerAdapter(
     private val sampleRepository: ImageRepository,
     private val position: Int,
     private val postsRepository: PostsRepository,
-    private val samplePageBlockController: SamplePageBlockController
+    private val samplePageHorizontalScrollBlockController: SamplePageHorizontalScrollBlockController
 ) : FragmentStatePagerAdapter(fragmentManager) {
 
     override fun getItem(position: Int): Fragment {
@@ -25,7 +25,7 @@ class SamplePageContentPagerAdapter(
                 sampleRepository,
                 this.position,
                 postsRepository,
-                samplePageBlockController
+                samplePageHorizontalScrollBlockController
             ).fragment
             2 -> PostSamplePageInfoScreen(this.position, postsRepository).fragment
             else -> throw IllegalArgumentException()

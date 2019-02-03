@@ -10,13 +10,13 @@ import com.makentoshe.booruchan.PostsRepository
 
 class SamplePagePagerAdapter(
     fragmentManager: FragmentManager,
-    private val samplePageController: SamplePageBlockController,
+    private val samplePageHorizontalScrollController: SamplePageHorizontalScrollBlockController,
     private val sampleRepository: ImageRepository,
     private val postsRepository: PostsRepository
 ) : FragmentStatePagerAdapter(fragmentManager) {
 
     override fun getItem(position: Int) =
-        PostSamplePageScreen(position, samplePageController, sampleRepository, postsRepository).fragment
+        PostSamplePageScreen(position, samplePageHorizontalScrollController, sampleRepository, postsRepository).fragment
 
     override fun getCount() = Int.MAX_VALUE
 

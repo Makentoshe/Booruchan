@@ -5,7 +5,9 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.subjects.BehaviorSubject
 import java.io.Serializable
 
-class SamplePageBlockController: Controller<SamplePageBlockController.Command>, Serializable {
+class SamplePageHorizontalScrollBlockController
+    : Controller<SamplePageHorizontalScrollBlockController.Command>,
+    Serializable {
     enum class Command { BLOCK, UNBLOCK, CLOSE }
 
     @Transient

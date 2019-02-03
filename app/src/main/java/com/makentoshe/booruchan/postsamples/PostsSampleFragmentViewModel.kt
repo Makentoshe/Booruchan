@@ -23,7 +23,7 @@ class PostsSampleFragmentViewModel(
 ) : FragmentViewModel() {
 
     private val sampleViewPagerCurrentItemController = SampleViewPagerCurrentItemController(startPosition)
-    private val samplePageBlockController = SamplePageBlockController()
+    private val samplePageBlockController = SamplePageHorizontalScrollBlockController()
     private val fileDownloadController = FileImageDownloadController(this, fileRepository)
     private val confirmFileDownloadController =
         ConfirmFileDownloadController()
@@ -53,7 +53,7 @@ class PostsSampleFragmentViewModel(
         return SamplePagePagerAdapter(fragmentManager, samplePageBlockController, sampleRepository, postsRepository)
     }
 
-    fun onNewPageBlockCommandListener(action: (SamplePageBlockController.Command) -> Unit) =
+    fun onNewPageBlockCommandListener(action: (SamplePageHorizontalScrollBlockController.Command) -> Unit) =
         samplePageBlockController.subscribe(action)
 
     fun onFileImageLoadListener(position: Int, action: (DownloadResult<Post>, DownloadResult<ByteArray>) -> Unit) =

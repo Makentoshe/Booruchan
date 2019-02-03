@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProviders
 import com.makentoshe.booruchan.*
-import com.makentoshe.booruchan.postsamples.model.SamplePageBlockController
+import com.makentoshe.booruchan.postsamples.model.SamplePageHorizontalScrollBlockController
 import com.makentoshe.booruchan.postsamplespageimage.view.PostSamplePageImageFragmentUi
 import org.jetbrains.anko.AnkoContext
 
@@ -22,7 +22,7 @@ class PostSamplePageImageFragment : ViewModelFragment<PostSamplePageImageFragmen
         val position = arguments.getInt(Int::class.java.simpleName)
         val postsRepository = arguments.getSerializable(PostsRepository::class.java.simpleName) as PostsRepository
         val samplePageBlockController =
-            arguments.getSerializable(SamplePageBlockController::class.java.simpleName) as SamplePageBlockController
+            arguments.getSerializable(SamplePageHorizontalScrollBlockController::class.java.simpleName) as SamplePageHorizontalScrollBlockController
 
         val factory = PostSamplePageImageFragmentViewModelFactory(
             sampleRepository,
