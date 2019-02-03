@@ -22,12 +22,6 @@ class PostSamplePageViewModel(
     fun backToPreviews() = samplePageHorizontalScrollBlockController.newState(SamplePageHorizontalScrollBlockController.Command.CLOSE)
 
     fun getViewPagerAdapter(fragmentManager: FragmentManager): PagerAdapter {
-        return SamplePageContentPagerAdapter(
-            fragmentManager,
-            sampleRepository,
-            position,
-            postsRepository,
-            samplePageHorizontalScrollBlockController
-        )
+        return SamplePageContentPagerAdapter(fragmentManager, sampleRepository, position, postsRepository)
     }
 }

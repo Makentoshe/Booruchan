@@ -13,8 +13,7 @@ import java.lang.Exception
 class PostSamplePageImageFragmentViewModel(
     val position: Int,
     private val postsRepository: PostsRepository,
-    samplesRepository: ImageRepository,
-    private val samplePageHorizontalScrollBlockController: SamplePageHorizontalScrollBlockController
+    samplesRepository: ImageRepository
 ) : FragmentViewModel() {
 
     private val sampleImageDownloadController = SampleImageDownloadController(this, samplesRepository)
@@ -48,8 +47,13 @@ class PostSamplePageImageFragmentViewModel(
         sampleImageDownloadController.action(getPost(position).await())
     }
 
-    fun blockHorizontalScroll() = samplePageHorizontalScrollBlockController.newState(SamplePageHorizontalScrollBlockController.Command.BLOCK)
+    override fun onUiRecreate() {
+        sampleImageDownloadController.clear()
+    }
 
-    fun unblockHorizontalScroll() = samplePageHorizontalScrollBlockController.newState(SamplePageHorizontalScrollBlockController.Command.UNBLOCK)
+    override fun onCleared() {
+        super.onCleared()
+        sampleImageDownloadController.clear()
+    }
 }
 

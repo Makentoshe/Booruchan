@@ -17,6 +17,7 @@ class StartFragment : ViewModelFragment<StartFragmentViewModel>() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        super.onCreateView(inflater, container, savedInstanceState)
         return StartFragmentUI(viewModel).createView(AnkoContext.create(requireContext(), this))
     }
 }

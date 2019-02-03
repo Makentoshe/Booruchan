@@ -55,6 +55,7 @@ class PostPageFragmentViewModel(
 
     override fun onCleared() {
         postsDownloadController.clear()
+        super.onCleared()
     }
 }
 

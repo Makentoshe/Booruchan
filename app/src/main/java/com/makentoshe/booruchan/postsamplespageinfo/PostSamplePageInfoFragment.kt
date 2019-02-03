@@ -13,6 +13,7 @@ import org.jetbrains.anko.*
 class PostSamplePageInfoFragment : ViewModelFragment<PostSamplePageInfoFragmentViewModel>() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        super.onCreateView(inflater, container, savedInstanceState)
         return PostSamplePageInfoFragmentUi(viewModel).createView(AnkoContext.create(requireContext(), this))
     }
 

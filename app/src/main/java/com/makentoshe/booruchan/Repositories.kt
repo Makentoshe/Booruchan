@@ -40,7 +40,7 @@ class SampleImageRepository(
 }
 
 /**
- * Repository contain Posts and returns by "key" - page
+ * Repository contains Posts and returns by "key" - page
  */
 class PostsRepository(
     private val booru: Booru,

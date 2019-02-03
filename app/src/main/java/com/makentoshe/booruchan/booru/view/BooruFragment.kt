@@ -26,7 +26,10 @@ class BooruFragment : ViewModelFragment<BooruFragmentViewModel>() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        //Do not replace this method by super.onCreateView.
+        //Current method is different and requires some context params.
         viewModel.onUiRecreate(requireActivity(), childFragmentManager)
+
         return BooruFragmentUI(viewModel)
             .createView(AnkoContext.create(requireContext(), this))
     }

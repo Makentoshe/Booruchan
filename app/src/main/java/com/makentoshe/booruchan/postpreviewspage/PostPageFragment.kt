@@ -16,6 +16,7 @@ import org.jetbrains.anko.AnkoContext
 class PostPageFragment : ViewModelFragment<PostPageFragmentViewModel>() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        super.onCreateView(inflater, container, savedInstanceState)
         return PostPageFragmentUi(viewModel)
             .createView(AnkoContext.create(requireContext(), this))
     }

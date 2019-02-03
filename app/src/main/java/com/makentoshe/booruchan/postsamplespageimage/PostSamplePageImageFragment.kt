@@ -13,6 +13,7 @@ import org.jetbrains.anko.AnkoContext
 class PostSamplePageImageFragment : ViewModelFragment<PostSamplePageImageFragmentViewModel>() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        super.onCreateView(inflater, container, savedInstanceState)
         return PostSamplePageImageFragmentUi(viewModel)
             .createView(AnkoContext.create(requireContext(), this))
     }
@@ -21,14 +22,11 @@ class PostSamplePageImageFragment : ViewModelFragment<PostSamplePageImageFragmen
         val sampleRepository = arguments.getSerializable(ImageRepository::class.java.simpleName) as ImageRepository
         val position = arguments.getInt(Int::class.java.simpleName)
         val postsRepository = arguments.getSerializable(PostsRepository::class.java.simpleName) as PostsRepository
-        val samplePageBlockController =
-            arguments.getSerializable(SamplePageHorizontalScrollBlockController::class.java.simpleName) as SamplePageHorizontalScrollBlockController
 
         val factory = PostSamplePageImageFragmentViewModelFactory(
             sampleRepository,
             position,
-            postsRepository,
-            samplePageBlockController
+            postsRepository
         )
         return ViewModelProviders.of(this, factory)[PostSamplePageImageFragmentViewModel::class.java]
     }

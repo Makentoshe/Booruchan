@@ -2,8 +2,6 @@ package com.makentoshe.booruchan.postsamplespageimage.view
 
 import android.graphics.Bitmap
 import android.view.View
-import android.widget.ImageView
-import android.widget.RelativeLayout
 import com.davemorrissey.labs.subscaleview.ImageSource
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView
 import com.makentoshe.booruchan.Booruchan
@@ -25,7 +23,6 @@ class PostSamplePageImageFragmentUiImage(
             viewModel.onFinishSampleImageLoadingListener {
                 onFinishSampleImageLoading(it)
             }
-            setOnStateChangedListener(customOnStateChangedListener(viewModel))
         }.lparams(matchParent, matchParent)
     }
 
@@ -42,18 +39,5 @@ class PostSamplePageImageFragmentUiImage(
         val view = SubsamplingScaleImageView(context).apply(action)
         addView(view)
         return view
-    }
-
-    private fun SubsamplingScaleImageView.customOnStateChangedListener(
-        viewModel: PostSamplePageImageFragmentViewModel
-    ) = object : SubsamplingScaleImageView.DefaultOnStateChangedListener() {
-
-        override fun onScaleChanged(newScale: Float, origin: Int) {
-            if (newScale != minScale) {
-                viewModel.blockHorizontalScroll()
-            } else {
-                viewModel.unblockHorizontalScroll()
-            }
-        }
     }
 }

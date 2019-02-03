@@ -81,14 +81,15 @@ class PostsSampleFragmentViewModel(
     fun requestPermission(permission: String) = requestPermissionController.action(permission)
 
     override fun onUiRecreate() {
-        super.onUiRecreate()
         sampleViewPagerCurrentItemController.clear()
+        confirmFileDownloadController.clear()
         samplePageBlockController.clear()
     }
 
     override fun onCleared() {
         super.onCleared()
         sampleViewPagerCurrentItemController.clear()
+        confirmFileDownloadController.clear()
         samplePageBlockController.clear()
     }
 
