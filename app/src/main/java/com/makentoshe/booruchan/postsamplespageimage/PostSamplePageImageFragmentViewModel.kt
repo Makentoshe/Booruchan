@@ -1,20 +1,26 @@
 package com.makentoshe.booruchan.postsamplespageimage
 
 import android.graphics.Bitmap
-import androidx.lifecycle.ViewModel
+import android.os.Handler
+import android.os.Looper
 import com.makentoshe.booruapi.Post
 import com.makentoshe.booruchan.*
+import com.makentoshe.booruchan.postsamplespageimage.model.SampleImageDownloadController
 import kotlinx.coroutines.*
 import java.lang.Exception
-import kotlin.coroutines.CoroutineContext
 
 class PostSamplePageImageFragmentViewModel(
-    samplesRepository: ImageRepository,
     val position: Int,
-    private val postsRepository: PostsRepository
+    private val postsRepository: PostsRepository,
+    samplesRepository: ImageRepository
 ) : FragmentViewModel() {
 
-    private val sampleDownloadController = SampleImageDownloadController(this, samplesRepository)
+    private val sampleImageDownloadController = SampleImageDownloadController(this, samplesRepository)
+
+
+    init {
+        startSampleImageLoading()
+    }
 
     /**
      * @param position post index start from 0.
@@ -30,8 +36,14 @@ class PostSamplePageImageFragmentViewModel(
         }
     }
 
-    fun subscribe(action: (DownloadResult<Bitmap>) -> Unit) = launch {
-        val result = getPost(position).await()
-        sampleDownloadController.subscribe(result, action)
+    fun onFinishSampleImageLoadingListener(action: (DownloadResult<Bitmap>) -> Unit) {
+        sampleImageDownloadController.subscribe {
+            Handler(Looper.getMainLooper()).post { action(it) }
+        }
+    }
+
+    fun startSampleImageLoading() = launch {
+        sampleImageDownloadController.action(getPost(position).await())
     }
 }
+

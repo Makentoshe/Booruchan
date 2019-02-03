@@ -111,7 +111,7 @@ class PostSamplePageImageFragmentViewModelFactory(
     private val position: Int,
     private val postsRepository: PostsRepository
 ) : ViewModelFactory() {
-    override fun build() = PostSamplePageImageFragmentViewModel(samplesRepository, position, postsRepository)
+    override fun build() = PostSamplePageImageFragmentViewModel(position, postsRepository, samplesRepository)
 }
 
 class PostSamplePageInfoFragmentViewModelFactory(
@@ -121,8 +121,8 @@ class PostSamplePageInfoFragmentViewModelFactory(
     override fun build() = PostSamplePageInfoFragmentViewModel(position, postsRepository)
 }
 
-class ArgumentViewModel(@JvmField val arguments: Bundle): ViewModel()
+class ArgumentViewModel(@JvmField val arguments: Bundle) : ViewModel()
 
-class ArgumentViewModelFactory(private val arguments: Bundle): ViewModelFactory() {
+class ArgumentViewModelFactory(private val arguments: Bundle) : ViewModelFactory() {
     override fun build() = ArgumentViewModel(arguments)
 }

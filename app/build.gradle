@@ -42,6 +42,7 @@ dependencies {
     implementation "org.jetbrains.anko:anko-coroutines:$anko_version"
     implementation "org.jetbrains.anko:anko-cardview-v7:$anko_version"
 
+    implementation 'com.davemorrissey.labs:subsampling-scale-image-view:3.10.0'
     implementation "io.reactivex.rxjava2:rxjava:2.2.4"
     implementation 'ru.terrakok.cicerone:cicerone:4.0.2'
 

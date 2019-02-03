@@ -64,22 +64,6 @@ abstract class DownloadDoubleController<T, P>(
 }
 
 /**
- * Class for performing sample image download using [Post] instance.
- */
-class SampleImageDownloadController(
-    coroutineScope: CoroutineScope, private val repository: ImageRepository
-) : DownloadDoubleController<Post, Bitmap>(coroutineScope) {
-
-    /**
-     * Perform downloading the sample image.
-     */
-    override fun performDownload(request: DownloadResult<Post>): Bitmap {
-        val byteArray = repository.get(request.data!!.sampleUrl)!!
-        return BitmapFactory.decodeByteArray(byteArray, 0, byteArray.size)
-    }
-}
-
-/**
  * Class for performing preview image download using [Post] instance.
  */
 class PreviewImageDownloadController(
@@ -103,20 +87,6 @@ class FileImageDownloadController(
      */
     override fun performDownload(request: DownloadResult<Post>): ByteArray {
         return repository.get(request.data!!.fileUrl)!!
-    }
-}
-
-/**
- * Class for downloading [Posts].
- */
-class PostsDownloadController(
-    coroutineScope: CoroutineScope,
-    private val repository: PostsRepository
-) : DownloadDoubleController<Int, Posts>(coroutineScope) {
-
-    @Synchronized
-    override fun performDownload(request: DownloadResult<Int>): Posts {
-        return repository.get(request.data!!)
     }
 }
 

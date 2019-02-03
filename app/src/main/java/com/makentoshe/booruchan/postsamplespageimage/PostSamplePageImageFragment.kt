@@ -6,12 +6,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProviders
 import com.makentoshe.booruchan.*
+import com.makentoshe.booruchan.postsamplespageimage.view.PostSamplePageImageFragmentUi
 import org.jetbrains.anko.AnkoContext
 
 class PostSamplePageImageFragment : ViewModelFragment<PostSamplePageImageFragmentViewModel>() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return PostSamplePageImageFragmentUi(viewModel).createView(AnkoContext.create(requireContext(), this))
+        return PostSamplePageImageFragmentUi(viewModel)
+            .createView(AnkoContext.create(requireContext(), this))
     }
 
     override fun buildViewModel(arguments: Bundle): PostSamplePageImageFragmentViewModel {
