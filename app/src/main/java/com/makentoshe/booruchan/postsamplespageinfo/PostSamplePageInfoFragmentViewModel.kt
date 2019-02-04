@@ -3,7 +3,7 @@ package com.makentoshe.booruchan.postsamplespageinfo
 import com.makentoshe.booruapi.Post
 import com.makentoshe.booruchan.DownloadResult
 import com.makentoshe.booruchan.FragmentViewModel
-import com.makentoshe.booruchan.PostsRepository
+import com.makentoshe.repository.PostsRepository
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async

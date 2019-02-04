@@ -5,11 +5,11 @@ import androidx.viewpager.widget.PagerAdapter
 import com.makentoshe.booruapi.Booru
 import com.makentoshe.booruapi.Tag
 import com.makentoshe.booruchan.FragmentViewModel
-import com.makentoshe.booruchan.PostsRepository
-import com.makentoshe.booruchan.PreviewImageRepository
 import com.makentoshe.booruchan.booru.model.DrawerController
 import com.makentoshe.booruchan.booru.model.DrawerState
 import com.makentoshe.booruchan.postpreviews.model.*
+import com.makentoshe.repository.PostsRepository
+import com.makentoshe.repository.PreviewImageRepository
 import com.makentoshe.repository.cache.CacheImpl
 
 class PostsFragmentViewModel(

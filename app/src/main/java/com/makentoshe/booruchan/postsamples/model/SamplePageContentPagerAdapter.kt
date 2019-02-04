@@ -5,10 +5,10 @@ import android.os.Parcelable
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
-import com.makentoshe.booruchan.ImageRepository
-import com.makentoshe.booruchan.PostSamplePageInfoScreen
 import com.makentoshe.booruchan.PostSamplePageImageScreen
-import com.makentoshe.booruchan.PostsRepository
+import com.makentoshe.booruchan.PostSamplePageInfoScreen
+import com.makentoshe.repository.ImageRepository
+import com.makentoshe.repository.PostsRepository
 
 class SamplePageContentPagerAdapter(
     fragmentManager: FragmentManager,

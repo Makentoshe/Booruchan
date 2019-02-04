@@ -6,8 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProviders
 import com.makentoshe.booruapi.Booru
-import com.makentoshe.booruchan.*
+import com.makentoshe.booruchan.AppActivity
+import com.makentoshe.booruchan.PostSampleFragmentViewModelFactory
+import com.makentoshe.booruchan.ViewModelFragment
 import com.makentoshe.booruchan.postsamples.PostsSampleFragmentViewModel
+import com.makentoshe.repository.ImageRepository
+import com.makentoshe.repository.PostsRepository
 import org.jetbrains.anko.AnkoContext
 
 class PostSampleFragment : ViewModelFragment<PostsSampleFragmentViewModel>() {

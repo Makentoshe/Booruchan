@@ -3,13 +3,11 @@ package com.makentoshe.booruchan.postpreviewspage.model
 import com.makentoshe.booruapi.Posts
 import com.makentoshe.booruchan.Controller
 import com.makentoshe.booruchan.DownloadResult
-import com.makentoshe.booruchan.PostsRepository
+import com.makentoshe.repository.PostsRepository
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.subjects.BehaviorSubject
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
-import java.lang.Exception
-import java.lang.IllegalArgumentException
 
 class PostsDownloadController(
     private val coroutineScope: CoroutineScope,

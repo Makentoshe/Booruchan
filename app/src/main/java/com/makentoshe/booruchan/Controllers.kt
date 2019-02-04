@@ -6,6 +6,7 @@ import android.os.Handler
 import android.os.Looper
 import com.makentoshe.booruapi.Post
 import com.makentoshe.booruapi.Posts
+import com.makentoshe.repository.ImageRepository
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import io.reactivex.subjects.BehaviorSubject

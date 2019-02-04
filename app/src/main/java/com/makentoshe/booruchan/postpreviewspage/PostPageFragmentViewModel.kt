@@ -8,6 +8,9 @@ import com.makentoshe.booruapi.Posts
 import com.makentoshe.booruchan.*
 import com.makentoshe.booruchan.postpreviewspage.model.GridViewAdapter
 import com.makentoshe.booruchan.postpreviewspage.model.PostsDownloadController
+import com.makentoshe.repository.PostsRepository
+import com.makentoshe.repository.PreviewImageRepository
+import com.makentoshe.repository.SampleImageRepository
 import com.makentoshe.repository.cache.CacheImpl
 
 class PostPageFragmentViewModel(

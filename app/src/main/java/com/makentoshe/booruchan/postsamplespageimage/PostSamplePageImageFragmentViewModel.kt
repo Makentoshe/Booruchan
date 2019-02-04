@@ -4,11 +4,12 @@ import android.graphics.Bitmap
 import android.os.Handler
 import android.os.Looper
 import com.makentoshe.booruapi.Post
-import com.makentoshe.booruchan.*
-import com.makentoshe.booruchan.postsamples.model.SamplePageHorizontalScrollBlockController
+import com.makentoshe.booruchan.DownloadResult
+import com.makentoshe.booruchan.FragmentViewModel
 import com.makentoshe.booruchan.postsamplespageimage.model.SampleImageDownloadController
+import com.makentoshe.repository.ImageRepository
+import com.makentoshe.repository.PostsRepository
 import kotlinx.coroutines.*
-import java.lang.Exception
 
 class PostSamplePageImageFragmentViewModel(
     val position: Int,

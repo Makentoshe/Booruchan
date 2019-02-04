@@ -7,10 +7,10 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProviders
 import com.makentoshe.booruapi.Booru
 import com.makentoshe.booruchan.PostPageFragmentViewModelFactory
-import com.makentoshe.booruchan.PostsRepository
-import com.makentoshe.booruchan.PreviewImageRepository
 import com.makentoshe.booruchan.ViewModelFragment
 import com.makentoshe.booruchan.postpreviewspage.view.PostPageFragmentUi
+import com.makentoshe.repository.PostsRepository
+import com.makentoshe.repository.PreviewImageRepository
 import org.jetbrains.anko.AnkoContext
 
 class PostPageFragment : ViewModelFragment<PostPageFragmentViewModel>() {

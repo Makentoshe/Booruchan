@@ -5,11 +5,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProviders
-import com.makentoshe.booruchan.ImageRepository
 import com.makentoshe.booruchan.PostSamplePageFragmentViewModelFactory
-import com.makentoshe.booruchan.PostsRepository
 import com.makentoshe.booruchan.ViewModelFragment
 import com.makentoshe.booruchan.postsamples.model.SamplePageHorizontalScrollBlockController
+import com.makentoshe.repository.ImageRepository
+import com.makentoshe.repository.PostsRepository
 import org.jetbrains.anko.AnkoContext
 
 class PostSamplePageFragment : ViewModelFragment<PostSamplePageViewModel>() {

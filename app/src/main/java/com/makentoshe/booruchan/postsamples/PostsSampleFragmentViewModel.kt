@@ -8,9 +8,10 @@ import com.makentoshe.booruapi.Post
 import com.makentoshe.booruapi.Tag
 import com.makentoshe.booruchan.*
 import com.makentoshe.booruchan.postsamples.model.*
+import com.makentoshe.repository.ImageRepository
+import com.makentoshe.repository.PostsRepository
 import kotlinx.coroutines.*
 import ru.terrakok.cicerone.Router
-import java.lang.Exception
 
 class PostsSampleFragmentViewModel(
     private val booru: Booru,

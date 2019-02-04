@@ -5,12 +5,11 @@ import android.graphics.BitmapFactory
 import com.makentoshe.booruapi.Post
 import com.makentoshe.booruchan.Controller
 import com.makentoshe.booruchan.DownloadResult
-import com.makentoshe.booruchan.ImageRepository
+import com.makentoshe.repository.ImageRepository
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.subjects.BehaviorSubject
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
-import java.lang.Exception
 
 class SampleImageDownloadController(
     private val coroutineScope: CoroutineScope,

@@ -15,6 +15,10 @@ import com.makentoshe.booruchan.postsamplespage.PostSamplePageViewModel
 import com.makentoshe.booruchan.postsamplespageimage.PostSamplePageImageFragmentViewModel
 import com.makentoshe.booruchan.postsamplespageinfo.PostSamplePageInfoFragmentViewModel
 import com.makentoshe.booruchan.start.StartFragmentViewModel
+import com.makentoshe.repository.FileImageRepository
+import com.makentoshe.repository.ImageRepository
+import com.makentoshe.repository.PostsRepository
+import com.makentoshe.repository.PreviewImageRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job

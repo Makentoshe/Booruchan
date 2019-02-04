@@ -4,8 +4,8 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
 import com.makentoshe.booruapi.Booru
 import com.makentoshe.booruchan.PostPageScreen
-import com.makentoshe.booruchan.PostsRepository
-import com.makentoshe.booruchan.PreviewImageRepository
+import com.makentoshe.repository.PostsRepository
+import com.makentoshe.repository.PreviewImageRepository
 
 class ViewPagerAdapter(
     fragmentManager: FragmentManager,
