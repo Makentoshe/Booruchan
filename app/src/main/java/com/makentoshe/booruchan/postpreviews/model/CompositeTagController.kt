@@ -16,7 +16,7 @@ class TagController : Controller<Tag> {
 
     fun action(tag: Tag) = observable.onNext(tag)
 
-    fun clear() = disposables.clear()
+    override fun clear() = disposables.clear()
 }
 
 class CompositeTagController(

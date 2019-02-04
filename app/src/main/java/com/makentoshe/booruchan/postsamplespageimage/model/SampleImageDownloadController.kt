@@ -38,5 +38,5 @@ class SampleImageDownloadController(
         }
     }
 
-    fun clear() = disposables.clear()
+    override fun clear() = disposables.clear()
 }

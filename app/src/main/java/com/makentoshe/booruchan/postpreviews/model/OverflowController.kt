@@ -38,7 +38,7 @@ class OverflowController(
         }
     }
 
-    fun clear() = disposables.clear()
+    override fun clear() = disposables.clear()
 
     sealed class OverflowState {
         @JvmField

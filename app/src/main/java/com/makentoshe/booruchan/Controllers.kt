@@ -7,15 +7,21 @@ import android.os.Looper
 import com.makentoshe.booruapi.Post
 import com.makentoshe.booruapi.Posts
 import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.disposables.Disposable
+import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
+import io.reactivex.subjects.Subject
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
+import java.io.Serializable
 
 /**
  * Default controller interface.
  */
 interface Controller<T> {
     fun subscribe(action: (T) -> Unit)
+
+    fun clear()
 }
 
 /**
@@ -105,5 +111,5 @@ class RequestPermissionController : Controller<String> {
 
     fun action(permission: String) = observable.onNext(permission)
 
-    fun clear() = disposables.clear()
+    override fun clear() = disposables.clear()
 }

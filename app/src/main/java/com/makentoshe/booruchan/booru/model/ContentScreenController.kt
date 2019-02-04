@@ -34,7 +34,7 @@ class ContentScreenController : Controller<Screen> {
         newScreen(contentScreen.value ?: defaultScreen)
     }
 
-    fun clear() {
+    override fun clear() {
         localCicerone.navigatorHolder.removeNavigator()
         disposables.clear()
     }

@@ -26,5 +26,5 @@ class ViewPagerController(initialPage: Int) : Controller<Int> {
 
     fun prevPage() = action(observable.value!! - 1)
 
-    fun clear() = disposables.clear()
+    override fun clear() = disposables.clear()
 }

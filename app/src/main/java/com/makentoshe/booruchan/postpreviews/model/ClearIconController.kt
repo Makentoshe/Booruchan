@@ -15,5 +15,5 @@ class ClearIconController: Controller<Unit> {
 
     fun click() = clearIconObservable.onNext(Unit)
 
-    fun clear() = disposables.clear()
+    override fun clear() = disposables.clear()
 }

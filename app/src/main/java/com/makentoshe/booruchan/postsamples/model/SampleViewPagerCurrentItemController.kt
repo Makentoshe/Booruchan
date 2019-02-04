@@ -17,6 +17,6 @@ class SampleViewPagerCurrentItemController(private val startPosition: Int) : Con
 
     fun action(page: Int) = observable.onNext(page)
 
-    fun clear() = disposables.clear()
+    override fun clear() = disposables.clear()
 
 }

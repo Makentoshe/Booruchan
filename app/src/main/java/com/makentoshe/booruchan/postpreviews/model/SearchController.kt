@@ -20,7 +20,7 @@ class SearchController: Controller<Set<Tag>>, Serializable {
         disposables.add(searchObservable.subscribe(action))
     }
 
-    fun clear() = disposables.clear()
+    override fun clear() = disposables.clear()
 
     fun update(tags: Set<Tag>) {
         clear()

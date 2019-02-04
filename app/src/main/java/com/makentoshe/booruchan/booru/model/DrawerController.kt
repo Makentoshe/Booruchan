@@ -28,7 +28,7 @@ class DrawerController : Controller<DrawerController.DrawerListener>, Serializab
 
     private fun newState(state: DrawerState) = drawerObservable.onNext(state)
 
-    fun clear() = disposables.clear()
+    override fun clear() = disposables.clear()
 
     class DrawerListener : Consumer<DrawerState> {
 

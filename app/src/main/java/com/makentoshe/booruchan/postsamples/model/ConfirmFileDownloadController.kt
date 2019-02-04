@@ -14,5 +14,5 @@ class ConfirmFileDownloadController: Controller<String> {
 
     fun action(string: String) = observable.onNext(string)
 
-    fun clear() = disposables.clear()
+    override fun clear() = disposables.clear()
 }

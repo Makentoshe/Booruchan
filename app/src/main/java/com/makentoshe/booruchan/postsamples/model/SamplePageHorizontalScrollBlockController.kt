@@ -21,5 +21,5 @@ class SamplePageHorizontalScrollBlockController
 
     fun newState(command: Command) = observable.onNext(command)
 
-    fun clear() = disposables.clear()
+    override fun clear() = disposables.clear()
 }
