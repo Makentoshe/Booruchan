@@ -11,7 +11,7 @@ import com.makentoshe.booruchan.postpreviewspage.model.PostsDownloadController
 import com.makentoshe.repository.PostsRepository
 import com.makentoshe.repository.PreviewImageRepository
 import com.makentoshe.repository.SampleImageRepository
-import com.makentoshe.repository.cache.CacheImpl
+import com.makentoshe.repository.cache.Cache
 
 class PostPageFragmentViewModel(
     private val booru: Booru,
@@ -42,7 +42,7 @@ class PostPageFragmentViewModel(
 
     fun navigateToPostDetailsScreen(position: Int) {
         val startPosition = position + this.position * postsRepository.count
-        val samplesRepository = SampleImageRepository(booru, CacheImpl(postsRepository.count))
+        val samplesRepository = SampleImageRepository(booru, Cache.create(postsRepository.count))
         val screen = PostSamplesScreen(booru, startPosition, postsRepository, samplesRepository)
         Booruchan.INSTANCE.router.navigateTo(screen)
     }
