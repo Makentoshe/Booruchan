@@ -9,7 +9,7 @@ import android.widget.TextView
 import androidx.annotation.ColorInt
 import androidx.annotation.DrawableRes
 import androidx.core.content.ContextCompat
-import com.makentoshe.booruchan.Style
+import com.makentoshe.style.Style
 import org.jetbrains.anko.custom.ankoView
 
 fun EditText.setCursorColor(@ColorInt color: Int) {

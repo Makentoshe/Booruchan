@@ -6,6 +6,8 @@ import com.makentoshe.booruapi.Booru;
 import com.makentoshe.booruapi.Gelbooru;
 import com.makentoshe.network.HttpClient;
 import com.makentoshe.network.fuel.FuelClientFactory;
+import com.makentoshe.style.SotisStyle;
+import com.makentoshe.style.Style;
 import io.reactivex.exceptions.UndeliverableException;
 import io.reactivex.functions.Consumer;
 import io.reactivex.plugins.RxJavaPlugins;

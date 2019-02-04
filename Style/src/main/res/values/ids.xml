@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <item name="settings" type="id"/>
+    <item name="content_viewpager" type="id"/>
+    <item name="preview" type="id"/>
+
+
+    <item name="start_toolbar_container" type="id"/>
+    <item name="start_toolbar_container_toolbar" type="id"/>
+    <item name="start_toolbar_container_overflow_icon" type="id"/>
+    <item name="start_content_listview" type="id"/>
+
+    <item name="booru_drawer" type="id"/>
+    <item name="booru_drawer_content" type="id"/>
+    <item name="booru_drawer_panel" type="id"/>
+    <item name="booru_drawer_panel_posts" type="id"/>
+    <item name="booru_drawer_panel_account" type="id"/>
+
+    <item name="postpreview_toolbar_container" type="id"/>
+    <item name="postpreview_toolbar_container_toolbar" type="id"/>
+    <item name="postpreview_toolbar_container_drawermenu" type="id"/>
+    <item name="postpreview_toolbar_container_overflow" type="id"/>
+    <item name="postpreview_toolbar_container_overflow_icon" type="id"/>
+    <item name="postpreview_cover" type="id"/>
+    <item name="postpreview_search" type="id"/>
+    <item name="postpreview_search_container" type="id"/>
+    <item name="postpreview_search_container_dacet" type="id"/>
+    <item name="postpreview_search_container_clear" type="id"/>
+    <item name="postpreview_search_tags" type="id"/>
+    <item name="postpreview_bottombar" type="id"/>
+    <item name="postpreview_bottombar_left" type="id"/>
+    <item name="postpreview_bottombar_center" type="id"/>
+    <item name="postpreview_bottombar_right" type="id"/>
+    <item name="postpreview_bottombar_center_textview" type="id"/>
+
+    <item name="postpreviewpage_progressbar" type="id"/>
+    <item name="postpreviewpage_messageview" type="id"/>
+
+
+    <item name="viewpager" type="id"/>
+    <item name="postsample_toolbar_container" type="id"/>
+    <item name="postsample_toolbar_container_download" type="id"/>
+    <item name="postsample_toolbar_container_download_icon" type="id"/>
+    <item name="postsample_toolbar_container_download_progressbar" type="id"/>
+    <item name="postsample_content_viewpager" type="id"/>
+    <item name="sample_image_message" type="id"/>
+    <item name="sample_image_progressbar" type="id"/>
+    <item name="sample_image_view" type="id"/>
+
+
+</resources>

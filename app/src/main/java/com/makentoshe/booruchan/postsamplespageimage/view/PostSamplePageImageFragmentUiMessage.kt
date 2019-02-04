@@ -9,8 +9,8 @@ import android.widget.TextView
 import com.makentoshe.booruchan.Booruchan
 import com.makentoshe.booruchan.DownloadResult
 import com.makentoshe.booruchan.R
-import com.makentoshe.booruchan.Style
 import com.makentoshe.booruchan.postsamplespageimage.PostSamplePageImageFragmentViewModel
+import com.makentoshe.style.Style
 import org.jetbrains.anko.*
 
 class PostSamplePageImageFragmentUiMessage(

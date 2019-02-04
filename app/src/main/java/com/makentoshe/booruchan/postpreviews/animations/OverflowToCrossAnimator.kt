@@ -3,7 +3,7 @@ package com.makentoshe.booruchan.postpreviews.animations
 import android.graphics.PorterDuff
 import android.graphics.drawable.AnimatedVectorDrawable
 import android.widget.ImageView
-import com.makentoshe.booruchan.Style
+import com.makentoshe.style.Style
 
 // Animates from current state to cross icon
 class OverflowToCrossAnimator(

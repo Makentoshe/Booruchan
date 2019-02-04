@@ -7,9 +7,12 @@ import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView
 import com.makentoshe.booruchan.Booruchan
 import com.makentoshe.booruchan.DownloadResult
 import com.makentoshe.booruchan.R
-import com.makentoshe.booruchan.Style
 import com.makentoshe.booruchan.postsamplespageimage.PostSamplePageImageFragmentViewModel
-import org.jetbrains.anko.*
+import com.makentoshe.style.Style
+import org.jetbrains.anko.AnkoComponent
+import org.jetbrains.anko.AnkoContext
+import org.jetbrains.anko._RelativeLayout
+import org.jetbrains.anko.matchParent
 
 class PostSamplePageImageFragmentUiImage(
     private val viewModel: PostSamplePageImageFragmentViewModel,

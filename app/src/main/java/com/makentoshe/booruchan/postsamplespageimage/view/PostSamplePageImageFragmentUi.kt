@@ -2,10 +2,13 @@ package com.makentoshe.booruchan.postsamplespageimage.view
 
 import android.view.View
 import com.makentoshe.booruchan.Booruchan
-import com.makentoshe.booruchan.Style
 import com.makentoshe.booruchan.postsamplespageimage.PostSamplePageImageFragment
 import com.makentoshe.booruchan.postsamplespageimage.PostSamplePageImageFragmentViewModel
-import org.jetbrains.anko.*
+import com.makentoshe.style.Style
+import org.jetbrains.anko.AnkoComponent
+import org.jetbrains.anko.AnkoContext
+import org.jetbrains.anko.backgroundColorResource
+import org.jetbrains.anko.relativeLayout
 
 class PostSamplePageImageFragmentUi(
     private val viewModel: PostSamplePageImageFragmentViewModel,
