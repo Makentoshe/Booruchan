@@ -33,6 +33,7 @@ class PostPageFragmentUiContent(private val viewModel: PostPageFragmentViewModel
 
     private fun GridView.onPostsReceive(result: DownloadResult<Posts>) {
         if (result.data != null) {
+            viewModel.loadPreviews(result.data)
             adapter = viewModel.getGridAdapter(result.data)
             visibility = View.VISIBLE
         }

@@ -8,6 +8,7 @@ import com.makentoshe.booruapi.Posts
 import com.makentoshe.booruchan.*
 import com.makentoshe.booruchan.postpreviewspage.model.GridViewAdapter
 import com.makentoshe.booruchan.postpreviewspage.model.PostsDownloadController
+import com.makentoshe.booruchan.postpreviewspage.model.PreviewImageDownloadController
 import com.makentoshe.repository.PostsRepository
 import com.makentoshe.repository.PreviewImageRepository
 import com.makentoshe.repository.SampleImageRepository
@@ -20,9 +21,9 @@ class PostPageFragmentViewModel(
     previewsRepository: PreviewImageRepository
 ) : FragmentViewModel() {
 
-    private val previewImageDownloadController = PreviewImageDownloadController(this, previewsRepository)
-    private val postsDownloadController =
-        PostsDownloadController(this, postsRepository)
+    private val postsDownloadController = PostsDownloadController(this, postsRepository)
+    private val previewsImageDownloadController =
+        PreviewImageDownloadController(previewsRepository)
 
     init {
         loadPosts()
@@ -31,13 +32,15 @@ class PostPageFragmentViewModel(
     fun loadPosts() = postsDownloadController.action(position)
 
     fun addOnPostsReceiveListener(action: (DownloadResult<Posts>) -> Unit) {
-        postsDownloadController.subscribe {
-            Handler(Looper.getMainLooper()).post { action(it) }
-        }
+        postsDownloadController.subscribe { Handler(Looper.getMainLooper()).post { action(it) } }
+    }
+
+    fun loadPreviews(posts: Posts) = posts.forEach {
+        previewsImageDownloadController.action(it.previewUrl, this)
     }
 
     fun getGridAdapter(posts: Posts): BaseAdapter {
-        return GridViewAdapter(posts, previewImageDownloadController)
+        return GridViewAdapter(posts, previewsImageDownloadController)
     }
 
     fun navigateToPostDetailsScreen(position: Int) {
@@ -54,11 +57,13 @@ class PostPageFragmentViewModel(
 
     override fun onUiRecreate() {
         postsDownloadController.clear()
+        previewsImageDownloadController.clear()
     }
 
     override fun onCleared() {
-        postsDownloadController.clear()
         super.onCleared()
+        postsDownloadController.clear()
+        previewsImageDownloadController.clear()
     }
 }
 
