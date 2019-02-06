@@ -29,8 +29,4 @@ abstract class ViewModelFragment<VM : FragmentViewModel> : Fragment(), Backpress
 
     override fun onBackPressed() = false
 
-    fun putArguments(bundle: Bundle): ViewModelFragment<VM> {
-        arguments = bundle
-        return this
-    }
 }

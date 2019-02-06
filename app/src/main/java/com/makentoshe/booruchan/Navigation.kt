@@ -53,12 +53,12 @@ class BooruScreen(
     private val tags: HashSet<Tag> = HashSet()
 ) : Screen() {
     override val fragment: ViewModelFragment<*>
-        get() = BooruFragment().putArguments(arguments)
-
-    private val arguments = Bundle().apply {
-        putSerializable(Booru::class.java.simpleName, booru)
-        putSerializable(Tag::class.java.simpleName, tags)
-    }
+        get() = BooruFragment().apply {
+            arguments = Bundle().apply {
+                putSerializable(Booru::class.java.simpleName, booru)
+                putSerializable(Tag::class.java.simpleName, tags)
+            }
+        }
 }
 
 abstract class BooruContentScreen(
@@ -67,12 +67,12 @@ abstract class BooruContentScreen(
     private val `class`: Class<out ViewModelFragment<*>>
 ) : Screen() {
     override val fragment: ViewModelFragment<*>
-        get() = `class`.newInstance().putArguments(arguments)
-
-    protected open val arguments = Bundle().apply {
-        putSerializable(Booru::class.java.simpleName, booru)
-        putSerializable(DrawerController::class.java.simpleName, drawerController)
-    }
+        get() = `class`.newInstance().apply {
+            arguments = Bundle().apply {
+                putSerializable(Booru::class.java.simpleName, booru)
+                putSerializable(DrawerController::class.java.simpleName, drawerController)
+            }
+        }
 }
 
 class PostsScreen(
@@ -81,9 +81,9 @@ class PostsScreen(
     private val tags: HashSet<Tag> = HashSet()
 ) : BooruContentScreen(booru, drawerController, PostsFragment::class.java) {
 
-    override val arguments: Bundle
-        get() = super.arguments.apply {
-            putSerializable(Set::class.java.simpleName + Tag::class.java.simpleName, tags)
+    override val fragment: ViewModelFragment<*>
+        get() = super.fragment.apply {
+            arguments!!.putSerializable(Set::class.java.simpleName + Tag::class.java.simpleName, tags)
         }
 }
 
@@ -97,14 +97,13 @@ class PostPageScreen(
     private val previewsRepository: PreviewImageRepository
 ) : Screen() {
     override val fragment: Fragment
-        get() = PostPageFragment().putArguments(arguments)
-
-    private val arguments: Bundle
-        get() = Bundle().apply {
-            putSerializable(Booru::class.java.simpleName, booru)
-            putInt(PostPageFragment::class.java.simpleName, position)
-            putSerializable(PostsRepository::class.java.simpleName, postsRepository)
-            putSerializable(PreviewImageRepository::class.java.simpleName, previewsRepository)
+        get() = PostPageFragment().apply {
+            arguments = Bundle().apply {
+                putSerializable(Booru::class.java.simpleName, booru)
+                putInt(PostPageFragment::class.java.simpleName, position)
+                putSerializable(PostsRepository::class.java.simpleName, postsRepository)
+                putSerializable(PreviewImageRepository::class.java.simpleName, previewsRepository)
+            }
         }
 }
 
@@ -115,14 +114,13 @@ class PostSamplesScreen(
     private val sampleRepository: ImageRepository
 ) : Screen() {
     override val fragment: Fragment
-        get() = PostSampleFragment().putArguments(arguments)
-
-    private val arguments: Bundle
-        get() = Bundle().apply {
-            putSerializable(Booru::class.java.simpleName, booru)
-            putInt(Int::class.java.simpleName, startPosition)
-            putSerializable(PostsRepository::class.java.simpleName, postsRepository)
-            putSerializable(ImageRepository::class.java.simpleName, sampleRepository)
+        get() = PostSampleFragment().apply {
+            arguments = Bundle().apply {
+                putSerializable(Booru::class.java.simpleName, booru)
+                putInt(Int::class.java.simpleName, startPosition)
+                putSerializable(PostsRepository::class.java.simpleName, postsRepository)
+                putSerializable(ImageRepository::class.java.simpleName, sampleRepository)
+            }
         }
 }
 
@@ -133,14 +131,16 @@ class PostSamplePageScreen(
     private val postsRepository: PostsRepository
 ) : Screen() {
     override val fragment: Fragment
-        get() = PostSamplePageFragment().putArguments(arguments)
-
-    private val arguments: Bundle
-        get() = Bundle().apply {
-            putInt(Int::class.java.simpleName, position)
-            putSerializable(SamplePageHorizontalScrollBlockController::class.java.simpleName, samplePageHorizontalScrollController)
-            putSerializable(ImageRepository::class.java.simpleName, sampleRepository)
-            putSerializable(PostsRepository::class.java.simpleName, postsRepository)
+        get() = PostSamplePageFragment().apply {
+            arguments = Bundle().apply {
+                putInt(Int::class.java.simpleName, position)
+                putSerializable(
+                    SamplePageHorizontalScrollBlockController::class.java.simpleName,
+                    samplePageHorizontalScrollController
+                )
+                putSerializable(ImageRepository::class.java.simpleName, sampleRepository)
+                putSerializable(PostsRepository::class.java.simpleName, postsRepository)
+            }
         }
 }
 
@@ -150,13 +150,12 @@ class PostSamplePageImageScreen(
     private val postsRepository: PostsRepository
 ) : Screen() {
     override val fragment: Fragment
-        get() = PostSamplePageImageFragment().putArguments(arguments)
-
-    private val arguments: Bundle
-        get() = Bundle().apply {
-            putInt(Int::class.java.simpleName, position)
-            putSerializable(ImageRepository::class.java.simpleName, sampleRepository)
-            putSerializable(PostsRepository::class.java.simpleName, postsRepository)
+        get() = PostSamplePageImageFragment().apply {
+            arguments = Bundle().apply {
+                putInt(Int::class.java.simpleName, position)
+                putSerializable(ImageRepository::class.java.simpleName, sampleRepository)
+                putSerializable(PostsRepository::class.java.simpleName, postsRepository)
+            }
         }
 }
 
@@ -165,12 +164,11 @@ class PostSamplePageInfoScreen(
     private val postsRepository: PostsRepository
 ) : Screen() {
     override val fragment: Fragment
-        get() = PostSamplePageInfoFragment().putArguments(arguments)
-
-    private val arguments: Bundle
-        get() = Bundle().apply {
-            putInt(Int::class.java.simpleName, position)
-            putSerializable(PostsRepository::class.java.simpleName, postsRepository)
+        get() = PostSamplePageInfoFragment().apply {
+            arguments = Bundle().apply {
+                putInt(Int::class.java.simpleName, position)
+                putSerializable(PostsRepository::class.java.simpleName, postsRepository)
+            }
         }
 }
 
