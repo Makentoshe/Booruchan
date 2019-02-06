@@ -25,7 +25,7 @@ abstract class ViewModelFragment<VM : FragmentViewModel> : Fragment(), Backpress
      * @return fragment arguments after clearing
      */
     open fun clearArguments(arguments: Bundle?): Bundle? {
-        return null
+        return arguments
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
