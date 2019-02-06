@@ -5,9 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProviders
-import com.makentoshe.booruapi.Booru
 import com.makentoshe.booruchan.Booruchan
-import com.makentoshe.booruchan.StartFragmentViewModelFactory
 import com.makentoshe.booruchan.Fragment
 import org.jetbrains.anko.AnkoContext
 

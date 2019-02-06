@@ -8,7 +8,6 @@ import androidx.lifecycle.ViewModelProviders
 import com.makentoshe.booruapi.Booru
 import com.makentoshe.booruapi.Tag
 import com.makentoshe.booruchan.Backpressable
-import com.makentoshe.booruchan.BooruFragmentViewModelFactory
 import com.makentoshe.booruchan.Fragment
 import com.makentoshe.booruchan.booru.BooruFragmentViewModel
 import com.makentoshe.booruchan.booru.model.DrawerState
@@ -24,7 +23,7 @@ class BooruFragment : Fragment<BooruFragmentViewModel>() {
         //if was called from sample - the search must be started with this tags
         val tags = arguments.getSerializable(Tag::class.java.simpleName) as Set<Tag>
 
-        val factory = BooruFragmentViewModelFactory(booru, tags)
+        val factory = BooruFragmentViewModel.Factory(booru, tags)
         return ViewModelProviders.of(this, factory)[BooruFragmentViewModel::class.java]
     }
 

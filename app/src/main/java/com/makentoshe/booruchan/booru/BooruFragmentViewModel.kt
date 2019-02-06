@@ -1,16 +1,22 @@
 package com.makentoshe.booruchan.booru
 
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import com.makentoshe.booruapi.Booru
 import com.makentoshe.booruapi.Tag
-import com.makentoshe.booruchan.*
+import com.makentoshe.booruchan.AccountScreen
+import com.makentoshe.booruchan.Navigator
+import com.makentoshe.booruchan.PostsScreen
+import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.booru.model.ContentScreenController
 import com.makentoshe.booruchan.booru.model.DrawerController
+import com.makentoshe.viewmodel.ViewModel
 
-class BooruFragmentViewModel(@JvmField val booru: Booru, private val tags: Set<Tag>) : FragmentViewModel() {
-
-    private val contentController = ContentScreenController()
-    private val drawerController = DrawerController()
+class BooruFragmentViewModel private constructor() : ViewModel() {
+    private lateinit var booru: Booru
+    private lateinit var tags: Set<Tag>
+    private lateinit var contentController: ContentScreenController
+    private lateinit var drawerController: DrawerController
 
     fun getDrawerState() = drawerController.state
 
@@ -47,5 +53,16 @@ class BooruFragmentViewModel(@JvmField val booru: Booru, private val tags: Set<T
 
     private fun newPostsScreen(): PostsScreen {
         return PostsScreen(booru, drawerController, tags.toHashSet())
+    }
+
+    class Factory(private val booru: Booru, private val tags: Set<Tag>) : ViewModelProvider.NewInstanceFactory() {
+        override fun <T : androidx.lifecycle.ViewModel?> create(modelClass: Class<T>): T {
+            val viewModel = BooruFragmentViewModel()
+            viewModel.drawerController = DrawerController()
+            viewModel.contentController = ContentScreenController()
+            viewModel.booru = booru
+            viewModel.tags = tags
+            return viewModel as T
+        }
     }
 }
