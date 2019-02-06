@@ -3,34 +3,31 @@ package com.makentoshe.booruchan.postsamples
 import android.content.Context
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager.widget.PagerAdapter
 import com.makentoshe.booruapi.Booru
 import com.makentoshe.booruapi.Post
 import com.makentoshe.booruapi.Tag
 import com.makentoshe.booruchan.*
 import com.makentoshe.booruchan.postsamples.model.*
+import com.makentoshe.repository.FileImageRepository
 import com.makentoshe.repository.ImageRepository
 import com.makentoshe.repository.PostsRepository
 import kotlinx.coroutines.*
 import ru.terrakok.cicerone.Router
 
-class PostsSampleFragmentViewModel(
-    private val booru: Booru,
-    val startPosition: Int,
-    private val postsRepository: PostsRepository,
-    private val sampleRepository: ImageRepository,
-    private val router: Router,
-    fileRepository: ImageRepository,
-    private val requestPermissionController: RequestPermissionController
-) : FragmentViewModel() {
-
-    private val sampleViewPagerCurrentItemController = SampleViewPagerCurrentItemController(startPosition)
-    private val samplePageBlockController = SamplePageHorizontalScrollBlockController()
-    private val fileDownloadController = FileImageDownloadController(this, fileRepository)
-    private val confirmFileDownloadController =
-        ConfirmFileDownloadController()
-    private val fileImageDownloadPerformer =
-        FileImageDownloadPerformer(booru, confirmFileDownloadController)
+class PostsSampleFragmentViewModel private constructor() : com.makentoshe.viewmodel.ViewModel() {
+    private lateinit var booru: Booru
+    private lateinit var postsRepository: PostsRepository
+    private lateinit var sampleRepository: ImageRepository
+    private lateinit var router: Router
+    private lateinit var requestPermissionController: RequestPermissionController
+    private lateinit var sampleViewPagerCurrentItemController: SampleViewPagerCurrentItemController
+    private lateinit var samplePageBlockController: SamplePageHorizontalScrollBlockController
+    private lateinit var fileImageDownloadController: FileImageDownloadController
+    private lateinit var confirmFileDownloadController: ConfirmFileDownloadController
+    private lateinit var fileImageDownloadPerformer: FileImageDownloadPerformer
 
     /**
      * @param position post index start from 0.
@@ -61,7 +58,7 @@ class PostsSampleFragmentViewModel(
     fun onFileImageLoadListener(position: Int, action: (DownloadResult<Post>, DownloadResult<ByteArray>) -> Unit) =
         launch {
             val post = getPost(position).await()
-            fileDownloadController.subscribe(post) { action(post, it) }
+            fileImageDownloadController.subscribe(post) { action(post, it) }
         }
 
     fun newPageSelected(page: Int) = sampleViewPagerCurrentItemController.action(page)
@@ -95,5 +92,28 @@ class PostsSampleFragmentViewModel(
         samplePageBlockController.clear()
     }
 
+    class Factory(
+        private val booru: Booru,
+        private val position: Int,
+        private val postsRepository: PostsRepository,
+        private val sampleRepository: ImageRepository,
+        private val requestPermissionController: RequestPermissionController
+    ) : ViewModelProvider.NewInstanceFactory() {
+        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+            val viewModel = PostsSampleFragmentViewModel()
+            val fileRepository = FileImageRepository(booru)
+            val confirmFileDownloadController = ConfirmFileDownloadController()
+
+            viewModel.booru = booru
+            viewModel.postsRepository = postsRepository
+            viewModel.sampleRepository = sampleRepository
+            viewModel.requestPermissionController = requestPermissionController
+            viewModel.sampleViewPagerCurrentItemController = SampleViewPagerCurrentItemController(position)
+            viewModel.samplePageBlockController = SamplePageHorizontalScrollBlockController()
+            viewModel.fileImageDownloadController = FileImageDownloadController(viewModel, fileRepository)
+            viewModel.fileImageDownloadPerformer = FileImageDownloadPerformer(booru, confirmFileDownloadController)
+            return viewModel as T
+        }
+    }
 }
 

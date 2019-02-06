@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProviders
-import com.makentoshe.booruchan.PostSamplePageFragmentViewModelFactory
 import com.makentoshe.booruchan.Fragment
 import com.makentoshe.booruchan.postsamples.model.SamplePageHorizontalScrollBlockController
 import com.makentoshe.repository.ImageRepository

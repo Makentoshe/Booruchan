@@ -27,7 +27,7 @@ class PostSampleFragmentUiContent(
             blockableViewPager {
                 id = R.id.postsample_content_viewpager
                 adapter = viewModel.getPagerAdapter(fragmentManager)
-                if (currentItem == 0) currentItem = viewModel.startPosition
+//                if (currentItem == 0) currentItem = viewModel.startPosition
                 commandSubscribe(::applyCommand)
                 onPageChangeListener { onPageSelected { viewModel.selectedPage = it } }
             }

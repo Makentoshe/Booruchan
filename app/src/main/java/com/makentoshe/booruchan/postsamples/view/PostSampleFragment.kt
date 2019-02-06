@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProviders
 import com.makentoshe.booruapi.Booru
 import com.makentoshe.booruchan.AppActivity
-import com.makentoshe.booruchan.PostSampleFragmentViewModelFactory
 import com.makentoshe.booruchan.Fragment
 import com.makentoshe.booruchan.postsamples.PostsSampleFragmentViewModel
 import com.makentoshe.repository.ImageRepository
@@ -37,7 +36,7 @@ class PostSampleFragment : Fragment<PostsSampleFragmentViewModel>() {
         val sampleRepository = arguments.getSerializable(ImageRepository::class.java.simpleName) as ImageRepository
         val requestPermissionController = (requireActivity() as AppActivity).requestPermissionController
 
-        val factory = PostSampleFragmentViewModelFactory(
+        val factory = PostsSampleFragmentViewModel.Factory(
             booru,
             startPosition,
             postsRepository,
