@@ -36,8 +36,7 @@ class PostSamplePageFragment : Fragment<PostSamplePageViewModel>() {
         val sampleRepository = arguments.getSerializable(ImageRepository::class.java.simpleName) as ImageRepository
         val postsRepository = arguments.getSerializable(PostsRepository::class.java.simpleName) as PostsRepository
 
-        val factory =
-            PostSamplePageFragmentViewModelFactory(position, blockController, sampleRepository, postsRepository)
+        val factory = PostSamplePageViewModel.Factory(position, blockController, sampleRepository, postsRepository)
         return ViewModelProviders.of(this, factory)[PostSamplePageViewModel::class.java]
     }
 }
