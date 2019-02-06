@@ -14,19 +14,11 @@ interface Backpressable {
 
 abstract class ViewModelFragment<VM : FragmentViewModel> : Fragment(), Backpressable {
     protected lateinit var viewModel: VM
-    private lateinit var argumentViewModel: ArgumentViewModel
-    private var bundle = Bundle.EMPTY
 
     abstract fun buildViewModel(arguments: Bundle): VM
 
-    private fun buildArgumentViewModel(arguments: Bundle): ArgumentViewModel {
-        val factory = ArgumentViewModelFactory(arguments)
-        return ViewModelProviders.of(this, factory)[ArgumentViewModel::class.java]
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
-        argumentViewModel = buildArgumentViewModel(bundle)
-        viewModel = buildViewModel(argumentViewModel.arguments)
+        viewModel = buildViewModel(arguments?: Bundle.EMPTY)
         super.onCreate(savedInstanceState)
     }
 
@@ -38,7 +30,7 @@ abstract class ViewModelFragment<VM : FragmentViewModel> : Fragment(), Backpress
     override fun onBackPressed() = false
 
     fun putArguments(bundle: Bundle): ViewModelFragment<VM> {
-        this.bundle = bundle
+        arguments = bundle
         return this
     }
 }

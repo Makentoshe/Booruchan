@@ -125,9 +125,3 @@ class PostSamplePageInfoFragmentViewModelFactory(
 ) : ViewModelFactory() {
     override fun build() = PostSamplePageInfoFragmentViewModel(position, postsRepository)
 }
-
-class ArgumentViewModel(@JvmField val arguments: Bundle) : ViewModel()
-
-class ArgumentViewModelFactory(private val arguments: Bundle) : ViewModelFactory() {
-    override fun build() = ArgumentViewModel(arguments)
-}
