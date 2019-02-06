@@ -51,10 +51,6 @@ abstract class ViewModelFactory : ViewModelProvider.NewInstanceFactory() {
     abstract fun build(): ViewModel
 }
 
-class StartFragmentViewModelFactory : ViewModelFactory() {
-    override fun build() = StartFragmentViewModel(Booruchan.INSTANCE.router, Booruchan.INSTANCE.booruList)
-}
-
 class BooruFragmentViewModelFactory(
     private val booru: Booru,
     private val tags: Set<Tag>

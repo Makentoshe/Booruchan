@@ -5,6 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProviders
+import com.makentoshe.booruapi.Booru
+import com.makentoshe.booruchan.Booruchan
 import com.makentoshe.booruchan.StartFragmentViewModelFactory
 import com.makentoshe.booruchan.Fragment
 import org.jetbrains.anko.AnkoContext
@@ -12,7 +14,9 @@ import org.jetbrains.anko.AnkoContext
 class StartFragment : Fragment<StartFragmentViewModel>() {
 
     override fun buildViewModel(arguments: Bundle): StartFragmentViewModel {
-        val factory = StartFragmentViewModelFactory()
+        val router = Booruchan.INSTANCE.router
+        val list = Booruchan.INSTANCE.booruList
+        val factory = StartFragmentViewModel.Factory(router, list)
         return ViewModelProviders.of(this, factory)[StartFragmentViewModel::class.java]
     }
 

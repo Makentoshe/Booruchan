@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
+import com.makentoshe.viewmodel.ViewModel
 import org.jetbrains.anko.support.v4.intentFor
 
 interface Backpressable {
@@ -13,7 +14,7 @@ interface Backpressable {
 }
 
 
-abstract class Fragment<VM : FragmentViewModel> : Fragment(), Backpressable {
+abstract class Fragment<VM : ViewModel> : Fragment(), Backpressable {
     protected lateinit var viewModel: VM
 
     abstract fun buildViewModel(arguments: Bundle): VM
