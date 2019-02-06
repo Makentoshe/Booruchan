@@ -1,5 +1,6 @@
 package com.makentoshe.booruchan.postpreviews
 
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.viewpager.widget.PagerAdapter
 import com.makentoshe.booruapi.Booru
@@ -86,7 +87,7 @@ class PostsFragmentViewModel(
     val autocompleteAdapter: DelayAutocompleteAdapter
         get() = DelayAutocompleteAdapter(DelayAutocompleteRepository(booru))
 
-    override fun onUiRecreate() {
+    override fun onCreateView(owner: Fragment) {
         overflowController.update()
         clearIconController.clear()
         searchController.update(tags)

@@ -15,6 +15,15 @@ import org.jetbrains.anko.AnkoContext
 
 class PostPageFragment : ViewModelFragment<PostPageFragmentViewModel>() {
 
+    override val argumentInitializer: String
+        get() = PostPageFragment::class.java.simpleName.plus(arguments!!.getInt(PostPageFragment::class.java.simpleName))
+
+    override fun clearArguments(arguments: Bundle?): Bundle? {
+        return Bundle().apply {
+            putInt(PostPageFragment::class.java.simpleName, arguments!!.getInt(PostPageFragment::class.java.simpleName))
+        }
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
         return PostPageFragmentUi(viewModel)
@@ -25,7 +34,8 @@ class PostPageFragment : ViewModelFragment<PostPageFragmentViewModel>() {
         val booru = arguments.getSerializable(Booru::class.java.simpleName) as Booru
         val position = arguments.getInt(PostPageFragment::class.java.simpleName)
         val postsRepository = arguments.getSerializable(PostsRepository::class.java.simpleName) as PostsRepository
-        val previewsRepository = arguments.getSerializable(PreviewImageRepository::class.java.simpleName) as PreviewImageRepository
+        val previewsRepository =
+            arguments.getSerializable(PreviewImageRepository::class.java.simpleName) as PreviewImageRepository
 
         val factory = PostPageFragmentViewModelFactory(booru, position, postsRepository, previewsRepository)
         return ViewModelProviders.of(this, factory)[PostPageFragmentViewModel::class.java]

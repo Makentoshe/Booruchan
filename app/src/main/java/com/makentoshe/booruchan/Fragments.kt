@@ -6,38 +6,61 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
+import org.jetbrains.anko.support.v4.intentFor
 
 interface Backpressable {
     fun onBackPressed(): Boolean
 }
 
+
 abstract class ViewModelFragment<VM : FragmentViewModel> : Fragment(), Backpressable {
     protected lateinit var viewModel: VM
-    private lateinit var argumentViewModel: ArgumentViewModel
-    private var bundle = Bundle.EMPTY
 
     abstract fun buildViewModel(arguments: Bundle): VM
 
-    private fun buildArgumentViewModel(arguments: Bundle): ArgumentViewModel {
-        val factory = ArgumentViewModelFactory(arguments)
-        return ViewModelProviders.of(this, factory)[ArgumentViewModel::class.java]
+    open val argumentInitializer: String = this::class.java.simpleName
+
+    /**
+     * @param arguments fragment arguments before clearing
+     * @return fragment arguments after clearing
+     */
+    open fun clearArguments(arguments: Bundle?): Bundle? {
+        return arguments
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        argumentViewModel = buildArgumentViewModel(bundle)
-        viewModel = buildViewModel(argumentViewModel.arguments)
+        //get arguments from holder
+        var argumentsFromHolder = ArgumentsHolder.getArgument(argumentInitializer)
+        //if holder does not contains arguments
+        if (argumentsFromHolder == null) {
+            argumentsFromHolder = arguments ?: Bundle.EMPTY
+            //put arguments
+            ArgumentsHolder.putArgument(argumentInitializer, arguments ?: Bundle.EMPTY)
+            //Clear inner arguments
+            arguments = clearArguments(arguments)
+        }
+
+        this.viewModel = buildViewModel(argumentsFromHolder ?: Bundle.EMPTY)
         super.onCreate(savedInstanceState)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        viewModel.onUiRecreate()
+        viewModel.onCreateView(this)
         return super.onCreateView(inflater, container, savedInstanceState)
     }
 
     override fun onBackPressed() = false
 
-    fun putArguments(bundle: Bundle): ViewModelFragment<VM> {
-        this.bundle = bundle
-        return this
+    override fun onDestroy() {
+        //check that fragment is no more use
+        val activity = activity
+        val isChangingConfigurations = activity != null && activity.isChangingConfigurations
+        //remove unused arguments from holder
+        if (!isChangingConfigurations) {
+            ArgumentsHolder.removeArgument(argumentInitializer)
+        }
+
+        super.onDestroy()
     }
+
 }

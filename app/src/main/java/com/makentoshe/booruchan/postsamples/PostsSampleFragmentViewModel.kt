@@ -1,6 +1,7 @@
 package com.makentoshe.booruchan.postsamples
 
 import android.content.Context
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.viewpager.widget.PagerAdapter
 import com.makentoshe.booruapi.Booru
@@ -81,7 +82,7 @@ class PostsSampleFragmentViewModel(
 
     fun requestPermission(permission: String) = requestPermissionController.action(permission)
 
-    override fun onUiRecreate() {
+    override fun onCreateView(owner: Fragment) {
         sampleViewPagerCurrentItemController.clear()
         confirmFileDownloadController.clear()
         samplePageBlockController.clear()

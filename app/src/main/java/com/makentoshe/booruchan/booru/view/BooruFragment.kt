@@ -16,6 +16,9 @@ import org.jetbrains.anko.AnkoContext
 
 class BooruFragment : ViewModelFragment<BooruFragmentViewModel>() {
 
+    override val argumentInitializer: String
+        get() = BooruFragment::class.java.simpleName
+
     override fun buildViewModel(arguments: Bundle): BooruFragmentViewModel {
         val booru = arguments.getSerializable(Booru::class.java.simpleName) as Booru
         //if was called from sample - the search must be started with this tags
@@ -26,10 +29,7 @@ class BooruFragment : ViewModelFragment<BooruFragmentViewModel>() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        //Do not replace this method by super.onCreateView.
-        //Current method is different and requires some context params.
-        viewModel.onUiRecreate(requireActivity(), childFragmentManager)
-
+        super.onCreateView(inflater, container, savedInstanceState)
         return BooruFragmentUI(viewModel)
             .createView(AnkoContext.create(requireContext(), this))
     }

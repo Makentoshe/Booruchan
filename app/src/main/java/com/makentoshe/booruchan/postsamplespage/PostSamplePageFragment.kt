@@ -14,6 +14,15 @@ import org.jetbrains.anko.AnkoContext
 
 class PostSamplePageFragment : ViewModelFragment<PostSamplePageViewModel>() {
 
+    override val argumentInitializer: String
+        get() = PostSamplePageFragment::class.java.simpleName.plus(arguments!!.getInt(Int::class.java.simpleName))
+
+    override fun clearArguments(arguments: Bundle?): Bundle? {
+        return Bundle().apply {
+            putInt(Int::class.java.simpleName, arguments!!.getInt(Int::class.java.simpleName))
+        }
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
         return PostSamplePageFragmentUi(viewModel)

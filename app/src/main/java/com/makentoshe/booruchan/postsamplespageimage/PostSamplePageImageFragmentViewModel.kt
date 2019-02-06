@@ -3,6 +3,7 @@ package com.makentoshe.booruchan.postsamplespageimage
 import android.graphics.Bitmap
 import android.os.Handler
 import android.os.Looper
+import androidx.fragment.app.Fragment
 import com.makentoshe.booruapi.Post
 import com.makentoshe.booruchan.DownloadResult
 import com.makentoshe.booruchan.FragmentViewModel
@@ -48,7 +49,7 @@ class PostSamplePageImageFragmentViewModel(
         sampleImageDownloadController.action(getPost(position).await())
     }
 
-    override fun onUiRecreate() {
+    override fun onCreateView(owner: Fragment) {
         sampleImageDownloadController.clear()
     }
 

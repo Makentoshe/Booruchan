@@ -9,12 +9,22 @@ import com.makentoshe.booruapi.Booru
 import com.makentoshe.booruchan.AppActivity
 import com.makentoshe.booruchan.PostSampleFragmentViewModelFactory
 import com.makentoshe.booruchan.ViewModelFragment
+import com.makentoshe.booruchan.booru.view.BooruFragment
 import com.makentoshe.booruchan.postsamples.PostsSampleFragmentViewModel
 import com.makentoshe.repository.ImageRepository
 import com.makentoshe.repository.PostsRepository
 import org.jetbrains.anko.AnkoContext
 
 class PostSampleFragment : ViewModelFragment<PostsSampleFragmentViewModel>() {
+
+    override val argumentInitializer: String
+        get() = PostSampleFragment::class.java.simpleName
+
+    override fun clearArguments(arguments: Bundle?): Bundle? {
+        return Bundle().apply {
+            putInt(Int::class.java.simpleName, arguments!!.getInt(Int::class.java.simpleName))
+        }
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)

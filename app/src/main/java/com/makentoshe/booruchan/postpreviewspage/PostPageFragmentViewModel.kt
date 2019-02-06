@@ -3,6 +3,7 @@ package com.makentoshe.booruchan.postpreviewspage
 import android.os.Handler
 import android.os.Looper
 import android.widget.BaseAdapter
+import androidx.fragment.app.Fragment
 import com.makentoshe.booruapi.Booru
 import com.makentoshe.booruapi.Posts
 import com.makentoshe.booruchan.*
@@ -55,7 +56,7 @@ class PostPageFragmentViewModel(
         return true
     }
 
-    override fun onUiRecreate() {
+    override fun onCreateView(owner: Fragment) {
         postsDownloadController.clear()
         previewsImageDownloadController.clear()
     }
