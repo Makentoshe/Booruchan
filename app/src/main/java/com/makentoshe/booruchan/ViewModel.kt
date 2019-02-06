@@ -1,6 +1,7 @@
 package com.makentoshe.booruchan
 
 import android.os.Bundle
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.makentoshe.booruapi.Booru
@@ -37,7 +38,7 @@ abstract class CoroutineViewModel : ViewModel(), CoroutineScope {
 }
 
 abstract class FragmentViewModel : CoroutineViewModel() {
-    open fun onUiRecreate() = Unit
+    open fun onCreateView(owner: Fragment) = Unit
 }
 
 abstract class ViewModelFactory : ViewModelProvider.NewInstanceFactory() {

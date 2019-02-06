@@ -1,5 +1,6 @@
 package com.makentoshe.booruchan.booru
 
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import com.makentoshe.booruapi.Booru
@@ -37,7 +38,10 @@ class BooruFragmentViewModel(@JvmField val booru: Booru, private val tags: Set<T
         drawerController.clear()
     }
 
-    fun onUiRecreate(fragmentActivity: FragmentActivity, fragmentManager: FragmentManager) {
+    override fun onCreateView(owner: Fragment) {
+        val fragmentActivity = owner.requireActivity()
+        val fragmentManager = owner.childFragmentManager
+
         val navigator = Navigator(fragmentActivity, R.id.booru_drawer_content, fragmentManager)
         contentController.update(navigator, newPostsScreen())
         drawerController.clear()

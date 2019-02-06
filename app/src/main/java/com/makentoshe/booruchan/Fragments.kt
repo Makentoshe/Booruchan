@@ -11,6 +11,7 @@ interface Backpressable {
     fun onBackPressed(): Boolean
 }
 
+
 abstract class ViewModelFragment<VM : FragmentViewModel> : Fragment(), Backpressable {
     protected lateinit var viewModel: VM
     private lateinit var argumentViewModel: ArgumentViewModel
@@ -30,7 +31,7 @@ abstract class ViewModelFragment<VM : FragmentViewModel> : Fragment(), Backpress
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        viewModel.onUiRecreate()
+        viewModel.onCreateView(this)
         return super.onCreateView(inflater, container, savedInstanceState)
     }
 
