@@ -75,9 +75,3 @@ class PostSamplePageFragmentViewModelFactory(
         PostSamplePageViewModel(position, samplePageHorizontalScrollController, sampleRepository, postsRepository)
 }
 
-class PostSamplePageInfoFragmentViewModelFactory(
-    private val position: Int,
-    private val postsRepository: PostsRepository
-) : ViewModelFactory() {
-    override fun build() = PostSamplePageInfoFragmentViewModel(position, postsRepository)
-}

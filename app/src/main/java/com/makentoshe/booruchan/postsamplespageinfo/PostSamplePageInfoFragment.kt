@@ -5,11 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProviders
-import com.makentoshe.booruchan.PostSamplePageInfoFragmentViewModelFactory
 import com.makentoshe.booruchan.Fragment
 import com.makentoshe.repository.PostsRepository
 import org.jetbrains.anko.AnkoContext
-
 
 class PostSamplePageInfoFragment : Fragment<PostSamplePageInfoFragmentViewModel>() {
 
@@ -31,7 +29,7 @@ class PostSamplePageInfoFragment : Fragment<PostSamplePageInfoFragmentViewModel>
         val position = arguments.getInt(Int::class.java.simpleName)
         val postsRepository = arguments.getSerializable(PostsRepository::class.java.simpleName) as PostsRepository
 
-        val factory = PostSamplePageInfoFragmentViewModelFactory(position, postsRepository)
+        val factory = PostSamplePageInfoFragmentViewModel.Factory(position, postsRepository)
         return ViewModelProviders.of(this, factory)[PostSamplePageInfoFragmentViewModel::class.java]
     }
 }
