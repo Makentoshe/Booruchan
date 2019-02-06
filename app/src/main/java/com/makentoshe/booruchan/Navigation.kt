@@ -52,7 +52,7 @@ class BooruScreen(
     private val booru: Booru,
     private val tags: HashSet<Tag> = HashSet()
 ) : Screen() {
-    override val fragment: ViewModelFragment<*>
+    override val fragment: com.makentoshe.booruchan.Fragment<*>
         get() = BooruFragment().apply {
             arguments = Bundle().apply {
                 putSerializable(Booru::class.java.simpleName, booru)
@@ -64,9 +64,9 @@ class BooruScreen(
 abstract class BooruContentScreen(
     private val booru: Booru,
     private val drawerController: DrawerController,
-    private val `class`: Class<out ViewModelFragment<*>>
+    private val `class`: Class<out com.makentoshe.booruchan.Fragment<*>>
 ) : Screen() {
-    override val fragment: ViewModelFragment<*>
+    override val fragment: com.makentoshe.booruchan.Fragment<*>
         get() = `class`.newInstance().apply {
             arguments = Bundle().apply {
                 putSerializable(Booru::class.java.simpleName, booru)
@@ -81,7 +81,7 @@ class PostsScreen(
     private val tags: HashSet<Tag> = HashSet()
 ) : BooruContentScreen(booru, drawerController, PostsFragment::class.java) {
 
-    override val fragment: ViewModelFragment<*>
+    override val fragment: com.makentoshe.booruchan.Fragment<*>
         get() = super.fragment.apply {
             arguments!!.putSerializable(Set::class.java.simpleName + Tag::class.java.simpleName, tags)
         }

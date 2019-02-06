@@ -8,7 +8,6 @@ import androidx.test.platform.app.InstrumentationRegistry
 import com.makentoshe.booruapi.*
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertTrue
-import java.io.InputStream
 
 inline fun <reified T : Fragment> AppCompatActivity.containsFragment() {
     var contains = false

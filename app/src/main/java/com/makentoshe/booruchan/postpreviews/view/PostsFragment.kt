@@ -9,13 +9,13 @@ import com.makentoshe.booruapi.Booru
 import com.makentoshe.booruapi.Tag
 import com.makentoshe.booruchan.Backpressable
 import com.makentoshe.booruchan.PostFragmentViewModelFactory
-import com.makentoshe.booruchan.ViewModelFragment
+import com.makentoshe.booruchan.Fragment
 import com.makentoshe.booruchan.booru.model.DrawerController
 import com.makentoshe.booruchan.postpreviews.PostsFragmentViewModel
 import com.makentoshe.booruchan.postpreviews.model.OverflowController
 import org.jetbrains.anko.AnkoContext
 
-class PostsFragment : ViewModelFragment<PostsFragmentViewModel>() {
+class PostsFragment : Fragment<PostsFragmentViewModel>() {
 
     override val argumentInitializer: String
         get() = PostsFragment::class.java.simpleName

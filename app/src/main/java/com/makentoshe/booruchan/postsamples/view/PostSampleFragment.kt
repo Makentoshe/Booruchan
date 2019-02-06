@@ -8,14 +8,13 @@ import androidx.lifecycle.ViewModelProviders
 import com.makentoshe.booruapi.Booru
 import com.makentoshe.booruchan.AppActivity
 import com.makentoshe.booruchan.PostSampleFragmentViewModelFactory
-import com.makentoshe.booruchan.ViewModelFragment
-import com.makentoshe.booruchan.booru.view.BooruFragment
+import com.makentoshe.booruchan.Fragment
 import com.makentoshe.booruchan.postsamples.PostsSampleFragmentViewModel
 import com.makentoshe.repository.ImageRepository
 import com.makentoshe.repository.PostsRepository
 import org.jetbrains.anko.AnkoContext
 
-class PostSampleFragment : ViewModelFragment<PostsSampleFragmentViewModel>() {
+class PostSampleFragment : Fragment<PostsSampleFragmentViewModel>() {
 
     override val argumentInitializer: String
         get() = PostSampleFragment::class.java.simpleName

@@ -6,13 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProviders
 import com.makentoshe.booruchan.PostSamplePageFragmentViewModelFactory
-import com.makentoshe.booruchan.ViewModelFragment
+import com.makentoshe.booruchan.Fragment
 import com.makentoshe.booruchan.postsamples.model.SamplePageHorizontalScrollBlockController
 import com.makentoshe.repository.ImageRepository
 import com.makentoshe.repository.PostsRepository
 import org.jetbrains.anko.AnkoContext
 
-class PostSamplePageFragment : ViewModelFragment<PostSamplePageViewModel>() {
+class PostSamplePageFragment : Fragment<PostSamplePageViewModel>() {
 
     override val argumentInitializer: String
         get() = PostSamplePageFragment::class.java.simpleName.plus(arguments!!.getInt(Int::class.java.simpleName))

@@ -7,13 +7,13 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProviders
 import com.makentoshe.booruapi.Booru
 import com.makentoshe.booruchan.PostPageFragmentViewModelFactory
-import com.makentoshe.booruchan.ViewModelFragment
+import com.makentoshe.booruchan.Fragment
 import com.makentoshe.booruchan.postpreviewspage.view.PostPageFragmentUi
 import com.makentoshe.repository.PostsRepository
 import com.makentoshe.repository.PreviewImageRepository
 import org.jetbrains.anko.AnkoContext
 
-class PostPageFragment : ViewModelFragment<PostPageFragmentViewModel>() {
+class PostPageFragment : Fragment<PostPageFragmentViewModel>() {
 
     override val argumentInitializer: String
         get() = PostPageFragment::class.java.simpleName.plus(arguments!!.getInt(PostPageFragment::class.java.simpleName))

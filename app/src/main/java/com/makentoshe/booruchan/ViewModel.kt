@@ -1,6 +1,5 @@
 package com.makentoshe.booruchan
 
-import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider

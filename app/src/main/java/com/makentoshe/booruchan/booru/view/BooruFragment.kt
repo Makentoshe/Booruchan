@@ -9,12 +9,12 @@ import com.makentoshe.booruapi.Booru
 import com.makentoshe.booruapi.Tag
 import com.makentoshe.booruchan.Backpressable
 import com.makentoshe.booruchan.BooruFragmentViewModelFactory
-import com.makentoshe.booruchan.ViewModelFragment
+import com.makentoshe.booruchan.Fragment
 import com.makentoshe.booruchan.booru.BooruFragmentViewModel
 import com.makentoshe.booruchan.booru.model.DrawerState
 import org.jetbrains.anko.AnkoContext
 
-class BooruFragment : ViewModelFragment<BooruFragmentViewModel>() {
+class BooruFragment : Fragment<BooruFragmentViewModel>() {
 
     override val argumentInitializer: String
         get() = BooruFragment::class.java.simpleName

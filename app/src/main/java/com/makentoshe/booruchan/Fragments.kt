@@ -13,7 +13,7 @@ interface Backpressable {
 }
 
 
-abstract class ViewModelFragment<VM : FragmentViewModel> : Fragment(), Backpressable {
+abstract class Fragment<VM : FragmentViewModel> : Fragment(), Backpressable {
     protected lateinit var viewModel: VM
 
     abstract fun buildViewModel(arguments: Bundle): VM

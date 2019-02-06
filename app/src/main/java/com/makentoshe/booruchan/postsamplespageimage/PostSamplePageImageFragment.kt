@@ -6,13 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProviders
 import com.makentoshe.booruchan.PostSamplePageImageFragmentViewModelFactory
-import com.makentoshe.booruchan.ViewModelFragment
+import com.makentoshe.booruchan.Fragment
 import com.makentoshe.booruchan.postsamplespageimage.view.PostSamplePageImageFragmentUi
 import com.makentoshe.repository.ImageRepository
 import com.makentoshe.repository.PostsRepository
 import org.jetbrains.anko.AnkoContext
 
-class PostSamplePageImageFragment : ViewModelFragment<PostSamplePageImageFragmentViewModel>() {
+class PostSamplePageImageFragment : Fragment<PostSamplePageImageFragmentViewModel>() {
 
     override val argumentInitializer: String
         get() = PostSamplePageImageFragment::class.java.simpleName.plus(arguments!!.getInt(Int::class.java.simpleName))
