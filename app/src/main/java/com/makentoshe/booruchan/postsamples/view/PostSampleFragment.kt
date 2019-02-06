@@ -20,6 +20,12 @@ class PostSampleFragment : ViewModelFragment<PostsSampleFragmentViewModel>() {
     override val argumentInitializer: String
         get() = PostSampleFragment::class.java.simpleName
 
+    override fun clearArguments(arguments: Bundle?): Bundle? {
+        return Bundle().apply {
+            putInt(Int::class.java.simpleName, arguments!!.getInt(Int::class.java.simpleName))
+        }
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
         return PostSampleFragmentUi(viewModel).createView(AnkoContext.create(requireContext(), this))
