@@ -15,11 +15,19 @@ object ArgumentsHolder {
     private val container = HashMap<String, Bundle>()
 
     fun putArgument(string: String, argument: Bundle) {
+        println("Put args\n$string\n$argument\n\n\n")
         container[string] = argument
     }
 
-    fun getArgument(fragment: String) = container[fragment]
+    fun getArgument(string: String): Bundle? {
+        val arg = container[string]
+        println("Get args\n$string\n$arg\n\n\n")
+        return arg
+    }
 
-    fun removeArgument(fragment: String) = container.remove(fragment)
+    fun removeArgument(string: String) {
+        println("Remove arg $string")
+        container.remove(string)
+    }
 
 }
