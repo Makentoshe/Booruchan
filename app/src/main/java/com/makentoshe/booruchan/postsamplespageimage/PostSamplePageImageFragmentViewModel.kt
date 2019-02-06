@@ -4,22 +4,21 @@ import android.graphics.Bitmap
 import android.os.Handler
 import android.os.Looper
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import com.makentoshe.booruapi.Post
 import com.makentoshe.booruchan.DownloadResult
 import com.makentoshe.booruchan.FragmentViewModel
 import com.makentoshe.booruchan.postsamplespageimage.model.SampleImageDownloadController
 import com.makentoshe.repository.ImageRepository
 import com.makentoshe.repository.PostsRepository
+import com.makentoshe.viewmodel.ViewModel
 import kotlinx.coroutines.*
 
-class PostSamplePageImageFragmentViewModel(
-    val position: Int,
-    private val postsRepository: PostsRepository,
-    samplesRepository: ImageRepository
-) : FragmentViewModel() {
+class PostSamplePageImageFragmentViewModel private constructor() : ViewModel() {
 
-    private val sampleImageDownloadController = SampleImageDownloadController(this, samplesRepository)
-
+    private var position: Int = -1
+    private lateinit var postsRepository: PostsRepository
+    private lateinit var sampleImageDownloadController: SampleImageDownloadController
 
     init {
         startSampleImageLoading()
@@ -56,6 +55,20 @@ class PostSamplePageImageFragmentViewModel(
     override fun onCleared() {
         super.onCleared()
         sampleImageDownloadController.clear()
+    }
+
+    class Factory(
+        private val position: Int,
+        private val postsRepository: PostsRepository,
+        private val samplesRepository: ImageRepository
+    ) : ViewModelProvider.NewInstanceFactory() {
+        override fun <T : androidx.lifecycle.ViewModel?> create(modelClass: Class<T>): T {
+            val viewModel = PostSamplePageImageFragmentViewModel()
+            viewModel.position = position
+            viewModel.sampleImageDownloadController = SampleImageDownloadController(viewModel, samplesRepository)
+            viewModel.postsRepository = postsRepository
+            return viewModel as T
+        }
     }
 }
 

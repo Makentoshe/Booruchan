@@ -7,7 +7,6 @@ import com.makentoshe.booruapi.Booru
 import com.makentoshe.booruchan.postsamples.PostsSampleFragmentViewModel
 import com.makentoshe.booruchan.postsamples.model.SamplePageHorizontalScrollBlockController
 import com.makentoshe.booruchan.postsamplespage.PostSamplePageViewModel
-import com.makentoshe.booruchan.postsamplespageimage.PostSamplePageImageFragmentViewModel
 import com.makentoshe.booruchan.postsamplespageinfo.PostSamplePageInfoFragmentViewModel
 import com.makentoshe.repository.FileImageRepository
 import com.makentoshe.repository.ImageRepository
@@ -72,15 +71,8 @@ class PostSamplePageFragmentViewModelFactory(
     private val sampleRepository: ImageRepository,
     private val postsRepository: PostsRepository
 ) : ViewModelFactory() {
-    override fun build() = PostSamplePageViewModel(position, samplePageHorizontalScrollController, sampleRepository, postsRepository)
-}
-
-class PostSamplePageImageFragmentViewModelFactory(
-    private val samplesRepository: ImageRepository,
-    private val position: Int,
-    private val postsRepository: PostsRepository
-) : ViewModelFactory() {
-    override fun build() = PostSamplePageImageFragmentViewModel(position, postsRepository, samplesRepository)
+    override fun build() =
+        PostSamplePageViewModel(position, samplePageHorizontalScrollController, sampleRepository, postsRepository)
 }
 
 class PostSamplePageInfoFragmentViewModelFactory(

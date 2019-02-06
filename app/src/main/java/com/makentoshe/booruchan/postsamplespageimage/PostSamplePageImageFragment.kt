@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProviders
-import com.makentoshe.booruchan.PostSamplePageImageFragmentViewModelFactory
 import com.makentoshe.booruchan.Fragment
 import com.makentoshe.booruchan.postsamplespageimage.view.PostSamplePageImageFragmentUi
 import com.makentoshe.repository.ImageRepository
@@ -35,11 +34,7 @@ class PostSamplePageImageFragment : Fragment<PostSamplePageImageFragmentViewMode
         val position = arguments.getInt(Int::class.java.simpleName)
         val postsRepository = arguments.getSerializable(PostsRepository::class.java.simpleName) as PostsRepository
 
-        val factory = PostSamplePageImageFragmentViewModelFactory(
-            sampleRepository,
-            position,
-            postsRepository
-        )
+        val factory = PostSamplePageImageFragmentViewModel.Factory(position, postsRepository, sampleRepository)
         return ViewModelProviders.of(this, factory)[PostSamplePageImageFragmentViewModel::class.java]
     }
 }
