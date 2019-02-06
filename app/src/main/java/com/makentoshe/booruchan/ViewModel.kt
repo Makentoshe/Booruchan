@@ -49,14 +49,6 @@ abstract class ViewModelFactory : ViewModelProvider.NewInstanceFactory() {
     abstract fun build(): ViewModel
 }
 
-class PostFragmentViewModelFactory(
-    private val booru: Booru,
-    private val drawerController: DrawerController,
-    private val tags: Set<Tag>
-) : ViewModelFactory() {
-    override fun build() = PostsFragmentViewModel(booru, drawerController, tags)
-}
-
 class PostPageFragmentViewModelFactory(
     private val booru: Booru,
     private val position: Int,

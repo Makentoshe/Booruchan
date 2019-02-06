@@ -2,10 +2,11 @@ package com.makentoshe.booruchan.postpreviews
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager.widget.PagerAdapter
 import com.makentoshe.booruapi.Booru
 import com.makentoshe.booruapi.Tag
-import com.makentoshe.booruchan.FragmentViewModel
 import com.makentoshe.booruchan.booru.model.DrawerController
 import com.makentoshe.booruchan.booru.model.DrawerState
 import com.makentoshe.booruchan.postpreviews.model.*
@@ -13,18 +14,16 @@ import com.makentoshe.repository.PostsRepository
 import com.makentoshe.repository.PreviewImageRepository
 import com.makentoshe.repository.cache.Cache
 
-class PostsFragmentViewModel(
-    val booru: Booru,
-    private val drawerController: DrawerController,
+class PostsFragmentViewModel : com.makentoshe.viewmodel.ViewModel() {
+    private lateinit var booru: Booru
+    private lateinit var drawerController: DrawerController
     /* tags for default(on the startup) search */
-    private val tags: Set<Tag>
-) : FragmentViewModel() {
-
-    private val clearIconController = ClearIconController()
-    private val overflowController = OverflowController(this)
-    private val searchController = SearchController()
-    private val compositeTagController = CompositeTagController(TagController(), TagController(), tags)
-    private val viewPagerController = ViewPagerController(0)
+    private lateinit var tags: Set<Tag>
+    private lateinit var clearIconController: ClearIconController
+    private lateinit var overflowController: OverflowController
+    private lateinit var searchController: SearchController
+    private lateinit var compositeTagController: CompositeTagController
+    private lateinit var viewPagerController: ViewPagerController
 
     fun clickDrawerMenuIcon() {
         if (drawerController.state == null) return drawerController.openDrawer()
@@ -111,4 +110,23 @@ class PostsFragmentViewModel(
         return ViewPagerAdapter(fragmentManager, booru, postsRepository, previewsRepository)
     }
 
+    class Factory(
+        private val booru: Booru,
+        private val tags: Set<Tag>,
+        private val drawerController: DrawerController
+    ) : ViewModelProvider.NewInstanceFactory() {
+
+        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+            val viewModel = PostsFragmentViewModel()
+            viewModel.booru = booru
+            viewModel.tags = tags
+            viewModel.drawerController = drawerController
+            viewModel.clearIconController = ClearIconController()
+            viewModel.searchController = SearchController()
+            viewModel.viewPagerController = ViewPagerController(0)
+            viewModel.overflowController = OverflowController(viewModel)
+            viewModel.compositeTagController = CompositeTagController(TagController(), TagController(), tags)
+            return viewModel as T
+        }
+    }
 }
