@@ -51,7 +51,7 @@ class PostsFragmentUiToolbar(
 
     private fun _RelativeLayout.createToolbarView() = toolbar {
         id = R.id.postpreview_toolbar_container_toolbar
-        title = postsFragmentViewModel.booru.title
+        title = postsFragmentViewModel.booruTitle
         subtitleResource = R.string.posts
         setTitleTextColor(style.toolbar.getOnPrimaryColor(context))
         setBackgroundResource(style.toolbar.primaryColorRes)

@@ -94,7 +94,7 @@ class PostsSampleFragmentViewModel private constructor() : com.makentoshe.viewmo
 
     class Factory(
         private val booru: Booru,
-        private val position: Int,
+        private val startPosition: Int,
         private val postsRepository: PostsRepository,
         private val sampleRepository: ImageRepository,
         private val requestPermissionController: RequestPermissionController
@@ -108,10 +108,12 @@ class PostsSampleFragmentViewModel private constructor() : com.makentoshe.viewmo
             viewModel.postsRepository = postsRepository
             viewModel.sampleRepository = sampleRepository
             viewModel.requestPermissionController = requestPermissionController
-            viewModel.sampleViewPagerCurrentItemController = SampleViewPagerCurrentItemController(position)
+            viewModel.confirmFileDownloadController = confirmFileDownloadController
             viewModel.samplePageBlockController = SamplePageHorizontalScrollBlockController()
+            viewModel.sampleViewPagerCurrentItemController = SampleViewPagerCurrentItemController(startPosition)
             viewModel.fileImageDownloadController = FileImageDownloadController(viewModel, fileRepository)
             viewModel.fileImageDownloadPerformer = FileImageDownloadPerformer(booru, confirmFileDownloadController)
+
             return viewModel as T
         }
     }

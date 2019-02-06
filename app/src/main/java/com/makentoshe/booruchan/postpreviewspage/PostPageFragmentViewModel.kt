@@ -27,10 +27,6 @@ class PostPageFragmentViewModel private constructor() : ViewModel() {
     private lateinit var postsDownloadController: PostsDownloadController
     private lateinit var previewsImageDownloadController: PreviewImageDownloadController
 
-    init {
-        loadPosts()
-    }
-
     fun loadPosts() = postsDownloadController.action(position)
 
     fun addOnPostsReceiveListener(action: (DownloadResult<Posts>) -> Unit) {
@@ -76,11 +72,15 @@ class PostPageFragmentViewModel private constructor() : ViewModel() {
     ): ViewModelProvider.NewInstanceFactory() {
         override fun <T : androidx.lifecycle.ViewModel?> create(modelClass: Class<T>): T {
             val viewModel = PostPageFragmentViewModel()
+
             viewModel.booru = booru
             viewModel.position = position
             viewModel.postsRepository = postsRepository
             viewModel.postsDownloadController = PostsDownloadController(viewModel, postsRepository)
             viewModel.previewsImageDownloadController = PreviewImageDownloadController(previewsRepository)
+
+            viewModel.loadPosts()
+
             return viewModel as T
         }
     }

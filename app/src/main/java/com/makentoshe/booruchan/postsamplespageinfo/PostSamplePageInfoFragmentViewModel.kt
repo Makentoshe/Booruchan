@@ -3,7 +3,6 @@ package com.makentoshe.booruchan.postsamplespageinfo
 import androidx.lifecycle.ViewModelProvider
 import com.makentoshe.booruapi.Post
 import com.makentoshe.booruchan.DownloadResult
-import com.makentoshe.booruchan.FragmentViewModel
 import com.makentoshe.repository.PostsRepository
 import com.makentoshe.viewmodel.ViewModel
 import kotlinx.coroutines.Deferred

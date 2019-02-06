@@ -8,8 +8,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.makentoshe.booruapi.Booru
 import com.makentoshe.booruchan.BooruScreen
-import com.makentoshe.booruchan.Booruchan
-import com.makentoshe.booruchan.FragmentViewModel
 import com.makentoshe.booruchan.SettingsScreen
 import ru.terrakok.cicerone.Router
 

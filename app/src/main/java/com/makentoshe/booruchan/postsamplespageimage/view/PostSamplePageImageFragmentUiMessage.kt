@@ -45,9 +45,9 @@ class PostSamplePageImageFragmentUiMessage(
     }
 
     private fun onClick(root: View) {
-        val messageview = root.findViewById<TextView>(R.id.sample_image_message)
-        val progressbar = root.findViewById<ProgressBar>(R.id.sample_image_progressbar)
-        val imageview = root.findViewById<ImageView>(R.id.sample_image_view)
+        val messageview = root.findViewById<View>(R.id.sample_image_message)
+        val progressbar = root.findViewById<View>(R.id.sample_image_progressbar)
+//        val imageview = root.findViewById<View>(R.id.sample_image_view)
 
         messageview.visibility = View.GONE
         progressbar.visibility = View.VISIBLE

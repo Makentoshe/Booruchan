@@ -25,6 +25,9 @@ class PostsFragmentViewModel : com.makentoshe.viewmodel.ViewModel() {
     private lateinit var compositeTagController: CompositeTagController
     private lateinit var viewPagerController: ViewPagerController
 
+    val booruTitle: String
+        get() = booru.title
+
     fun clickDrawerMenuIcon() {
         if (drawerController.state == null) return drawerController.openDrawer()
         when (drawerController.state) {

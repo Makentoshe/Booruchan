@@ -7,7 +7,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.makentoshe.booruapi.Post
 import com.makentoshe.booruchan.DownloadResult
-import com.makentoshe.booruchan.FragmentViewModel
 import com.makentoshe.booruchan.postsamplespageimage.model.SampleImageDownloadController
 import com.makentoshe.repository.ImageRepository
 import com.makentoshe.repository.PostsRepository
@@ -15,14 +14,9 @@ import com.makentoshe.viewmodel.ViewModel
 import kotlinx.coroutines.*
 
 class PostSamplePageImageFragmentViewModel private constructor() : ViewModel() {
-
     private var position: Int = -1
     private lateinit var postsRepository: PostsRepository
     private lateinit var sampleImageDownloadController: SampleImageDownloadController
-
-    init {
-        startSampleImageLoading()
-    }
 
     /**
      * @param position post index start from 0.
@@ -64,9 +58,13 @@ class PostSamplePageImageFragmentViewModel private constructor() : ViewModel() {
     ) : ViewModelProvider.NewInstanceFactory() {
         override fun <T : androidx.lifecycle.ViewModel?> create(modelClass: Class<T>): T {
             val viewModel = PostSamplePageImageFragmentViewModel()
+
             viewModel.position = position
             viewModel.sampleImageDownloadController = SampleImageDownloadController(viewModel, samplesRepository)
             viewModel.postsRepository = postsRepository
+
+            viewModel.startSampleImageLoading()
+
             return viewModel as T
         }
     }

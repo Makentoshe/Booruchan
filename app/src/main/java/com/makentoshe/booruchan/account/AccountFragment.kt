@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.lifecycle.ViewModelProviders
 import com.makentoshe.booruchan.Fragment
-import com.makentoshe.booruchan.FragmentViewModel
 import com.makentoshe.viewmodel.ViewModel
 
 class AccountFragment : Fragment<AccountFragmentViewModel>() {
