@@ -4,27 +4,28 @@ import android.os.Handler
 import android.os.Looper
 import android.widget.BaseAdapter
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import com.makentoshe.booruapi.Booru
 import com.makentoshe.booruapi.Posts
-import com.makentoshe.booruchan.*
+import com.makentoshe.booruchan.Booruchan
+import com.makentoshe.booruchan.DownloadResult
+import com.makentoshe.booruchan.PostSamplesScreen
 import com.makentoshe.booruchan.postpreviewspage.model.GridViewAdapter
 import com.makentoshe.booruchan.postpreviewspage.model.PostsDownloadController
 import com.makentoshe.booruchan.postpreviewspage.model.PreviewImageDownloadController
+import com.makentoshe.repository.ImageRepository
 import com.makentoshe.repository.PostsRepository
-import com.makentoshe.repository.PreviewImageRepository
 import com.makentoshe.repository.SampleImageRepository
 import com.makentoshe.repository.cache.Cache
+import com.makentoshe.viewmodel.ViewModel
 
-class PostPageFragmentViewModel(
-    private val booru: Booru,
-    private val position: Int,
-    private val postsRepository: PostsRepository,
-    previewsRepository: PreviewImageRepository
-) : FragmentViewModel() {
+class PostPageFragmentViewModel private constructor() : ViewModel() {
 
-    private val postsDownloadController = PostsDownloadController(this, postsRepository)
-    private val previewsImageDownloadController =
-        PreviewImageDownloadController(previewsRepository)
+    private lateinit var booru: Booru
+    private var position: Int = -1
+    private lateinit var postsRepository: PostsRepository
+    private lateinit var postsDownloadController: PostsDownloadController
+    private lateinit var previewsImageDownloadController: PreviewImageDownloadController
 
     init {
         loadPosts()
@@ -65,6 +66,23 @@ class PostPageFragmentViewModel(
         super.onCleared()
         postsDownloadController.clear()
         previewsImageDownloadController.clear()
+    }
+
+    class Factory(
+        private val booru: Booru,
+        private val position: Int,
+        private val postsRepository: PostsRepository,
+        private val previewsRepository: ImageRepository
+    ): ViewModelProvider.NewInstanceFactory() {
+        override fun <T : androidx.lifecycle.ViewModel?> create(modelClass: Class<T>): T {
+            val viewModel = PostPageFragmentViewModel()
+            viewModel.booru = booru
+            viewModel.position = position
+            viewModel.postsRepository = postsRepository
+            viewModel.postsDownloadController = PostsDownloadController(viewModel, postsRepository)
+            viewModel.previewsImageDownloadController = PreviewImageDownloadController(previewsRepository)
+            return viewModel as T
+        }
     }
 }
 

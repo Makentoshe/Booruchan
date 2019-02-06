@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProviders
 import com.makentoshe.booruapi.Booru
-import com.makentoshe.booruchan.PostPageFragmentViewModelFactory
 import com.makentoshe.booruchan.Fragment
 import com.makentoshe.booruchan.postpreviewspage.view.PostPageFragmentUi
 import com.makentoshe.repository.PostsRepository
@@ -37,7 +36,7 @@ class PostPageFragment : Fragment<PostPageFragmentViewModel>() {
         val previewsRepository =
             arguments.getSerializable(PreviewImageRepository::class.java.simpleName) as PreviewImageRepository
 
-        val factory = PostPageFragmentViewModelFactory(booru, position, postsRepository, previewsRepository)
+        val factory = PostPageFragmentViewModel.Factory(booru, position, postsRepository, previewsRepository)
         return ViewModelProviders.of(this, factory)[PostPageFragmentViewModel::class.java]
     }
 

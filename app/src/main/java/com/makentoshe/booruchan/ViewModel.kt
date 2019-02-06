@@ -4,10 +4,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.makentoshe.booruapi.Booru
-import com.makentoshe.booruapi.Tag
-import com.makentoshe.booruchan.booru.model.DrawerController
-import com.makentoshe.booruchan.postpreviews.PostsFragmentViewModel
-import com.makentoshe.booruchan.postpreviewspage.PostPageFragmentViewModel
 import com.makentoshe.booruchan.postsamples.PostsSampleFragmentViewModel
 import com.makentoshe.booruchan.postsamples.model.SamplePageHorizontalScrollBlockController
 import com.makentoshe.booruchan.postsamplespage.PostSamplePageViewModel
@@ -16,7 +12,6 @@ import com.makentoshe.booruchan.postsamplespageinfo.PostSamplePageInfoFragmentVi
 import com.makentoshe.repository.FileImageRepository
 import com.makentoshe.repository.ImageRepository
 import com.makentoshe.repository.PostsRepository
-import com.makentoshe.repository.PreviewImageRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -47,15 +42,6 @@ abstract class ViewModelFactory : ViewModelProvider.NewInstanceFactory() {
     }
 
     abstract fun build(): ViewModel
-}
-
-class PostPageFragmentViewModelFactory(
-    private val booru: Booru,
-    private val position: Int,
-    private val postsRepository: PostsRepository,
-    private val previewsRepository: PreviewImageRepository
-) : ViewModelFactory() {
-    override fun build() = PostPageFragmentViewModel(booru, position, postsRepository, previewsRepository)
 }
 
 class PostSampleFragmentViewModelFactory(
