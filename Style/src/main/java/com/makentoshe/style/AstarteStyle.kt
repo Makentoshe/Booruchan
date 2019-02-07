@@ -9,7 +9,8 @@ import java.io.Serializable
 class AstarteStyle : Style(), Serializable {
     override val id = R.style.Astarte
     override val name = "Astarte"
-    override val toolbar = ToolbarStyle(R.color.MaterialIndigo500, android.R.color.white)
+    override val toolbar =
+        ToolbarStyle(R.color.MaterialIndigo500, android.R.color.white, R.color.MaterialIndigo700, android.R.color.white)
     override val assent = AssentStyle(
         R.color.IndigoAssent200, android.R.color.widget_edittext_dark,
         R.color.MaterialIndigo700, android.R.color.white

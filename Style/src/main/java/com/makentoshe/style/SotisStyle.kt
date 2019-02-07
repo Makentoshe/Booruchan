@@ -10,7 +10,7 @@ class SotisStyle : Style(), Serializable {
     override val id = R.style.Sotis
     override val name = "Sotis"
     override val toolbar =
-        ToolbarStyle(R.color.MaterialTeal600, android.R.color.white)
+        ToolbarStyle(R.color.MaterialTeal600, android.R.color.white, R.color.MaterialTeal900, android.R.color.white)
     override val assent = AssentStyle(
         R.color.TealAssent200, android.R.color.white,
         R.color.MaterialTeal900, android.R.color.white
