@@ -1,4 +1,4 @@
-package com.makentoshe.booruchan.postpreviewspage.view
+package com.makentoshe.booruchan.postpreview.view
 
 import android.content.res.Configuration
 import android.view.Gravity
@@ -7,7 +7,7 @@ import android.widget.AdapterView
 import android.widget.GridView
 import com.makentoshe.booruapi.Posts
 import com.makentoshe.booruchan.DownloadResult
-import com.makentoshe.booruchan.postpreviewspage.PostPageFragmentViewModel
+import com.makentoshe.booruchan.postpreview.PostPageFragmentViewModel
 import org.jetbrains.anko.*
 
 class PostPageFragmentUiContent(private val viewModel: PostPageFragmentViewModel) :

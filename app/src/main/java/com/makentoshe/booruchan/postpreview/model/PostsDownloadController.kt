@@ -1,4 +1,4 @@
-package com.makentoshe.booruchan.postpreviewspage.model
+package com.makentoshe.booruchan.postpreview.model
 
 import com.makentoshe.booruapi.Posts
 import com.makentoshe.booruchan.Controller

@@ -6,99 +6,18 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
-import com.makentoshe.booruapi.Booru
-import com.makentoshe.booruapi.Tag
-import com.makentoshe.booruchan.account.AccountFragment
-import com.makentoshe.booruchan.booru.model.DrawerController
-import com.makentoshe.booruchan.booru.view.BooruFragment
-import com.makentoshe.booruchan.postpreviews.view.PostsFragment
-import com.makentoshe.booruchan.postpreviewspage.PostPageFragment
-import com.makentoshe.booruchan.settings.SettingsFragment
-import com.makentoshe.booruchan.start.StartFragment
-import com.makentoshe.repository.PostsRepository
-import com.makentoshe.repository.PreviewImageRepository
 import ru.terrakok.cicerone.Navigator
 import ru.terrakok.cicerone.commands.*
 import java.util.*
-import kotlin.collections.HashSet
 
 /**
- * Screen is a base class for description and creation application screen.<br>
+ * FragmentScreen is a base class for description and creation application screen.<br>
  * NOTE: If you have described the creation of Intent then Activity will be started.<br>
  * Recommendation: Use Intents for launch external application.
  */
-abstract class Screen : ru.terrakok.cicerone.Screen() {
+abstract class FragmentScreen : ru.terrakok.cicerone.Screen() {
     abstract val fragment: Fragment
     open val activityIntent: Intent? = null
-}
-
-class StartScreen : Screen() {
-    override val fragment: Fragment
-        get() = StartFragment()
-}
-
-class SettingsScreen : Screen() {
-    override val fragment: Fragment
-        get() = SettingsFragment()
-}
-
-class BooruScreen(
-    private val booru: Booru,
-    private val tags: HashSet<Tag> = HashSet()
-) : Screen() {
-    override val fragment: com.makentoshe.booruchan.Fragment<*>
-        get() = BooruFragment().apply {
-            arguments = Bundle().apply {
-                putSerializable(Booru::class.java.simpleName, booru)
-                putSerializable(Tag::class.java.simpleName, tags)
-            }
-        }
-}
-
-abstract class BooruContentScreen(
-    private val booru: Booru,
-    private val drawerController: DrawerController,
-    private val `class`: Class<out com.makentoshe.booruchan.Fragment<*>>
-) : Screen() {
-    override val fragment: com.makentoshe.booruchan.Fragment<*>
-        get() = `class`.newInstance().apply {
-            arguments = Bundle().apply {
-                putSerializable(Booru::class.java.simpleName, booru)
-                putSerializable(DrawerController::class.java.simpleName, drawerController)
-            }
-        }
-}
-
-class PostsScreen(
-    booru: Booru,
-    drawerController: DrawerController,
-    private val tags: HashSet<Tag> = HashSet()
-) : BooruContentScreen(booru, drawerController, PostsFragment::class.java) {
-
-    override val fragment: com.makentoshe.booruchan.Fragment<*>
-        get() = super.fragment.apply {
-            arguments!!.putSerializable(Set::class.java.simpleName + Tag::class.java.simpleName, tags)
-        }
-}
-
-class AccountScreen(booru: Booru, drawerController: DrawerController) :
-    BooruContentScreen(booru, drawerController, AccountFragment::class.java)
-
-class PostPageScreen(
-    private val booru: Booru,
-    private val position: Int,
-    private val postsRepository: PostsRepository,
-    private val previewsRepository: PreviewImageRepository
-) : Screen() {
-    override val fragment: Fragment
-        get() = PostPageFragment().apply {
-            arguments = Bundle().apply {
-                putSerializable(Booru::class.java.simpleName, booru)
-                putInt(PostPageFragment::class.java.simpleName, position)
-                putSerializable(PostsRepository::class.java.simpleName, postsRepository)
-                putSerializable(PreviewImageRepository::class.java.simpleName, previewsRepository)
-            }
-        }
 }
 
 /**
@@ -148,7 +67,7 @@ open class Navigator(
     }
 
     protected open fun activityForward(command: Forward) {
-        val screen = command.screen as Screen
+        val screen = command.screen as FragmentScreen
         val activityIntent = screen.activityIntent
 
         // Start activity
@@ -161,7 +80,7 @@ open class Navigator(
     }
 
     protected open fun fragmentForward(command: Forward) {
-        val screen = command.screen as Screen
+        val screen = command.screen as FragmentScreen
         val fragment = createFragment(screen)
 
         val fragmentTransaction = fragmentManager.beginTransaction()
@@ -192,7 +111,7 @@ open class Navigator(
     protected open fun activityBack() = activity.finish()
 
     protected open fun activityReplace(command: Replace) {
-        val screen = command.screen as Screen
+        val screen = command.screen as FragmentScreen
         val activityIntent = screen.activityIntent
 
         // Replace activity
@@ -206,7 +125,7 @@ open class Navigator(
     }
 
     protected open fun fragmentReplace(command: Replace) {
-        val screen = command.screen as Screen
+        val screen = command.screen as FragmentScreen
         val newFragment = createFragment(screen)
 
         if (localStackCopy!!.size > 0) {
@@ -261,7 +180,7 @@ open class Navigator(
                 }
                 fragmentManager.popBackStack(key, 0)
             } else {
-                backToUnexisting(command.screen as Screen)
+                backToUnexisting(command.screen as FragmentScreen)
             }
         }
     }
@@ -297,7 +216,7 @@ open class Navigator(
      */
     protected open fun createStartActivityOptions(command: Command, activityIntent: Intent): Bundle? = null
 
-    private fun checkAndStartActivity(screen: Screen, activityIntent: Intent, options: Bundle?) {
+    private fun checkAndStartActivity(screen: FragmentScreen, activityIntent: Intent, options: Bundle?) {
         // Check if we can start activity
         if (activityIntent.resolveActivity(activity.packageManager) != null) {
             activity.startActivity(activityIntent, options)
@@ -313,7 +232,7 @@ open class Navigator(
      * @param activityIntent intent passed to start Activity for the `screenKey`
      */
     // Do nothing by default
-    protected open fun unexistingActivity(screen: Screen, activityIntent: Intent) = Unit
+    protected open fun unexistingActivity(screen: FragmentScreen, activityIntent: Intent) = Unit
 
     /**
      * Creates Fragment matching `screenKey`.
@@ -321,7 +240,7 @@ open class Navigator(
      * @param screen screen
      * @return instantiated fragment for the passed screen
      */
-    protected open fun createFragment(screen: Screen) = screen.fragment
+    protected open fun createFragment(screen: FragmentScreen) = screen.fragment
 
     /**
      * Called when we tried to fragmentBack to some specific screen (via [BackTo] command),
@@ -329,5 +248,5 @@ open class Navigator(
      *
      * @param screen screen
      */
-    protected open fun backToUnexisting(screen: Screen) = backToRoot()
+    protected open fun backToUnexisting(screen: FragmentScreen) = backToRoot()
 }

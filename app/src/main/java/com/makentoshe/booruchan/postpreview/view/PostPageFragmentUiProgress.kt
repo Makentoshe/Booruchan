@@ -1,10 +1,10 @@
-package com.makentoshe.booruchan.postpreviewspage.view
+package com.makentoshe.booruchan.postpreview.view
 
 import android.graphics.PorterDuff
 import android.view.View
 import com.makentoshe.booruchan.Booruchan
 import com.makentoshe.booruchan.R
-import com.makentoshe.booruchan.postpreviewspage.PostPageFragmentViewModel
+import com.makentoshe.booruchan.postpreview.PostPageFragmentViewModel
 import org.jetbrains.anko.*
 
 class PostPageFragmentUiProgress(

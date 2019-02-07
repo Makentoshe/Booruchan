@@ -1,4 +1,4 @@
-package com.makentoshe.booruchan.postpreviewspage
+package com.makentoshe.booruchan.postpreview
 
 import android.os.Handler
 import android.os.Looper
@@ -7,15 +7,12 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.makentoshe.booruapi.Booru
 import com.makentoshe.booruapi.Posts
-import com.makentoshe.booruchan.Booruchan
 import com.makentoshe.booruchan.DownloadResult
-import com.makentoshe.booruchan.postpreviewspage.model.GridViewAdapter
-import com.makentoshe.booruchan.postpreviewspage.model.PostsDownloadController
-import com.makentoshe.booruchan.postpreviewspage.model.PreviewImageDownloadController
+import com.makentoshe.booruchan.postpreview.model.GridViewAdapter
+import com.makentoshe.booruchan.postpreview.model.PostsDownloadController
+import com.makentoshe.booruchan.postpreview.model.PreviewImageDownloadController
 import com.makentoshe.repository.ImageRepository
 import com.makentoshe.repository.PostsRepository
-import com.makentoshe.repository.SampleImageRepository
-import com.makentoshe.repository.cache.Cache
 import com.makentoshe.viewmodel.ViewModel
 
 class PostPageFragmentViewModel private constructor() : ViewModel() {

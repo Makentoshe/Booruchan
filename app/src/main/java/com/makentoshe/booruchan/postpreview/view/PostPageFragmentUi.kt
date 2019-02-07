@@ -1,7 +1,7 @@
-package com.makentoshe.booruchan.postpreviewspage.view
+package com.makentoshe.booruchan.postpreview.view
 
-import com.makentoshe.booruchan.postpreviewspage.PostPageFragment
-import com.makentoshe.booruchan.postpreviewspage.PostPageFragmentViewModel
+import com.makentoshe.booruchan.postpreview.PostPageFragment
+import com.makentoshe.booruchan.postpreview.PostPageFragmentViewModel
 import org.jetbrains.anko.*
 
 class PostPageFragmentUi(

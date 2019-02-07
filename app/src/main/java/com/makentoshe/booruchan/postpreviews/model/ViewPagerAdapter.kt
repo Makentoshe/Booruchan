@@ -3,7 +3,7 @@ package com.makentoshe.booruchan.postpreviews.model
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
 import com.makentoshe.booruapi.Booru
-import com.makentoshe.booruchan.PostPageScreen
+import com.makentoshe.booruchan.postpreviews.PostPageScreen
 import com.makentoshe.repository.PostsRepository
 import com.makentoshe.repository.PreviewImageRepository
 

@@ -1,4 +1,4 @@
-package com.makentoshe.booruchan.postpreviewspage
+package com.makentoshe.booruchan.postpreview
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProviders
 import com.makentoshe.booruapi.Booru
 import com.makentoshe.booruchan.Fragment
-import com.makentoshe.booruchan.postpreviewspage.view.PostPageFragmentUi
+import com.makentoshe.booruchan.postpreview.view.PostPageFragmentUi
 import com.makentoshe.repository.PostsRepository
 import com.makentoshe.repository.PreviewImageRepository
 import org.jetbrains.anko.AnkoContext

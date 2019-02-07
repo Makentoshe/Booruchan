@@ -1,16 +1,14 @@
-package com.makentoshe.booruchan.postpreviewspage.view
+package com.makentoshe.booruchan.postpreview.view
 
 import android.view.Gravity
 import android.view.View
-import android.widget.FrameLayout
 import android.widget.ProgressBar
 import android.widget.TextView
 import com.makentoshe.booruapi.Posts
 import com.makentoshe.booruchan.DownloadResult
 import com.makentoshe.booruchan.R
-import com.makentoshe.booruchan.postpreviewspage.PostPageFragmentViewModel
+import com.makentoshe.booruchan.postpreview.PostPageFragmentViewModel
 import org.jetbrains.anko.*
-import org.jetbrains.anko.sdk27.coroutines.onClick
 import java.lang.StringBuilder
 
 class PostPageFragmentUiMessage(private val viewModel: PostPageFragmentViewModel) :

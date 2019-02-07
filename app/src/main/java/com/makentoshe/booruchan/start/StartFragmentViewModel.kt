@@ -7,8 +7,8 @@ import android.widget.ListAdapter
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.makentoshe.booruapi.Booru
-import com.makentoshe.booruchan.BooruScreen
-import com.makentoshe.booruchan.SettingsScreen
+import com.makentoshe.booruchan.booru.BooruScreen
+import com.makentoshe.booruchan.settings.SettingsScreen
 import ru.terrakok.cicerone.Router
 
 class StartFragmentViewModel private constructor() : com.makentoshe.viewmodel.ViewModel() {

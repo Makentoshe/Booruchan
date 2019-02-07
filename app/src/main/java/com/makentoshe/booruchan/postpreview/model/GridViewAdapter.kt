@@ -1,4 +1,4 @@
-package com.makentoshe.booruchan.postpreviewspage.model
+package com.makentoshe.booruchan.postpreview.model
 
 import android.content.Context
 import android.graphics.BitmapFactory

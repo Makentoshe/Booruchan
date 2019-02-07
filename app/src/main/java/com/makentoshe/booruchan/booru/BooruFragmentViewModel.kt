@@ -4,9 +4,9 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.makentoshe.booruapi.Booru
 import com.makentoshe.booruapi.Tag
-import com.makentoshe.booruchan.AccountScreen
+import com.makentoshe.booruchan.account.AccountScreen
 import com.makentoshe.booruchan.Navigator
-import com.makentoshe.booruchan.PostsScreen
+import com.makentoshe.booruchan.postpreview.PostsScreen
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.booru.model.ContentScreenController
 import com.makentoshe.booruchan.booru.model.DrawerController
