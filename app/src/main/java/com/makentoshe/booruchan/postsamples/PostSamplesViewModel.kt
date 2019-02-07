@@ -31,7 +31,8 @@ class PostSamplesViewModel private constructor() : ViewModel() {
             viewModel.itemPosition = position % 12
             viewModel.postsRepository = postsRepository
 
-            viewModel.verticalViewPagerAdapter = SamplesVerticalViewPagerAdapter(fragmentManager, position)
+            viewModel.verticalViewPagerAdapter =
+                    SamplesVerticalViewPagerAdapter(fragmentManager, position, postsRepository)
 
             return viewModel as T
         }
