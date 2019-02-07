@@ -37,6 +37,7 @@
     <item name="postpreviewpage_progressbar" type="id"/>
     <item name="postpreviewpage_messageview" type="id"/>
 
+    <item name="postsamples_toolbar" type="id"/>
     <item name="postsamples_verticalpager" type="id"/>
     <item name="postsamples_content_viewpager" type="id"/>
 

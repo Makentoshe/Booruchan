@@ -2,13 +2,13 @@ package com.makentoshe.booruchan.postsamples.model
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentStatePagerAdapter
+import androidx.fragment.app.FragmentPagerAdapter
 import com.makentoshe.booruchan.postsamples.PostSamplesContentScreen
 
 class SamplesVerticalViewPagerAdapter(
     fragmentManager: FragmentManager,
     private val position: Int
-): FragmentStatePagerAdapter(fragmentManager) {
+): FragmentPagerAdapter(fragmentManager) {
     override fun getItem(position: Int): Fragment {
         return when(position) {
             0 -> Fragment()
