@@ -10,7 +10,7 @@ import com.makentoshe.booruchan.postsamples.view.PostSamplesUi
 import com.makentoshe.repository.PostsRepository
 import org.jetbrains.anko.AnkoContext
 
-class PostSamplesFragment: Fragment<PostSamplesViewModel>() {
+class PostSamplesFragment : Fragment<PostSamplesViewModel>() {
 
     override fun buildViewModel(arguments: Bundle): PostSamplesViewModel {
         val position = arguments.getInt(Int::class.java.simpleName)
@@ -18,14 +18,13 @@ class PostSamplesFragment: Fragment<PostSamplesViewModel>() {
 
         val postsRepository = holderArguments!![PostsRepository::class.java.simpleName] as PostsRepository
 
-        val factory = PostSamplesViewModel.Factory(position, postsRepository)
+        val factory = PostSamplesViewModel.Factory(position, postsRepository, childFragmentManager)
         return ViewModelProviders.of(this, factory)[PostSamplesViewModel::class.java]
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
-        return PostSamplesUi()
-            .createView(AnkoContext.create(requireContext(), this))
+        return PostSamplesUi(viewModel).createView(AnkoContext.create(requireContext(), this))
     }
 
     override fun onDestroy() {
