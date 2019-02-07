@@ -9,8 +9,7 @@ import com.makentoshe.booruchan.postsample.PostSampleScreen
 
 class SamplesContentViewPagerAdapter(fragmentManager: FragmentManager): FragmentStatePagerAdapter(fragmentManager) {
     override fun getItem(position: Int): Fragment {
-        println(position)
-        return PostSampleScreen().fragment
+        return PostSampleScreen(position).fragment
     }
 
     override fun getCount() = Int.MAX_VALUE
