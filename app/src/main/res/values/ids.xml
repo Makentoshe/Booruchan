@@ -38,6 +38,7 @@
     <item name="postpreviewpage_messageview" type="id"/>
 
     <item name="postsamples_verticalpager" type="id"/>
+    <item name="postsamples_content_viewpager" type="id"/>
 
 
     <item name="viewpager" type="id"/>

@@ -4,7 +4,6 @@ import android.view.View
 import android.view.ViewManager
 import androidx.fragment.app.Fragment
 import com.makentoshe.booruchan.R
-import com.makentoshe.booruchan.VerticalViewPager
 import com.makentoshe.booruchan.postsamples.model.SamplesVerticalViewPagerAdapter
 import org.jetbrains.anko.*
 import org.jetbrains.anko.custom.ankoView
