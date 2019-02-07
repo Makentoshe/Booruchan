@@ -50,6 +50,7 @@
     <item name="sample_image_message" type="id"/>
     <item name="sample_image_progressbar" type="id"/>
     <item name="sample_image_view" type="id"/>
+    <item name="postsamples_bottombar" type="id"/>
 
 
 </resources>
