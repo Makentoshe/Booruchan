@@ -8,6 +8,7 @@
     <string name="tap_for_retry">Tap for retry</string>
     <string name="info">Info</string>
     <string name="comments">Comments</string>
+    <string name="image">Image</string>
 
     <string-array name="post_properties">
         <item>Id</item>
