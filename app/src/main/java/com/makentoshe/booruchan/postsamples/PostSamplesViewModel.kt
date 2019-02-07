@@ -3,16 +3,18 @@ package com.makentoshe.booruchan.postsamples
 import android.view.MenuItem
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
+import androidx.viewpager.widget.PagerAdapter
 import com.makentoshe.booruchan.postsamples.model.SamplesVerticalViewPagerAdapter
 import com.makentoshe.repository.PostsRepository
 import com.makentoshe.viewmodel.ViewModel
 
 class PostSamplesViewModel private constructor() : ViewModel() {
-    private var pagePosition: Int = 0
-    private var itemPosition: Int = 0
+    private var position: Int = 0
     private lateinit var postsRepository: PostsRepository
-    lateinit var verticalViewPagerAdapter: SamplesVerticalViewPagerAdapter
-        private set
+
+    fun getSamplesVerticalViewPagerAdapter(fragmentManager: FragmentManager): PagerAdapter {
+        return SamplesVerticalViewPagerAdapter(fragmentManager, position, postsRepository)
+    }
 
     fun onNavigationItemSelected(menuItem: MenuItem): Boolean {
 
@@ -21,19 +23,13 @@ class PostSamplesViewModel private constructor() : ViewModel() {
 
     class Factory(
         private val position: Int,
-        private val postsRepository: PostsRepository,
-        private val fragmentManager: FragmentManager
+        private val postsRepository: PostsRepository
     ) : ViewModelProvider.NewInstanceFactory() {
 
         override fun <T : androidx.lifecycle.ViewModel?> create(modelClass: Class<T>): T {
             val viewModel = PostSamplesViewModel()
-            viewModel.pagePosition = position / 12
-            viewModel.itemPosition = position % 12
+            viewModel.position = position
             viewModel.postsRepository = postsRepository
-
-            viewModel.verticalViewPagerAdapter =
-                    SamplesVerticalViewPagerAdapter(fragmentManager, position, postsRepository)
-
             return viewModel as T
         }
     }

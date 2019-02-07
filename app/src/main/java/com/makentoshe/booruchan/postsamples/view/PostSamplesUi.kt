@@ -20,7 +20,7 @@ class PostSamplesUi(
             PostSamplesUiToolbar(style).createView(AnkoContext.createDelegate(this))
             verticalViewPager {
                 id = R.id.postsamples_verticalpager
-                adapter = viewModel.verticalViewPagerAdapter
+                adapter = viewModel.getSamplesVerticalViewPagerAdapter(ui.owner.childFragmentManager)
                 currentItem = 1
             }.lparams(matchParent, matchParent) {
                 below(R.id.postsamples_toolbar)

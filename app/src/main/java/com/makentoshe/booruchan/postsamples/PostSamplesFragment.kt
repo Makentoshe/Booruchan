@@ -18,7 +18,7 @@ class PostSamplesFragment : Fragment<PostSamplesViewModel>() {
 
         val postsRepository = holderArguments!![PostsRepository::class.java.simpleName] as PostsRepository
 
-        val factory = PostSamplesViewModel.Factory(position, postsRepository, childFragmentManager)
+        val factory = PostSamplesViewModel.Factory(position, postsRepository)
         return ViewModelProviders.of(this, factory)[PostSamplesViewModel::class.java]
     }
 

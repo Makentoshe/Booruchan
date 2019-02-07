@@ -1,5 +1,6 @@
 package com.makentoshe.booruchan.postsamples.model
 
+import android.os.Parcelable
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
@@ -20,4 +21,9 @@ class SamplesVerticalViewPagerAdapter(
     }
 
     override fun getCount() = 2
+
+    override fun saveState(): Parcelable? {
+        return null
+    }
+
 }

@@ -17,7 +17,7 @@ class PostSamplesContentFragment : com.makentoshe.booruchan.Fragment<PostSamples
 
         val postsRepository = holderArguments!![PostsRepository::class.java.simpleName] as PostsRepository
 
-        val factory = PostSamplesContentViewModel.Factory(position, childFragmentManager, postsRepository)
+        val factory = PostSamplesContentViewModel.Factory(position, postsRepository)
         return ViewModelProviders.of(this, factory)[PostSamplesContentViewModel::class.java]
     }
 
