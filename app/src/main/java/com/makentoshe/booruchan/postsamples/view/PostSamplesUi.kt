@@ -26,7 +26,7 @@ class PostSamplesUi(
                 below(R.id.postsamples_toolbar)
                 above(R.id.postsamples_bottombar)
             }
-            PostSamplesUiBottombar(style).createView(AnkoContext.createDelegate(this))
+            PostSamplesUiBottombar(viewModel, style).createView(AnkoContext.createDelegate(this))
         }
     }
 

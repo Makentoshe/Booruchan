@@ -1,5 +1,6 @@
 package com.makentoshe.booruchan.postsamples
 
+import android.view.MenuItem
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
 import com.makentoshe.booruchan.postsamples.model.SamplesVerticalViewPagerAdapter
@@ -12,6 +13,11 @@ class PostSamplesViewModel private constructor() : ViewModel() {
     private lateinit var postsRepository: PostsRepository
     lateinit var verticalViewPagerAdapter: SamplesVerticalViewPagerAdapter
         private set
+
+    fun onNavigationItemSelected(menuItem: MenuItem): Boolean {
+
+        return true
+    }
 
     class Factory(
         private val position: Int,

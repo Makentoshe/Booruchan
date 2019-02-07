@@ -5,15 +5,18 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewManager
+import androidx.annotation.IdRes
 import androidx.annotation.StringRes
 import androidx.core.view.get
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.makentoshe.booruchan.R
+import com.makentoshe.booruchan.postsamples.PostSamplesViewModel
 import com.makentoshe.style.Style
 import org.jetbrains.anko.*
 import org.jetbrains.anko.custom.ankoView
 
 class PostSamplesUiBottombar(
+    private val viewModel: PostSamplesViewModel,
     private val style: Style
 ) : AnkoComponent<_RelativeLayout> {
     override fun createView(ui: AnkoContext<_RelativeLayout>): View = with(ui.owner) {
@@ -22,27 +25,19 @@ class PostSamplesUiBottombar(
             backgroundColorResource = style.toolbar.primaryColorRes
             buildMenu()
             setTextColor(style.toolbar.getOnPrimaryColor(context), style.toolbar.getSecondaryColor(context))
-            setOnNavigationItemSelectedListener { onItemSelected(it) }
+            setOnNavigationItemSelectedListener(viewModel::onNavigationItemSelected)
         }.lparams(matchParent, dip(56)) {
             alignParentBottom()
         }
     }
 
-    private fun BottomNavigationView.onItemSelected(menuItem: MenuItem): Boolean {
-        for (i in 0 until menu.size()) {
-            val item = menu[i]
-            item.isEnabled = item != menuItem
-        }
-        return true
-    }
-
     private fun BottomNavigationView.buildMenu() = menu.apply {
-        buildMenuItem(R.string.info)
-        buildMenuItem(R.string.image).apply { isEnabled = false }
-        buildMenuItem(R.string.comments)
+        buildMenuItem(R.string.info, R.id.postsamples_bottombar_infoitem)
+        buildMenuItem(R.string.tags, R.id.postsamples_bottombar_tagsitem)
+        buildMenuItem(R.string.comments, R.id.postsamples_bottombar_commentsitem)
     }
 
-    private fun Menu.buildMenuItem(@StringRes title: Int) = add(title).apply {
+    private fun Menu.buildMenuItem(@StringRes title: Int, @IdRes id: Int) = add(Menu.NONE, id, Menu.NONE, title).apply {
         isEnabled = true
         setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS)
     }
