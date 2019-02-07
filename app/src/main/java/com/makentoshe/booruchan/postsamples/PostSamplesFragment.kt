@@ -1,14 +1,14 @@
 package com.makentoshe.booruchan.postsamples
 
-import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProviders
 import com.makentoshe.booruchan.Fragment
+import com.makentoshe.booruchan.postsamples.view.PostSamplesUi
 import com.makentoshe.repository.PostsRepository
-import org.jetbrains.anko.backgroundColor
+import org.jetbrains.anko.AnkoContext
 
 class PostSamplesFragment: Fragment<PostSamplesViewModel>() {
 
@@ -24,9 +24,8 @@ class PostSamplesFragment: Fragment<PostSamplesViewModel>() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
-        return View(context).apply {
-            backgroundColor = Color.CYAN
-        }
+        return PostSamplesUi()
+            .createView(AnkoContext.create(requireContext(), this))
     }
 
     override fun onDestroy() {
