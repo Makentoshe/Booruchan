@@ -13,14 +13,8 @@ import com.makentoshe.booruchan.booru.model.DrawerController
 import com.makentoshe.booruchan.booru.view.BooruFragment
 import com.makentoshe.booruchan.postpreviews.view.PostsFragment
 import com.makentoshe.booruchan.postpreviewspage.PostPageFragment
-import com.makentoshe.booruchan.postsamples.model.SamplePageHorizontalScrollBlockController
-import com.makentoshe.booruchan.postsamples.view.PostSampleFragment
-import com.makentoshe.booruchan.postsamplespage.PostSamplePageFragment
-import com.makentoshe.booruchan.postsamplespageimage.PostSamplePageImageFragment
-import com.makentoshe.booruchan.postsamplespageinfo.PostSamplePageInfoFragment
 import com.makentoshe.booruchan.settings.SettingsFragment
 import com.makentoshe.booruchan.start.StartFragment
-import com.makentoshe.repository.ImageRepository
 import com.makentoshe.repository.PostsRepository
 import com.makentoshe.repository.PreviewImageRepository
 import ru.terrakok.cicerone.Navigator
@@ -103,71 +97,6 @@ class PostPageScreen(
                 putInt(PostPageFragment::class.java.simpleName, position)
                 putSerializable(PostsRepository::class.java.simpleName, postsRepository)
                 putSerializable(PreviewImageRepository::class.java.simpleName, previewsRepository)
-            }
-        }
-}
-
-class PostSamplesScreen(
-    private val booru: Booru,
-    private val startPosition: Int,
-    private val postsRepository: PostsRepository,
-    private val sampleRepository: ImageRepository
-) : Screen() {
-    override val fragment: Fragment
-        get() = PostSampleFragment().apply {
-            arguments = Bundle().apply {
-                putSerializable(Booru::class.java.simpleName, booru)
-                putInt(Int::class.java.simpleName, startPosition)
-                putSerializable(PostsRepository::class.java.simpleName, postsRepository)
-                putSerializable(ImageRepository::class.java.simpleName, sampleRepository)
-            }
-        }
-}
-
-class PostSamplePageScreen(
-    private val position: Int,
-    private val samplePageHorizontalScrollController: SamplePageHorizontalScrollBlockController,
-    private val sampleRepository: ImageRepository,
-    private val postsRepository: PostsRepository
-) : Screen() {
-    override val fragment: Fragment
-        get() = PostSamplePageFragment().apply {
-            arguments = Bundle().apply {
-                putInt(Int::class.java.simpleName, position)
-                putSerializable(
-                    SamplePageHorizontalScrollBlockController::class.java.simpleName,
-                    samplePageHorizontalScrollController
-                )
-                putSerializable(ImageRepository::class.java.simpleName, sampleRepository)
-                putSerializable(PostsRepository::class.java.simpleName, postsRepository)
-            }
-        }
-}
-
-class PostSamplePageImageScreen(
-    private val sampleRepository: ImageRepository,
-    private val position: Int,
-    private val postsRepository: PostsRepository
-) : Screen() {
-    override val fragment: Fragment
-        get() = PostSamplePageImageFragment().apply {
-            arguments = Bundle().apply {
-                putInt(Int::class.java.simpleName, position)
-                putSerializable(ImageRepository::class.java.simpleName, sampleRepository)
-                putSerializable(PostsRepository::class.java.simpleName, postsRepository)
-            }
-        }
-}
-
-class PostSamplePageInfoScreen(
-    private val position: Int,
-    private val postsRepository: PostsRepository
-) : Screen() {
-    override val fragment: Fragment
-        get() = PostSamplePageInfoFragment().apply {
-            arguments = Bundle().apply {
-                putInt(Int::class.java.simpleName, position)
-                putSerializable(PostsRepository::class.java.simpleName, postsRepository)
             }
         }
 }

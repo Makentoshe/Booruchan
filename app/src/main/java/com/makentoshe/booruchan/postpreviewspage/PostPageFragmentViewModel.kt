@@ -9,7 +9,6 @@ import com.makentoshe.booruapi.Booru
 import com.makentoshe.booruapi.Posts
 import com.makentoshe.booruchan.Booruchan
 import com.makentoshe.booruchan.DownloadResult
-import com.makentoshe.booruchan.PostSamplesScreen
 import com.makentoshe.booruchan.postpreviewspage.model.GridViewAdapter
 import com.makentoshe.booruchan.postpreviewspage.model.PostsDownloadController
 import com.makentoshe.booruchan.postpreviewspage.model.PreviewImageDownloadController
@@ -42,10 +41,7 @@ class PostPageFragmentViewModel private constructor() : ViewModel() {
     }
 
     fun navigateToPostDetailsScreen(position: Int) {
-        val startPosition = position + this.position * postsRepository.count
-        val samplesRepository = SampleImageRepository(booru, Cache.create(postsRepository.count))
-        val screen = PostSamplesScreen(booru, startPosition, postsRepository, samplesRepository)
-        Booruchan.INSTANCE.router.navigateTo(screen)
+        println("Sas")
     }
 
     fun onGridElementLongClick(position: Int): Boolean {
