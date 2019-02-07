@@ -5,7 +5,6 @@ import com.makentoshe.booruapi.Booru
 import com.makentoshe.booruapi.Tag
 import com.makentoshe.booruchan.Fragment
 import com.makentoshe.booruchan.FragmentScreen
-import com.makentoshe.booruchan.booru.view.BooruFragment
 
 class BooruScreen(
     private val booru: Booru,

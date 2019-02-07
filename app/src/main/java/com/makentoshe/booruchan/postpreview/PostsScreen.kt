@@ -6,7 +6,7 @@ import com.makentoshe.booruapi.Booru
 import com.makentoshe.booruapi.Tag
 import com.makentoshe.booruchan.FragmentScreen
 import com.makentoshe.booruchan.booru.model.DrawerController
-import com.makentoshe.booruchan.postpreviews.view.PostsFragment
+import com.makentoshe.booruchan.postpreviews.PostsFragment
 
 class PostsScreen(
     private val booru: Booru,

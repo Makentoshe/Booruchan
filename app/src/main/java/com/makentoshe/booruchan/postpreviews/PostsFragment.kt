@@ -1,4 +1,4 @@
-package com.makentoshe.booruchan.postpreviews.view
+package com.makentoshe.booruchan.postpreviews
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,11 +7,9 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProviders
 import com.makentoshe.booruapi.Booru
 import com.makentoshe.booruapi.Tag
-import com.makentoshe.booruchan.Backpressable
 import com.makentoshe.booruchan.Fragment
 import com.makentoshe.booruchan.booru.model.DrawerController
-import com.makentoshe.booruchan.postpreviews.PostsFragmentViewModel
-import com.makentoshe.booruchan.postpreviews.model.OverflowController
+import com.makentoshe.booruchan.postpreviews.view.PostsFragmentUI
 import org.jetbrains.anko.AnkoContext
 
 class PostsFragment : Fragment<PostsFragmentViewModel>() {
@@ -27,17 +25,18 @@ class PostsFragment : Fragment<PostsFragmentViewModel>() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
-        return PostsFragmentUI(viewModel).createView(AnkoContext.create(requireContext(), this))
+        return PostsFragmentUI(viewModel)
+            .createView(AnkoContext.create(requireContext(), this))
     }
 
-    override fun onBackPressed(): Boolean {
-        if (viewModel.overflowState == OverflowController.OverflowState.Cross) {
-            viewModel.clickOverflowIcon()
-            return true
-        }
-
-        //check inner fragment on backpress
-        val fragment = childFragmentManager.fragments.lastOrNull()
-        return fragment is Backpressable && fragment.onBackPressed()
-    }
+//    override fun onBackPressed(): Boolean {
+//        if (viewModel.overflowState == OverflowController.OverflowState.Cross) {
+//            viewModel.clickOverflowIcon()
+//            return true
+//        }
+//
+//        //check inner fragment on backpress
+//        val fragment = childFragmentManager.fragments.lastOrNull()
+//        return fragment is Backpressable && fragment.onBackPressed()
+//    }
 }

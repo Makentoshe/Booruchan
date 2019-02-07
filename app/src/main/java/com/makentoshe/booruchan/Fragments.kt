@@ -7,12 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.makentoshe.viewmodel.ViewModel
 
-interface Backpressable {
-    fun onBackPressed(): Boolean
-}
-
-
-abstract class Fragment<VM : ViewModel> : Fragment(), Backpressable {
+abstract class Fragment<VM : ViewModel> : Fragment() {
     protected lateinit var viewModel: VM
 
     abstract fun buildViewModel(arguments: Bundle): VM
@@ -26,7 +21,5 @@ abstract class Fragment<VM : ViewModel> : Fragment(), Backpressable {
         viewModel.onCreateView(this)
         return super.onCreateView(inflater, container, savedInstanceState)
     }
-
-    override fun onBackPressed() = false
 
 }

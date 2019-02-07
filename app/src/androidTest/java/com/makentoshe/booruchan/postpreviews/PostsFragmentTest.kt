@@ -17,10 +17,9 @@ import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.makentoshe.booruapi.Tag
 import com.makentoshe.booruchan.*
-import com.makentoshe.booruchan.booru.view.BooruFragment
+import com.makentoshe.booruchan.booru.BooruFragment
 import com.makentoshe.booruchan.postpreview.PostPageFragment
 import com.makentoshe.booruchan.postpreviews.view.DelayAutocompleteEditText
-import com.makentoshe.booruchan.postpreviews.view.PostsFragment
 import org.hamcrest.CoreMatchers
 import org.hamcrest.Matchers.equalTo
 import org.hamcrest.Matchers.not

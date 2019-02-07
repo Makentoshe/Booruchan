@@ -4,6 +4,7 @@ import android.view.Gravity
 import androidx.core.view.GravityCompat
 import com.makentoshe.booruchan.Booruchan
 import com.makentoshe.booruchan.R
+import com.makentoshe.booruchan.booru.BooruFragment
 import com.makentoshe.booruchan.booru.BooruFragmentViewModel
 import org.jetbrains.anko.*
 import org.jetbrains.anko.sdk27.coroutines.onClick

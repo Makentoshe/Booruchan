@@ -46,13 +46,13 @@ class AppActivity : AppCompatActivity() {
         requestPermissionController.clear()
     }
 
-    override fun onBackPressed() {
-        val fragment = supportFragmentManager.fragments.last()
-
-        if (fragment is Backpressable && fragment.onBackPressed()) return
-
-        super.onBackPressed()
-    }
+//    override fun onBackPressed() {
+//        val fragment = supportFragmentManager.fragments.last()
+//
+//        if (fragment is Backpressable && fragment.onBackPressed()) return
+//
+//        super.onBackPressed()
+//    }
 
     companion object {
         private val PERMISSION_REQUEST_CODE_WRITE_EXTERNAL_STORAGE = 0
