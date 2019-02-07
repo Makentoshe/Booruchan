@@ -7,16 +7,19 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.makentoshe.booruapi.Booru
 import com.makentoshe.booruapi.Posts
+import com.makentoshe.booruchan.Booruchan
 import com.makentoshe.booruchan.DownloadResult
 import com.makentoshe.booruchan.postpreview.model.GridViewAdapter
 import com.makentoshe.booruchan.postpreview.model.PostsDownloadController
 import com.makentoshe.booruchan.postpreview.model.PreviewImageDownloadController
+import com.makentoshe.booruchan.postsamples.PostSamplesScreen
 import com.makentoshe.repository.ImageRepository
 import com.makentoshe.repository.PostsRepository
 import com.makentoshe.viewmodel.ViewModel
+import ru.terrakok.cicerone.Router
 
 class PostPageFragmentViewModel private constructor() : ViewModel() {
-
+    private lateinit var router: Router
     private lateinit var booru: Booru
     private var position: Int = -1
     private lateinit var postsRepository: PostsRepository
@@ -37,8 +40,10 @@ class PostPageFragmentViewModel private constructor() : ViewModel() {
         return GridViewAdapter(posts, previewsImageDownloadController)
     }
 
-    fun navigateToPostDetailsScreen(position: Int) {
-        println("Sas")
+    fun navigateToPostDetailsScreen(itemPosition: Int) {
+        val position = itemPosition + this.position * postsRepository.count
+
+        router.navigateTo(PostSamplesScreen(position, postsRepository))
     }
 
     fun onGridElementLongClick(position: Int): Boolean {
@@ -62,7 +67,7 @@ class PostPageFragmentViewModel private constructor() : ViewModel() {
         private val position: Int,
         private val postsRepository: PostsRepository,
         private val previewsRepository: ImageRepository
-    ): ViewModelProvider.NewInstanceFactory() {
+    ) : ViewModelProvider.NewInstanceFactory() {
         override fun <T : androidx.lifecycle.ViewModel?> create(modelClass: Class<T>): T {
             val viewModel = PostPageFragmentViewModel()
 
@@ -71,6 +76,7 @@ class PostPageFragmentViewModel private constructor() : ViewModel() {
             viewModel.postsRepository = postsRepository
             viewModel.postsDownloadController = PostsDownloadController(viewModel, postsRepository)
             viewModel.previewsImageDownloadController = PreviewImageDownloadController(previewsRepository)
+            viewModel.router = Booruchan.INSTANCE.router
 
             viewModel.loadPosts()
 
