@@ -28,6 +28,7 @@ class PostsRepository(
      * @param key a page number.
      * @return a [Posts] instance which is instance of a List
      */
+    @Synchronized
     override fun get(key: Int): Posts {
         return cache.get(key) { booru.getPosts(count, key, tags) }
     }

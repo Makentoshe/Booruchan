@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.ViewManager
 import androidx.lifecycle.ViewModelProviders
+import com.davemorrissey.labs.subscaleview.ImageSource
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView
 import com.makentoshe.booruchan.Booruchan
 import com.makentoshe.booruchan.Fragment
@@ -44,6 +45,9 @@ class PostSampleUi(
     override fun createView(ui: AnkoContext<androidx.fragment.app.Fragment>): View = with(ui) {
         subsamplingScaleImageView {
             backgroundColor = Random.nextInt()
+            viewModel.onSampleDownloadedListener {
+                setImage(ImageSource.bitmap(it))
+            }
         }
     }
 
