@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProviders
+import com.makentoshe.booruchan.Booruchan
 import com.makentoshe.booruchan.Fragment
 import com.makentoshe.booruchan.postsamples.view.PostSamplesUi
 import com.makentoshe.repository.PostsRepository
@@ -19,8 +20,9 @@ class PostSamplesFragment : Fragment<PostSamplesViewModel>() {
 
         val postsRepository = holderArguments!![PostsRepository::class.java.simpleName] as PostsRepository
         val samplesRepository = holderArguments[SampleImageRepository::class.java.simpleName] as SampleImageRepository
+        val router = Booruchan.INSTANCE.router
 
-        val factory = PostSamplesViewModel.Factory(position, postsRepository, samplesRepository)
+        val factory = PostSamplesViewModel.Factory(position, postsRepository, samplesRepository, router)
         return ViewModelProviders.of(this, factory)[PostSamplesViewModel::class.java]
     }
 

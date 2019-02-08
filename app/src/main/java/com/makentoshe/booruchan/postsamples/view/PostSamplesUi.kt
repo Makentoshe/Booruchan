@@ -1,6 +1,7 @@
 package com.makentoshe.booruchan.postsamples.view
 
-import android.view.*
+import android.view.View
+import android.view.ViewManager
 import androidx.fragment.app.Fragment
 import com.makentoshe.booruchan.Booruchan
 import com.makentoshe.booruchan.R
@@ -8,6 +9,7 @@ import com.makentoshe.booruchan.postsamples.PostSamplesViewModel
 import com.makentoshe.style.Style
 import org.jetbrains.anko.*
 import org.jetbrains.anko.custom.ankoView
+import org.jetbrains.anko.support.v4.onPageChangeListener
 
 
 class PostSamplesUi(
@@ -22,6 +24,19 @@ class PostSamplesUi(
                 id = R.id.postsamples_verticalpager
                 adapter = viewModel.getSamplesVerticalViewPagerAdapter(ui.owner.childFragmentManager)
                 currentItem = 1
+
+                onPageChangeListener {
+                    onPageScrolled { position, positionOffset, _ ->
+                        when (position) {
+                            1 -> this@relativeLayout.alpha = 1f
+                            0 -> {
+                                if (positionOffset == 0f) viewModel.exit()
+                                this@relativeLayout.alpha = positionOffset
+                            }
+                        }
+                    }
+                }
+
             }.lparams(matchParent, matchParent) {
                 below(R.id.postsamples_toolbar)
                 above(R.id.postsamples_bottombar)
