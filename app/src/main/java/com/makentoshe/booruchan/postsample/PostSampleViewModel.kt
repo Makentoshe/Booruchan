@@ -24,10 +24,16 @@ class PostSampleViewModel private constructor() : ViewModel() {
     /* All posts start from 0 in current search. This position is a number of a post from the search.
      * it includes the page number and item number.
      * The expression is position = pagePosition * itemsCountPerPage + itemPosition */
-    private var position = 0
+    var position = 0
+        private set
 
     /* Position of the post in page from 0 to itemsCountPerPage */
-    private var itemPosition = 0
+    var itemPosition = 0
+        private set
+
+    /* Position of the posts in the search result.*/
+    var pagePosition = 0
+        private set
 
     /* Performs posts downloading */
     private lateinit var postsDownloadController: PostsDownloadController
@@ -38,7 +44,10 @@ class PostSampleViewModel private constructor() : ViewModel() {
     /* When download error occurs */
     private lateinit var downloadErrorController: DownloadErrorController
 
-    /* Starts post loading for selected page. */
+    /* Starts post loading for selected page in another thread.
+    * When posts will be loaded the sample image downloading will be started automatically.
+    * The result of the image downloading will be send to the onSampleDownloadedListener
+    * when downloading is success or onDownloadingErrorListener otherwise.*/
     fun loadPosts(page: Int) = postsDownloadController.action(page)
 
     /* Listener for downloading complete successfully event.
@@ -95,11 +104,12 @@ class PostSampleViewModel private constructor() : ViewModel() {
             val viewModel = PostSampleViewModel()
             viewModel.position = position
             viewModel.itemPosition = position % postsRepository.count
+            viewModel.pagePosition = position / postsRepository.count
             viewModel.postsDownloadController = PostsDownloadController(viewModel, postsRepository)
             viewModel.samplesDownloadController = SampleImageDownloadController(viewModel, samplesRepository)
             viewModel.downloadErrorController = DownloadErrorController()
 
-            viewModel.loadPosts(position / postsRepository.count)
+            viewModel.loadPosts(viewModel.pagePosition)
 
             return viewModel as T
         }

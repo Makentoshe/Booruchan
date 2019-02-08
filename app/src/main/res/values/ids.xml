@@ -53,5 +53,8 @@
     <item name="sample_image_message" type="id"/>
     <item name="sample_image_progressbar" type="id"/>
     <item name="sample_image_view" type="id"/>
+    <item name="postsample_messageview" type="id"/>
+    <item name="postsample_imageview" type="id"/>
+    <item name="postsample_progressbar" type="id"/>
 
 </resources>
