@@ -27,19 +27,3 @@ class PostSamplesScreen(
             ArgumentsHolder[this::class.java.simpleName.plus(position)] = holderArguments
         }
 }
-
-object ArgumentsHolder {
-    private val container = HashMap<String, Bundle>()
-
-    operator fun get(key: String): Bundle? {
-        return container[key]
-    }
-
-    operator fun set(key: String, value: Bundle) {
-        container[key] = value
-    }
-
-    fun remove(key: String) {
-        container.remove(key)
-    }
-}
