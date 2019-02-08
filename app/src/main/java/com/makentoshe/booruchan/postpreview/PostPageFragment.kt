@@ -10,6 +10,7 @@ import com.makentoshe.booruchan.Fragment
 import com.makentoshe.booruchan.postpreview.view.PostPageFragmentUi
 import com.makentoshe.repository.PostsRepository
 import com.makentoshe.repository.PreviewImageRepository
+import com.makentoshe.repository.SampleImageRepository
 import org.jetbrains.anko.AnkoContext
 
 class PostPageFragment : Fragment<PostPageFragmentViewModel>() {
@@ -26,8 +27,16 @@ class PostPageFragment : Fragment<PostPageFragmentViewModel>() {
         val postsRepository = arguments.getSerializable(PostsRepository::class.java.simpleName) as PostsRepository
         val previewsRepository =
             arguments.getSerializable(PreviewImageRepository::class.java.simpleName) as PreviewImageRepository
+        val sampleImageRepository =
+            arguments.getSerializable(SampleImageRepository::class.java.simpleName) as SampleImageRepository
 
-        val factory = PostPageFragmentViewModel.Factory(booru, position, postsRepository, previewsRepository)
+        val factory = PostPageFragmentViewModel.Factory(
+            booru,
+            position,
+            postsRepository,
+            previewsRepository,
+            sampleImageRepository
+        )
         return ViewModelProviders.of(this, factory)[PostPageFragmentViewModel::class.java]
     }
 

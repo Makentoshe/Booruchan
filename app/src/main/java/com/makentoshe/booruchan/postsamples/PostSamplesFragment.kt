@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModelProviders
 import com.makentoshe.booruchan.Fragment
 import com.makentoshe.booruchan.postsamples.view.PostSamplesUi
 import com.makentoshe.repository.PostsRepository
+import com.makentoshe.repository.SampleImageRepository
 import org.jetbrains.anko.AnkoContext
 
 class PostSamplesFragment : Fragment<PostSamplesViewModel>() {
@@ -17,8 +18,9 @@ class PostSamplesFragment : Fragment<PostSamplesViewModel>() {
         val holderArguments = ArgumentsHolder[this::class.java.simpleName.plus(position)]
 
         val postsRepository = holderArguments!![PostsRepository::class.java.simpleName] as PostsRepository
+        val samplesRepository = holderArguments[SampleImageRepository::class.java.simpleName] as SampleImageRepository
 
-        val factory = PostSamplesViewModel.Factory(position, postsRepository)
+        val factory = PostSamplesViewModel.Factory(position, postsRepository, samplesRepository)
         return ViewModelProviders.of(this, factory)[PostSamplesViewModel::class.java]
     }
 

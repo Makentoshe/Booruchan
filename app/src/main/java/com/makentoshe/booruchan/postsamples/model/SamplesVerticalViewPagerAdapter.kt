@@ -6,16 +6,18 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import com.makentoshe.booruchan.postsamples.PostSamplesContentScreen
 import com.makentoshe.repository.PostsRepository
+import com.makentoshe.repository.SampleImageRepository
 
 class SamplesVerticalViewPagerAdapter(
     fragmentManager: FragmentManager,
     private val position: Int,
-    private val postsRepository: PostsRepository
+    private val postsRepository: PostsRepository,
+    private val samplesRepository: SampleImageRepository
 ) : FragmentPagerAdapter(fragmentManager) {
     override fun getItem(position: Int): Fragment {
         return when (position) {
             0 -> Fragment()
-            1 -> PostSamplesContentScreen(this.position, postsRepository).fragment
+            1 -> PostSamplesContentScreen(this.position, postsRepository, samplesRepository).fragment
             else -> throw IllegalArgumentException(position.toString())
         }
     }

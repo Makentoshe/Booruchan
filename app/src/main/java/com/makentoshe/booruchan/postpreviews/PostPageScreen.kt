@@ -7,12 +7,14 @@ import com.makentoshe.booruchan.FragmentScreen
 import com.makentoshe.booruchan.postpreview.PostPageFragment
 import com.makentoshe.repository.PostsRepository
 import com.makentoshe.repository.PreviewImageRepository
+import com.makentoshe.repository.SampleImageRepository
 
 class PostPageScreen(
     private val booru: Booru,
     private val position: Int,
     private val postsRepository: PostsRepository,
-    private val previewsRepository: PreviewImageRepository
+    private val previewsRepository: PreviewImageRepository,
+    private val samplesRepository: SampleImageRepository
 ) : FragmentScreen() {
     override val fragment: Fragment
         get() = PostPageFragment().apply {
@@ -21,6 +23,7 @@ class PostPageScreen(
                 putInt(PostPageFragment::class.java.simpleName, position)
                 putSerializable(PostsRepository::class.java.simpleName, postsRepository)
                 putSerializable(PreviewImageRepository::class.java.simpleName, previewsRepository)
+                putSerializable(samplesRepository::class.java.simpleName, samplesRepository)
             }
         }
 }

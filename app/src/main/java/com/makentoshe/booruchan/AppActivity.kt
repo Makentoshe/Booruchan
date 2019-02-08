@@ -20,15 +20,15 @@ class AppActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         if (savedInstanceState == null) {
-//            router.newRootScreen(StartScreen())
-            Booruchan.INSTANCE.router.newRootScreen(
-                PostSamplesScreen(
+            router.newRootScreen(StartScreen())
+//            Booruchan.INSTANCE.router.newRootScreen(
+//                PostSamplesScreen(
 //                    Booruchan.INSTANCE.booruList[0],
-                    2,
-                    PostsRepository(Booruchan.INSTANCE.booruList[0], Cache.create(12), 1, setOf())
+//                    2,
+//                    PostsRepository(Booruchan.INSTANCE.booruList[0], Cache.create(12), 1, setOf())
 //                    SampleImageRepository(Booruchan.INSTANCE.booruList[0], CacheImpl(3))
-                )
-            )
+//                )
+//            )
 //            Booruchan.INSTANCE.router.newRootScreen(PostPageScreen(Booruchan.INSTANCE.boorus[0], 1))
 //            Booruchan.INSTANCE.router.newRootScreen(PostsScreen(Booruchan.INSTANCE.boorus[0]))
 //            Booruchan.INSTANCE.router.newRootScreen(BooruScreen(Booruchan.INSTANCE.boorus[0]))

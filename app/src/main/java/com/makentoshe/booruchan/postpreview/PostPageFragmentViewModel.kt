@@ -15,6 +15,7 @@ import com.makentoshe.booruchan.postpreview.model.PreviewImageDownloadController
 import com.makentoshe.booruchan.postsamples.PostSamplesScreen
 import com.makentoshe.repository.ImageRepository
 import com.makentoshe.repository.PostsRepository
+import com.makentoshe.repository.SampleImageRepository
 import com.makentoshe.viewmodel.ViewModel
 import ru.terrakok.cicerone.Router
 
@@ -25,6 +26,7 @@ class PostPageFragmentViewModel private constructor() : ViewModel() {
     private lateinit var postsRepository: PostsRepository
     private lateinit var postsDownloadController: PostsDownloadController
     private lateinit var previewsImageDownloadController: PreviewImageDownloadController
+    private lateinit var sampleImageRepository: SampleImageRepository
 
     fun loadPosts() = postsDownloadController.action(position)
 
@@ -42,8 +44,7 @@ class PostPageFragmentViewModel private constructor() : ViewModel() {
 
     fun navigateToPostDetailsScreen(itemPosition: Int) {
         val position = itemPosition + this.position * postsRepository.count
-
-        router.navigateTo(PostSamplesScreen(position, postsRepository))
+        router.navigateTo(PostSamplesScreen(position, postsRepository, sampleImageRepository))
     }
 
     fun onGridElementLongClick(position: Int): Boolean {
@@ -66,7 +67,8 @@ class PostPageFragmentViewModel private constructor() : ViewModel() {
         private val booru: Booru,
         private val position: Int,
         private val postsRepository: PostsRepository,
-        private val previewsRepository: ImageRepository
+        private val previewsRepository: ImageRepository,
+        private val sampleImageRepository: SampleImageRepository
     ) : ViewModelProvider.NewInstanceFactory() {
         override fun <T : androidx.lifecycle.ViewModel?> create(modelClass: Class<T>): T {
             val viewModel = PostPageFragmentViewModel()
@@ -77,7 +79,7 @@ class PostPageFragmentViewModel private constructor() : ViewModel() {
             viewModel.postsDownloadController = PostsDownloadController(viewModel, postsRepository)
             viewModel.previewsImageDownloadController = PreviewImageDownloadController(previewsRepository)
             viewModel.router = Booruchan.INSTANCE.router
-
+            viewModel.sampleImageRepository = sampleImageRepository
             viewModel.loadPosts()
 
             return viewModel as T

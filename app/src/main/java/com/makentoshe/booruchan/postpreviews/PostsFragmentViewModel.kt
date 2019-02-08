@@ -12,6 +12,7 @@ import com.makentoshe.booruchan.booru.model.DrawerState
 import com.makentoshe.booruchan.postpreviews.model.*
 import com.makentoshe.repository.PostsRepository
 import com.makentoshe.repository.PreviewImageRepository
+import com.makentoshe.repository.SampleImageRepository
 import com.makentoshe.repository.cache.Cache
 
 class PostsFragmentViewModel : com.makentoshe.viewmodel.ViewModel() {
@@ -110,7 +111,8 @@ class PostsFragmentViewModel : com.makentoshe.viewmodel.ViewModel() {
         val postsCountInRequest = 12
         val postsRepository = PostsRepository(booru, Cache.create(12), postsCountInRequest, tags)
         val previewsRepository = PreviewImageRepository(booru, Cache.create(postsCountInRequest * 5))
-        return ViewPagerAdapter(fragmentManager, booru, postsRepository, previewsRepository)
+        val samplesRepository = SampleImageRepository(booru, Cache.create(12))
+        return ViewPagerAdapter(fragmentManager, booru, postsRepository, previewsRepository, samplesRepository)
     }
 
     class Factory(
