@@ -16,9 +16,8 @@ import com.makentoshe.repository.SampleImageRepository
 import com.makentoshe.style.Style
 import org.jetbrains.anko.AnkoComponent
 import org.jetbrains.anko.AnkoContext
-import org.jetbrains.anko.backgroundColor
+import org.jetbrains.anko.backgroundColorResource
 import org.jetbrains.anko.custom.ankoView
-import kotlin.random.Random
 
 class PostSampleFragment : Fragment<PostSampleViewModel>() {
 
@@ -44,7 +43,7 @@ class PostSampleUi(
 ) : AnkoComponent<androidx.fragment.app.Fragment> {
     override fun createView(ui: AnkoContext<androidx.fragment.app.Fragment>): View = with(ui) {
         subsamplingScaleImageView {
-            backgroundColor = Random.nextInt()
+            backgroundColorResource = style.background.backgroundColorRes
             viewModel.onSampleDownloadedListener {
                 setImage(ImageSource.bitmap(it))
             }
