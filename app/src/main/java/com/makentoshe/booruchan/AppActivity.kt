@@ -3,6 +3,7 @@ package com.makentoshe.booruchan
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import com.makentoshe.booruapi.Tag
 import com.makentoshe.booruchan.postsamples.PostSamplesScreen
 import com.makentoshe.booruchan.start.StartScreen
 import com.makentoshe.repository.PostsRepository
@@ -22,8 +23,8 @@ class AppActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         if (savedInstanceState == null) {
-//            router.rootStartScreen()
-            router.rootPostSamplesScreen()
+            router.rootStartScreen()
+//            router.rootPostSamplesScreen()
 //
 //            Booruchan.INSTANCE.router.newRootScreen(PostPageScreen(Booruchan.INSTANCE.boorus[0], 1))
 //            Booruchan.INSTANCE.router.newRootScreen(PostsScreen(Booruchan.INSTANCE.boorus[0]))
@@ -36,10 +37,11 @@ class AppActivity : AppCompatActivity() {
     }
 
     private fun Router.rootPostSamplesScreen() {
-        Booruchan.INSTANCE.router.newRootScreen(
+        val searchTags = setOf(Tag("animated"))
+        newRootScreen(
             PostSamplesScreen(
                 2,
-                PostsRepository(Booruchan.INSTANCE.booruList[0], Cache.create(12), 1, setOf()),
+                PostsRepository(Booruchan.INSTANCE.booruList[0], Cache.create(12), 1, searchTags),
                 SampleImageRepository(Booruchan.INSTANCE.booruList[0], Cache.create(3))
             )
         )

@@ -49,6 +49,7 @@ dependencies {
     implementation 'com.davemorrissey.labs:subsampling-scale-image-view:3.10.0'
     implementation "io.reactivex.rxjava2:rxjava:2.2.4"
     implementation 'ru.terrakok.cicerone:cicerone:4.0.2'
+    implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.16'
 
     testImplementation 'junit:junit:4.12'
 

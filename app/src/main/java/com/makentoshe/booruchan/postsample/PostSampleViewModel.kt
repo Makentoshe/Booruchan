@@ -52,15 +52,10 @@ class PostSampleViewModel private constructor() : ViewModel() {
     * when downloading is success or onDownloadingErrorListener otherwise.*/
     fun loadPosts(page: Int) = postsDownloadController.action(page)
 
-    /* Checks the file extension. The sample has the same extension as the file.*/
-    private fun isImage(url: String): Boolean {
-        return File(url).extension != "webm"
-    }
-
     /* Listener for downloading complete successfully event.
     * When errors occurs or any else the event was not invoked,
     * but the onDownloadingErrorListener will be. */
-    fun onSampleDownloadedListener(action: (SampleFormat, ByteArray) -> Unit) {
+    fun onSampleDownloadedListener(action: (ByteArray) -> Unit) {
         //subscribe for receiving a posts
         postsDownloadController.subscribe {
             if (it.data != null) {
@@ -73,16 +68,7 @@ class PostSampleViewModel private constructor() : ViewModel() {
         //also subscribes for samples receiving
         samplesDownloadController.subscribe {
             if (it.data != null) {
-                if (isImage(it.data.first)) {
-                    Handler(Looper.getMainLooper()).post {
-                        action(SampleFormat.IMAGE, it.data.second)
-                    }
-                } else {
-                    Handler(Looper.getMainLooper()).post {
-                        action(SampleFormat.WEBM, it.data.second)
-
-                    }
-                }
+                Handler(Looper.getMainLooper()).post { action(it.data) }
             } else {
                 downloadErrorController.action(it.exception ?: Exception("Exception while image download"))
             }
@@ -148,17 +134,17 @@ class DownloadErrorController : Controller<Exception> {
 class SampleImageDownloadController(
     private val coroutineScope: CoroutineScope,
     private val samplesRepository: ImageRepository
-) : Controller<DownloadResult<Pair<String, ByteArray>>> {
-    private val observable = ReplaySubject.create<DownloadResult<Pair<String, ByteArray>>>()
+) : Controller<DownloadResult<ByteArray>> {
+    private val observable = ReplaySubject.create<DownloadResult<ByteArray>>()
     private val disposables = CompositeDisposable()
 
-    override fun subscribe(action: (DownloadResult<Pair<String, ByteArray>>) -> Unit) {
+    override fun subscribe(action: (DownloadResult<ByteArray>) -> Unit) {
         disposables.add(observable.subscribe(action))
     }
 
     fun action(post: Post) = coroutineScope.launch {
         try {
-            observable.onNext(DownloadResult(Pair(post.sampleUrl, samplesRepository.get(post.sampleUrl)!!)))
+            observable.onNext(DownloadResult(samplesRepository.get(post.sampleUrl)!!))
         } catch (e: Exception) {
             observable.onNext(DownloadResult(exception = e))
         }
@@ -168,8 +154,4 @@ class SampleImageDownloadController(
         disposables.clear()
         observable.cleanupBuffer()
     }
-}
-
-enum class SampleFormat {
-    IMAGE, GIF, WEBM
 }
