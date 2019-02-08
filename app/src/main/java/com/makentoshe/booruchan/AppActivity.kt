@@ -8,6 +8,7 @@ import com.makentoshe.booruchan.start.StartScreen
 import com.makentoshe.repository.PostsRepository
 import com.makentoshe.repository.SampleImageRepository
 import com.makentoshe.repository.cache.Cache
+import ru.terrakok.cicerone.Router
 
 class AppActivity : AppCompatActivity() {
 
@@ -21,19 +22,27 @@ class AppActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         if (savedInstanceState == null) {
-            router.newRootScreen(StartScreen())
-//            Booruchan.INSTANCE.router.newRootScreen(
-//                PostSamplesScreen(
-//                    Booruchan.INSTANCE.booruList[0],
-//                    2,
-//                    PostsRepository(Booruchan.INSTANCE.booruList[0], Cache.create(12), 1, setOf()),
-//                    SampleImageRepository(Booruchan.INSTANCE.booruList[0], Cache.create(3))
-//                )
-//            )
+//            router.rootStartScreen()
+            router.rootPostSamplesScreen()
+//
 //            Booruchan.INSTANCE.router.newRootScreen(PostPageScreen(Booruchan.INSTANCE.boorus[0], 1))
 //            Booruchan.INSTANCE.router.newRootScreen(PostsScreen(Booruchan.INSTANCE.boorus[0]))
 //            Booruchan.INSTANCE.router.newRootScreen(BooruScreen(Booruchan.INSTANCE.boorus[0]))
         }
+    }
+
+    private fun Router.rootStartScreen() {
+        newRootScreen(StartScreen())
+    }
+
+    private fun Router.rootPostSamplesScreen() {
+        Booruchan.INSTANCE.router.newRootScreen(
+            PostSamplesScreen(
+                2,
+                PostsRepository(Booruchan.INSTANCE.booruList[0], Cache.create(12), 1, setOf()),
+                SampleImageRepository(Booruchan.INSTANCE.booruList[0], Cache.create(3))
+            )
+        )
     }
 
     override fun onResume() {

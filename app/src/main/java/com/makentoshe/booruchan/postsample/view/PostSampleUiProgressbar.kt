@@ -15,10 +15,11 @@ class PostSampleUiProgressbar(
         progressBar {
             id = R.id.postsample_progressbar
             isIndeterminate = true
-            indeterminateDrawable?.setColorFilter(style.toolbar.getPrimaryColor(context),
+            indeterminateDrawable?.setColorFilter(
+                style.toolbar.getPrimaryColor(context),
                 PorterDuff.Mode.SRC_ATOP
             )
-            viewModel.onSampleDownloadedListener {
+            viewModel.onSampleDownloadedListener { _, _ ->
                 visibility = View.GONE
             }
             viewModel.onDownloadingErrorListener {

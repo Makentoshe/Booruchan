@@ -60,7 +60,7 @@ class PostSampleViewModel private constructor() : ViewModel() {
     /* Listener for downloading complete successfully event.
     * When errors occurs or any else the event was not invoked,
     * but the onDownloadingErrorListener will be. */
-    fun onSampleDownloadedListener(action: (Bitmap) -> Unit) {
+    fun onSampleDownloadedListener(action: (SampleFormat, ByteArray) -> Unit) {
         //subscribe for receiving a posts
         postsDownloadController.subscribe {
             if (it.data != null) {
@@ -74,14 +74,14 @@ class PostSampleViewModel private constructor() : ViewModel() {
         samplesDownloadController.subscribe {
             if (it.data != null) {
                 if (isImage(it.data.first)) {
-                    //create bitmap and send
-                    val byteArray = it.data.second
                     Handler(Looper.getMainLooper()).post {
-                        action(BitmapFactory.decodeByteArray(byteArray, 0, byteArray.size))
+                        action(SampleFormat.IMAGE, it.data.second)
                     }
                 } else {
-                    //todo fix this - make handler for gif and webm
-                    downloadErrorController.action(Exception("Is file is not an image"))
+                    Handler(Looper.getMainLooper()).post {
+                        action(SampleFormat.WEBM, it.data.second)
+
+                    }
                 }
             } else {
                 downloadErrorController.action(it.exception ?: Exception("Exception while image download"))
@@ -168,4 +168,8 @@ class SampleImageDownloadController(
         disposables.clear()
         observable.cleanupBuffer()
     }
+}
+
+enum class SampleFormat {
+    IMAGE, GIF, WEBM
 }
