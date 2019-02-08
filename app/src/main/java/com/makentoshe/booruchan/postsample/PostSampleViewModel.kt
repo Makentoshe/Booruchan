@@ -7,6 +7,7 @@ import android.os.Looper
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.makentoshe.booruapi.Post
+import com.makentoshe.booruapi.Posts
 import com.makentoshe.booruchan.Controller
 import com.makentoshe.booruchan.DownloadResult
 import com.makentoshe.booruchan.postpreview.model.PostsDownloadController
@@ -19,11 +20,12 @@ import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.ReplaySubject
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
+import java.io.File
 
 class PostSampleViewModel private constructor() : ViewModel() {
-    /* All posts start from 0 in current search. This position is a number of a post from the search.
-     * it includes the page number and item number.
-     * The expression is position = pagePosition * itemsCountPerPage + itemPosition */
+    /* All posts start from 0 in the search. This position is a number of a post from the search.
+     * It includes the page number and item number.
+     * The expression is: position = pagePosition * itemsCountPerPage + itemPosition */
     var position = 0
         private set
 
@@ -50,6 +52,11 @@ class PostSampleViewModel private constructor() : ViewModel() {
     * when downloading is success or onDownloadingErrorListener otherwise.*/
     fun loadPosts(page: Int) = postsDownloadController.action(page)
 
+    /* Checks the file extension. The sample has the same extension as the file.*/
+    private fun isImage(url: String): Boolean {
+        return File(url).extension != "webm"
+    }
+
     /* Listener for downloading complete successfully event.
     * When errors occurs or any else the event was not invoked,
     * but the onDownloadingErrorListener will be. */
@@ -66,13 +73,18 @@ class PostSampleViewModel private constructor() : ViewModel() {
         //also subscribes for samples receiving
         samplesDownloadController.subscribe {
             if (it.data != null) {
-                //create bitmap and send
-                val byteArray = it.data.second
-                Handler(Looper.getMainLooper()).post {
-                    action(BitmapFactory.decodeByteArray(byteArray, 0, byteArray.size))
+                if (isImage(it.data.first)) {
+                    //create bitmap and send
+                    val byteArray = it.data.second
+                    Handler(Looper.getMainLooper()).post {
+                        action(BitmapFactory.decodeByteArray(byteArray, 0, byteArray.size))
+                    }
+                } else {
+                    //todo fix this - make handler for gif and webm
+                    downloadErrorController.action(Exception("Is file is not an image"))
                 }
             } else {
-                downloadErrorController.action(it.exception?: Exception("Exception while image download"))
+                downloadErrorController.action(it.exception ?: Exception("Exception while image download"))
             }
         }
     }

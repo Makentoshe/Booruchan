@@ -41,6 +41,7 @@ class PostSampleUi(
 ) : AnkoComponent<androidx.fragment.app.Fragment> {
     override fun createView(ui: AnkoContext<androidx.fragment.app.Fragment>): View = with(ui) {
         relativeLayout {
+            backgroundColorResource = style.background.backgroundColorRes
             PostSampleUiProgressbar(viewModel, style).createView(AnkoContext.createDelegate(this))
             PostSampleUiSampleimage(viewModel, style).createView(AnkoContext.createDelegate(this))
             PostSampleUiMessageview(viewModel, style).createView(AnkoContext.createDelegate(this))
