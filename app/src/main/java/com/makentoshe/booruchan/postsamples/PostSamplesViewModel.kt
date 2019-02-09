@@ -1,9 +1,11 @@
 package com.makentoshe.booruchan.postsamples
 
 import android.view.MenuItem
+import android.view.View
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager.widget.PagerAdapter
+import com.makentoshe.booruchan.postpreview.model.PostsDownloadController
 import com.makentoshe.booruchan.postsamples.model.SamplesVerticalViewPagerAdapter
 import com.makentoshe.repository.PostsRepository
 import com.makentoshe.repository.SampleImageRepository
@@ -11,10 +13,16 @@ import com.makentoshe.viewmodel.ViewModel
 import ru.terrakok.cicerone.Router
 
 class PostSamplesViewModel private constructor() : ViewModel() {
+
     private var position: Int = 0
     private lateinit var postsRepository: PostsRepository
     private lateinit var samplesRepository: SampleImageRepository
     private lateinit var router: Router
+
+    fun onDownloadIconClick(ignored: View) {
+        println("Click")
+    }
+
 
     fun getSamplesVerticalViewPagerAdapter(fragmentManager: FragmentManager): PagerAdapter {
         return SamplesVerticalViewPagerAdapter(fragmentManager, position, postsRepository, samplesRepository)

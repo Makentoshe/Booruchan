@@ -19,7 +19,7 @@ class PostSamplesUi(
 
     override fun createView(ui: AnkoContext<Fragment>): View = with(ui) {
         relativeLayout {
-            PostSamplesUiToolbar(style).createView(AnkoContext.createDelegate(this))
+            PostSamplesUiToolbar(viewModel, style).createView(AnkoContext.createDelegate(this))
             verticalViewPager {
                 id = R.id.postsamples_verticalpager
                 adapter = viewModel.getSamplesVerticalViewPagerAdapter(ui.owner.childFragmentManager)

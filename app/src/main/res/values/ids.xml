@@ -38,17 +38,16 @@
     <item name="postpreviewpage_messageview" type="id"/>
 
     <item name="postsamples_toolbar" type="id"/>
+    <item name="postsamples_toolbar_download" type="id"/>
+    <item name="postsamples_toolbar_download_icon" type="id"/>
     <item name="postsamples_verticalpager" type="id"/>
-    <item name="postsamples_content_viewpager" type="id"/>
     <item name="postsamples_bottombar" type="id"/>
     <item name="postsamples_bottombar_infoitem" type="id"/>
     <item name="postsamples_bottombar_tagsitem" type="id"/>
     <item name="postsamples_bottombar_commentsitem" type="id"/>
+    <item name="postsamples_content_viewpager" type="id"/>
 
     <item name="viewpager" type="id"/>
-    <item name="postsample_toolbar_container" type="id"/>
-    <item name="postsample_toolbar_container_download" type="id"/>
-    <item name="postsample_toolbar_container_download_icon" type="id"/>
     <item name="postsample_toolbar_container_download_progressbar" type="id"/>
     <item name="sample_image_message" type="id"/>
     <item name="sample_image_progressbar" type="id"/>
