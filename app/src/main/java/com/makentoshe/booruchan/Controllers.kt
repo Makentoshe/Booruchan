@@ -6,7 +6,10 @@ import android.os.Handler
 import android.os.Looper
 import com.makentoshe.booruapi.Post
 import com.makentoshe.booruapi.Posts
+import com.makentoshe.controllers.DownloadRxController
+import com.makentoshe.controllers.SimpleRxController
 import com.makentoshe.repository.ImageRepository
+import com.makentoshe.repository.Repository
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import io.reactivex.subjects.BehaviorSubject
@@ -26,51 +29,6 @@ interface Controller<T> {
 }
 
 /**
- * Default controller interface.
- */
-interface DoubleController<P, T> {
-    /**
-     * Method subscribes on [T] receive.
-     * Do something with [P] and return [T] in lambda.
-     */
-    fun subscribe(param: P, action: (T) -> Unit)
-}
-
-/**
- * Performs download.
- */
-abstract class DownloadDoubleController<T, P>(
-    protected val coroutineScope: CoroutineScope
-) : DoubleController<DownloadResult<T>, DownloadResult<P>> {
-
-    override fun subscribe(param: DownloadResult<T>, action: (DownloadResult<P>) -> Unit) {
-        if (param.data == null) {
-            action.pushResult(DownloadResult(null, param.exception))
-        } else {
-            coroutineScope.launch {
-                try {
-                    action.pushResult(DownloadResult(performDownload(param)))
-                } catch (e: Exception) {
-                    action.pushResult(DownloadResult(null, e))
-                }
-            }
-        }
-    }
-
-    /**
-     * Push the download result into the lambda.
-     */
-    protected fun ((DownloadResult<P>) -> Unit).pushResult(result: DownloadResult<P>) {
-        Handler(Looper.getMainLooper()).post { this.invoke(result) }
-    }
-
-    /**
-     * Perform downloading the sample image.
-     */
-    abstract fun performDownload(request: DownloadResult<T>): P
-}
-
-/**
  * Any download will be wrapped in this class.
  */
 data class DownloadResult<T>(val data: T? = null, val exception: Exception? = null)
@@ -86,4 +44,26 @@ class RequestPermissionController : Controller<String> {
     fun action(permission: String) = observable.onNext(permission)
 
     override fun clear() = disposables.clear()
+}
+
+/**
+ * Class for downloading a [Posts] in another thread.
+ *
+ * @param coroutineScope for perform download into another thread.
+ * @param repository contains the posts.
+ */
+open class PostsDownloadRxController(
+    coroutineScope: CoroutineScope,
+    private val repository: Repository<Int, Posts>
+): DownloadRxController<Posts, Int>(BehaviorSubject.create(), coroutineScope) {
+
+    /**
+     * Performs download using [param] and returns [Posts]
+     *
+     * @param param page index.
+     * @return a [Posts] instance which is associated with the [param].
+     */
+    override fun performDownload(param: Int): Posts {
+        return repository.get(param)!!
+    }
 }

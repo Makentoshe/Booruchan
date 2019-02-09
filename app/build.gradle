@@ -38,6 +38,7 @@ dependencies {
     implementation project(path: ':Repository')
     implementation project(path: ':Style')
     implementation project(path: ':ViewModel')
+    implementation project(path: ':Controllers')
 
     implementation 'androidx.appcompat:appcompat:1.0.2'
     implementation 'androidx.core:core-ktx:1.0.1'

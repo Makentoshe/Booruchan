@@ -5,11 +5,10 @@ import android.view.View
 import android.widget.ProgressBar
 import android.widget.TextView
 import com.makentoshe.booruapi.Posts
-import com.makentoshe.booruchan.DownloadResult
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.postpreview.PostPageFragmentViewModel
+import com.makentoshe.controllers.DownloadResult
 import org.jetbrains.anko.*
-import java.lang.StringBuilder
 
 class PostPageFragmentUiMessage(private val viewModel: PostPageFragmentViewModel) :
     AnkoComponent<_RelativeLayout> {
@@ -29,7 +28,7 @@ class PostPageFragmentUiMessage(private val viewModel: PostPageFragmentViewModel
     }
 
     private fun TextView.onPostsReceive(result: DownloadResult<Posts>) {
-        if (result.data == null) {
+        if (result.hasException()) {
             visibility = View.VISIBLE
 
             val errorMessage = context.getString(R.string.posts_download_error)

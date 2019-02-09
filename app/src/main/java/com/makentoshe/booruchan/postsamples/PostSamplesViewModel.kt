@@ -5,7 +5,6 @@ import android.view.View
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager.widget.PagerAdapter
-import com.makentoshe.booruchan.postpreview.model.PostsDownloadController
 import com.makentoshe.booruchan.postsamples.model.SamplesVerticalViewPagerAdapter
 import com.makentoshe.repository.PostsRepository
 import com.makentoshe.repository.SampleImageRepository

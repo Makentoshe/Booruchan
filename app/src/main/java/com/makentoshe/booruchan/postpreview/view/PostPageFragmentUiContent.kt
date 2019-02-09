@@ -6,8 +6,8 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.GridView
 import com.makentoshe.booruapi.Posts
-import com.makentoshe.booruchan.DownloadResult
 import com.makentoshe.booruchan.postpreview.PostPageFragmentViewModel
+import com.makentoshe.controllers.DownloadResult
 import org.jetbrains.anko.*
 
 class PostPageFragmentUiContent(private val viewModel: PostPageFragmentViewModel) :
@@ -32,7 +32,7 @@ class PostPageFragmentUiContent(private val viewModel: PostPageFragmentViewModel
     }
 
     private fun GridView.onPostsReceive(result: DownloadResult<Posts>) {
-        if (result.data != null) {
+        if (result.hasData()) {
             viewModel.loadPreviews(result.data)
             adapter = viewModel.getGridAdapter(result.data)
             visibility = View.VISIBLE

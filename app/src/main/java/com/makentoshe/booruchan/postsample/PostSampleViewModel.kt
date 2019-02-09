@@ -1,16 +1,13 @@
 package com.makentoshe.booruchan.postsample
 
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.os.Handler
 import android.os.Looper
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.makentoshe.booruapi.Post
-import com.makentoshe.booruapi.Posts
 import com.makentoshe.booruchan.Controller
 import com.makentoshe.booruchan.DownloadResult
-import com.makentoshe.booruchan.postpreview.model.PostsDownloadController
+import com.makentoshe.booruchan.PostsDownloadRxController
 import com.makentoshe.repository.ImageRepository
 import com.makentoshe.repository.PostsRepository
 import com.makentoshe.repository.SampleImageRepository
@@ -38,7 +35,7 @@ class PostSampleViewModel private constructor() : ViewModel() {
         private set
 
     /* Performs posts downloading */
-    private lateinit var postsDownloadController: PostsDownloadController
+    private lateinit var postsDownloadRxController: PostsDownloadRxController
 
     /* Performs sample image downoading */
     private lateinit var samplesDownloadController: SampleImageDownloadController
@@ -50,7 +47,7 @@ class PostSampleViewModel private constructor() : ViewModel() {
     * When posts will be loaded the sample image downloading will be started automatically.
     * The result of the image downloading will be send to the onSampleDownloadedListener
     * when downloading is success or onDownloadingErrorListener otherwise.*/
-    fun loadPosts(page: Int) = postsDownloadController.action(page)
+    fun loadPosts(page: Int) = postsDownloadRxController.action(page)
 
     /**
      * Listener for the downloading complete success event.
@@ -64,12 +61,16 @@ class PostSampleViewModel private constructor() : ViewModel() {
      */
     fun onSampleDownloadedListener(action: (ByteArray) -> Unit) {
         //subscribe for receiving a posts
-        postsDownloadController.subscribe {
-            if (it.data != null) {
+        postsDownloadRxController.subscribe {
+            if (it.hasData()) {
                 //send a selected post to the sample download controller
                 samplesDownloadController.action(it.data[itemPosition])
             } else {
-                downloadErrorController.action(it.exception ?: Exception("Exception while post download"))
+                if (it.hasException()) {
+                    downloadErrorController.action(it.exception)
+                } else {
+                    downloadErrorController.action(Exception("Exception while post download"))
+                }
             }
         }
         //also subscribes for samples receiving
@@ -90,14 +91,14 @@ class PostSampleViewModel private constructor() : ViewModel() {
     }
 
     override fun onCreateView(owner: Fragment) {
-        postsDownloadController.clear()
+        postsDownloadRxController.clear()
         downloadErrorController.clear()
     }
 
     override fun onCleared() {
         super.onCleared()
         downloadErrorController.clear()
-        postsDownloadController.clear()
+        postsDownloadRxController.clear()
     }
 
     class Factory(
@@ -107,10 +108,12 @@ class PostSampleViewModel private constructor() : ViewModel() {
     ) : ViewModelProvider.NewInstanceFactory() {
         override fun <T : androidx.lifecycle.ViewModel?> create(modelClass: Class<T>): T {
             val viewModel = PostSampleViewModel()
+            val postsDownloadRxController = PostsDownloadRxController(viewModel, postsRepository)
+
             viewModel.position = position
             viewModel.itemPosition = position % postsRepository.count
             viewModel.pagePosition = position / postsRepository.count
-            viewModel.postsDownloadController = PostsDownloadController(viewModel, postsRepository)
+            viewModel.postsDownloadRxController = postsDownloadRxController
             viewModel.samplesDownloadController = SampleImageDownloadController(viewModel, samplesRepository)
             viewModel.downloadErrorController = DownloadErrorController()
 
@@ -151,7 +154,7 @@ class SampleImageDownloadController(
 
     fun action(post: Post) = coroutineScope.launch {
         try {
-            if  (File(post.sampleUrl).extension == "webm") {
+            if (File(post.sampleUrl).extension == "webm") {
                 observable.onNext(DownloadResult(post.sampleUrl.toByteArray()))
             } else {
                 observable.onNext(DownloadResult(samplesRepository.get(post.sampleUrl)!!))
