@@ -1,23 +1,12 @@
 package com.makentoshe.booruchan
 
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.os.Handler
-import android.os.Looper
-import com.makentoshe.booruapi.Post
 import com.makentoshe.booruapi.Posts
 import com.makentoshe.controllers.DownloadRxController
-import com.makentoshe.controllers.SimpleRxController
-import com.makentoshe.repository.ImageRepository
 import com.makentoshe.repository.Repository
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.disposables.Disposable
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
-import io.reactivex.subjects.Subject
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
-import java.io.Serializable
 
 /**
  * Default controller interface.

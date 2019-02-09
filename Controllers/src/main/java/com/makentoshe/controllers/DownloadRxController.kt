@@ -12,7 +12,7 @@ import kotlinx.coroutines.launch
  */
 abstract class DownloadRxController<P, A>(
     observable: Subject<DownloadResult<P>>,
-    private val coroutineScope: CoroutineScope
+    protected val coroutineScope: CoroutineScope
 ) : SimpleRxController<DownloadResult<P>, A>(observable) {
 
     /**

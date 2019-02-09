@@ -6,10 +6,9 @@ import android.view.View
 import android.view.ViewManager
 import com.davemorrissey.labs.subscaleview.ImageSource
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView
-import com.google.android.exoplayer2.*
+import com.google.android.exoplayer2.ExoPlayer
+import com.google.android.exoplayer2.ExoPlayerFactory
 import com.google.android.exoplayer2.source.ExtractorMediaSource
-import com.google.android.exoplayer2.source.TrackGroupArray
-import com.google.android.exoplayer2.trackselection.TrackSelectionArray
 import com.google.android.exoplayer2.ui.PlayerView
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.google.android.exoplayer2.util.Util
@@ -18,10 +17,8 @@ import com.makentoshe.booruchan.postsample.PostSampleViewModel
 import com.makentoshe.style.Style
 import org.jetbrains.anko.*
 import org.jetbrains.anko.custom.ankoView
-import org.jetbrains.anko.sdk27.coroutines.onClick
 import pl.droidsonroids.gif.GifDrawable
 import pl.droidsonroids.gif.GifImageView
-import java.lang.Exception
 
 class PostSampleUiContent(
     private val viewModel: PostSampleViewModel,
@@ -49,12 +46,11 @@ class PostSampleUiContent(
             visibility = View.VISIBLE
             return
         }
-        //is byte array represents a uri
         if (processAsWebm(byteArray)) {
             visibility = View.VISIBLE
             return
         }
-        return
+        viewModel.pushException(RuntimeException("This file format does not supports now"))
     }
 
     /* Try to make from this byte array a gif image an set it to the GifImageView
@@ -89,12 +85,12 @@ class PostSampleUiContent(
     private fun _FrameLayout.processAsWebm(byteArray: ByteArray): Boolean {
         try {
             playerView {
+                backgroundColorResource = style.background.backgroundColorRes
                 player = initPlayer(byteArray)
-                onPause()
+
             }
             return true
         } catch (e: Exception) {
-            println(e)
             return false
         }
     }

@@ -19,10 +19,7 @@ class PostSampleUiProgressbar(
                 style.toolbar.getPrimaryColor(context),
                 PorterDuff.Mode.SRC_ATOP
             )
-            viewModel.onSampleDownloadedListener {
-                visibility = View.GONE
-            }
-            viewModel.onDownloadingErrorListener {
+            viewModel.onDownloadingCompleteListener {
                 visibility = View.GONE
             }
         }.lparams {

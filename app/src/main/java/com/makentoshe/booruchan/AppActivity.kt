@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import com.makentoshe.booruapi.Tag
+import com.makentoshe.booruchan.postsample.PostSampleScreen
 import com.makentoshe.booruchan.postsamples.PostSamplesScreen
 import com.makentoshe.booruchan.start.StartScreen
 import com.makentoshe.repository.PostsRepository
@@ -25,6 +26,7 @@ class AppActivity : AppCompatActivity() {
         if (savedInstanceState == null) {
             router.rootStartScreen()
 //            router.rootPostSamplesScreen()
+//            router.rootPostSampleScreen()
 //
 //            Booruchan.INSTANCE.router.newRootScreen(PostPageScreen(Booruchan.INSTANCE.boorus[0], 1))
 //            Booruchan.INSTANCE.router.newRootScreen(PostsScreen(Booruchan.INSTANCE.boorus[0]))
@@ -34,6 +36,13 @@ class AppActivity : AppCompatActivity() {
 
     private fun Router.rootStartScreen() {
         newRootScreen(StartScreen())
+    }
+
+    private fun Router.rootPostSampleScreen() {
+        newRootScreen(PostSampleScreen(0,
+            PostsRepository(Booruchan.INSTANCE.booruList[0], Cache.create(12), 1, setOf(Tag("webm"))),
+            SampleImageRepository(Booruchan.INSTANCE.booruList[0], Cache.create(3))
+        ))
     }
 
     private fun Router.rootPostSamplesScreen() {

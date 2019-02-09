@@ -4,20 +4,14 @@ import android.os.Handler
 import android.os.Looper
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.makentoshe.booruapi.Post
-import com.makentoshe.booruchan.Controller
-import com.makentoshe.booruchan.DownloadResult
+import com.makentoshe.booruchan.ByteArrayDownloadRxController
 import com.makentoshe.booruchan.PostsDownloadRxController
-import com.makentoshe.repository.ImageRepository
+import com.makentoshe.booruchan.postsample.model.DownloadErrorController
+import com.makentoshe.booruchan.postsample.model.DownloadingCompleteRxController
+import com.makentoshe.booruchan.postsample.model.SampleDownloadController
 import com.makentoshe.repository.PostsRepository
 import com.makentoshe.repository.SampleImageRepository
 import com.makentoshe.viewmodel.ViewModel
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.subjects.BehaviorSubject
-import io.reactivex.subjects.ReplaySubject
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
-import java.io.File
 
 class PostSampleViewModel private constructor() : ViewModel() {
     /* All posts start from 0 in the search. This position is a number of a post from the search.
@@ -38,10 +32,12 @@ class PostSampleViewModel private constructor() : ViewModel() {
     private lateinit var postsDownloadRxController: PostsDownloadRxController
 
     /* Performs sample image downoading */
-    private lateinit var samplesDownloadController: SampleImageDownloadController
+    private lateinit var samplesDownloadController: ByteArrayDownloadRxController<String>
 
     /* When download error occurs */
     private lateinit var downloadErrorController: DownloadErrorController
+
+    private lateinit var downloadingCompleteRxController: DownloadingCompleteRxController
 
     /* Starts post loading for selected page in another thread.
     * When posts will be loaded the sample image downloading will be started automatically.
@@ -63,8 +59,8 @@ class PostSampleViewModel private constructor() : ViewModel() {
         //subscribe for receiving a posts
         postsDownloadRxController.subscribe {
             if (it.hasData()) {
-                //send a selected post to the sample download controller
-                samplesDownloadController.action(it.data[itemPosition])
+//                send a selected post to the sample download controller
+                samplesDownloadController.action(it.data[itemPosition].sampleUrl)
             } else {
                 if (it.hasException()) {
                     downloadErrorController.action(it.exception)
@@ -73,30 +69,46 @@ class PostSampleViewModel private constructor() : ViewModel() {
                 }
             }
         }
-        //also subscribes for samples receiving
+//        also subscribes for samples receiving
         samplesDownloadController.subscribe {
-            if (it.data != null) {
-                Handler(Looper.getMainLooper()).post { action(it.data) }
+            if (it.hasData()) {
+                Handler(Looper.getMainLooper()).post {
+                    action(it.data)
+                    downloadingCompleteRxController.action(Unit)
+                }
             } else {
-                downloadErrorController.action(it.exception ?: Exception("Exception while image download"))
+                downloadErrorController.action(it.exception)
             }
         }
+    }
+
+    /* Calls when downloading was finished. The downloading result does not interest here. */
+    fun onDownloadingCompleteListener(action: () -> Unit) {
+        downloadingCompleteRxController.subscribe { Handler(Looper.getMainLooper()).post(action) }
     }
 
     /* Calls when error occurs while sample image or posts downloading*/
     fun onDownloadingErrorListener(action: (Exception) -> Unit) {
         downloadErrorController.subscribe {
-            Handler(Looper.getMainLooper()).post { action(it) }
+            Handler(Looper.getMainLooper()).post {
+                action(it)
+                downloadingCompleteRxController.action(Unit)
+            }
         }
     }
 
+    /* Shows a message with the exception */
+    fun pushException(exception: Exception) = downloadErrorController.action(exception)
+
     override fun onCreateView(owner: Fragment) {
+        samplesDownloadController.clear()
         postsDownloadRxController.clear()
         downloadErrorController.clear()
     }
 
     override fun onCleared() {
         super.onCleared()
+        samplesDownloadController.clear()
         downloadErrorController.clear()
         postsDownloadRxController.clear()
     }
@@ -109,13 +121,17 @@ class PostSampleViewModel private constructor() : ViewModel() {
         override fun <T : androidx.lifecycle.ViewModel?> create(modelClass: Class<T>): T {
             val viewModel = PostSampleViewModel()
             val postsDownloadRxController = PostsDownloadRxController(viewModel, postsRepository)
+            val samplesDownloadRxController =
+                SampleDownloadController(viewModel, samplesRepository)
+            val downloadingCompleteRxController = DownloadingCompleteRxController()
 
             viewModel.position = position
             viewModel.itemPosition = position % postsRepository.count
             viewModel.pagePosition = position / postsRepository.count
-            viewModel.postsDownloadRxController = postsDownloadRxController
-            viewModel.samplesDownloadController = SampleImageDownloadController(viewModel, samplesRepository)
             viewModel.downloadErrorController = DownloadErrorController()
+            viewModel.postsDownloadRxController = postsDownloadRxController
+            viewModel.samplesDownloadController = samplesDownloadRxController
+            viewModel.downloadingCompleteRxController = downloadingCompleteRxController
 
             viewModel.loadPosts(viewModel.pagePosition)
 
@@ -124,48 +140,3 @@ class PostSampleViewModel private constructor() : ViewModel() {
     }
 }
 
-class DownloadErrorController : Controller<Exception> {
-
-    private val observable = BehaviorSubject.create<Exception>()
-    private val disposables = CompositeDisposable()
-
-    override fun subscribe(action: (Exception) -> Unit) {
-        disposables.add(observable.subscribe(action))
-    }
-
-    fun action(exception: Exception) = observable.onNext(exception)
-
-    override fun clear() = disposables.clear()
-}
-
-/**
- * Class for performing preview image download.
- */
-class SampleImageDownloadController(
-    private val coroutineScope: CoroutineScope,
-    private val samplesRepository: ImageRepository
-) : Controller<DownloadResult<ByteArray>> {
-    private val observable = ReplaySubject.create<DownloadResult<ByteArray>>()
-    private val disposables = CompositeDisposable()
-
-    override fun subscribe(action: (DownloadResult<ByteArray>) -> Unit) {
-        disposables.add(observable.subscribe(action))
-    }
-
-    fun action(post: Post) = coroutineScope.launch {
-        try {
-            if (File(post.sampleUrl).extension == "webm") {
-                observable.onNext(DownloadResult(post.sampleUrl.toByteArray()))
-            } else {
-                observable.onNext(DownloadResult(samplesRepository.get(post.sampleUrl)!!))
-            }
-        } catch (e: Exception) {
-            observable.onNext(DownloadResult(exception = e))
-        }
-    }
-
-    override fun clear() {
-        disposables.clear()
-        observable.cleanupBuffer()
-    }
-}
