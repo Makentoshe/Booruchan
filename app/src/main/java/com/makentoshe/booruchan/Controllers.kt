@@ -50,7 +50,7 @@ class RequestPermissionController : Controller<String> {
  * Class for downloading a [Posts] in another thread.
  *
  * @param coroutineScope for perform download into another thread.
- * @param repository contains the posts.
+ * @param repository contains posts.
  */
 open class PostsDownloadRxController(
     coroutineScope: CoroutineScope,
@@ -64,6 +64,28 @@ open class PostsDownloadRxController(
      * @return a [Posts] instance which is associated with the [param].
      */
     override fun performDownload(param: Int): Posts {
+        return repository.get(param)!!
+    }
+}
+
+/**
+ * Class for downloading a [ByteArray] in another thread.
+ *
+ * @param coroutineScope for perform download into another thread.
+ * @param repository contains byte arrays.
+ */
+open class ByteArrayDownloadRxController<P>(
+    coroutineScope: CoroutineScope,
+    private val repository: Repository<P, ByteArray>
+): DownloadRxController<ByteArray, P>(BehaviorSubject.create(), coroutineScope) {
+
+    /**
+     * Performs download using a param and returns [ByteArray]
+     *
+     * @param param for the downloading.
+     * @return a [ByteArray] instance which is associated with the param.
+     */
+    override fun performDownload(param: P): ByteArray {
         return repository.get(param)!!
     }
 }

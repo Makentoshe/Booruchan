@@ -16,11 +16,11 @@ import org.jetbrains.anko.cardview.v7.cardView
 
 class GridViewAdapter(
     private val posts: Posts,
-    private val previewImageDownloadViewModel: PreviewImageDownloadController
+    private val previewsDownloadController: PreviewsDownloadController
 ) : BaseAdapter() {
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-        return convertView ?: PreviewUi(getItem(position), previewImageDownloadViewModel).createView(parent.context)
+        return convertView ?: PreviewUi(getItem(position), previewsDownloadController).createView(parent.context)
     }
 
     override fun getItem(position: Int) = posts[position]
@@ -31,7 +31,7 @@ class GridViewAdapter(
 
     private class PreviewUi(
         private val post: Post,
-        private val previewsImageDownloadController: PreviewImageDownloadController
+        private val previewsImageDownloadController: PreviewsDownloadController
     ) {
 
         fun createView(context: Context): View = with(context) {
@@ -46,12 +46,11 @@ class GridViewAdapter(
                         id = R.id.preview
 
                         previewsImageDownloadController.subscribe {
-                            if (it.data != null) {
-                                if (post.previewUrl == it.data.first) {
-                                    val array = it.data.second
-                                    Handler(Looper.getMainLooper()).post {
-                                        setImageBitmap(BitmapFactory.decodeByteArray(array, 0, array.size))
-                                    }
+                            if (it.hasData()) {
+                                if (it.data.first == post.previewUrl) {
+                                    val byteArray = it.data.second
+                                    val bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.size)
+                                    Handler(Looper.getMainLooper()).post { setImageBitmap(bitmap) }
                                 }
                             } else {
                                 TODO("Error: ${it.exception}")

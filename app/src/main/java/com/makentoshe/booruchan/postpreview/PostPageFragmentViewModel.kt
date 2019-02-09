@@ -10,7 +10,7 @@ import com.makentoshe.booruapi.Posts
 import com.makentoshe.booruchan.Booruchan
 import com.makentoshe.booruchan.PostsDownloadRxController
 import com.makentoshe.booruchan.postpreview.model.GridViewAdapter
-import com.makentoshe.booruchan.postpreview.model.PreviewImageDownloadController
+import com.makentoshe.booruchan.postpreview.model.PreviewsDownloadController
 import com.makentoshe.booruchan.postsamples.PostSamplesScreen
 import com.makentoshe.controllers.DownloadResult
 import com.makentoshe.repository.ImageRepository
@@ -25,7 +25,7 @@ class PostPageFragmentViewModel private constructor() : ViewModel() {
     private var position: Int = -1
     private lateinit var postsRepository: PostsRepository
     private lateinit var postsDownloadRxController: PostsDownloadRxController
-    private lateinit var previewsImageDownloadController: PreviewImageDownloadController
+    private lateinit var previewsDownloadController: PreviewsDownloadController
     private lateinit var sampleImageRepository: SampleImageRepository
 
     fun loadPosts() = postsDownloadRxController.action(position)
@@ -35,11 +35,11 @@ class PostPageFragmentViewModel private constructor() : ViewModel() {
     }
 
     fun loadPreviews(posts: Posts) = posts.forEach {
-        previewsImageDownloadController.action(it.previewUrl, this)
+        previewsDownloadController.action(it.previewUrl)
     }
 
     fun getGridAdapter(posts: Posts): BaseAdapter {
-        return GridViewAdapter(posts, previewsImageDownloadController)
+        return GridViewAdapter(posts, previewsDownloadController)
     }
 
     fun navigateToPostDetailsScreen(itemPosition: Int) {
@@ -54,13 +54,13 @@ class PostPageFragmentViewModel private constructor() : ViewModel() {
 
     override fun onCreateView(owner: Fragment) {
         postsDownloadRxController.clear()
-        previewsImageDownloadController.clear()
+        previewsDownloadController.clear()
     }
 
     override fun onCleared() {
         super.onCleared()
         postsDownloadRxController.clear()
-        previewsImageDownloadController.clear()
+        previewsDownloadController.clear()
     }
 
     class Factory(
@@ -73,12 +73,14 @@ class PostPageFragmentViewModel private constructor() : ViewModel() {
         override fun <T : androidx.lifecycle.ViewModel?> create(modelClass: Class<T>): T {
             val viewModel = PostPageFragmentViewModel()
             val postsDownloadRxController = PostsDownloadRxController(viewModel, postsRepository)
+            val previewsDownloadController =
+                PreviewsDownloadController(viewModel, previewsRepository, postsRepository.count)
 
             viewModel.booru = booru
             viewModel.position = position
             viewModel.postsRepository = postsRepository
             viewModel.postsDownloadRxController = postsDownloadRxController
-            viewModel.previewsImageDownloadController = PreviewImageDownloadController(previewsRepository)
+            viewModel.previewsDownloadController = previewsDownloadController
             viewModel.router = Booruchan.INSTANCE.router
             viewModel.sampleImageRepository = sampleImageRepository
             viewModel.loadPosts()
