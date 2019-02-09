@@ -1,15 +1,24 @@
 package com.makentoshe.booruchan.postsample.view
 
 import android.graphics.BitmapFactory
+import android.net.Uri
 import android.view.View
 import android.view.ViewManager
 import com.davemorrissey.labs.subscaleview.ImageSource
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView
+import com.google.android.exoplayer2.*
+import com.google.android.exoplayer2.source.ExtractorMediaSource
+import com.google.android.exoplayer2.source.TrackGroupArray
+import com.google.android.exoplayer2.trackselection.TrackSelectionArray
+import com.google.android.exoplayer2.ui.PlayerView
+import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
+import com.google.android.exoplayer2.util.Util
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.postsample.PostSampleViewModel
 import com.makentoshe.style.Style
 import org.jetbrains.anko.*
 import org.jetbrains.anko.custom.ankoView
+import org.jetbrains.anko.sdk27.coroutines.onClick
 import pl.droidsonroids.gif.GifDrawable
 import pl.droidsonroids.gif.GifImageView
 import java.lang.Exception
@@ -30,12 +39,18 @@ class PostSampleUiContent(
 
     /* Tries to define "image" type and setups it to correct view. */
     private fun _FrameLayout.onSampleDownloaded(byteArray: ByteArray) {
-        //check the array is a gif or an image
+        //is byte array represents a gif animation
         if (processAsGif(byteArray)) {
             visibility = View.VISIBLE
             return
         }
+        //is byte array represents an image
         if (processAsImage(byteArray)) {
+            visibility = View.VISIBLE
+            return
+        }
+        //is byte array represents a uri
+        if (processAsWebm(byteArray)) {
             visibility = View.VISIBLE
             return
         }
@@ -70,11 +85,38 @@ class PostSampleUiContent(
         }
     }
 
+    /* Try to make a Uri from byte array and create a webm player and play a video*/
+    private fun _FrameLayout.processAsWebm(byteArray: ByteArray): Boolean {
+        try {
+            playerView {
+                player = initPlayer(byteArray)
+                onPause()
+            }
+            return true
+        } catch (e: Exception) {
+            println(e)
+            return false
+        }
+    }
+
+    /* Inits an ExoPlayer for displaying a webm file.*/
+    private fun PlayerView.initPlayer(byteArray: ByteArray): ExoPlayer {
+        val userAgent = Util.getUserAgent(context, context.getString(R.string.app_name))
+        val dataSourceFactory = DefaultDataSourceFactory(context, userAgent)
+        val uri = Uri.parse(String(byteArray))
+        val mediaSource = ExtractorMediaSource.Factory(dataSourceFactory).createMediaSource(uri)
+        return ExoPlayerFactory.newSimpleInstance(context).apply { prepare(mediaSource) }
+    }
+
     private fun ViewManager.subsamplingScaleImageView(init: SubsamplingScaleImageView.() -> Unit): SubsamplingScaleImageView {
         return ankoView({ SubsamplingScaleImageView(it) }, 0, init)
     }
 
     private fun ViewManager.gifImageView(init: GifImageView.() -> Unit): GifImageView {
         return ankoView({ GifImageView(it) }, 0, init)
+    }
+
+    private fun ViewManager.playerView(init: PlayerView.() -> Unit): PlayerView {
+        return ankoView({ PlayerView(it) }, 0, init)
     }
 }

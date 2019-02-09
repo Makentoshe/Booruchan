@@ -20,6 +20,15 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
+    //for ExoPlayer
+    compileOptions {
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    //for ExoPlayer too
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8
+    }
 }
 
 dependencies {
@@ -50,6 +59,7 @@ dependencies {
     implementation "io.reactivex.rxjava2:rxjava:2.2.4"
     implementation 'ru.terrakok.cicerone:cicerone:4.0.2'
     implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.16'
+    implementation 'com.google.android.exoplayer:exoplayer:2.9.4'
 
     testImplementation 'junit:junit:4.12'
 

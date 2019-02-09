@@ -52,9 +52,16 @@ class PostSampleViewModel private constructor() : ViewModel() {
     * when downloading is success or onDownloadingErrorListener otherwise.*/
     fun loadPosts(page: Int) = postsDownloadController.action(page)
 
-    /* Listener for downloading complete successfully event.
-    * When errors occurs or any else the event was not invoked,
-    * but the onDownloadingErrorListener will be. */
+    /**
+     * Listener for the downloading complete success event.
+     * If the byte array represents image or a gif animation
+     * the byte array will be contains it as is. But if the byte
+     * array represents a WebM file the byte array will be contains
+     * a url string.
+     * <p>
+     * If an error occur the event was not invoked, but the
+     * [onDownloadingErrorListener] will be.
+     */
     fun onSampleDownloadedListener(action: (ByteArray) -> Unit) {
         //subscribe for receiving a posts
         postsDownloadController.subscribe {
@@ -144,7 +151,11 @@ class SampleImageDownloadController(
 
     fun action(post: Post) = coroutineScope.launch {
         try {
-            observable.onNext(DownloadResult(samplesRepository.get(post.sampleUrl)!!))
+            if  (File(post.sampleUrl).extension == "webm") {
+                observable.onNext(DownloadResult(post.sampleUrl.toByteArray()))
+            } else {
+                observable.onNext(DownloadResult(samplesRepository.get(post.sampleUrl)!!))
+            }
         } catch (e: Exception) {
             observable.onNext(DownloadResult(exception = e))
         }
