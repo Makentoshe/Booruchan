@@ -1,10 +1,15 @@
 package com.makentoshe.booruchan.postsamples
 
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProviders
+import com.makentoshe.booruchan.AppActivity
+import com.makentoshe.booruchan.postsamples.view.PermissionChecker
 import com.makentoshe.booruchan.postsamples.view.PostSamplesContentUi
 import com.makentoshe.repository.PostsRepository
 import com.makentoshe.repository.SampleImageRepository
@@ -18,8 +23,18 @@ class PostSamplesContentFragment : com.makentoshe.booruchan.Fragment<PostSamples
 
         val postsRepository = holderArguments!![PostsRepository::class.java.simpleName] as PostsRepository
         val samplesRepository = holderArguments[SampleImageRepository::class.java.simpleName] as SampleImageRepository
+        val startDownloadController =
+            holderArguments[StartDownloadRxController::class.java.simpleName] as StartDownloadRxController
+        val permissionChecker = (requireActivity() as AppActivity).permissionChecker
 
-        val factory = PostSamplesContentViewModel.Factory(position, postsRepository, samplesRepository)
+        val factory =
+            PostSamplesContentViewModel.Factory(
+                position,
+                postsRepository,
+                samplesRepository,
+                startDownloadController,
+                permissionChecker
+            )
         return ViewModelProviders.of(this, factory)[PostSamplesContentViewModel::class.java]
     }
 
@@ -27,5 +42,6 @@ class PostSamplesContentFragment : com.makentoshe.booruchan.Fragment<PostSamples
         return PostSamplesContentUi(viewModel)
             .createView(AnkoContext.create(requireContext(), this))
     }
+
 }
 

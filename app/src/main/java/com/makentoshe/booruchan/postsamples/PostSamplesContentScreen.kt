@@ -9,7 +9,8 @@ import com.makentoshe.repository.SampleImageRepository
 class PostSamplesContentScreen(
     private val position: Int,
     private val postsRepository: PostsRepository,
-    private val samplesRepository: SampleImageRepository
+    private val samplesRepository: SampleImageRepository,
+    private val startDownloadRxController: StartDownloadRxController
 ) : FragmentScreen() {
     override val fragment: Fragment
         get() = PostSamplesContentFragment().apply {
@@ -22,6 +23,7 @@ class PostSamplesContentScreen(
                 putAll(arguments)
                 putSerializable(PostsRepository::class.java.simpleName, postsRepository)
                 putSerializable(SampleImageRepository::class.java.simpleName, samplesRepository)
+                putSerializable(StartDownloadRxController::class.java.simpleName, startDownloadRxController)
             }
             //put arguments to holder
             ArgumentsHolder[this::class.java.simpleName.plus(position)] = holderArguments

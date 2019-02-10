@@ -6,10 +6,13 @@ import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager.widget.PagerAdapter
 import com.makentoshe.booruchan.postsamples.model.SamplesVerticalViewPagerAdapter
+import com.makentoshe.controllers.SimpleRxController
 import com.makentoshe.repository.PostsRepository
 import com.makentoshe.repository.SampleImageRepository
 import com.makentoshe.viewmodel.ViewModel
+import io.reactivex.subjects.BehaviorSubject
 import ru.terrakok.cicerone.Router
+import java.io.Serializable
 
 class PostSamplesViewModel private constructor() : ViewModel() {
 
@@ -17,14 +20,18 @@ class PostSamplesViewModel private constructor() : ViewModel() {
     private lateinit var postsRepository: PostsRepository
     private lateinit var samplesRepository: SampleImageRepository
     private lateinit var router: Router
+    private lateinit var startDownloadRxController: StartDownloadRxController
 
-    fun onDownloadIconClick(ignored: View) {
-        println("Click")
-    }
-
+    fun onDownloadIconClick(ignored: View) = startDownloadRxController.action(Unit)
 
     fun getSamplesVerticalViewPagerAdapter(fragmentManager: FragmentManager): PagerAdapter {
-        return SamplesVerticalViewPagerAdapter(fragmentManager, position, postsRepository, samplesRepository)
+        return SamplesVerticalViewPagerAdapter(
+            fragmentManager,
+            position,
+            postsRepository,
+            samplesRepository,
+            startDownloadRxController
+        )
     }
 
     fun onNavigationItemSelected(menuItem: MenuItem): Boolean {
@@ -44,6 +51,9 @@ class PostSamplesViewModel private constructor() : ViewModel() {
 
         override fun <T : androidx.lifecycle.ViewModel?> create(modelClass: Class<T>): T {
             val viewModel = PostSamplesViewModel()
+            val startDownloadRxController = StartDownloadRxController()
+
+            viewModel.startDownloadRxController = startDownloadRxController
             viewModel.position = position
             viewModel.postsRepository = postsRepository
             viewModel.samplesRepository = samplesRepository
@@ -51,4 +61,8 @@ class PostSamplesViewModel private constructor() : ViewModel() {
             return viewModel as T
         }
     }
+}
+
+class StartDownloadRxController : SimpleRxController<Unit, Unit>(BehaviorSubject.create()), Serializable {
+    override fun action(param: Unit) = observable.onNext(param)
 }

@@ -1,5 +1,7 @@
 package com.makentoshe.repository
 
-interface Repository<K, V> {
+import java.io.Serializable
+
+interface Repository<K, V>: Serializable {
     fun get(key: K): V?
 }
