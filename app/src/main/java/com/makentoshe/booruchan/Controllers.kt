@@ -18,24 +18,6 @@ interface Controller<T> {
 }
 
 /**
- * Any download will be wrapped in this class.
- */
-data class DownloadResult<T>(val data: T? = null, val exception: Exception? = null)
-
-class RequestPermissionController : Controller<String> {
-    private val observable = PublishSubject.create<String>()
-    private val disposables = CompositeDisposable()
-
-    override fun subscribe(action: (String) -> Unit) {
-        disposables.add(observable.subscribe(action))
-    }
-
-    fun action(permission: String) = observable.onNext(permission)
-
-    override fun clear() = disposables.clear()
-}
-
-/**
  * Class for downloading a [Posts] in another thread.
  *
  * @param coroutineScope for perform download into another thread.
