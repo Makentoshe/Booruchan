@@ -2,9 +2,11 @@ package com.makentoshe.booruchan
 
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.google.android.material.snackbar.Snackbar
 import com.makentoshe.booruchan.postsample.PostSampleScreen
 import com.makentoshe.booruchan.postsamples.PostSamplesScreen
 import com.makentoshe.booruchan.postsamples.view.PermissionChecker
@@ -15,11 +17,15 @@ import com.makentoshe.repository.cache.Cache
 import ru.terrakok.cicerone.Router
 
 class AppActivity : AppCompatActivity() {
-
+    /* Uses for navigation between screens*/
     private val navigator = Navigator(this, R.id.appcontainer)
+    /* Performs requesting an checking permissions */
+    val permissionChecker = PermissionChecker.Factory().simpleBuild()
+    /* Shows Snackbar messages */
+    val notificationController = NotificationRxController()
+
     private val router = Booruchan.INSTANCE.router
     private val booruList = Booruchan.INSTANCE.booruList
-    val permissionChecker = PermissionChecker.Factory().simpleBuild()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(Booruchan.INSTANCE.style.id)
@@ -34,6 +40,8 @@ class AppActivity : AppCompatActivity() {
 //            Booruchan.INSTANCE.router.newRootScreen(PostsScreen(Booruchan.INSTANCE.boorus[0]))
 //            Booruchan.INSTANCE.router.newRootScreen(BooruScreen(Booruchan.INSTANCE.boorus[0]))
         }
+        val view = findViewById<View>(R.id.appcontainer)
+        Snackbar.make(view, "SAS", Snackbar.LENGTH_LONG).show()
     }
 
     private fun Router.rootStartScreen() {
@@ -41,10 +49,13 @@ class AppActivity : AppCompatActivity() {
     }
 
     private fun Router.rootPostSampleScreen() {
-        newRootScreen(PostSampleScreen(0,
-            PostsRepository(Booruchan.INSTANCE.booruList[0], Cache.create(12), 12, setOf()),
-            SampleImageRepository(Booruchan.INSTANCE.booruList[0], Cache.create(3))
-        ))
+        newRootScreen(
+            PostSampleScreen(
+                0,
+                PostsRepository(Booruchan.INSTANCE.booruList[0], Cache.create(12), 12, setOf()),
+                SampleImageRepository(Booruchan.INSTANCE.booruList[0], Cache.create(3))
+            )
+        )
     }
 
     private fun Router.rootPostSamplesScreen() {
@@ -59,24 +70,21 @@ class AppActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
+        permissionCheckerSubscribe()
+    }
+
+    private fun permissionCheckerSubscribe() {
         permissionChecker.handlePermissionRequest {
             val status = ContextCompat.checkSelfPermission(this, it)
             if (status == PackageManager.PERMISSION_GRANTED) permissionChecker.sendPermissionResult(true)
-
-            ActivityCompat.requestPermissions(this, arrayOf(it), it.hashCode())
+            ActivityCompat.requestPermissions(this, arrayOf(it), PERMISSION_REQUEST_CODE_WRITE_EXTERNAL_STORAGE)
         }
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-
-        var result = true
-        grantResults.forEach {
-            if (it == PackageManager.PERMISSION_DENIED) result = false
-        }
-
-        permissionChecker.sendPermissionResult(result)
-
+        //the permission request will be always for one permission at the time.
+        permissionChecker.sendPermissionResult(grantResults[0] == PackageManager.PERMISSION_GRANTED)
     }
 
     override fun onStop() {
@@ -106,3 +114,4 @@ class AppActivity : AppCompatActivity() {
         private val PERMISSION_REQUEST_CODE_WRITE_EXTERNAL_STORAGE = 0
     }
 }
+

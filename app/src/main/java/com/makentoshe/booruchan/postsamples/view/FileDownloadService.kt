@@ -54,20 +54,22 @@ class FileDownloadService : Service() {
             val post = performPostLoading(position, postsRepository)
             val fileAsBytes = performByteArrayLoading(post, filesRepository)
             disposable = permissionChecker.requestPermisson(Manifest.permission.WRITE_EXTERNAL_STORAGE) {
-                if (it) {
-                    val postfile = File(post.fileUrl)
-                    saveFile(baseContext, "BooruTitle", postfile.name, postfile.extension, fileAsBytes)
-                    finish("Cool")
-                } else {
-                    finish("Not cool")
+                try {
+                    if (it) {
+                        val postfile = File(post.fileUrl)
+                        saveFile(baseContext, "BooruTitle", postfile.name, postfile.extension, fileAsBytes)
+                        finish("Cool")
+                    } else {
+                        finish("Not cool")
+                    }
+                } finally {
+                    disposable?.dispose()
                 }
             }
         } catch (e: Exception) {
-            finish(e.localizedMessage)
-        } finally {
             disposable?.dispose()
+            finish(e.localizedMessage)
         }
-
         return super.onStartCommand(intent, flags, startId)
     }
 
