@@ -10,6 +10,9 @@
     <string name="comments">Comments</string>
     <string name="image">Image</string>
     <string name="tags">Tags</string>
+    <string name="was_loaded_succesfully">was loaded succesfully</string>
+    <string name="image_was_not_loaded_succesfully">Image wasn\'t loaded successfully</string>
+    <string name="permission_denied">Permission denied</string>
 
     <string-array name="post_properties">
         <item>Id</item>

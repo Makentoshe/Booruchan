@@ -7,18 +7,15 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Environment
 import android.os.IBinder
-import android.widget.Toast
 import com.makentoshe.booruapi.Post
 import com.makentoshe.booruchan.R
+import com.makentoshe.booruchan.NotificationInterface
+import com.makentoshe.booruchan.SnackbarNotificationRxController
 import com.makentoshe.booruchan.postsamples.ArgumentsHolder
 import com.makentoshe.repository.PostsRepository
 import com.makentoshe.repository.Repository
-import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.*
 import java.io.File
 import java.io.FileOutputStream
 import java.lang.Exception
@@ -27,28 +24,26 @@ import kotlin.coroutines.CoroutineContext
 /**
  * Service for downloading file into the external storage
  */
-class FileDownloadService : Service() {
+class FileDownloadService : Service(), CoroutineScope {
 
-    override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
+    private val job = Job()
+
+    override val coroutineContext: CoroutineContext
+        get() = Dispatchers.Main + job
+
+    override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int = runBlocking {
         //get arguments
         val position = intent.getIntExtra(POSITION, 0)
-        val args =
-            ArgumentsHolder[FileDownloadService::class.java.simpleName.plus(
-                position
-            )]!!
-
+        val args = ArgumentsHolder[FileDownloadService::class.java.simpleName.plus(position)]!!
         val postsRepository = args.getSerializable(POSTSREP) as PostsRepository
-        val filesRepository =
-            args.getSerializable(FILESREP) as Repository<String, ByteArray>
-        val permissionChecker =
-            args.getSerializable(PERMCHCK) as PermissionChecker
-        ArgumentsHolder.remove(
-            FileDownloadService::class.java.simpleName.plus(
-                position
-            )
-        )
+        val filesRepository = args.getSerializable(FILESREP) as Repository<String, ByteArray>
+        val permissionChecker = args.getSerializable(PERMCHCK) as PermissionChecker
+        val snackbarNotificatorController = args.getSerializable(SNACKNOT) as NotificationInterface
 
-        //start saving
+        ArgumentsHolder.remove(FileDownloadService::class.java.simpleName.plus(position))
+
+        //start loading and saving
+
         var disposable: Disposable? = null
         try {
             val post = performPostLoading(position, postsRepository)
@@ -57,10 +52,11 @@ class FileDownloadService : Service() {
                 try {
                     if (it) {
                         val postfile = File(post.fileUrl)
-                        saveFile(baseContext, "BooruTitle", postfile.name, postfile.extension, fileAsBytes)
-                        finish("Cool")
+                        saveFile(baseContext, "BooruTitle", post.id.toString(), postfile.extension, fileAsBytes)
+                        imageWasLoadedMessage(post.id.toString(), postfile.extension, snackbarNotificatorController)
                     } else {
-                        finish("Not cool")
+                        val permissionDenied = baseContext.getString(R.string.permission_denied)
+                        imageWasNotLoadedMessage(snackbarNotificatorController, permissionDenied)
                     }
                 } finally {
                     disposable?.dispose()
@@ -68,14 +64,39 @@ class FileDownloadService : Service() {
             }
         } catch (e: Exception) {
             disposable?.dispose()
-            finish(e.localizedMessage)
+            imageWasNotLoadedMessage(snackbarNotificatorController, e.localizedMessage)
         }
-        return super.onStartCommand(intent, flags, startId)
+
+        return@runBlocking super.onStartCommand(intent, flags, startId)
     }
 
-    //calls on the saving finish
-    private fun finish(message: String) {
-        Toast.makeText(baseContext, message, Toast.LENGTH_LONG).show()
+    /**
+     * Calls when the post image was successfully downloaded.
+     *
+     * @param name the downloaded image file name.
+     * @param ext the downloaded image file extension.
+     * @param controller the controller for the notifying.
+     */
+    private fun imageWasLoadedMessage(name: String, ext: String, controller: NotificationInterface) {
+        val message = StringBuilder(baseContext.getString(R.string.image)).append(" ")
+        message.append(name).append(".").append(ext).append(" ")
+        message.append(baseContext.getString(R.string.was_loaded_succesfully))
+        val notifyMessage = SnackbarNotificationRxController.NotificationMessage(message.toString())
+        controller.notify(notifyMessage)
+        stopSelf()
+    }
+
+    /**
+     * Calls when the post image downloading failed.
+     *
+     * @param controller the controller for the notifying.
+     * @param additionMessage additional message will be displayed below,
+     */
+    private fun imageWasNotLoadedMessage(controller: NotificationInterface, additionMessage: String = "") {
+        val message = StringBuilder(baseContext.getString(R.string.image_was_not_loaded_succesfully))
+        if (!additionMessage.isBlank()) message.append("\n").append(additionMessage)
+        val notifyMessage = SnackbarNotificationRxController.NotificationMessage(message.toString())
+        controller.notify(notifyMessage)
         stopSelf()
     }
 
@@ -110,6 +131,11 @@ class FileDownloadService : Service() {
         }
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        job.cancel()
+    }
+
     override fun onBind(intent: Intent?): IBinder? {
         return null
     }
@@ -119,13 +145,15 @@ class FileDownloadService : Service() {
         private const val POSTSREP = "PostsRepository"
         private const val FILESREP = "RilesRepository"
         private const val PERMCHCK = "PermissionChecker"
+        private const val SNACKNOT = "SnackbarNotificator"
 
         fun startService(
             context: Context,
             position: Int,
             postsRepository: PostsRepository,
             fileRepository: Repository<String, ByteArray>,
-            permissionChecker: PermissionChecker
+            permissionChecker: PermissionChecker,
+            notificationController: NotificationInterface
         ) {
             val mainArg = Intent(
                 context,
@@ -135,10 +163,11 @@ class FileDownloadService : Service() {
             }
 
             val args = Bundle().apply {
+                putInt(POSITION, position)
                 putSerializable(POSTSREP, postsRepository)
                 putSerializable(FILESREP, fileRepository)
-                putInt(POSITION, position)
                 putSerializable(PERMCHCK, permissionChecker)
+                putSerializable(SNACKNOT, notificationController)
             }
 
             ArgumentsHolder[FileDownloadService::class.java.simpleName.plus(position)] = args

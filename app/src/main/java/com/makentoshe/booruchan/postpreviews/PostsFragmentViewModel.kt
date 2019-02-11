@@ -109,9 +109,9 @@ class PostsFragmentViewModel : com.makentoshe.viewmodel.ViewModel() {
 
     fun getViewPagerAdapter(fragmentManager: FragmentManager, tags: Set<Tag>): PagerAdapter {
         val postsCountInRequest = 12
-        val postsRepository = PostsRepository(booru, Cache.create(12), postsCountInRequest, tags)
-        val previewsRepository = PreviewImageRepository(booru, Cache.create(postsCountInRequest * 5))
-        val samplesRepository = SampleImageRepository(booru, Cache.create(12))
+        val postsRepository = PostsRepository(booru, Cache.create(5), postsCountInRequest, tags)
+        val previewsRepository = PreviewImageRepository(booru, Cache.create(postsCountInRequest * 3))
+        val samplesRepository = SampleImageRepository(booru, Cache.create(3))
         return ViewPagerAdapter(fragmentManager, booru, postsRepository, previewsRepository, samplesRepository)
     }
 

@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager.widget.PagerAdapter
+import com.makentoshe.booruchan.NotificationInterface
 import com.makentoshe.booruchan.postsamples.model.SamplesContentViewPagerAdapter
 import com.makentoshe.booruchan.postsamples.view.FileDownloadService
 import com.makentoshe.booruchan.postsamples.view.PermissionChecker
@@ -23,6 +24,7 @@ class PostSamplesContentViewModel : ViewModel() {
     private lateinit var startDownloadController: StartDownloadRxController
     private lateinit var filesRepository: Repository<String, ByteArray>
     private lateinit var permissionChecker: PermissionChecker
+    private lateinit var notificationInterface: NotificationInterface
 
     fun getViewPagerAdapter(fragmentManager: FragmentManager): PagerAdapter {
         return SamplesContentViewPagerAdapter(fragmentManager, postsRepository, samplesRepository)
@@ -33,7 +35,7 @@ class PostSamplesContentViewModel : ViewModel() {
     }
 
     fun startFileDownload(position: Int, context: Context) {
-        FileDownloadService.startService(context, position, postsRepository, filesRepository, permissionChecker)
+        FileDownloadService.startService(context, position, postsRepository, filesRepository, permissionChecker, notificationInterface)
     }
 
     override fun onCreateView(owner: Fragment) {
@@ -51,6 +53,7 @@ class PostSamplesContentViewModel : ViewModel() {
         private val samplesRepository: SampleImageRepository,
         private val startDownloadController: StartDownloadRxController,
         private val permissionChecker: PermissionChecker,
+        private val notificationInterface: NotificationInterface,
         private val filesRepository: Repository<String, ByteArray> = samplesRepository
     ) : ViewModelProvider.NewInstanceFactory() {
         override fun <T : androidx.lifecycle.ViewModel?> create(modelClass: Class<T>): T {
@@ -62,6 +65,7 @@ class PostSamplesContentViewModel : ViewModel() {
             viewModel.samplesRepository = samplesRepository
             viewModel.permissionChecker = permissionChecker
             viewModel.startDownloadController = startDownloadController
+            viewModel.notificationInterface = notificationInterface
 
             return viewModel as T
         }

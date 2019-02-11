@@ -22,10 +22,14 @@ class AppActivity : AppCompatActivity() {
     /* Performs requesting an checking permissions */
     val permissionChecker = PermissionChecker.Factory().simpleBuild()
     /* Shows Snackbar messages */
-    val notificationController = NotificationRxController()
+    private val innerNotificationRxController = SnackbarNotificationRxController()
+    /* Special interface with single method for set notification to the controller */
+    val snackbarNotificationController: NotificationInterface = innerNotificationRxController
 
     private val router = Booruchan.INSTANCE.router
     private val booruList = Booruchan.INSTANCE.booruList
+
+    private val root: View by lazy { findViewById<View>(R.id.appcontainer) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(Booruchan.INSTANCE.style.id)
@@ -40,8 +44,6 @@ class AppActivity : AppCompatActivity() {
 //            Booruchan.INSTANCE.router.newRootScreen(PostsScreen(Booruchan.INSTANCE.boorus[0]))
 //            Booruchan.INSTANCE.router.newRootScreen(BooruScreen(Booruchan.INSTANCE.boorus[0]))
         }
-        val view = findViewById<View>(R.id.appcontainer)
-        Snackbar.make(view, "SAS", Snackbar.LENGTH_LONG).show()
     }
 
     private fun Router.rootStartScreen() {
@@ -71,6 +73,7 @@ class AppActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
         permissionCheckerSubscribe()
+        notificationSubscribe()
     }
 
     private fun permissionCheckerSubscribe() {
@@ -78,6 +81,20 @@ class AppActivity : AppCompatActivity() {
             val status = ContextCompat.checkSelfPermission(this, it)
             if (status == PackageManager.PERMISSION_GRANTED) permissionChecker.sendPermissionResult(true)
             ActivityCompat.requestPermissions(this, arrayOf(it), PERMISSION_REQUEST_CODE_WRITE_EXTERNAL_STORAGE)
+        }
+    }
+
+    private fun notificationSubscribe() {
+        innerNotificationRxController.subscribe {
+            val duration = if (it.duration < -2) Snackbar.LENGTH_LONG else it.duration
+            val snackbar = Snackbar.make(root, it.message, duration)
+            val action = it.action
+            if (action != null) {
+                snackbar.setAction(action.title) {
+                    action.listener(snackbar)
+                }
+            }
+            snackbar.show()
         }
     }
 
@@ -90,6 +107,7 @@ class AppActivity : AppCompatActivity() {
     override fun onStop() {
         super.onStop()
         permissionChecker.clear()
+        innerNotificationRxController.clear()
     }
 
     override fun onResume() {

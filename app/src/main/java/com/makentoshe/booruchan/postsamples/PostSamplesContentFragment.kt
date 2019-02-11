@@ -26,6 +26,7 @@ class PostSamplesContentFragment : com.makentoshe.booruchan.Fragment<PostSamples
         val startDownloadController =
             holderArguments[StartDownloadRxController::class.java.simpleName] as StartDownloadRxController
         val permissionChecker = (requireActivity() as AppActivity).permissionChecker
+        val snackbarNotificationController = (requireActivity() as AppActivity).snackbarNotificationController
 
         val factory =
             PostSamplesContentViewModel.Factory(
@@ -33,7 +34,8 @@ class PostSamplesContentFragment : com.makentoshe.booruchan.Fragment<PostSamples
                 postsRepository,
                 samplesRepository,
                 startDownloadController,
-                permissionChecker
+                permissionChecker,
+                snackbarNotificationController
             )
         return ViewModelProviders.of(this, factory)[PostSamplesContentViewModel::class.java]
     }
