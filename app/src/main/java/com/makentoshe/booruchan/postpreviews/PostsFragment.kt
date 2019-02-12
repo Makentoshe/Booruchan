@@ -16,6 +16,7 @@ class PostsFragment : androidx.fragment.app.Fragment() {
 
     private lateinit var viewModel: PostsFragmentViewModel
     private lateinit var clearIconViewModel: ClearIconViewModel
+    private lateinit var overflowViewModel: OverflowViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val arguments = Companion.arguments
@@ -26,14 +27,18 @@ class PostsFragment : androidx.fragment.app.Fragment() {
         factory = ClearIconViewModel.Factory()
         clearIconViewModel = ViewModelProviders.of(this, factory)[ClearIconViewModel::class.java]
 
+        factory = OverflowViewModel.Factory()
+        overflowViewModel = ViewModelProviders.of(this, factory)[OverflowViewModel::class.java]
+
         super.onCreate(savedInstanceState)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         viewModel.onCreateView(this)
         clearIconViewModel.onCreateView(this)
+        overflowViewModel.onCreateView(this)
 
-        return PostsFragmentUI(viewModel, clearIconViewModel).createView(AnkoContext.create(requireContext(), this))
+        return PostsFragmentUI(viewModel, clearIconViewModel, overflowViewModel).createView(AnkoContext.create(requireContext(), this))
     }
 
     companion object {

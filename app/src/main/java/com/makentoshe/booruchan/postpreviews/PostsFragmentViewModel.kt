@@ -22,7 +22,6 @@ class PostsFragmentViewModel : com.makentoshe.viewmodel.ViewModel() {
     private lateinit var drawerController: DrawerController
     /* tags for default(on the startup) search */
     private lateinit var tags: Set<Tag>
-    private lateinit var overflowController: OverflowController
     private lateinit var searchController: SearchController
     private lateinit var compositeTagController: CompositeTagController
     private lateinit var viewPagerController: ViewPagerController
@@ -33,27 +32,6 @@ class PostsFragmentViewModel : com.makentoshe.viewmodel.ViewModel() {
     fun clickDrawerMenuIcon() = when (drawerController.state) {
         is DrawerState.DrawerOpen -> drawerController.closeDrawer()
         is DrawerState.DrawerClose -> drawerController.openDrawer()
-    }
-
-    val overflowState: OverflowController.OverflowState?
-        get() = overflowController.state
-
-    fun clickOverflowIcon() {
-        if (overflowController.state == null) {
-            overflowController.newState(OverflowController.OverflowState.Cross)
-            return
-        }
-        when (overflowController.state) {
-            is OverflowController.OverflowState.Magnify ->
-                overflowController.newState(OverflowController.OverflowState.Cross)
-            is OverflowController.OverflowState.Cross ->
-                overflowController.newState(OverflowController.OverflowState.Magnify)
-            else -> Unit
-        }
-    }
-
-    fun addOnOverflowStateChangedListener(action: OverflowController.OverflowListener.() -> Unit) {
-        overflowController.subscribe(action)
     }
 
     fun startNewSearch() = searchController.newSearch(compositeTagSet)
@@ -83,7 +61,6 @@ class PostsFragmentViewModel : com.makentoshe.viewmodel.ViewModel() {
         get() = DelayAutocompleteAdapter(DelayAutocompleteRepository(booru))
 
     override fun onCreateView(owner: Fragment) {
-        overflowController.update()
         searchController.update(tags)
         compositeTagController.clear()
         viewPagerController.clear()
@@ -91,7 +68,6 @@ class PostsFragmentViewModel : com.makentoshe.viewmodel.ViewModel() {
 
     override fun onCleared() {
         super.onCleared()
-        overflowController.clear()
         compositeTagController.clear()
         viewPagerController.clear()
         searchController.clear()
@@ -119,7 +95,6 @@ class PostsFragmentViewModel : com.makentoshe.viewmodel.ViewModel() {
             viewModel.drawerController = drawerController
             viewModel.searchController = SearchController()
             viewModel.viewPagerController = ViewPagerController(0)
-            viewModel.overflowController = OverflowController(viewModel)
             viewModel.compositeTagController = CompositeTagController(TagController(), TagController(), tags)
             return viewModel as T
         }

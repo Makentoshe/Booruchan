@@ -4,14 +4,14 @@ import android.graphics.Color
 import android.view.View
 import android.widget.RelativeLayout
 import com.makentoshe.booruchan.R
-import com.makentoshe.booruchan.postpreviews.PostsFragmentViewModel
 import com.makentoshe.booruchan.postpreviews.animations.CoverHideAnimator
 import com.makentoshe.booruchan.postpreviews.animations.CoverShowAnimator
 import com.makentoshe.booruchan.postpreviews.model.OverflowController
+import com.makentoshe.booruchan.postpreviews.model.OverflowRxController
 import org.jetbrains.anko.*
 
 class PostsFragmentUiContentCover(
-    private val postsFragmentViewModel: PostsFragmentViewModel
+    private val overflowController: OverflowController
 ) : AnkoComponent<RelativeLayout> {
 
     override fun createView(ui: AnkoContext<RelativeLayout>): View = with(ui) {
@@ -27,21 +27,17 @@ class PostsFragmentUiContentCover(
     }
 
     private fun _FrameLayout.addOverflowListener() {
-        postsFragmentViewModel.addOnOverflowStateChangedListener {
+        overflowController.onOverflowStateChangedListener {
             onTransition {
                 when (it.finishState) {
-                    OverflowController.OverflowState.Cross ->
+                    OverflowRxController.OverflowState.Cross ->
                         CoverShowAnimator(this@addOverflowListener, it.transitionDuration).animate()
-                    OverflowController.OverflowState.Magnify ->
+                    OverflowRxController.OverflowState.Magnify ->
                         CoverHideAnimator(this@addOverflowListener, it.transitionDuration).animate()
                 }
             }
         }
     }
 
-    private fun onCoverClick(ignored: View) {
-        if (postsFragmentViewModel.overflowState == OverflowController.OverflowState.Cross) {
-            postsFragmentViewModel.clickOverflowIcon()
-        }
-    }
+    private fun onCoverClick(ignored: View) = overflowController.toMagnify()
 }

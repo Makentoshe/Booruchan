@@ -16,6 +16,7 @@ import com.makentoshe.booruchan.postpreviews.animations.SearchHideAnimator
 import com.makentoshe.booruchan.postpreviews.animations.SearchShowAnimator
 import com.makentoshe.booruchan.postpreviews.model.ClearIconController
 import com.makentoshe.booruchan.postpreviews.model.OverflowController
+import com.makentoshe.booruchan.postpreviews.model.OverflowRxController
 import org.jetbrains.anko.*
 import org.jetbrains.anko.cardview.v7.cardView
 import org.jetbrains.anko.sdk27.coroutines.onEditorAction
@@ -23,7 +24,8 @@ import org.jetbrains.anko.sdk27.coroutines.textChangedListener
 
 class PostsFragmentUiContentSearch(
     private val postsFragmentViewModel: PostsFragmentViewModel,
-    private val clearIconController: ClearIconController
+    private val clearIconController: ClearIconController,
+    private val overflowController: OverflowController
 ) : AnkoComponent<RelativeLayout> {
 
     private val style = Booruchan.INSTANCE.style
@@ -82,21 +84,21 @@ class PostsFragmentUiContentSearch(
                     addTagToListOfSelectedTags(Tag(text.toString()))
                 }
                 postsFragmentViewModel.startNewSearch()
-                postsFragmentViewModel.clickOverflowIcon()
+                overflowController.toMagnify()
             }
         }
     }
 
     private fun DelayAutocompleteEditText.addOverflowListener(parent: RelativeLayout) {
-        postsFragmentViewModel.addOnOverflowStateChangedListener {
+        overflowController.onOverflowStateChangedListener {
             onTransition {
                 when (it.finishState) {
-                    OverflowController.OverflowState.Magnify -> Handler(Looper.getMainLooper()).postAtFrontOfQueue {
+                    OverflowRxController.OverflowState.Magnify -> Handler(Looper.getMainLooper()).postAtFrontOfQueue {
                         SearchHideAnimator(parent, it.transitionDuration).animate()
                         this@addOverflowListener.clearFocus()
                         hideKeyboard(context, this@addOverflowListener)
                     }
-                    OverflowController.OverflowState.Cross -> Handler(Looper.getMainLooper()).postAtFrontOfQueue {
+                    OverflowRxController.OverflowState.Cross -> Handler(Looper.getMainLooper()).postAtFrontOfQueue {
                         SearchShowAnimator(parent, it.transitionDuration).animate()
                         this@addOverflowListener.requestFocus()
                         showKeyboard(context, this@addOverflowListener)

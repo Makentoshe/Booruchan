@@ -14,10 +14,12 @@ import com.makentoshe.booruchan.postpreviews.animations.OverflowToMagnifyAnimato
 import com.makentoshe.booruchan.postpreviews.animations.ToolbarHideElevationAnimator
 import com.makentoshe.booruchan.postpreviews.animations.ToolbarShowElevationAnimator
 import com.makentoshe.booruchan.postpreviews.model.OverflowController
+import com.makentoshe.booruchan.postpreviews.model.OverflowRxController
 import org.jetbrains.anko.*
 
 class PostsFragmentUiToolbar(
-    private val postsFragmentViewModel: PostsFragmentViewModel
+    private val postsFragmentViewModel: PostsFragmentViewModel,
+    private val overflowController: OverflowController
 ) : AnkoComponent<RelativeLayout> {
 
     private val style = Booruchan.INSTANCE.style
@@ -78,17 +80,17 @@ class PostsFragmentUiToolbar(
         addRule(RelativeLayout.CENTER_VERTICAL)
     }
 
-    private fun onOverflowIconClick(ignored: View) = postsFragmentViewModel.clickOverflowIcon()
+    private fun onOverflowIconClick(ignored: View) = overflowController.clickOverflowIcon()
 
     private fun _RelativeLayout.addOverflowListener(overflowImageView: ImageView) {
-        postsFragmentViewModel.addOnOverflowStateChangedListener {
+        overflowController.onOverflowStateChangedListener {
             onTransition {
                 when (it.finishState) {
-                    OverflowController.OverflowState.Magnify -> Handler(Looper.getMainLooper()).postAtFrontOfQueue {
+                    OverflowRxController.OverflowState.Magnify -> Handler(Looper.getMainLooper()).postAtFrontOfQueue {
                         OverflowToMagnifyAnimator(overflowImageView, style).animate()
                         ToolbarShowElevationAnimator(this@addOverflowListener, it.transitionDuration).animate()
                     }
-                    OverflowController.OverflowState.Cross -> Handler(Looper.getMainLooper()).postAtFrontOfQueue {
+                    OverflowRxController.OverflowState.Cross -> Handler(Looper.getMainLooper()).postAtFrontOfQueue {
                         OverflowToCrossAnimator(overflowImageView, style).animate()
                         ToolbarHideElevationAnimator(this@addOverflowListener, it.transitionDuration).animate()
                     }
