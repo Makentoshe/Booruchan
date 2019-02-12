@@ -6,7 +6,7 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.subjects.BehaviorSubject
 import java.io.Serializable
 
-class DrawerControllerImpl : RxController<DrawerListener, DrawerState>, Serializable {
+class DrawerRxController : RxController<DrawerListener, DrawerState>, Serializable {
     private val observable = BehaviorSubject.create<DrawerState>()
     private val disposables = CompositeDisposable()
 

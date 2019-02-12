@@ -4,38 +4,38 @@ import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
 
-class DrawerControllerImplTest {
+class DrawerRxControllerTest {
 
-    private lateinit var drawerController: DrawerControllerImpl
+    private lateinit var drawerRxController: DrawerRxController
 
     @Before
     fun init() {
-        drawerController = DrawerControllerImpl()
+        drawerRxController = DrawerRxController()
     }
 
     @Test
     fun `should call onClose when close event happened`() {
         var flag = false
-        drawerController.subscribe { onClose { flag = true } }
-        drawerController.closeDrawer()
+        drawerRxController.subscribe { onClose { flag = true } }
+        drawerRxController.closeDrawer()
         assertTrue(flag)
-        assertEquals(DrawerState.DrawerClose, drawerController.state)
+        assertEquals(DrawerState.DrawerClose, drawerRxController.state)
 
     }
 
     @Test
     fun `should call onOpen when open event happened`() {
         var flag = false
-        drawerController.subscribe { onOpen { flag = true } }
-        drawerController.openDrawer()
+        drawerRxController.subscribe { onOpen { flag = true } }
+        drawerRxController.openDrawer()
         assertTrue(flag)
-        assertEquals(DrawerState.DrawerOpen, drawerController.state)
+        assertEquals(DrawerState.DrawerOpen, drawerRxController.state)
     }
 
     @Test
     fun `should remove all subscribers on clear`() {
         var flag = false
-        drawerController.subscribe {
+        drawerRxController.subscribe {
             onOpen {
                 flag = true
             }
@@ -43,10 +43,10 @@ class DrawerControllerImplTest {
                 flag = false
             }
         }
-        drawerController.openDrawer()
+        drawerRxController.openDrawer()
         assertTrue(flag)
-        drawerController.clear()
-        drawerController.closeDrawer()
+        drawerRxController.clear()
+        drawerRxController.closeDrawer()
         assertTrue(flag)
     }
 }
