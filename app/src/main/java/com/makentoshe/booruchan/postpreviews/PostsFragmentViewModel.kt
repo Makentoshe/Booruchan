@@ -22,7 +22,6 @@ class PostsFragmentViewModel : com.makentoshe.viewmodel.ViewModel() {
     private lateinit var drawerController: DrawerController
     /* tags for default(on the startup) search */
     private lateinit var tags: Set<Tag>
-    private lateinit var clearIconController: ClearIconController
     private lateinit var overflowController: OverflowController
     private lateinit var searchController: SearchController
     private lateinit var compositeTagController: CompositeTagController
@@ -34,12 +33,6 @@ class PostsFragmentViewModel : com.makentoshe.viewmodel.ViewModel() {
     fun clickDrawerMenuIcon() = when (drawerController.state) {
         is DrawerState.DrawerOpen -> drawerController.closeDrawer()
         is DrawerState.DrawerClose -> drawerController.openDrawer()
-    }
-
-    fun clickClearIcon() = clearIconController.click()
-
-    fun addOnClearIconClickListener(action: () -> Unit) {
-        clearIconController.subscribe { action() }
     }
 
     val overflowState: OverflowController.OverflowState?
@@ -91,7 +84,6 @@ class PostsFragmentViewModel : com.makentoshe.viewmodel.ViewModel() {
 
     override fun onCreateView(owner: Fragment) {
         overflowController.update()
-        clearIconController.clear()
         searchController.update(tags)
         compositeTagController.clear()
         viewPagerController.clear()
@@ -100,7 +92,6 @@ class PostsFragmentViewModel : com.makentoshe.viewmodel.ViewModel() {
     override fun onCleared() {
         super.onCleared()
         overflowController.clear()
-        clearIconController.clear()
         compositeTagController.clear()
         viewPagerController.clear()
         searchController.clear()
@@ -126,7 +117,6 @@ class PostsFragmentViewModel : com.makentoshe.viewmodel.ViewModel() {
             viewModel.booru = booru
             viewModel.tags = tags
             viewModel.drawerController = drawerController
-            viewModel.clearIconController = ClearIconController()
             viewModel.searchController = SearchController()
             viewModel.viewPagerController = ViewPagerController(0)
             viewModel.overflowController = OverflowController(viewModel)

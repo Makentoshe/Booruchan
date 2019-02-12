@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.makentoshe.booruapi.Booru
 import com.makentoshe.booruapi.Tag
@@ -14,18 +15,25 @@ import org.jetbrains.anko.AnkoContext
 class PostsFragment : androidx.fragment.app.Fragment() {
 
     private lateinit var viewModel: PostsFragmentViewModel
+    private lateinit var clearIconViewModel: ClearIconViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val arguments = Companion.arguments
-        val factory = PostsFragmentViewModel.Factory(arguments.booru, arguments.tags, arguments.drawerController)
+        var factory: ViewModelProvider.NewInstanceFactory =
+            PostsFragmentViewModel.Factory(arguments.booru, arguments.tags, arguments.drawerController)
         viewModel = ViewModelProviders.of(this, factory)[PostsFragmentViewModel::class.java]
+
+        factory = ClearIconViewModel.Factory()
+        clearIconViewModel = ViewModelProviders.of(this, factory)[ClearIconViewModel::class.java]
 
         super.onCreate(savedInstanceState)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         viewModel.onCreateView(this)
-        return PostsFragmentUI(viewModel).createView(AnkoContext.create(requireContext(), this))
+        clearIconViewModel.onCreateView(this)
+
+        return PostsFragmentUI(viewModel, clearIconViewModel).createView(AnkoContext.create(requireContext(), this))
     }
 
     companion object {

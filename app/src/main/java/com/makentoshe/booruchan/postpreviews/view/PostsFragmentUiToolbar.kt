@@ -6,7 +6,8 @@ import android.view.Gravity
 import android.view.View
 import android.widget.ImageView
 import android.widget.RelativeLayout
-import com.makentoshe.booruchan.*
+import com.makentoshe.booruchan.Booruchan
+import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.postpreviews.PostsFragmentViewModel
 import com.makentoshe.booruchan.postpreviews.animations.OverflowToCrossAnimator
 import com.makentoshe.booruchan.postpreviews.animations.OverflowToMagnifyAnimator

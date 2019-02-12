@@ -3,12 +3,16 @@ package com.makentoshe.booruchan.postpreviews.view
 import com.makentoshe.booruchan.Booruchan
 import com.makentoshe.booruchan.postpreviews.PostsFragment
 import com.makentoshe.booruchan.postpreviews.PostsFragmentViewModel
+import com.makentoshe.booruchan.postpreviews.model.ClearIconController
 import org.jetbrains.anko.AnkoComponent
 import org.jetbrains.anko.AnkoContext
 import org.jetbrains.anko.backgroundColorResource
 import org.jetbrains.anko.relativeLayout
 
-class PostsFragmentUI(private val postsFragmentViewModel: PostsFragmentViewModel) : AnkoComponent<PostsFragment> {
+class PostsFragmentUI(
+    private val postsFragmentViewModel: PostsFragmentViewModel,
+    private val clearIconController: ClearIconController
+) : AnkoComponent<PostsFragment> {
 
     private val style = Booruchan.INSTANCE.style
 
@@ -19,7 +23,7 @@ class PostsFragmentUI(private val postsFragmentViewModel: PostsFragmentViewModel
             PostsFragmentUiToolbar(postsFragmentViewModel)
                 .createView(AnkoContext.createDelegate(this))
 
-            PostsFragmentUiContent(postsFragmentViewModel, ui.owner.childFragmentManager)
+            PostsFragmentUiContent(postsFragmentViewModel, ui.owner.childFragmentManager, clearIconController)
                 .createView(AnkoContext.createDelegate(this))
         }
     }

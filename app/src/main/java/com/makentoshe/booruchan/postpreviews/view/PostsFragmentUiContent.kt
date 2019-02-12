@@ -5,11 +5,13 @@ import android.widget.RelativeLayout
 import androidx.fragment.app.FragmentManager
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.postpreviews.PostsFragmentViewModel
+import com.makentoshe.booruchan.postpreviews.model.ClearIconController
 import org.jetbrains.anko.*
 
 class PostsFragmentUiContent(
     private val postsFragmentViewModel: PostsFragmentViewModel,
-    private val fragmentManager: FragmentManager
+    private val fragmentManager: FragmentManager,
+    private val clearIconController: ClearIconController
 ) : AnkoComponent<RelativeLayout> {
 
     override fun createView(ui: AnkoContext<RelativeLayout>): View = with(ui) {
@@ -19,7 +21,7 @@ class PostsFragmentUiContent(
             PostsFragmentUiContentCover(postsFragmentViewModel)
                 .createView(AnkoContext.createDelegate(this))
 
-            PostsFragmentUiContentSearch(postsFragmentViewModel)
+            PostsFragmentUiContentSearch(postsFragmentViewModel, clearIconController)
                 .createView(AnkoContext.createDelegate(this))
 
             PostsFragmentUiContentViewpager(postsFragmentViewModel, fragmentManager)

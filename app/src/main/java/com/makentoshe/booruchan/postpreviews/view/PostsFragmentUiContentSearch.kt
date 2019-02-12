@@ -14,6 +14,7 @@ import com.makentoshe.booruchan.*
 import com.makentoshe.booruchan.postpreviews.PostsFragmentViewModel
 import com.makentoshe.booruchan.postpreviews.animations.SearchHideAnimator
 import com.makentoshe.booruchan.postpreviews.animations.SearchShowAnimator
+import com.makentoshe.booruchan.postpreviews.model.ClearIconController
 import com.makentoshe.booruchan.postpreviews.model.OverflowController
 import org.jetbrains.anko.*
 import org.jetbrains.anko.cardview.v7.cardView
@@ -21,7 +22,8 @@ import org.jetbrains.anko.sdk27.coroutines.onEditorAction
 import org.jetbrains.anko.sdk27.coroutines.textChangedListener
 
 class PostsFragmentUiContentSearch(
-    private val postsFragmentViewModel: PostsFragmentViewModel
+    private val postsFragmentViewModel: PostsFragmentViewModel,
+    private val clearIconController: ClearIconController
 ) : AnkoComponent<RelativeLayout> {
 
     private val style = Booruchan.INSTANCE.style
@@ -34,7 +36,6 @@ class PostsFragmentUiContentSearch(
             elevation = dip(4).toFloat()
             translationY = -(dip(56).toFloat() + elevation)
             backgroundColorResource = style.toolbar.primaryColorRes
-//            setOnClickListener { /* just handle */ }
             setPadding(dip(8), 0, dip(8), 0)
             editTextContainerView(this)
             tagsContainerView()
@@ -106,9 +107,7 @@ class PostsFragmentUiContentSearch(
     }
 
     private fun DelayAutocompleteEditText.addOnClearClickListener() {
-        postsFragmentViewModel.addOnClearIconClickListener {
-            setText("")
-        }
+        clearIconController.onClearIconClickListener { setText("") }
     }
 
     private fun DelayAutocompleteEditText.addOnSpaceClickListener() {
@@ -158,7 +157,7 @@ class PostsFragmentUiContentSearch(
         }
     }
 
-    private fun onClearIconClick(ignored: View) = postsFragmentViewModel.clickClearIcon()
+    private fun onClearIconClick(ignored: View) = clearIconController.clearIconClick()
 
     private fun _RelativeLayout.tagsContainerView() {
         chipGroup {
