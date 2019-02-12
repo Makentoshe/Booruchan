@@ -70,12 +70,6 @@ class AppActivity : AppCompatActivity() {
         )
     }
 
-    override fun onStart() {
-        super.onStart()
-        permissionCheckerSubscribe()
-        notificationSubscribe()
-    }
-
     private fun permissionCheckerSubscribe() {
         permissionChecker.handlePermissionRequest {
             val status = ContextCompat.checkSelfPermission(this, it)
@@ -86,6 +80,7 @@ class AppActivity : AppCompatActivity() {
 
     private fun notificationSubscribe() {
         innerNotificationRxController.subscribe {
+            println("Sas")
             val duration = if (it.duration < -2) Snackbar.LENGTH_LONG else it.duration
             val snackbar = Snackbar.make(root, it.message, duration)
             val action = it.action
@@ -104,19 +99,17 @@ class AppActivity : AppCompatActivity() {
         permissionChecker.sendPermissionResult(grantResults[0] == PackageManager.PERMISSION_GRANTED)
     }
 
-    override fun onStop() {
-        super.onStop()
-        permissionChecker.clear()
-        innerNotificationRxController.clear()
-    }
-
     override fun onResume() {
         super.onResume()
+        notificationSubscribe()
+        permissionCheckerSubscribe()
         Booruchan.INSTANCE.navigatorHolder.setNavigator(navigator)
     }
 
     override fun onPause() {
         super.onPause()
+        permissionChecker.clear()
+        innerNotificationRxController.clear()
         Booruchan.INSTANCE.navigatorHolder.removeNavigator()
     }
 

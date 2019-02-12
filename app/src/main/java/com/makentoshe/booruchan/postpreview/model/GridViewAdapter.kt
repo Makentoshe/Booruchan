@@ -11,16 +11,38 @@ import android.widget.BaseAdapter
 import com.makentoshe.booruapi.Post
 import com.makentoshe.booruapi.Posts
 import com.makentoshe.booruchan.R
+import com.makentoshe.booruchan.postpreview.PostPageFragmentViewModel
+import com.makentoshe.repository.Repository
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.disposables.Disposable
+import kotlinx.coroutines.CoroutineScope
 import org.jetbrains.anko.*
 import org.jetbrains.anko.cardview.v7.cardView
 
+/**
+ * Adapter for the [android.widget.GridView]. Displays a post images.
+ *
+ * @param posts is a list of the [Post] instances. Each post contains the data for
+ * preview image getting from the [previewsRepository].
+ * @param previewsRepository contains the preview images.
+ * @param coroutineScope for getting a preview images from [previewsRepository] in another thread.
+ * @param disposables [Disposable]s container. After each onClear or onCreateView event container
+ * will be cleared and all objects will be disposed.
+ */
 class GridViewAdapter(
     private val posts: Posts,
-    private val previewsDownloadController: PreviewsDownloadController
+    private val previewsRepository: Repository<String, ByteArray>,
+    private val coroutineScope: CoroutineScope,
+    private val disposables: CompositeDisposable
 ) : BaseAdapter() {
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-        return convertView ?: PreviewUi(getItem(position), previewsDownloadController).createView(parent.context)
+        return convertView ?: PreviewUi(
+            getItem(position),
+            disposables,
+            previewsRepository,
+            coroutineScope
+        ).createView(parent.context)
     }
 
     override fun getItem(position: Int) = posts[position]
@@ -31,8 +53,14 @@ class GridViewAdapter(
 
     private class PreviewUi(
         private val post: Post,
-        private val previewsImageDownloadController: PreviewsDownloadController
+        private val disposables: CompositeDisposable,
+        previewsRepository: Repository<String, ByteArray>,
+        coroutineScope: CoroutineScope
     ) {
+
+        val imageDownloadController = ImageDownloadController(coroutineScope, previewsRepository).apply {
+            action(post.previewUrl)
+        }
 
         fun createView(context: Context): View = with(context) {
             cardView {
@@ -45,17 +73,16 @@ class GridViewAdapter(
                     imageView {
                         id = R.id.preview
 
-                        previewsImageDownloadController.subscribe {
+                        val disposable = imageDownloadController.subscribe {
                             if (it.hasData()) {
-                                if (it.data.first == post.previewUrl) {
-                                    val byteArray = it.data.second
-                                    val bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.size)
-                                    Handler(Looper.getMainLooper()).post { setImageBitmap(bitmap) }
-                                }
+                                val byteArray = it.data
+                                val bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.size)
+                                Handler(Looper.getMainLooper()).post { setImageBitmap(bitmap) }
                             } else {
                                 TODO("Error: ${it.exception}")
                             }
                         }
+                        disposables.add(disposable)
 
                     }.lparams(matchParent, matchParent)
                 }
