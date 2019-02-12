@@ -9,16 +9,16 @@ import com.makentoshe.booruchan.Navigator
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.account.AccountScreen
 import com.makentoshe.booruchan.booru.model.ContentScreenController
-import com.makentoshe.booruchan.booru.model.ContentScreenControllerImpl
+import com.makentoshe.booruchan.booru.model.ContentScreenRxController
 import com.makentoshe.booruchan.booru.model.DrawerController
 import com.makentoshe.booruchan.postpreviews.PostsScreen
 import com.makentoshe.viewmodel.ViewModel
 
 /**
- * Class wraps [ContentScreenControllerImpl] and realize [ContentScreenController] interface.
+ * Class wraps [ContentScreenRxController] and realize [ContentScreenController] interface.
  */
 class ContentScreenViewModel private constructor(
-    private val contentScreenController: ContentScreenControllerImpl
+    private val contentScreenController: ContentScreenRxController
 ) : ViewModel(), ContentScreenController {
     /* Current selected booru instance where the user is */
     private lateinit var booru: Booru
@@ -28,10 +28,10 @@ class ContentScreenViewModel private constructor(
     private lateinit var tags: Set<Tag>
 
     /** Performs content screen change to the PostsScreen */
-    override fun onPostsClicked() = contentScreenController.newScreen(newPostsScreen())
+    override fun onPostsClicked() = contentScreenController.action(newPostsScreen())
 
     /** Performs content screen change to the AccountScreen */
-    override fun onAccountClicked() = contentScreenController.newScreen(newAccountScreen())
+    override fun onAccountClicked() = contentScreenController.action(newAccountScreen())
 
     /* Calls when the onCreateView called in the owner */
     override fun onCreateView(owner: Fragment) {
@@ -71,7 +71,7 @@ class ContentScreenViewModel private constructor(
         private val tags: Set<Tag>
     ) : ViewModelProvider.NewInstanceFactory() {
         override fun <T : androidx.lifecycle.ViewModel?> create(modelClass: Class<T>): T {
-            val viewModel = ContentScreenViewModel(ContentScreenControllerImpl())
+            val viewModel = ContentScreenViewModel(ContentScreenRxController())
 
             viewModel.booru = booru
             viewModel.drawerController = drawerController
