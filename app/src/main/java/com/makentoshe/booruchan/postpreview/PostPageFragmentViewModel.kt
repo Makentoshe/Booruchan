@@ -69,7 +69,7 @@ class PostPageFragmentViewModel private constructor() : ViewModel() {
         private val postsRepository: Repository<Booru.PostRequest, Posts>,
         private val previewsRepository: Repository<String, ByteArray>,
         private val sampleImageRepository: Repository<String, ByteArray>,
-        private val tags: Set<Tag> = setOf()
+        private val tags: Set<Tag>
     ) : ViewModelProvider.NewInstanceFactory() {
         override fun <T : androidx.lifecycle.ViewModel?> create(modelClass: Class<T>): T {
             val viewModel = PostPageFragmentViewModel()

@@ -8,43 +8,67 @@ import android.widget.TextView
 import androidx.lifecycle.ViewModelProviders
 import com.makentoshe.booruapi.Booru
 import com.makentoshe.booruapi.Posts
+import com.makentoshe.booruapi.Tag
 import com.makentoshe.booruchan.Fragment
-import com.makentoshe.repository.PostsRepository
-import com.makentoshe.repository.PreviewImageRepository
+import com.makentoshe.booruchan.postpreview.view.PostPageFragmentUi
 import com.makentoshe.repository.Repository
 import com.makentoshe.repository.SampleImageRepository
+import org.jetbrains.anko.AnkoContext
 
 class PostPageFragment : Fragment<PostPageFragmentViewModel>() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
-        return TextView(context).apply {
-            viewModel.addOnPostsReceiveListener {
-                text = it.data.toString()
-            }
-        }
-//        return PostPageFragmentUi(viewModel)
-//            .createView(AnkoContext.create(requireContext(), this))
+        return PostPageFragmentUi(viewModel)
+            .createView(AnkoContext.create(requireContext(), this))
     }
 
     override fun buildViewModel(arguments: Bundle): PostPageFragmentViewModel {
-        val booru = arguments.getSerializable(Booru::class.java.simpleName) as Booru
         val position = arguments.getInt(PostPageFragment::class.java.simpleName)
-        val postsRepository =
-            arguments.getSerializable(PostsRepository::class.java.simpleName) as Repository<Booru.PostRequest, Posts>
-        val previewsRepository =
-            arguments.getSerializable(PreviewImageRepository::class.java.simpleName) as Repository<String, ByteArray>
-        val sampleImageRepository =
-            arguments.getSerializable(SampleImageRepository::class.java.simpleName) as SampleImageRepository
+
+        val arguments = Companion.arguments[position]!!
 
         val factory = PostPageFragmentViewModel.Factory(
-            booru,
+            arguments.booru,
             position,
-            postsRepository,
-            previewsRepository,
-            sampleImageRepository
+            arguments.postsRepository,
+            arguments.previewsRepository,
+            arguments.samplesRepository,
+            arguments.tags
         )
         return ViewModelProviders.of(this, factory)[PostPageFragmentViewModel::class.java]
     }
 
+    companion object {
+        fun create(
+            booru: Booru,
+            position: Int,
+            postsRepository: Repository<Booru.PostRequest, Posts>,
+            previewsRepository: Repository<String, ByteArray>,
+            samplesRepository: SampleImageRepository,
+            tags: Set<Tag>
+        ): androidx.fragment.app.Fragment {
+
+            arguments[position] = ArgumentsHolder(
+                booru, postsRepository, previewsRepository, samplesRepository, tags
+            )
+
+            return PostPageFragment().apply {
+                arguments = Bundle().apply {
+                    putInt(Int::class.java.simpleName, position)
+                }
+            }
+        }
+
+        private val arguments = HashMap<Int, ArgumentsHolder>()
+    }
+
 }
+
+data class ArgumentsHolder(
+    val booru: Booru,
+    val postsRepository: Repository<Booru.PostRequest, Posts>,
+    val previewsRepository: Repository<String, ByteArray>,
+    val samplesRepository: SampleImageRepository,
+    val tags: Set<Tag>
+)
