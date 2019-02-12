@@ -4,13 +4,13 @@ import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
 
-class DrawerControllerTest {
+class DrawerControllerImplTest {
 
-    private lateinit var drawerController: DrawerController
+    private lateinit var drawerController: DrawerControllerImpl
 
     @Before
     fun init() {
-        drawerController = DrawerController()
+        drawerController = DrawerControllerImpl()
     }
 
     @Test

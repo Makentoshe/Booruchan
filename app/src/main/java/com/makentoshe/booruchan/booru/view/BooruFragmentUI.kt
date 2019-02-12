@@ -5,15 +5,18 @@ import androidx.core.view.GravityCompat
 import com.makentoshe.booruchan.Booruchan
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.booru.BooruFragment
-import com.makentoshe.booruchan.booru.BooruFragmentViewModel
+import com.makentoshe.booruchan.booru.model.ContentScreenController
+import com.makentoshe.booruchan.booru.model.DrawerController
 import org.jetbrains.anko.*
 import org.jetbrains.anko.sdk27.coroutines.onClick
 import org.jetbrains.anko.support.v4._DrawerLayout
 import org.jetbrains.anko.support.v4.drawerLayout
 import org.jetbrains.anko.support.v4.drawerListener
 
-class BooruFragmentUI(private val booruFragmentViewModel: BooruFragmentViewModel) :
-    AnkoComponent<BooruFragment> {
+class BooruFragmentUI(
+    private val contentScreenController: ContentScreenController,
+    private val drawerController: DrawerController
+) : AnkoComponent<BooruFragment> {
 
     private val style = Booruchan.INSTANCE.style
 
@@ -22,13 +25,13 @@ class BooruFragmentUI(private val booruFragmentViewModel: BooruFragmentViewModel
             id = R.id.booru_drawer
             createContent()
             createPanel()
-            booruFragmentViewModel.addDrawerListener {
+            drawerController.addDrawerListener {
                 onClose { closeDrawer(GravityCompat.START) }
                 onOpen { openDrawer(GravityCompat.START) }
             }
             drawerListener {
-                onDrawerOpened { booruFragmentViewModel.openDrawer() }
-                onDrawerClosed { booruFragmentViewModel.closeDrawer() }
+                onDrawerOpened { drawerController.openDrawer() }
+                onDrawerClosed { drawerController.closeDrawer() }
             }
         }
     }
@@ -48,14 +51,14 @@ class BooruFragmentUI(private val booruFragmentViewModel: BooruFragmentViewModel
             button(R.string.posts) {
                 id = R.id.booru_drawer_panel_posts
                 onClick {
-                    booruFragmentViewModel.onPostsClicked()
+                    contentScreenController.onPostsClicked()
                 }
             }.lparams(width = matchParent)
 
             button(R.string.account) {
                 id = R.id.booru_drawer_panel_account
                 onClick {
-                    booruFragmentViewModel.onAccountClicked()
+                    contentScreenController.onAccountClicked()
                 }
             }.lparams(width = matchParent)
 

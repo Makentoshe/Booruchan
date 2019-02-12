@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.makentoshe.booruapi.Booru
 import com.makentoshe.booruapi.Tag
@@ -13,20 +15,26 @@ import org.jetbrains.anko.AnkoContext
 
 class BooruFragment : androidx.fragment.app.Fragment() {
 
-    private lateinit var viewModel: BooruFragmentViewModel
+    private lateinit var drawerViewModel: DrawerViewModel
+    private lateinit var contentScreenViewModel: ContentScreenViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val arguments = Companion.arguments
-        val factory = BooruFragmentViewModel.Factory(arguments.booru, arguments.tags)
-        viewModel = ViewModelProviders.of(this, factory)[BooruFragmentViewModel::class.java]
-
+        //create drawer controller
+        var factory: ViewModelProvider.NewInstanceFactory = DrawerViewModel.Factory()
+        drawerViewModel = ViewModelProviders.of(this, factory)[DrawerViewModel::class.java]
+        //create content screens controller
+        factory = ContentScreenViewModel.Factory(arguments.booru, drawerViewModel, arguments.tags)
+        contentScreenViewModel = ViewModelProviders.of(this, factory)[ContentScreenViewModel::class.java]
         super.onCreate(savedInstanceState)
     }
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        viewModel.onCreateView(this)
-        return BooruFragmentUI(viewModel)
+        contentScreenViewModel.onCreateView(this)
+        drawerViewModel.onCreateView(this)
+
+        return BooruFragmentUI(contentScreenViewModel, drawerViewModel)
             .createView(AnkoContext.create(requireContext(), this))
     }
 
@@ -38,6 +46,7 @@ class BooruFragment : androidx.fragment.app.Fragment() {
         }
 
         private lateinit var arguments: Arguments
+
         private data class Arguments(val booru: Booru, val tags: Set<Tag>)
     }
 }

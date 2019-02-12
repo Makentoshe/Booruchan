@@ -31,12 +31,9 @@ class PostsFragmentViewModel : com.makentoshe.viewmodel.ViewModel() {
     val booruTitle: String
         get() = booru.title
 
-    fun clickDrawerMenuIcon() {
-        if (drawerController.state == null) return drawerController.openDrawer()
-        when (drawerController.state) {
-            is DrawerState.DrawerOpen -> drawerController.closeDrawer()
-            is DrawerState.DrawerClose -> drawerController.openDrawer()
-        }
+    fun clickDrawerMenuIcon() = when (drawerController.state) {
+        is DrawerState.DrawerOpen -> drawerController.closeDrawer()
+        is DrawerState.DrawerClose -> drawerController.openDrawer()
     }
 
     fun clickClearIcon() = clearIconController.click()
