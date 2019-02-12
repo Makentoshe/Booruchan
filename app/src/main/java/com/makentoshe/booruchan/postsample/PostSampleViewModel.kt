@@ -120,16 +120,16 @@ class PostSampleViewModel private constructor() : ViewModel() {
     ) : ViewModelProvider.NewInstanceFactory() {
         override fun <T : androidx.lifecycle.ViewModel?> create(modelClass: Class<T>): T {
             val viewModel = PostSampleViewModel()
-            val postsDownloadRxController = PostsDownloadRxController(viewModel, postsRepository)
+//            val postsDownloadRxController = PostsDownloadRxController(viewModel, postsRepository)
             val samplesDownloadRxController =
                 SampleDownloadController(viewModel, samplesRepository)
             val downloadingCompleteRxController = DownloadingCompleteRxController()
 
             viewModel.position = position
-            viewModel.itemPosition = position % postsRepository.count
-            viewModel.pagePosition = position / postsRepository.count
-            viewModel.downloadErrorController = DownloadErrorController()
-            viewModel.postsDownloadRxController = postsDownloadRxController
+//            viewModel.itemPosition = position % postsRepository.count
+//            viewModel.pagePosition = position / postsRepository.count
+//            viewModel.downloadErrorController = DownloadErrorController()
+//            viewModel.postsDownloadRxController = postsDownloadRxController
             viewModel.samplesDownloadController = samplesDownloadRxController
             viewModel.downloadingCompleteRxController = downloadingCompleteRxController
 

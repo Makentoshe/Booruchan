@@ -39,7 +39,7 @@ class AppActivity : AppCompatActivity() {
             router.rootStartScreen()
 //            router.rootPostSamplesScreen()
 //            router.rootPostSampleScreen()
-//
+
 //            Booruchan.INSTANCE.router.newRootScreen(PostPageScreen(Booruchan.INSTANCE.boorus[0], 1))
 //            Booruchan.INSTANCE.router.newRootScreen(PostsScreen(Booruchan.INSTANCE.boorus[0]))
 //            Booruchan.INSTANCE.router.newRootScreen(BooruScreen(Booruchan.INSTANCE.boorus[0]))
@@ -50,26 +50,26 @@ class AppActivity : AppCompatActivity() {
         newRootScreen(StartScreen())
     }
 
-    private fun Router.rootPostSampleScreen() {
-        newRootScreen(
-            PostSampleScreen(
-                0,
-                PostsRepository(Booruchan.INSTANCE.booruList[0], Cache.create(12), 12, setOf()),
-                SampleImageRepository(Booruchan.INSTANCE.booruList[0], Cache.create(3))
-            )
-        )
-    }
-
-    private fun Router.rootPostSamplesScreen() {
-        newRootScreen(
-            PostSamplesScreen(
-                2,
-                PostsRepository(Booruchan.INSTANCE.booruList[0], Cache.create(12), 12, setOf()),
-                SampleImageRepository(Booruchan.INSTANCE.booruList[0], Cache.create(3))
-            )
-        )
-    }
-
+//    private fun Router.rootPostSampleScreen() {
+//        newRootScreen(
+//            PostSampleScreen(
+//                0,
+//                PostsRepository(Booruchan.INSTANCE.booruList[0], Cache.create(12), 12, setOf()),
+//                SampleImageRepository(Booruchan.INSTANCE.booruList[0], Cache.create(3))
+//            )
+//        )
+//    }
+//
+//    private fun Router.rootPostSamplesScreen() {
+//        newRootScreen(
+//            PostSamplesScreen(
+//                2,
+//                PostsRepository(Booruchan.INSTANCE.booruList[0], Cache.create(12), 12, setOf()),
+//                SampleImageRepository(Booruchan.INSTANCE.booruList[0], Cache.create(3))
+//            )
+//        )
+//    }
+//
     private fun permissionCheckerSubscribe() {
         permissionChecker.handlePermissionRequest {
             val status = ContextCompat.checkSelfPermission(this, it)

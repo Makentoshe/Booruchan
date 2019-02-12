@@ -5,7 +5,7 @@ import java.lang.IllegalStateException
 import java.util.HashMap
 import java.util.concurrent.ArrayBlockingQueue
 
-open class CacheImpl<K, V> internal constructor(size: Int) : Cache<K, V>, Serializable {
+open class CacheImpl<K, V> internal constructor(size: Int) : ClearableCache<K, V>, Serializable {
 
     protected val keysQueue = ArrayBlockingQueue<K>(size)
     protected val storage = HashMap<K, V>()
@@ -38,4 +38,9 @@ open class CacheImpl<K, V> internal constructor(size: Int) : Cache<K, V>, Serial
     }
 
     override fun getAll(): Collection<V> = storage.values
+
+    override fun clear() {
+        storage.clear()
+        keysQueue.clear()
+    }
 }

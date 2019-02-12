@@ -46,7 +46,7 @@ class FileDownloadService : Service(), CoroutineScope {
 
         var disposable: Disposable? = null
         try {
-            val post = performPostLoading(position, postsRepository)
+            val post = Post()//performPostLoading(position, postsRepository)
             val fileAsBytes = performByteArrayLoading(post, filesRepository)
             disposable = permissionChecker.requestPermisson(Manifest.permission.WRITE_EXTERNAL_STORAGE) {
                 try {
@@ -101,10 +101,10 @@ class FileDownloadService : Service(), CoroutineScope {
     }
 
     /* Returns post file from the posts repository */
-    private fun performPostLoading(position: Int, postsRepository: PostsRepository): Post {
-        val posts = postsRepository.get(position / postsRepository.count)
-        return posts[position % postsRepository.count]
-    }
+//    private fun performPostLoading(position: Int, postsRepository: PostsRepository): Post {
+//        val posts = postsRepository.get(position / postsRepository.count)
+//        return posts[position % postsRepository.count]
+//    }
 
     /* Returns array of a bytes from the files repository */
     private fun performByteArrayLoading(post: Post, fileRepository: Repository<String, ByteArray>): ByteArray {

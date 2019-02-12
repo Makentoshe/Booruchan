@@ -41,8 +41,9 @@ class Gelbooru(private val httpClient: HttpClient) : Booru(GelbooruApi()), Seria
         return JsonTagParser().parse(httpClient.get(api.getAutocompleteRequest(term)).stream())
     }
 
-    override fun getPosts(count: Int, page: Int, tags: Set<Tag>): Posts {
-        return XmlPostsParser().parse(httpClient.get(api.getPostsRequest(count, page, tags)).stream())
+    override fun getPosts(request: PostRequest): Posts {
+        return XmlPostsParser()
+            .parse(httpClient.get(api.getPostsRequest(request.count, request.page, request.tags)).stream())
     }
 
     override fun getPreview(previewUrl: String): InputStream {

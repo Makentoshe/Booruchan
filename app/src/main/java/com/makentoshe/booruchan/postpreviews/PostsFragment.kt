@@ -12,31 +12,31 @@ import com.makentoshe.booruchan.booru.model.DrawerController
 import com.makentoshe.booruchan.postpreviews.view.PostsFragmentUI
 import org.jetbrains.anko.AnkoContext
 
-class PostsFragment : Fragment<PostsFragmentViewModel>() {
+class PostsFragment : androidx.fragment.app.Fragment() {
 
-    override fun buildViewModel(arguments: Bundle): PostsFragmentViewModel {
-        val booru = arguments.getSerializable(Booru::class.java.simpleName) as Booru
-        val drawerController = arguments.getSerializable(DrawerController::class.java.simpleName) as DrawerController
-        val tags = arguments.getSerializable(Set::class.java.simpleName + Tag::class.java.simpleName) as Set<Tag>
+    private lateinit var viewModel: PostsFragmentViewModel
 
-        val factory = PostsFragmentViewModel.Factory(booru, tags, drawerController)
-        return ViewModelProviders.of(this, factory)[PostsFragmentViewModel::class.java]
+    override fun onCreate(savedInstanceState: Bundle?) {
+        val arguments = Companion.arguments
+        val factory = PostsFragmentViewModel.Factory(arguments.booru, arguments.tags, arguments.drawerController)
+        viewModel = ViewModelProviders.of(this, factory)[PostsFragmentViewModel::class.java]
+
+        super.onCreate(savedInstanceState)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        super.onCreateView(inflater, container, savedInstanceState)
-        return PostsFragmentUI(viewModel)
-            .createView(AnkoContext.create(requireContext(), this))
+        viewModel.onCreateView(this)
+        return PostsFragmentUI(viewModel).createView(AnkoContext.create(requireContext(), this))
     }
 
-//    override fun onBackPressed(): Boolean {
-//        if (viewModel.overflowState == OverflowController.OverflowState.Cross) {
-//            viewModel.clickOverflowIcon()
-//            return true
-//        }
-//
-//        //check inner fragment on backpress
-//        val fragment = childFragmentManager.fragments.lastOrNull()
-//        return fragment is Backpressable && fragment.onBackPressed()
-//    }
+    companion object {
+        fun create(booru: Booru, drawerController: DrawerController, tags: Set<Tag>): androidx.fragment.app.Fragment {
+            arguments = Arguments(booru, drawerController, tags)
+            return PostsFragment()
+        }
+
+        private lateinit var arguments: Arguments
+
+        private data class Arguments(val booru: Booru, val drawerController: DrawerController, val tags: Set<Tag>)
+    }
 }

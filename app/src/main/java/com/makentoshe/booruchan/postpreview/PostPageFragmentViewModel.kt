@@ -24,9 +24,9 @@ class PostPageFragmentViewModel private constructor() : ViewModel() {
     private lateinit var router: Router
     private lateinit var booru: Booru
     private var position: Int = -1
-    private lateinit var postsRepository: PostsRepository
+    private lateinit var postsRepository: Repository<Int, Posts>
     private lateinit var postsDownloadRxController: PostsDownloadRxController
-    private lateinit var sampleImageRepository: SampleImageRepository
+    private lateinit var sampleImageRepository: Repository<String, ByteArray>
     private lateinit var previewsRepository: Repository<String, ByteArray>
     private val disposables = CompositeDisposable()
 
@@ -41,8 +41,8 @@ class PostPageFragmentViewModel private constructor() : ViewModel() {
     }
 
     fun navigateToPostDetailsScreen(itemPosition: Int) {
-        val position = itemPosition + this.position * postsRepository.count
-        router.navigateTo(PostSamplesScreen(position, postsRepository, sampleImageRepository))
+//        val position = itemPosition + this.position * postsRepository.count
+//        router.navigateTo(PostSamplesScreen(position, postsRepository, sampleImageRepository))
     }
 
     fun onGridElementLongClick(position: Int): Boolean {
@@ -64,19 +64,19 @@ class PostPageFragmentViewModel private constructor() : ViewModel() {
     class Factory(
         private val booru: Booru,
         private val position: Int,
-        private val postsRepository: PostsRepository,
-        private val previewsRepository: ImageRepository,
-        private val sampleImageRepository: SampleImageRepository
+        private val postsRepository: Repository<Booru.PostRequest, Posts>,
+        private val previewsRepository: Repository<String, ByteArray>,
+        private val sampleImageRepository: Repository<String, ByteArray>
     ) : ViewModelProvider.NewInstanceFactory() {
         override fun <T : androidx.lifecycle.ViewModel?> create(modelClass: Class<T>): T {
             val viewModel = PostPageFragmentViewModel()
-            val postsDownloadRxController = PostsDownloadRxController(viewModel, postsRepository)
+//            val postsDownloadRxController = PostsDownloadRxController(viewModel, postsRepository)
 
             viewModel.previewsRepository = previewsRepository
             viewModel.booru = booru
             viewModel.position = position
-            viewModel.postsRepository = postsRepository
-            viewModel.postsDownloadRxController = postsDownloadRxController
+//            viewModel.postsRepository = postsRepository
+//            viewModel.postsDownloadRxController = postsDownloadRxController
             viewModel.router = Booruchan.INSTANCE.router
             viewModel.sampleImageRepository = sampleImageRepository
 

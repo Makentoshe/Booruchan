@@ -6,10 +6,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager.widget.PagerAdapter
 import com.makentoshe.booruapi.Booru
+import com.makentoshe.booruapi.Posts
 import com.makentoshe.booruapi.Tag
 import com.makentoshe.booruchan.booru.model.DrawerController
 import com.makentoshe.booruchan.booru.model.DrawerState
 import com.makentoshe.booruchan.postpreviews.model.*
+import com.makentoshe.repository.CachedRepository
 import com.makentoshe.repository.PostsRepository
 import com.makentoshe.repository.PreviewImageRepository
 import com.makentoshe.repository.SampleImageRepository
@@ -107,10 +109,12 @@ class PostsFragmentViewModel : com.makentoshe.viewmodel.ViewModel() {
         viewPagerController.clear()
     }
 
-    fun getViewPagerAdapter(fragmentManager: FragmentManager, tags: Set<Tag>): PagerAdapter {
+    fun getViewPagerAdapter(fragmentManager: FragmentManager): PagerAdapter {
         val postsCountInRequest = 12
-        val postsRepository = PostsRepository(booru, Cache.create(5), postsCountInRequest, tags)
-        val previewsRepository = PreviewImageRepository(booru, Cache.create(postsCountInRequest * 3))
+        val postsRepository =
+            CachedRepository<Booru.PostRequest, Posts>(Cache.create(12), PostsRepository(booru))
+        val previewsRepository =
+            CachedRepository<String, ByteArray>(Cache.create(postsCountInRequest * 3), PreviewImageRepository(booru))
         val samplesRepository = SampleImageRepository(booru, Cache.create(3))
         return ViewPagerAdapter(fragmentManager, booru, postsRepository, previewsRepository, samplesRepository)
     }

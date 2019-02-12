@@ -11,31 +11,33 @@ import com.makentoshe.booruchan.Fragment
 import com.makentoshe.booruchan.booru.view.BooruFragmentUI
 import org.jetbrains.anko.AnkoContext
 
-class BooruFragment : Fragment<BooruFragmentViewModel>() {
+class BooruFragment : androidx.fragment.app.Fragment() {
 
-    override fun buildViewModel(arguments: Bundle): BooruFragmentViewModel {
-        val booru = arguments.getSerializable(Booru::class.java.simpleName) as Booru
-        //if was called from sample - the search must be started with this tags
-        val tags = arguments.getSerializable(Tag::class.java.simpleName) as Set<Tag>
+    private lateinit var viewModel: BooruFragmentViewModel
 
-        val factory = BooruFragmentViewModel.Factory(booru, tags)
-        return ViewModelProviders.of(this, factory)[BooruFragmentViewModel::class.java]
+    override fun onCreate(savedInstanceState: Bundle?) {
+        val arguments = Companion.arguments
+        val factory = BooruFragmentViewModel.Factory(arguments.booru, arguments.tags)
+        viewModel = ViewModelProviders.of(this, factory)[BooruFragmentViewModel::class.java]
+
+        super.onCreate(savedInstanceState)
     }
 
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        super.onCreateView(inflater, container, savedInstanceState)
+        viewModel.onCreateView(this)
         return BooruFragmentUI(viewModel)
             .createView(AnkoContext.create(requireContext(), this))
     }
-//
-//    override fun onBackPressed(): Boolean {
-//        //close drawer
-//        if (viewModel.getDrawerState() == DrawerState.DrawerOpen) {
-//            viewModel.closeDrawer()
-//            return true
-//        }
-//        //check inner fragment on backpress
-//        val fragment = childFragmentManager.fragments.last()
-//        return fragment is Backpressable && fragment.onBackPressed()
-//    }
+
+    companion object {
+
+        fun create(booru: Booru, tags: HashSet<Tag>): androidx.fragment.app.Fragment {
+            arguments = Arguments(booru, tags)
+            return BooruFragment()
+        }
+
+        private lateinit var arguments: Arguments
+        private data class Arguments(val booru: Booru, val tags: Set<Tag>)
+    }
 }

@@ -10,6 +10,7 @@ import com.makentoshe.booruchan.postpreview.PostsScreen
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.booru.model.ContentScreenController
 import com.makentoshe.booruchan.booru.model.DrawerController
+import com.makentoshe.controllers.RxController
 import com.makentoshe.viewmodel.ViewModel
 
 class BooruFragmentViewModel private constructor() : ViewModel() {
@@ -52,16 +53,18 @@ class BooruFragmentViewModel private constructor() : ViewModel() {
     }
 
     private fun newPostsScreen(): PostsScreen {
-        return PostsScreen(booru, drawerController, tags.toHashSet())
+        return PostsScreen(booru, drawerController, tags)
     }
 
     class Factory(private val booru: Booru, private val tags: Set<Tag>) : ViewModelProvider.NewInstanceFactory() {
         override fun <T : androidx.lifecycle.ViewModel?> create(modelClass: Class<T>): T {
             val viewModel = BooruFragmentViewModel()
+
             viewModel.drawerController = DrawerController()
             viewModel.contentController = ContentScreenController()
             viewModel.booru = booru
             viewModel.tags = tags
+
             return viewModel as T
         }
     }
