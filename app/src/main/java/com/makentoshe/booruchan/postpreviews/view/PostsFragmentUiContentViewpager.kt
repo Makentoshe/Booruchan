@@ -23,7 +23,7 @@ class PostsFragmentUiContentViewpager(
             viewPager {
                 id = R.id.content_viewpager
                 viewModel.onSearchStartedListener {
-//                    adapter = viewModel.getViewPagerAdapter(fragmentManager, it)
+                    adapter = viewModel.getViewPagerAdapter(fragmentManager, it)
                     viewModel.gotoPage(0)
                 }
 

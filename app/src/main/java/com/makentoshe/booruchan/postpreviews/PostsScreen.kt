@@ -1,4 +1,4 @@
-package com.makentoshe.booruchan.postpreview
+package com.makentoshe.booruchan.postpreviews
 
 import androidx.fragment.app.Fragment
 import com.makentoshe.booruapi.Booru

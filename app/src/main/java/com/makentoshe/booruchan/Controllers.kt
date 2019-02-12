@@ -1,5 +1,6 @@
 package com.makentoshe.booruchan
 
+import com.makentoshe.booruapi.Booru
 import com.makentoshe.booruapi.Posts
 import com.makentoshe.controllers.DownloadRxController
 import com.makentoshe.repository.Repository
@@ -25,8 +26,8 @@ interface Controller<T> {
  */
 open class PostsDownloadRxController(
     coroutineScope: CoroutineScope,
-    private val repository: Repository<Int, Posts>
-): DownloadRxController<Posts, Int>(BehaviorSubject.create(), coroutineScope) {
+    private val repository: Repository<Booru.PostRequest, Posts>
+): DownloadRxController<Posts, Booru.PostRequest>(BehaviorSubject.create(), coroutineScope) {
 
     /**
      * Performs download using [param] and returns [Posts]
@@ -34,7 +35,7 @@ open class PostsDownloadRxController(
      * @param param page index.
      * @return a [Posts] instance which is associated with the [param].
      */
-    override fun performDownload(param: Int): Posts {
+    override fun performDownload(param: Booru.PostRequest): Posts {
         return repository.get(param)!!
     }
 }

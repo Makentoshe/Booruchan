@@ -43,7 +43,7 @@ class PostSampleViewModel private constructor() : ViewModel() {
     * When posts will be loaded the sample image downloading will be started automatically.
     * The result of the image downloading will be send to the onSampleDownloadedListener
     * when downloading is success or onDownloadingErrorListener otherwise.*/
-    fun loadPosts(page: Int) = postsDownloadRxController.action(page)
+//    fun loadPosts(page: Int) = postsDownloadRxController.action(page)
 
     /**
      * Listener for the downloading complete success event.
@@ -133,7 +133,7 @@ class PostSampleViewModel private constructor() : ViewModel() {
             viewModel.samplesDownloadController = samplesDownloadRxController
             viewModel.downloadingCompleteRxController = downloadingCompleteRxController
 
-            viewModel.loadPosts(viewModel.pagePosition)
+//            viewModel.loadPosts(viewModel.pagePosition)
 
             return viewModel as T
         }

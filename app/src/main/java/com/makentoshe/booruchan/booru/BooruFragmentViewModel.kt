@@ -6,11 +6,10 @@ import com.makentoshe.booruapi.Booru
 import com.makentoshe.booruapi.Tag
 import com.makentoshe.booruchan.account.AccountScreen
 import com.makentoshe.booruchan.Navigator
-import com.makentoshe.booruchan.postpreview.PostsScreen
+import com.makentoshe.booruchan.postpreviews.PostsScreen
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.booru.model.ContentScreenController
 import com.makentoshe.booruchan.booru.model.DrawerController
-import com.makentoshe.controllers.RxController
 import com.makentoshe.viewmodel.ViewModel
 
 class BooruFragmentViewModel private constructor() : ViewModel() {
@@ -18,8 +17,6 @@ class BooruFragmentViewModel private constructor() : ViewModel() {
     private lateinit var tags: Set<Tag>
     private lateinit var contentController: ContentScreenController
     private lateinit var drawerController: DrawerController
-
-    fun getDrawerState() = drawerController.state
 
     fun addDrawerListener(init: DrawerController.DrawerListener.() -> Unit) {
         drawerController.subscribe(init)

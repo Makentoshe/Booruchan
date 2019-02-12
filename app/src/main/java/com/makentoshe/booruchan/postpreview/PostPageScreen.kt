@@ -1,11 +1,11 @@
-package com.makentoshe.booruchan.postpreviews
+package com.makentoshe.booruchan.postpreview
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import com.makentoshe.booruapi.Booru
 import com.makentoshe.booruapi.Posts
+import com.makentoshe.booruapi.Tag
 import com.makentoshe.booruchan.FragmentScreen
-import com.makentoshe.booruchan.postpreview.PostPageFragment
 import com.makentoshe.repository.PostsRepository
 import com.makentoshe.repository.PreviewImageRepository
 import com.makentoshe.repository.Repository
@@ -16,7 +16,8 @@ class PostPageScreen(
     private val position: Int,
     private val postsRepository: Repository<Booru.PostRequest, Posts>,
     private val previewsRepository: Repository<String, ByteArray>,
-    private val samplesRepository: SampleImageRepository
+    private val samplesRepository: SampleImageRepository,
+    private val tags: Set<Tag>
 ) : FragmentScreen() {
     override val fragment: Fragment
         get() = PostPageFragment().apply {

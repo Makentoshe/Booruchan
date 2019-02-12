@@ -31,7 +31,7 @@ class PostSampleUiMessageview(
                 progressbar.visibility = View.VISIBLE
                 it.visibility = View.GONE
 
-                viewModel.loadPosts(viewModel.pagePosition)
+//                viewModel.loadPosts(viewModel.pagePosition)
             }
 
         }.lparams(matchParent, matchParent)
