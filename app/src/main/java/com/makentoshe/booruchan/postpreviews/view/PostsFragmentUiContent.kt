@@ -5,10 +5,8 @@ import android.widget.RelativeLayout
 import androidx.fragment.app.FragmentManager
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.postpreviews.PostsFragmentViewModel
-import com.makentoshe.booruchan.postpreviews.model.ClearIconController
-import com.makentoshe.booruchan.postpreviews.model.OverflowController
-import com.makentoshe.booruchan.postpreviews.model.SearchController
-import com.makentoshe.booruchan.postpreviews.model.TagsController
+import com.makentoshe.booruchan.postpreviews.ViewPagerViewModel
+import com.makentoshe.booruchan.postpreviews.model.*
 import org.jetbrains.anko.*
 
 class PostsFragmentUiContent(
@@ -17,7 +15,8 @@ class PostsFragmentUiContent(
     private val clearIconController: ClearIconController,
     private val overflowController: OverflowController,
     private val tagsController: TagsController,
-    private val searchController: SearchController
+    private val searchController: SearchController,
+    private val viewPagerController: ViewPagerController
 ) : AnkoComponent<RelativeLayout> {
 
     override fun createView(ui: AnkoContext<RelativeLayout>): View = with(ui) {
@@ -35,10 +34,15 @@ class PostsFragmentUiContent(
                 searchController
             ).createView(AnkoContext.createDelegate(this))
 
-            PostsFragmentUiContentViewpager(postsFragmentViewModel, fragmentManager, searchController)
+            PostsFragmentUiContentViewpager(
+                postsFragmentViewModel,
+                fragmentManager,
+                searchController,
+                viewPagerController
+            )
                 .createView(AnkoContext.createDelegate(this))
 
-            PostsFragmentUiContentBottombar(postsFragmentViewModel)
+            PostsFragmentUiContentBottombar(viewPagerController)
                 .createView(AnkoContext.createDelegate(this))
         }
     }

@@ -4,10 +4,7 @@ import com.makentoshe.booruchan.Booruchan
 import com.makentoshe.booruchan.booru.model.DrawerController
 import com.makentoshe.booruchan.postpreviews.PostsFragment
 import com.makentoshe.booruchan.postpreviews.PostsFragmentViewModel
-import com.makentoshe.booruchan.postpreviews.model.ClearIconController
-import com.makentoshe.booruchan.postpreviews.model.OverflowController
-import com.makentoshe.booruchan.postpreviews.model.SearchController
-import com.makentoshe.booruchan.postpreviews.model.TagsController
+import com.makentoshe.booruchan.postpreviews.model.*
 import org.jetbrains.anko.AnkoComponent
 import org.jetbrains.anko.AnkoContext
 import org.jetbrains.anko.backgroundColorResource
@@ -19,7 +16,8 @@ class PostsFragmentUI(
     private val overflowController: OverflowController,
     private val tagsController: TagsController,
     private val searchController: SearchController,
-    private val drawerController: DrawerController
+    private val drawerController: DrawerController,
+    private val viewPagerController: ViewPagerController
 ) : AnkoComponent<PostsFragment> {
 
     private val style = Booruchan.INSTANCE.style
@@ -36,7 +34,7 @@ class PostsFragmentUI(
                 ui.owner.childFragmentManager,
                 clearIconController,
                 overflowController,
-                tagsController, searchController
+                tagsController, searchController, viewPagerController
             ).createView(AnkoContext.createDelegate(this))
         }
     }

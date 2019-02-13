@@ -6,11 +6,13 @@ import android.widget.RelativeLayout
 import com.makentoshe.booruchan.Booruchan
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.postpreviews.PostsFragmentViewModel
+import com.makentoshe.booruchan.postpreviews.ViewPagerViewModel
+import com.makentoshe.booruchan.postpreviews.model.ViewPagerController
 import org.jetbrains.anko.*
 import org.jetbrains.anko.sdk27.coroutines.onClick
 
 class PostsFragmentUiContentBottombar(
-    private val postsFragmentViewModel: PostsFragmentViewModel
+    private val viewPagerController: ViewPagerController
 ) : AnkoComponent<RelativeLayout> {
 
     private val style = Booruchan.INSTANCE.style
@@ -32,11 +34,12 @@ class PostsFragmentUiContentBottombar(
     private fun _LinearLayout.createLeft() {
         frameLayout {
             id = R.id.postpreview_bottombar_left
-            postsFragmentViewModel.onPageChangeListener {
+
+            viewPagerController.onPageChangedListener {
                 visibility = if (it == 0) View.INVISIBLE else View.VISIBLE
             }
 
-            onClick { postsFragmentViewModel.gotoPrevPage() }
+            onClick { viewPagerController.prevPage() }
 
             imageView {
                 imageResource = style.drawable.static.chevron
@@ -57,7 +60,7 @@ class PostsFragmentUiContentBottombar(
             textView {
                 id = R.id.postpreview_bottombar_center_textview
 
-                postsFragmentViewModel.onPageChangeListener {
+                viewPagerController.onPageChangedListener {
                     text = it.toString()
                     textColorResource = style.toolbar.onPrimaryColorRes
                 }
@@ -75,7 +78,7 @@ class PostsFragmentUiContentBottombar(
         frameLayout {
             id = R.id.postpreview_bottombar_right
 
-            onClick { postsFragmentViewModel.gotoNextPage() }
+            onClick { viewPagerController.nextPage() }
 
             imageView {
                 imageResource = style.drawable.static.chevron

@@ -8,7 +8,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.makentoshe.booruapi.Booru
 import com.makentoshe.booruapi.Tag
-import com.makentoshe.booruchan.booru.DrawerViewModel
 import com.makentoshe.booruchan.booru.model.DrawerController
 import com.makentoshe.booruchan.postpreviews.view.PostsFragmentUI
 import org.jetbrains.anko.AnkoContext
@@ -21,13 +20,14 @@ class PostsFragment : androidx.fragment.app.Fragment() {
     private lateinit var tagsViewModel: TagsViewModel
     private lateinit var searchViewModel: SearchViewModel
     private lateinit var drawerController: DrawerController
+    private lateinit var viewPagerViewModel: ViewPagerViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val arguments = Companion.arguments
         drawerController = arguments.drawerController
 
         var factory: ViewModelProvider.NewInstanceFactory =
-            PostsFragmentViewModel.Factory(arguments.booru, arguments.tags, arguments.drawerController)
+            PostsFragmentViewModel.Factory(arguments.booru, arguments.drawerController)
         viewModel = ViewModelProviders.of(this, factory)[PostsFragmentViewModel::class.java]
 
         factory = ClearIconViewModel.Factory()
@@ -42,15 +42,19 @@ class PostsFragment : androidx.fragment.app.Fragment() {
         factory = SearchViewModel.Factory()
         searchViewModel = ViewModelProviders.of(this, factory)[SearchViewModel::class.java]
 
+        factory = ViewPagerViewModel.Factory()
+        viewPagerViewModel = ViewModelProviders.of(this, factory)[ViewPagerViewModel::class.java]
+
         super.onCreate(savedInstanceState)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         viewModel.onCreateView(this)
-        clearIconViewModel.onCreateView(this)
-        overflowViewModel.onCreateView(this)
         tagsViewModel.onCreateView(this)
         searchViewModel.onCreateView(this)
+        overflowViewModel.onCreateView(this)
+        viewPagerViewModel.onCreateView(this)
+        clearIconViewModel.onCreateView(this)
 
         return PostsFragmentUI(
             viewModel,
@@ -58,7 +62,8 @@ class PostsFragment : androidx.fragment.app.Fragment() {
             overflowViewModel,
             tagsViewModel,
             searchViewModel,
-            drawerController
+            drawerController,
+            viewPagerViewModel
         ).createView(AnkoContext.create(requireContext(), this))
     }
 
