@@ -24,7 +24,7 @@ class PostPageFragment : Fragment<PostPageFragmentViewModel>() {
     }
 
     override fun buildViewModel(arguments: Bundle): PostPageFragmentViewModel {
-        val position = arguments.getInt(PostPageFragment::class.java.simpleName)
+        val position = arguments.getInt(Int::class.java.simpleName)
 
         val arguments = Companion.arguments[position]!!
 
@@ -49,9 +49,9 @@ class PostPageFragment : Fragment<PostPageFragmentViewModel>() {
             tags: Set<Tag>
         ): androidx.fragment.app.Fragment {
 
-            arguments[position] = ArgumentsHolder(
-                booru, postsRepository, previewsRepository, samplesRepository, tags
-            )
+            println(position)
+
+            arguments[position] = ArgumentsHolder(booru, postsRepository, previewsRepository, samplesRepository, tags)
 
             return PostPageFragment().apply {
                 arguments = Bundle().apply {
