@@ -1,4 +1,4 @@
-package com.makentoshe.booruchan.postpreviews.model
+package com.makentoshe.repository
 
 import com.makentoshe.booruapi.Booru
 import com.makentoshe.booruapi.Tag
