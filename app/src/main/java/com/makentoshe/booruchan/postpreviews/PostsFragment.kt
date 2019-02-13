@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.makentoshe.booruapi.Booru
 import com.makentoshe.booruapi.Tag
+import com.makentoshe.booruchan.booru.DrawerViewModel
 import com.makentoshe.booruchan.booru.model.DrawerController
 import com.makentoshe.booruchan.postpreviews.view.PostsFragmentUI
 import org.jetbrains.anko.AnkoContext
@@ -19,9 +20,12 @@ class PostsFragment : androidx.fragment.app.Fragment() {
     private lateinit var overflowViewModel: OverflowViewModel
     private lateinit var tagsViewModel: TagsViewModel
     private lateinit var searchViewModel: SearchViewModel
+    private lateinit var drawerController: DrawerController
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val arguments = Companion.arguments
+        drawerController = arguments.drawerController
+
         var factory: ViewModelProvider.NewInstanceFactory =
             PostsFragmentViewModel.Factory(arguments.booru, arguments.tags, arguments.drawerController)
         viewModel = ViewModelProviders.of(this, factory)[PostsFragmentViewModel::class.java]
@@ -53,7 +57,8 @@ class PostsFragment : androidx.fragment.app.Fragment() {
             clearIconViewModel,
             overflowViewModel,
             tagsViewModel,
-            searchViewModel
+            searchViewModel,
+            drawerController
         ).createView(AnkoContext.create(requireContext(), this))
     }
 

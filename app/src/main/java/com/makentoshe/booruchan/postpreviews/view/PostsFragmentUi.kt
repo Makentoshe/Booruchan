@@ -1,6 +1,7 @@
 package com.makentoshe.booruchan.postpreviews.view
 
 import com.makentoshe.booruchan.Booruchan
+import com.makentoshe.booruchan.booru.model.DrawerController
 import com.makentoshe.booruchan.postpreviews.PostsFragment
 import com.makentoshe.booruchan.postpreviews.PostsFragmentViewModel
 import com.makentoshe.booruchan.postpreviews.model.ClearIconController
@@ -17,7 +18,8 @@ class PostsFragmentUI(
     private val clearIconController: ClearIconController,
     private val overflowController: OverflowController,
     private val tagsController: TagsController,
-    private val searchController: SearchController
+    private val searchController: SearchController,
+    private val drawerController: DrawerController
 ) : AnkoComponent<PostsFragment> {
 
     private val style = Booruchan.INSTANCE.style
@@ -26,7 +28,7 @@ class PostsFragmentUI(
         relativeLayout {
             backgroundColorResource = style.background.backgroundColorRes
 
-            PostsFragmentUiToolbar(postsFragmentViewModel, overflowController)
+            PostsFragmentUiToolbar(postsFragmentViewModel, overflowController, drawerController)
                 .createView(AnkoContext.createDelegate(this))
 
             PostsFragmentUiContent(

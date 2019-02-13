@@ -27,11 +27,6 @@ class PostsFragmentViewModel : com.makentoshe.viewmodel.ViewModel() {
     val booruTitle: String
         get() = booru.title
 
-    fun clickDrawerMenuIcon() = when (drawerController.state) {
-        is DrawerState.DrawerOpen -> drawerController.closeDrawer()
-        is DrawerState.DrawerClose -> drawerController.openDrawer()
-    }
-
     fun gotoPage(page: Int) = viewPagerController.action(page)
 
     fun gotoNextPage() = viewPagerController.nextPage()

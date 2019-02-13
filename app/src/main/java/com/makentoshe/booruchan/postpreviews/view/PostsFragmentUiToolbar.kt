@@ -8,6 +8,8 @@ import android.widget.ImageView
 import android.widget.RelativeLayout
 import com.makentoshe.booruchan.Booruchan
 import com.makentoshe.booruchan.R
+import com.makentoshe.booruchan.booru.model.DrawerController
+import com.makentoshe.booruchan.booru.model.DrawerState
 import com.makentoshe.booruchan.postpreviews.PostsFragmentViewModel
 import com.makentoshe.booruchan.postpreviews.animations.OverflowToCrossAnimator
 import com.makentoshe.booruchan.postpreviews.animations.OverflowToMagnifyAnimator
@@ -19,7 +21,8 @@ import org.jetbrains.anko.*
 
 class PostsFragmentUiToolbar(
     private val postsFragmentViewModel: PostsFragmentViewModel,
-    private val overflowController: OverflowController
+    private val overflowController: OverflowController,
+    private val drawerController: DrawerController
 ) : AnkoComponent<RelativeLayout> {
 
     private val style = Booruchan.INSTANCE.style
@@ -50,7 +53,10 @@ class PostsFragmentUiToolbar(
         addRule(RelativeLayout.CENTER_VERTICAL)
     }
 
-    private fun onDrawerMenuIconClick(ignored: View) = postsFragmentViewModel.clickDrawerMenuIcon()
+    private fun onDrawerMenuIconClick(ignored: View) = when (drawerController.state) {
+        is DrawerState.DrawerOpen -> drawerController.closeDrawer()
+        is DrawerState.DrawerClose -> drawerController.openDrawer()
+    }.apply { println("Clicked") }
 
     private fun _RelativeLayout.createToolbarView() = toolbar {
         id = R.id.postpreview_toolbar_container_toolbar
