@@ -1,36 +1,18 @@
 package com.makentoshe.booruchan.postpreviews.model
 
 import com.makentoshe.booruapi.Tag
-import com.makentoshe.booruchan.Controller
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.subjects.BehaviorSubject
-import java.io.Serializable
 
-class SearchController: Controller<Set<Tag>>, Serializable {
+/**
+ * Controller interface for performing search actions.
+ */
+interface SearchController {
+    /**
+     * Starts a new search with [tags].
+     */
+    fun startSearch(tags: Set<Tag>)
 
-    private val searchObservable = BehaviorSubject.create<Set<Tag>>()
-    private val disposables = CompositeDisposable()
-
-    val tags: Set<Tag>?
-        get() = searchObservable.value
-
-    fun newSearch(setOfTags: Set<Tag>) = searchObservable.onNext(setOfTags)
-
-    override fun subscribe(action: (Set<Tag>) -> Unit) {
-        disposables.add(searchObservable.subscribe(action))
-    }
-
-    override fun clear() = disposables.clear()
-
-    fun update(tags: Set<Tag>) {
-        clear()
-        if (searchObservable.hasValue()) {
-            //search already was started
-            newSearch(searchObservable.value!!)
-        } else {
-            //search was not started yet
-            //start new search with given tags
-            newSearch(tags)
-        }
-    }
+    /**
+     * Performs an [action] on new search started event.
+     */
+    fun onSearchStartedListener(action: (Set<Tag>) -> Unit)
 }

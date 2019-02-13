@@ -16,10 +16,7 @@ import com.makentoshe.booruchan.*
 import com.makentoshe.booruchan.postpreviews.PostsFragmentViewModel
 import com.makentoshe.booruchan.postpreviews.animations.SearchHideAnimator
 import com.makentoshe.booruchan.postpreviews.animations.SearchShowAnimator
-import com.makentoshe.booruchan.postpreviews.model.ClearIconController
-import com.makentoshe.booruchan.postpreviews.model.OverflowController
-import com.makentoshe.booruchan.postpreviews.model.OverflowRxController
-import com.makentoshe.booruchan.postpreviews.model.TagsController
+import com.makentoshe.booruchan.postpreviews.model.*
 import org.jetbrains.anko.*
 import org.jetbrains.anko.cardview.v7.cardView
 import org.jetbrains.anko.sdk27.coroutines.onEditorAction
@@ -29,7 +26,8 @@ class PostsFragmentUiContentSearch(
     private val postsFragmentViewModel: PostsFragmentViewModel,
     private val clearIconController: ClearIconController,
     private val overflowController: OverflowController,
-    private val tagsController: TagsController
+    private val tagsController: TagsController,
+    private val searchController: SearchController
 ) : AnkoComponent<RelativeLayout> {
 
     private val style = Booruchan.INSTANCE.style
@@ -87,7 +85,7 @@ class PostsFragmentUiContentSearch(
                 if (text.isNotBlank()) {
                     addTagToListOfSelectedTags(Tag(text.toString()))
                 }
-                postsFragmentViewModel.startNewSearch(tagsController.currentlySelectedTags)
+                searchController.startSearch(tagsController.currentlySelectedTags)
                 overflowController.toMagnify()
             }
         }

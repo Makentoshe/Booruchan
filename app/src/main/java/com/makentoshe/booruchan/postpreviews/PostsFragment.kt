@@ -18,6 +18,7 @@ class PostsFragment : androidx.fragment.app.Fragment() {
     private lateinit var clearIconViewModel: ClearIconViewModel
     private lateinit var overflowViewModel: OverflowViewModel
     private lateinit var tagsViewModel: TagsViewModel
+    private lateinit var searchViewModel: SearchViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val arguments = Companion.arguments
@@ -34,6 +35,9 @@ class PostsFragment : androidx.fragment.app.Fragment() {
         factory = TagsViewModel.Factory(arguments.tags)
         tagsViewModel = ViewModelProviders.of(this, factory)[TagsViewModel::class.java]
 
+        factory = SearchViewModel.Factory()
+        searchViewModel = ViewModelProviders.of(this, factory)[SearchViewModel::class.java]
+
         super.onCreate(savedInstanceState)
     }
 
@@ -42,13 +46,15 @@ class PostsFragment : androidx.fragment.app.Fragment() {
         clearIconViewModel.onCreateView(this)
         overflowViewModel.onCreateView(this)
         tagsViewModel.onCreateView(this)
+        searchViewModel.onCreateView(this)
 
-        return PostsFragmentUI(viewModel, clearIconViewModel, overflowViewModel, tagsViewModel).createView(
-            AnkoContext.create(
-                requireContext(),
-                this
-            )
-        )
+        return PostsFragmentUI(
+            viewModel,
+            clearIconViewModel,
+            overflowViewModel,
+            tagsViewModel,
+            searchViewModel
+        ).createView(AnkoContext.create(requireContext(), this))
     }
 
     companion object {

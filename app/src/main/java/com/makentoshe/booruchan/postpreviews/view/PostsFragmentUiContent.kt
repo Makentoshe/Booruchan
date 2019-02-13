@@ -7,6 +7,7 @@ import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.postpreviews.PostsFragmentViewModel
 import com.makentoshe.booruchan.postpreviews.model.ClearIconController
 import com.makentoshe.booruchan.postpreviews.model.OverflowController
+import com.makentoshe.booruchan.postpreviews.model.SearchController
 import com.makentoshe.booruchan.postpreviews.model.TagsController
 import org.jetbrains.anko.*
 
@@ -15,7 +16,8 @@ class PostsFragmentUiContent(
     private val fragmentManager: FragmentManager,
     private val clearIconController: ClearIconController,
     private val overflowController: OverflowController,
-    private val tagsController: TagsController
+    private val tagsController: TagsController,
+    private val searchController: SearchController
 ) : AnkoComponent<RelativeLayout> {
 
     override fun createView(ui: AnkoContext<RelativeLayout>): View = with(ui) {
@@ -25,10 +27,15 @@ class PostsFragmentUiContent(
             PostsFragmentUiContentCover(overflowController)
                 .createView(AnkoContext.createDelegate(this))
 
-            PostsFragmentUiContentSearch(postsFragmentViewModel, clearIconController, overflowController, tagsController)
-                .createView(AnkoContext.createDelegate(this))
+            PostsFragmentUiContentSearch(
+                postsFragmentViewModel,
+                clearIconController,
+                overflowController,
+                tagsController,
+                searchController
+            ).createView(AnkoContext.createDelegate(this))
 
-            PostsFragmentUiContentViewpager(postsFragmentViewModel, fragmentManager)
+            PostsFragmentUiContentViewpager(postsFragmentViewModel, fragmentManager, searchController)
                 .createView(AnkoContext.createDelegate(this))
 
             PostsFragmentUiContentBottombar(postsFragmentViewModel)

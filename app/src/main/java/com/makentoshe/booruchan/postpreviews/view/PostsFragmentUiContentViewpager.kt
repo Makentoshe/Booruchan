@@ -5,13 +5,15 @@ import android.widget.RelativeLayout
 import androidx.fragment.app.FragmentManager
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.postpreviews.PostsFragmentViewModel
+import com.makentoshe.booruchan.postpreviews.model.SearchController
 import org.jetbrains.anko.*
 import org.jetbrains.anko.support.v4.onPageChangeListener
 import org.jetbrains.anko.support.v4.viewPager
 
 class PostsFragmentUiContentViewpager(
     private val viewModel: PostsFragmentViewModel,
-    private val fragmentManager: FragmentManager
+    private val fragmentManager: FragmentManager,
+    private val searchController: SearchController
 ) : AnkoComponent<RelativeLayout> {
 
     override fun createView(ui: AnkoContext<RelativeLayout>): View = with(ui) {
@@ -22,7 +24,7 @@ class PostsFragmentUiContentViewpager(
             }
             viewPager {
                 id = R.id.content_viewpager
-                viewModel.onSearchStartedListener {
+                searchController.onSearchStartedListener {
                     adapter = viewModel.getViewPagerAdapter(fragmentManager, it)
                     viewModel.gotoPage(0)
                 }

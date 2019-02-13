@@ -22,7 +22,6 @@ class PostsFragmentViewModel : com.makentoshe.viewmodel.ViewModel() {
     private lateinit var drawerController: DrawerController
     /* tags for default(on the startup) search */
     private lateinit var tags: Set<Tag>
-    private lateinit var searchController: SearchController
     private lateinit var viewPagerController: ViewPagerController
 
     val booruTitle: String
@@ -32,10 +31,6 @@ class PostsFragmentViewModel : com.makentoshe.viewmodel.ViewModel() {
         is DrawerState.DrawerOpen -> drawerController.closeDrawer()
         is DrawerState.DrawerClose -> drawerController.openDrawer()
     }
-
-    fun startNewSearch(tags: Set<Tag>) = searchController.newSearch(tags)
-
-    fun onSearchStartedListener(action: (Set<Tag>) -> Unit) = searchController.subscribe(action)
 
     fun gotoPage(page: Int) = viewPagerController.action(page)
 
@@ -49,14 +44,12 @@ class PostsFragmentViewModel : com.makentoshe.viewmodel.ViewModel() {
         get() = DelayAutocompleteAdapter(DelayAutocompleteRepository(booru))
 
     override fun onCreateView(owner: Fragment) {
-        searchController.update(tags)
         viewPagerController.clear()
     }
 
     override fun onCleared() {
         super.onCleared()
         viewPagerController.clear()
-        searchController.clear()
     }
 
     fun getViewPagerAdapter(fragmentManager: FragmentManager, tags: Set<Tag>): PagerAdapter {
@@ -80,7 +73,6 @@ class PostsFragmentViewModel : com.makentoshe.viewmodel.ViewModel() {
             viewModel.booru = booru
             viewModel.tags = tags
             viewModel.drawerController = drawerController
-            viewModel.searchController = SearchController()
             viewModel.viewPagerController = ViewPagerController(0)
 
             return viewModel as T
