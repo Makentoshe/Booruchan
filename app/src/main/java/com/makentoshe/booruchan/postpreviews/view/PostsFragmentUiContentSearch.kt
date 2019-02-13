@@ -9,6 +9,8 @@ import android.view.inputmethod.EditorInfo
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.RelativeLayout
+import androidx.core.view.children
+import com.google.android.material.chip.Chip
 import com.makentoshe.booruapi.Tag
 import com.makentoshe.booruchan.*
 import com.makentoshe.booruchan.postpreviews.PostsFragmentViewModel
@@ -17,6 +19,7 @@ import com.makentoshe.booruchan.postpreviews.animations.SearchShowAnimator
 import com.makentoshe.booruchan.postpreviews.model.ClearIconController
 import com.makentoshe.booruchan.postpreviews.model.OverflowController
 import com.makentoshe.booruchan.postpreviews.model.OverflowRxController
+import com.makentoshe.booruchan.postpreviews.model.TagsController
 import org.jetbrains.anko.*
 import org.jetbrains.anko.cardview.v7.cardView
 import org.jetbrains.anko.sdk27.coroutines.onEditorAction
@@ -25,7 +28,8 @@ import org.jetbrains.anko.sdk27.coroutines.textChangedListener
 class PostsFragmentUiContentSearch(
     private val postsFragmentViewModel: PostsFragmentViewModel,
     private val clearIconController: ClearIconController,
-    private val overflowController: OverflowController
+    private val overflowController: OverflowController,
+    private val tagsController: TagsController
 ) : AnkoComponent<RelativeLayout> {
 
     private val style = Booruchan.INSTANCE.style
@@ -83,7 +87,7 @@ class PostsFragmentUiContentSearch(
                 if (text.isNotBlank()) {
                     addTagToListOfSelectedTags(Tag(text.toString()))
                 }
-                postsFragmentViewModel.startNewSearch()
+                postsFragmentViewModel.startNewSearch(tagsController.currentlySelectedTags)
                 overflowController.toMagnify()
             }
         }
@@ -132,7 +136,7 @@ class PostsFragmentUiContentSearch(
 
     private fun DelayAutocompleteEditText.addTagToListOfSelectedTags(tag: Tag) {
         setText("")
-        postsFragmentViewModel.addTag(tag)
+        tagsController.addTag(tag)
     }
 
     private fun _RelativeLayout.autocompleteDelayProgressBar(): ProgressBar {
@@ -164,8 +168,16 @@ class PostsFragmentUiContentSearch(
     private fun _RelativeLayout.tagsContainerView() {
         chipGroup {
             id = R.id.postpreview_search_tags
-            postsFragmentViewModel.onTagAddedListener { createChip(it) }
-            postsFragmentViewModel.compositeTagSet.forEach { createChip(it) }
+            tagsController.subscribeOnChange { tag, action ->
+                if (action) {
+                    createChip(tag)
+                } else {
+                    children.forEach {
+                        it as Chip
+                        if (it.text == tag.name) removeView(it)
+                    }
+                }
+            }
         }.lparams(width = matchParent, height = wrapContent) {
             below(R.id.postpreview_search_container)
             setMargins(0, 0, 0, dip(8))
@@ -180,10 +192,7 @@ class PostsFragmentUiContentSearch(
             isCloseIconVisible = true
             closeIcon?.setColorFilter(style.chip.getOnPrimaryColor(context), PorterDuff.Mode.SRC_ATOP)
             setOnCloseIconClickListener {
-                postsFragmentViewModel.removeTag(tag)
-            }
-            postsFragmentViewModel.onTagRemovedListener {
-                if (tag == it) removeView(this)
+                tagsController.removeTag(tag)
             }
         }
     }

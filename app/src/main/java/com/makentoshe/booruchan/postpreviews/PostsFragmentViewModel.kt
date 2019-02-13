@@ -23,7 +23,6 @@ class PostsFragmentViewModel : com.makentoshe.viewmodel.ViewModel() {
     /* tags for default(on the startup) search */
     private lateinit var tags: Set<Tag>
     private lateinit var searchController: SearchController
-    private lateinit var compositeTagController: CompositeTagController
     private lateinit var viewPagerController: ViewPagerController
 
     val booruTitle: String
@@ -34,20 +33,9 @@ class PostsFragmentViewModel : com.makentoshe.viewmodel.ViewModel() {
         is DrawerState.DrawerClose -> drawerController.openDrawer()
     }
 
-    fun startNewSearch() = searchController.newSearch(compositeTagSet)
+    fun startNewSearch(tags: Set<Tag>) = searchController.newSearch(tags)
 
     fun onSearchStartedListener(action: (Set<Tag>) -> Unit) = searchController.subscribe(action)
-
-    fun onTagAddedListener(action: (Tag) -> Unit) = compositeTagController.subscribeOnAdd(action)
-
-    fun onTagRemovedListener(action: (Tag) -> Unit) = compositeTagController.subscribeOnRemove(action)
-
-    fun addTag(tag: Tag) = compositeTagController.addTag(tag)
-
-    fun removeTag(tag: Tag) = compositeTagController.removeTag(tag)
-
-    val compositeTagSet: Set<Tag>
-        get() = compositeTagController.tagSet
 
     fun gotoPage(page: Int) = viewPagerController.action(page)
 
@@ -62,13 +50,11 @@ class PostsFragmentViewModel : com.makentoshe.viewmodel.ViewModel() {
 
     override fun onCreateView(owner: Fragment) {
         searchController.update(tags)
-        compositeTagController.clear()
         viewPagerController.clear()
     }
 
     override fun onCleared() {
         super.onCleared()
-        compositeTagController.clear()
         viewPagerController.clear()
         searchController.clear()
     }
@@ -90,12 +76,13 @@ class PostsFragmentViewModel : com.makentoshe.viewmodel.ViewModel() {
 
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
             val viewModel = PostsFragmentViewModel()
+
             viewModel.booru = booru
             viewModel.tags = tags
             viewModel.drawerController = drawerController
             viewModel.searchController = SearchController()
             viewModel.viewPagerController = ViewPagerController(0)
-            viewModel.compositeTagController = CompositeTagController(TagController(), TagController(), tags)
+
             return viewModel as T
         }
     }

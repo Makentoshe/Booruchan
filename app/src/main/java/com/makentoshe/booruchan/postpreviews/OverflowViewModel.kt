@@ -5,6 +5,9 @@ import com.makentoshe.booruchan.postpreviews.model.OverflowController
 import com.makentoshe.booruchan.postpreviews.model.OverflowRxController
 import com.makentoshe.viewmodel.ViewModel
 
+/**
+ * Wraps [OverflowRxController].
+ */
 class OverflowViewModel private constructor() : ViewModel(), OverflowController {
     private lateinit var overflowRxController: OverflowRxController
 
