@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.makentoshe.booruapi.Booru
 import com.makentoshe.booruapi.Posts
@@ -15,60 +15,69 @@ import com.makentoshe.repository.Repository
 import com.makentoshe.repository.SampleImageRepository
 import org.jetbrains.anko.AnkoContext
 
-class PostPageFragment : Fragment<PostPageFragmentViewModel>() {
+class PostPageFragment : androidx.fragment.app.Fragment() {
+
+    private var position = -1
+    private lateinit var viewModel: PostPageFragmentViewModel
+    private lateinit var postsDownloadViewModel: PostsDownloadViewModel
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        position = arguments!!.getInt(Int::class.java.simpleName)
+        val arguments = Companion.arguments[position]!!
+
+        var factory: ViewModelProvider.NewInstanceFactory = PostPageFragmentViewModel.Factory(
+            arguments.booru,
+            arguments.postsRepository,
+            arguments.previewsRepository,
+            arguments.samplesRepository
+        )
+
+        viewModel = ViewModelProviders.of(this, factory)[PostPageFragmentViewModel::class.java]
+
+        factory = PostsDownloadViewModel.Factory(arguments.postsRepository, arguments.tags, position)
+        postsDownloadViewModel = ViewModelProviders.of(this, factory)[PostsDownloadViewModel::class.java]
+
+        super.onCreate(savedInstanceState)
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        super.onCreateView(inflater, container, savedInstanceState)
-        return PostPageFragmentUi(viewModel)
+        viewModel.onCreateView(this)
+        postsDownloadViewModel.onCreateView(this)
+
+        return PostPageFragmentUi(viewModel, postsDownloadViewModel)
             .createView(AnkoContext.create(requireContext(), this))
     }
 
-    override fun buildViewModel(arguments: Bundle): PostPageFragmentViewModel {
-        val position = arguments.getInt(Int::class.java.simpleName)
+    override fun onDestroy() {
+        super.onDestroy()
 
-        val arguments = Companion.arguments[position]!!
-
-        val factory = PostPageFragmentViewModel.Factory(
-            arguments.booru,
-            position,
-            arguments.postsRepository,
-            arguments.previewsRepository,
-            arguments.samplesRepository,
-            arguments.tags
-        )
-        return ViewModelProviders.of(this, factory)[PostPageFragmentViewModel::class.java]
+        val activity = activity
+        val isChangingConfigurations = activity != null && activity.isChangingConfigurations
+        if (!isChangingConfigurations) {
+            Companion.arguments.remove(position)
+        }
     }
 
     companion object {
-        fun create(
-            booru: Booru,
-            position: Int,
-            postsRepository: Repository<Booru.PostRequest, Posts>,
-            previewsRepository: Repository<String, ByteArray>,
-            samplesRepository: SampleImageRepository,
-            tags: Set<Tag>
-        ): androidx.fragment.app.Fragment {
+        fun create(position: Int, arguments: Arguments): androidx.fragment.app.Fragment {
 
-            println(position)
-
-            arguments[position] = ArgumentsHolder(booru, postsRepository, previewsRepository, samplesRepository, tags)
+            Companion.arguments[position] = arguments
 
             return PostPageFragment().apply {
-                arguments = Bundle().apply {
+                this.arguments = Bundle().apply {
                     putInt(Int::class.java.simpleName, position)
                 }
             }
         }
 
-        private val arguments = HashMap<Int, ArgumentsHolder>()
+        private val arguments = HashMap<Int, Arguments>()
     }
 
+    data class Arguments(
+        val booru: Booru,
+        val tags: Set<Tag>,
+        val postsRepository: Repository<Booru.PostRequest, Posts>,
+        val previewsRepository: Repository<String, ByteArray>,
+        val samplesRepository: SampleImageRepository
+    )
 }
-
-data class ArgumentsHolder(
-    val booru: Booru,
-    val postsRepository: Repository<Booru.PostRequest, Posts>,
-    val previewsRepository: Repository<String, ByteArray>,
-    val samplesRepository: SampleImageRepository,
-    val tags: Set<Tag>
-)

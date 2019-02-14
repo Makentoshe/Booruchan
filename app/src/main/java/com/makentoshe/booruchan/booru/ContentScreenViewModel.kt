@@ -11,6 +11,7 @@ import com.makentoshe.booruchan.account.AccountScreen
 import com.makentoshe.booruchan.booru.model.ContentScreenController
 import com.makentoshe.booruchan.booru.model.ContentScreenRxController
 import com.makentoshe.booruchan.booru.model.DrawerController
+import com.makentoshe.booruchan.postpreviews.PostsFragment
 import com.makentoshe.booruchan.postpreviews.PostsScreen
 import com.makentoshe.viewmodel.ViewModel
 
@@ -44,7 +45,7 @@ class ContentScreenViewModel private constructor(
 
     /* Creates a new PostsScreen instance using ViewModel's properties*/
     private fun newPostsScreen(): FragmentScreen {
-        return PostsScreen(PostsScreen.Arguments(booru, drawerController, tags))
+        return PostsScreen(PostsFragment.Arguments(booru, drawerController, tags))
     }
 
     /* Creates a new AccountScreen instance using ViewModel's properties */

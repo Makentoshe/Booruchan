@@ -6,10 +6,9 @@ import com.makentoshe.booruapi.Tag
 import com.makentoshe.booruchan.FragmentScreen
 import com.makentoshe.booruchan.booru.model.DrawerController
 
-class PostsScreen(private val data: Arguments) : FragmentScreen() {
+class PostsScreen(private val data: PostsFragment.Arguments) : FragmentScreen() {
 
     override val fragment: Fragment
-        get() = PostsFragment.create(data.booru, data.drawerController, data.tags)
+        get() = PostsFragment.create(data)
 
-    data class Arguments(val booru: Booru, val drawerController: DrawerController, val tags: Set<Tag>)
 }

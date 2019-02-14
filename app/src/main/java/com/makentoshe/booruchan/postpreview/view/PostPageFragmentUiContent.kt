@@ -7,11 +7,14 @@ import android.widget.AdapterView
 import android.widget.GridView
 import com.makentoshe.booruapi.Posts
 import com.makentoshe.booruchan.postpreview.PostPageFragmentViewModel
+import com.makentoshe.booruchan.postpreview.PostsDownloadController
 import com.makentoshe.controllers.DownloadResult
 import org.jetbrains.anko.*
 
-class PostPageFragmentUiContent(private val viewModel: PostPageFragmentViewModel) :
-    AnkoComponent<_RelativeLayout> {
+class PostPageFragmentUiContent(
+    private val viewModel: PostPageFragmentViewModel,
+    private val postsDownloadController: PostsDownloadController
+) : AnkoComponent<_RelativeLayout> {
 
     override fun createView(ui: AnkoContext<_RelativeLayout>): View = with(ui.owner) {
         gridView {
@@ -23,7 +26,7 @@ class PostPageFragmentUiContent(private val viewModel: PostPageFragmentViewModel
                 Configuration.ORIENTATION_LANDSCAPE -> numColumns = 6
             }
 
-            viewModel.addOnPostsReceiveListener { onPostsReceive(it) }
+            postsDownloadController.addOnPostsReceiveListener { onPostsReceive(it) }
             setOnItemClickListener(::onGridElementClick)
             setOnItemLongClickListener(::onGridElementLongClick)
         }.lparams(matchParent, matchParent) {

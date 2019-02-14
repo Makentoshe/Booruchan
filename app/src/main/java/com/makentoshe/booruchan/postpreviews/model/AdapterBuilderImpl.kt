@@ -5,6 +5,7 @@ import androidx.viewpager.widget.PagerAdapter
 import com.makentoshe.booruapi.Booru
 import com.makentoshe.booruapi.Posts
 import com.makentoshe.booruapi.Tag
+import com.makentoshe.booruchan.postpreview.PostPageFragment
 import com.makentoshe.repository.*
 import com.makentoshe.repository.cache.Cache
 
@@ -20,7 +21,10 @@ class AdapterBuilderImpl(private val booru: Booru) : AdapterBuilder {
         val postsRepository = buildPostsRepository()
         val previewsRepository = buildPreviewsRepository()
         val samplesRepository = buildSamplesRepository()
-        return ViewPagerAdapter(fragmentManager, booru, postsRepository, previewsRepository, samplesRepository, tags)
+
+        val arguments = PostPageFragment.Arguments(booru, tags, postsRepository, previewsRepository, samplesRepository)
+
+        return ViewPagerAdapter(fragmentManager, arguments)
     }
 
     private fun buildPostsRepository(cacheSize: Int = 3): ClearableRepository<Booru.PostRequest, Posts> {

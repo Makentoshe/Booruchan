@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.makentoshe.booruapi.Booru
@@ -70,13 +71,14 @@ class PostsFragment : androidx.fragment.app.Fragment() {
     }
 
     companion object {
-        fun create(booru: Booru, drawerController: DrawerController, tags: Set<Tag>): androidx.fragment.app.Fragment {
-            arguments = Arguments(booru, drawerController, tags)
+
+        fun create(arguments: Arguments): Fragment {
+            Companion.arguments = arguments
             return PostsFragment()
         }
 
         private lateinit var arguments: Arguments
-
-        private data class Arguments(val booru: Booru, val drawerController: DrawerController, val tags: Set<Tag>)
     }
+
+    data class Arguments(val booru: Booru, val drawerController: DrawerController, val tags: Set<Tag>)
 }

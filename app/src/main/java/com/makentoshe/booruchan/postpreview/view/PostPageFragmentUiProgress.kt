@@ -5,10 +5,11 @@ import android.view.View
 import com.makentoshe.booruchan.Booruchan
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.postpreview.PostPageFragmentViewModel
+import com.makentoshe.booruchan.postpreview.PostsDownloadController
 import org.jetbrains.anko.*
 
 class PostPageFragmentUiProgress(
-    private val viewModel: PostPageFragmentViewModel
+    private val postsDownloadController: PostsDownloadController
 ) : AnkoComponent<_RelativeLayout> {
 
     private val style = Booruchan.INSTANCE.style
@@ -21,7 +22,7 @@ class PostPageFragmentUiProgress(
                 style.toolbar.getPrimaryColor(context),
                 PorterDuff.Mode.SRC_ATOP
             )
-            viewModel.addOnPostsReceiveListener {
+            postsDownloadController.addOnPostsReceiveListener {
                 visibility = View.GONE
             }
         }.lparams {

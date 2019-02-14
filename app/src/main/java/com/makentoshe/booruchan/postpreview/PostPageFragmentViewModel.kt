@@ -11,12 +11,8 @@ import com.makentoshe.booruapi.Tag
 import com.makentoshe.booruchan.Booruchan
 import com.makentoshe.booruchan.PostsDownloadRxController
 import com.makentoshe.booruchan.postpreview.model.GridViewAdapter
-import com.makentoshe.booruchan.postsamples.PostSamplesScreen
 import com.makentoshe.controllers.DownloadResult
-import com.makentoshe.repository.ImageRepository
-import com.makentoshe.repository.PostsRepository
 import com.makentoshe.repository.Repository
-import com.makentoshe.repository.SampleImageRepository
 import com.makentoshe.viewmodel.ViewModel
 import io.reactivex.disposables.CompositeDisposable
 import ru.terrakok.cicerone.Router
@@ -24,19 +20,11 @@ import ru.terrakok.cicerone.Router
 class PostPageFragmentViewModel private constructor() : ViewModel() {
     private lateinit var router: Router
     private lateinit var booru: Booru
-    private var position: Int = -1
     private lateinit var postsRepository: Repository<Booru.PostRequest, Posts>
     private lateinit var postsDownloadRxController: PostsDownloadRxController
     private lateinit var sampleImageRepository: Repository<String, ByteArray>
     private lateinit var previewsRepository: Repository<String, ByteArray>
     private val disposables = CompositeDisposable()
-    private lateinit var tags: Set<Tag>
-
-    fun loadPosts() = postsDownloadRxController.action(Booru.PostRequest(12, position, tags))
-
-    fun addOnPostsReceiveListener(action: (DownloadResult<Posts>) -> Unit) {
-        postsDownloadRxController.subscribe { Handler(Looper.getMainLooper()).post { action(it) } }
-    }
 
     fun getGridAdapter(posts: Posts): BaseAdapter {
         return GridViewAdapter(posts, previewsRepository, this, disposables)
@@ -65,11 +53,9 @@ class PostPageFragmentViewModel private constructor() : ViewModel() {
 
     class Factory(
         private val booru: Booru,
-        private val position: Int,
         private val postsRepository: Repository<Booru.PostRequest, Posts>,
         private val previewsRepository: Repository<String, ByteArray>,
-        private val sampleImageRepository: Repository<String, ByteArray>,
-        private val tags: Set<Tag>
+        private val sampleImageRepository: Repository<String, ByteArray>
     ) : ViewModelProvider.NewInstanceFactory() {
         override fun <T : androidx.lifecycle.ViewModel?> create(modelClass: Class<T>): T {
             val viewModel = PostPageFragmentViewModel()
@@ -77,17 +63,65 @@ class PostPageFragmentViewModel private constructor() : ViewModel() {
 
             viewModel.previewsRepository = previewsRepository
             viewModel.booru = booru
-            viewModel.position = position
             viewModel.postsRepository = postsRepository
             viewModel.postsDownloadRxController = postsDownloadRxController
             viewModel.router = Booruchan.INSTANCE.router
             viewModel.sampleImageRepository = sampleImageRepository
-            viewModel.tags = tags
-
-            viewModel.loadPosts()
 
             return viewModel as T
         }
     }
 }
 
+interface PostsDownloadController {
+
+    val position: Int
+
+    fun loadPosts(page: Int)
+
+    fun addOnPostsReceiveListener(action: (DownloadResult<Posts>) -> Unit)
+}
+
+class PostsDownloadViewModel : ViewModel(), PostsDownloadController {
+
+    private lateinit var postsDownloadRxController: PostsDownloadRxController
+    private lateinit var tags: Set<Tag>
+    private var _position: Int = -1
+
+    override val position: Int
+        get() = _position
+
+    override fun loadPosts(page: Int) =
+        postsDownloadRxController.action(Booru.PostRequest(12, page, tags))
+
+    override fun addOnPostsReceiveListener(action: (DownloadResult<Posts>) -> Unit) {
+        postsDownloadRxController.subscribe { Handler(Looper.getMainLooper()).post { action(it) } }
+    }
+
+    override fun onCreateView(owner: Fragment) {
+        postsDownloadRxController.clear()
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        postsDownloadRxController.clear()
+    }
+
+    class Factory(
+        private val postsRepository: Repository<Booru.PostRequest, Posts>,
+        private val tags: Set<Tag>,
+        private val position: Int
+    ) : ViewModelProvider.NewInstanceFactory() {
+        override fun <T : androidx.lifecycle.ViewModel?> create(modelClass: Class<T>): T {
+            val viewModel = PostsDownloadViewModel()
+
+            viewModel.postsDownloadRxController = PostsDownloadRxController(viewModel, postsRepository)
+            viewModel.tags = tags
+            viewModel._position = position
+
+            viewModel.loadPosts(position)
+
+            return viewModel as T
+        }
+    }
+}

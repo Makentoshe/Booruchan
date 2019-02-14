@@ -7,11 +7,13 @@ import android.widget.TextView
 import com.makentoshe.booruapi.Posts
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.postpreview.PostPageFragmentViewModel
+import com.makentoshe.booruchan.postpreview.PostsDownloadController
 import com.makentoshe.controllers.DownloadResult
 import org.jetbrains.anko.*
 
-class PostPageFragmentUiMessage(private val viewModel: PostPageFragmentViewModel) :
-    AnkoComponent<_RelativeLayout> {
+class PostPageFragmentUiMessage(
+    private val postsDownloadController: PostsDownloadController
+) : AnkoComponent<_RelativeLayout> {
     override fun createView(ui: AnkoContext<_RelativeLayout>) = with(ui.owner) {
         frameLayout {
 
@@ -22,7 +24,7 @@ class PostPageFragmentUiMessage(private val viewModel: PostPageFragmentViewModel
                 visibility = View.GONE
                 gravity = Gravity.CENTER
 
-                viewModel.addOnPostsReceiveListener { onPostsReceive(it) }
+                postsDownloadController.addOnPostsReceiveListener { onPostsReceive(it) }
             }
         }.lparams(matchParent, matchParent) { centerInParent() }
     }
@@ -46,6 +48,6 @@ class PostPageFragmentUiMessage(private val viewModel: PostPageFragmentViewModel
         val messageview = view.findViewById<TextView>(R.id.postpreviewpage_messageview)
         messageview.visibility = View.GONE
 
-        viewModel.loadPosts()
+        postsDownloadController.loadPosts(postsDownloadController.position)
     }
 }
