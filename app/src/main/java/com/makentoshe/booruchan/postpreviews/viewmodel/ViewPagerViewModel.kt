@@ -1,4 +1,4 @@
-package com.makentoshe.booruchan.postpreviews
+package com.makentoshe.booruchan.postpreviews.viewmodel
 
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider

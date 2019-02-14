@@ -8,20 +8,21 @@ import android.widget.Filter
 import android.widget.Filterable
 import android.widget.TextView
 import com.makentoshe.booruapi.Tag
+import com.makentoshe.repository.Repository
 
-class DelayAutocompleteAdapter(private val repository: DelayAutocompleteRepository) : BaseAdapter(), Filterable {
+class DelayAutocompleteAdapter(
+    private val repository: Repository<CharSequence, List<Tag>>
+) : BaseAdapter(), Filterable {
 
     private var tags: List<Tag> = listOf()
 
     override fun getFilter() = object : Filter() {
-        override fun performFiltering(constraint: CharSequence?): FilterResults {
-            val results = FilterResults()
+        override fun performFiltering(constraint: CharSequence?) = FilterResults().apply {
             if (constraint != null) {
                 val tags = repository.get(constraint)!!
-                results.values = tags
-                results.count = tags.size
+                values = tags
+                count = tags.size
             }
-            return results
         }
 
         override fun publishResults(constraint: CharSequence?, results: FilterResults?) {

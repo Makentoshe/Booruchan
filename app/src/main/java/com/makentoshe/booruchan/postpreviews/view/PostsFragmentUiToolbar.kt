@@ -10,7 +10,6 @@ import com.makentoshe.booruchan.Booruchan
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.booru.model.DrawerController
 import com.makentoshe.booruchan.booru.model.DrawerState
-import com.makentoshe.booruchan.postpreviews.PostsFragmentViewModel
 import com.makentoshe.booruchan.postpreviews.animations.OverflowToCrossAnimator
 import com.makentoshe.booruchan.postpreviews.animations.OverflowToMagnifyAnimator
 import com.makentoshe.booruchan.postpreviews.animations.ToolbarHideElevationAnimator
@@ -20,9 +19,9 @@ import com.makentoshe.booruchan.postpreviews.model.OverflowRxController
 import org.jetbrains.anko.*
 
 class PostsFragmentUiToolbar(
-    private val postsFragmentViewModel: PostsFragmentViewModel,
     private val overflowController: OverflowController,
-    private val drawerController: DrawerController
+    private val drawerController: DrawerController,
+    private val booruTitle: String
 ) : AnkoComponent<RelativeLayout> {
 
     private val style = Booruchan.INSTANCE.style
@@ -60,7 +59,7 @@ class PostsFragmentUiToolbar(
 
     private fun _RelativeLayout.createToolbarView() = toolbar {
         id = R.id.postpreview_toolbar_container_toolbar
-        title = postsFragmentViewModel.booruTitle
+        title = booruTitle
         subtitleResource = R.string.posts
         setTitleTextColor(style.toolbar.getOnPrimaryColor(context))
         setBackgroundResource(style.toolbar.primaryColorRes)

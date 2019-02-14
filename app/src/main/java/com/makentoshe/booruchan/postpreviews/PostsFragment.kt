@@ -9,28 +9,30 @@ import androidx.lifecycle.ViewModelProviders
 import com.makentoshe.booruapi.Booru
 import com.makentoshe.booruapi.Tag
 import com.makentoshe.booruchan.booru.model.DrawerController
-import com.makentoshe.booruchan.postpreviews.view.PostsFragmentUI
+import com.makentoshe.booruchan.postpreviews.model.AdapterBuilder
+import com.makentoshe.booruchan.postpreviews.model.AdapterBuilderImpl
+import com.makentoshe.booruchan.postpreviews.view.PostsFragmentUi
+import com.makentoshe.booruchan.postpreviews.viewmodel.*
 import org.jetbrains.anko.AnkoContext
 
 class PostsFragment : androidx.fragment.app.Fragment() {
 
-    private lateinit var viewModel: PostsFragmentViewModel
     private lateinit var clearIconViewModel: ClearIconViewModel
     private lateinit var overflowViewModel: OverflowViewModel
     private lateinit var tagsViewModel: TagsViewModel
     private lateinit var searchViewModel: SearchViewModel
     private lateinit var drawerController: DrawerController
     private lateinit var viewPagerViewModel: ViewPagerViewModel
+    private lateinit var adapterBuilder: AdapterBuilder
+    private lateinit var booru: Booru
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val arguments = Companion.arguments
+        booru = arguments.booru
         drawerController = arguments.drawerController
+        adapterBuilder = AdapterBuilderImpl(arguments.booru)
 
-        var factory: ViewModelProvider.NewInstanceFactory =
-            PostsFragmentViewModel.Factory(arguments.booru, arguments.drawerController)
-        viewModel = ViewModelProviders.of(this, factory)[PostsFragmentViewModel::class.java]
-
-        factory = ClearIconViewModel.Factory()
+        var factory: ViewModelProvider.NewInstanceFactory = ClearIconViewModel.Factory()
         clearIconViewModel = ViewModelProviders.of(this, factory)[ClearIconViewModel::class.java]
 
         factory = OverflowViewModel.Factory()
@@ -49,21 +51,21 @@ class PostsFragment : androidx.fragment.app.Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        viewModel.onCreateView(this)
         tagsViewModel.onCreateView(this)
         searchViewModel.onCreateView(this)
         overflowViewModel.onCreateView(this)
         viewPagerViewModel.onCreateView(this)
         clearIconViewModel.onCreateView(this)
 
-        return PostsFragmentUI(
-            viewModel,
+        return PostsFragmentUi(
             clearIconViewModel,
             overflowViewModel,
             tagsViewModel,
             searchViewModel,
             drawerController,
-            viewPagerViewModel
+            viewPagerViewModel,
+            adapterBuilder,
+            booru.title
         ).createView(AnkoContext.create(requireContext(), this))
     }
 

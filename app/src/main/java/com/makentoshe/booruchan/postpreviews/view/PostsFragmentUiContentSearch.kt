@@ -13,7 +13,7 @@ import androidx.core.view.children
 import com.google.android.material.chip.Chip
 import com.makentoshe.booruapi.Tag
 import com.makentoshe.booruchan.*
-import com.makentoshe.booruchan.postpreviews.PostsFragmentViewModel
+import com.makentoshe.booruchan.postpreviews.model.AdapterBuilder
 import com.makentoshe.booruchan.postpreviews.animations.SearchHideAnimator
 import com.makentoshe.booruchan.postpreviews.animations.SearchShowAnimator
 import com.makentoshe.booruchan.postpreviews.model.*
@@ -23,7 +23,7 @@ import org.jetbrains.anko.sdk27.coroutines.onEditorAction
 import org.jetbrains.anko.sdk27.coroutines.textChangedListener
 
 class PostsFragmentUiContentSearch(
-    private val postsFragmentViewModel: PostsFragmentViewModel,
+    private val adapterBuilder: AdapterBuilder,
     private val clearIconController: ClearIconController,
     private val overflowController: OverflowController,
     private val tagsController: TagsController,
@@ -67,7 +67,7 @@ class PostsFragmentUiContentSearch(
         return delayAutoCompleteEditText {
             id = R.id.postpreview_search_container_dacet
             setCursorColor(Color.BLACK)
-            setAdapter(postsFragmentViewModel.autocompleteAdapter)
+            setAdapter(adapterBuilder.getAutocompleteAdapter())
             setPadding(0, 0, dip(36), 0)
             singleLine = true
             imeOptions = EditorInfo.IME_ACTION_SEARCH

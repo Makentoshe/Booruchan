@@ -1,4 +1,4 @@
-package com.makentoshe.booruchan.postpreviews
+package com.makentoshe.booruchan.postpreviews.viewmodel
 
 import androidx.lifecycle.ViewModelProvider
 import com.makentoshe.booruchan.postpreviews.model.OverflowController

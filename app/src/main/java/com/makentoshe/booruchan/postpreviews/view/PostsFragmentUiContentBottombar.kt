@@ -5,8 +5,6 @@ import android.view.View
 import android.widget.RelativeLayout
 import com.makentoshe.booruchan.Booruchan
 import com.makentoshe.booruchan.R
-import com.makentoshe.booruchan.postpreviews.PostsFragmentViewModel
-import com.makentoshe.booruchan.postpreviews.ViewPagerViewModel
 import com.makentoshe.booruchan.postpreviews.model.ViewPagerController
 import org.jetbrains.anko.*
 import org.jetbrains.anko.sdk27.coroutines.onClick
