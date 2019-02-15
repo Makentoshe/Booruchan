@@ -44,17 +44,17 @@ inline fun <reified T : Fragment> Fragment.getFragment(): T {
 }
 
 class Mockbooru : Booru(MockbooruApi()) {
+    override fun getPosts(request: PostRequest): Posts {
+        val posts = mutableListOf<Post>()
+        (0 until request.count).forEach { posts.add(Post()) }
+        return Posts(listOf())
+    }
+
     override val title: String
         get() = javaClass.simpleName
 
     override fun customGet(request: String) = TODO("not implemented")
     override fun getPreview(previewUrl: String) = TODO("not implemented")
-
-    override fun getPosts(count: Int, page: Int, tags: Set<Tag>): Posts {
-        val posts = mutableListOf<Post>()
-        (0 until count).forEach { posts.add(Post()) }
-        return Posts(listOf())
-    }
 
     override fun autocomplete(term: String): List<Tag> {
         val list = mutableListOf<Tag>()

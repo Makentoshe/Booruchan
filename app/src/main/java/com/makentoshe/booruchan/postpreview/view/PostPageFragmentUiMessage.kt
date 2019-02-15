@@ -6,8 +6,7 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import com.makentoshe.booruapi.Posts
 import com.makentoshe.booruchan.R
-import com.makentoshe.booruchan.postpreview.PostPageFragmentViewModel
-import com.makentoshe.booruchan.postpreview.PostsDownloadController
+import com.makentoshe.booruchan.postpreview.model.PostsDownloadController
 import com.makentoshe.controllers.DownloadResult
 import org.jetbrains.anko.*
 

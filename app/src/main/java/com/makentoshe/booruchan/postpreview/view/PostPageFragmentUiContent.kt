@@ -6,14 +6,16 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.GridView
 import com.makentoshe.booruapi.Posts
-import com.makentoshe.booruchan.postpreview.PostPageFragmentViewModel
-import com.makentoshe.booruchan.postpreview.PostsDownloadController
+import com.makentoshe.booruchan.postpreview.model.AdapterBuilder
+import com.makentoshe.booruchan.postpreview.model.NavigationController
+import com.makentoshe.booruchan.postpreview.model.PostsDownloadController
 import com.makentoshe.controllers.DownloadResult
 import org.jetbrains.anko.*
 
 class PostPageFragmentUiContent(
-    private val viewModel: PostPageFragmentViewModel,
-    private val postsDownloadController: PostsDownloadController
+    private val postsDownloadController: PostsDownloadController,
+    private val adapterBuilder: AdapterBuilder,
+    private val navigationController: NavigationController
 ) : AnkoComponent<_RelativeLayout> {
 
     override fun createView(ui: AnkoContext<_RelativeLayout>): View = with(ui.owner) {
@@ -36,14 +38,14 @@ class PostPageFragmentUiContent(
 
     private fun GridView.onPostsReceive(result: DownloadResult<Posts>) {
         if (result.hasData()) {
-            adapter = viewModel.getGridAdapter(result.data)
+            adapter = adapterBuilder.buildGridAdapter(result.data)
             visibility = View.VISIBLE
         }
     }
 
     private fun onGridElementClick(parent: AdapterView<*>, view: View, position: Int, id: Long) =
-        viewModel.navigateToPostDetailsScreen(position)
+        navigationController.onSampleScreenNavigate(position)
 
-    private fun onGridElementLongClick(parent: AdapterView<*>, view: View, position: Int, id: Long) =
-        viewModel.onGridElementLongClick(position)
+    private fun onGridElementLongClick(parent: AdapterView<*>, view: View, position: Int, id: Long) = true
+//        viewModel.onGridElementLongClick(position)
 }

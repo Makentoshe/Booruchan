@@ -9,7 +9,7 @@ import androidx.lifecycle.ViewModelProviders
 import com.makentoshe.booruapi.Booru
 import com.makentoshe.booruapi.Posts
 import com.makentoshe.booruapi.Tag
-import com.makentoshe.booruchan.Fragment
+import com.makentoshe.booruchan.Booruchan
 import com.makentoshe.booruchan.postpreview.view.PostPageFragmentUi
 import com.makentoshe.repository.Repository
 import com.makentoshe.repository.SampleImageRepository
@@ -18,33 +18,39 @@ import org.jetbrains.anko.AnkoContext
 class PostPageFragment : androidx.fragment.app.Fragment() {
 
     private var position = -1
-    private lateinit var viewModel: PostPageFragmentViewModel
     private lateinit var postsDownloadViewModel: PostsDownloadViewModel
+    private lateinit var adapterViewModel: AdapterViewModel
+    private lateinit var navigatorViewModel: NavigatorViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         position = arguments!!.getInt(Int::class.java.simpleName)
         val arguments = Companion.arguments[position]!!
 
-        var factory: ViewModelProvider.NewInstanceFactory = PostPageFragmentViewModel.Factory(
-            arguments.booru,
+        var factory: ViewModelProvider.NewInstanceFactory =
+            PostsDownloadViewModel.Factory(arguments.postsRepository, arguments.tags, position)
+        postsDownloadViewModel = ViewModelProviders.of(this, factory)[PostsDownloadViewModel::class.java]
+
+        factory = AdapterViewModel.Factory(arguments.previewsRepository)
+        adapterViewModel = ViewModelProviders.of(this, factory)[AdapterViewModel::class.java]
+
+        factory = NavigatorViewModel.Factory(
             arguments.postsRepository,
-            arguments.previewsRepository,
+            12,
+            position,
+            Booruchan.INSTANCE.router,
             arguments.samplesRepository
         )
-
-        viewModel = ViewModelProviders.of(this, factory)[PostPageFragmentViewModel::class.java]
-
-        factory = PostsDownloadViewModel.Factory(arguments.postsRepository, arguments.tags, position)
-        postsDownloadViewModel = ViewModelProviders.of(this, factory)[PostsDownloadViewModel::class.java]
+        navigatorViewModel = ViewModelProviders.of(this, factory)[NavigatorViewModel::class.java]
 
         super.onCreate(savedInstanceState)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        viewModel.onCreateView(this)
         postsDownloadViewModel.onCreateView(this)
+        adapterViewModel.onCreateView(this)
+        navigatorViewModel.onCreateView(this)
 
-        return PostPageFragmentUi(viewModel, postsDownloadViewModel)
+        return PostPageFragmentUi(postsDownloadViewModel, adapterViewModel, navigatorViewModel)
             .createView(AnkoContext.create(requireContext(), this))
     }
 

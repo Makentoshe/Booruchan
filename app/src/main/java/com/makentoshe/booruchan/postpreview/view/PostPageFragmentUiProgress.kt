@@ -4,8 +4,7 @@ import android.graphics.PorterDuff
 import android.view.View
 import com.makentoshe.booruchan.Booruchan
 import com.makentoshe.booruchan.R
-import com.makentoshe.booruchan.postpreview.PostPageFragmentViewModel
-import com.makentoshe.booruchan.postpreview.PostsDownloadController
+import com.makentoshe.booruchan.postpreview.model.PostsDownloadController
 import org.jetbrains.anko.*
 
 class PostPageFragmentUiProgress(

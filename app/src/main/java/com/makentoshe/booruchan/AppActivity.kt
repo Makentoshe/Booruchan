@@ -7,13 +7,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.google.android.material.snackbar.Snackbar
-import com.makentoshe.booruchan.postsample.PostSampleScreen
-import com.makentoshe.booruchan.postsamples.PostSamplesScreen
 import com.makentoshe.booruchan.postsamples.view.PermissionChecker
 import com.makentoshe.booruchan.start.StartScreen
-import com.makentoshe.repository.PostsRepository
-import com.makentoshe.repository.SampleImageRepository
-import com.makentoshe.repository.cache.Cache
 import ru.terrakok.cicerone.Router
 
 class AppActivity : AppCompatActivity() {
@@ -50,7 +45,7 @@ class AppActivity : AppCompatActivity() {
         newRootScreen(StartScreen())
     }
 
-//    private fun Router.rootPostSampleScreen() {
+    //    private fun Router.rootPostSampleScreen() {
 //        newRootScreen(
 //            PostSampleScreen(
 //                0,

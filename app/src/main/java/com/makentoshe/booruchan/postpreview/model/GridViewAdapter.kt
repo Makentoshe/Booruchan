@@ -11,7 +11,6 @@ import android.widget.BaseAdapter
 import com.makentoshe.booruapi.Post
 import com.makentoshe.booruapi.Posts
 import com.makentoshe.booruchan.R
-import com.makentoshe.booruchan.postpreview.PostPageFragmentViewModel
 import com.makentoshe.repository.Repository
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
