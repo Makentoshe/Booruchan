@@ -12,7 +12,6 @@ class NavigatorViewModel : ViewModel(), NavigationController {
 
     private lateinit var router: Router
     private lateinit var postsRepository: Repository<Booru.PostRequest, Posts>
-    private lateinit var samplesRepository: Repository<String, ByteArray>
     private var postsCountInRequest = 0
     private var position = 0
 
@@ -25,8 +24,7 @@ class NavigatorViewModel : ViewModel(), NavigationController {
         private val postsRepository: Repository<Booru.PostRequest, Posts>,
         private val postsCountInRequest: Int,
         private val position: Int,
-        private val router: Router,
-        private val samplesRepository: Repository<String, ByteArray>
+        private val router: Router
     ) : ViewModelProvider.NewInstanceFactory() {
         override fun <T : androidx.lifecycle.ViewModel?> create(modelClass: Class<T>): T {
             val viewModel = NavigatorViewModel()
@@ -35,7 +33,6 @@ class NavigatorViewModel : ViewModel(), NavigationController {
             viewModel.position = position
             viewModel.postsRepository = postsRepository
             viewModel.postsCountInRequest = postsCountInRequest
-            viewModel.samplesRepository = samplesRepository
 
             return viewModel as T
         }

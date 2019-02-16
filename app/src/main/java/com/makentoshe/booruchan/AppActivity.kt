@@ -108,6 +108,12 @@ class AppActivity : AppCompatActivity() {
         Booruchan.INSTANCE.navigatorHolder.removeNavigator()
     }
 
+    override fun onLowMemory() {
+        super.onLowMemory()
+        //clear previews cache
+        PreviewsInternalCache<Any>(this, "previews").clear()
+    }
+
 //    override fun onBackPressed() {
 //        val fragment = supportFragmentManager.fragments.last()
 //

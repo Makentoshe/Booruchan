@@ -9,12 +9,14 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.makentoshe.booruapi.Booru
 import com.makentoshe.booruapi.Tag
-import com.makentoshe.booruchan.PostInternalCache
+import com.makentoshe.booruchan.PreviewsInternalCache
 import com.makentoshe.booruchan.booru.model.DrawerController
 import com.makentoshe.booruchan.postpreviews.model.AdapterBuilder
 import com.makentoshe.booruchan.postpreviews.model.AdapterBuilderImpl
 import com.makentoshe.booruchan.postpreviews.view.PostsFragmentUi
 import com.makentoshe.booruchan.postpreviews.viewmodel.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import org.jetbrains.anko.AnkoContext
 
 class PostsFragment : androidx.fragment.app.Fragment() {
@@ -72,13 +74,15 @@ class PostsFragment : androidx.fragment.app.Fragment() {
     }
 
     override fun onDestroy() {
-        super.onDestroy()
-
         val activity = activity
         val isChangingConfigurations = activity != null && activity.isChangingConfigurations
         if (!isChangingConfigurations) {
-            PostInternalCache<Any>(requireContext(), "previews").clear()
+            GlobalScope.launch {
+                PreviewsInternalCache<Any>(requireContext(), "previews").clear()
+            }
         }
+
+        super.onDestroy()
     }
 
     companion object {

@@ -20,10 +20,8 @@ class AdapterBuilderImpl(private val booru: Booru) : AdapterBuilder {
 
     override fun getViewPagerAdapter(fragmentManager: FragmentManager, tags: Set<Tag>): PagerAdapter {
         val postsRepository = buildPostsRepository()
-//        val previewsRepository = buildPreviewsRepository()
-        val samplesRepository = buildSamplesRepository()
 
-        val arguments = PostPageFragment.Arguments(booru, tags, postsRepository, samplesRepository)
+        val arguments = PostPageFragment.Arguments(booru, tags, postsRepository)
 
         return ViewPagerAdapter(fragmentManager, arguments)
     }
@@ -31,9 +29,5 @@ class AdapterBuilderImpl(private val booru: Booru) : AdapterBuilder {
     private fun buildPostsRepository(cacheSize: Int = 36): ClearableRepository<Booru.PostRequest, Posts> {
         return PostsCachedRepository(PostsCache(cacheSize), PostsRepository(booru))
 //        return CachedRepository<Booru.PostRequest, Posts>(Cache.create(cacheSize), PostsRepository(booru))
-    }
-
-    private fun buildSamplesRepository(cacheSize: Int = 3): SampleImageRepository {
-        return SampleImageRepository(booru, Cache.create(cacheSize))
     }
 }

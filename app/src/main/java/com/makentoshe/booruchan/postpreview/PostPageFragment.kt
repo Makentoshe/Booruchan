@@ -11,7 +11,7 @@ import com.makentoshe.booruapi.Post
 import com.makentoshe.booruapi.Posts
 import com.makentoshe.booruapi.Tag
 import com.makentoshe.booruchan.Booruchan
-import com.makentoshe.booruchan.PostInternalCache
+import com.makentoshe.booruchan.PreviewsInternalCache
 import com.makentoshe.booruchan.postpreview.view.PostPageFragmentUi
 import com.makentoshe.repository.*
 import org.jetbrains.anko.AnkoContext
@@ -28,7 +28,7 @@ class PostPageFragment : androidx.fragment.app.Fragment() {
         val arguments = Companion.arguments[position]!!
 
         val previewsRepository = CachedRepository<Post, ByteArray>(
-            PostInternalCache(requireContext(), "previews"),
+            PreviewsInternalCache(requireContext(), "previews"),
             PreviewImageRepository(arguments.booru)
         )
 
@@ -43,8 +43,7 @@ class PostPageFragment : androidx.fragment.app.Fragment() {
             arguments.postsRepository,
             12,
             position,
-            Booruchan.INSTANCE.router,
-            arguments.samplesRepository
+            Booruchan.INSTANCE.router
         )
         navigatorViewModel = ViewModelProviders.of(this, factory)[NavigatorViewModel::class.java]
 
@@ -88,7 +87,6 @@ class PostPageFragment : androidx.fragment.app.Fragment() {
     data class Arguments(
         val booru: Booru,
         val tags: Set<Tag>,
-        val postsRepository: Repository<Booru.PostRequest, Posts>,
-        val samplesRepository: SampleImageRepository
+        val postsRepository: Repository<Booru.PostRequest, Posts>
     )
 }
