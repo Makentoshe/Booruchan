@@ -8,6 +8,7 @@ import com.makentoshe.booruapi.Tag
 import com.makentoshe.booruchan.postpreview.PostPageFragment
 import com.makentoshe.repository.*
 import com.makentoshe.repository.cache.Cache
+import com.makentoshe.repository.cache.PostsCache
 
 class AdapterBuilderImpl(private val booru: Booru) : AdapterBuilder {
 
@@ -27,8 +28,9 @@ class AdapterBuilderImpl(private val booru: Booru) : AdapterBuilder {
         return ViewPagerAdapter(fragmentManager, arguments)
     }
 
-    private fun buildPostsRepository(cacheSize: Int = 3): ClearableRepository<Booru.PostRequest, Posts> {
-        return CachedRepository<Booru.PostRequest, Posts>(Cache.create(cacheSize), PostsRepository(booru))
+    private fun buildPostsRepository(cacheSize: Int = 36): ClearableRepository<Booru.PostRequest, Posts> {
+        return PostsCachedRepository(PostsCache(cacheSize), PostsRepository(booru))
+//        return CachedRepository<Booru.PostRequest, Posts>(Cache.create(cacheSize), PostsRepository(booru))
     }
 
     private fun buildPreviewsRepository(cacheSize: Int = 36): ClearableRepository<String, ByteArray> {

@@ -10,14 +10,14 @@ import java.util.concurrent.ArrayBlockingQueue
  * @param size is a posts count in the storage.
  */
 class PostsCache(private val size: Int) :
-    ClearableCache<Booru.PostRequest, Posts> {
+    ClearableCache<Booru.PostRequest, Posts?> {
 
     private val storage = HashMap<Int, Post>()
     private val keysQueue = ArrayBlockingQueue<Int>(size)
 
-    override fun get(key: Booru.PostRequest, loader: () -> Posts): Posts {
+    override fun get(key: Booru.PostRequest, loader: () -> Posts?): Posts? {
         return getIfPresent(key) ?: loader().apply {
-            addToStorage(key, this)
+            if (this != null) addToStorage(key, this)
         }
     }
 
