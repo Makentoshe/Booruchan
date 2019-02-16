@@ -1,20 +1,10 @@
 package com.makentoshe.booruchan.postpreviews.model
 
 import com.makentoshe.booruapi.Tag
-import com.makentoshe.booruchan.Controller
-import io.reactivex.disposables.CompositeDisposable
+import com.makentoshe.controllers.SimpleRxController
 import io.reactivex.subjects.BehaviorSubject
 
-class TagController : Controller<Tag> {
+class TagController : SimpleRxController<Tag, Tag>(BehaviorSubject.create()) {
 
-    private val observable = BehaviorSubject.create<Tag>()
-    private val disposables = CompositeDisposable()
-
-    override fun subscribe(action: (Tag) -> Unit) {
-        disposables.add(observable.subscribe(action))
-    }
-
-    fun action(tag: Tag) = observable.onNext(tag)
-
-    override fun clear() = disposables.clear()
+    override fun action(param: Tag) = observable.onNext(param)
 }

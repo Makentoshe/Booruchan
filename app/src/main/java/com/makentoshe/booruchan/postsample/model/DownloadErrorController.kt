@@ -1,19 +1,9 @@
 package com.makentoshe.booruchan.postsample.model
 
-import com.makentoshe.booruchan.Controller
-import io.reactivex.disposables.CompositeDisposable
+import com.makentoshe.controllers.SimpleRxController
 import io.reactivex.subjects.BehaviorSubject
 
-class DownloadErrorController : Controller<Exception> {
+class DownloadErrorController : SimpleRxController<Exception, Exception>(BehaviorSubject.create()) {
 
-    private val observable = BehaviorSubject.create<Exception>()
-    private val disposables = CompositeDisposable()
-
-    override fun subscribe(action: (Exception) -> Unit) {
-        disposables.add(observable.subscribe(action))
-    }
-
-    fun action(exception: Exception) = observable.onNext(exception)
-
-    override fun clear() = disposables.clear()
+    override fun action(param: Exception) = observable.onNext(param)
 }
