@@ -30,7 +30,7 @@ import org.jetbrains.anko.cardview.v7.cardView
  */
 class GridViewAdapter(
     private val posts: Posts,
-    private val previewsRepository: Repository<String, ByteArray>,
+    private val previewsRepository: Repository<Post, ByteArray>,
     private val coroutineScope: CoroutineScope,
     private val disposables: CompositeDisposable
 ) : BaseAdapter() {
@@ -53,12 +53,12 @@ class GridViewAdapter(
     private class PreviewUi(
         private val post: Post,
         private val disposables: CompositeDisposable,
-        previewsRepository: Repository<String, ByteArray>,
+        previewsRepository: Repository<Post, ByteArray>,
         coroutineScope: CoroutineScope
     ) {
 
         val imageDownloadController = ImageDownloadController(coroutineScope, previewsRepository).apply {
-            action(post.previewUrl)
+            action(post)
         }
 
         fun createView(context: Context): View = with(context) {

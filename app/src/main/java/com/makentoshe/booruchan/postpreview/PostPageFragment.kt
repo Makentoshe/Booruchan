@@ -7,12 +7,13 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.makentoshe.booruapi.Booru
+import com.makentoshe.booruapi.Post
 import com.makentoshe.booruapi.Posts
 import com.makentoshe.booruapi.Tag
 import com.makentoshe.booruchan.Booruchan
+import com.makentoshe.booruchan.PostInternalCache
 import com.makentoshe.booruchan.postpreview.view.PostPageFragmentUi
-import com.makentoshe.repository.Repository
-import com.makentoshe.repository.SampleImageRepository
+import com.makentoshe.repository.*
 import org.jetbrains.anko.AnkoContext
 
 class PostPageFragment : androidx.fragment.app.Fragment() {
@@ -26,11 +27,16 @@ class PostPageFragment : androidx.fragment.app.Fragment() {
         position = arguments!!.getInt(Int::class.java.simpleName)
         val arguments = Companion.arguments[position]!!
 
+        val previewsRepository = CachedRepository<Post, ByteArray>(
+            PostInternalCache(requireContext(), "previews"),
+            PreviewImageRepository(arguments.booru)
+        )
+
         var factory: ViewModelProvider.NewInstanceFactory =
             PostsDownloadViewModel.Factory(arguments.postsRepository, arguments.tags, position)
         postsDownloadViewModel = ViewModelProviders.of(this, factory)[PostsDownloadViewModel::class.java]
 
-        factory = AdapterViewModel.Factory(arguments.previewsRepository)
+        factory = AdapterViewModel.Factory(previewsRepository)
         adapterViewModel = ViewModelProviders.of(this, factory)[AdapterViewModel::class.java]
 
         factory = NavigatorViewModel.Factory(
@@ -83,7 +89,6 @@ class PostPageFragment : androidx.fragment.app.Fragment() {
         val booru: Booru,
         val tags: Set<Tag>,
         val postsRepository: Repository<Booru.PostRequest, Posts>,
-        val previewsRepository: Repository<String, ByteArray>,
         val samplesRepository: SampleImageRepository
     )
 }

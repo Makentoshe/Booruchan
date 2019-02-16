@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.makentoshe.booruapi.Booru
 import com.makentoshe.booruapi.Tag
+import com.makentoshe.booruchan.PostInternalCache
 import com.makentoshe.booruchan.booru.model.DrawerController
 import com.makentoshe.booruchan.postpreviews.model.AdapterBuilder
 import com.makentoshe.booruchan.postpreviews.model.AdapterBuilderImpl
@@ -68,6 +69,16 @@ class PostsFragment : androidx.fragment.app.Fragment() {
             adapterBuilder,
             booru.title
         ).createView(AnkoContext.create(requireContext(), this))
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+
+        val activity = activity
+        val isChangingConfigurations = activity != null && activity.isChangingConfigurations
+        if (!isChangingConfigurations) {
+            PostInternalCache<Any>(requireContext(), "previews").clear()
+        }
     }
 
     companion object {

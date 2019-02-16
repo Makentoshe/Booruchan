@@ -1,5 +1,6 @@
 package com.makentoshe.booruchan.postpreview.model
 
+import com.makentoshe.booruapi.Post
 import com.makentoshe.controllers.DownloadRxController
 import com.makentoshe.repository.Repository
 import io.reactivex.subjects.BehaviorSubject
@@ -11,13 +12,13 @@ import kotlinx.coroutines.CoroutineScope
  */
 open class ImageDownloadController(
     coroutineScope: CoroutineScope,
-    private val repository: Repository<String, ByteArray>
-) : DownloadRxController<ByteArray, String>(BehaviorSubject.create(), coroutineScope) {
+    private val repository: Repository<Post, ByteArray>
+) : DownloadRxController<ByteArray, Post>(BehaviorSubject.create(), coroutineScope) {
 
     /**
      * Gets byte array from the repository.
      */
-    override fun performDownload(param: String): ByteArray {
+    override fun performDownload(param: Post): ByteArray {
         return repository.get(param)!!
     }
 }
