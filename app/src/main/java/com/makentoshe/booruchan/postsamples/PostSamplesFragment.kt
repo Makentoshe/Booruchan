@@ -7,11 +7,7 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProviders
 import com.makentoshe.booruapi.Booru
 import com.makentoshe.booruchan.Booruchan
-import com.makentoshe.booruchan.PostInternalCache
 import com.makentoshe.booruchan.postsamples.view.PostSamplesUi
-import com.makentoshe.repository.CachedRepository
-import com.makentoshe.repository.PostsRepository
-import com.makentoshe.repository.SampleImageRepository
 import org.jetbrains.anko.AnkoContext
 
 class PostSamplesFragment : androidx.fragment.app.Fragment() {
@@ -36,7 +32,7 @@ class PostSamplesFragment : androidx.fragment.app.Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        super.onCreateView(inflater, container, savedInstanceState)
+        viewModel.onCreateView(this)
         return PostSamplesUi(viewModel).createView(AnkoContext.create(requireContext(), this))
     }
 
@@ -54,6 +50,5 @@ class PostSamplesFragment : androidx.fragment.app.Fragment() {
             }
         }
     }
-
 }
 

@@ -11,6 +11,8 @@ import com.makentoshe.booruchan.AppActivity
 import com.makentoshe.booruchan.ImageInternalCache
 import com.makentoshe.booruchan.PostInternalCache
 import com.makentoshe.booruchan.PreviewsInternalCache
+import com.makentoshe.booruchan.postsamples.model.AdapterBuilder
+import com.makentoshe.booruchan.postsamples.model.AdapterBuilderImpl
 import com.makentoshe.booruchan.postsamples.view.PostSamplesContentUi
 import com.makentoshe.repository.CachedRepository
 import com.makentoshe.repository.PostsRepository
@@ -20,6 +22,7 @@ import org.jetbrains.anko.AnkoContext
 class PostSamplesContentFragment : Fragment() {
 
     private lateinit var viewModel: PostSamplesContentViewModel
+    private lateinit var adapterBuilder: AdapterBuilder
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val pagePosition = arguments!!.getInt(PAGEPOSITION)
@@ -37,22 +40,19 @@ class PostSamplesContentFragment : Fragment() {
         val snackbarNotificationController = (requireActivity() as AppActivity).snackbarNotificationController
 
         val factory = PostSamplesContentViewModel.Factory(
-            booru,
-            pagePosition,
-            itemPosition,
-            postsRepository,
-            samplesRepository,
             startDownloadController,
             permissionChecker,
             snackbarNotificationController
         )
         viewModel = ViewModelProviders.of(this, factory)[PostSamplesContentViewModel::class.java]
 
+        adapterBuilder = AdapterBuilderImpl(booru)
+
         super.onCreate(savedInstanceState)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return PostSamplesContentUi(viewModel)
+        return PostSamplesContentUi(viewModel, adapterBuilder)
             .createView(AnkoContext.create(requireContext(), this))
     }
 
@@ -78,6 +78,5 @@ class PostSamplesContentFragment : Fragment() {
             }
         }
     }
-
 }
 

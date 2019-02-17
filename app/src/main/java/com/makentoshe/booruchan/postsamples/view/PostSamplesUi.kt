@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import com.makentoshe.booruchan.Booruchan
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.postsamples.PostSamplesViewModel
+import com.makentoshe.booruchan.postsamples.model.AdapterBuilder
 import com.makentoshe.style.Style
 import org.jetbrains.anko.*
 import org.jetbrains.anko.custom.ankoView
