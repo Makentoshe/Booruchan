@@ -47,7 +47,7 @@ class PostPageFragment : androidx.fragment.app.Fragment() {
         factory = AdapterViewModel.Factory(previewsRepository)
         adapterViewModel = ViewModelProviders.of(this, factory)[AdapterViewModel::class.java]
 
-        factory = NavigatorViewModel.Factory(position, Booruchan.INSTANCE.router)
+        factory = NavigatorViewModel.Factory(position, Booruchan.INSTANCE.router, booru)
         navigatorViewModel = ViewModelProviders.of(this, factory)[NavigatorViewModel::class.java]
 
         super.onCreate(savedInstanceState)

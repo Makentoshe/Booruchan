@@ -2,7 +2,11 @@ package com.makentoshe.booruchan.postsamples
 
 import android.view.MenuItem
 import android.view.View
+import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
+import androidx.viewpager.widget.PagerAdapter
+import com.makentoshe.booruapi.Booru
+import com.makentoshe.booruchan.postsamples.model.SamplesVerticalViewPagerAdapter
 import com.makentoshe.controllers.SimpleRxController
 import com.makentoshe.viewmodel.ViewModel
 import io.reactivex.subjects.BehaviorSubject
@@ -13,18 +17,20 @@ class PostSamplesViewModel private constructor() : ViewModel() {
 
     private var pagePosition: Int = 0
     private var itemPosition: Int = 0
+    private lateinit var booru: Booru
     private lateinit var router: Router
     private lateinit var startDownloadRxController: StartDownloadRxController
 
     fun onDownloadIconClick(ignored: View) = startDownloadRxController.action(Unit)
 
-//    fun getSamplesVerticalViewPagerAdapter(fragmentManager: FragmentManager): PagerAdapter {
-//        return SamplesVerticalViewPagerAdapter(
-//            fragmentManager,
-//            pagePosition,
-//            startDownloadRxController
-//        )
-//    }
+    fun getSamplesVerticalViewPagerAdapter(fragmentManager: FragmentManager): PagerAdapter {
+        return SamplesVerticalViewPagerAdapter(
+            fragmentManager,
+            pagePosition, itemPosition,
+            startDownloadRxController,
+            booru
+        )
+    }
 
     fun onNavigationItemSelected(menuItem: MenuItem): Boolean {
 
@@ -37,7 +43,8 @@ class PostSamplesViewModel private constructor() : ViewModel() {
     class Factory(
         private val pagePosition: Int,
         private val itemPosition: Int,
-        private val router: Router
+        private val router: Router,
+        private val booru: Booru
     ) : ViewModelProvider.NewInstanceFactory() {
 
         override fun <T : androidx.lifecycle.ViewModel?> create(modelClass: Class<T>): T {
@@ -48,6 +55,8 @@ class PostSamplesViewModel private constructor() : ViewModel() {
             viewModel.pagePosition = pagePosition
             viewModel.itemPosition = itemPosition
             viewModel.router = router
+            viewModel.booru = booru
+
             return viewModel as T
         }
     }

@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProviders
+import com.makentoshe.booruapi.Booru
 import com.makentoshe.booruchan.Booruchan
 import com.makentoshe.booruchan.PostInternalCache
 import com.makentoshe.booruchan.postsamples.view.PostSamplesUi
@@ -20,12 +21,14 @@ class PostSamplesFragment : androidx.fragment.app.Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         val pagePosition = arguments!!.getInt(PAGEPOSITION)
         val itemPosition = arguments!!.getInt(ITEMPOSITION)
+        val booru = arguments!!.get(BOORU) as Booru
 
         val router = Booruchan.INSTANCE.router
         val factory = PostSamplesViewModel.Factory(
             pagePosition,
             itemPosition,
-            router
+            router,
+            booru
         )
         viewModel = ViewModelProviders.of(this, factory)[PostSamplesViewModel::class.java]
 
@@ -40,12 +43,13 @@ class PostSamplesFragment : androidx.fragment.app.Fragment() {
     companion object {
         private const val ITEMPOSITION = "ItemPosition"
         private const val PAGEPOSITION = "PagePosition"
-
-        fun create(itemPosition: Int, position: Int): androidx.fragment.app.Fragment {
+        private const val BOORU = "Booru"
+        fun create(itemPosition: Int, position: Int, booru: Booru): androidx.fragment.app.Fragment {
             return PostSamplesFragment().apply {
                 arguments = Bundle().apply {
                     putInt(ITEMPOSITION, itemPosition)
                     putInt(PAGEPOSITION, position)
+                    putSerializable(BOORU, booru)
                 }
             }
         }

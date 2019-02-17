@@ -4,22 +4,21 @@ import android.os.Parcelable
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
+import com.makentoshe.booruapi.Booru
 import com.makentoshe.booruchan.postsamples.PostSamplesContentScreen
 import com.makentoshe.booruchan.postsamples.StartDownloadRxController
-import com.makentoshe.repository.PostsRepository
-import com.makentoshe.repository.SampleImageRepository
 
 class SamplesVerticalViewPagerAdapter(
     fragmentManager: FragmentManager,
-    private val position: Int,
-    private val postsRepository: PostsRepository,
-    private val samplesRepository: SampleImageRepository,
-    private val startDownloadRxController: StartDownloadRxController
+    private val pagePosition: Int,
+    private val itemPosition: Int,
+    private val startDownloadRxController: StartDownloadRxController,
+    private val booru: Booru
 ) : FragmentPagerAdapter(fragmentManager) {
     override fun getItem(position: Int): Fragment {
         return when (position) {
             0 -> Fragment()
-            1 -> PostSamplesContentScreen(this.position, postsRepository, samplesRepository, startDownloadRxController).fragment
+            1 -> PostSamplesContentScreen(pagePosition, itemPosition, startDownloadRxController, booru).fragment
             else -> throw IllegalArgumentException(position.toString())
         }
     }
