@@ -2,13 +2,8 @@ package com.makentoshe.booruchan.postsamples
 
 import android.view.MenuItem
 import android.view.View
-import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
-import androidx.viewpager.widget.PagerAdapter
-import com.makentoshe.booruchan.postsamples.model.SamplesVerticalViewPagerAdapter
 import com.makentoshe.controllers.SimpleRxController
-import com.makentoshe.repository.PostsRepository
-import com.makentoshe.repository.SampleImageRepository
 import com.makentoshe.viewmodel.ViewModel
 import io.reactivex.subjects.BehaviorSubject
 import ru.terrakok.cicerone.Router
@@ -16,23 +11,20 @@ import java.io.Serializable
 
 class PostSamplesViewModel private constructor() : ViewModel() {
 
-    private var position: Int = 0
-    private lateinit var postsRepository: PostsRepository
-    private lateinit var samplesRepository: SampleImageRepository
+    private var pagePosition: Int = 0
+    private var itemPosition: Int = 0
     private lateinit var router: Router
     private lateinit var startDownloadRxController: StartDownloadRxController
 
     fun onDownloadIconClick(ignored: View) = startDownloadRxController.action(Unit)
 
-    fun getSamplesVerticalViewPagerAdapter(fragmentManager: FragmentManager): PagerAdapter {
-        return SamplesVerticalViewPagerAdapter(
-            fragmentManager,
-            position,
-            postsRepository,
-            samplesRepository,
-            startDownloadRxController
-        )
-    }
+//    fun getSamplesVerticalViewPagerAdapter(fragmentManager: FragmentManager): PagerAdapter {
+//        return SamplesVerticalViewPagerAdapter(
+//            fragmentManager,
+//            pagePosition,
+//            startDownloadRxController
+//        )
+//    }
 
     fun onNavigationItemSelected(menuItem: MenuItem): Boolean {
 
@@ -43,9 +35,8 @@ class PostSamplesViewModel private constructor() : ViewModel() {
     fun exit() = router.exit()
 
     class Factory(
-        private val position: Int,
-        private val postsRepository: PostsRepository,
-        private val samplesRepository: SampleImageRepository,
+        private val pagePosition: Int,
+        private val itemPosition: Int,
         private val router: Router
     ) : ViewModelProvider.NewInstanceFactory() {
 
@@ -54,9 +45,8 @@ class PostSamplesViewModel private constructor() : ViewModel() {
             val startDownloadRxController = StartDownloadRxController()
 
             viewModel.startDownloadRxController = startDownloadRxController
-            viewModel.position = position
-            viewModel.postsRepository = postsRepository
-            viewModel.samplesRepository = samplesRepository
+            viewModel.pagePosition = pagePosition
+            viewModel.itemPosition = itemPosition
             viewModel.router = router
             return viewModel as T
         }

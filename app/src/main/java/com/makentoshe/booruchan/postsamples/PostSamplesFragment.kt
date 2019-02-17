@@ -6,24 +6,30 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProviders
 import com.makentoshe.booruchan.Booruchan
-import com.makentoshe.booruchan.Fragment
+import com.makentoshe.booruchan.PostInternalCache
 import com.makentoshe.booruchan.postsamples.view.PostSamplesUi
+import com.makentoshe.repository.CachedRepository
 import com.makentoshe.repository.PostsRepository
 import com.makentoshe.repository.SampleImageRepository
 import org.jetbrains.anko.AnkoContext
 
-class PostSamplesFragment : Fragment<PostSamplesViewModel>() {
+class PostSamplesFragment : androidx.fragment.app.Fragment() {
 
-    override fun buildViewModel(arguments: Bundle): PostSamplesViewModel {
-        val position = arguments.getInt(Int::class.java.simpleName)
-        val holderArguments = ArgumentsHolder[this::class.java.simpleName.plus(position)]
+    private lateinit var viewModel: PostSamplesViewModel
 
-        val postsRepository = holderArguments!![PostsRepository::class.java.simpleName] as PostsRepository
-        val samplesRepository = holderArguments[SampleImageRepository::class.java.simpleName] as SampleImageRepository
+    override fun onCreate(savedInstanceState: Bundle?) {
+        val pagePosition = arguments!!.getInt(PAGEPOSITION)
+        val itemPosition = arguments!!.getInt(ITEMPOSITION)
+
         val router = Booruchan.INSTANCE.router
+        val factory = PostSamplesViewModel.Factory(
+            pagePosition,
+            itemPosition,
+            router
+        )
+        viewModel = ViewModelProviders.of(this, factory)[PostSamplesViewModel::class.java]
 
-        val factory = PostSamplesViewModel.Factory(position, postsRepository, samplesRepository, router)
-        return ViewModelProviders.of(this, factory)[PostSamplesViewModel::class.java]
+        super.onCreate(savedInstanceState)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -31,15 +37,19 @@ class PostSamplesFragment : Fragment<PostSamplesViewModel>() {
         return PostSamplesUi(viewModel).createView(AnkoContext.create(requireContext(), this))
     }
 
-    override fun onDestroy() {
-        val activity = activity
-        val isChangingConfigurations = activity != null && activity.isChangingConfigurations
-        if (!isChangingConfigurations) {
-            val position = arguments!!.getInt(Int::class.java.simpleName)
-            ArgumentsHolder.remove(this::class.java.simpleName.plus(position))
-        }
+    companion object {
+        private const val ITEMPOSITION = "ItemPosition"
+        private const val PAGEPOSITION = "PagePosition"
 
-        super.onDestroy()
+        fun create(itemPosition: Int, position: Int): androidx.fragment.app.Fragment {
+            return PostSamplesFragment().apply {
+                arguments = Bundle().apply {
+                    putInt(ITEMPOSITION, itemPosition)
+                    putInt(PAGEPOSITION, position)
+                }
+            }
+        }
     }
+
 }
 
