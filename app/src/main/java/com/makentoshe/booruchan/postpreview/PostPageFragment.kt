@@ -16,6 +16,7 @@ import com.makentoshe.booruchan.PreviewsInternalCache
 import com.makentoshe.booruchan.postpreview.view.PostPageFragmentUi
 import com.makentoshe.repository.*
 import org.jetbrains.anko.AnkoContext
+import java.io.Serializable
 
 class PostPageFragment : androidx.fragment.app.Fragment() {
 
@@ -25,21 +26,22 @@ class PostPageFragment : androidx.fragment.app.Fragment() {
     private lateinit var navigatorViewModel: NavigatorViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        position = arguments!!.getInt(Int::class.java.simpleName)
-        val arguments = Companion.arguments[position]!!
+        position = arguments!!.getInt(POSITION)
+        val booru = arguments!!.get(BOORU) as Booru
+        val tags = arguments!!.get(TAGS) as Set<Tag>
 
         val previewsRepository = CachedRepository<Post, ByteArray>(
             PreviewsInternalCache(requireContext(), "previews"),
-            PreviewImageRepository(arguments.booru)
+            PreviewImageRepository(booru)
         )
 
         val postsRepository = CachedRepository(
             PostInternalCache(requireContext(), "posts"),
-            PostsRepository(arguments.booru)
+            PostsRepository(booru)
         )
 
         var factory: ViewModelProvider.NewInstanceFactory =
-            PostsDownloadViewModel.Factory(postsRepository, arguments.tags, position)
+            PostsDownloadViewModel.Factory(postsRepository, tags, position)
         postsDownloadViewModel = ViewModelProviders.of(this, factory)[PostsDownloadViewModel::class.java]
 
         factory = AdapterViewModel.Factory(previewsRepository)
@@ -65,34 +67,20 @@ class PostPageFragment : androidx.fragment.app.Fragment() {
             .createView(AnkoContext.create(requireContext(), this))
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-
-        val activity = activity
-        val isChangingConfigurations = activity != null && activity.isChangingConfigurations
-        if (!isChangingConfigurations) {
-            Companion.arguments.remove(position)
-        }
-    }
-
     companion object {
-        fun create(position: Int, arguments: Arguments): androidx.fragment.app.Fragment {
+        private const val POSITION = "Position"
+        private const val BOORU = "Booru"
+        private const val TAGS = "Tags"
 
-            Companion.arguments[position] = arguments
+        fun create(position: Int, booru: Booru, tags: Set<Tag>): androidx.fragment.app.Fragment {
 
             return PostPageFragment().apply {
                 this.arguments = Bundle().apply {
-                    putInt(Int::class.java.simpleName, position)
+                    putInt(POSITION, position)
+                    putSerializable(BOORU, booru)
+                    putSerializable(TAGS, tags as Serializable)
                 }
             }
         }
-
-        private val arguments = HashMap<Int, Arguments>()
     }
-
-    data class Arguments(
-        val booru: Booru,
-        val tags: Set<Tag>,
-        val postsRepository: Repository<Booru.PostRequest, Posts>
-    )
 }

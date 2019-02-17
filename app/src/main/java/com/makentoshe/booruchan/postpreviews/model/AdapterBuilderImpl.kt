@@ -19,15 +19,6 @@ class AdapterBuilderImpl(private val booru: Booru) : AdapterBuilder {
         DelayAutocompleteAdapter(autocompleteRepository)
 
     override fun getViewPagerAdapter(fragmentManager: FragmentManager, tags: Set<Tag>): PagerAdapter {
-        val postsRepository = buildPostsRepository()
-
-        val arguments = PostPageFragment.Arguments(booru, tags, postsRepository)
-
-        return ViewPagerAdapter(fragmentManager, arguments)
-    }
-
-    private fun buildPostsRepository(cacheSize: Int = 36): ClearableRepository<Booru.PostRequest, Posts> {
-        return PostsCachedRepository(PostsCache(cacheSize), PostsRepository(booru))
-//        return CachedRepository<Booru.PostRequest, Posts>(Cache.create(cacheSize), PostsRepository(booru))
+        return ViewPagerAdapter(fragmentManager, booru, tags)
     }
 }
