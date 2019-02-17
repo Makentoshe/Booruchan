@@ -37,6 +37,7 @@ class PostSamplesContentFragment : Fragment() {
         val snackbarNotificationController = (requireActivity() as AppActivity).snackbarNotificationController
 
         val factory = PostSamplesContentViewModel.Factory(
+            booru,
             pagePosition,
             itemPosition,
             postsRepository,

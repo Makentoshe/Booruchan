@@ -24,6 +24,7 @@ class PostSamplesContentViewModel : ViewModel() {
 
     private var pagePosition: Int = 0
     private var itemPosition: Int = 0
+    private lateinit var booru: Booru
     private lateinit var postsRepository: Repository<Booru.PostRequest, Posts>
     private lateinit var samplesRepository: Repository<Post, ByteArray>
     private lateinit var startDownloadController: StartDownloadRxController
@@ -33,7 +34,7 @@ class PostSamplesContentViewModel : ViewModel() {
     private val disposables = CompositeDisposable()
 
 //    fun getViewPagerAdapter(fragmentManager: FragmentManager): PagerAdapter {
-//        return SamplesContentViewPagerAdapter(fragmentManager, postsRepository, samplesRepository)
+//        return SamplesContentViewPagerAdapter(fragmentManager, booru)
 //    }
 
     fun onStartDownloadControllerListener(action: () -> Unit) {
@@ -54,6 +55,7 @@ class PostSamplesContentViewModel : ViewModel() {
     }
 
     class Factory(
+        private val booru: Booru,
         private val pagePosition: Int,
         private val itemPosition: Int,
         private val postsRepository: Repository<Booru.PostRequest, Posts>,
@@ -65,6 +67,7 @@ class PostSamplesContentViewModel : ViewModel() {
         override fun <T : androidx.lifecycle.ViewModel?> create(modelClass: Class<T>): T {
             val viewModel = PostSamplesContentViewModel()
 
+            viewModel.booru = booru
             viewModel.position = pagePosition
             viewModel.postsRepository = postsRepository
             viewModel.samplesRepository = samplesRepository
