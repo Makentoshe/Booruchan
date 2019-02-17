@@ -5,6 +5,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager.widget.PagerAdapter
+import com.makentoshe.booruapi.Booru
+import com.makentoshe.booruapi.Post
+import com.makentoshe.booruapi.Posts
 import com.makentoshe.booruchan.NotificationInterface
 import com.makentoshe.booruchan.postsamples.model.SamplesContentViewPagerAdapter
 import com.makentoshe.booruchan.postsamples.view.FileDownloadService
@@ -18,24 +21,27 @@ import io.reactivex.disposables.CompositeDisposable
 class PostSamplesContentViewModel : ViewModel() {
     var position = 0
         private set
-    private lateinit var postsRepository: PostsRepository
-    private lateinit var samplesRepository: SampleImageRepository
-    private val disposables = CompositeDisposable()
+
+    private var pagePosition: Int = 0
+    private var itemPosition: Int = 0
+    private lateinit var postsRepository: Repository<Booru.PostRequest, Posts>
+    private lateinit var samplesRepository: Repository<Post, ByteArray>
     private lateinit var startDownloadController: StartDownloadRxController
     private lateinit var filesRepository: Repository<String, ByteArray>
     private lateinit var permissionChecker: PermissionChecker
     private lateinit var notificationInterface: NotificationInterface
+    private val disposables = CompositeDisposable()
 
-    fun getViewPagerAdapter(fragmentManager: FragmentManager): PagerAdapter {
-        return SamplesContentViewPagerAdapter(fragmentManager, postsRepository, samplesRepository)
-    }
+//    fun getViewPagerAdapter(fragmentManager: FragmentManager): PagerAdapter {
+//        return SamplesContentViewPagerAdapter(fragmentManager, postsRepository, samplesRepository)
+//    }
 
     fun onStartDownloadControllerListener(action: () -> Unit) {
         disposables.add(startDownloadController.subscribe { action() })
     }
 
     fun startFileDownload(position: Int, context: Context) {
-        FileDownloadService.startService(context, position, postsRepository, filesRepository, permissionChecker, notificationInterface)
+//        FileDownloadService.startService(context, position, postsRepository, filesRepository, permissionChecker, notificationInterface)
     }
 
     override fun onCreateView(owner: Fragment) {
@@ -48,19 +54,18 @@ class PostSamplesContentViewModel : ViewModel() {
     }
 
     class Factory(
-        private val position: Int,
-        private val postsRepository: PostsRepository,
-        private val samplesRepository: SampleImageRepository,
+        private val pagePosition: Int,
+        private val itemPosition: Int,
+        private val postsRepository: Repository<Booru.PostRequest, Posts>,
+        private val samplesRepository: Repository<Post, ByteArray>,
         private val startDownloadController: StartDownloadRxController,
         private val permissionChecker: PermissionChecker,
-        private val notificationInterface: NotificationInterface,
-        private val filesRepository: Repository<String, ByteArray> = samplesRepository
+        private val notificationInterface: NotificationInterface
     ) : ViewModelProvider.NewInstanceFactory() {
         override fun <T : androidx.lifecycle.ViewModel?> create(modelClass: Class<T>): T {
             val viewModel = PostSamplesContentViewModel()
 
-            viewModel.position = position
-            viewModel.filesRepository = filesRepository
+            viewModel.position = pagePosition
             viewModel.postsRepository = postsRepository
             viewModel.samplesRepository = samplesRepository
             viewModel.permissionChecker = permissionChecker

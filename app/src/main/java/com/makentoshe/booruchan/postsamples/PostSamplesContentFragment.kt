@@ -8,14 +8,18 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import com.makentoshe.booruapi.Booru
 import com.makentoshe.booruchan.AppActivity
+import com.makentoshe.booruchan.ImageInternalCache
 import com.makentoshe.booruchan.PostInternalCache
+import com.makentoshe.booruchan.PreviewsInternalCache
 import com.makentoshe.booruchan.postsamples.view.PostSamplesContentUi
 import com.makentoshe.repository.CachedRepository
 import com.makentoshe.repository.PostsRepository
 import com.makentoshe.repository.SampleImageRepository
 import org.jetbrains.anko.AnkoContext
 
-class PostSamplesContentFragment : com.makentoshe.booruchan.Fragment<PostSamplesContentViewModel>() {
+class PostSamplesContentFragment : Fragment() {
+
+    private lateinit var viewModel: PostSamplesContentViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val pagePosition = arguments!!.getInt(PAGEPOSITION)
@@ -26,30 +30,24 @@ class PostSamplesContentFragment : com.makentoshe.booruchan.Fragment<PostSamples
         val postsCache = PostInternalCache(requireContext(), "posts")
         val postsRepository = CachedRepository(postsCache, PostsRepository(booru))
 
-        super.onCreate(savedInstanceState)
-    }
+        val imageInternalCache = ImageInternalCache(requireContext(), "samples")
+        val samplesRepository = CachedRepository(imageInternalCache, SampleImageRepository(booru))
 
-    override fun buildViewModel(arguments: Bundle): PostSamplesContentViewModel {
-        val position = arguments.getInt(Int::class.java.simpleName)
-        val holderArguments = ArgumentsHolder[this::class.java.simpleName.plus(position)]
-
-        val postsRepository = holderArguments!![PostsRepository::class.java.simpleName] as PostsRepository
-        val samplesRepository = holderArguments[SampleImageRepository::class.java.simpleName] as SampleImageRepository
-        val startDownloadController =
-            holderArguments[StartDownloadRxController::class.java.simpleName] as StartDownloadRxController
         val permissionChecker = (requireActivity() as AppActivity).permissionChecker
         val snackbarNotificationController = (requireActivity() as AppActivity).snackbarNotificationController
 
-        val factory =
-            PostSamplesContentViewModel.Factory(
-                position,
-                postsRepository,
-                samplesRepository,
-                startDownloadController,
-                permissionChecker,
-                snackbarNotificationController
-            )
-        return ViewModelProviders.of(this, factory)[PostSamplesContentViewModel::class.java]
+        val factory = PostSamplesContentViewModel.Factory(
+            pagePosition,
+            itemPosition,
+            postsRepository,
+            samplesRepository,
+            startDownloadController,
+            permissionChecker,
+            snackbarNotificationController
+        )
+        viewModel = ViewModelProviders.of(this, factory)[PostSamplesContentViewModel::class.java]
+
+        super.onCreate(savedInstanceState)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

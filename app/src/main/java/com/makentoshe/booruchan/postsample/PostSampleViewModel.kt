@@ -4,6 +4,7 @@ import android.os.Handler
 import android.os.Looper
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.makentoshe.booruapi.Post
 import com.makentoshe.booruchan.ByteArrayDownloadRxController
 import com.makentoshe.booruchan.PostsDownloadRxController
 import com.makentoshe.booruchan.postsample.model.DownloadErrorController
@@ -32,7 +33,7 @@ class PostSampleViewModel private constructor() : ViewModel() {
     private lateinit var postsDownloadRxController: PostsDownloadRxController
 
     /* Performs sample image downoading */
-    private lateinit var samplesDownloadController: ByteArrayDownloadRxController<String>
+    private lateinit var samplesDownloadController: ByteArrayDownloadRxController<Post>
 
     /* When download error occurs */
     private lateinit var downloadErrorController: DownloadErrorController
@@ -60,7 +61,7 @@ class PostSampleViewModel private constructor() : ViewModel() {
         postsDownloadRxController.subscribe {
             if (it.hasData()) {
 //                send a selected post to the sample download controller
-                samplesDownloadController.action(it.data[itemPosition].sampleUrl)
+                samplesDownloadController.action(it.data[itemPosition])
             } else {
                 if (it.hasException()) {
                     downloadErrorController.action(it.exception)
