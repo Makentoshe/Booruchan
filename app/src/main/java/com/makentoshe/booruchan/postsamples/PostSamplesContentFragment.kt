@@ -25,8 +25,6 @@ class PostSamplesContentFragment : Fragment() {
     private lateinit var adapterBuilder: AdapterBuilder
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        val pagePosition = arguments!!.getInt(PAGEPOSITION)
-        val itemPosition = arguments!!.getInt(ITEMPOSITION)
         val startDownloadController = arguments!!.get(DWNLDCNTRLLR) as StartDownloadRxController
         val booru = arguments!!.get(BOORU) as Booru
 
@@ -57,21 +55,12 @@ class PostSamplesContentFragment : Fragment() {
     }
 
     companion object {
-        private const val ITEMPOSITION = "ItemPosition"
-        private const val PAGEPOSITION = "PagePosition"
         private const val DWNLDCNTRLLR = "DownloadController"
         private const val BOORU = "Booru"
 
-        fun create(
-            pagePosition: Int,
-            itemPosition: Int,
-            startDownloadController: StartDownloadRxController,
-            booru: Booru
-        ): Fragment {
+        fun create(startDownloadController: StartDownloadRxController, booru: Booru): Fragment {
             return PostSamplesContentFragment().apply {
                 arguments = Bundle().apply {
-                    putInt(PAGEPOSITION, pagePosition)
-                    putInt(ITEMPOSITION, itemPosition)
                     putSerializable(DWNLDCNTRLLR, startDownloadController)
                     putSerializable(BOORU, booru)
                 }

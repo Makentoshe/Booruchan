@@ -15,8 +15,6 @@ import java.io.Serializable
 
 class PostSamplesViewModel private constructor() : ViewModel() {
 
-    private var pagePosition: Int = 0
-    private var itemPosition: Int = 0
     private lateinit var booru: Booru
     private lateinit var router: Router
     private lateinit var startDownloadRxController: StartDownloadRxController
@@ -24,12 +22,7 @@ class PostSamplesViewModel private constructor() : ViewModel() {
     fun onDownloadIconClick(ignored: View) = startDownloadRxController.action(Unit)
 
     fun getSamplesVerticalViewPagerAdapter(fragmentManager: FragmentManager): PagerAdapter {
-        return SamplesVerticalViewPagerAdapter(
-            fragmentManager,
-            pagePosition, itemPosition,
-            startDownloadRxController,
-            booru
-        )
+        return SamplesVerticalViewPagerAdapter(fragmentManager, startDownloadRxController, booru)
     }
 
     fun onNavigationItemSelected(menuItem: MenuItem): Boolean {
@@ -41,8 +34,6 @@ class PostSamplesViewModel private constructor() : ViewModel() {
     fun exit() = router.exit()
 
     class Factory(
-        private val pagePosition: Int,
-        private val itemPosition: Int,
         private val router: Router,
         private val booru: Booru
     ) : ViewModelProvider.NewInstanceFactory() {
@@ -52,8 +43,6 @@ class PostSamplesViewModel private constructor() : ViewModel() {
             val startDownloadRxController = StartDownloadRxController()
 
             viewModel.startDownloadRxController = startDownloadRxController
-            viewModel.pagePosition = pagePosition
-            viewModel.itemPosition = itemPosition
             viewModel.router = router
             viewModel.booru = booru
 

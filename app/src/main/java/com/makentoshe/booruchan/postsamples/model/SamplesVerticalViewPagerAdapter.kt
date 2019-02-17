@@ -10,15 +10,13 @@ import com.makentoshe.booruchan.postsamples.StartDownloadRxController
 
 class SamplesVerticalViewPagerAdapter(
     fragmentManager: FragmentManager,
-    private val pagePosition: Int,
-    private val itemPosition: Int,
     private val startDownloadRxController: StartDownloadRxController,
     private val booru: Booru
 ) : FragmentPagerAdapter(fragmentManager) {
     override fun getItem(position: Int): Fragment {
         return when (position) {
             0 -> Fragment()
-            1 -> PostSamplesContentScreen(pagePosition, itemPosition, startDownloadRxController, booru).fragment
+            1 -> PostSamplesContentScreen(startDownloadRxController, booru).fragment
             else -> throw IllegalArgumentException(position.toString())
         }
     }

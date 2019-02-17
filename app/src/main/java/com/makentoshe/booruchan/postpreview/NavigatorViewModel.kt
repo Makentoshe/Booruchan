@@ -10,15 +10,13 @@ import ru.terrakok.cicerone.Router
 class NavigatorViewModel : ViewModel(), NavigationController {
 
     private lateinit var router: Router
-    private var position = 0
     private lateinit var booru: Booru
 
     override fun onSampleScreenNavigate(itemPosition: Int) {
-        router.navigateTo(PostSamplesScreen(itemPosition, position, booru))
+        router.navigateTo(PostSamplesScreen(booru))
     }
 
     class Factory(
-        private val position: Int,
         private val router: Router,
         private val booru: Booru
     ) : ViewModelProvider.NewInstanceFactory() {
@@ -26,7 +24,6 @@ class NavigatorViewModel : ViewModel(), NavigationController {
             val viewModel = NavigatorViewModel()
 
             viewModel.router = router
-            viewModel.position = position
             viewModel.booru = booru
 
             return viewModel as T

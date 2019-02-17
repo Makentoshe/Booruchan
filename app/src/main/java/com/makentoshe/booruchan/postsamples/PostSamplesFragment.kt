@@ -15,14 +15,10 @@ class PostSamplesFragment : androidx.fragment.app.Fragment() {
     private lateinit var viewModel: PostSamplesViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        val pagePosition = arguments!!.getInt(PAGEPOSITION)
-        val itemPosition = arguments!!.getInt(ITEMPOSITION)
         val booru = arguments!!.get(BOORU) as Booru
 
         val router = Booruchan.INSTANCE.router
         val factory = PostSamplesViewModel.Factory(
-            pagePosition,
-            itemPosition,
             router,
             booru
         )
@@ -37,14 +33,10 @@ class PostSamplesFragment : androidx.fragment.app.Fragment() {
     }
 
     companion object {
-        private const val ITEMPOSITION = "ItemPosition"
-        private const val PAGEPOSITION = "PagePosition"
         private const val BOORU = "Booru"
-        fun create(itemPosition: Int, position: Int, booru: Booru): androidx.fragment.app.Fragment {
+        fun create(booru: Booru): androidx.fragment.app.Fragment {
             return PostSamplesFragment().apply {
                 arguments = Bundle().apply {
-                    putInt(ITEMPOSITION, itemPosition)
-                    putInt(PAGEPOSITION, position)
                     putSerializable(BOORU, booru)
                 }
             }
