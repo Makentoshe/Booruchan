@@ -3,6 +3,8 @@ package com.makentoshe.booruchan.postpreviews.view
 import android.view.View
 import android.widget.RelativeLayout
 import androidx.fragment.app.FragmentManager
+import com.makentoshe.booruchan.PostInternalCache
+import com.makentoshe.booruchan.PreviewsInternalCache
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.postpreviews.model.AdapterBuilder
 import com.makentoshe.booruchan.postpreviews.model.SearchController
@@ -27,6 +29,10 @@ class PostsFragmentUiContentViewpager(
             viewPager {
                 id = R.id.content_viewpager
                 searchController.onSearchStartedListener {
+                    //clear previews cache for new search
+                    PreviewsInternalCache<Any>(context, "previews").clear()
+                    //clear posts cache for new search
+                    PostInternalCache(context, "posts").clear()
                     adapter = adapterBuilder.getViewPagerAdapter(fragmentManager, it)
                     viewPagerController.gotoPage(0)
                 }

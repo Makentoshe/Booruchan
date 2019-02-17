@@ -108,10 +108,13 @@ class AppActivity : AppCompatActivity() {
         Booruchan.INSTANCE.navigatorHolder.removeNavigator()
     }
 
+    // mb useless
     override fun onLowMemory() {
         super.onLowMemory()
         //clear previews cache
         PreviewsInternalCache<Any>(this, "previews").clear()
+        //clear posts cache
+        PostInternalCache(this, "posts").clear()
     }
 
 //    override fun onBackPressed() {

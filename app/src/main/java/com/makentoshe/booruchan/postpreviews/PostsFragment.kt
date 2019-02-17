@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.makentoshe.booruapi.Booru
 import com.makentoshe.booruapi.Tag
+import com.makentoshe.booruchan.PostInternalCache
 import com.makentoshe.booruchan.PreviewsInternalCache
 import com.makentoshe.booruchan.booru.model.DrawerController
 import com.makentoshe.booruchan.postpreviews.model.AdapterBuilder
@@ -75,10 +76,15 @@ class PostsFragment : androidx.fragment.app.Fragment() {
 
     override fun onDestroy() {
         val activity = activity
+        val ctx = context
         val isChangingConfigurations = activity != null && activity.isChangingConfigurations
         if (!isChangingConfigurations) {
             GlobalScope.launch {
-                PreviewsInternalCache<Any>(requireContext(), "previews").clear()
+                val context = ctx ?: activity?.applicationContext ?: return@launch
+                //clear previews cache
+                PreviewsInternalCache<Any>(context, "previews").clear()
+                //clear posts cache
+                PostInternalCache(context, "posts").clear()
             }
         }
 

@@ -11,6 +11,7 @@ import com.makentoshe.booruapi.Post
 import com.makentoshe.booruapi.Posts
 import com.makentoshe.booruapi.Tag
 import com.makentoshe.booruchan.Booruchan
+import com.makentoshe.booruchan.PostInternalCache
 import com.makentoshe.booruchan.PreviewsInternalCache
 import com.makentoshe.booruchan.postpreview.view.PostPageFragmentUi
 import com.makentoshe.repository.*
@@ -32,15 +33,20 @@ class PostPageFragment : androidx.fragment.app.Fragment() {
             PreviewImageRepository(arguments.booru)
         )
 
+        val postsRepository = CachedRepository(
+            PostInternalCache(requireContext(), "posts"),
+            PostsRepository(arguments.booru)
+        )
+
         var factory: ViewModelProvider.NewInstanceFactory =
-            PostsDownloadViewModel.Factory(arguments.postsRepository, arguments.tags, position)
+            PostsDownloadViewModel.Factory(postsRepository, arguments.tags, position)
         postsDownloadViewModel = ViewModelProviders.of(this, factory)[PostsDownloadViewModel::class.java]
 
         factory = AdapterViewModel.Factory(previewsRepository)
         adapterViewModel = ViewModelProviders.of(this, factory)[AdapterViewModel::class.java]
 
         factory = NavigatorViewModel.Factory(
-            arguments.postsRepository,
+            postsRepository,
             12,
             position,
             Booruchan.INSTANCE.router
