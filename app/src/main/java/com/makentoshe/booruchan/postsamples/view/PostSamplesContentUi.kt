@@ -15,7 +15,7 @@ class PostSamplesContentUi(
     override fun createView(ui: AnkoContext<Fragment>): View = with(ui) {
         viewPager {
             id = R.id.postsamples_content_viewpager
-//            adapter = adapterBuilder.getViewPagerAdapter(ui.owner.childFragmentManager)
+            adapter = adapterBuilder.getViewPagerAdapter(ui.owner.childFragmentManager)
             currentItem = viewModel.position
 
             viewModel.onStartDownloadControllerListener {

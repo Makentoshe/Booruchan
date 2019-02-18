@@ -8,7 +8,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.makentoshe.booruapi.Booru
 import com.makentoshe.booruapi.Post
-import com.makentoshe.booruapi.Posts
 import com.makentoshe.booruapi.Tag
 import com.makentoshe.booruchan.Booruchan
 import com.makentoshe.booruchan.PostInternalCache
@@ -47,7 +46,7 @@ class PostPageFragment : androidx.fragment.app.Fragment() {
         factory = AdapterViewModel.Factory(previewsRepository)
         adapterViewModel = ViewModelProviders.of(this, factory)[AdapterViewModel::class.java]
 
-        factory = NavigatorViewModel.Factory(Booruchan.INSTANCE.router, booru)
+        factory = NavigatorViewModel.Factory(Booruchan.INSTANCE.router, booru, tags, position)
         navigatorViewModel = ViewModelProviders.of(this, factory)[NavigatorViewModel::class.java]
 
         super.onCreate(savedInstanceState)

@@ -5,18 +5,21 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import com.makentoshe.booruapi.Booru
+import com.makentoshe.booruapi.Tag
 import com.makentoshe.booruchan.postsamples.PostSamplesContentScreen
 import com.makentoshe.booruchan.postsamples.StartDownloadRxController
 
 class SamplesVerticalViewPagerAdapter(
     fragmentManager: FragmentManager,
     private val startDownloadRxController: StartDownloadRxController,
-    private val booru: Booru
+    private val booru: Booru,
+    private val tags: Set<Tag>,
+    private val position: Int
 ) : FragmentPagerAdapter(fragmentManager) {
     override fun getItem(position: Int): Fragment {
         return when (position) {
             0 -> Fragment()
-            1 -> PostSamplesContentScreen(startDownloadRxController, booru).fragment
+            1 -> PostSamplesContentScreen(startDownloadRxController, booru, tags, this.position).fragment
             else -> throw IllegalArgumentException(position.toString())
         }
     }

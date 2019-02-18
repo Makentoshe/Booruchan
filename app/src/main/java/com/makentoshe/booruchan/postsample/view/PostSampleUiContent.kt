@@ -4,6 +4,7 @@ import android.graphics.BitmapFactory
 import android.net.Uri
 import android.view.View
 import android.view.ViewManager
+import android.webkit.URLUtil
 import com.davemorrissey.labs.subscaleview.ImageSource
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView
 import com.google.android.exoplayer2.ExoPlayer
@@ -13,7 +14,8 @@ import com.google.android.exoplayer2.ui.PlayerView
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.google.android.exoplayer2.util.Util
 import com.makentoshe.booruchan.R
-import com.makentoshe.booruchan.postsample.PostSampleViewModel
+import com.makentoshe.booruchan.postsample.model.DownloadErrorController
+import com.makentoshe.booruchan.postsample.model.SampleImageDownloadController
 import com.makentoshe.style.Style
 import org.jetbrains.anko.*
 import org.jetbrains.anko.custom.ankoView
@@ -21,7 +23,8 @@ import pl.droidsonroids.gif.GifDrawable
 import pl.droidsonroids.gif.GifImageView
 
 class PostSampleUiContent(
-    private val viewModel: PostSampleViewModel,
+    private val downloadErrorController: DownloadErrorController,
+    private val sampleDownloadController: SampleImageDownloadController,
     private val style: Style
 ) : AnkoComponent<_RelativeLayout> {
     override fun createView(ui: AnkoContext<_RelativeLayout>): View = with(ui.owner) {
@@ -29,7 +32,14 @@ class PostSampleUiContent(
             id = R.id.postsample_content
             visibility = View.GONE
 
-            viewModel.onSampleDownloadedListener { onSampleDownloaded(it) }
+            sampleDownloadController.onSampleImageLoaded {
+                visibility = View.VISIBLE
+                onSampleDownloaded(it)
+            }
+
+            sampleDownloadController.onSampleImageLoadingError {
+                visibility = View.GONE
+            }
 
         }.lparams(matchParent, matchParent)
     }
@@ -37,20 +47,13 @@ class PostSampleUiContent(
     /* Tries to define "image" type and setups it to correct view. */
     private fun _FrameLayout.onSampleDownloaded(byteArray: ByteArray) {
         //is byte array represents a gif animation
-        if (processAsGif(byteArray)) {
-            visibility = View.VISIBLE
-            return
-        }
+        if (processAsGif(byteArray)) return
         //is byte array represents an image
-        if (processAsImage(byteArray)) {
-            visibility = View.VISIBLE
-            return
-        }
-        if (processAsWebm(byteArray)) {
-            visibility = View.VISIBLE
-            return
-        }
-        viewModel.pushException(RuntimeException("This file format does not supports now"))
+        if (processAsImage(byteArray)) return
+        //is byte array represents a video file
+        if (processAsWebm(byteArray)) return
+
+        downloadErrorController.push(Exception("This file format does not supports now"))
     }
 
     /* Try to make from this byte array a gif image an set it to the GifImageView
@@ -83,11 +86,12 @@ class PostSampleUiContent(
 
     /* Try to make a Uri from byte array and create a webm player and play a video*/
     private fun _FrameLayout.processAsWebm(byteArray: ByteArray): Boolean {
+        val url = String(byteArray)
+        if (!URLUtil.isValidUrl(url)) return false
         try {
             playerView {
                 backgroundColorResource = style.background.backgroundColorRes
-                player = initPlayer(byteArray)
-
+                player = initPlayer(url)
             }
             return true
         } catch (e: Exception) {
@@ -96,11 +100,10 @@ class PostSampleUiContent(
     }
 
     /* Inits an ExoPlayer for displaying a webm file.*/
-    private fun PlayerView.initPlayer(byteArray: ByteArray): ExoPlayer {
+    private fun PlayerView.initPlayer(url: String): ExoPlayer {
         val userAgent = Util.getUserAgent(context, context.getString(R.string.app_name))
         val dataSourceFactory = DefaultDataSourceFactory(context, userAgent)
-        val uri = Uri.parse(String(byteArray))
-        val mediaSource = ExtractorMediaSource.Factory(dataSourceFactory).createMediaSource(uri)
+        val mediaSource = ExtractorMediaSource.Factory(dataSourceFactory).createMediaSource(Uri.parse(url))
         return ExoPlayerFactory.newSimpleInstance(context).apply { prepare(mediaSource) }
     }
 

@@ -6,9 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProviders
 import com.makentoshe.booruapi.Booru
+import com.makentoshe.booruapi.Tag
 import com.makentoshe.booruchan.Booruchan
 import com.makentoshe.booruchan.postsamples.view.PostSamplesUi
 import org.jetbrains.anko.AnkoContext
+import java.io.Serializable
 
 class PostSamplesFragment : androidx.fragment.app.Fragment() {
 
@@ -16,12 +18,10 @@ class PostSamplesFragment : androidx.fragment.app.Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val booru = arguments!!.get(BOORU) as Booru
-
+        val tags = arguments!!.get(TAGS) as Set<Tag>
+        val position = arguments!!.getInt(POSITION)
         val router = Booruchan.INSTANCE.router
-        val factory = PostSamplesViewModel.Factory(
-            router,
-            booru
-        )
+        val factory = PostSamplesViewModel.Factory(router, booru, tags, position)
         viewModel = ViewModelProviders.of(this, factory)[PostSamplesViewModel::class.java]
 
         super.onCreate(savedInstanceState)
@@ -34,13 +34,17 @@ class PostSamplesFragment : androidx.fragment.app.Fragment() {
 
     companion object {
         private const val BOORU = "Booru"
-        fun create(booru: Booru): androidx.fragment.app.Fragment {
+        private const val TAGS = "Tags"
+        private const val POSITION = "Position"
+
+        fun create(booru: Booru, tags: Set<Tag>, position: Int): androidx.fragment.app.Fragment {
             return PostSamplesFragment().apply {
                 arguments = Bundle().apply {
                     putSerializable(BOORU, booru)
+                    putSerializable(TAGS, tags as Serializable)
+                    putInt(POSITION, position)
                 }
             }
         }
     }
 }
-

@@ -7,17 +7,13 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import com.makentoshe.booruapi.Booru
+import com.makentoshe.booruapi.Tag
 import com.makentoshe.booruchan.AppActivity
-import com.makentoshe.booruchan.ImageInternalCache
-import com.makentoshe.booruchan.PostInternalCache
-import com.makentoshe.booruchan.PreviewsInternalCache
 import com.makentoshe.booruchan.postsamples.model.AdapterBuilder
 import com.makentoshe.booruchan.postsamples.model.AdapterBuilderImpl
 import com.makentoshe.booruchan.postsamples.view.PostSamplesContentUi
-import com.makentoshe.repository.CachedRepository
-import com.makentoshe.repository.PostsRepository
-import com.makentoshe.repository.SampleImageRepository
 import org.jetbrains.anko.AnkoContext
+import java.io.Serializable
 
 class PostSamplesContentFragment : Fragment() {
 
@@ -27,24 +23,20 @@ class PostSamplesContentFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         val startDownloadController = arguments!!.get(DWNLDCNTRLLR) as StartDownloadRxController
         val booru = arguments!!.get(BOORU) as Booru
-
-        val postsCache = PostInternalCache(requireContext(), "posts")
-        val postsRepository = CachedRepository(postsCache, PostsRepository(booru))
-
-        val imageInternalCache = ImageInternalCache(requireContext(), "samples")
-        val samplesRepository = CachedRepository(imageInternalCache, SampleImageRepository(booru))
-
+        val tags = arguments!!.get(TAGS) as Set<Tag>
+        val position = arguments!!.getInt(POSITION)
         val permissionChecker = (requireActivity() as AppActivity).permissionChecker
         val snackbarNotificationController = (requireActivity() as AppActivity).snackbarNotificationController
 
         val factory = PostSamplesContentViewModel.Factory(
+            position,
             startDownloadController,
             permissionChecker,
             snackbarNotificationController
         )
         viewModel = ViewModelProviders.of(this, factory)[PostSamplesContentViewModel::class.java]
 
-        adapterBuilder = AdapterBuilderImpl(booru)
+        adapterBuilder = AdapterBuilderImpl(booru, tags)
 
         super.onCreate(savedInstanceState)
     }
@@ -57,12 +49,20 @@ class PostSamplesContentFragment : Fragment() {
     companion object {
         private const val DWNLDCNTRLLR = "DownloadController"
         private const val BOORU = "Booru"
-
-        fun create(startDownloadController: StartDownloadRxController, booru: Booru): Fragment {
+        private const val TAGS = "Tags"
+        private const val POSITION = "Position"
+        fun create(
+            startDownloadController: StartDownloadRxController,
+            booru: Booru,
+            tags: Set<Tag>,
+            position: Int
+        ): Fragment {
             return PostSamplesContentFragment().apply {
                 arguments = Bundle().apply {
                     putSerializable(DWNLDCNTRLLR, startDownloadController)
                     putSerializable(BOORU, booru)
+                    putSerializable(TAGS, tags as Serializable)
+                    putInt(POSITION, position)
                 }
             }
         }

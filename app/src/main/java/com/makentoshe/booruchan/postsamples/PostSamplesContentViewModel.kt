@@ -38,6 +38,7 @@ class PostSamplesContentViewModel : ViewModel() {
     }
 
     class Factory(
+        private val position: Int,
         private val startDownloadController: StartDownloadRxController,
         private val permissionChecker: PermissionChecker,
         private val notificationInterface: NotificationInterface
@@ -48,6 +49,7 @@ class PostSamplesContentViewModel : ViewModel() {
             viewModel.permissionChecker = permissionChecker
             viewModel.startDownloadController = startDownloadController
             viewModel.notificationInterface = notificationInterface
+            viewModel.position = position
 
             return viewModel as T
         }

@@ -4,14 +4,15 @@ import android.os.Handler
 import android.os.Looper
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.makentoshe.booruapi.Booru
 import com.makentoshe.booruapi.Post
+import com.makentoshe.booruapi.Posts
 import com.makentoshe.booruchan.ByteArrayDownloadRxController
 import com.makentoshe.booruchan.PostsDownloadRxController
-import com.makentoshe.booruchan.postsample.model.DownloadErrorController
+import com.makentoshe.booruchan.postsample.model.ExceptionRxController
 import com.makentoshe.booruchan.postsample.model.DownloadingCompleteRxController
 import com.makentoshe.booruchan.postsample.model.SampleDownloadController
-import com.makentoshe.repository.PostsRepository
-import com.makentoshe.repository.SampleImageRepository
+import com.makentoshe.repository.Repository
 import com.makentoshe.viewmodel.ViewModel
 
 class PostSampleViewModel private constructor() : ViewModel() {
@@ -36,7 +37,7 @@ class PostSampleViewModel private constructor() : ViewModel() {
     private lateinit var samplesDownloadController: ByteArrayDownloadRxController<Post>
 
     /* When download error occurs */
-    private lateinit var downloadErrorController: DownloadErrorController
+    private lateinit var downloadErrorController: ExceptionRxController
 
     private lateinit var downloadingCompleteRxController: DownloadingCompleteRxController
 
@@ -109,28 +110,27 @@ class PostSampleViewModel private constructor() : ViewModel() {
 
     override fun onCleared() {
         super.onCleared()
-        samplesDownloadController.clear()
-        downloadErrorController.clear()
-        postsDownloadRxController.clear()
+//        samplesDownloadController.clear()
+//        downloadErrorController.clear()
+//        postsDownloadRxController.clear()
     }
 
     class Factory(
         private val position: Int,
-        private val postsRepository: PostsRepository,
-        private val samplesRepository: SampleImageRepository
+        private val postsRepository: Repository<Booru.PostRequest, Posts>,
+        private val samplesRepository: Repository<Post, ByteArray>
     ) : ViewModelProvider.NewInstanceFactory() {
         override fun <T : androidx.lifecycle.ViewModel?> create(modelClass: Class<T>): T {
             val viewModel = PostSampleViewModel()
-//            val postsDownloadRxController = PostsDownloadRxController(viewModel, postsRepository)
-            val samplesDownloadRxController =
-                SampleDownloadController(viewModel, samplesRepository)
+            val postsDownloadRxController = PostsDownloadRxController(viewModel, postsRepository)
+            val samplesDownloadRxController = SampleDownloadController(viewModel, samplesRepository)
             val downloadingCompleteRxController = DownloadingCompleteRxController()
 
             viewModel.position = position
 //            viewModel.itemPosition = position % postsRepository.count
-//            viewModel.pagePosition = position / postsRepository.count
+            viewModel.pagePosition = position / 12
 //            viewModel.downloadErrorController = DownloadErrorController()
-//            viewModel.postsDownloadRxController = postsDownloadRxController
+            viewModel.postsDownloadRxController = postsDownloadRxController
             viewModel.samplesDownloadController = samplesDownloadRxController
             viewModel.downloadingCompleteRxController = downloadingCompleteRxController
 
@@ -140,4 +140,3 @@ class PostSampleViewModel private constructor() : ViewModel() {
         }
     }
 }
-

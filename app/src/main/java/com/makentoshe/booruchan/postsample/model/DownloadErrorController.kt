@@ -1,9 +1,7 @@
 package com.makentoshe.booruchan.postsample.model
 
-import com.makentoshe.controllers.SimpleRxController
-import io.reactivex.subjects.BehaviorSubject
+import java.lang.Exception
 
-class DownloadErrorController : SimpleRxController<Exception, Exception>(BehaviorSubject.create()) {
-
-    override fun action(param: Exception) = observable.onNext(param)
+interface DownloadErrorController {
+    fun push(exception: Exception)
 }
