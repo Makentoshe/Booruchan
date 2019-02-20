@@ -23,11 +23,8 @@ import com.makentoshe.booruchan.postpreviews.view.DelayAutocompleteEditText
 import org.hamcrest.CoreMatchers
 import org.hamcrest.Matchers.equalTo
 import org.hamcrest.Matchers.not
-import org.junit.After
+import org.junit.*
 import org.junit.Assert.*
-import org.junit.Before
-import org.junit.Rule
-import org.junit.Test
 
 class PostsFragmentTest {
     @get:Rule
@@ -90,6 +87,7 @@ class PostsFragmentTest {
     }
 
     @Test
+    @Ignore
     fun should_hide_search_layout_on_backbutton_click() {
         //click overflow menu icon
         should_show_search_layout_on_overflow_click()

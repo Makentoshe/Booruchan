@@ -10,6 +10,8 @@ import com.makentoshe.booruapi.Posts
 import com.makentoshe.booruapi.Tag
 import com.makentoshe.booruchan.ByteArrayDownloadRxController
 import com.makentoshe.booruchan.PostsDownloadRxController
+import com.makentoshe.booruchan.StringRxController
+import com.makentoshe.booruchan.UnitRxController
 import com.makentoshe.booruchan.postsample.model.DownloadErrorController
 import com.makentoshe.booruchan.postsample.model.ExceptionRxController
 import com.makentoshe.booruchan.postsample.model.SampleImageDownloadController
@@ -23,8 +25,10 @@ class DownloadViewModel private constructor() : ViewModel(), SampleImageDownload
 
     private lateinit var exceptionRxController: ExceptionRxController
     private lateinit var imageDownloadRxController: ByteArrayDownloadRxController<Post>
+    private lateinit var gifDownloadRxController: ByteArrayDownloadRxController<Post>
     private lateinit var postDownloadRxController: PostsDownloadRxController
-    private lateinit var stringRxController: StringRxController
+    private lateinit var webmDownloadRxController: StringRxController
+    private lateinit var downloadingFinishedRxController: UnitRxController
     private lateinit var tags: Set<Tag>
 
     private fun loadPost(position: Int) = loadPost(Booru.PostRequest(1, position, tags))
@@ -47,18 +51,40 @@ class DownloadViewModel private constructor() : ViewModel(), SampleImageDownload
 
     override fun loadSampleImage(post: Post) = imageDownloadRxController.action(post)
 
-    override fun passUrlToTheFile(url: String) = stringRxController.action(url)
+    override fun passUrlToTheFile(url: String) = webmDownloadRxController.action(url)
+
+    override fun onSampleLoadingFinished(action: () -> Unit) {
+            downloadingFinishedRxController.subscribe {
+            Handler(Looper.getMainLooper()).post { action() }
+        }
+    }
 
     override fun onSampleImageLoaded(action: (ByteArray) -> Unit) {
         imageDownloadRxController.subscribe {
             if (it.hasData()) {
                 Handler(Looper.getMainLooper()).post { action(it.data) }
+                downloadingFinishedRxController.action(Unit)
             } else {
                 exceptionRxController.action(it.exception)
             }
         }
-        stringRxController.subscribe {
-            Handler(Looper.getMainLooper()).post { action(it.toByteArray()) }
+    }
+
+    override fun onSampleGifLoaded(action: (ByteArray) -> Unit) {
+        gifDownloadRxController.subscribe {
+            if (it.hasData()) {
+                Handler(Looper.getMainLooper()).post { action(it.data) }
+                downloadingFinishedRxController.action(Unit)
+            } else {
+                exceptionRxController.action(it.exception)
+            }
+        }
+    }
+
+    override fun onSampleWebmUrlLoaded(action: (String) -> Unit) {
+        webmDownloadRxController.subscribe {
+            Handler(Looper.getMainLooper()).post { action(it) }
+            downloadingFinishedRxController.action(Unit)
         }
     }
 
@@ -67,15 +93,19 @@ class DownloadViewModel private constructor() : ViewModel(), SampleImageDownload
     }
 
     override fun onCreateView(owner: Fragment) {
+        downloadingFinishedRxController.clear()
         imageDownloadRxController.clear()
-        stringRxController.clear()
+        webmDownloadRxController.clear()
+        gifDownloadRxController.clear()
     }
 
     override fun onCleared() {
         super.onCleared()
-        stringRxController.clear()
+        gifDownloadRxController.clear()
         postDownloadRxController.clear()
+        webmDownloadRxController.clear()
         imageDownloadRxController.clear()
+        downloadingFinishedRxController.clear()
     }
 
     class Factory(
@@ -88,26 +118,29 @@ class DownloadViewModel private constructor() : ViewModel(), SampleImageDownload
             val viewModel = DownloadViewModel()
 
             viewModel.imageDownloadRxController = ByteArrayDownloadRxController(viewModel, samplesRepository)
+            viewModel.gifDownloadRxController = ByteArrayDownloadRxController(viewModel, samplesRepository)
             viewModel.postDownloadRxController = PostsDownloadRxController(viewModel, postsRepository)
             viewModel.exceptionRxController = ExceptionRxController()
-            viewModel.stringRxController = StringRxController()
+            viewModel.webmDownloadRxController = StringRxController()
+            viewModel.downloadingFinishedRxController = UnitRxController()
             viewModel.tags = tags
 
             viewModel.loadPost(position)
             viewModel.onPostLoadedListener {
                 val post = it[0]
-                if (File(post.fileUrl).extension == "webm") {
-                    viewModel.stringRxController.action(post.fileUrl)
-                } else {
-                    viewModel.loadSampleImage(it[0])
+                val ext = File(post.sampleUrl).extension
+                if (ext == "webm") {
+                    viewModel.webmDownloadRxController.action(post.sampleUrl)
+                    return@onPostLoadedListener
                 }
+                if (ext == "gif") {
+                    viewModel.gifDownloadRxController.action(post)
+                    return@onPostLoadedListener
+                }
+                viewModel.loadSampleImage(it[0])
             }
 
             return viewModel as T
         }
     }
-}
-
-class StringRxController : SimpleRxController<String, String>(BehaviorSubject.create()) {
-    override fun action(param: String) = observable.onNext(param)
 }

@@ -75,7 +75,6 @@ class AppActivity : AppCompatActivity() {
 
     private fun notificationSubscribe() {
         innerNotificationRxController.subscribe {
-            println("Sas")
             val duration = if (it.duration < -2) Snackbar.LENGTH_LONG else it.duration
             val snackbar = Snackbar.make(root, it.message, duration)
             val action = it.action

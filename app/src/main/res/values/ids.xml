@@ -55,5 +55,6 @@
     <item name="postsample_messageview" type="id"/>
     <item name="postsample_content" type="id"/>
     <item name="postsample_progressbar" type="id"/>
+    <item name="postpreviewpage_grid" type="id"/>
 
 </resources>

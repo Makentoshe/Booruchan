@@ -6,6 +6,7 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.GridView
 import com.makentoshe.booruapi.Posts
+import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.postpreview.model.AdapterBuilder
 import com.makentoshe.booruchan.postpreview.model.NavigationController
 import com.makentoshe.booruchan.postpreview.model.PostsDownloadController
@@ -20,6 +21,7 @@ class PostPageFragmentUiContent(
 
     override fun createView(ui: AnkoContext<_RelativeLayout>): View = with(ui.owner) {
         gridView {
+            id = R.id.postpreviewpage_grid
             visibility = View.GONE
             gravity = Gravity.CENTER
             verticalSpacing = dip(10)

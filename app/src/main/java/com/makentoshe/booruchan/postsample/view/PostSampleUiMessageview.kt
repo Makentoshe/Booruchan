@@ -18,7 +18,7 @@ class PostSampleUiMessageview(
             gravity = Gravity.CENTER
             visibility = View.GONE
 
-            downloadController.onSampleImageLoaded {
+            downloadController.onSampleLoadingFinished{
                 visibility = View.GONE
             }
 

@@ -32,9 +32,26 @@ class PostSampleUiContent(
             id = R.id.postsample_content
             visibility = View.GONE
 
-            sampleDownloadController.onSampleImageLoaded {
+            sampleDownloadController.onSampleLoadingFinished {
                 visibility = View.VISIBLE
-                onSampleDownloaded(it)
+            }
+
+            sampleDownloadController.onSampleGifLoaded {
+                //is byte array represents a gif animation
+                if (processAsGif(it)) return@onSampleGifLoaded
+                downloadErrorController.push(Exception("This file format does not supports now"))
+            }
+
+            sampleDownloadController.onSampleWebmUrlLoaded {
+                //is byte array represents a video file
+                if (processAsWebm(it)) return@onSampleWebmUrlLoaded
+                downloadErrorController.push(Exception("This file format does not supports now"))
+            }
+
+            sampleDownloadController.onSampleImageLoaded {
+                //is byte array represents an image
+                if (processAsImage(it)) return@onSampleImageLoaded
+                downloadErrorController.push(Exception("This file format does not supports now"))
             }
 
             sampleDownloadController.onSampleImageLoadingError {
@@ -42,18 +59,6 @@ class PostSampleUiContent(
             }
 
         }.lparams(matchParent, matchParent)
-    }
-
-    /* Tries to define "image" type and setups it to correct view. */
-    private fun _FrameLayout.onSampleDownloaded(byteArray: ByteArray) {
-        //is byte array represents a gif animation
-        if (processAsGif(byteArray)) return
-        //is byte array represents an image
-        if (processAsImage(byteArray)) return
-        //is byte array represents a video file
-        if (processAsWebm(byteArray)) return
-
-        downloadErrorController.push(Exception("This file format does not supports now"))
     }
 
     /* Try to make from this byte array a gif image an set it to the GifImageView
@@ -85,8 +90,7 @@ class PostSampleUiContent(
     }
 
     /* Try to make a Uri from byte array and create a webm player and play a video*/
-    private fun _FrameLayout.processAsWebm(byteArray: ByteArray): Boolean {
-        val url = String(byteArray)
+    private fun _FrameLayout.processAsWebm(url: String): Boolean {
         if (!URLUtil.isValidUrl(url)) return false
         try {
             playerView {

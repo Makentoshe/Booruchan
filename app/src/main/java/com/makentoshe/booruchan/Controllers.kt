@@ -3,6 +3,7 @@ package com.makentoshe.booruchan
 import com.makentoshe.booruapi.Booru
 import com.makentoshe.booruapi.Posts
 import com.makentoshe.controllers.DownloadRxController
+import com.makentoshe.controllers.SimpleRxController
 import com.makentoshe.repository.Repository
 import io.reactivex.subjects.BehaviorSubject
 import kotlinx.coroutines.CoroutineScope
@@ -49,4 +50,19 @@ open class ByteArrayDownloadRxController<P>(
     override fun performDownload(param: P): ByteArray {
         return repository.get(param)!!
     }
+}
+
+/**
+ * Just send a String to the subscribers.
+ */
+class StringRxController : SimpleRxController<String, String>(BehaviorSubject.create()) {
+    override fun action(param: String) = observable.onNext(param)
+}
+
+
+/**
+ * Just send an Unit to the subscribers.
+ */
+class UnitRxController : SimpleRxController<Unit, Unit>(BehaviorSubject.create()) {
+    override fun action(param: Unit) = observable.onNext(Unit)
 }
