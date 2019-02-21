@@ -20,8 +20,8 @@ class PermissionChecker private constructor(
      *
      * @param permission a Manifest permission such as [android.Manifest.permission.WRITE_EXTERNAL_STORAGE].
      * @param action a lambda with the permission request result will be called after checking the permission.
-     * It calls after permission was granted.
-     * @return returns a [Disposable] which must be dispose after receiving a request result.
+     * It calls after user choice about permission.
+     * @return returns a [Disposable] which will be automatically disposed after [action] executing will be completed.
      */
     fun requestPermisson(permission: String, action: (Boolean) -> Unit): Disposable {
         permissionRequestRxController.action(permission)

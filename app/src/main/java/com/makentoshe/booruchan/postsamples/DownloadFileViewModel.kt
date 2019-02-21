@@ -21,11 +21,15 @@ import kotlinx.coroutines.launch
 import java.io.File
 import java.io.FileOutputStream
 
-class DownloadFileViewModel private constructor() : ViewModel(),
-    DownloadFileController {
+class DownloadFileViewModel private constructor() : ViewModel(), DownloadFileController {
+    /* Set of the selected tags for posts searching while file downloading but
+     * in real situation it is not necessary - something must go very wrong if they will be needed */
     private lateinit var tags: Set<Tag>
+    /* Current Booru instance for creating repositories */
     private lateinit var booru: Booru
+    /* Controller for checking and requesting application permissions */
     private lateinit var permissionChecker: PermissionChecker
+    /* Controller for displaying snackbar notifications */
     private lateinit var notificationController: NotificationInterface
 
     override fun startDownload(view: View, currentItem: Int) {
