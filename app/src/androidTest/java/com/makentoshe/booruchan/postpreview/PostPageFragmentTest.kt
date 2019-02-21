@@ -3,15 +3,16 @@ package com.makentoshe.booruchan.postpreview
 import androidx.test.espresso.Espresso
 import androidx.test.espresso.Espresso.onData
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.ViewAssertion
 import androidx.test.espresso.action.ViewActions
-import androidx.test.espresso.assertion.ViewAssertions
+import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.rule.ActivityTestRule
 import com.makentoshe.booruchan.*
 import com.makentoshe.booruchan.postsamples.PostSamplesFragment
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.runBlocking
 import org.hamcrest.CoreMatchers
 import org.hamcrest.CoreMatchers.*
 import org.junit.After
@@ -52,13 +53,32 @@ class PostPageFragmentTest {
     @Test
     fun should_show_error_message_when_posts_loading_failed() {
         onMockedBooru(false)
-//        onView(allOf(withId(R.id.postpreviewpage_grid), isCompletelyDisplayed())).check(matches(not(isDisplayed())))
         onView(
             allOf(
                 withId(R.id.postpreviewpage_messageview),
                 isCompletelyDisplayed()
             )
         ).check(matches(isDisplayed()))
+    }
+
+    @Test
+    fun should_reload_posts_after_error_message() = runBlocking {
+        //show error message
+        should_show_error_message_when_posts_loading_failed()
+        //enable posts
+        booru.postsErr = false
+        //perform on message click for reloading
+        onView(
+            allOf(
+                withId(R.id.postpreviewpage_messageview),
+                isCompletelyDisplayed()
+            )
+        ).perform(click()).noActivity()
+        //we must wait while posts will be "loaded" and displayed
+        //delay(1000)
+        //check the grid view is displayed
+        onView(allOf(withId(R.id.postpreviewpage_grid), isCompletelyDisplayed())).check(matches(isDisplayed()))
+        Unit
     }
 
     @After
