@@ -211,8 +211,6 @@ class PostsFragmentTest {
         onView(withId(R.id.postpreview_bottombar_left)).check { view, _ ->
             assertEquals(View.INVISIBLE, view.visibility)
         }
-        //but right page stay in memory
-        assertEquals(3, getPostPagesFragments().size)
     }
 
     @After
