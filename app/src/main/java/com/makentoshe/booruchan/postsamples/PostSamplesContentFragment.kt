@@ -31,9 +31,10 @@ class PostSamplesContentFragment : Fragment() {
 
         val factory = PostSamplesContentViewModel.Factory(
             position,
-            startDownloadController,
-            permissionChecker,
-            snackbarNotificationController
+            booru
+//            startDownloadController,
+//            permissionChecker,
+//            snackbarNotificationController
         )
         viewModel = ViewModelProviders.of(this, factory)[PostSamplesContentViewModel::class.java]
 

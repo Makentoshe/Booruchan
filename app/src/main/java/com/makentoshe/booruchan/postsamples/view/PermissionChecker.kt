@@ -4,6 +4,7 @@ import com.makentoshe.controllers.RxController
 import com.makentoshe.controllers.SimpleRxController
 import io.reactivex.disposables.Disposable
 import io.reactivex.subjects.BehaviorSubject
+import org.jetbrains.anko.doAsync
 import java.io.Serializable
 
 /**
@@ -12,7 +13,7 @@ import java.io.Serializable
 class PermissionChecker private constructor(
     private val permissionRequestRxController: RxController<String, String>,
     private val permissionReceiveRxController: RxController<Boolean, Boolean>
-): Serializable {
+) : Serializable {
 
     /**
      * Requests a [permission] and returns true result in the [action] if permission was granted and false otherwise.
@@ -24,7 +25,15 @@ class PermissionChecker private constructor(
      */
     fun requestPermisson(permission: String, action: (Boolean) -> Unit): Disposable {
         permissionRequestRxController.action(permission)
-        return permissionReceiveRxController.subscribe(action)
+        var disposable: Disposable? = null
+        disposable = permissionReceiveRxController.subscribe {
+            try {
+                action(it)
+            } finally {
+                disposable?.dispose()
+            }
+        }
+        return disposable
     }
 
     /**

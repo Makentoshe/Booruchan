@@ -17,10 +17,6 @@ class PostSamplesContentUi(
             id = R.id.postsamples_content_viewpager
             adapter = adapterBuilder.getViewPagerAdapter(ui.owner.childFragmentManager)
             currentItem = viewModel.position
-
-            viewModel.onStartDownloadControllerListener {
-                viewModel.startFileDownload(currentItem, context)
-            }
         }
     }
 }
