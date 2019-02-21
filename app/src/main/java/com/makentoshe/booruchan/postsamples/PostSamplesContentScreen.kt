@@ -7,11 +7,10 @@ import com.makentoshe.booruchan.FragmentScreen
 import com.makentoshe.booruchan.UnitRxController
 
 class PostSamplesContentScreen(
-    private val startDownloadRxController: UnitRxController,
     private val booru: Booru,
     private val tags: Set<Tag>,
     private val position: Int
 ) : FragmentScreen() {
     override val fragment: Fragment
-        get() = PostSamplesContentFragment.create(startDownloadRxController, booru, tags, position)
+        get() = PostSamplesContentFragment.create(booru, tags, position)
 }

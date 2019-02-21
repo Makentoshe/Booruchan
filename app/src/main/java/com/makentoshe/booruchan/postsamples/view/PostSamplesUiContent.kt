@@ -4,19 +4,21 @@ import android.view.View
 import android.view.ViewManager
 import androidx.fragment.app.FragmentManager
 import com.makentoshe.booruchan.R
-import com.makentoshe.booruchan.postsamples.PostSamplesViewModel
+import com.makentoshe.booruchan.postsamples.model.ViewPagerAdapterBuilder
+import com.makentoshe.booruchan.postsamples.model.NavigationController
 import org.jetbrains.anko.*
 import org.jetbrains.anko.custom.ankoView
 import org.jetbrains.anko.support.v4.onPageChangeListener
 
 class PostSamplesUiContent(
     private val fragmentManager: FragmentManager,
-    private val viewModel: PostSamplesViewModel
+    private val adapterBuilder: ViewPagerAdapterBuilder,
+    private val navigationController: NavigationController
 ) : AnkoComponent<_RelativeLayout> {
     override fun createView(ui: AnkoContext<_RelativeLayout>): View = with(ui.owner) {
         verticalViewPager {
             id = R.id.postsamples_verticalpager
-            adapter = viewModel.getSamplesVerticalViewPagerAdapter(fragmentManager)
+            adapter = adapterBuilder.buildViewPagerAdapter(fragmentManager)
             currentItem = 1
 
             onPageChangeListener {
@@ -24,7 +26,7 @@ class PostSamplesUiContent(
                     when (position) {
                         1 -> ui.owner.alpha = 1f
                         0 -> {
-                            if (positionOffset == 0f) viewModel.exit()
+                            if (positionOffset == 0f) navigationController.exit()
                             ui.owner.alpha = positionOffset
                         }
                     }

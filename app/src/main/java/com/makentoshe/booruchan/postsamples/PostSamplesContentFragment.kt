@@ -22,20 +22,10 @@ class PostSamplesContentFragment : Fragment() {
     private lateinit var adapterBuilder: AdapterBuilder
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        val startDownloadController = arguments!!.get(DWNLDCNTRLLR) as UnitRxController
         val booru = arguments!!.get(BOORU) as Booru
         val tags = arguments!!.get(TAGS) as Set<Tag>
         val position = arguments!!.getInt(POSITION)
-        val permissionChecker = (requireActivity() as AppActivity).permissionChecker
-        val snackbarNotificationController = (requireActivity() as AppActivity).snackbarNotificationController
-
-        val factory = PostSamplesContentViewModel.Factory(
-            position,
-            booru
-//            startDownloadController,
-//            permissionChecker,
-//            snackbarNotificationController
-        )
+        val factory = PostSamplesContentViewModel.Factory(position, booru)
         viewModel = ViewModelProviders.of(this, factory)[PostSamplesContentViewModel::class.java]
 
         adapterBuilder = AdapterBuilderImpl(booru, tags)
@@ -49,19 +39,16 @@ class PostSamplesContentFragment : Fragment() {
     }
 
     companion object {
-        private const val DWNLDCNTRLLR = "DownloadController"
         private const val BOORU = "Booru"
         private const val TAGS = "Tags"
         private const val POSITION = "Position"
         fun create(
-            startDownloadController: UnitRxController,
             booru: Booru,
             tags: Set<Tag>,
             position: Int
         ): Fragment {
             return PostSamplesContentFragment().apply {
                 arguments = Bundle().apply {
-                    putSerializable(DWNLDCNTRLLR, startDownloadController)
                     putSerializable(BOORU, booru)
                     putSerializable(TAGS, tags as Serializable)
                     putInt(POSITION, position)

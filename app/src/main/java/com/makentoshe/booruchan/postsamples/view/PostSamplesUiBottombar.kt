@@ -7,16 +7,15 @@ import android.view.View
 import android.view.ViewManager
 import androidx.annotation.IdRes
 import androidx.annotation.StringRes
-import androidx.core.view.get
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.makentoshe.booruchan.R
-import com.makentoshe.booruchan.postsamples.PostSamplesViewModel
+import com.makentoshe.booruchan.postsamples.model.NavigationController
 import com.makentoshe.style.Style
 import org.jetbrains.anko.*
 import org.jetbrains.anko.custom.ankoView
 
 class PostSamplesUiBottombar(
-    private val viewModel: PostSamplesViewModel,
+    private val navigationController: NavigationController,
     private val style: Style
 ) : AnkoComponent<_RelativeLayout> {
     override fun createView(ui: AnkoContext<_RelativeLayout>): View = with(ui.owner) {
@@ -25,7 +24,7 @@ class PostSamplesUiBottombar(
             backgroundColorResource = style.toolbar.primaryColorRes
             buildMenu()
             setTextColor(style.toolbar.getOnPrimaryColor(context), style.toolbar.getSecondaryColor(context))
-            setOnNavigationItemSelectedListener(viewModel::onNavigationItemSelected)
+            setOnNavigationItemSelectedListener(navigationController::onNavigationItemSelected)
         }.lparams(matchParent, dip(56)) {
             alignParentBottom()
         }
