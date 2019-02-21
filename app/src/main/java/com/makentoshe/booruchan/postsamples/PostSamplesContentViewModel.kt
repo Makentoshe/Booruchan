@@ -7,6 +7,7 @@ import com.makentoshe.booruapi.Booru
 import com.makentoshe.booruapi.Post
 import com.makentoshe.booruapi.Posts
 import com.makentoshe.booruchan.NotificationInterface
+import com.makentoshe.booruchan.UnitRxController
 import com.makentoshe.booruchan.postsamples.view.PermissionChecker
 import com.makentoshe.repository.Repository
 import com.makentoshe.viewmodel.ViewModel
@@ -15,7 +16,7 @@ import io.reactivex.disposables.CompositeDisposable
 class PostSamplesContentViewModel : ViewModel() {
     var position = 0
         private set
-    private lateinit var startDownloadController: StartDownloadRxController
+    private lateinit var startDownloadController: UnitRxController
     private lateinit var permissionChecker: PermissionChecker
     private lateinit var notificationInterface: NotificationInterface
     private val disposables = CompositeDisposable()
@@ -39,7 +40,7 @@ class PostSamplesContentViewModel : ViewModel() {
 
     class Factory(
         private val position: Int,
-        private val startDownloadController: StartDownloadRxController,
+        private val startDownloadController: UnitRxController,
         private val permissionChecker: PermissionChecker,
         private val notificationInterface: NotificationInterface
     ) : ViewModelProvider.NewInstanceFactory() {

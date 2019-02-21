@@ -7,6 +7,7 @@ import com.makentoshe.controllers.SimpleRxController
 import com.makentoshe.repository.Repository
 import io.reactivex.subjects.BehaviorSubject
 import kotlinx.coroutines.CoroutineScope
+import java.io.Serializable
 
 /**
  * Class for downloading a [Posts] in another thread.
@@ -63,6 +64,6 @@ class StringRxController : SimpleRxController<String, String>(BehaviorSubject.cr
 /**
  * Just send an Unit to the subscribers.
  */
-class UnitRxController : SimpleRxController<Unit, Unit>(BehaviorSubject.create()) {
+class UnitRxController : SimpleRxController<Unit, Unit>(BehaviorSubject.create()), Serializable {
     override fun action(param: Unit) = observable.onNext(Unit)
 }

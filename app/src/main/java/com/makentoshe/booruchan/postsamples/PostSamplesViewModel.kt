@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager.widget.PagerAdapter
 import com.makentoshe.booruapi.Booru
 import com.makentoshe.booruapi.Tag
+import com.makentoshe.booruchan.UnitRxController
 import com.makentoshe.booruchan.postsamples.model.SamplesVerticalViewPagerAdapter
 import com.makentoshe.controllers.SimpleRxController
 import com.makentoshe.viewmodel.ViewModel
@@ -18,7 +19,7 @@ class PostSamplesViewModel private constructor() : ViewModel() {
     private var position: Int = 0
     private lateinit var booru: Booru
     private lateinit var router: Router
-    private lateinit var startDownloadRxController: StartDownloadRxController
+    private lateinit var startDownloadRxController: UnitRxController
     private lateinit var tags: Set<Tag>
 
     fun onDownloadIconClick(ignored: View) = startDownloadRxController.action(Unit)
@@ -44,7 +45,7 @@ class PostSamplesViewModel private constructor() : ViewModel() {
 
         override fun <T : androidx.lifecycle.ViewModel?> create(modelClass: Class<T>): T {
             val viewModel = PostSamplesViewModel()
-            val startDownloadRxController = StartDownloadRxController()
+            val startDownloadRxController = UnitRxController()
 
             viewModel.startDownloadRxController = startDownloadRxController
             viewModel.router = router
@@ -55,8 +56,4 @@ class PostSamplesViewModel private constructor() : ViewModel() {
             return viewModel as T
         }
     }
-}
-
-class StartDownloadRxController : SimpleRxController<Unit, Unit>(BehaviorSubject.create()), Serializable {
-    override fun action(param: Unit) = observable.onNext(param)
 }

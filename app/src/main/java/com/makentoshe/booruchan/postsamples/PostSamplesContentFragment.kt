@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModelProviders
 import com.makentoshe.booruapi.Booru
 import com.makentoshe.booruapi.Tag
 import com.makentoshe.booruchan.AppActivity
+import com.makentoshe.booruchan.UnitRxController
 import com.makentoshe.booruchan.postsamples.model.AdapterBuilder
 import com.makentoshe.booruchan.postsamples.model.AdapterBuilderImpl
 import com.makentoshe.booruchan.postsamples.view.PostSamplesContentUi
@@ -21,7 +22,7 @@ class PostSamplesContentFragment : Fragment() {
     private lateinit var adapterBuilder: AdapterBuilder
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        val startDownloadController = arguments!!.get(DWNLDCNTRLLR) as StartDownloadRxController
+        val startDownloadController = arguments!!.get(DWNLDCNTRLLR) as UnitRxController
         val booru = arguments!!.get(BOORU) as Booru
         val tags = arguments!!.get(TAGS) as Set<Tag>
         val position = arguments!!.getInt(POSITION)
@@ -52,7 +53,7 @@ class PostSamplesContentFragment : Fragment() {
         private const val TAGS = "Tags"
         private const val POSITION = "Position"
         fun create(
-            startDownloadController: StartDownloadRxController,
+            startDownloadController: UnitRxController,
             booru: Booru,
             tags: Set<Tag>,
             position: Int
