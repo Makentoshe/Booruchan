@@ -59,10 +59,9 @@ class PostPageFragmentTest {
     }
 
     @Test
-    @Ignore
-    fun sas() {
+    @Ignore("Feature is broking or was not realized")
+    fun should_show_error_image_when_preview_loading_failed() {
         onMockedBooru(true, false)
-        Unit
     }
 
     @Test

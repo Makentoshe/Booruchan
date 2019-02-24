@@ -71,9 +71,9 @@ class PostsFragmentTest {
         //click overflow menu icon
         should_show_search_layout_on_overflow_click()
         //click overflow menu icon again
-        onView(withId(R.id.postpreview_toolbar_container_overflow)).perform(click())
+        onView(withId(R.id.postpreview_toolbar_container_overflow)).perform(click()).noActivity()
         //check that the search layout is not visible
-        onView(withId(R.id.postpreview_search)).check(matches(not(isDisplayed())))
+        onView(withId(R.id.postpreview_search)).check(matches(not(isDisplayed()))).noActivity()
     }
 
     @Test
@@ -87,7 +87,7 @@ class PostsFragmentTest {
     }
 
     @Test
-    @Ignore
+    @Ignore("Feature is broking or was not realized")
     fun should_hide_search_layout_on_backbutton_click() {
         //click overflow menu icon
         should_show_search_layout_on_overflow_click()
