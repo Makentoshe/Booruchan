@@ -7,7 +7,8 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProviders
 import com.makentoshe.booruapi.Booru
 import com.makentoshe.booruapi.Tag
-import com.makentoshe.booruchan.*
+import com.makentoshe.booruchan.AppActivity
+import com.makentoshe.booruchan.Booruchan
 import com.makentoshe.booruchan.postsamples.model.NavigationController
 import com.makentoshe.booruchan.postsamples.model.ViewPagerAdapterBuilder
 import com.makentoshe.booruchan.postsamples.view.PostSamplesUi
@@ -35,7 +36,7 @@ class PostSamplesFragment : androidx.fragment.app.Fragment() {
         downloadFileViewModel = ViewModelProviders.of(this, factory)[DownloadFileViewModel::class.java]
 
         val router = Booruchan.INSTANCE.router
-        navigationController = NavigationControllerImpl(router)
+        navigationController = NavigationControllerImpl(router, booru, position, tags)
 
         super.onCreate(savedInstanceState)
     }

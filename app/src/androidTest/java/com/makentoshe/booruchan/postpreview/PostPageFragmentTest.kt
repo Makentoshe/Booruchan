@@ -15,11 +15,8 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 import org.hamcrest.CoreMatchers
 import org.hamcrest.CoreMatchers.*
-import org.junit.After
+import org.junit.*
 import org.junit.Assert.assertNotNull
-import org.junit.Before
-import org.junit.Rule
-import org.junit.Test
 
 class PostPageFragmentTest {
 
@@ -59,6 +56,13 @@ class PostPageFragmentTest {
                 isCompletelyDisplayed()
             )
         ).check(matches(isDisplayed()))
+    }
+
+    @Test
+    @Ignore
+    fun sas() {
+        onMockedBooru(true, false)
+        Unit
     }
 
     @Test

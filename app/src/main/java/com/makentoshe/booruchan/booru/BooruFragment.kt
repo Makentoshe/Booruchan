@@ -12,6 +12,7 @@ import com.makentoshe.booruapi.Tag
 import com.makentoshe.booruchan.Fragment
 import com.makentoshe.booruchan.booru.view.BooruFragmentUI
 import org.jetbrains.anko.AnkoContext
+import java.io.Serializable
 
 class BooruFragment : androidx.fragment.app.Fragment() {
 
@@ -19,12 +20,14 @@ class BooruFragment : androidx.fragment.app.Fragment() {
     private lateinit var contentScreenViewModel: ContentScreenViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        val arguments = Companion.arguments
+        val booru = arguments!![BOORU] as Booru
+        val tags = arguments!![TAGS] as Set<Tag>
+
         //create drawer controller
         var factory: ViewModelProvider.NewInstanceFactory = DrawerViewModel.Factory()
         drawerViewModel = ViewModelProviders.of(this, factory)[DrawerViewModel::class.java]
         //create content screens controller
-        factory = ContentScreenViewModel.Factory(arguments.booru, drawerViewModel, arguments.tags)
+        factory = ContentScreenViewModel.Factory(booru, drawerViewModel, tags)
         contentScreenViewModel = ViewModelProviders.of(this, factory)[ContentScreenViewModel::class.java]
         super.onCreate(savedInstanceState)
     }
@@ -39,14 +42,15 @@ class BooruFragment : androidx.fragment.app.Fragment() {
     }
 
     companion object {
-
-        fun create(booru: Booru, tags: HashSet<Tag>): androidx.fragment.app.Fragment {
-            arguments = Arguments(booru, tags)
-            return BooruFragment()
+        private const val BOORU = "Booru"
+        private const val TAGS = "Tags"
+        fun create(booru: Booru, tags: Set<Tag>): androidx.fragment.app.Fragment {
+            return BooruFragment().apply {
+                arguments = Bundle().apply {
+                    putSerializable(BOORU, booru)
+                    putSerializable(TAGS, tags as Serializable)
+                }
+            }
         }
-
-        private lateinit var arguments: Arguments
-
-        private data class Arguments(val booru: Booru, val tags: Set<Tag>)
     }
 }

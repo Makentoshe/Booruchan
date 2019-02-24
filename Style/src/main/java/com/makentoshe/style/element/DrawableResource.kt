@@ -48,6 +48,10 @@ class DrawableResource {
             @JvmField
             @DrawableRes
             val download = R.drawable.ic_download
+
+            @JvmField
+            @DrawableRes
+            val arrow = R.drawable.ic_arrow
         }
     }
 

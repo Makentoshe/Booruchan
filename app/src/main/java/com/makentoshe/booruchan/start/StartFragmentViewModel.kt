@@ -25,7 +25,7 @@ class StartFragmentViewModel private constructor() : com.makentoshe.viewmodel.Vi
         return false
     }
 
-    fun onListItemClicked(booru: Booru) = router.navigateTo(BooruScreen(booru))
+    fun onListItemClicked(booru: Booru) = router.navigateTo(BooruScreen(booru, setOf()))
 
     fun getBooruListAdapter(context: Context): ListAdapter {
         val boorusTitles = Array(booruList.size) { booruList[it].title }

@@ -56,5 +56,9 @@
     <item name="postsample_content" type="id"/>
     <item name="postsample_progressbar" type="id"/>
     <item name="postpreviewpage_grid" type="id"/>
+    <item name="posttags_toolbar" type="id"/>
+    <item name="posttags_progressbar" type="id"/>
+    <item name="posttags_toolbar_search" type="id"/>
+    <item name="posttags_toolbar_back" type="id"/>
 
 </resources>

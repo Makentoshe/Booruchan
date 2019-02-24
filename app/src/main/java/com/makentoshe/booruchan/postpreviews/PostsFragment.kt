@@ -46,7 +46,7 @@ class PostsFragment : androidx.fragment.app.Fragment() {
         factory = TagsViewModel.Factory(arguments.tags)
         tagsViewModel = ViewModelProviders.of(this, factory)[TagsViewModel::class.java]
 
-        factory = SearchViewModel.Factory()
+        factory = SearchViewModel.Factory(arguments.tags)
         searchViewModel = ViewModelProviders.of(this, factory)[SearchViewModel::class.java]
 
         factory = ViewPagerViewModel.Factory()

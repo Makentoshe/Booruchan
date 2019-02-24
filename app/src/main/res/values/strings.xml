@@ -5,12 +5,13 @@
     <string name="account">Account</string>
     <string name="sample_download_error">Failed to download sample</string>
     <string name="posts_download_error">Failed to download posts</string>
+    <string name="tags_download_error">Failed to download tags</string>
     <string name="tap_for_retry">Tap for retry</string>
     <string name="info">Info</string>
     <string name="comments">Comments</string>
     <string name="image">Image</string>
     <string name="tags">Tags</string>
-    <string name="was_loaded_succesfully">was loaded succesfully</string>
+    <string name="was_loaded_succesfully">was loaded successfully</string>
     <string name="image_was_not_loaded_succesfully">Image wasn\'t loaded successfully</string>
     <string name="permission_denied">Permission denied</string>
     <string name="download_was_not_started">Download wasn\'t started</string>

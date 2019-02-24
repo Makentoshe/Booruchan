@@ -11,7 +11,7 @@ class SearchViewModel private constructor() : ViewModel(), SearchController {
     /* Performs search controlling */
     private lateinit var searchRxController: SearchRxController
     /* Contains a tag set with current search */
-    private val currentSearchTagSet = HashSet<Tag>()
+    private lateinit var currentSearchTagSet: Set<Tag>
 
     /** Starts a new search. */
     override fun startSearch(tags: Set<Tag>) = searchRxController.newSearch(tags)
@@ -19,8 +19,7 @@ class SearchViewModel private constructor() : ViewModel(), SearchController {
     /** Subscribe on a new search. */
     override fun onSearchStartedListener(action: (Set<Tag>) -> Unit) {
         searchRxController.subscribe {
-            currentSearchTagSet.clear()
-            currentSearchTagSet.addAll(it)
+            currentSearchTagSet = it
             action(it)
         }
     }
@@ -35,10 +34,11 @@ class SearchViewModel private constructor() : ViewModel(), SearchController {
         searchRxController.clear()
     }
 
-    class Factory : ViewModelProvider.NewInstanceFactory() {
+    class Factory(private val tags: Set<Tag>) : ViewModelProvider.NewInstanceFactory() {
         override fun <T : androidx.lifecycle.ViewModel?> create(modelClass: Class<T>): T {
             val viewModel = SearchViewModel()
             viewModel.searchRxController = SearchRxController()
+            viewModel.currentSearchTagSet = tags
             return viewModel as T
         }
     }

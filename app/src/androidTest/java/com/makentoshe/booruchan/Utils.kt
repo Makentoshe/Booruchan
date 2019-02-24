@@ -66,6 +66,7 @@ class Mockbooru : Booru(mockk()) {
 
     override fun customGet(request: String) = TODO("not implemented")
     override fun getPreview(previewUrl: String): InputStream {
+        if (previewsErr) throw Exception()
         val bytes = ByteArrayOutputStream().also {
             (context.getDrawable(R.drawable.a) as BitmapDrawable)
                 .bitmap.compress(Bitmap.CompressFormat.JPEG, 100, it)
