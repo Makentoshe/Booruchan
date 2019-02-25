@@ -2,6 +2,7 @@ package com.makentoshe.booruchan.postsamples.view
 
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.postsamples.PostSamplesContentViewModel
 import com.makentoshe.booruchan.postsamples.model.AdapterBuilder
@@ -18,12 +19,26 @@ class PostSamplesContentUi(
         viewPager {
             id = R.id.postsamples_content_viewpager
 
-            //MEMLEAK
-            println(ui.owner.childFragmentManager.fragments)
+            val fragmentManager = ui.owner.childFragmentManager
+            fixFragmentManagerMemoryLeak(fragmentManager)
 
-            adapter = adapterBuilder.getViewPagerAdapter(ui.owner.childFragmentManager)
+            adapter = adapterBuilder.getViewPagerAdapter(fragmentManager)
             currentItem = viewModel.position
         }
+    }
+
+    /*
+    * Method fixes a strange memory leak. The fragments in fragment manager is not
+    * releases after onDestroy and onDetach events. They still alive after rotation event
+    * and only PostSamplesFragment removing fix the problem. This method removes fragments
+    * manually from fragment holder using fragment manager. */
+    private fun fixFragmentManagerMemoryLeak(fragmentManager: FragmentManager) {
+        val transaction = fragmentManager.beginTransaction()
+        fragmentManager.fragments.forEach {
+            transaction.remove(it)
+        }
+        transaction.commit()
+        println(fragmentManager.fragments)
     }
 }
 
