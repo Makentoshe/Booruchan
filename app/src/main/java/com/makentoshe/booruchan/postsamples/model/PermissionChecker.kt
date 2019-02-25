@@ -1,10 +1,9 @@
-package com.makentoshe.booruchan.postsamples.view
+package com.makentoshe.booruchan.postsamples.model
 
 import com.makentoshe.controllers.RxController
 import com.makentoshe.controllers.SimpleRxController
 import io.reactivex.disposables.Disposable
 import io.reactivex.subjects.BehaviorSubject
-import org.jetbrains.anko.doAsync
 import java.io.Serializable
 
 /**
@@ -70,8 +69,10 @@ class PermissionChecker private constructor(
         ) = PermissionChecker(requestController, receiveController)
 
         fun simpleBuild(): PermissionChecker {
-            val receiveController = PermissionReceiveRxController()
-            val requestController = PermissionRequestRxController()
+            val receiveController =
+                PermissionReceiveRxController()
+            val requestController =
+                PermissionRequestRxController()
             return PermissionChecker(requestController, receiveController)
         }
     }

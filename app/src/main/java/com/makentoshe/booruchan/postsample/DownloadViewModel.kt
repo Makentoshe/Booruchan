@@ -54,7 +54,7 @@ class DownloadViewModel private constructor() : ViewModel(), SampleImageDownload
     override fun passUrlToTheFile(url: String) = webmDownloadRxController.action(url)
 
     override fun onSampleLoadingFinished(action: () -> Unit) {
-            downloadingFinishedRxController.subscribe {
+        downloadingFinishedRxController.subscribe {
             Handler(Looper.getMainLooper()).post { action() }
         }
     }
@@ -97,10 +97,12 @@ class DownloadViewModel private constructor() : ViewModel(), SampleImageDownload
         imageDownloadRxController.clear()
         webmDownloadRxController.clear()
         gifDownloadRxController.clear()
+        exceptionRxController.clear()
     }
 
     override fun onCleared() {
         super.onCleared()
+        exceptionRxController.clear()
         gifDownloadRxController.clear()
         postDownloadRxController.clear()
         webmDownloadRxController.clear()

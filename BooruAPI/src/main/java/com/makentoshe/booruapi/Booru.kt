@@ -9,6 +9,7 @@ abstract class Booru(protected val api: BooruApi) : Serializable {
     abstract fun autocomplete(term: String): List<Tag>
     abstract fun getPosts(request: PostRequest): Posts
     abstract fun getPreview(previewUrl: String): InputStream
+    abstract fun getFile(post: Post): InputStream
 
     data class PostRequest(val count: Int, val page: Int, val tags: Set<Tag>)
 }

@@ -9,7 +9,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.google.android.material.snackbar.Snackbar
 import com.makentoshe.booruchan.postsamples.PostSamplesScreen
-import com.makentoshe.booruchan.postsamples.view.PermissionChecker
+import com.makentoshe.booruchan.postsamples.model.PermissionChecker
 import com.makentoshe.booruchan.start.StartScreen
 import ru.terrakok.cicerone.Router
 

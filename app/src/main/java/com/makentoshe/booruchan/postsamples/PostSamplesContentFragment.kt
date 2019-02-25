@@ -34,6 +34,8 @@ class PostSamplesContentFragment : Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        viewModel.onCreateView(this)
+
         return PostSamplesContentUi(viewModel, adapterBuilder)
             .createView(AnkoContext.create(requireContext(), this))
     }

@@ -12,9 +12,9 @@ import com.makentoshe.booruchan.PostInternalCache
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.SnackbarNotificationRxController
 import com.makentoshe.booruchan.postsamples.model.DownloadFileController
-import com.makentoshe.booruchan.postsamples.view.PermissionChecker
+import com.makentoshe.booruchan.postsamples.model.PermissionChecker
 import com.makentoshe.repository.CachedRepository
-import com.makentoshe.repository.FileImageRepository
+import com.makentoshe.repository.FileRepository
 import com.makentoshe.repository.PostsRepository
 import com.makentoshe.viewmodel.ViewModel
 import kotlinx.coroutines.launch
@@ -81,10 +81,10 @@ class DownloadFileViewModel private constructor() : ViewModel(), DownloadFileCon
             PostInternalCache(context, "posts"),
             PostsRepository(booru)
         )
-        val filesRepository = FileImageRepository(booru)
+        val filesRepository = FileRepository(booru)
 
         val post = postsRepository.get(Booru.PostRequest(1, position, tags))!![0]
-        val bytes = filesRepository.get(post.fileUrl)
+        val bytes = filesRepository.get(post)
 
         saveFile(context, booru.title, post.id.toString(), File(post.fileUrl).extension, bytes)
     }

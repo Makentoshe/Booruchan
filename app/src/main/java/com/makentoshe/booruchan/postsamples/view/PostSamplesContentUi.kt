@@ -11,10 +11,16 @@ import org.jetbrains.anko.support.v4.viewPager
 
 class PostSamplesContentUi(
     private val viewModel: PostSamplesContentViewModel,
-    private val adapterBuilder: AdapterBuilder) : AnkoComponent<Fragment> {
+    private val adapterBuilder: AdapterBuilder
+) : AnkoComponent<Fragment> {
+
     override fun createView(ui: AnkoContext<Fragment>): View = with(ui) {
         viewPager {
             id = R.id.postsamples_content_viewpager
+
+            //MEMLEAK
+            println(ui.owner.childFragmentManager.fragments)
+
             adapter = adapterBuilder.getViewPagerAdapter(ui.owner.childFragmentManager)
             currentItem = viewModel.position
         }

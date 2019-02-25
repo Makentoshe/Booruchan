@@ -49,4 +49,6 @@ class Gelbooru(private val httpClient: HttpClient) : Booru(GelbooruApi()), Seria
     override fun getPreview(previewUrl: String): InputStream {
         return httpClient.get(previewUrl).stream()
     }
+
+    override fun getFile(post: Post) = httpClient.get(post.fileUrl).stream()
 }

@@ -8,6 +8,7 @@ abstract class InternalCache<K, V>(context: Context, title: String) : ClearableC
     protected val mainDirectory = context.getDir(title, Context.MODE_PRIVATE)!!
 
     override fun clear() {
-        for (file in mainDirectory.listFiles()) file.delete()
+        mainDirectory.delete()
+        mainDirectory.mkdirs()
     }
 }

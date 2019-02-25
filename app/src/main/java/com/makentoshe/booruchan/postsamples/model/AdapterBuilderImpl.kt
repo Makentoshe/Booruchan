@@ -9,7 +9,7 @@ class AdapterBuilderImpl(
     private val booru: Booru,
     private val tags: Set<Tag>
 ) : AdapterBuilder {
-
+//TODO make it view model may be
     override fun getViewPagerAdapter(fragmentManager: FragmentManager): PagerAdapter {
         return SamplesContentViewPagerAdapter(fragmentManager, booru, tags)
     }

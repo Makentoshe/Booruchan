@@ -3,7 +3,6 @@ package com.makentoshe.booruchan.postsample.view
 import android.graphics.PorterDuff
 import android.view.View
 import com.makentoshe.booruchan.R
-import com.makentoshe.booruchan.postsample.PostSampleViewModel
 import com.makentoshe.booruchan.postsample.model.SampleImageDownloadController
 import com.makentoshe.style.Style
 import org.jetbrains.anko.*
