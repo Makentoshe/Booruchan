@@ -9,16 +9,14 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.google.android.material.snackbar.Snackbar
 import com.makentoshe.booruchan.postsamples.PostSamplesScreen
-import com.makentoshe.booruchan.postsamples.model.PermissionChecker
+import com.makentoshe.booruchan.postsamples.model.PermissionCheckerImpl
 import com.makentoshe.booruchan.start.StartScreen
 import ru.terrakok.cicerone.Router
 
 class AppActivity : AppCompatActivity() {
     /* Uses for navigation between screens*/
     private val navigator = Navigator(this, R.id.appcontainer)
-    /* Performs requesting an checking permissions */
-    val permissionChecker = PermissionChecker.Factory().simpleBuild()
-    /* Shows Snackbar messages */
+     /* Shows Snackbar messages */
     private val innerNotificationRxController = SnackbarNotificationRxController()
     /* Special interface with single method for set notification to the controller */
     val snackbarNotificationController: NotificationInterface = innerNotificationRxController
@@ -61,27 +59,6 @@ class AppActivity : AppCompatActivity() {
         newRootScreen(PostSamplesScreen(Booruchan.INSTANCE.booruList[0], setOf(), 2))
     }
 
-    private fun permissionCheckerSubscribe() {
-        permissionChecker.handlePermissionRequest {
-            val status = ContextCompat.checkSelfPermission(this, it)
-            if (status == PackageManager.PERMISSION_GRANTED) {
-                permissionChecker.sendPermissionResult(true)
-            } else {
-                requestPermission(this, it, PERMISSION_REQUEST_CODE_WRITE_EXTERNAL_STORAGE)
-            }
-        }
-    }
-
-    private fun requestPermission(activity: Activity, permission: String, requestCode: Int) {
-        ActivityCompat.requestPermissions(activity, arrayOf(permission), requestCode)
-    }
-
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        //the permission request will be always for one permission at the time.
-        permissionChecker.sendPermissionResult(grantResults[0] == PackageManager.PERMISSION_GRANTED)
-    }
-
     private fun notificationSubscribe() {
         innerNotificationRxController.subscribe {
             val duration = if (it.duration < -2) Snackbar.LENGTH_LONG else it.duration
@@ -104,12 +81,10 @@ class AppActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
         notificationSubscribe()
-        permissionCheckerSubscribe()
     }
 
     override fun onStop() {
         super.onStop()
-        permissionChecker.clear()
         innerNotificationRxController.clear()
     }
 

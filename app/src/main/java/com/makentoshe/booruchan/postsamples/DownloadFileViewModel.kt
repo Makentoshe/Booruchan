@@ -13,6 +13,7 @@ import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.SnackbarNotificationRxController
 import com.makentoshe.booruchan.postsamples.model.DownloadFileController
 import com.makentoshe.booruchan.postsamples.model.PermissionChecker
+import com.makentoshe.booruchan.postsamples.model.PermissionCheckerImpl
 import com.makentoshe.repository.CachedRepository
 import com.makentoshe.repository.FileRepository
 import com.makentoshe.repository.PostsRepository
@@ -35,7 +36,7 @@ class DownloadFileViewModel private constructor() : ViewModel(), DownloadFileCon
     override fun startDownload(view: View, currentItem: Int) {
         val permission = Manifest.permission.WRITE_EXTERNAL_STORAGE
         val context = view.context
-        permissionChecker.requestPermisson(permission) {
+        permissionChecker.requestPermission(permission) {
             if (it) {
                 try {
                     startFileLoading(context, currentItem)

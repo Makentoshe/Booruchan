@@ -34,20 +34,20 @@ class PostSampleFragment : Fragment() {
         val imageInternalCache = ImageInternalCache(requireContext(), "samples")
         val samplesRepository = CachedRepository(imageInternalCache, SampleImageRepository(booru))
 
-//        val factory = DownloadViewModel.Factory(postsRepository, tags, samplesRepository, position)
-//        downloadViewModel = ViewModelProviders.of(this, factory)[DownloadViewModel::class.java]
-//
+        val factory = DownloadViewModel.Factory(postsRepository, tags, samplesRepository, position)
+        downloadViewModel = ViewModelProviders.of(this, factory)[DownloadViewModel::class.java]
+
         super.onCreate(savedInstanceState)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-//        downloadViewModel.onCreateView(this)
+        downloadViewModel.onCreateView(this)
 
-        return View(context).apply {
-            backgroundColor = Random.nextInt()
-        }
-//        return PostSampleUi(downloadViewModel, downloadViewModel)
-//            .createView(AnkoContext.create(requireContext(), this))
+//        return View(context).apply {
+//            backgroundColor = Random.nextInt()
+//        }
+        return PostSampleUi(downloadViewModel, downloadViewModel)
+            .createView(AnkoContext.create(requireContext(), this))
     }
 
     companion object {
