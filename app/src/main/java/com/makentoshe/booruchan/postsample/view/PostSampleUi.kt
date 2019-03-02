@@ -20,9 +20,9 @@ class PostSampleUi(
         relativeLayout {
             backgroundColorResource = style.background.backgroundColorRes
             PostSampleUiProgressbar(sampleDownloadController, style).createView(AnkoContext.createDelegate(this))
-//            PostSampleUiContent(
-//                downloadErrorController, sampleDownloadController, style
-//            ).createView(AnkoContext.createDelegate(this))
+            PostSampleUiContent(
+                downloadErrorController, sampleDownloadController, style
+            ).createView(AnkoContext.createDelegate(this))
             PostSampleUiMessageview(sampleDownloadController, style).createView(AnkoContext.createDelegate(this))
         }
     }

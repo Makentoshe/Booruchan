@@ -1,22 +1,18 @@
 package com.makentoshe.booruchan
 
-import android.app.Activity
-import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import com.google.android.material.snackbar.Snackbar
 import com.makentoshe.booruchan.postsamples.PostSamplesScreen
-import com.makentoshe.booruchan.postsamples.model.PermissionCheckerImpl
 import com.makentoshe.booruchan.start.StartScreen
+import org.jetbrains.anko.relativeLayout
 import ru.terrakok.cicerone.Router
 
 class AppActivity : AppCompatActivity() {
     /* Uses for navigation between screens*/
     private val navigator = Navigator(this, R.id.appcontainer)
-     /* Shows Snackbar messages */
+    /* Shows Snackbar messages */
     private val innerNotificationRxController = SnackbarNotificationRxController()
     /* Special interface with single method for set notification to the controller */
     val snackbarNotificationController: NotificationInterface = innerNotificationRxController
@@ -34,10 +30,6 @@ class AppActivity : AppCompatActivity() {
             router.rootStartScreen()
 //            router.rootPostSamplesScreen()
 //            router.rootPostSampleScreen()
-
-//            Booruchan.INSTANCE.router.newRootScreen(PostPageScreen(Booruchan.INSTANCE.boorus[0], 1))
-//            Booruchan.INSTANCE.router.newRootScreen(PostsScreen(Booruchan.INSTANCE.boorus[0]))
-//            Booruchan.INSTANCE.router.newRootScreen(BooruScreen(Booruchan.INSTANCE.boorus[0]))
         }
     }
 

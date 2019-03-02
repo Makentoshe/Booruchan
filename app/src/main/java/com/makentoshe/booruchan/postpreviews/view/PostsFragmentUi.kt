@@ -2,7 +2,6 @@ package com.makentoshe.booruchan.postpreviews.view
 
 import com.makentoshe.booruchan.Booruchan
 import com.makentoshe.booruchan.booru.model.DrawerController
-import com.makentoshe.booruchan.postpreviews.model.AdapterBuilder
 import com.makentoshe.booruchan.postpreviews.PostsFragment
 import com.makentoshe.booruchan.postpreviews.model.*
 import org.jetbrains.anko.AnkoComponent

@@ -10,6 +10,8 @@ import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.toolbarLayout
 import org.jetbrains.anko.*
 import org.jetbrains.anko.appcompat.v7.titleResource
+import java.io.ByteArrayInputStream
+import java.io.FileInputStream
 import java.lang.Exception
 import java.lang.IndexOutOfBoundsException
 
