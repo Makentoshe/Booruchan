@@ -42,10 +42,6 @@ class PostSampleFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         downloadViewModel.onCreateView(this)
-
-//        return View(context).apply {
-//            backgroundColor = Random.nextInt()
-//        }
         return PostSampleUi(downloadViewModel, downloadViewModel)
             .createView(AnkoContext.create(requireContext(), this))
     }

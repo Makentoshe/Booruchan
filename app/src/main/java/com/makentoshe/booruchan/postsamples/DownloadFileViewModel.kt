@@ -4,16 +4,16 @@ import android.Manifest
 import android.content.Context
 import android.os.Environment
 import android.view.View
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.google.android.material.snackbar.Snackbar
 import com.makentoshe.booruapi.Booru
 import com.makentoshe.booruapi.Tag
-import com.makentoshe.booruchan.NotificationInterface
+import com.makentoshe.booruchan.NotificationController
 import com.makentoshe.booruchan.PostInternalCache
 import com.makentoshe.booruchan.R
-import com.makentoshe.booruchan.SnackbarNotificationRxController
 import com.makentoshe.booruchan.postsamples.model.DownloadFileController
 import com.makentoshe.booruchan.postsamples.model.PermissionChecker
-import com.makentoshe.booruchan.postsamples.model.PermissionCheckerImpl
 import com.makentoshe.repository.CachedRepository
 import com.makentoshe.repository.FileRepository
 import com.makentoshe.repository.PostsRepository
@@ -31,7 +31,7 @@ class DownloadFileViewModel private constructor() : ViewModel(), DownloadFileCon
     /* Controller for checking and requesting application permissions */
     private lateinit var permissionChecker: PermissionChecker
     /* Controller for displaying snackbar notifications */
-    private lateinit var notificationController: NotificationInterface
+    private lateinit var notificationController: NotificationController
 
     override fun startDownload(view: View, currentItem: Int) {
         val permission = Manifest.permission.WRITE_EXTERNAL_STORAGE
@@ -52,28 +52,27 @@ class DownloadFileViewModel private constructor() : ViewModel(), DownloadFileCon
 
     /* Calls when write external storage permission was denied */
     private fun permissionDeniedCallback(context: Context) {
-        val sb = StringBuilder(context.getString(R.string.download_was_not_started))
+        val message = StringBuilder(context.getString(R.string.download_was_not_started))
             .append("\n").append(context.getString(R.string.permission_denied))
-        val notify = SnackbarNotificationRxController.NotificationMessage(sb.toString())
-        notificationController.notify(notify)
+        sendNotificationWithMessage(message)
     }
 
     /* Calls when file was successfully downloaded */
     private fun fileWasSuccessfullyLoaded(context: Context) {
         val message = StringBuilder(context.getString(R.string.file)).append(" ")
         message.append(context.getString(R.string.was_loaded_succesfully))
-        val notifyMessage =
-            SnackbarNotificationRxController.NotificationMessage(message.toString())
-        notificationController.notify(notifyMessage)
+        sendNotificationWithMessage(message)
     }
 
     /* Calls when error occurs while file was downloading */
     private fun fileWasUnsuccessfullyLoaded(context: Context, reason: String) {
         val message = StringBuilder(context.getString(R.string.image_was_not_loaded_succesfully))
         if (!reason.isBlank()) message.append("\n").append(reason)
-        val notifyMessage =
-            SnackbarNotificationRxController.NotificationMessage(message.toString())
-        notificationController.notify(notifyMessage)
+        sendNotificationWithMessage(message)
+    }
+
+    private fun sendNotificationWithMessage(message: CharSequence) {
+        notificationController.action(message.toString())
     }
 
     /* Perform a file downloading */
@@ -111,11 +110,26 @@ class DownloadFileViewModel private constructor() : ViewModel(), DownloadFileCon
         }
     }
 
+    override fun onCreateView(owner: Fragment) {
+        notificationController.clear()
+        notificationController.subscribe {
+            val view = owner.view
+            if (view != null) {
+                Snackbar.make(view, it, Snackbar.LENGTH_LONG).show()
+            }
+        }
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        notificationController.clear()
+    }
+
     class Factory(
         private val booru: Booru,
         private val tags: Set<Tag>,
         private val permissionChecker: PermissionChecker,
-        private val notificationController: NotificationInterface
+        private val notificationController: NotificationController
     ) : ViewModelProvider.NewInstanceFactory() {
         override fun <T : androidx.lifecycle.ViewModel?> create(modelClass: Class<T>): T {
             val viewModel = DownloadFileViewModel()

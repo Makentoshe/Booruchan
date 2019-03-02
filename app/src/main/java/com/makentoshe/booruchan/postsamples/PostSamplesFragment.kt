@@ -10,8 +10,9 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProviders
 import com.makentoshe.booruapi.Booru
 import com.makentoshe.booruapi.Tag
-import com.makentoshe.booruchan.AppActivity
 import com.makentoshe.booruchan.Booruchan
+import com.makentoshe.booruchan.NotificationController
+import com.makentoshe.booruchan.NotificationControllerImpl
 import com.makentoshe.booruchan.postsamples.model.NavigationController
 import com.makentoshe.booruchan.postsamples.model.PermissionCheckController
 import com.makentoshe.booruchan.postsamples.model.PermissionChecker
@@ -31,6 +32,8 @@ class PostSamplesFragment : androidx.fragment.app.Fragment() {
     /* Performs permissions check and request */
     private lateinit var permissionChecker: PermissionCheckController
 
+    private lateinit var notificationController: NotificationController
+
     override fun onCreate(savedInstanceState: Bundle?) {
         val booru = arguments!!.get(BOORU) as Booru
         val tags = arguments!!.get(TAGS) as Set<Tag>
@@ -40,8 +43,9 @@ class PostSamplesFragment : androidx.fragment.app.Fragment() {
         permissionChecker = PermissionChecker.Builder().build()
         setPermissionListener(requireActivity())
 
-        val snackbarNotificationController = (requireActivity() as AppActivity).snackbarNotificationController
-        val factory = DownloadFileViewModel.Factory(booru, tags, permissionChecker, snackbarNotificationController)
+        notificationController = NotificationControllerImpl()
+
+        val factory = DownloadFileViewModel.Factory(booru, tags, permissionChecker, notificationController)
         downloadFileViewModel = ViewModelProviders.of(this, factory)[DownloadFileViewModel::class.java]
 
         val router = Booruchan.INSTANCE.router

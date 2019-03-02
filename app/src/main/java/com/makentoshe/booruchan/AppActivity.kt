@@ -12,10 +12,6 @@ import ru.terrakok.cicerone.Router
 class AppActivity : AppCompatActivity() {
     /* Uses for navigation between screens*/
     private val navigator = Navigator(this, R.id.appcontainer)
-    /* Shows Snackbar messages */
-    private val innerNotificationRxController = SnackbarNotificationRxController()
-    /* Special interface with single method for set notification to the controller */
-    val snackbarNotificationController: NotificationInterface = innerNotificationRxController
 
     private val router = Booruchan.INSTANCE.router
     private val booruList = Booruchan.INSTANCE.booruList
@@ -51,33 +47,9 @@ class AppActivity : AppCompatActivity() {
         newRootScreen(PostSamplesScreen(Booruchan.INSTANCE.booruList[0], setOf(), 2))
     }
 
-    private fun notificationSubscribe() {
-        innerNotificationRxController.subscribe {
-            val duration = if (it.duration < -2) Snackbar.LENGTH_LONG else it.duration
-            val snackbar = Snackbar.make(root, it.message, duration)
-            val action = it.action
-            if (action != null) {
-                snackbar.setAction(action.title) {
-                    action.listener(snackbar)
-                }
-            }
-            snackbar.show()
-        }
-    }
-
     override fun onResume() {
         super.onResume()
         Booruchan.INSTANCE.navigatorHolder.setNavigator(navigator)
-    }
-
-    override fun onStart() {
-        super.onStart()
-        notificationSubscribe()
-    }
-
-    override fun onStop() {
-        super.onStop()
-        innerNotificationRxController.clear()
     }
 
     override fun onPause() {
