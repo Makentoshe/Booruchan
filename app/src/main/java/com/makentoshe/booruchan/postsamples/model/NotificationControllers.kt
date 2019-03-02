@@ -1,13 +1,11 @@
-package com.makentoshe.booruchan
+package com.makentoshe.booruchan.postsamples.model
 
 import android.os.Handler
 import android.os.Looper
-import android.view.View
 import com.makentoshe.controllers.RxController
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import io.reactivex.subjects.PublishSubject
-import java.io.Serializable
 
 interface NotificationController : RxController<String, String>
 

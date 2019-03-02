@@ -9,10 +9,10 @@ import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.snackbar.Snackbar
 import com.makentoshe.booruapi.Booru
 import com.makentoshe.booruapi.Tag
-import com.makentoshe.booruchan.NotificationController
 import com.makentoshe.booruchan.PostInternalCache
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.postsamples.model.DownloadFileController
+import com.makentoshe.booruchan.postsamples.model.NotificationController
 import com.makentoshe.booruchan.postsamples.model.PermissionChecker
 import com.makentoshe.repository.CachedRepository
 import com.makentoshe.repository.FileRepository

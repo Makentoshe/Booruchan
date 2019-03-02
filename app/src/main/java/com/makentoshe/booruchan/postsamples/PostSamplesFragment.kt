@@ -11,12 +11,7 @@ import androidx.lifecycle.ViewModelProviders
 import com.makentoshe.booruapi.Booru
 import com.makentoshe.booruapi.Tag
 import com.makentoshe.booruchan.Booruchan
-import com.makentoshe.booruchan.NotificationController
-import com.makentoshe.booruchan.NotificationControllerImpl
-import com.makentoshe.booruchan.postsamples.model.NavigationController
-import com.makentoshe.booruchan.postsamples.model.PermissionCheckController
-import com.makentoshe.booruchan.postsamples.model.PermissionChecker
-import com.makentoshe.booruchan.postsamples.model.ViewPagerAdapterBuilder
+import com.makentoshe.booruchan.postsamples.model.*
 import com.makentoshe.booruchan.postsamples.view.PostSamplesUi
 import org.jetbrains.anko.AnkoContext
 import java.io.Serializable
