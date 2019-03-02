@@ -74,8 +74,5 @@ class AppActivity : AppCompatActivity() {
 //        super.onBackPressed()
 //    }
 
-    companion object {
-        private val PERMISSION_REQUEST_CODE_WRITE_EXTERNAL_STORAGE = 0
-    }
 }
 
