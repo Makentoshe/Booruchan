@@ -8,8 +8,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import com.makentoshe.booruapi.Booru
 import com.makentoshe.booruapi.Tag
-import com.makentoshe.booruchan.AppActivity
-import com.makentoshe.booruchan.UnitRxController
 import com.makentoshe.booruchan.postsamples.model.AdapterBuilder
 import com.makentoshe.booruchan.postsamples.model.AdapterBuilderImpl
 import com.makentoshe.booruchan.postsamples.view.PostSamplesContentUi
@@ -26,9 +24,11 @@ class PostSamplesContentFragment : Fragment() {
         val tags = arguments!!.get(TAGS) as Set<Tag>
         val position = arguments!!.getInt(POSITION)
         val factory = PostSamplesContentViewModel.Factory(position, booru)
+        val fullScreenController = arguments!![FULLSCR] as FullScreenController
+
         viewModel = ViewModelProviders.of(this, factory)[PostSamplesContentViewModel::class.java]
 
-        adapterBuilder = AdapterBuilderImpl(booru, tags)
+        adapterBuilder = AdapterBuilderImpl(booru, tags, fullScreenController)
 
         super.onCreate(savedInstanceState)
     }
@@ -44,15 +44,18 @@ class PostSamplesContentFragment : Fragment() {
         private const val BOORU = "Booru"
         private const val TAGS = "Tags"
         private const val POSITION = "Position"
+        private const val FULLSCR = "FullScreenController"
         fun create(
             booru: Booru,
             tags: Set<Tag>,
-            position: Int
+            position: Int,
+            fullScreenController: FullScreenController
         ): Fragment {
             return PostSamplesContentFragment().apply {
                 arguments = Bundle().apply {
                     putSerializable(BOORU, booru)
                     putSerializable(TAGS, tags as Serializable)
+                    putSerializable(FULLSCR, fullScreenController)
                     putInt(POSITION, position)
                 }
             }

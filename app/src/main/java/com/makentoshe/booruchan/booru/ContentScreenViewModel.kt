@@ -28,10 +28,10 @@ class ContentScreenViewModel private constructor(
     /* Tags set for default searching. */
     private lateinit var tags: Set<Tag>
 
-    /** Performs content screen change to the PostsScreen */
+    /** Performs content screen perform to the PostsScreen */
     override fun onPostsClicked() = contentScreenController.action(newPostsScreen())
 
-    /** Performs content screen change to the AccountScreen */
+    /** Performs content screen perform to the AccountScreen */
     override fun onAccountClicked() = contentScreenController.action(newAccountScreen())
 
     /* Calls when the onCreateView called in the owner */

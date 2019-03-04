@@ -6,19 +6,20 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import com.makentoshe.booruapi.Booru
 import com.makentoshe.booruapi.Tag
-import com.makentoshe.booruchan.UnitRxController
+import com.makentoshe.booruchan.postsamples.FullScreenController
 import com.makentoshe.booruchan.postsamples.PostSamplesContentScreen
 
 class SamplesVerticalViewPagerAdapter(
     fragmentManager: FragmentManager,
     private val booru: Booru,
     private val tags: Set<Tag>,
-    private val position: Int
+    private val position: Int,
+    private val fullScreenController: FullScreenController
 ) : FragmentPagerAdapter(fragmentManager) {
     override fun getItem(position: Int): Fragment {
         return when (position) {
             0 -> Fragment()
-            1 -> PostSamplesContentScreen(booru, tags, this.position).fragment
+            1 -> PostSamplesContentScreen(booru, tags, this.position, fullScreenController).fragment
             else -> throw IllegalArgumentException(position.toString())
         }
     }

@@ -1,25 +1,28 @@
 package com.makentoshe.booruchan.postsample.view
 
 import android.view.View
-import android.webkit.URLUtil
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.postsample.model.DownloadErrorController
 import com.makentoshe.booruchan.postsample.model.SampleImageDownloadController
-import com.makentoshe.style.Style
+import com.makentoshe.booruchan.postsamples.FullScreenController
 import org.jetbrains.anko.*
 
 class PostSampleUiContent(
     private val downloadErrorController: DownloadErrorController,
-    private val sampleDownloadController: SampleImageDownloadController
+    private val sampleDownloadController: SampleImageDownloadController,
+    private val fullScreenController: FullScreenController
 ) : AnkoComponent<_RelativeLayout> {
 
     private lateinit var contentview: _FrameLayout
+    private lateinit var contentBuilder: PostSampleUiContentBuilder
 
     override fun createView(ui: AnkoContext<_RelativeLayout>): View = with(ui.owner) {
         frameLayout {
             contentview = this
             id = R.id.postsample_content
             visibility = View.GONE
+
+            contentBuilder = PostSampleUiContentBuilder(fullScreenController,this )
 
             sampleDownloadController.onSampleLoadingFinished(::onSampleLoadingFinished)
             sampleDownloadController.onSampleGifLoaded(::onSampleGifLoaded)
@@ -32,7 +35,7 @@ class PostSampleUiContent(
 
     private fun onSampleImageLoaded(byteArray: ByteArray) {
         try {
-            PostSampleUiContentImageView(byteArray).createView(AnkoContext.createDelegate(contentview))
+            contentBuilder.buildImageView(byteArray)
         } catch (e: Exception) {
             downloadErrorController.push(e)
         }
@@ -40,7 +43,7 @@ class PostSampleUiContent(
 
     private fun onSampleGifLoaded(byteArray: ByteArray) {
         try {
-            PostSampleUiContentGifView(byteArray).createView(AnkoContext.createDelegate(contentview))
+            contentBuilder.buildGifView(byteArray)
         } catch (e: Exception) {
             downloadErrorController.push(e)
         }
@@ -48,7 +51,7 @@ class PostSampleUiContent(
 
     private fun onSampleWebmLoaded(url: String) {
         try {
-            PostSampleUiContentWebmView(url).createView(AnkoContext.createDelegate(contentview))
+            contentBuilder.buildWebmView(url)
         } catch (e: Exception) {
             downloadErrorController.push(e)
         }

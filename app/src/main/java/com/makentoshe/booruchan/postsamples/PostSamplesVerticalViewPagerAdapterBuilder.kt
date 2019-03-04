@@ -11,10 +11,11 @@ import com.makentoshe.viewmodel.ViewModel
 class PostSamplesVerticalViewPagerAdapterBuilder(
     private val booru: Booru,
     private val tags: Set<Tag>,
-    private val position: Int
+    private val position: Int,
+    private val fullScreenController: FullScreenController
 ) : ViewModel(), ViewPagerAdapterBuilder {
 
     override fun buildViewPagerAdapter(fragmentManager: FragmentManager): PagerAdapter {
-        return SamplesVerticalViewPagerAdapter(fragmentManager, booru, tags, position)
+        return SamplesVerticalViewPagerAdapter(fragmentManager, booru, tags, position, fullScreenController)
     }
 }

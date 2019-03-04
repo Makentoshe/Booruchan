@@ -16,11 +16,6 @@ class PostSampleUiContentImageView(private val byteArray: ByteArray) : AnkoCompo
         val bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.size)
         subsamplingScaleImageView {
             setImage(ImageSource.bitmap(bitmap))
-
-            setOnClickListener {
-                println("ASA")
-            }
-
         }.lparams(matchParent, matchParent)
     }
 

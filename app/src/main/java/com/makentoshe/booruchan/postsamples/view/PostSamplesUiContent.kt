@@ -4,8 +4,8 @@ import android.view.View
 import android.view.ViewManager
 import androidx.fragment.app.FragmentManager
 import com.makentoshe.booruchan.R
-import com.makentoshe.booruchan.postsamples.model.ViewPagerAdapterBuilder
 import com.makentoshe.booruchan.postsamples.model.NavigationController
+import com.makentoshe.booruchan.postsamples.model.ViewPagerAdapterBuilder
 import org.jetbrains.anko.*
 import org.jetbrains.anko.custom.ankoView
 import org.jetbrains.anko.support.v4.onPageChangeListener
@@ -21,6 +21,8 @@ class PostSamplesUiContent(
             adapter = adapterBuilder.buildViewPagerAdapter(fragmentManager)
             currentItem = 1
 
+            setPadding(0, dip(56), 0, dip(56))
+
             onPageChangeListener {
                 onPageScrolled { position, positionOffset, _ ->
                     when (position) {
@@ -33,10 +35,7 @@ class PostSamplesUiContent(
                 }
             }
 
-        }.lparams(matchParent, matchParent) {
-            below(R.id.postsamples_toolbar)
-            above(R.id.postsamples_bottombar)
-        }
+        }.lparams(matchParent, matchParent)
     }
 
 
