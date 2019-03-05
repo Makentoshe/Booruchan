@@ -44,7 +44,7 @@ class AppActivity : AppCompatActivity() {
 //    }
 //
     private fun Router.rootPostSamplesScreen() {
-        newRootScreen(PostSamplesScreen(Booruchan.INSTANCE.booruList[0], setOf(), 7))
+        newRootScreen(PostSamplesScreen(Booruchan.INSTANCE.booruList[0], setOf(), 2))
     }
 
     override fun onResume() {

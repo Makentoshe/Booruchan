@@ -1,15 +1,14 @@
 package com.makentoshe.booruchan.postsample.view
 
 import android.view.View
-import com.google.android.exoplayer2.ExoPlayer
 import com.makentoshe.booruchan.postsamples.FullScreenController
-import com.makentoshe.controllers.RxController
 import org.jetbrains.anko.AnkoContext
 import org.jetbrains.anko._FrameLayout
 
 class PostSampleUiContentBuilder(
     private val contentController: FullScreenController,
-    private val owner: _FrameLayout) {
+    private val owner: _FrameLayout
+) {
 
     fun buildImageView(byteArray: ByteArray) {
         PostSampleUiContentImageView(byteArray)
@@ -29,7 +28,10 @@ class PostSampleUiContentBuilder(
             .apply(::onClickListener)
     }
 
-    private fun onClickListener(view: View) = view.setOnClickListener {
-        contentController.perform()
+    private fun onClickListener(view: View) {
+        view.setOnLongClickListener {
+            contentController.perform()
+            return@setOnLongClickListener true
+        }
     }
 }

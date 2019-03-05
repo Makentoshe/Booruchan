@@ -17,7 +17,10 @@ import com.makentoshe.booruapi.Tag
 import com.makentoshe.booruchan.Booruchan
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.UnitRxController
-import com.makentoshe.booruchan.postsamples.animation.*
+import com.makentoshe.booruchan.postsamples.animation.BarMoveDownAnimator
+import com.makentoshe.booruchan.postsamples.animation.BarMoveUpAnimator
+import com.makentoshe.booruchan.postsamples.animation.ViewPagerHidePaddingAnimator
+import com.makentoshe.booruchan.postsamples.animation.ViewPagerShowPaddingAnimator
 import com.makentoshe.booruchan.postsamples.model.*
 import com.makentoshe.booruchan.postsamples.view.PostSamplesUi
 import com.makentoshe.viewmodel.ViewModel
@@ -54,7 +57,7 @@ class PostSamplesFragment : androidx.fragment.app.Fragment() {
         var factory: ViewModelProvider.NewInstanceFactory =
             DownloadFileViewModel.Factory(booru, tags, permissionChecker, notificationController)
         downloadFileViewModel =
-            ViewModelProviders.of(this, factory)[DownloadFileViewModel::class.java]
+                ViewModelProviders.of(this, factory)[DownloadFileViewModel::class.java]
 
         val router = Booruchan.INSTANCE.router
         navigationController = NavigationControllerImpl(router, booru, position, tags)
@@ -77,9 +80,9 @@ class PostSamplesFragment : androidx.fragment.app.Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val toolbar = view.find<View>(R.id.postsamples_toolbar)
         val bottombar = view.find<View>(R.id.postsamples_bottombar)
-        val viewpager = view.find<View>(R.id.postsamples_verticalpager)
+        val container = view.find<View>(R.id.postsamples_verticalpager)
         fullScreenController.subscribe {
-            fullScreenController.perform(toolbar, viewpager, bottombar)
+            fullScreenController.perform(toolbar, container, bottombar)
         }
     }
 
@@ -155,14 +158,12 @@ class FullScreenViewModel(initialValue: Boolean) : ViewModel(), FullScreenContro
     }
 
     private fun makeFullScreen(toolbar: View, content: View, bottombar: View) {
-        println("Do")
         BarMoveUpAnimator(toolbar, 100).animate()
         BarMoveDownAnimator(bottombar, 100).animate()
         ViewPagerHidePaddingAnimator(content, content.context.dip(56), 100).animate()
     }
 
     private fun undoFullScreen(toolbar: View, content: View, bottombar: View) {
-        println("Undo")
         BarMoveDownAnimator(toolbar, 100).animate()
         BarMoveUpAnimator(bottombar, 100).animate()
         ViewPagerShowPaddingAnimator(content, content.context.dip(56), 150).animate()

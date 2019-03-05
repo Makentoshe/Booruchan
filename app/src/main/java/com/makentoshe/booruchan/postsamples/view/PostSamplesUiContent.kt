@@ -20,7 +20,6 @@ class PostSamplesUiContent(
             id = R.id.postsamples_verticalpager
             adapter = adapterBuilder.buildViewPagerAdapter(fragmentManager)
             currentItem = 1
-
             setPadding(0, dip(56), 0, dip(56))
 
             onPageChangeListener {
