@@ -3,29 +3,19 @@ package com.makentoshe.booruchan.postsamples
 import android.app.Activity
 import android.content.pm.PackageManager
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.makentoshe.booruapi.Booru
 import com.makentoshe.booruapi.Tag
 import com.makentoshe.booruchan.Booruchan
 import com.makentoshe.booruchan.R
-import com.makentoshe.booruchan.UnitRxController
-import com.makentoshe.booruchan.postsamples.animation.BarMoveDownAnimator
-import com.makentoshe.booruchan.postsamples.animation.BarMoveUpAnimator
-import com.makentoshe.booruchan.postsamples.animation.ViewPagerHidePaddingAnimator
-import com.makentoshe.booruchan.postsamples.animation.ViewPagerShowPaddingAnimator
 import com.makentoshe.booruchan.postsamples.model.*
 import com.makentoshe.booruchan.postsamples.view.PostSamplesUi
-import com.makentoshe.viewmodel.ViewModel
 import org.jetbrains.anko.AnkoContext
-import org.jetbrains.anko.dip
 import org.jetbrains.anko.find
 import java.io.Serializable
 
@@ -121,64 +111,6 @@ class PostSamplesFragment : androidx.fragment.app.Fragment() {
                     putInt(POSITION, position)
                 }
             }
-        }
-    }
-}
-
-interface FullScreenController : Serializable {
-    fun perform()
-    fun subscribe(action: () -> Unit)
-}
-
-class FullScreenViewModel(initialValue: Boolean) : ViewModel(), FullScreenController {
-
-    private lateinit var controller: UnitRxController
-
-    private var isFullScreen = initialValue
-
-    override fun perform() = controller.action(Unit)
-
-    override fun subscribe(action: () -> Unit) {
-        controller.subscribe { Handler(Looper.getMainLooper()).post { action() } }
-    }
-
-    override fun onCreateView(owner: Fragment) {
-        if (isFullScreen) perform()
-        controller.clear()
-    }
-
-    internal fun perform(toolbar: View, content: View, bottombar: View) {
-        if (isFullScreen) {
-            isFullScreen = false
-            undoFullScreen(toolbar, content, bottombar)
-        } else {
-            isFullScreen = true
-            makeFullScreen(toolbar, content, bottombar)
-        }
-    }
-
-    private fun makeFullScreen(toolbar: View, content: View, bottombar: View) {
-        BarMoveUpAnimator(toolbar, 100).animate()
-        BarMoveDownAnimator(bottombar, 100).animate()
-        ViewPagerHidePaddingAnimator(content, content.context.dip(56), 100).animate()
-    }
-
-    private fun undoFullScreen(toolbar: View, content: View, bottombar: View) {
-        BarMoveDownAnimator(toolbar, 100).animate()
-        BarMoveUpAnimator(bottombar, 100).animate()
-        ViewPagerShowPaddingAnimator(content, content.context.dip(56), 150).animate()
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-        controller.clear()
-    }
-
-    class Factory(private val initialState: Boolean) : ViewModelProvider.NewInstanceFactory() {
-        override fun <T : androidx.lifecycle.ViewModel?> create(modelClass: Class<T>): T {
-            val viewModel = FullScreenViewModel(initialState)
-            viewModel.controller = UnitRxController()
-            return viewModel as T
         }
     }
 }

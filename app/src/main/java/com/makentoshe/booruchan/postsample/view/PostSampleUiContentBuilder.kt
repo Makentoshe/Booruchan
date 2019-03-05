@@ -29,9 +29,8 @@ class PostSampleUiContentBuilder(
     }
 
     private fun onClickListener(view: View) {
-        view.setOnLongClickListener {
+        view.setOnClickListener {
             contentController.perform()
-            return@setOnLongClickListener true
         }
     }
 }
