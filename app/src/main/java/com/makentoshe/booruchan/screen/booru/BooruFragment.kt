@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import com.makentoshe.booruapi.Booru
 import com.makentoshe.booruapi.Tag
 import com.makentoshe.booruchan.screen.arguments
+import com.makentoshe.booruchan.screen.booru.model.LocalNavigator
 import org.jetbrains.anko.AnkoContext
 import java.io.Serializable
 
@@ -21,10 +22,15 @@ class BooruFragment : Fragment() {
         get() = arguments!!.get(TAGS) as Set<Tag>
         set(value) = arguments().putSerializable(TAGS, value as Serializable)
 
+    private val localNavigator by lazy { LocalNavigator() }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return BooruUi().createView(AnkoContext.create(requireContext(), this))
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        BooruInflatorPanel(localNavigator).inflate(view)
+    }
 
     companion object {
         private const val BOORU = "Booru"
