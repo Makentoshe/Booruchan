@@ -11,6 +11,7 @@ import com.makentoshe.booruapi.Booru
 import com.makentoshe.booruapi.Tag
 import com.makentoshe.booruchan.Booruchan
 import com.makentoshe.booruchan.PostInternalCache
+import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.postpreviews.viewmodel.TagsViewModel
 import com.makentoshe.booruchan.posttags.model.PostTagsNavigator
 import com.makentoshe.booruchan.posttags.model.TagsBuildViewModel
@@ -18,6 +19,8 @@ import com.makentoshe.booruchan.posttags.view.PostTagsUi
 import com.makentoshe.repository.CachedRepository
 import com.makentoshe.repository.PostsRepository
 import org.jetbrains.anko.AnkoContext
+import org.jetbrains.anko.find
+import org.jetbrains.anko.sdk27.coroutines.onClick
 import java.io.Serializable
 
 class PostTagsFragment : Fragment() {
@@ -53,6 +56,12 @@ class PostTagsFragment : Fragment() {
 
         return PostTagsUi(tagsController, searchController, navigator)
             .createView(AnkoContext.create(requireContext(), this))
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        view.find<View>(R.id.toolbar_back).onClick {
+            Booruchan.INSTANCE.router.exit()
+        }
     }
 
     companion object {

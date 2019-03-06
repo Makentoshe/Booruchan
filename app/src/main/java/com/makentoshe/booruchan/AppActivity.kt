@@ -23,8 +23,8 @@ class AppActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         if (savedInstanceState == null) {
-            router.rootStartScreen()
-//            router.rootPostSamplesScreen()
+//            router.rootStartScreen()
+            router.rootPostSamplesScreen()
 //            router.rootPostSampleScreen()
         }
     }

@@ -3,6 +3,8 @@ package com.makentoshe.booruchan.posttags.view
 import android.view.Gravity
 import android.view.View
 import android.widget.RelativeLayout
+import androidx.core.view.updateLayoutParams
+import com.makentoshe.booruchan.BackToolbarIcon
 import com.makentoshe.booruchan.Booruchan
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.postpreviews.view.setToolbarIcon
@@ -22,7 +24,11 @@ class PostTagsUiToolbar(
             id = R.id.posttags_toolbar
             backgroundColorResource = style.toolbar.primaryColorRes
             createSearch()
-            createBack()
+            BackToolbarIcon().createView(AnkoContext.createDelegate(this))
+                .updateLayoutParams<RelativeLayout.LayoutParams> {
+                    addRule(RelativeLayout.ALIGN_PARENT_LEFT)
+                    addRule(RelativeLayout.CENTER_VERTICAL)
+                }
         }.lparams(matchParent, dip(56)) {
             alignParentTop()
         }
@@ -55,21 +61,4 @@ class PostTagsUiToolbar(
         navigator.startNewSearch(searchController.currentlySelectedTags)
     }
 
-    private fun _RelativeLayout.createBack() = frameLayout {
-        id = R.id.posttags_toolbar_back
-        setOnClickListener(::onBackIconClicked)
-        imageView {
-            setToolbarIcon(style, style.drawable.static.arrow)
-            rotation = -90f
-        }.lparams(dip(24), dip(24)) {
-            gravity = Gravity.CENTER
-        }
-    }.lparams(dip(56), dip(56)) {
-        addRule(RelativeLayout.ALIGN_PARENT_LEFT)
-        addRule(RelativeLayout.CENTER_VERTICAL)
-    }
-
-    private fun onBackIconClicked(ignored: View) {
-        navigator.back()
-    }
 }

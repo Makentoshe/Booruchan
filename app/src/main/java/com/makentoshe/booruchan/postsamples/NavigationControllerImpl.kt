@@ -4,6 +4,7 @@ import android.view.MenuItem
 import com.makentoshe.booruapi.Booru
 import com.makentoshe.booruapi.Tag
 import com.makentoshe.booruchan.R
+import com.makentoshe.booruchan.postinfo.PostInfoScreen
 import com.makentoshe.booruchan.postsamples.model.NavigationController
 import com.makentoshe.booruchan.posttags.PostTagsFragmentScreen
 import ru.terrakok.cicerone.Router
@@ -25,7 +26,8 @@ class NavigationControllerImpl(
                 return true
             }
             R.id.postsamples_bottombar_infoitem -> {
-
+                val screen = PostInfoScreen(booru, tags, position)
+                router.navigateTo(screen)
                 return true
             }
             R.id.postsamples_bottombar_commentsitem -> {
