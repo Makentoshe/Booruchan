@@ -28,6 +28,6 @@ class StartUiInflatorContent(
     }
 
     private fun onItemClick(parent: AdapterView<*>, view: View, position: Int, id: Long) {
-        navigator.navigateToBooruScreen()
+        navigator.navigateToBooruScreen(booruList[position], setOf())
     }
 }
