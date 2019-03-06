@@ -27,17 +27,17 @@ class TagsViewModel : ViewModel(), TagsController {
      * @param action the action that must be executed when some action with
      * the [currentlySelectedTags] set will be invoked.
      * The [Boolean] takes the false value for remove tag event and true for add tag event.
-     * The [Tag] contains only [Tag.name] property and describes a tag with which actionwas performed
+     * The [Tag] contains only [Tag.name] property and describes a tag with which action was performed
      * */
     override fun subscribeOnChange(action: (Tag, Boolean) -> Unit) {
         addController.subscribe {
-            tagset.add(it)
-            action(it, true)
+            if (tagset.add(it)) action(it, true)
         }
         removeController.subscribe {
-            tagset.remove(it)
-            action(it, false)
+            if (tagset.remove(it)) action(it, false)
         }
+        tagset.forEach(::addTag)
+        println(tagset)
     }
 
     /**
@@ -66,7 +66,7 @@ class TagsViewModel : ViewModel(), TagsController {
             viewModel.addController = TagController()
             viewModel.removeController = TagController()
 
-            initTagSet.forEach(viewModel.addController::action)
+            viewModel.tagset.addAll(initTagSet)
 
             return viewModel as T
         }

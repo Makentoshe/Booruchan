@@ -95,6 +95,7 @@ class PostsFragment : androidx.fragment.app.Fragment() {
 
         fun create(arguments: Arguments): Fragment {
             Companion.arguments = arguments
+            println(arguments.tags)
             return PostsFragment()
         }
 
