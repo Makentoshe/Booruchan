@@ -4,6 +4,7 @@ package com.makentoshe.booruchan;
 import android.app.Application;
 import com.makentoshe.booruapi.Booru;
 import com.makentoshe.booruapi.Gelbooru;
+import com.makentoshe.booruchan.navigation.Router;
 import com.makentoshe.network.HttpClient;
 import com.makentoshe.network.fuel.FuelClientFactory;
 import com.makentoshe.style.SotisStyle;
@@ -13,7 +14,6 @@ import io.reactivex.functions.Consumer;
 import io.reactivex.plugins.RxJavaPlugins;
 import ru.terrakok.cicerone.Cicerone;
 import ru.terrakok.cicerone.NavigatorHolder;
-import ru.terrakok.cicerone.Router;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +29,7 @@ public final class Booruchan extends Application {
     public void onCreate() {
         super.onCreate();
         INSTANCE = this;
-        cicerone = Cicerone.create();
+        cicerone = Cicerone.create(new Router());
         initRxErrorHandler();
         load();
     }

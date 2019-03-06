@@ -1,4 +1,4 @@
-package com.makentoshe.booruchan.settings
+package com.makentoshe.booruchan.screen.settings
 
 import android.os.Bundle
 import android.view.LayoutInflater

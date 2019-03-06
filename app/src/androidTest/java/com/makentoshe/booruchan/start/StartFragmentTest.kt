@@ -9,7 +9,7 @@ import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.rule.ActivityTestRule
 import com.makentoshe.booruchan.*
 import com.makentoshe.booruchan.booru.BooruFragment
-import com.makentoshe.booruchan.settings.SettingsFragment
+import com.makentoshe.booruchan.screen.settings.SettingsFragment
 import org.hamcrest.CoreMatchers.anything
 import org.junit.After
 import org.junit.Before
@@ -40,7 +40,7 @@ class StartFragmentTest {
     @Test
     fun should_navigate_to_SettingsFragment() {
         //call overflow menu
-        onView(withId(R.id.start_toolbar_container_overflow_icon)).perform(ViewActions.click())
+        onView(withId(R.id.start_toolbar_overflow)).perform(ViewActions.click())
         //select "settings" element
         onView(withText(R.string.settings)).perform(ViewActions.click())
         //check that the all good and we can see SettingsFragment

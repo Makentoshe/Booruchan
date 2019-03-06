@@ -3,15 +3,14 @@ package com.makentoshe.booruchan
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import com.google.android.material.snackbar.Snackbar
+import com.makentoshe.booruchan.navigation.FragmentNavigator
 import com.makentoshe.booruchan.postsamples.PostSamplesScreen
-import com.makentoshe.booruchan.start.StartScreen
-import org.jetbrains.anko.relativeLayout
+import com.makentoshe.booruchan.screen.start.StartScreen
 import ru.terrakok.cicerone.Router
 
 class AppActivity : AppCompatActivity() {
     /* Uses for navigation between screens*/
-    private val navigator = Navigator(this, R.id.appcontainer)
+    private val navigator = FragmentNavigator(this, R.id.appcontainer)
 
     private val router = Booruchan.INSTANCE.router
     private val booruList = Booruchan.INSTANCE.booruList
@@ -23,8 +22,8 @@ class AppActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         if (savedInstanceState == null) {
-//            router.rootStartScreen()
-            router.rootPostSamplesScreen()
+            router.rootStartScreen()
+//            router.rootPostSamplesScreen()
 //            router.rootPostSampleScreen()
         }
     }

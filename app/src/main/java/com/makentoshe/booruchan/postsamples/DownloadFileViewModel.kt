@@ -34,6 +34,7 @@ class DownloadFileViewModel private constructor() : ViewModel(), DownloadFileCon
     private lateinit var notificationController: NotificationController
 
     override fun startDownload(view: View, currentItem: Int) {
+        println("Load")
         val permission = Manifest.permission.WRITE_EXTERNAL_STORAGE
         val context = view.context
         permissionChecker.requestPermission(permission) {

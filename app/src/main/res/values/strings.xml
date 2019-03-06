@@ -16,6 +16,9 @@
     <string name="permission_denied">Permission denied</string>
     <string name="download_was_not_started">Download wasn\'t started</string>
     <string name="file">File</string>
+    <string name="id">Id</string>
+    <string name="score">Score</string>
+    <string name="rating">Rating</string>
 
     <string-array name="post_properties">
         <item>Id</item>

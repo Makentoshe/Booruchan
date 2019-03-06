@@ -8,7 +8,7 @@
 
     <item name="start_toolbar_container" type="id"/>
     <item name="start_toolbar_container_toolbar" type="id"/>
-    <item name="start_toolbar_container_overflow_icon" type="id"/>
+    <item name="start_toolbar_overflow" type="id"/>
     <item name="start_content_listview" type="id"/>
 
     <item name="booru_drawer" type="id"/>
@@ -62,5 +62,7 @@
     <item name="posttags_toolbar_back" type="id"/>
     <item name="postinfo_toolbar" type="id"/>
     <item name="toolbar_back" type="id"/>
+    <item name="postinfo_content" type="id"/>
+    <item name="start_toolbar" type="id"/>
 
 </resources>

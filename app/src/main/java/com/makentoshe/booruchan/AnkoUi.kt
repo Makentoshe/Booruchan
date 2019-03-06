@@ -11,6 +11,10 @@ import com.makentoshe.style.Style
 import org.jetbrains.anko.*
 
 
+interface Inflater {
+    fun inflate(view: View)
+}
+
 abstract class ToolbarIcon<T : ViewGroup>(protected val style: Style = Booruchan.INSTANCE.style) : AnkoComponent<T> {
 
     protected fun ImageView.setImage(style: Style, @DrawableRes icon: Int) {

@@ -18,20 +18,20 @@ class PostSamplesUiToolbar(
         relativeLayout {
             id = R.id.postsamples_toolbar
             backgroundColorResource = style.toolbar.primaryColorRes
-
-            createDownloadIcon(ui.owner)
+            createDownloadIcon()
         }.lparams(matchParent, dip(56)) {
             alignParentTop()
         }
     }
 
 
-    private fun _RelativeLayout.createDownloadIcon(uiParent: View) = frameLayout {
+    private fun _RelativeLayout.createDownloadIcon() = frameLayout {
         id = R.id.postsamples_toolbar_download
-        setOnClickListener {
-            val currentItem = uiParent.findViewById<ViewPager>(R.id.postsamples_content_viewpager).currentItem
-            downloadFileController.startDownload(it, currentItem)
-        }
+//        setOnClickListener {
+//            println("Click")
+//            val currentItem = uiParent.findViewById<ViewPager>(R.id.postsamples_content_viewpager).currentItem
+//            downloadFileController.startDownload(it, currentItem)
+//        }
         imageView {
             id = R.id.postsamples_toolbar_download_icon
             setToolbarIcon(style, style.drawable.static.download)
