@@ -35,7 +35,6 @@ open class ToolbarIcon(
                 }
             }
         }
-
 }
 
 open class BooruToolbarUiInflater(private val drawer: DrawerLayout) : Inflater {

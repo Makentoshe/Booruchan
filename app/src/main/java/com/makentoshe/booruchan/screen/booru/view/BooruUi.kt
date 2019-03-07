@@ -8,8 +8,7 @@ import org.jetbrains.anko.AnkoContext
 import org.jetbrains.anko.support.v4.drawerLayout
 
 class BooruUi : AnkoComponent<Fragment> {
-    override fun createView(ui: AnkoContext<Fragment>): View =
-        with(ui) {
+    override fun createView(ui: AnkoContext<Fragment>): View = with(ui) {
         drawerLayout {
             id = R.id.booru_drawer
             BooruUiContent().createView(AnkoContext.createDelegate(this))
