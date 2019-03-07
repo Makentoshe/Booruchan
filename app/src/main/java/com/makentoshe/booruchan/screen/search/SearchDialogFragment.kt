@@ -13,7 +13,7 @@ import com.makentoshe.booruchan.Inflater
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.chip
 import com.makentoshe.booruchan.screen.arguments
-import com.makentoshe.booruchan.screen.search.model.TagsController
+import com.makentoshe.booruchan.screen.posts.model.TagsController
 import com.makentoshe.booruchan.view.DelayAutocompleteEditText
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.subjects.BehaviorSubject

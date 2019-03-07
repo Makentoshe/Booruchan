@@ -1,7 +1,6 @@
-package com.makentoshe.booruchan.screen.search.model
+package com.makentoshe.booruchan.screen.posts.model
 
 import com.makentoshe.booruapi.Tag
-import io.reactivex.subjects.PublishSubject
 
 class TagsControllerImpl: TagsController {
 
