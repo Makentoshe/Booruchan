@@ -1,4 +1,4 @@
-package com.makentoshe.booruchan.screen.booru
+package com.makentoshe.booruchan.screen.booru.view
 
 import android.view.View
 import com.makentoshe.booruchan.Booruchan

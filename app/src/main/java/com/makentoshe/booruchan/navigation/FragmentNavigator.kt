@@ -4,7 +4,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
-import ru.terrakok.cicerone.Navigator
 import ru.terrakok.cicerone.commands.*
 import java.util.*
 
@@ -63,7 +62,7 @@ class FragmentNavigator(
 
         setupFragmentTransaction(
             command,
-            fragmentManager.findFragmentById(containerId)!!,
+            fragmentManager.findFragmentById(containerId),
             fragment,
             fragmentTransaction
         )

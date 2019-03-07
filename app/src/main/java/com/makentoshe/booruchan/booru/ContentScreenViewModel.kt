@@ -44,14 +44,10 @@ class ContentScreenViewModel private constructor(
     }
 
     /* Creates a new PostsScreen instance using ViewModel's properties*/
-    private fun newPostsScreen(): FragmentScreen {
-        return PostsScreen(PostsFragment.Arguments(booru, drawerController, tags))
-    }
+    private fun newPostsScreen() = com.makentoshe.booruchan.screen.posts.PostsScreen()
 
     /* Creates a new AccountScreen instance using ViewModel's properties */
-    private fun newAccountScreen(): FragmentScreen {
-        return AccountScreen(AccountScreen.Arguments(booru, drawerController))
-    }
+    private fun newAccountScreen() = com.makentoshe.booruchan.screen.account.AccountScreen()
 
     /* Calls when the current ViewModel instance is no longer required */
     override fun onCleared() {
@@ -68,14 +64,12 @@ class ContentScreenViewModel private constructor(
      */
     class Factory(
         private val booru: Booru,
-        private val drawerController: DrawerController,
         private val tags: Set<Tag>
     ) : ViewModelProvider.NewInstanceFactory() {
         override fun <T : androidx.lifecycle.ViewModel?> create(modelClass: Class<T>): T {
             val viewModel = ContentScreenViewModel(ContentScreenRxController())
 
             viewModel.booru = booru
-            viewModel.drawerController = drawerController
             viewModel.tags = tags
 
             return viewModel as T

@@ -1,4 +1,4 @@
-package com.makentoshe.booruchan.screen.booru
+package com.makentoshe.booruchan.screen.booru.view
 
 import android.view.Gravity
 import android.view.View
@@ -19,16 +19,10 @@ class BooruUiPanel : AnkoComponent<_DrawerLayout> {
 
             button(R.string.posts) {
                 id = R.id.booru_drawer_panel_posts
-//                onClick {
-//                    contentScreenController.onPostsClicked()
-//                }
             }.lparams(width = matchParent)
 
             button(R.string.account) {
                 id = R.id.booru_drawer_panel_account
-//                onClick {
-//                    contentScreenController.onAccountClicked()
-//                }
             }.lparams(width = matchParent)
 
         }.lparams(height = matchParent, width = dip(240)) {

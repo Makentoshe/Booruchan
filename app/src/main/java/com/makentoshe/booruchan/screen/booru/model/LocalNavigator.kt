@@ -1,15 +1,14 @@
 package com.makentoshe.booruchan.screen.booru.model
 
-import com.makentoshe.booruchan.navigation.Router
-import ru.terrakok.cicerone.Cicerone
+import com.makentoshe.booruchan.navigation.FragmentNavigator
 
-class LocalNavigator {
+interface LocalNavigator {
 
-    private val localCicerone = Cicerone.create(Router())
+    fun setNavigator(navigator: FragmentNavigator)
 
-    private val router = localCicerone.router
+    fun removeNavigator()
 
-    fun navigateToPosts() = Unit
+    fun navigateToPosts()
 
-    fun navigateToAccount() = Unit
+    fun navigateToAccount()
 }

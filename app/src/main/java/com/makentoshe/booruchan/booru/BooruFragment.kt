@@ -27,8 +27,7 @@ class BooruFragment : androidx.fragment.app.Fragment() {
         var factory: ViewModelProvider.NewInstanceFactory = DrawerViewModel.Factory()
         drawerViewModel = ViewModelProviders.of(this, factory)[DrawerViewModel::class.java]
         //create content screens controller
-        factory = ContentScreenViewModel.Factory(booru, drawerViewModel, tags)
-        contentScreenViewModel = ViewModelProviders.of(this, factory)[ContentScreenViewModel::class.java]
+
         super.onCreate(savedInstanceState)
     }
 

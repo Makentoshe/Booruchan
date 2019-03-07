@@ -1,4 +1,4 @@
-package com.makentoshe.booruchan.screen.booru
+package com.makentoshe.booruchan.screen.booru.view
 
 import android.view.View
 import androidx.fragment.app.Fragment
@@ -12,10 +12,8 @@ class BooruUi : AnkoComponent<Fragment> {
         with(ui) {
         drawerLayout {
             id = R.id.booru_drawer
-            BooruUiContent()
-                .createView(AnkoContext.createDelegate(this))
-            BooruUiPanel()
-                .createView(AnkoContext.createDelegate(this))
+            BooruUiContent().createView(AnkoContext.createDelegate(this))
+            BooruUiPanel().createView(AnkoContext.createDelegate(this))
         }
     }
 }
