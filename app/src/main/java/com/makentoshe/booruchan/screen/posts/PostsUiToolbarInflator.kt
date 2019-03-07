@@ -8,8 +8,7 @@ import com.makentoshe.booruchan.screen.Inflator
 import org.jetbrains.anko.find
 import org.jetbrains.anko.subtitleResource
 
-class PostsUiToolbarInflator(private val booru: Booru):
-    Inflator {
+class PostsUiToolbarInflator(private val booru: Booru) : Inflator {
     override fun inflate(view: View) {
         val view = view.find<Toolbar>(R.id.booru_toolbar)
         view.title = booru.title

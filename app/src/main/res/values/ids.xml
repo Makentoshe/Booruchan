@@ -64,5 +64,10 @@
     <item name="postinfo_content" type="id"/>
     <item name="start_toolbar" type="id"/>
     <item name="booru_toolbar_drawermenu" type="id"/>
+    <item name="posts_toolbar_search" type="id"/>
+    <item name="delayAutocompleteEditText" type="id"/>
+    <item name="searchDialog_delayAutocompleteEditText" type="id"/>
+    <item name="searchDialog_separator" type="id"/>
+    <item name="searchDialog_chipgroup" type="id"/>
 
 </resources>
