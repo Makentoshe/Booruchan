@@ -40,7 +40,7 @@ class PostsFragmentUiToolbar(
     }
 
     private fun _RelativeLayout.createDrawerMenuView() = frameLayout {
-        id = R.id.postpreview_toolbar_container_drawermenu
+        id = R.id.booru_toolbar_drawermenu
         setOnClickListener(::onDrawerMenuIconClick)
         imageView {
             setToolbarIcon(style, style.drawable.static.menu)
@@ -58,7 +58,7 @@ class PostsFragmentUiToolbar(
     }.apply { println("Clicked") }
 
     private fun _RelativeLayout.createToolbarView() = toolbar {
-        id = R.id.postpreview_toolbar_container_toolbar
+        id = R.id.booru_toolbar
         title = booruTitle
         subtitleResource = R.string.posts
         setTitleTextColor(style.toolbar.getOnPrimaryColor(context))
@@ -66,7 +66,7 @@ class PostsFragmentUiToolbar(
         setSubtitleTextColor(style.toolbar.getOnPrimaryColor(context))
     }.lparams(width = matchParent) {
         alignWithParent = true
-        rightOf(R.id.postpreview_toolbar_container_drawermenu)
+        rightOf(R.id.booru_toolbar_drawermenu)
     }
 
     private fun _RelativeLayout.createOverflowView() = frameLayout {

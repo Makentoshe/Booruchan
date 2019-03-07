@@ -29,10 +29,10 @@ class ContentScreenViewModel private constructor(
     private lateinit var tags: Set<Tag>
 
     /** Performs content screen perform to the PostsScreen */
-    override fun onPostsClicked() = contentScreenController.action(newPostsScreen())
+    override fun onPostsClicked() = Unit //contentScreenController.action(newPostsScreen())
 
     /** Performs content screen perform to the AccountScreen */
-    override fun onAccountClicked() = contentScreenController.action(newAccountScreen())
+    override fun onAccountClicked() = Unit//contentScreenController.action(newAccountScreen())
 
     /* Calls when the onCreateView called in the owner */
     override fun onCreateView(owner: Fragment) {
@@ -40,14 +40,14 @@ class ContentScreenViewModel private constructor(
         val fragmentManager = owner.childFragmentManager
 
         val navigator = Navigator(fragmentActivity, R.id.booru_drawer_content, fragmentManager)
-        contentScreenController.update(navigator, newPostsScreen())
+//        contentScreenController.update(navigator, newPostsScreen())
     }
 
     /* Creates a new PostsScreen instance using ViewModel's properties*/
-    private fun newPostsScreen() = com.makentoshe.booruchan.screen.posts.PostsScreen()
+//    private fun newPostsScreen() = com.makentoshe.booruchan.screen.posts.PostsScreen()
 
     /* Creates a new AccountScreen instance using ViewModel's properties */
-    private fun newAccountScreen() = com.makentoshe.booruchan.screen.account.AccountScreen()
+//    private fun newAccountScreen() = com.makentoshe.booruchan.screen.account.AccountScreen()
 
     /* Calls when the current ViewModel instance is no longer required */
     override fun onCleared() {

@@ -53,7 +53,7 @@ class PostsFragmentTest {
     @Test
     fun should_open_drawer_layout_on_menu_icon_click() {
         //click drawer menu icon
-        onView(withId(R.id.postpreview_toolbar_container_drawermenu)).perform(click())
+        onView(withId(R.id.booru_toolbar_drawermenu)).perform(click())
         //check that the drawer was opened
         onView(withId(R.id.booru_drawer)).check(matches(isOpen(Gravity.START)))
     }

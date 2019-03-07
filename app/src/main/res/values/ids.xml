@@ -18,8 +18,7 @@
     <item name="booru_drawer_panel_account" type="id"/>
 
     <item name="postpreview_toolbar_container" type="id"/>
-    <item name="postpreview_toolbar_container_toolbar" type="id"/>
-    <item name="postpreview_toolbar_container_drawermenu" type="id"/>
+    <item name="booru_toolbar" type="id"/>
     <item name="postpreview_toolbar_container_overflow" type="id"/>
     <item name="postpreview_toolbar_container_overflow_icon" type="id"/>
     <item name="postpreview_cover" type="id"/>
@@ -64,5 +63,6 @@
     <item name="toolbar_back" type="id"/>
     <item name="postinfo_content" type="id"/>
     <item name="start_toolbar" type="id"/>
+    <item name="booru_toolbar_drawermenu" type="id"/>
 
 </resources>

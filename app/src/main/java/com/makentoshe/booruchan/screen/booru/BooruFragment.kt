@@ -30,7 +30,7 @@ class BooruFragment : Fragment() {
         set(value) = arguments().putSerializable(TAGS, value as Serializable)
 
     private val router by lazy {
-        LocalNavigatorHolder.create(this, LocalNavigatorImpl())
+        LocalNavigatorHolder.create(this, LocalNavigatorImpl(booru))
     }
 
     private val navigator by lazy {
