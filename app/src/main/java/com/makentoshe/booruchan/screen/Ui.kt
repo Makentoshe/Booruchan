@@ -7,8 +7,11 @@ import android.view.ViewGroup
 import android.widget.RelativeLayout
 import androidx.annotation.DrawableRes
 import androidx.annotation.IdRes
+import androidx.core.view.GravityCompat
 import androidx.core.view.updateLayoutParams
+import androidx.drawerlayout.widget.DrawerLayout
 import com.makentoshe.booruchan.Booruchan
+import com.makentoshe.booruchan.Inflater
 import com.makentoshe.booruchan.R
 import org.jetbrains.anko.*
 
@@ -33,6 +36,21 @@ open class ToolbarIcon(
             }
         }
 
+}
+
+open class BooruToolbarUiInflater(private val drawer: DrawerLayout) : Inflater {
+    override fun inflate(view: View) {
+        val icon = view.findViewById<View>(R.id.booru_toolbar_drawermenu)
+        icon.setOnClickListener { onClick(drawer) }
+    }
+
+    private fun onClick(view: DrawerLayout) {
+        if (view.isDrawerOpen(GravityCompat.START)) {
+            view.closeDrawer(GravityCompat.START)
+        } else {
+            view.openDrawer(GravityCompat.START)
+        }
+    }
 }
 
 open class BooruToolbarUi : AnkoComponent<ViewGroup> {

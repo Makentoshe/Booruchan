@@ -4,8 +4,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import com.makentoshe.booruapi.Booru
+import com.makentoshe.booruchan.R
+import com.makentoshe.booruchan.screen.BooruToolbarUiInflater
 import com.makentoshe.booruchan.screen.arguments
 import org.jetbrains.anko.AnkoContext
 
@@ -22,6 +25,10 @@ class AccountFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         AccountUiToolbarInflator(booru).inflate(view)
+
+        parentFragment?.view?.findViewById<DrawerLayout>(R.id.booru_drawer)?.let {
+            BooruToolbarUiInflater(it).inflate(view)
+        }
     }
 
     companion object {
