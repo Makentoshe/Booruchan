@@ -4,8 +4,8 @@ import android.view.View
 import androidx.fragment.app.FragmentManager
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.screen.Inflator
-import com.makentoshe.booruchan.screen.search.SearchDialogFragment
 import com.makentoshe.booruchan.screen.posts.model.TagsController
+import com.makentoshe.booruchan.screen.search.SearchDialogFragment
 import org.jetbrains.anko.find
 import org.jetbrains.anko.sdk27.coroutines.onClick
 

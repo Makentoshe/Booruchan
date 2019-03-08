@@ -10,9 +10,7 @@ import com.makentoshe.booruapi.Booru
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.screen.BooruToolbarUiInflater
 import com.makentoshe.booruchan.screen.arguments
-import com.makentoshe.booruchan.screen.posts.model.TagsController
-import com.makentoshe.booruchan.screen.posts.model.TagsControllerImpl
-import com.makentoshe.booruchan.screen.posts.model.TagsHolderViewModel
+import com.makentoshe.booruchan.screen.posts.model.*
 import org.jetbrains.anko.*
 
 class PostsFragment : Fragment() {
@@ -21,7 +19,7 @@ class PostsFragment : Fragment() {
         get() = arguments!!.get(BOORU) as Booru
         set(value) = arguments().putSerializable(BOORU, value)
 
-    private val tagsController: TagsController by lazy {
+    private val tagsController by lazy {
         TagsHolderViewModel.create(this, TagsControllerImpl())
     }
 
