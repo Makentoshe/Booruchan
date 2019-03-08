@@ -21,7 +21,7 @@ class SearchViewModel : ViewModel(), SearchController {
         disposables.add(tagsObservable.subscribe(result))
     }
 
-    override fun onCleared() {
+    public override fun onCleared() {
         super.onCleared()
         disposables.dispose()
     }

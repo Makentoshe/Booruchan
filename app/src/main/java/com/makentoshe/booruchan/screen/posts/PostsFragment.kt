@@ -28,7 +28,7 @@ class PostsFragment : Fragment() {
         TagsHolderViewModel.create(this, TagsControllerImpl())
     }
 
-    private val searchController by lazy {
+    private val searchController: SearchViewModel by lazy {
         SearchViewModel.create(this)
     }
 
@@ -44,6 +44,11 @@ class PostsFragment : Fragment() {
         parentFragment?.view?.findViewById<DrawerLayout>(R.id.booru_drawer)?.let {
             BooruToolbarUiInflater(it).inflate(view)
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        searchController.onCleared()
     }
 
     companion object {
