@@ -23,13 +23,17 @@ class PostsFragment : Fragment() {
         TagsHolderViewModel.create(this, TagsControllerImpl())
     }
 
+    private val searchController by lazy {
+        SearchViewModel.create(this)
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return PostsUi().createView(AnkoContext.create(requireContext(), this))
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         PostsUiToolbarInflator(booru).inflate(view)
-        PostsUiToolbarSearchInflator(childFragmentManager, tagsController).inflate(view)
+        PostsUiToolbarSearchInflator(childFragmentManager, tagsController, searchController).inflate(view)
 
         parentFragment?.view?.findViewById<DrawerLayout>(R.id.booru_drawer)?.let {
             BooruToolbarUiInflater(it).inflate(view)

@@ -8,6 +8,7 @@ import com.makentoshe.booruapi.Tag
 import com.makentoshe.booruchan.Inflater
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.chip
+import com.makentoshe.booruchan.screen.posts.model.SearchController
 import com.makentoshe.booruchan.screen.posts.model.TagsController
 import com.makentoshe.booruchan.view.DelayAutocompleteEditText
 import io.reactivex.disposables.CompositeDisposable
@@ -20,7 +21,8 @@ import org.jetbrains.anko.sdk27.coroutines.textChangedListener
 class SearchDialogEditTextInflater(
     private val disposables: CompositeDisposable,
     private val tagsController: TagsController,
-    private val dialog: SearchDialogFragment
+    private val dialog: SearchDialogFragment,
+    private val searchController: SearchController
 ) : Inflater {
 
     class TextChanged(private val subject: Subject<Tag>) :
@@ -42,7 +44,8 @@ class SearchDialogEditTextInflater(
     class ImeActionClick(
         private val subject: Subject<Tag>,
         private val tagsController: TagsController,
-        private val dialog: SearchDialogFragment
+        private val dialog: SearchDialogFragment,
+        private val searchController: SearchController
     ) : Inflater {
         override fun inflate(view: View) {
             view.find<DelayAutocompleteEditText>(R.id.searchDialog_delayAutocompleteEditText).apply {
@@ -52,6 +55,7 @@ class SearchDialogEditTextInflater(
                             subject.onNext(Tag(getTagTitle()))
                             clear()
                         }
+                        searchController.startSearch(tagsController.tags)
                         dialog.dismiss()
                     }
                 }
@@ -62,7 +66,7 @@ class SearchDialogEditTextInflater(
     override fun inflate(view: View) {
         val subject = BehaviorSubject.create<Tag>()
         TextChanged(subject).inflate(view)
-        ImeActionClick(subject, tagsController, dialog).inflate(view)
+        ImeActionClick(subject, tagsController, dialog, searchController).inflate(view)
 
         view.find<ChipGroup>(R.id.searchDialog_chipgroup).apply {
             tagsController.tags.forEach { addTagToChipGroup(it) }
