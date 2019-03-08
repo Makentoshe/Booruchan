@@ -69,5 +69,8 @@
     <item name="searchDialog_delayAutocompleteEditText" type="id"/>
     <item name="searchDialog_separator" type="id"/>
     <item name="searchDialog_chipgroup" type="id"/>
+    <item name="posts_bottombar" type="id"/>
+    <item name="posts_toolbar" type="id"/>
+    <item name="posts_viewpager" type="id"/>
 
 </resources>

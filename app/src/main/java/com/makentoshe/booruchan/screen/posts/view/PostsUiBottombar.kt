@@ -1,4 +1,4 @@
-package com.makentoshe.booruchan.screen.posts
+package com.makentoshe.booruchan.screen.posts.view
 
 import android.view.Gravity
 import android.view.View
@@ -10,9 +10,9 @@ class PostsUiBottombar : AnkoComponent<_RelativeLayout> {
 
     private val style = Booruchan.INSTANCE.style
 
-    override fun createView(ui: AnkoContext<_RelativeLayout>): View =
-        with(ui.owner) {
+    override fun createView(ui: AnkoContext<_RelativeLayout>): View = with(ui.owner) {
         linearLayout {
+            id = R.id.posts_bottombar
             elevation = dip(10).toFloat()
             backgroundColorResource = style.toolbar.primaryColorRes
             createLeft()

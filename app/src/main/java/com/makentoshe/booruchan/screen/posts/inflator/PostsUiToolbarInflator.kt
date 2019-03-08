@@ -1,4 +1,4 @@
-package com.makentoshe.booruchan.screen.posts
+package com.makentoshe.booruchan.screen.posts.inflator
 
 import android.view.View
 import android.widget.Toolbar

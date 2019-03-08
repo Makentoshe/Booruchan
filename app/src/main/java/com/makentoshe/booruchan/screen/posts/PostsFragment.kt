@@ -10,7 +10,11 @@ import com.makentoshe.booruapi.Booru
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.screen.BooruToolbarUiInflater
 import com.makentoshe.booruchan.screen.arguments
+import com.makentoshe.booruchan.screen.posts.inflator.PostsUiContentInflator
+import com.makentoshe.booruchan.screen.posts.inflator.PostsUiToolbarInflator
+import com.makentoshe.booruchan.screen.posts.inflator.PostsUiToolbarSearchInflator
 import com.makentoshe.booruchan.screen.posts.model.*
+import com.makentoshe.booruchan.screen.posts.view.PostsUi
 import org.jetbrains.anko.*
 
 class PostsFragment : Fragment() {
@@ -33,7 +37,11 @@ class PostsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         PostsUiToolbarInflator(booru).inflate(view)
-        PostsUiToolbarSearchInflator(childFragmentManager, tagsController, searchController).inflate(view)
+        PostsUiToolbarSearchInflator(childFragmentManager, tagsController, searchController)
+            .inflate(view)
+
+        PostsUiContentInflator(searchController, childFragmentManager, booru)
+            .inflate(view)
 
         parentFragment?.view?.findViewById<DrawerLayout>(R.id.booru_drawer)?.let {
             BooruToolbarUiInflater(it).inflate(view)

@@ -1,4 +1,4 @@
-package com.makentoshe.booruchan.screen.posts
+package com.makentoshe.booruchan.screen.posts.view
 
 import android.view.View
 import android.view.ViewGroup
@@ -18,8 +18,8 @@ class PostsUiToolbar : AnkoComponent<ViewGroup> {
     private val style = Booruchan.INSTANCE.style
 
     override fun createView(ui: AnkoContext<ViewGroup>): View = with(ui.owner) {
-        BooruToolbarUi()
-            .createView(AnkoContext.createDelegate(this)).also{
+        BooruToolbarUi().createView(AnkoContext.createDelegate(this)).also{
+            id = R.id.posts_toolbar
             if (it !is ViewGroup) return@with it
             it.searchToolbarIcon()
         }
