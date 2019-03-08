@@ -12,8 +12,8 @@ import com.makentoshe.booruchan.ImageInternalCache
 import com.makentoshe.booruchan.PostInternalCache
 import com.makentoshe.booruchan.postsample.view.PostSampleUi
 import com.makentoshe.booruchan.postsamples.FullScreenController
-import com.makentoshe.repository.CachedRepository
-import com.makentoshe.repository.PostsRepository
+import com.makentoshe.booruchan.repository.CachedRepository
+import com.makentoshe.booruchan.repository.PostsRepository
 import com.makentoshe.repository.SampleImageRepository
 import org.jetbrains.anko.AnkoContext
 import java.io.Serializable
@@ -29,13 +29,13 @@ class PostSampleFragment : Fragment() {
         val tags = arguments!!.get(TAGS) as Set<Tag>
 
         val postsCache = PostInternalCache(requireContext(), "posts")
-        val postsRepository = CachedRepository(postsCache, PostsRepository(booru))
+//        val postsRepository = CachedRepository(postsCache, PostsRepository(booru))
 
         val imageInternalCache = ImageInternalCache(requireContext(), "samples")
-        val samplesRepository = CachedRepository(imageInternalCache, SampleImageRepository(booru))
+//        val samplesRepository = CachedRepository(imageInternalCache, SampleImageRepository(booru))
 
-        val factory = DownloadViewModel.Factory(postsRepository, tags, samplesRepository, position)
-        downloadViewModel = ViewModelProviders.of(this, factory)[DownloadViewModel::class.java]
+//        val factory = DownloadViewModel.Factory(postsRepository, tags, samplesRepository, position)
+//        downloadViewModel = ViewModelProviders.of(this, factory)[DownloadViewModel::class.java]
 
         fullScreenController = arguments!![FULLSCR] as FullScreenController
 

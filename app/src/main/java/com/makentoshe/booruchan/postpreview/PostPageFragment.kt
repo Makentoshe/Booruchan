@@ -13,6 +13,8 @@ import com.makentoshe.booruchan.Booruchan
 import com.makentoshe.booruchan.PostInternalCache
 import com.makentoshe.booruchan.PreviewsInternalCache
 import com.makentoshe.booruchan.postpreview.view.PostPageFragmentUi
+import com.makentoshe.booruchan.repository.CachedRepository
+import com.makentoshe.booruchan.repository.PostsRepository
 import com.makentoshe.repository.*
 import org.jetbrains.anko.AnkoContext
 import java.io.Serializable
@@ -29,25 +31,25 @@ class PostPageFragment : androidx.fragment.app.Fragment() {
         val booru = arguments!!.get(BOORU) as Booru
         val tags = arguments!!.get(TAGS) as Set<Tag>
 
-        val previewsRepository = CachedRepository<Post, ByteArray>(
-            PreviewsInternalCache(requireContext(), "previews"),
-            PreviewImageRepository(booru)
-        )
+//        val previewsRepository = CachedRepository<Post, ByteArray>(
+//            PreviewsInternalCache(requireContext(), "previews"),
+//            PreviewImageRepository(booru)
+//        )
 
-        val postsRepository = CachedRepository(
-            PostInternalCache(requireContext(), "posts"),
-            PostsRepository(booru)
-        )
+//        val postsRepository = CachedRepository(
+//            PostInternalCache(requireContext(), "posts"),
+//            PostsRepository(booru)
+//        )
 
-        var factory: ViewModelProvider.NewInstanceFactory =
-            PostsDownloadViewModel.Factory(postsRepository, tags, position)
-        postsDownloadViewModel = ViewModelProviders.of(this, factory)[PostsDownloadViewModel::class.java]
+//        var factory: ViewModelProvider.NewInstanceFactory =
+//            PostsDownloadViewModel.Factory(postsRepository, tags, position)
+//        postsDownloadViewModel = ViewModelProviders.of(this, factory)[PostsDownloadViewModel::class.java]
 
-        factory = AdapterViewModel.Factory(previewsRepository)
-        adapterViewModel = ViewModelProviders.of(this, factory)[AdapterViewModel::class.java]
-
-        factory = NavigatorViewModel.Factory(Booruchan.INSTANCE.router, booru, tags, position)
-        navigatorViewModel = ViewModelProviders.of(this, factory)[NavigatorViewModel::class.java]
+//        factory = AdapterViewModel.Factory(previewsRepository)
+//        adapterViewModel = ViewModelProviders.of(this, factory)[AdapterViewModel::class.java]
+//
+//        factory = NavigatorViewModel.Factory(Booruchan.INSTANCE.router, booru, tags, position)
+//        navigatorViewModel = ViewModelProviders.of(this, factory)[NavigatorViewModel::class.java]
 
         super.onCreate(savedInstanceState)
     }

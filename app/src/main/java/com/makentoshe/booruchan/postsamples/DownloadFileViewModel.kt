@@ -14,9 +14,9 @@ import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.postsamples.model.DownloadFileController
 import com.makentoshe.booruchan.postsamples.model.NotificationController
 import com.makentoshe.booruchan.postsamples.model.PermissionChecker
-import com.makentoshe.repository.CachedRepository
+import com.makentoshe.booruchan.repository.CachedRepository
 import com.makentoshe.repository.FileRepository
-import com.makentoshe.repository.PostsRepository
+import com.makentoshe.booruchan.repository.PostsRepository
 import com.makentoshe.viewmodel.ViewModel
 import kotlinx.coroutines.launch
 import java.io.File
@@ -78,16 +78,16 @@ class DownloadFileViewModel private constructor() : ViewModel(), DownloadFileCon
 
     /* Perform a file downloading */
     private fun startFileLoading(context: Context, position: Int) = launch {
-        val postsRepository = CachedRepository(
-            PostInternalCache(context, "posts"),
-            PostsRepository(booru)
-        )
+//        val postsRepository = CachedRepository(
+//            PostInternalCache(context, "posts"),
+//            PostsRepository(booru)
+//        )
         val filesRepository = FileRepository(booru)
 
-        val post = postsRepository.get(Booru.PostRequest(1, position, tags))!![0]
-        val bytes = filesRepository.get(post)
+//        val post = postsRepository.get(Booru.PostRequest(1, position, tags))!![0]
+//        val bytes = filesRepository.get(post)
 
-        saveFile(context, booru.title, post.id.toString(), File(post.fileUrl).extension, bytes)
+//        saveFile(context, booru.title, post.id.toString(), File(post.fileUrl).extension, bytes)
     }
 
 

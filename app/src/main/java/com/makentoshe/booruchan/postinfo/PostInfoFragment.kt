@@ -9,8 +9,8 @@ import com.makentoshe.booruapi.Booru
 import com.makentoshe.booruapi.Tag
 import com.makentoshe.booruchan.Booruchan
 import com.makentoshe.booruchan.PostInternalCache
-import com.makentoshe.repository.CachedRepository
-import com.makentoshe.repository.PostsRepository
+import com.makentoshe.booruchan.repository.CachedRepository
+import com.makentoshe.booruchan.repository.PostsRepository
 import org.jetbrains.anko.AnkoContext
 import java.io.Serializable
 
@@ -26,9 +26,9 @@ class PostInfoFragment : Fragment() {
 
         val cache = PostInternalCache(requireContext(), "posts")
         val repository = PostsRepository(booru)
-        val cachedRepository = CachedRepository(cache, repository)
-        val posts = cachedRepository.get(Booru.PostRequest(1, position, tags))
-        PostInfoInflaterListView(posts!![0]).inflate(view)
+//        val cachedRepository = CachedRepository(cache, repository)
+//        val posts = cachedRepository.get(Booru.PostRequest(1, position, tags))
+//        PostInfoInflaterListView(posts!![0]).inflate(view)
     }
 
     private var tags: Set<Tag>

@@ -16,8 +16,8 @@ import com.makentoshe.booruchan.postpreviews.viewmodel.TagsViewModel
 import com.makentoshe.booruchan.posttags.model.PostTagsNavigator
 import com.makentoshe.booruchan.posttags.model.TagsBuildViewModel
 import com.makentoshe.booruchan.posttags.view.PostTagsUi
-import com.makentoshe.repository.CachedRepository
-import com.makentoshe.repository.PostsRepository
+import com.makentoshe.booruchan.repository.CachedRepository
+import com.makentoshe.booruchan.repository.PostsRepository
 import org.jetbrains.anko.AnkoContext
 import org.jetbrains.anko.find
 import org.jetbrains.anko.sdk27.coroutines.onClick
@@ -34,16 +34,16 @@ class PostTagsFragment : Fragment() {
         val tags = arguments!!.get(TAGS) as Set<Tag>
         val position = arguments!!.getInt(POSITION)
 
-        val postsRepository = CachedRepository(
-            PostInternalCache(requireContext(), "posts"),
-            PostsRepository(booru)
-        )
+//        val postsRepository = CachedRepository(
+//            PostInternalCache(requireContext(), "posts"),
+//            PostsRepository(booru)
+//        )
 
-        var factory: ViewModelProvider.NewInstanceFactory = TagsBuildViewModel.Factory(postsRepository, position, tags)
-        tagsController = ViewModelProviders.of(this, factory)[TagsBuildViewModel::class.java]
+//        var factory: ViewModelProvider.NewInstanceFactory = TagsBuildViewModel.Factory(postsRepository, position, tags)
+//        tagsController = ViewModelProviders.of(this, factory)[TagsBuildViewModel::class.java]
 
-        factory = TagsViewModel.Factory(setOf())
-        searchController = ViewModelProviders.of(this, factory)[TagsViewModel::class.java]
+//        factory = TagsViewModel.Factory(setOf())
+//        searchController = ViewModelProviders.of(this, factory)[TagsViewModel::class.java]
 
         navigator = PostTagsNavigator(Booruchan.INSTANCE.router, booru)
 

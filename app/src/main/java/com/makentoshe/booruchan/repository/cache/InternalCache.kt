@@ -1,4 +1,4 @@
-package com.makentoshe.booruchan
+package com.makentoshe.booruchan.repository.cache
 
 import android.content.Context
 import com.makentoshe.booruchan.repository.cache.ClearableCache

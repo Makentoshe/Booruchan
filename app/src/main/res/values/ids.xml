@@ -75,5 +75,6 @@
     <item name="posts_viewpager" type="id"/>
     <item name="posts_bottombar_left" type="id"/>
     <item name="posts_bottombar_center" type="id"/>
+    <item name="posts_page" type="id"/>
 
 </resources>
