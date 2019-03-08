@@ -31,7 +31,7 @@ class PostsFragmentUiContentBottombar(
 
     private fun _LinearLayout.createLeft() {
         frameLayout {
-            id = R.id.postpreview_bottombar_left
+            id = R.id.posts_bottombar_left
 
             viewPagerController.onPageChangedListener {
                 visibility = if (it == 0) View.INVISIBLE else View.VISIBLE
@@ -53,10 +53,10 @@ class PostsFragmentUiContentBottombar(
 
     private fun _LinearLayout.createCenter() {
         frameLayout {
-            id = R.id.postpreview_bottombar_center
+            id = R.id.posts_bottombar_center
 
             textView {
-                id = R.id.postpreview_bottombar_center_textview
+                id = R.id.posts_bottombar_center_textview
 
                 viewPagerController.onPageChangedListener {
                     text = it.toString()
@@ -74,7 +74,7 @@ class PostsFragmentUiContentBottombar(
 
     private fun _LinearLayout.createRight() {
         frameLayout {
-            id = R.id.postpreview_bottombar_right
+            id = R.id.posts_bottombar_right
 
             onClick { viewPagerController.nextPage() }
 

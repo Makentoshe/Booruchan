@@ -26,13 +26,7 @@ class PostsUiBottombar : AnkoComponent<_RelativeLayout> {
 
     private fun _LinearLayout.createLeft() {
         frameLayout {
-            id = R.id.postpreview_bottombar_left
-
-//            viewPagerController.onPageChangedListener {
-//                visibility = if (it == 0) View.INVISIBLE else View.VISIBLE
-//            }
-
-//            onClick { viewPagerController.prevPage() }
+            id = R.id.posts_bottombar_left
 
             imageView {
                 imageResource = style.drawable.static.chevron
@@ -48,16 +42,11 @@ class PostsUiBottombar : AnkoComponent<_RelativeLayout> {
 
     private fun _LinearLayout.createCenter() {
         frameLayout {
-            id = R.id.postpreview_bottombar_center
+            id = R.id.posts_bottombar_center
 
             textView {
-                id = R.id.postpreview_bottombar_center_textview
-
-//                viewPagerController.onPageChangedListener {
-//                    text = it.toString()
-//                    textColorResource = style.toolbar.onPrimaryColorRes
-//                }
-
+                textColorResource = style.toolbar.onPrimaryColorRes
+                id = R.id.posts_bottombar_center_textview
             }.lparams {
                 gravity = Gravity.CENTER
             }
@@ -69,9 +58,7 @@ class PostsUiBottombar : AnkoComponent<_RelativeLayout> {
 
     private fun _LinearLayout.createRight() {
         frameLayout {
-            id = R.id.postpreview_bottombar_right
-
-//            onClick { viewPagerController.nextPage() }
+            id = R.id.posts_bottombar_right
 
             imageView {
                 imageResource = style.drawable.static.chevron

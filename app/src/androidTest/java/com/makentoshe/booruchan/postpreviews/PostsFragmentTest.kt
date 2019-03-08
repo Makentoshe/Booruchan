@@ -178,13 +178,13 @@ class PostsFragmentTest {
     @Test
     fun should_display_bottombar_correctly_on_startup() {
         //left icon should be invisible
-        onView(withId(R.id.postpreview_bottombar_left)).check { view, _ ->
+        onView(withId(R.id.posts_bottombar_left)).check { view, _ ->
             assertEquals(View.INVISIBLE, view.visibility)
         }
         //center text should display "0" number
-        onView(withId(R.id.postpreview_bottombar_center_textview)).check(matches(withText("0")))
+        onView(withId(R.id.posts_bottombar_center_textview)).check(matches(withText("0")))
         //right icon should be visible
-        onView(withId(R.id.postpreview_bottombar_right)).check { view, _ ->
+        onView(withId(R.id.posts_bottombar_right)).check { view, _ ->
             assertEquals(View.VISIBLE, view.visibility)
         }
     }
@@ -193,11 +193,11 @@ class PostsFragmentTest {
     fun should_display_left_icon_in_bottombar_if_page_is_not_zero() {
         assertEquals(2, getPostPagesFragments().size)
         //click on next page
-        onView(withId(R.id.postpreview_bottombar_right)).perform(click())
+        onView(withId(R.id.posts_bottombar_right)).perform(click())
 
         assertEquals(3, getPostPagesFragments().size)
         //left icon should be visible
-        onView(withId(R.id.postpreview_bottombar_left)).check { view, _ ->
+        onView(withId(R.id.posts_bottombar_left)).check { view, _ ->
             assertEquals(View.VISIBLE, view.visibility)
         }
     }
@@ -208,7 +208,7 @@ class PostsFragmentTest {
         //swipe right
         onView(isRoot()).perform(swipeRight())
         //left icon should be invisible
-        onView(withId(R.id.postpreview_bottombar_left)).check { view, _ ->
+        onView(withId(R.id.posts_bottombar_left)).check { view, _ ->
             assertEquals(View.INVISIBLE, view.visibility)
         }
     }
