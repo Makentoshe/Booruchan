@@ -1,4 +1,4 @@
-package com.makentoshe.booruchan.screen.samples
+package com.makentoshe.booruchan.screen.samples.view
 
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.view.verticalViewPager

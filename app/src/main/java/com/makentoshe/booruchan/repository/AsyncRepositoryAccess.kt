@@ -1,6 +1,5 @@
-package com.makentoshe.booruchan.screen.posts
+package com.makentoshe.booruchan.repository
 
-import com.makentoshe.booruchan.repository.Repository
 import io.reactivex.disposables.Disposable
 import io.reactivex.subjects.BehaviorSubject
 import kotlinx.coroutines.GlobalScope

@@ -12,6 +12,7 @@ import com.makentoshe.booruapi.Booru
 import com.makentoshe.booruapi.Tag
 import com.makentoshe.booruchan.Booruchan
 import com.makentoshe.booruchan.R
+import com.makentoshe.booruchan.repository.AsyncRepositoryAccess
 import com.makentoshe.booruchan.repository.CachedRepository
 import com.makentoshe.booruchan.repository.PostsRepository
 import com.makentoshe.booruchan.repository.cache.PostInternalCache
@@ -20,7 +21,7 @@ import com.makentoshe.booruchan.screen.posts.inflator.PostPageErrorMessageInflat
 import com.makentoshe.booruchan.screen.posts.inflator.PostPageGridViewInflater
 import com.makentoshe.booruchan.screen.posts.model.BooruRequestBuilder
 import com.makentoshe.booruchan.screen.posts.view.PostPageUi
-import com.makentoshe.booruchan.screen.samples.SampleContentScreen
+import com.makentoshe.booruchan.screen.samples.SampleScreen
 import com.squareup.picasso.Picasso
 import io.reactivex.disposables.CompositeDisposable
 import org.jetbrains.anko.AnkoContext
@@ -78,8 +79,9 @@ class PostsPageFragment : Fragment() {
             }
         })
 
-        view.find<GridView>(R.id.posts_page_gridview).setOnItemClickListener { _, _, position, _ ->
-            val screen = SampleContentScreen()
+        view.find<GridView>(R.id.posts_page_gridview).setOnItemClickListener { _, _, itempos, _ ->
+            val position = this.position * 12 + itempos
+            val screen = SampleScreen(position)
             Booruchan.INSTANCE.router.navigateTo(screen)
         }
     }

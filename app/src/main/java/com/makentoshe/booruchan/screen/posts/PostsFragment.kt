@@ -74,7 +74,6 @@ class PostsFragment : Fragment() {
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
-        println("SAS")
         //if new search was started
         if (requestCode == RequestCode.search && requestCode == RequestCode.tags) {
             //get tags

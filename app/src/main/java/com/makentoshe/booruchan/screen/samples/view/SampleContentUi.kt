@@ -1,4 +1,4 @@
-package com.makentoshe.booruchan.screen.samples
+package com.makentoshe.booruchan.screen.samples.view
 
 import androidx.fragment.app.Fragment
 import org.jetbrains.anko.AnkoComponent

@@ -1,4 +1,4 @@
-package com.makentoshe.booruchan.screen.samples
+package com.makentoshe.booruchan.screen.samples.view
 
 import android.content.res.ColorStateList
 import android.view.Menu
