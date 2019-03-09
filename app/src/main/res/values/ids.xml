@@ -80,5 +80,9 @@
     <item name="posts_page_progress" type="id"/>
     <item name="posts_page_textview" type="id"/>
     <item name="posts_page_gridview_element_image" type="id"/>
+    <item name="samples_bottombar" type="id"/>
+    <item name="samples_container" type="id"/>
+    <item name="samples_container_viewpager" type="id"/>
+    <item name="samples" type="id"/>
 
 </resources>

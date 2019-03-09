@@ -6,6 +6,7 @@ import androidx.fragment.app.FragmentManager
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.postsamples.model.NavigationController
 import com.makentoshe.booruchan.postsamples.model.ViewPagerAdapterBuilder
+import com.makentoshe.booruchan.view.VerticalViewPager
 import org.jetbrains.anko.*
 import org.jetbrains.anko.custom.ankoView
 import org.jetbrains.anko.support.v4.onPageChangeListener

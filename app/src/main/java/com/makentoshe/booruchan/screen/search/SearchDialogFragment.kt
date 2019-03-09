@@ -30,7 +30,6 @@ class SearchDialogFragment : DialogFragment() {
     private fun setParams(dialog: Dialog) = Unit
 
     companion object {
-        const val SEARCH_CODE = 1
         private const val TAGS = "Tags"
         fun create(tags: Set<Tag>) = SearchDialogFragment().apply {
             this.tags = tags

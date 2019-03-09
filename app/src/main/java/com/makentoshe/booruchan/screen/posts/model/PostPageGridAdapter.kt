@@ -11,7 +11,15 @@ import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.repository.cache.InternalCache
 import com.makentoshe.booruchan.screen.posts.view.PostPageGridElement
 import com.squareup.picasso.Cache
+import com.squareup.picasso.MemoryPolicy
 import com.squareup.picasso.Picasso
+import io.reactivex.Observable
+import io.reactivex.Observer
+import io.reactivex.disposables.Disposable
+import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withTimeout
 import org.jetbrains.anko.AnkoContext
 import org.jetbrains.anko.find
 import java.io.*
@@ -26,7 +34,8 @@ class PostPageGridAdapter(
         val view = convertView ?: PostPageGridElement().createView(AnkoContext.create(context))
 
         val imageview = view.find<ImageView>(R.id.posts_page_gridview_element_image)
-        picasso.load(getItem(position).previewUrl).into(imageview)
+
+        picasso.load(getItem(position).previewUrl).memoryPolicy(MemoryPolicy.NO_CACHE).into(imageview)
 
         return view
     }

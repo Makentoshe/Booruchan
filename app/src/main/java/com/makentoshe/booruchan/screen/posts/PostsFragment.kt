@@ -13,6 +13,7 @@ import com.makentoshe.booruapi.Tag
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.repository.cache.PostInternalCache
 import com.makentoshe.booruchan.screen.BooruToolbarUiInflater
+import com.makentoshe.booruchan.screen.RequestCode
 import com.makentoshe.booruchan.screen.SubjectHolder
 import com.makentoshe.booruchan.screen.arguments
 import com.makentoshe.booruchan.screen.posts.inflator.PostsUiBottomBarInflator
@@ -63,7 +64,7 @@ class PostsFragment : Fragment() {
 
         view.find<ViewPager>(R.id.posts_viewpager).let { v ->
             val disposable = searchController.subscribe { tags ->
-                v.adapter = PostsViewPagerAdapter(fragmentManager!!, tags, booru)
+                v.adapter = PostsViewPagerAdapter(childFragmentManager, tags, booru)
             }
             disposables.add(disposable)
         }
@@ -73,8 +74,9 @@ class PostsFragment : Fragment() {
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
+        println("SAS")
         //if new search was started
-        if (requestCode == SearchDialogFragment.SEARCH_CODE) {
+        if (requestCode == RequestCode.search && requestCode == RequestCode.tags) {
             //get tags
             val tags = data.getSerializableExtra(Set::class.java.simpleName) as Set<Tag>
             //set tags to holder
@@ -96,7 +98,7 @@ class PostsFragment : Fragment() {
 
     private fun showSearchFragment() {
         val fragment = SearchDialogFragment.create(tagsHolder.set)
-        fragment.setTargetFragment(this, SearchDialogFragment.SEARCH_CODE)
+        fragment.setTargetFragment(this, RequestCode.search)
         fragment.show(fragmentManager, SearchDialogFragment::class.java.simpleName)
     }
 

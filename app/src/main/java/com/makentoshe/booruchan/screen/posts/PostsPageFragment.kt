@@ -6,9 +6,12 @@ import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.GridView
 import androidx.fragment.app.Fragment
 import com.makentoshe.booruapi.Booru
 import com.makentoshe.booruapi.Tag
+import com.makentoshe.booruchan.Booruchan
+import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.repository.CachedRepository
 import com.makentoshe.booruchan.repository.PostsRepository
 import com.makentoshe.booruchan.repository.cache.PostInternalCache
@@ -17,9 +20,11 @@ import com.makentoshe.booruchan.screen.posts.inflator.PostPageErrorMessageInflat
 import com.makentoshe.booruchan.screen.posts.inflator.PostPageGridViewInflater
 import com.makentoshe.booruchan.screen.posts.model.BooruRequestBuilder
 import com.makentoshe.booruchan.screen.posts.view.PostPageUi
+import com.makentoshe.booruchan.screen.samples.SampleContentScreen
 import com.squareup.picasso.Picasso
 import io.reactivex.disposables.CompositeDisposable
 import org.jetbrains.anko.AnkoContext
+import org.jetbrains.anko.find
 import java.io.Serializable
 
 class PostsPageFragment : Fragment() {
@@ -61,11 +66,9 @@ class PostsPageFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val picasso = Picasso.get()
-
         disposables.add(asyncRepositoryAccess.onComplete {
             Handler(Looper.getMainLooper()).post {
-                PostPageGridViewInflater(it, picasso).inflate(view)
+                PostPageGridViewInflater(it, Picasso.get()).inflate(view)
             }
         })
 
@@ -74,6 +77,11 @@ class PostsPageFragment : Fragment() {
                 PostPageErrorMessageInflater(it).inflate(view)
             }
         })
+
+        view.find<GridView>(R.id.posts_page_gridview).setOnItemClickListener { _, _, position, _ ->
+            val screen = SampleContentScreen()
+            Booruchan.INSTANCE.router.navigateTo(screen)
+        }
     }
 
     companion object {

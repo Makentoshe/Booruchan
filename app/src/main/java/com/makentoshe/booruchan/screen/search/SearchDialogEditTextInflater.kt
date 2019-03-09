@@ -11,6 +11,7 @@ import com.makentoshe.booruapi.Tag
 import com.makentoshe.booruchan.Inflater
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.chip
+import com.makentoshe.booruchan.screen.RequestCode
 import io.reactivex.disposables.CompositeDisposable
 import org.jetbrains.anko.find
 import org.jetbrains.anko.sdk27.coroutines.onEditorAction
@@ -43,7 +44,7 @@ class SearchDialogEditTextInflater(
                     setText("")
                 }
                 val intent = Intent().putExtra(Set::class.java.simpleName, tags)
-                dialog.targetFragment?.onActivityResult(SearchDialogFragment.SEARCH_CODE, 1, intent)
+                dialog.targetFragment?.onActivityResult(RequestCode.search, 1, intent)
                 dialog.dismiss()
             }
         }

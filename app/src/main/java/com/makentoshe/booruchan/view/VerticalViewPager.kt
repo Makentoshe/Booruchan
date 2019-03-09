@@ -1,11 +1,16 @@
-package com.makentoshe.booruchan.postsamples.view
+package com.makentoshe.booruchan.view
 
 import android.content.Context
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
+import android.view.ViewManager
 import androidx.viewpager.widget.ViewPager
+import org.jetbrains.anko.custom.ankoView
 import kotlin.math.absoluteValue
+
+fun ViewManager.verticalViewPager(init: VerticalViewPager.() -> Unit) =
+    ankoView({ VerticalViewPager(it) }, 0, init)
 
 open class VerticalViewPager(context: Context, attrs: AttributeSet? = null) : ViewPager(context, attrs) {
 
