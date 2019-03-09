@@ -2,25 +2,19 @@ package com.makentoshe.booruchan.screen.search
 
 import android.app.AlertDialog
 import android.app.Dialog
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.DialogFragment
+import com.makentoshe.booruapi.Tag
 import com.makentoshe.booruchan.screen.arguments
-import com.makentoshe.booruchan.screen.posts.model.SearchController
-import com.makentoshe.booruchan.screen.posts.model.TagsController
-import io.reactivex.disposables.CompositeDisposable
 import org.jetbrains.anko.AnkoContext
+import java.io.Serializable
 
 class SearchDialogFragment : DialogFragment() {
 
-    private val disposables by lazy {
-        CompositeDisposable()
-    }
-
-    private var tagsController: TagsController
-        get() = arguments!!.get(TCTRL) as TagsController
-        set(value) = arguments().putSerializable(TCTRL, value)
+    private var tags: Set<Tag>
+        get() = arguments!!.get(TAGS) as Set<Tag>
+        set(value) = arguments().putSerializable(TAGS, value as Serializable)
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val view = SearchDialogUi().createView(AnkoContext.create(requireContext(), this))
@@ -30,23 +24,17 @@ class SearchDialogFragment : DialogFragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        SearchDialogEditTextInflater(disposables, tagsController, this).inflate(view)
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        disposables.clear()
+        SearchDialogEditTextInflater(tags, this).inflate(view)
     }
 
     private fun setParams(dialog: Dialog) = Unit
 
     companion object {
         const val SEARCH_CODE = 1
-        private const val TCTRL = "TagsController"
-        fun create(
-            tagsController: TagsController
-        ) = SearchDialogFragment().apply {
-            this.tagsController = tagsController
+        private const val TAGS = "Tags"
+        fun create(tags: Set<Tag>) = SearchDialogFragment().apply {
+            this.tags = tags
         }
     }
 }
+

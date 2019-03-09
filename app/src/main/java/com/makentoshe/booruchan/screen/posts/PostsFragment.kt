@@ -13,13 +13,13 @@ import com.makentoshe.booruapi.Tag
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.repository.cache.PostInternalCache
 import com.makentoshe.booruchan.screen.BooruToolbarUiInflater
+import com.makentoshe.booruchan.screen.SubjectHolder
 import com.makentoshe.booruchan.screen.arguments
 import com.makentoshe.booruchan.screen.posts.inflator.PostsUiBottomBarInflator
 import com.makentoshe.booruchan.screen.posts.inflator.PostsUiToolbarInflator
 import com.makentoshe.booruchan.screen.posts.model.PostsViewPagerAdapter
 import com.makentoshe.booruchan.screen.posts.model.SearchViewModel
-import com.makentoshe.booruchan.screen.posts.model.TagsControllerImpl
-import com.makentoshe.booruchan.screen.posts.model.TagsHolderViewModel
+import com.makentoshe.booruchan.screen.posts.model.TagsHolder
 import com.makentoshe.booruchan.screen.posts.view.PostsUi
 import com.makentoshe.booruchan.screen.search.SearchDialogFragment
 import io.reactivex.disposables.CompositeDisposable
@@ -36,12 +36,16 @@ class PostsFragment : Fragment() {
         get() = arguments!!.get(BOORU) as Booru
         set(value) = arguments().putSerializable(BOORU, value)
 
-    private val tagsController by lazy {
-        TagsHolderViewModel.create(this, TagsControllerImpl())
+    private val searchController by lazy {
+        val subject = BehaviorSubject.create<Set<Tag>>()
+        SubjectHolder.create(this, subject, "Search").subject.apply {
+            //First search starts with selected tags (empty as a default)
+            onNext(setOf())
+        }
     }
 
-    private val searchController by lazy {
-        SearchViewModel.create(this).observable
+    private val tagsHolder by lazy {
+        TagsHolder.create(this)
     }
 
     private val disposables = CompositeDisposable()
@@ -71,8 +75,13 @@ class PostsFragment : Fragment() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
         //if new search was started
         if (requestCode == SearchDialogFragment.SEARCH_CODE) {
-            //get tags todo put here the default tags from settings
+            //get tags
             val tags = data.getSerializableExtra(Set::class.java.simpleName) as Set<Tag>
+            //set tags to holder
+            tagsHolder.set.clear()
+            tagsHolder.set.addAll(tags)
+            //todo put here the default tags from settings
+            //...
             //clear caches
             GlobalScope.launch { PostInternalCache(requireContext()).clear() }
             //notify
@@ -86,7 +95,7 @@ class PostsFragment : Fragment() {
     }
 
     private fun showSearchFragment() {
-        val fragment = SearchDialogFragment.create(tagsController)
+        val fragment = SearchDialogFragment.create(tagsHolder.set)
         fragment.setTargetFragment(this, SearchDialogFragment.SEARCH_CODE)
         fragment.show(fragmentManager, SearchDialogFragment::class.java.simpleName)
     }
@@ -100,4 +109,3 @@ class PostsFragment : Fragment() {
         }
     }
 }
-

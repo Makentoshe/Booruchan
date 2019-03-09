@@ -5,12 +5,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.viewpager.widget.ViewPager
 import com.makentoshe.booruapi.Booru
 import com.makentoshe.booruchan.R
-import com.makentoshe.booruchan.repository.cache.PostInternalCache
 import com.makentoshe.booruchan.screen.Inflator
-import com.makentoshe.booruchan.screen.posts.model.PostsViewPagerAdapter
-import com.makentoshe.booruchan.screen.posts.model.SearchController
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import org.jetbrains.anko.find
 
 class PostsUiContentInflator(
