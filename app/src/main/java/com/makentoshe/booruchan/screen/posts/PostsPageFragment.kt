@@ -67,21 +67,23 @@ class PostsPageFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        //show grid with the images if all is ok
         disposables.add(asyncRepositoryAccess.onComplete {
             Handler(Looper.getMainLooper()).post {
                 PostPageGridViewInflater(it, Picasso.get()).inflate(view)
             }
         })
-
+        //show on error message when error event occur
         disposables.add(asyncRepositoryAccess.onError {
             Handler(Looper.getMainLooper()).post {
                 PostPageErrorMessageInflater(it).inflate(view)
             }
         })
-
+        //click on grid element starts a new screen - samples,
+        //where images in sample resolution will be displayed
         view.find<GridView>(R.id.posts_page_gridview).setOnItemClickListener { _, _, itempos, _ ->
             val position = this.position * 12 + itempos
-            val screen = SampleScreen(position)
+            val screen = SampleScreen(position, booru, tags)
             Booruchan.INSTANCE.router.navigateTo(screen)
         }
     }

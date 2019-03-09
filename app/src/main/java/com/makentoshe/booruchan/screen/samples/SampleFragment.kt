@@ -7,12 +7,15 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.viewpager.widget.ViewPager
+import com.makentoshe.booruapi.Booru
+import com.makentoshe.booruapi.Tag
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.screen.arguments
 import com.makentoshe.booruchan.screen.samples.model.SampleHorizontalViewPagerAdapter
 import com.makentoshe.booruchan.screen.samples.view.SampleUi
 import org.jetbrains.anko.AnkoContext
 import org.jetbrains.anko.find
+import java.io.Serializable
 
 class SampleFragment : Fragment() {
 
@@ -20,14 +23,25 @@ class SampleFragment : Fragment() {
         get() = arguments!!.getInt(POSITION)
         set(value) = arguments().putInt(POSITION, value)
 
+    private var booru: Booru
+        get() = arguments!!.get(BOORU) as Booru
+        set(value) = arguments().putSerializable(BOORU, value)
+
+    private var tags: Set<Tag>
+        get() = arguments!!.get(TAGS) as Set<Tag>
+        set(value) = arguments().putSerializable(TAGS, value as Serializable)
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return SampleUi().createView(AnkoContext.create(requireContext(), this))
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val viewpager = view.find<ViewPager>(R.id.samples_container_viewpager)
-        viewpager.adapter = SampleHorizontalViewPagerAdapter(childFragmentManager)
+        //adapter for horizontal scrolling
+        viewpager.adapter = SampleHorizontalViewPagerAdapter(childFragmentManager, booru, tags)
+        //set adapter to the position on which the click event was invoked
         viewpager.currentItem = position
+        //simple fix
         fixFragmentManagerMemoryLeak(childFragmentManager)
     }
 
@@ -47,8 +61,16 @@ class SampleFragment : Fragment() {
 
     companion object {
         private const val POSITION = "Position"
-        fun create(position: Int) = SampleFragment().apply {
+        private const val BOORU = "Booru"
+        private const val TAGS = "Tags"
+        fun create(
+            position: Int,
+            booru: Booru,
+            tags: Set<Tag>
+        ) = SampleFragment().apply {
             this.position = position
+            this.booru = booru
+            this.tags = tags
         }
     }
 }
