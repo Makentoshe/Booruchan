@@ -8,30 +8,15 @@ import com.makentoshe.booruapi.Tag
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.subjects.BehaviorSubject
 
-class SearchViewModel : ViewModel(), SearchController {
+class SearchViewModel : ViewModel() {
 
-    private val tagsObservable = BehaviorSubject.create<Set<Tag>>()
-    private val disposables = CompositeDisposable()
-
-    override fun startSearch(tags: Set<Tag>) {
-        tagsObservable.onNext(tags)
-    }
-
-    override fun onSearchStarted(result: (Set<Tag>) -> Unit) {
-        disposables.add(tagsObservable.subscribe(result))
-    }
-
-    public override fun onCleared() {
-        super.onCleared()
-        disposables.dispose()
-    }
+    val observable = BehaviorSubject.create<Set<Tag>>()
 
     class Factory : ViewModelProvider.NewInstanceFactory() {
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
             val viewModel = SearchViewModel()
             //todo put here default tags from the settings
-            viewModel.startSearch(setOf())
-
+            viewModel.observable.onNext(setOf())
             return viewModel as T
         }
     }
@@ -39,10 +24,7 @@ class SearchViewModel : ViewModel(), SearchController {
     companion object {
         fun create(fragment: Fragment): SearchViewModel {
             val factory = SearchViewModel.Factory()
-            return ViewModelProviders.of(
-                fragment,
-                factory
-            )[SearchViewModel::class.java]
+            return ViewModelProviders.of(fragment, factory)[SearchViewModel::class.java]
         }
     }
 }

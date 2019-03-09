@@ -1,8 +1,11 @@
 package com.makentoshe.booruchan.screen.search
 
+import android.content.Intent
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
+import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.Fragment
 import com.google.android.material.chip.ChipGroup
 import com.makentoshe.booruapi.Tag
 import com.makentoshe.booruchan.Inflater
@@ -17,12 +20,12 @@ import io.reactivex.subjects.Subject
 import org.jetbrains.anko.find
 import org.jetbrains.anko.sdk27.coroutines.onEditorAction
 import org.jetbrains.anko.sdk27.coroutines.textChangedListener
+import java.io.Serializable
 
 class SearchDialogEditTextInflater(
     private val disposables: CompositeDisposable,
     private val tagsController: TagsController,
-    private val dialog: SearchDialogFragment,
-    private val searchController: SearchController
+    private val dialog: DialogFragment
 ) : Inflater {
 
     class TextChanged(private val subject: Subject<Tag>) :
@@ -44,8 +47,7 @@ class SearchDialogEditTextInflater(
     class ImeActionClick(
         private val subject: Subject<Tag>,
         private val tagsController: TagsController,
-        private val dialog: SearchDialogFragment,
-        private val searchController: SearchController
+        private val dialog: DialogFragment
     ) : Inflater {
         override fun inflate(view: View) {
             view.find<DelayAutocompleteEditText>(R.id.searchDialog_delayAutocompleteEditText).apply {
@@ -55,7 +57,8 @@ class SearchDialogEditTextInflater(
                             subject.onNext(Tag(getTagTitle()))
                             clear()
                         }
-                        searchController.startSearch(tagsController.tags)
+                        val intent = Intent().putExtra(Set::class.java.simpleName, tagsController.tags as Serializable)
+                        dialog.targetFragment?.onActivityResult(SearchDialogFragment.SEARCH_CODE, 1, intent)
                         dialog.dismiss()
                     }
                 }
@@ -66,7 +69,7 @@ class SearchDialogEditTextInflater(
     override fun inflate(view: View) {
         val subject = BehaviorSubject.create<Tag>()
         TextChanged(subject).inflate(view)
-        ImeActionClick(subject, tagsController, dialog, searchController).inflate(view)
+        ImeActionClick(subject, tagsController, dialog).inflate(view)
 
         view.find<ChipGroup>(R.id.searchDialog_chipgroup).apply {
             tagsController.tags.forEach { addTagToChipGroup(it) }

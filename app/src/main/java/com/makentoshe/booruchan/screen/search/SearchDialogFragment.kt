@@ -2,6 +2,7 @@ package com.makentoshe.booruchan.screen.search
 
 import android.app.AlertDialog
 import android.app.Dialog
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.DialogFragment
@@ -21,10 +22,6 @@ class SearchDialogFragment : DialogFragment() {
         get() = arguments!!.get(TCTRL) as TagsController
         set(value) = arguments().putSerializable(TCTRL, value)
 
-    private var searchController: SearchController
-        get() = arguments!!.get(SCTRL) as SearchController
-        set(value) = arguments().putSerializable(SCTRL, value)
-
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val view = SearchDialogUi().createView(AnkoContext.create(requireContext(), this))
         return AlertDialog.Builder(requireContext()).setTitle("Start a new search").setView(view).create()
@@ -33,7 +30,7 @@ class SearchDialogFragment : DialogFragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        SearchDialogEditTextInflater(disposables, tagsController, this, searchController).inflate(view)
+        SearchDialogEditTextInflater(disposables, tagsController, this).inflate(view)
     }
 
     override fun onDestroyView() {
@@ -44,14 +41,12 @@ class SearchDialogFragment : DialogFragment() {
     private fun setParams(dialog: Dialog) = Unit
 
     companion object {
+        const val SEARCH_CODE = 1
         private const val TCTRL = "TagsController"
-        private const val SCTRL = "SearchController"
         fun create(
-            tagsController: TagsController,
-            searchController: SearchController
+            tagsController: TagsController
         ) = SearchDialogFragment().apply {
             this.tagsController = tagsController
-            this.searchController = searchController
         }
     }
 }

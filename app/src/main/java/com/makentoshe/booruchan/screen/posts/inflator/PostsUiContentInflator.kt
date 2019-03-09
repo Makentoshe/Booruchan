@@ -14,17 +14,16 @@ import kotlinx.coroutines.launch
 import org.jetbrains.anko.find
 
 class PostsUiContentInflator(
-    private val searchController: SearchController,
     private val fragmentManager: FragmentManager,
     private val booru: Booru
 ) : Inflator {
     override fun inflate(view: View) {
         val viewpager = view.find<ViewPager>(R.id.posts_viewpager)
-        searchController.onSearchStarted {
-            GlobalScope.launch {
-                PostInternalCache(view.context.applicationContext).clear()
-            }
-            viewpager.adapter = PostsViewPagerAdapter(fragmentManager, it, booru)
-        }
+//        searchController.onSearchStarted {
+//            GlobalScope.launch {
+//                PostInternalCache(view.context.applicationContext).clear()
+//            }
+//            viewpager.adapter = PostsViewPagerAdapter(fragmentManager, it, booru)
+//        }
     }
 }
