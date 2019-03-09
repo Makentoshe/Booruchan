@@ -8,9 +8,8 @@ import androidx.fragment.app.Fragment
 import com.makentoshe.booruapi.Booru
 import com.makentoshe.booruapi.Tag
 import com.makentoshe.booruchan.Booruchan
-import com.makentoshe.booruchan.PostInternalCache
-import com.makentoshe.booruchan.repository.CachedRepository
 import com.makentoshe.booruchan.repository.PostsRepository
+import com.makentoshe.booruchan.repository.cache.PostInternalCache
 import org.jetbrains.anko.AnkoContext
 import java.io.Serializable
 
@@ -24,7 +23,7 @@ class PostInfoFragment : Fragment() {
         val router = Booruchan.INSTANCE.router
         PostInfoInflaterToolbarBack(router).inflate(view)
 
-        val cache = PostInternalCache(requireContext(), "posts")
+        val cache = PostInternalCache(requireContext())
         val repository = PostsRepository(booru)
 //        val cachedRepository = CachedRepository(cache, repository)
 //        val posts = cachedRepository.get(Booru.PostRequest(1, position, tags))

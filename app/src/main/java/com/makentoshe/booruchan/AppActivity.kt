@@ -5,6 +5,7 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.makentoshe.booruchan.navigation.FragmentNavigator
 import com.makentoshe.booruchan.postsamples.PostSamplesScreen
+import com.makentoshe.booruchan.repository.cache.PostInternalCache
 import com.makentoshe.booruchan.screen.start.StartScreen
 import ru.terrakok.cicerone.Router
 
@@ -62,7 +63,7 @@ class AppActivity : AppCompatActivity() {
         //clear previews cache
         PreviewsInternalCache<Any>(this, "previews").clear()
         //clear posts cache
-        PostInternalCache(this, "posts").clear()
+        PostInternalCache(this).clear()
     }
 
 //    override fun onBackPressed() {

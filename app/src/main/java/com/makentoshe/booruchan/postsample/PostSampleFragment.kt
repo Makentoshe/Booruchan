@@ -5,16 +5,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProviders
 import com.makentoshe.booruapi.Booru
 import com.makentoshe.booruapi.Tag
 import com.makentoshe.booruchan.ImageInternalCache
-import com.makentoshe.booruchan.PostInternalCache
 import com.makentoshe.booruchan.postsample.view.PostSampleUi
 import com.makentoshe.booruchan.postsamples.FullScreenController
-import com.makentoshe.booruchan.repository.CachedRepository
-import com.makentoshe.booruchan.repository.PostsRepository
-import com.makentoshe.repository.SampleImageRepository
+import com.makentoshe.booruchan.repository.cache.PostInternalCache
 import org.jetbrains.anko.AnkoContext
 import java.io.Serializable
 
@@ -28,7 +24,7 @@ class PostSampleFragment : Fragment() {
         val booru = arguments!!.get(BOORU) as Booru
         val tags = arguments!!.get(TAGS) as Set<Tag>
 
-        val postsCache = PostInternalCache(requireContext(), "posts")
+        val postsCache = PostInternalCache(requireContext())
 //        val postsRepository = CachedRepository(postsCache, PostsRepository(booru))
 
         val imageInternalCache = ImageInternalCache(requireContext(), "samples")

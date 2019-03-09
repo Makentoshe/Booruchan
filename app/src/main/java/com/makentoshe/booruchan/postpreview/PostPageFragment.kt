@@ -4,18 +4,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
 import com.makentoshe.booruapi.Booru
-import com.makentoshe.booruapi.Post
 import com.makentoshe.booruapi.Tag
-import com.makentoshe.booruchan.Booruchan
-import com.makentoshe.booruchan.PostInternalCache
-import com.makentoshe.booruchan.PreviewsInternalCache
 import com.makentoshe.booruchan.postpreview.view.PostPageFragmentUi
-import com.makentoshe.booruchan.repository.CachedRepository
-import com.makentoshe.booruchan.repository.PostsRepository
-import com.makentoshe.repository.*
 import org.jetbrains.anko.AnkoContext
 import java.io.Serializable
 

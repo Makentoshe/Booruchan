@@ -9,13 +9,13 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.makentoshe.booruapi.Booru
 import com.makentoshe.booruapi.Tag
-import com.makentoshe.booruchan.PostInternalCache
 import com.makentoshe.booruchan.PreviewsInternalCache
 import com.makentoshe.booruchan.booru.model.DrawerController
 import com.makentoshe.booruchan.postpreviews.model.AdapterBuilder
 import com.makentoshe.booruchan.postpreviews.model.AdapterBuilderImpl
 import com.makentoshe.booruchan.postpreviews.view.PostsFragmentUi
 import com.makentoshe.booruchan.postpreviews.viewmodel.*
+import com.makentoshe.booruchan.repository.cache.PostInternalCache
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.jetbrains.anko.AnkoContext
@@ -84,7 +84,7 @@ class PostsFragment : androidx.fragment.app.Fragment() {
                 //clear previews cache
                 PreviewsInternalCache<Any>(context, "previews").clear()
                 //clear posts cache
-                PostInternalCache(context, "posts").clear()
+                PostInternalCache(context).clear()
             }
         }
 

@@ -14,30 +14,29 @@ import org.jetbrains.anko.AnkoContext
 
 class PostPageGridAdapter(
     private val context: Context,
-    private val posts: List<Post>,
-    repository: Repository<Post, ByteArray>,
-    private val disposables: CompositeDisposable
+    private val posts: List<Post>
+//    repository: Repository<Post, ByteArray>,
+//    private val disposables: CompositeDisposable
 ) : BaseAdapter() {
 
     private val repositoryList = ArrayList<PreviewRxRepository>()
-
-    init {
-        posts.forEach {
-            val repo = PreviewRxRepository(
-                repository,
-                GlobalScope.coroutineContext
-            )
-            repo.request(it)
-            repositoryList.add(repo)
-        }
-    }
+//
+//    init {
+//        posts.forEach {
+//            val repo = PreviewRxRepository(
+//                repository,
+//                GlobalScope.coroutineContext
+//            )
+//            repo.request(it)
+//            repositoryList.add(repo)
+//        }
+//    }
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
         return convertView ?: PostPageGridElement(
-            repositoryList[position],
-            disposables
-        )
-            .createView(AnkoContext.create(context))
+//            repositoryList[position],
+//            disposables
+        ).createView(AnkoContext.create(context))
     }
 
     override fun getItem(position: Int) = posts[position]

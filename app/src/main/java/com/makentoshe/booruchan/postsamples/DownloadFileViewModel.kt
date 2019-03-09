@@ -9,14 +9,11 @@ import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.snackbar.Snackbar
 import com.makentoshe.booruapi.Booru
 import com.makentoshe.booruapi.Tag
-import com.makentoshe.booruchan.PostInternalCache
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.postsamples.model.DownloadFileController
 import com.makentoshe.booruchan.postsamples.model.NotificationController
 import com.makentoshe.booruchan.postsamples.model.PermissionChecker
-import com.makentoshe.booruchan.repository.CachedRepository
 import com.makentoshe.repository.FileRepository
-import com.makentoshe.booruchan.repository.PostsRepository
 import com.makentoshe.viewmodel.ViewModel
 import kotlinx.coroutines.launch
 import java.io.File
@@ -78,7 +75,7 @@ class DownloadFileViewModel private constructor() : ViewModel(), DownloadFileCon
 
     /* Perform a file downloading */
     private fun startFileLoading(context: Context, position: Int) = launch {
-//        val postsRepository = CachedRepository(
+        //        val postsRepository = CachedRepository(
 //            PostInternalCache(context, "posts"),
 //            PostsRepository(booru)
 //        )

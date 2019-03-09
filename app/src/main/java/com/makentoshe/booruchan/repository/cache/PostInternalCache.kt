@@ -4,7 +4,6 @@ import android.content.Context
 import com.makentoshe.booruapi.Booru
 import com.makentoshe.booruapi.Post
 import com.makentoshe.booruapi.Posts
-import com.makentoshe.booruchan.InternalCache
 import java.io.*
 
 class PostInternalCache(context: Context) : InternalCache<Booru.PostRequest, List<Post>?>(context, "posts") {

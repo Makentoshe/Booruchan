@@ -10,18 +10,18 @@ import org.jetbrains.anko.*
 import kotlin.random.Random
 
 class PostPageGridElement(
-    private val repository: RxRepository<Post, ByteArray>,
-    private val disposables: CompositeDisposable
+//    private val repository: RxRepository<Post, ByteArray>,
+//    private val disposables: CompositeDisposable
 ) : AnkoComponent<Context> {
     override fun createView(ui: AnkoContext<Context>): View = with(ui) {
         relativeLayout {
             imageView {
                 backgroundColor = Random.nextInt()
-                repository.onComplete {
-                    println("Complete")
-                    val bitmap = BitmapFactory.decodeByteArray(it, 0, it.size)
-                    setImageBitmap(bitmap)
-                }
+//                repository.onComplete {
+//                    println("Complete")
+//                    val bitmap = BitmapFactory.decodeByteArray(it, 0, it.size)
+//                    setImageBitmap(bitmap)
+//                }
             }.lparams(matchParent, matchParent)
             lparams(dip(100), dip(100))
         }
