@@ -7,7 +7,7 @@ import org.jetbrains.anko.*
 class SearchDialogUi : AnkoComponent<Fragment> {
     override fun createView(ui: AnkoContext<Fragment>): View = with(ui) {
         relativeLayout {
-            SearchDialogEditText().createView(AnkoContext.createDelegate(this))
+            SearchDialogUiEditText().createView(AnkoContext.createDelegate(this))
             SearchDialogUiSeparator().createView(AnkoContext.createDelegate(this))
             SearchDialogUiChipGroup().createView(AnkoContext.createDelegate(this))
         }

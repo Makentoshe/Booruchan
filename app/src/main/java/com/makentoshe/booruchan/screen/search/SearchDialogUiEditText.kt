@@ -9,7 +9,7 @@ import org.jetbrains.anko.AnkoContext
 import org.jetbrains.anko._RelativeLayout
 import org.jetbrains.anko.alignParentTop
 
-class SearchDialogEditText : AnkoComponent<_RelativeLayout> {
+class SearchDialogUiEditText : AnkoComponent<_RelativeLayout> {
     override fun createView(ui: AnkoContext<_RelativeLayout>) = DelayAutocompleteEditTextComponent()
         .createView(AnkoContext.createDelegate(ui.owner)).apply {
             id = R.id.searchDialog_delayAutocompleteEditText
