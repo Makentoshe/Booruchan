@@ -79,5 +79,6 @@
     <item name="posts_page" type="id"/>
     <item name="posts_page_progress" type="id"/>
     <item name="posts_page_textview" type="id"/>
+    <item name="posts_page_gridview_element_image" type="id"/>
 
 </resources>

@@ -1,42 +1,34 @@
 package com.makentoshe.booruchan.screen.posts.model
 
 import android.content.Context
+import android.graphics.Bitmap
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
+import android.widget.ImageView
 import com.makentoshe.booruapi.Post
-import com.makentoshe.booruchan.repository.Repository
-import com.makentoshe.booruchan.repository.PreviewRxRepository
+import com.makentoshe.booruchan.R
+import com.makentoshe.booruchan.repository.cache.InternalCache
 import com.makentoshe.booruchan.screen.posts.view.PostPageGridElement
-import io.reactivex.disposables.CompositeDisposable
-import kotlinx.coroutines.GlobalScope
+import com.squareup.picasso.Cache
+import com.squareup.picasso.Picasso
 import org.jetbrains.anko.AnkoContext
+import org.jetbrains.anko.find
+import java.io.*
 
 class PostPageGridAdapter(
     private val context: Context,
-    private val posts: List<Post>
-//    repository: Repository<Post, ByteArray>,
-//    private val disposables: CompositeDisposable
+    private val posts: List<Post>,
+    private val picasso: Picasso
 ) : BaseAdapter() {
 
-    private val repositoryList = ArrayList<PreviewRxRepository>()
-//
-//    init {
-//        posts.forEach {
-//            val repo = PreviewRxRepository(
-//                repository,
-//                GlobalScope.coroutineContext
-//            )
-//            repo.request(it)
-//            repositoryList.add(repo)
-//        }
-//    }
-
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
-        return convertView ?: PostPageGridElement(
-//            repositoryList[position],
-//            disposables
-        ).createView(AnkoContext.create(context))
+        val view = convertView ?: PostPageGridElement().createView(AnkoContext.create(context))
+
+        val imageview = view.find<ImageView>(R.id.posts_page_gridview_element_image)
+        picasso.load(getItem(position).previewUrl).into(imageview)
+
+        return view
     }
 
     override fun getItem(position: Int) = posts[position]

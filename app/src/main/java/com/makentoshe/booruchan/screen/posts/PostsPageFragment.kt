@@ -17,6 +17,7 @@ import com.makentoshe.booruchan.screen.posts.inflator.PostPageErrorMessageInflat
 import com.makentoshe.booruchan.screen.posts.inflator.PostPageGridViewInflater
 import com.makentoshe.booruchan.screen.posts.model.BooruRequestBuilder
 import com.makentoshe.booruchan.screen.posts.view.PostPageUi
+import com.squareup.picasso.Picasso
 import io.reactivex.disposables.CompositeDisposable
 import org.jetbrains.anko.AnkoContext
 import java.io.Serializable
@@ -60,9 +61,11 @@ class PostsPageFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        val picasso = Picasso.get()
+
         disposables.add(asyncRepositoryAccess.onComplete {
             Handler(Looper.getMainLooper()).post {
-                PostPageGridViewInflater(it).inflate(view)
+                PostPageGridViewInflater(it, picasso).inflate(view)
             }
         })
 
