@@ -24,7 +24,7 @@ class SearchDialogEditTextInflater(
     private val dialog: DialogFragment
 ) : Inflater {
 
-    private val tags = HashSet<Tag>().apply { addAll(initialSet) }
+    val tags = HashSet<Tag>().apply { addAll(initialSet) }
 
     private fun EditText.setTextChanged(action: (Tag) -> Unit) {
         textChangedListener {
@@ -52,14 +52,19 @@ class SearchDialogEditTextInflater(
     }
 
     override fun inflate(view: View) {
+        println(tags)
         val editText = view.find<AutoCompleteTextView>(R.id.searchDialog_delayAutocompleteEditText)
         val chipGroup = view.find<ChipGroup>(R.id.searchDialog_chipgroup)
         //add tag after ' ' symbol
         editText.setTextChanged {
+            //already contains the element
+            if (!tags.add(it)) return@setTextChanged
             chipGroup.addTagToChipGroup(it)
         }
         //add tag after search action
         editText.setImeAction {
+            //already contains the element
+            if (!tags.add(it)) return@setImeAction
             chipGroup.addTagToChipGroup(it)
         }
         editText.onItemSelectedListener
@@ -67,6 +72,8 @@ class SearchDialogEditTextInflater(
         editText.setOnItemClickListener { parent, view, position, id ->
             editText.setText("")
             val tag = parent.adapter.getItem(position) as Tag
+            //already contains the element
+            if (!tags.add(tag)) return@setOnItemClickListener
             chipGroup.addTagToChipGroup(tag)
         }
 
@@ -75,8 +82,6 @@ class SearchDialogEditTextInflater(
     }
 
     private fun ChipGroup.addTagToChipGroup(tag: Tag) {
-        //already contains the element
-        if (!tags.add(tag)) return
         chip {
             text = tag.name
             isClickable = true

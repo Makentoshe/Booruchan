@@ -13,6 +13,7 @@ import com.makentoshe.booruchan.repository.DelayAutocompleteRepository
 import com.makentoshe.booruchan.screen.arguments
 import org.jetbrains.anko.AnkoContext
 import org.jetbrains.anko.find
+import org.jetbrains.anko.support.v4.intentFor
 import java.io.Serializable
 
 class SearchDialogFragment : DialogFragment() {
@@ -24,6 +25,22 @@ class SearchDialogFragment : DialogFragment() {
     private var booru: Booru
         get() = arguments!!.get(BOORU) as Booru
         set(value) = arguments().putSerializable(BOORU, value)
+
+    //need global instance for gettings tags
+    private val searchDialogInflater by lazy {
+        SearchDialogEditTextInflater(tags, this)
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        //after recreation the set of tags will be saved
+        //in the bundle, so just restore them into global var
+        //note: tags set from the bundle also contains the original set
+        if (savedInstanceState != null) {
+            val tags = savedInstanceState.getSerializable(TAGS) as Set<Tag>
+            this.tags = tags
+        }
+    }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val view = SearchDialogUi().createView(AnkoContext.create(requireContext(), this))
@@ -37,7 +54,12 @@ class SearchDialogFragment : DialogFragment() {
         val repository = DelayAutocompleteRepository(booru)
         val adapter = DelayAutocompleteAdapter(repository)
         editText.setAdapter(adapter)
-        SearchDialogEditTextInflater(tags, this).inflate(view)
+        searchDialogInflater.inflate(view)
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putSerializable(TAGS, searchDialogInflater.tags)
     }
 
     private fun setParams(dialog: Dialog) = Unit
