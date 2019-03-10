@@ -56,7 +56,7 @@ class SampleFragment : Fragment() {
             transaction.remove(it)
         }
         transaction.commit()
-//        println(fragmentManager.fragments)
+        println(fragmentManager.fragments)
     }
 
     companion object {

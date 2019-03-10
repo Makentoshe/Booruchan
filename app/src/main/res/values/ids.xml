@@ -61,7 +61,6 @@
     <item name="toolbar_back" type="id"/>
 
 
-
     <item name="postinfo_content" type="id"/>
     <item name="start_toolbar" type="id"/>
     <item name="booru_toolbar_drawermenu" type="id"/>
@@ -84,5 +83,8 @@
     <item name="samples_container" type="id"/>
     <item name="samples_container_viewpager" type="id"/>
     <item name="samples" type="id"/>
+    <item name="samples_message" type="id"/>
+    <item name="samples_progress" type="id"/>
+    <item name="samples_image" type="id"/>
 
 </resources>

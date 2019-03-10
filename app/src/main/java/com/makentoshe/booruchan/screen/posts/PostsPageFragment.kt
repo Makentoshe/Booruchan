@@ -22,7 +22,6 @@ import com.makentoshe.booruchan.screen.posts.inflator.PostPageGridViewInflater
 import com.makentoshe.booruchan.screen.posts.model.BooruRequestBuilder
 import com.makentoshe.booruchan.screen.posts.view.PostPageUi
 import com.makentoshe.booruchan.screen.samples.SampleScreen
-import com.squareup.picasso.Picasso
 import io.reactivex.disposables.CompositeDisposable
 import org.jetbrains.anko.AnkoContext
 import org.jetbrains.anko.find
@@ -58,6 +57,7 @@ class PostsPageFragment : Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        println("Fragment: $position")
         return PostPageUi().createView(AnkoContext.create(requireContext(), this))
     }
 
@@ -70,7 +70,7 @@ class PostsPageFragment : Fragment() {
         //show grid with the images if all is ok
         disposables.add(asyncRepositoryAccess.onComplete {
             Handler(Looper.getMainLooper()).post {
-                PostPageGridViewInflater(it, Picasso.get()).inflate(view)
+                PostPageGridViewInflater(it).inflate(view)
             }
         })
         //show on error message when error event occur
