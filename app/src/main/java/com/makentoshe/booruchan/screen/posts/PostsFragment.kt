@@ -104,7 +104,7 @@ class PostsFragment : Fragment() {
     }
 
     private fun showSearchFragment() {
-        val fragment = SearchDialogFragment.create(tagsHolder.set)
+        val fragment = SearchDialogFragment.create(tagsHolder.set, booru)
         fragment.setTargetFragment(this, RequestCode.search)
         fragment.show(fragmentManager, SearchDialogFragment::class.java.simpleName)
     }

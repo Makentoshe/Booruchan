@@ -4,10 +4,15 @@ import android.app.AlertDialog
 import android.app.Dialog
 import android.os.Bundle
 import android.view.View
+import android.widget.*
 import androidx.fragment.app.DialogFragment
+import com.makentoshe.booruapi.Booru
 import com.makentoshe.booruapi.Tag
+import com.makentoshe.booruchan.R
+import com.makentoshe.booruchan.repository.DelayAutocompleteRepository
 import com.makentoshe.booruchan.screen.arguments
 import org.jetbrains.anko.AnkoContext
+import org.jetbrains.anko.find
 import java.io.Serializable
 
 class SearchDialogFragment : DialogFragment() {
@@ -15,6 +20,10 @@ class SearchDialogFragment : DialogFragment() {
     private var tags: Set<Tag>
         get() = arguments!!.get(TAGS) as Set<Tag>
         set(value) = arguments().putSerializable(TAGS, value as Serializable)
+
+    private var booru: Booru
+        get() = arguments!!.get(BOORU) as Booru
+        set(value) = arguments().putSerializable(BOORU, value)
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val view = SearchDialogUi().createView(AnkoContext.create(requireContext(), this))
@@ -24,6 +33,10 @@ class SearchDialogFragment : DialogFragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        val editText = view.find<AutoCompleteTextView>(R.id.searchDialog_delayAutocompleteEditText)
+        val repository = DelayAutocompleteRepository(booru)
+        val adapter = DelayAutocompleteAdapter(repository)
+        editText.setAdapter(adapter)
         SearchDialogEditTextInflater(tags, this).inflate(view)
     }
 
@@ -31,9 +44,10 @@ class SearchDialogFragment : DialogFragment() {
 
     companion object {
         private const val TAGS = "Tags"
-        fun create(tags: Set<Tag>) = SearchDialogFragment().apply {
+        private const val BOORU = "Booru"
+        fun create(tags: Set<Tag>, booru: Booru) = SearchDialogFragment().apply {
             this.tags = tags
+            this.booru = booru
         }
     }
 }
-
