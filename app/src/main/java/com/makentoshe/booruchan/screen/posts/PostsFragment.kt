@@ -7,6 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
 import androidx.viewpager.widget.ViewPager
 import com.makentoshe.booruapi.Booru
 import com.makentoshe.booruapi.Tag
@@ -19,7 +22,6 @@ import com.makentoshe.booruchan.screen.arguments
 import com.makentoshe.booruchan.screen.posts.inflator.PostsUiBottomBarInflator
 import com.makentoshe.booruchan.screen.posts.inflator.PostsUiToolbarInflator
 import com.makentoshe.booruchan.screen.posts.model.PostsViewPagerAdapter
-import com.makentoshe.booruchan.screen.posts.model.SearchViewModel
 import com.makentoshe.booruchan.screen.posts.model.TagsHolder
 import com.makentoshe.booruchan.screen.posts.view.PostsUi
 import com.makentoshe.booruchan.screen.search.SearchDialogFragment
@@ -39,10 +41,8 @@ class PostsFragment : Fragment() {
 
     private val searchController by lazy {
         val subject = BehaviorSubject.create<Set<Tag>>()
-        SubjectHolder.create(this, subject, "Search").subject.apply {
-            //First search starts with selected tags (empty as a default)
-            onNext(setOf())
-        }
+        val holder = SubjectHolder.create(this, subject, "Search")
+        return@lazy holder.subject
     }
 
     private val tagsHolder by lazy {
@@ -50,6 +50,13 @@ class PostsFragment : Fragment() {
     }
 
     private val disposables = CompositeDisposable()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        FragmentDoOnCreateOnce.create(this) {
+            startNewSearch(setOf())
+        }
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return PostsUi().createView(AnkoContext.create(requireContext(), this))
@@ -75,19 +82,23 @@ class PostsFragment : Fragment() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
         //if new search was started
-        if (requestCode == RequestCode.search && requestCode == RequestCode.tags) {
+        if (requestCode == RequestCode.search) {
             //get tags
             val tags = data.getSerializableExtra(Set::class.java.simpleName) as Set<Tag>
-            //set tags to holder
-            tagsHolder.set.clear()
-            tagsHolder.set.addAll(tags)
-            //todo put here the default tags from settings
-            //...
-            //clear caches
-            GlobalScope.launch { PostInternalCache(requireContext()).clear() }
-            //notify
-            searchController.onNext(tags)
+            startNewSearch(tags)
         }
+    }
+
+    private fun startNewSearch(tags: Set<Tag>) {
+        //clear caches
+        GlobalScope.launch { PostInternalCache(requireContext()).clear() }
+        //set tags to holder
+        tagsHolder.set.clear()
+        tagsHolder.set.addAll(tags)
+        //todo put here the default tags from settings
+        //...
+        //notify
+        searchController.onNext(tags)
     }
 
     override fun onDestroyView() {
@@ -105,8 +116,27 @@ class PostsFragment : Fragment() {
         private const val BOORU = "Booru"
 
         fun create(booru: Booru) = PostsFragment().apply {
-            println(booru)
             this.booru = booru
+        }
+    }
+}
+
+class FragmentDoOnCreateOnce : ViewModel() {
+
+    private open class Factory(
+        private val action: () -> Unit
+    ) : ViewModelProvider.NewInstanceFactory() {
+        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+            val viewModel = FragmentDoOnCreateOnce()
+            action()
+            return viewModel as T
+        }
+    }
+
+    companion object {
+        fun create(fragment: Fragment, action: () -> Unit): FragmentDoOnCreateOnce {
+            val factory = Factory(action)
+            return ViewModelProviders.of(fragment, factory)[FragmentDoOnCreateOnce::class.java]
         }
     }
 }

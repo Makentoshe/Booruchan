@@ -6,12 +6,12 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import io.reactivex.subjects.Subject
 
-class SubjectHolder<T2> : ViewModel() {
+open class SubjectHolder<T2> : ViewModel() {
 
     lateinit var subject: Subject<T2>
         private set
 
-    private class Factory<T2>(private val subject: Subject<T2>) : ViewModelProvider.NewInstanceFactory() {
+    protected open class Factory<T2>(private val subject: Subject<T2>) : ViewModelProvider.NewInstanceFactory() {
         override fun <T1 : ViewModel?> create(modelClass: Class<T1>): T1 {
             val viewModel = SubjectHolder<T2>()
             viewModel.subject = subject
