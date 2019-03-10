@@ -3,10 +3,9 @@ package com.makentoshe.booruchan.postsamples.view
 import android.view.View
 import androidx.fragment.app.Fragment
 import com.makentoshe.booruchan.Booruchan
-import com.makentoshe.booruchan.postsamples.FullScreenController
-import com.makentoshe.booruchan.postsamples.model.ViewPagerAdapterBuilder
 import com.makentoshe.booruchan.postsamples.model.DownloadFileController
 import com.makentoshe.booruchan.postsamples.model.NavigationController
+import com.makentoshe.booruchan.postsamples.model.ViewPagerAdapterBuilder
 import com.makentoshe.style.Style
 import org.jetbrains.anko.AnkoComponent
 import org.jetbrains.anko.AnkoContext

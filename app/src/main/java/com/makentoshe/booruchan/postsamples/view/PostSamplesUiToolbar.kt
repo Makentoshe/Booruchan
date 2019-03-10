@@ -5,7 +5,7 @@ import android.view.View
 import android.widget.RelativeLayout
 import androidx.viewpager.widget.ViewPager
 import com.makentoshe.booruchan.R
-import com.makentoshe.booruchan.postpreviews.view.setToolbarIcon
+//import com.makentoshe.booruchan.postpreviews.view.setToolbarIcon
 import com.makentoshe.booruchan.postsamples.model.DownloadFileController
 import com.makentoshe.style.Style
 import org.jetbrains.anko.*
@@ -34,7 +34,7 @@ class PostSamplesUiToolbar(
 //        }
         imageView {
             id = R.id.postsamples_toolbar_download_icon
-            setToolbarIcon(style, style.drawable.static.download)
+//            setToolbarIcon(style, style.drawable.static.download)
         }.lparams(dip(24), dip(24)) {
             gravity = Gravity.CENTER
         }

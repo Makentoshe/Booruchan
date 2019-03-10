@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.makentoshe.booruchan.navigation.FragmentNavigator
-import com.makentoshe.booruchan.postsamples.PostSamplesScreen
 import com.makentoshe.booruchan.repository.cache.PostInternalCache
 import com.makentoshe.booruchan.screen.start.StartScreen
 import ru.terrakok.cicerone.Router
@@ -43,9 +42,6 @@ class AppActivity : AppCompatActivity() {
 //        )
 //    }
 //
-    private fun Router.rootPostSamplesScreen() {
-        newRootScreen(PostSamplesScreen(Booruchan.INSTANCE.booruList[0], setOf(), 2))
-    }
 
     override fun onResume() {
         super.onResume()

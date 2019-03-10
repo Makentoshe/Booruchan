@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.annotation.DrawableRes
-import com.makentoshe.booruchan.postpreviews.view.setToolbarIcon
 import com.makentoshe.style.Style
 import org.jetbrains.anko.*
 
@@ -28,7 +27,8 @@ class BackToolbarIcon : ToolbarIcon<_RelativeLayout>() {
         frameLayout {
             id = R.id.toolbar_back
             imageView {
-                setToolbarIcon(style, style.drawable.static.arrow)
+                setImageResource(style.drawable.static.arrow)
+                setColorFilter(style.toolbar.getOnPrimaryColor(context), PorterDuff.Mode.SRC_ATOP)
                 rotation = -90f
             }.lparams(dip(24), dip(24)) {
                 gravity = Gravity.CENTER

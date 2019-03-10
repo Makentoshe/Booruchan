@@ -10,6 +10,8 @@ class PostTagsFragmentScreen(
     private val tags: Set<Tag>,
     private val position: Int
 ) : FragmentScreen() {
+
     override val fragment: Fragment
-        get() = PostTagsFragment.create(booru, tags, position)
+    get() = Fragment()
+//        get() = PostTagsFragment.create(booru, tags, position)
 }
