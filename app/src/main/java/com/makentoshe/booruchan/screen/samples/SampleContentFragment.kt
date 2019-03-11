@@ -6,15 +6,19 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.viewpager.widget.ViewPager
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.makentoshe.booruapi.Booru
 import com.makentoshe.booruapi.Tag
 import com.makentoshe.booruchan.Booruchan
 import com.makentoshe.booruchan.R
+import com.makentoshe.booruchan.navigation.Screen
 import com.makentoshe.booruchan.screen.arguments
-import com.makentoshe.booruchan.screen.samples.model.SampleVerticalViewPagerAdapter
+import com.makentoshe.booruchan.screen.sampleinfo.SampleInfoScreen
+import com.makentoshe.booruchan.model.VerticalViewPagerAdapter
 import com.makentoshe.booruchan.screen.samples.view.SampleContentUi
 import org.jetbrains.anko.AnkoContext
 import org.jetbrains.anko.find
+import org.jetbrains.anko.findOptional
 import org.jetbrains.anko.support.v4.onPageChangeListener
 import java.io.Serializable
 
@@ -22,6 +26,7 @@ class SampleContentFragment : Fragment() {
 
     private val router = Booruchan.INSTANCE.router
 
+    //displaying starts from current position
     private var position: Int
         get() = arguments!!.getInt(POSITION)
         set(value) = arguments().putInt(POSITION, value)
@@ -41,8 +46,13 @@ class SampleContentFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val viewpager = view.find<ViewPager>(R.id.samples_container)
+        //create screen which wll be used in adapter
+        val screen = object : Screen() {
+            override val fragment: Fragment
+                get() = SampleFragment.create(position, booru, tags)
+        }
         //setup adapter for creating a cool gesture swipe move
-        viewpager.adapter = SampleVerticalViewPagerAdapter(childFragmentManager, position, booru, tags)
+        viewpager.adapter = VerticalViewPagerAdapter(childFragmentManager, screen)
         //show content fragment as a default
         viewpager.currentItem = 1
         //when drag event occurs the alpha will be decreased proportionally offset value
@@ -54,6 +64,16 @@ class SampleContentFragment : Fragment() {
                     if (offset == 0f) router.exit()
                 }
             }
+        }
+        //on bottom navigation bar click the item
+        view.find<BottomNavigationView>(R.id.samples_bottombar).setOnNavigationItemSelectedListener {
+            //try to find viewpager or return
+            //the current item value contains the post number that we need
+            val horizontalviewpager = view.findOptional<ViewPager>(R.id.samples_container_viewpager)?: return@setOnNavigationItemSelectedListener false
+            //create screen with the selected params and navigate to it
+            val screen = SampleInfoScreen(it.itemId, booru, tags, horizontalviewpager.currentItem)
+            Booruchan.INSTANCE.router.navigateTo(screen)
+            return@setOnNavigationItemSelectedListener true
         }
     }
 
@@ -72,3 +92,4 @@ class SampleContentFragment : Fragment() {
         }
     }
 }
+

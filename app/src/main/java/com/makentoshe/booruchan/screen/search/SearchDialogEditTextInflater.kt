@@ -11,13 +11,11 @@ import com.google.android.material.chip.ChipGroup
 import com.makentoshe.booruapi.Tag
 import com.makentoshe.booruchan.Inflater
 import com.makentoshe.booruchan.R
-import com.makentoshe.booruchan.chip
 import com.makentoshe.booruchan.screen.RequestCode
-import io.reactivex.disposables.CompositeDisposable
+import com.makentoshe.booruchan.screen.addTagToChipGroup
 import org.jetbrains.anko.find
 import org.jetbrains.anko.sdk27.coroutines.onEditorAction
 import org.jetbrains.anko.sdk27.coroutines.textChangedListener
-import java.io.Serializable
 
 class SearchDialogEditTextInflater(
     private val initialSet: Set<Tag>,
@@ -59,13 +57,13 @@ class SearchDialogEditTextInflater(
         editText.setTextChanged {
             //already contains the element
             if (!tags.add(it)) return@setTextChanged
-            chipGroup.addTagToChipGroup(it)
+            chipGroup.addTag(it)
         }
         //add tag after search action
         editText.setImeAction {
             //already contains the element
             if (!tags.add(it)) return@setImeAction
-            chipGroup.addTagToChipGroup(it)
+            chipGroup.addTag(it)
         }
         editText.onItemSelectedListener
         //add tag after clicking on the list item
@@ -74,16 +72,15 @@ class SearchDialogEditTextInflater(
             val tag = parent.adapter.getItem(position) as Tag
             //already contains the element
             if (!tags.add(tag)) return@setOnItemClickListener
-            chipGroup.addTagToChipGroup(tag)
+            chipGroup.addTag(tag)
         }
 
         //add all tags we have
-        tags.forEach { chipGroup.addTagToChipGroup(it) }
+        tags.forEach { chipGroup.addTag(it) }
     }
 
-    private fun ChipGroup.addTagToChipGroup(tag: Tag) {
-        chip {
-            text = tag.name
+    private fun ChipGroup.addTag(tag: Tag) {
+        addTagToChipGroup(tag).apply {
             isClickable = true
             isCloseIconVisible = true
             setOnCloseIconClickListener {

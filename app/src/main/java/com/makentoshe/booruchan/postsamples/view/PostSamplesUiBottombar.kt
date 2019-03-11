@@ -31,7 +31,7 @@ class PostSamplesUiBottombar(
     }
 
     private fun BottomNavigationView.buildMenu() = menu.apply {
-        buildMenuItem(R.string.info, R.id.postsamples_bottombar_infoitem)
+        buildMenuItem(R.string.info, R.id.bottombar_infoitem)
         buildMenuItem(R.string.tags, R.id.postsamples_bottombar_tagsitem)
         buildMenuItem(R.string.comments, R.id.postsamples_bottombar_commentsitem)
     }

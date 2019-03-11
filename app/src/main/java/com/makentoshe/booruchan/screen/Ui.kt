@@ -10,9 +10,13 @@ import androidx.annotation.IdRes
 import androidx.core.view.GravityCompat
 import androidx.core.view.updateLayoutParams
 import androidx.drawerlayout.widget.DrawerLayout
+import com.google.android.material.chip.Chip
+import com.google.android.material.chip.ChipGroup
+import com.makentoshe.booruapi.Tag
 import com.makentoshe.booruchan.Booruchan
 import com.makentoshe.booruchan.Inflater
 import com.makentoshe.booruchan.R
+import com.makentoshe.booruchan.chip
 import org.jetbrains.anko.*
 
 open class ToolbarIcon(
@@ -85,5 +89,11 @@ open class BooruToolbarUi : AnkoComponent<ViewGroup> {
     }.lparams(width = matchParent) {
         alignWithParent = true
         rightOf(R.id.booru_toolbar_drawermenu)
+    }
+}
+
+fun ChipGroup.addTagToChipGroup(tag: Tag) : Chip{
+    return chip {
+        text = tag.name
     }
 }

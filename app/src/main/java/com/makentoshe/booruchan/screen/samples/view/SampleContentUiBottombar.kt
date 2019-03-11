@@ -22,15 +22,15 @@ class SampleContentUiBottombar : AnkoComponent<_RelativeLayout> {
             backgroundColorResource = style.toolbar.primaryColorRes
             menu.buildMenuItem(
                 R.string.info,
-                R.id.postsamples_bottombar_infoitem
+                R.id.bottombar_infoitem
             )
             menu.buildMenuItem(
                 R.string.tags,
-                R.id.postsamples_bottombar_tagsitem
+                R.id.bottombar_tagsitem
             )
             menu.buildMenuItem(
                 R.string.comments,
-                R.id.postsamples_bottombar_commentsitem
+                R.id.bottombar_commentsitem
             )
             setTextColor(style.toolbar.getOnPrimaryColor(context), style.toolbar.getSecondaryColor(context))
         }.lparams {

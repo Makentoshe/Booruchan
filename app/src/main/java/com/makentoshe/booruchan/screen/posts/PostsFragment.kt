@@ -88,7 +88,7 @@ class PostsFragment : Fragment() {
 
     private fun startNewSearch(tags: Set<Tag>) {
         //clear caches
-        GlobalScope.launch { PostInternalCache(requireContext()).clear() }
+//        GlobalScope.launch { PostInternalCache(requireContext()).clear() }
         //set tags to holder
         tagsHolder.set.clear()
         tagsHolder.set.addAll(tags)

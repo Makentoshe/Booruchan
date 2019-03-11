@@ -1,22 +1,21 @@
-package com.makentoshe.booruchan.screen.samples.model
+package com.makentoshe.booruchan.model
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import com.makentoshe.booruapi.Booru
 import com.makentoshe.booruapi.Tag
+import com.makentoshe.booruchan.navigation.Screen
 import com.makentoshe.booruchan.screen.samples.SampleFragment
 
-class SampleVerticalViewPagerAdapter(
+class VerticalViewPagerAdapter(
     fragmentManager: FragmentManager,
-    private val position: Int,
-    private val booru: Booru,
-    private val tags: Set<Tag>
+    private val screen: Screen
 ) : FragmentPagerAdapter(fragmentManager) {
     override fun getItem(position: Int): Fragment {
         return when (position) {
             0 -> Fragment()
-            1 -> SampleFragment.create(this.position, booru, tags)
+            1 -> screen.fragment
             else -> throw IllegalArgumentException(position.toString())
         }
     }

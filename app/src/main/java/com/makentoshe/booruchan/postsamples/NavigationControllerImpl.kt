@@ -25,7 +25,7 @@ class NavigationControllerImpl(
                 router.navigateTo(screen)
                 return true
             }
-            R.id.postsamples_bottombar_infoitem -> {
+            R.id.bottombar_infoitem -> {
                 val screen = PostInfoScreen(booru, tags, position)
                 router.navigateTo(screen)
                 return true

@@ -39,7 +39,7 @@
     <item name="postsamples_toolbar_download_icon" type="id"/>
     <item name="postsamples_verticalpager" type="id"/>
     <item name="postsamples_bottombar" type="id"/>
-    <item name="postsamples_bottombar_infoitem" type="id"/>
+    <item name="bottombar_infoitem" type="id"/>
     <item name="postsamples_bottombar_tagsitem" type="id"/>
     <item name="postsamples_bottombar_commentsitem" type="id"/>
     <item name="postsamples_content_viewpager" type="id"/>
@@ -86,5 +86,17 @@
     <item name="samples_message" type="id"/>
     <item name="samples_progress" type="id"/>
     <item name="samples_image" type="id"/>
+    <item name="bottombar_tagsitem" type="id"/>
+    <item name="bottombar_commentsitem" type="id"/>
+    <item name="sampleinfo_viewpager" type="id"/>
+    <item name="sampleinfo_container_viewpager" type="id"/>
+    <item name="sampleinfo_toolbar" type="id"/>
+    <item name="sampleinfo_toolbar_info" type="id"/>
+    <item name="sampleinfo_toolbar_tags" type="id"/>
+    <item name="sampleinfo_toolbar_comments" type="id"/>
+    <item name="sampleinfo_tags_chipgroup" type="id"/>
+    <item name="sampleinfo_tags_progress" type="id"/>
+    <item name="sampleinfo_tags_scrollview" type="id"/>
+    <item name="sampleinfo_progressbar" type="id"/>
 
 </resources>
