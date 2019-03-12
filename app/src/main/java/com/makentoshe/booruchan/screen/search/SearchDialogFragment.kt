@@ -13,7 +13,6 @@ import com.makentoshe.booruchan.repository.DelayAutocompleteRepository
 import com.makentoshe.booruchan.screen.arguments
 import org.jetbrains.anko.AnkoContext
 import org.jetbrains.anko.find
-import org.jetbrains.anko.support.v4.intentFor
 import java.io.Serializable
 
 class SearchDialogFragment : DialogFragment() {
@@ -54,7 +53,7 @@ class SearchDialogFragment : DialogFragment() {
         val repository = DelayAutocompleteRepository(booru)
         val adapter = DelayAutocompleteAdapter(repository)
         editText.setAdapter(adapter)
-        searchDialogInflater.inflate(view)
+        searchDialogInflater.accept(view)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

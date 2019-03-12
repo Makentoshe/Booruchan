@@ -70,13 +70,13 @@ class PostsPageFragment : Fragment() {
         //show grid with the images if all is ok
         disposables.add(asyncRepositoryAccess.onComplete {
             Handler(Looper.getMainLooper()).post {
-                PostPageGridViewInflater(it).inflate(view)
+                PostPageGridViewInflater(it).accept(view)
             }
         })
         //show on error message when error event occur
         disposables.add(asyncRepositoryAccess.onError {
             Handler(Looper.getMainLooper()).post {
-                PostPageErrorMessageInflater(it).inflate(view)
+                PostPageErrorMessageInflater(it).accept(view)
             }
         })
         //click on grid element starts a new screen - samples,

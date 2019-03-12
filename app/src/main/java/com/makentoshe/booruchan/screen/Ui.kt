@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.RelativeLayout
 import androidx.annotation.DrawableRes
 import androidx.annotation.IdRes
+import androidx.core.util.Consumer
 import androidx.core.view.GravityCompat
 import androidx.core.view.updateLayoutParams
 import androidx.drawerlayout.widget.DrawerLayout
@@ -14,9 +15,8 @@ import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.makentoshe.booruapi.Tag
 import com.makentoshe.booruchan.Booruchan
-import com.makentoshe.booruchan.Inflater
 import com.makentoshe.booruchan.R
-import com.makentoshe.booruchan.chip
+import com.makentoshe.booruchan.view.chip
 import org.jetbrains.anko.*
 
 open class ToolbarIcon(
@@ -41,8 +41,8 @@ open class ToolbarIcon(
         }
 }
 
-open class BooruToolbarUiInflater(private val drawer: DrawerLayout) : Inflater {
-    override fun inflate(view: View) {
+open class BooruToolbarUiInflater(private val drawer: DrawerLayout) : Consumer<View> {
+    override fun accept(view: View) {
         val icon = view.findViewById<View>(R.id.booru_toolbar_drawermenu)
         icon.setOnClickListener { onClick(drawer) }
     }
@@ -92,7 +92,7 @@ open class BooruToolbarUi : AnkoComponent<ViewGroup> {
     }
 }
 
-fun ChipGroup.addTagToChipGroup(tag: Tag) : Chip{
+fun ChipGroup.addTagToChipGroup(tag: Tag): Chip {
     return chip {
         text = tag.name
     }

@@ -27,7 +27,7 @@ class AccountFragment : Fragment() {
         AccountUiToolbarInflator(booru).inflate(view)
 
         parentFragment?.view?.findViewById<DrawerLayout>(R.id.booru_drawer)?.let {
-            BooruToolbarUiInflater(it).inflate(view)
+            BooruToolbarUiInflater(it).accept(view)
         }
     }
 

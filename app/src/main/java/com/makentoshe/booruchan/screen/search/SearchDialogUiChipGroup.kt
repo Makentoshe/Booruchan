@@ -2,7 +2,7 @@ package com.makentoshe.booruchan.screen.search
 
 import android.view.View
 import com.makentoshe.booruchan.R
-import com.makentoshe.booruchan.chipGroup
+import com.makentoshe.booruchan.view.chipGroup
 import org.jetbrains.anko.*
 
 class SearchDialogUiChipGroup : AnkoComponent<_RelativeLayout> {

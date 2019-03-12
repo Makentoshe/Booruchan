@@ -5,6 +5,7 @@ import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.AutoCompleteTextView
 import android.widget.EditText
+import androidx.core.util.Consumer
 import androidx.fragment.app.DialogFragment
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
@@ -20,7 +21,7 @@ import org.jetbrains.anko.sdk27.coroutines.textChangedListener
 class SearchDialogEditTextInflater(
     private val initialSet: Set<Tag>,
     private val dialog: DialogFragment
-) : Inflater {
+) : Consumer<View> {
 
     val tags = HashSet<Tag>().apply { addAll(initialSet) }
 
@@ -49,7 +50,7 @@ class SearchDialogEditTextInflater(
         }
     }
 
-    override fun inflate(view: View) {
+    override fun accept(view: View) {
         println(tags)
         val editText = view.find<AutoCompleteTextView>(R.id.searchDialog_delayAutocompleteEditText)
         val chipGroup = view.find<ChipGroup>(R.id.searchDialog_chipgroup)
