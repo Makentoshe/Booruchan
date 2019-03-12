@@ -1,10 +1,13 @@
-package com.makentoshe.booruchan.screen.sampleinfo
+package com.makentoshe.booruchan.screen.sampleinfo.model
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import com.makentoshe.booruapi.Booru
 import com.makentoshe.booruapi.Post
+import com.makentoshe.booruchan.screen.sampleinfo.SampleInfoCommentsFragment
+import com.makentoshe.booruchan.screen.sampleinfo.SampleInfoInfoFragment
+import com.makentoshe.booruchan.screen.sampleinfo.SampleInfoTagsFragment
 
 class SampleInfoViewPagerAdapter(
     fragmentManager: FragmentManager,
@@ -13,7 +16,7 @@ class SampleInfoViewPagerAdapter(
 ) : FragmentPagerAdapter(fragmentManager) {
     override fun getItem(position: Int): Fragment {
         return when (position) {
-            0 -> SampleInfoInfoFragment.create()
+            0 -> SampleInfoInfoFragment.create(booru, post)
             1 -> SampleInfoTagsFragment.create(booru, post)
             2 -> SampleInfoCommentsFragment.create()
             else -> throw IllegalStateException()

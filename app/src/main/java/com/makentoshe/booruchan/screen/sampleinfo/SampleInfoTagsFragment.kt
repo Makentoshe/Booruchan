@@ -12,6 +12,7 @@ import com.makentoshe.booruapi.Tag
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.screen.addTagToChipGroup
 import com.makentoshe.booruchan.screen.arguments
+import com.makentoshe.booruchan.screen.sampleinfo.view.SampleInfoTagsUi
 import org.jetbrains.anko.*
 
 class SampleInfoTagsFragment : Fragment() {
@@ -25,7 +26,8 @@ class SampleInfoTagsFragment : Fragment() {
         set(value) = arguments().putSerializable(POST, value)
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return SampleInfoTagsUi().createView(AnkoContext.create(requireContext(), this))
+        return SampleInfoTagsUi()
+            .createView(AnkoContext.create(requireContext(), this))
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

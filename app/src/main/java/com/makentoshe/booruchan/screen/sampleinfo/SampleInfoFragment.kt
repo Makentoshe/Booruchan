@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.viewpager.widget.ViewPager
 import com.makentoshe.booruapi.Booru
-import com.makentoshe.booruapi.Post
 import com.makentoshe.booruapi.Tag
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.repository.AsyncRepositoryAccess
@@ -15,6 +14,9 @@ import com.makentoshe.booruchan.repository.CachedRepository
 import com.makentoshe.booruchan.repository.PostsRepository
 import com.makentoshe.booruchan.repository.cache.PostInternalCache
 import com.makentoshe.booruchan.screen.arguments
+import com.makentoshe.booruchan.screen.sampleinfo.model.SampleInfoViewPagerAdapter
+import com.makentoshe.booruchan.screen.sampleinfo.view.SampleInfoUi
+import com.makentoshe.booruchan.screen.sampleinfo.view.SampleInfoUiToolbarAnimator
 import io.reactivex.disposables.CompositeDisposable
 import org.jetbrains.anko.AnkoContext
 import org.jetbrains.anko.find
@@ -52,7 +54,8 @@ class SampleInfoFragment : Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return SampleInfoUi().createView(AnkoContext.create(requireContext(), this))
+        return SampleInfoUi()
+            .createView(AnkoContext.create(requireContext(), this))
     }
 
     override fun onDestroyView() {
@@ -68,7 +71,11 @@ class SampleInfoFragment : Fragment() {
             runOnUiThread {
                 progressbar.visibility = View.GONE
                 viewpager.visibility = View.VISIBLE
-                viewpager.adapter = SampleInfoViewPagerAdapter(childFragmentManager, booru, it[0])
+                viewpager.adapter = SampleInfoViewPagerAdapter(
+                    childFragmentManager,
+                    booru,
+                    it[0]
+                )
                 viewpager.currentItem = itemPosition
             }
         })
@@ -84,7 +91,11 @@ class SampleInfoFragment : Fragment() {
         val tagstoolbar = view.find<View>(R.id.sampleinfo_toolbar_tags)
         val commtoolbar = view.find<View>(R.id.sampleinfo_toolbar_comments)
 
-        val animator = SampleInfoUiToolbarAnimator(tagstoolbar, infotoolbar, commtoolbar)
+        val animator = SampleInfoUiToolbarAnimator(
+            tagstoolbar,
+            infotoolbar,
+            commtoolbar
+        )
 
         viewpager.onPageChangeListener {
             onPageScrolled { position, offset, _ ->

@@ -98,5 +98,6 @@
     <item name="sampleinfo_tags_progress" type="id"/>
     <item name="sampleinfo_tags_scrollview" type="id"/>
     <item name="sampleinfo_progressbar" type="id"/>
+    <item name="sampleinfo_info_listview" type="id"/>
 
 </resources>

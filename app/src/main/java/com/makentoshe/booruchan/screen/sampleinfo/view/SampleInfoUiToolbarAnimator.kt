@@ -1,4 +1,4 @@
-package com.makentoshe.booruchan.screen.sampleinfo
+package com.makentoshe.booruchan.screen.sampleinfo.view
 
 import android.view.View
 
