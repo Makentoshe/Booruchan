@@ -4,7 +4,6 @@ import android.view.View
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.core.util.Consumer
-import com.makentoshe.booruchan.Inflater
 import com.makentoshe.booruchan.R
 import org.jetbrains.anko.find
 

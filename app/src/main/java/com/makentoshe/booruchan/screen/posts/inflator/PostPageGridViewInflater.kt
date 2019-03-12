@@ -5,7 +5,6 @@ import android.widget.GridView
 import android.widget.ProgressBar
 import androidx.core.util.Consumer
 import com.makentoshe.booruapi.Post
-import com.makentoshe.booruchan.Inflater
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.screen.posts.model.PostPageGridAdapter
 import org.jetbrains.anko.find

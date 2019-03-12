@@ -2,7 +2,6 @@ package com.makentoshe.booruchan.repository
 
 import com.makentoshe.booruapi.Booru
 import com.makentoshe.booruapi.Post
-import com.makentoshe.repository.cache.Cache
 
 /**
  * Preview images repository which contains a byte arrays as a preview images.

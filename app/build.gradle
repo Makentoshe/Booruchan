@@ -35,10 +35,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(path: ':BooruAPI')
     implementation project(path: ':Network')
-    implementation project(path: ':Repository')
     implementation project(path: ':Style')
-    implementation project(path: ':ViewModel')
-    implementation project(path: ':Controllers')
 
     implementation 'androidx.appcompat:appcompat:1.0.2'
     implementation 'androidx.core:core-ktx:1.0.1'

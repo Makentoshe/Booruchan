@@ -10,7 +10,6 @@ import androidx.fragment.app.DialogFragment
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.makentoshe.booruapi.Tag
-import com.makentoshe.booruchan.Inflater
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.screen.RequestCode
 import com.makentoshe.booruchan.screen.addTagToChipGroup

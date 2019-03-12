@@ -1,4 +1,4 @@
-package com.makentoshe.booruchan.screen.samples
+package com.makentoshe.booruchan.screen.samples.model
 
 import android.Manifest
 import android.app.Activity
@@ -21,6 +21,7 @@ import java.lang.Exception
 class DownloadIntoInternalStorage(private val post: Post, private val booruTitle: String) {
 
     fun perform(context: Context, permissionRequester: PermissionRequester) {
+        context.longToast(context.getString(R.string.download_was_started)).show()
         permissionRequester.requestPermission(permission) {
             if (it) {
                 val future = Glide.with(context).asBitmap().load(post.fileUrl).submit()

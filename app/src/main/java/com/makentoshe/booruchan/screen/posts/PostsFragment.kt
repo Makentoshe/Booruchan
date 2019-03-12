@@ -11,6 +11,7 @@ import androidx.viewpager.widget.ViewPager
 import com.makentoshe.booruapi.Booru
 import com.makentoshe.booruapi.Tag
 import com.makentoshe.booruchan.R
+import com.makentoshe.booruchan.repository.cache.PostInternalCache
 import com.makentoshe.booruchan.screen.BooruToolbarUiInflater
 import com.makentoshe.booruchan.screen.RequestCode
 import com.makentoshe.booruchan.screen.SubjectHolder
@@ -23,6 +24,8 @@ import com.makentoshe.booruchan.screen.posts.view.PostsUi
 import com.makentoshe.booruchan.screen.search.SearchDialogFragment
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.subjects.BehaviorSubject
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import org.jetbrains.anko.AnkoContext
 import org.jetbrains.anko.find
 import org.jetbrains.anko.sdk27.coroutines.onClick
@@ -85,7 +88,7 @@ class PostsFragment : Fragment() {
 
     private fun startNewSearch(tags: Set<Tag>) {
         //clear caches
-//        GlobalScope.launch { PostInternalCache(requireContext()).clear() }
+        GlobalScope.launch { PostInternalCache(requireContext()).clear() }
         //set tags to holder
         tagsHolder.set.clear()
         tagsHolder.set.addAll(tags)

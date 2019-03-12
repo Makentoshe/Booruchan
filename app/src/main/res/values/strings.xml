@@ -19,6 +19,7 @@
     <string name="id">Id</string>
     <string name="score">Score</string>
     <string name="rating">Rating</string>
+    <string name="download_was_started">Download was started</string>
 
     <string-array name="post_properties">
         <item>Id</item>

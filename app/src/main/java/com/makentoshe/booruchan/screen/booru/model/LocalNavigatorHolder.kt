@@ -1,10 +1,10 @@
 package com.makentoshe.booruchan.screen.booru.model
 
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.makentoshe.booruchan.navigation.FragmentNavigator
-import com.makentoshe.viewmodel.ViewModel
 
 class LocalNavigatorHolder(private val navigator: LocalNavigator) : ViewModel(), LocalNavigator {
 
