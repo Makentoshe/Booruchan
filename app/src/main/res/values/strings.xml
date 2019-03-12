@@ -29,4 +29,7 @@
         <item>Rating</item>
         <item>Score</item>
     </string-array>
+    <string-array name="sample_options">
+        <item>Download</item>
+    </string-array>
 </resources>

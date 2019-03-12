@@ -18,10 +18,10 @@ class SampleInfoViewPagerAdapter(
         return when (position) {
             0 -> SampleInfoInfoFragment.create(booru, post)
             1 -> SampleInfoTagsFragment.create(booru, post)
-            2 -> SampleInfoCommentsFragment.create()
+//            2 -> SampleInfoCommentsFragment.create()
             else -> throw IllegalStateException()
         }
     }
 
-    override fun getCount() = 3
+    override fun getCount() = 2
 }

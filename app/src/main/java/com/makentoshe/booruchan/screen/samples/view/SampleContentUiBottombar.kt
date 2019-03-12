@@ -28,19 +28,20 @@ class SampleContentUiBottombar : AnkoComponent<_RelativeLayout> {
                 R.string.tags,
                 R.id.bottombar_tagsitem
             )
-            menu.buildMenuItem(
-                R.string.comments,
-                R.id.bottombar_commentsitem
-            )
+//            menu.buildMenuItem(
+//                R.string.comments,
+//                R.id.bottombar_commentsitem
+//            )
             setTextColor(style.toolbar.getOnPrimaryColor(context), style.toolbar.getSecondaryColor(context))
-        }.lparams {
+        }.lparams(matchParent, wrapContent) {
             alignParentBottom()
         }
     }
 
     private fun Menu.buildMenuItem(@StringRes title: Int, @IdRes id: Int) = add(
         Menu.NONE, id,
-        Menu.NONE, title).apply {
+        Menu.NONE, title
+    ).apply {
         isEnabled = true
         setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS)
     }

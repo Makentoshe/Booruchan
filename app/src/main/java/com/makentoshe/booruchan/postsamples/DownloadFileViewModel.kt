@@ -12,7 +12,7 @@ import com.makentoshe.booruapi.Tag
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.postsamples.model.DownloadFileController
 import com.makentoshe.booruchan.postsamples.model.NotificationController
-import com.makentoshe.booruchan.postsamples.model.PermissionChecker
+import com.makentoshe.booruchan.permission.PermissionRequester
 import com.makentoshe.repository.FileRepository
 import com.makentoshe.viewmodel.ViewModel
 import kotlinx.coroutines.launch
@@ -26,7 +26,7 @@ class DownloadFileViewModel private constructor() : ViewModel(), DownloadFileCon
     /* Current Booru instance for creating repositories */
     private lateinit var booru: Booru
     /* Controller for checking and requesting application permissions */
-    private lateinit var permissionChecker: PermissionChecker
+    private lateinit var permissionChecker: PermissionRequester
     /* Controller for displaying snackbar notifications */
     private lateinit var notificationController: NotificationController
 
@@ -126,7 +126,7 @@ class DownloadFileViewModel private constructor() : ViewModel(), DownloadFileCon
     class Factory(
         private val booru: Booru,
         private val tags: Set<Tag>,
-        private val permissionChecker: PermissionChecker,
+        private val permissionChecker: PermissionRequester,
         private val notificationController: NotificationController
     ) : ViewModelProvider.NewInstanceFactory() {
         override fun <T : androidx.lifecycle.ViewModel?> create(modelClass: Class<T>): T {

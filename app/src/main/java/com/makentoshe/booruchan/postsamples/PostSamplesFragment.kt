@@ -28,7 +28,7 @@
 //
 //    private lateinit var adapterBuilder: ViewPagerAdapterBuilder
 //    /* Performs permissions check and request */
-//    private lateinit var permissionChecker: PermissionCheckController
+//    private lateinit var permissionChecker: PermissionRequestController
 //
 //    private lateinit var notificationController: NotificationController
 //

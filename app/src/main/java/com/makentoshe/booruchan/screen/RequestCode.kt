@@ -10,4 +10,6 @@ object RequestCode {
     val sample = 2
 
     val tags = 4
+
+    val permission = 34
 }

@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.makentoshe.booruapi.Booru
 import com.makentoshe.booruapi.Tag
+import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.repository.AsyncRepositoryAccess
 import com.makentoshe.booruchan.repository.CachedRepository
 import com.makentoshe.booruchan.repository.PostsRepository
@@ -17,6 +18,7 @@ import com.makentoshe.booruchan.screen.samples.model.SamplePageFragmentErrorCons
 import com.makentoshe.booruchan.screen.samples.view.SamplePageUi
 import io.reactivex.disposables.CompositeDisposable
 import org.jetbrains.anko.AnkoContext
+import org.jetbrains.anko.find
 import java.io.Serializable
 
 class SamplePageFragment : Fragment() {
@@ -50,12 +52,20 @@ class SamplePageFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        //calls when posts request to repository does not works
         disposables.add(asyncRepositoryAccess.onError {
             SamplePageFragmentErrorConsumer(it).accept(view)
         })
-
+        //calls when posts request to repository success
         disposables.add(asyncRepositoryAccess.onComplete {
-            SamplePageFragmentCompleteConsumer(it[0]).accept(view)
+            val post = it[0]
+            SamplePageFragmentCompleteConsumer(post).accept(view)
+            //setup on click - optional menu
+            view.find<View>(R.id.samples_image).setOnLongClickListener {
+                val tag = SampleOptionFragment::class.java.simpleName
+                SampleOptionFragment.create(booru, post).show(childFragmentManager, tag)
+                return@setOnLongClickListener true
+            }
         })
     }
 
@@ -79,3 +89,4 @@ class SamplePageFragment : Fragment() {
         }
     }
 }
+
