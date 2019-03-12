@@ -6,17 +6,17 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.ListAdapter
 import android.widget.ListView
+import androidx.core.util.Consumer
 import com.makentoshe.booruapi.Booru
 import com.makentoshe.booruchan.R
-import com.makentoshe.booruchan.screen.Inflator
 import com.makentoshe.booruchan.screen.start.model.StartScreenNavigator
 import org.jetbrains.anko.find
 
 class StartUiInflatorContent(
     private val navigator: StartScreenNavigator,
     private val booruList: List<Booru>
-) : Inflator {
-    override fun inflate(view: View) {
+) : Consumer<View> {
+    override fun accept(view: View) {
         val view = view.find<ListView>(R.id.start_content_listview)
         view.adapter = buildAdapter(view.context)
         view.setOnItemClickListener(::onItemClick)

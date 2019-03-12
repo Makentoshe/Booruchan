@@ -40,7 +40,7 @@ class BooruFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        BooruInflatorPanel(router).inflate(view)
+        BooruInflatorPanel(router).accept(view)
     }
 
     override fun onResume() {

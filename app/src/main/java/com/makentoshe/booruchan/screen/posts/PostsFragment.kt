@@ -70,8 +70,8 @@ class PostsFragment : Fragment() {
             disposables.add(disposable)
         }
 
-        PostsUiToolbarInflator(booru).inflate(view)
-        PostsUiBottomBarInflator().inflate(view)
+        PostsUiToolbarInflator(booru).accept(view)
+        PostsUiBottomBarInflator().accept(view)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {

@@ -1,14 +1,13 @@
 package com.makentoshe.booruchan.screen.booru.inflator
 
 import android.view.View
-import com.makentoshe.booruchan.screen.Inflator
+import androidx.core.util.Consumer
 import com.makentoshe.booruchan.screen.booru.model.LocalNavigator
 
-class BooruInflatorPanel(private val navigator: LocalNavigator) :
-    Inflator {
+class BooruInflatorPanel(private val navigator: LocalNavigator) : Consumer<View> {
 
-    override fun inflate(view: View) {
-        BooruInflatorPanelPosts(navigator).inflate(view)
-        BooruInflatorPanelAccount(navigator).inflate(view)
+    override fun accept(view: View) {
+        BooruInflatorPanelPosts(navigator).accept(view)
+        BooruInflatorPanelAccount(navigator).accept(view)
     }
 }

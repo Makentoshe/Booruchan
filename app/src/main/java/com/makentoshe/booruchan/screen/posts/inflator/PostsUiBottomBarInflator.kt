@@ -2,16 +2,16 @@ package com.makentoshe.booruchan.screen.posts.inflator
 
 import android.view.View
 import android.widget.TextView
+import androidx.core.util.Consumer
 import androidx.viewpager.widget.ViewPager
 import com.makentoshe.booruchan.R
-import com.makentoshe.booruchan.screen.Inflator
 import org.jetbrains.anko.find
 import org.jetbrains.anko.sdk27.coroutines.onClick
 import org.jetbrains.anko.support.v4.onPageChangeListener
 
-class PostsUiBottomBarInflator : Inflator {
+class PostsUiBottomBarInflator : Consumer<View> {
 
-    override fun inflate(view: View) {
+    override fun accept(view: View) {
         val viewpager = view.find<ViewPager>(R.id.posts_viewpager)
         val leftview = view.find<View>(R.id.posts_bottombar_left)
         val centerview = view.find<View>(R.id.posts_bottombar_center)

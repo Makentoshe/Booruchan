@@ -24,7 +24,7 @@ class AccountFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        AccountUiToolbarInflator(booru).inflate(view)
+        AccountUiToolbarInflator(booru).accept(view)
 
         parentFragment?.view?.findViewById<DrawerLayout>(R.id.booru_drawer)?.let {
             BooruToolbarUiInflater(it).accept(view)

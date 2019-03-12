@@ -4,14 +4,13 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.PopupMenu
+import androidx.core.util.Consumer
 import com.makentoshe.booruchan.R
-import com.makentoshe.booruchan.screen.Inflator
 import com.makentoshe.booruchan.screen.start.model.StartScreenNavigator
 import org.jetbrains.anko.find
 
-class StartUiInflatorOverflow(private val navigator: StartScreenNavigator) :
-    Inflator {
-    override fun inflate(view: View) {
+class StartUiInflatorOverflow(private val navigator: StartScreenNavigator) : Consumer<View> {
+    override fun accept(view: View) {
         val icon = view.find<View>(R.id.start_toolbar_overflow)
         icon.setOnClickListener(::onClick)
     }

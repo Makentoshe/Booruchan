@@ -26,7 +26,7 @@ class StartFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        StartUiInflatorOverflow(navigator).inflate(view)
-        StartUiInflatorContent(navigator, booruList).inflate(view)
+        StartUiInflatorOverflow(navigator).accept(view)
+        StartUiInflatorContent(navigator, booruList).accept(view)
     }
 }
