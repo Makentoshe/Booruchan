@@ -33,7 +33,6 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation project(path: ':BooruAPI')
     implementation project(path: ':Network')
     implementation project(path: ':Style')
 

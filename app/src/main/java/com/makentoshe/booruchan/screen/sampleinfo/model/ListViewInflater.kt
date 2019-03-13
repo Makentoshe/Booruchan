@@ -4,7 +4,7 @@ import android.content.Context
 import android.widget.ArrayAdapter
 import android.widget.ListView
 import androidx.core.util.Consumer
-import com.makentoshe.booruapi.Post
+import com.makentoshe.booruchan.api.Post
 
 class ListViewInflater(val post: Post) : Consumer<ListView> {
 

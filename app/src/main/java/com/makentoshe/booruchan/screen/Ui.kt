@@ -13,9 +13,9 @@ import androidx.core.view.updateLayoutParams
 import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
-import com.makentoshe.booruapi.Tag
 import com.makentoshe.booruchan.Booruchan
 import com.makentoshe.booruchan.R
+import com.makentoshe.booruchan.api.Tag
 import com.makentoshe.booruchan.view.chip
 import org.jetbrains.anko.*
 
@@ -94,6 +94,6 @@ open class BooruToolbarUi : AnkoComponent<ViewGroup> {
 
 fun ChipGroup.addTagToChipGroup(tag: Tag): Chip {
     return chip {
-        text = tag.name
+        text = tag.title
     }
 }

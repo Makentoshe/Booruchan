@@ -7,8 +7,8 @@ import android.graphics.Bitmap
 import android.os.Environment
 import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
-import com.makentoshe.booruapi.Post
 import com.makentoshe.booruchan.R
+import com.makentoshe.booruchan.api.Post
 import com.makentoshe.booruchan.permission.PermissionRequester
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch

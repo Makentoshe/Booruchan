@@ -9,8 +9,8 @@ import androidx.core.util.Consumer
 import androidx.fragment.app.DialogFragment
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
-import com.makentoshe.booruapi.Tag
 import com.makentoshe.booruchan.R
+import com.makentoshe.booruchan.api.Tag
 import com.makentoshe.booruchan.screen.RequestCode
 import com.makentoshe.booruchan.screen.addTagToChipGroup
 import org.jetbrains.anko.find
@@ -28,7 +28,7 @@ class SearchDialogEditTextInflater(
         textChangedListener {
             afterTextChanged {
                 if (text.isNotBlank() && text.last() == ' ') {
-                    action(Tag(getTagTitle()))
+                    action(Tag.create(getTagTitle()))
                     setText("")
                 }
             }
@@ -39,7 +39,7 @@ class SearchDialogEditTextInflater(
         onEditorAction { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                 if (text.isNotBlank()) {
-                    action(Tag(getTagTitle()))
+                    action(Tag.create(getTagTitle()))
                     setText("")
                 }
                 val intent = Intent().putExtra(Set::class.java.simpleName, tags)
@@ -86,7 +86,7 @@ class SearchDialogEditTextInflater(
             setOnCloseIconClickListener {
                 for (i in 0 until childCount) {
                     val chip = getChildAt(i) as Chip
-                    if (chip.text == tag.name) {
+                    if (chip.text == tag.title) {
                         removeView(chip)
                         tags.remove(tag)
                     }

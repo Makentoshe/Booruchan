@@ -7,11 +7,12 @@ import android.widget.BaseAdapter
 import android.widget.Filter
 import android.widget.Filterable
 import android.widget.TextView
-import com.makentoshe.booruapi.Tag
+import com.makentoshe.booruchan.api.Tag
 import com.makentoshe.booruchan.repository.Repository
 
-class DelayAutocompleteAdapter(private val repository: Repository<CharSequence, List<Tag>>) : BaseAdapter(),
-    Filterable {
+class DelayAutocompleteAdapter(
+    private val repository: Repository<CharSequence, List<Tag>>
+) : BaseAdapter(), Filterable {
 
     private var tags: List<Tag> = listOf()
 
@@ -39,7 +40,7 @@ class DelayAutocompleteAdapter(private val repository: Repository<CharSequence, 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         val root = convertView ?: LayoutInflater.from(parent.context)
             .inflate(android.R.layout.simple_dropdown_item_1line, parent, false)
-        (root as TextView).text = getItem(position).name
+        (root as TextView).text = getItem(position).title
         return root
     }
 

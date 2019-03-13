@@ -8,10 +8,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.GridView
 import androidx.fragment.app.Fragment
-import com.makentoshe.booruapi.Booru
-import com.makentoshe.booruapi.Tag
 import com.makentoshe.booruchan.Booruchan
 import com.makentoshe.booruchan.R
+import com.makentoshe.booruchan.api.Booru
+import com.makentoshe.booruchan.api.Posts
+import com.makentoshe.booruchan.api.Tag
 import com.makentoshe.booruchan.repository.AsyncRepositoryAccess
 import com.makentoshe.booruchan.repository.CachedRepository
 import com.makentoshe.booruchan.repository.PostsRepository
@@ -19,7 +20,6 @@ import com.makentoshe.booruchan.repository.cache.PostInternalCache
 import com.makentoshe.booruchan.screen.arguments
 import com.makentoshe.booruchan.screen.posts.inflator.PostPageErrorMessageInflater
 import com.makentoshe.booruchan.screen.posts.inflator.PostPageGridViewInflater
-import com.makentoshe.booruchan.screen.posts.model.BooruRequestBuilder
 import com.makentoshe.booruchan.screen.posts.view.PostPageUi
 import com.makentoshe.booruchan.screen.samples.SampleScreen
 import io.reactivex.disposables.CompositeDisposable
@@ -48,12 +48,8 @@ class PostsPageFragment : Fragment() {
         val source = PostsRepository(booru)
         val repository = CachedRepository(cache, source)
         AsyncRepositoryAccess(repository).apply {
-            request(booruRequestBuilder.build(12))
+            request(Posts.Request(12, tags, position))
         }
-    }
-
-    private val booruRequestBuilder by lazy {
-        BooruRequestBuilder(tags, position)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

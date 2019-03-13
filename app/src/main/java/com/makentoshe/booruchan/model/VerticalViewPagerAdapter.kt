@@ -3,10 +3,7 @@ package com.makentoshe.booruchan.model
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
-import com.makentoshe.booruapi.Booru
-import com.makentoshe.booruapi.Tag
 import com.makentoshe.booruchan.navigation.Screen
-import com.makentoshe.booruchan.screen.samples.SampleFragment
 
 class VerticalViewPagerAdapter(
     fragmentManager: FragmentManager,

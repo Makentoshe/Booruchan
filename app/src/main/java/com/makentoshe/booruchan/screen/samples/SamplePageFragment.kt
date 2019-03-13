@@ -5,9 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.makentoshe.booruapi.Booru
-import com.makentoshe.booruapi.Tag
 import com.makentoshe.booruchan.R
+import com.makentoshe.booruchan.api.Booru
+import com.makentoshe.booruchan.api.Posts
+import com.makentoshe.booruchan.api.Tag
 import com.makentoshe.booruchan.repository.AsyncRepositoryAccess
 import com.makentoshe.booruchan.repository.CachedRepository
 import com.makentoshe.booruchan.repository.PostsRepository
@@ -40,7 +41,7 @@ class SamplePageFragment : Fragment() {
         val source = PostsRepository(booru)
         val repository = CachedRepository(cache, source)
         AsyncRepositoryAccess(repository).apply {
-            request(Booru.PostRequest(1, position, tags))
+            request(Posts.Request(1, tags, position))
         }
     }
 

@@ -6,9 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.viewpager.widget.ViewPager
-import com.makentoshe.booruapi.Booru
-import com.makentoshe.booruapi.Tag
 import com.makentoshe.booruchan.R
+import com.makentoshe.booruchan.api.Booru
+import com.makentoshe.booruchan.api.Posts
+import com.makentoshe.booruchan.api.Tag
 import com.makentoshe.booruchan.repository.AsyncRepositoryAccess
 import com.makentoshe.booruchan.repository.CachedRepository
 import com.makentoshe.booruchan.repository.PostsRepository
@@ -49,7 +50,7 @@ class SampleInfoFragment : Fragment() {
         val source = PostsRepository(booru)
         val repository = CachedRepository(cache, source)
         AsyncRepositoryAccess(repository).apply {
-            request(Booru.PostRequest(1, position, tags))
+            request(Posts.Request(1, tags, position))
         }
     }
 
@@ -71,11 +72,7 @@ class SampleInfoFragment : Fragment() {
             runOnUiThread {
                 progressbar.visibility = View.GONE
                 viewpager.visibility = View.VISIBLE
-                viewpager.adapter = SampleInfoViewPagerAdapter(
-                    childFragmentManager,
-                    booru,
-                    it[0]
-                )
+                viewpager.adapter = SampleInfoViewPagerAdapter(childFragmentManager, booru, it[0])
                 viewpager.currentItem = itemPosition
             }
         })

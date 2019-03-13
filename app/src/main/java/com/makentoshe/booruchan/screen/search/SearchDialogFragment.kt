@@ -6,9 +6,9 @@ import android.os.Bundle
 import android.view.View
 import android.widget.*
 import androidx.fragment.app.DialogFragment
-import com.makentoshe.booruapi.Booru
-import com.makentoshe.booruapi.Tag
 import com.makentoshe.booruchan.R
+import com.makentoshe.booruchan.api.Booru
+import com.makentoshe.booruchan.api.Tag
 import com.makentoshe.booruchan.repository.DelayAutocompleteRepository
 import com.makentoshe.booruchan.screen.arguments
 import org.jetbrains.anko.AnkoContext

@@ -6,10 +6,9 @@ import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.ImageView
 import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.signature.ObjectKey
-import com.makentoshe.booruapi.Post
 import com.makentoshe.booruchan.R
+import com.makentoshe.booruchan.api.Post
 import com.makentoshe.booruchan.screen.posts.view.PostPageGridElement
 import org.jetbrains.anko.AnkoContext
 import org.jetbrains.anko.find

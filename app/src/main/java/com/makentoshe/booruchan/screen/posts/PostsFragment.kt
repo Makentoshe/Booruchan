@@ -8,9 +8,9 @@ import android.view.ViewGroup
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.viewpager.widget.ViewPager
-import com.makentoshe.booruapi.Booru
-import com.makentoshe.booruapi.Tag
 import com.makentoshe.booruchan.R
+import com.makentoshe.booruchan.api.Booru
+import com.makentoshe.booruchan.api.Tag
 import com.makentoshe.booruchan.repository.cache.PostInternalCache
 import com.makentoshe.booruchan.screen.BooruToolbarUiInflater
 import com.makentoshe.booruchan.screen.RequestCode

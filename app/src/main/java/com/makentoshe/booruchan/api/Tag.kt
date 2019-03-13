@@ -14,4 +14,14 @@ interface Tag : Serializable {
         GENERAL, ARTIST, UNDEFINED, COPYRIGHT, CHARACTER, METADATA
     }
 
+    companion object {
+        fun create(title: String) = object : Tag {
+            override val title = title
+            override val raw: Map<String, String> = emptyMap()
+            override val id: Long = -1L
+            override val count: Int = -1
+            override val ambiguous: Boolean = false
+            override val type: Tag.Type = Tag.Type.UNDEFINED
+        }
+    }
 }

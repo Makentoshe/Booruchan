@@ -3,8 +3,8 @@ package com.makentoshe.booruchan.screen.account
 import android.view.View
 import android.widget.Toolbar
 import androidx.core.util.Consumer
-import com.makentoshe.booruapi.Booru
 import com.makentoshe.booruchan.R
+import com.makentoshe.booruchan.api.Booru
 import org.jetbrains.anko.find
 import org.jetbrains.anko.subtitleResource
 

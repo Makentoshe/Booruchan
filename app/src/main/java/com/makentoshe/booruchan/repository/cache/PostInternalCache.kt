@@ -1,24 +1,23 @@
 package com.makentoshe.booruchan.repository.cache
 
 import android.content.Context
-import com.makentoshe.booruapi.Booru
-import com.makentoshe.booruapi.Post
-import com.makentoshe.booruapi.Posts
+import com.makentoshe.booruchan.api.Post
+import com.makentoshe.booruchan.api.Posts
 import java.io.*
 
-class PostInternalCache(context: Context) : InternalCache<Booru.PostRequest, List<Post>?>(context, "posts") {
-    override fun get(key: Booru.PostRequest, loader: () -> List<Post>?): List<Post>? {
+class PostInternalCache(context: Context) : InternalCache<Posts.Request, List<Post>?>(context, "posts") {
+    override fun get(key: Posts.Request, loader: () -> List<Post>?): List<Post>? {
         return getIfPresent(key) ?: loader().also {
             if (it == null) return null
             saveToInternalStorage(key, it)
         }
     }
 
-    override fun getIfPresent(key: Booru.PostRequest): List<Post>? {
+    override fun getIfPresent(key: Posts.Request): List<Post>? {
         return getFromInternalStorage(key)
     }
 
-    override fun remove(key: Booru.PostRequest): List<Post>? {
+    override fun remove(key: Posts.Request): List<Post>? {
         val startPosition = key.page * key.count
         val posts = mutableListOf<Post>()
         for (i in startPosition until startPosition + key.count) {
@@ -36,7 +35,7 @@ class PostInternalCache(context: Context) : InternalCache<Booru.PostRequest, Lis
                 file.delete()
             }
         }
-        return Posts(posts)
+        return posts
     }
 
     override fun getAll(): Collection<List<Post>> {
@@ -51,11 +50,11 @@ class PostInternalCache(context: Context) : InternalCache<Booru.PostRequest, Lis
                 e.printStackTrace()
             }
         }
-        return listOf(Posts(list))
+        return listOf(list)
     }
 
 
-    private fun saveToInternalStorage(key: Booru.PostRequest, value: List<Post>) {
+    private fun saveToInternalStorage(key: Posts.Request, value: List<Post>) {
         val startPosition = key.page * key.count
         for (i in startPosition until startPosition + key.count) {
             val file = File(mainDirectory, i.toString())
@@ -67,7 +66,7 @@ class PostInternalCache(context: Context) : InternalCache<Booru.PostRequest, Lis
     }
 
 
-    private fun getFromInternalStorage(key: Booru.PostRequest): Posts? {
+    private fun getFromInternalStorage(key: Posts.Request): List<Post>? {
         val startPosition = key.page * key.count
         val posts = mutableListOf<Post>()
         for (i in startPosition until startPosition + key.count) {
@@ -86,6 +85,6 @@ class PostInternalCache(context: Context) : InternalCache<Booru.PostRequest, Lis
                 return null
             }
         }
-        return Posts(posts)
+        return posts
     }
 }

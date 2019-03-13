@@ -10,8 +10,8 @@ import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView
-import com.makentoshe.booruapi.Post
 import com.makentoshe.booruchan.R
+import com.makentoshe.booruchan.api.Post
 import org.jetbrains.anko.find
 import java.io.File
 

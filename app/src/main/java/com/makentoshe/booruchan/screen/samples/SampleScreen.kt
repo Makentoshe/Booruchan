@@ -1,8 +1,8 @@
 package com.makentoshe.booruchan.screen.samples
 
 import androidx.fragment.app.Fragment
-import com.makentoshe.booruapi.Booru
-import com.makentoshe.booruapi.Tag
+import com.makentoshe.booruchan.api.Booru
+import com.makentoshe.booruchan.api.Tag
 import com.makentoshe.booruchan.navigation.Screen
 
 class SampleScreen(

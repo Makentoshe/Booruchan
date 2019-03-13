@@ -11,7 +11,12 @@ class GelbooruPosts(
     private val httpClient: HttpClient,
     private val parser: Parser<List<Post>>
 ) : Posts, Serializable {
-    override fun request(count: Int, tags: List<Tag>, page: Int): List<Post> {
+
+    override fun request(request: Posts.Request): List<Post> {
+        return request(request.count, request.tags, request.page)
+    }
+
+    override fun request(count: Int, tags: Set<Tag>, page: Int): List<Post> {
         val strTags = StringBuilder()
         tags.forEachIndexed { index, tag ->
             strTags.append(tag.title)

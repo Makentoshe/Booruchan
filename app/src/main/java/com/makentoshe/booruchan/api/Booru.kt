@@ -4,6 +4,8 @@ import java.io.Serializable
 
 interface Booru : Serializable {
 
+    val title: String
+
     fun getAutocomplete(): Autocomplete
 
     fun getPosts(): Posts

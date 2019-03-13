@@ -1,6 +1,6 @@
 package com.makentoshe.booruchan.screen.booru.model
 
-import com.makentoshe.booruapi.Booru
+import com.makentoshe.booruchan.api.Booru
 import com.makentoshe.booruchan.navigation.FragmentNavigator
 import com.makentoshe.booruchan.navigation.Router
 import com.makentoshe.booruchan.screen.account.AccountScreen

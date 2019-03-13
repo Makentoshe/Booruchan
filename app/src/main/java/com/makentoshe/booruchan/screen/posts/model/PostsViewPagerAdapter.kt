@@ -3,8 +3,8 @@ package com.makentoshe.booruchan.screen.posts.model
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
-import com.makentoshe.booruapi.Booru
-import com.makentoshe.booruapi.Tag
+import com.makentoshe.booruchan.api.Booru
+import com.makentoshe.booruchan.api.Tag
 import com.makentoshe.booruchan.screen.posts.PostsPageScreen
 
 class PostsViewPagerAdapter(

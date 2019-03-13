@@ -8,9 +8,9 @@ import android.widget.ArrayAdapter
 import android.widget.ListAdapter
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
-import com.makentoshe.booruapi.Booru
-import com.makentoshe.booruapi.Post
 import com.makentoshe.booruchan.R
+import com.makentoshe.booruchan.api.Booru
+import com.makentoshe.booruchan.api.Post
 import com.makentoshe.booruchan.permission.PermissionController
 import com.makentoshe.booruchan.screen.RequestCode
 import com.makentoshe.booruchan.screen.arguments
