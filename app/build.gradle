@@ -61,8 +61,13 @@ dependencies {
     implementation 'com.google.android.exoplayer:exoplayer:2.9.4'
     implementation 'com.github.bumptech.glide:glide:4.9.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'
+    implementation 'com.google.code.gson:gson:2.8.5'
+    implementation 'org.jsoup:jsoup:1.11.3'
+    implementation'com.github.kittinunf.fuel:fuel:1.15.1'
 
     testImplementation 'junit:junit:4.12'
+    testImplementation "io.mockk:mockk:1.8.13.kotlin13"
+    testImplementation 'net.bytebuddy:byte-buddy-agent:1.8.22'
 
     androidTestImplementation "io.mockk:mockk-android:1.8.13.kotlin13"
     androidTestImplementation "androidx.test.ext:junit:1.1.0"
