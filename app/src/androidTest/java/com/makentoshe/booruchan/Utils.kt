@@ -1,13 +1,18 @@
 package com.makentoshe.booruchan
 
 import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.drawable.BitmapDrawable
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.test.platform.app.InstrumentationRegistry
 import com.makentoshe.booruapi.*
+import io.mockk.mockk
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertTrue
+import java.io.ByteArrayInputStream
+import java.io.ByteArrayOutputStream
 import java.io.InputStream
 
 inline fun <reified T : Fragment> AppCompatActivity.containsFragment() {
@@ -44,17 +49,29 @@ inline fun <reified T : Fragment> Fragment.getFragment(): T {
     return fragment as T
 }
 
-class Mockbooru : Booru(MockbooruApi()) {
+class Mockbooru : Booru(mockk()) {
+    private val context: Context = InstrumentationRegistry.getInstrumentation().targetContext
+    var postsErr = false
+    var previewsErr = false
+
+    override fun getPosts(request: PostRequest): Posts {
+        if (postsErr) throw Exception()
+        val posts = mutableListOf<Post>()
+        (0 until request.count).forEach { posts.add(Post()) }
+        return Posts(posts)
+    }
+
     override val title: String
         get() = javaClass.simpleName
 
     override fun customGet(request: String) = TODO("not implemented")
-    override fun getPreview(previewUrl: String) = TODO("not implemented")
-
-    override fun getPosts(count: Int, page: Int, tags: Set<Tag>): Posts {
-        val posts = mutableListOf<Post>()
-        (0 until count).forEach { posts.add(Post()) }
-        return Posts(listOf())
+    override fun getPreview(previewUrl: String): InputStream {
+        if (previewsErr) throw Exception()
+        val bytes = ByteArrayOutputStream().also {
+            (context.getDrawable(R.drawable.a) as BitmapDrawable)
+                .bitmap.compress(Bitmap.CompressFormat.JPEG, 100, it)
+        }.toByteArray()
+        return ByteArrayInputStream(bytes)
     }
 
     override fun autocomplete(term: String): List<Tag> {
@@ -64,11 +81,6 @@ class Mockbooru : Booru(MockbooruApi()) {
         }
         return list
     }
-}
 
-class MockbooruApi : BooruApi {
-    override fun getCustomRequest(request: String) = TODO("not implemented")
-    override fun getAutocompleteRequest(term: String) = TODO("not implemented")
-    override fun getPostsRequest(count: Int, page: Int, tags: Set<Tag>) = TODO("not implemented")
-    override fun getPreviewRequest(previewUrl: String) = TODO("not implemented")
+    class Flags(val preview: Boolean = true, val posts: Boolean = true)
 }

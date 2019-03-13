@@ -1,3 +1,8 @@
 package com.makentoshe.style.element
 
-class ToolbarStyle(primaryColorRes: Int, onPrimaryColorRes: Int) : ViewStyle(primaryColorRes, onPrimaryColorRes)
+class ToolbarStyle(
+    primaryColorRes: Int,
+    onPrimaryColorRes: Int,
+    secondaryColorRes: Int,
+    onSecondaryColorRes: Int
+) : ViewStyle(primaryColorRes, onPrimaryColorRes, secondaryColorRes, onSecondaryColorRes)

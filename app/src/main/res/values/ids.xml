@@ -8,7 +8,7 @@
 
     <item name="start_toolbar_container" type="id"/>
     <item name="start_toolbar_container_toolbar" type="id"/>
-    <item name="start_toolbar_container_overflow_icon" type="id"/>
+    <item name="start_toolbar_overflow" type="id"/>
     <item name="start_content_listview" type="id"/>
 
     <item name="booru_drawer" type="id"/>
@@ -18,8 +18,7 @@
     <item name="booru_drawer_panel_account" type="id"/>
 
     <item name="postpreview_toolbar_container" type="id"/>
-    <item name="postpreview_toolbar_container_toolbar" type="id"/>
-    <item name="postpreview_toolbar_container_drawermenu" type="id"/>
+    <item name="booru_toolbar" type="id"/>
     <item name="postpreview_toolbar_container_overflow" type="id"/>
     <item name="postpreview_toolbar_container_overflow_icon" type="id"/>
     <item name="postpreview_cover" type="id"/>
@@ -29,24 +28,76 @@
     <item name="postpreview_search_container_clear" type="id"/>
     <item name="postpreview_search_tags" type="id"/>
     <item name="postpreview_bottombar" type="id"/>
-    <item name="postpreview_bottombar_left" type="id"/>
-    <item name="postpreview_bottombar_center" type="id"/>
-    <item name="postpreview_bottombar_right" type="id"/>
-    <item name="postpreview_bottombar_center_textview" type="id"/>
+    <item name="posts_bottombar_right" type="id"/>
+    <item name="posts_bottombar_center_textview" type="id"/>
 
     <item name="postpreviewpage_progressbar" type="id"/>
     <item name="postpreviewpage_messageview" type="id"/>
 
+    <item name="postsamples_toolbar" type="id"/>
+    <item name="postsamples_toolbar_download" type="id"/>
+    <item name="postsamples_toolbar_download_icon" type="id"/>
+    <item name="postsamples_verticalpager" type="id"/>
+    <item name="postsamples_bottombar" type="id"/>
+    <item name="bottombar_infoitem" type="id"/>
+    <item name="postsamples_bottombar_tagsitem" type="id"/>
+    <item name="postsamples_bottombar_commentsitem" type="id"/>
+    <item name="postsamples_content_viewpager" type="id"/>
 
     <item name="viewpager" type="id"/>
-    <item name="postsample_toolbar_container" type="id"/>
-    <item name="postsample_toolbar_container_download" type="id"/>
-    <item name="postsample_toolbar_container_download_icon" type="id"/>
     <item name="postsample_toolbar_container_download_progressbar" type="id"/>
-    <item name="postsample_content_viewpager" type="id"/>
     <item name="sample_image_message" type="id"/>
     <item name="sample_image_progressbar" type="id"/>
     <item name="sample_image_view" type="id"/>
+    <item name="postsample_messageview" type="id"/>
+    <item name="postsample_content" type="id"/>
+    <item name="postsample_progressbar" type="id"/>
+    <item name="postpreviewpage_grid" type="id"/>
+    <item name="posttags_toolbar" type="id"/>
+    <item name="posttags_progressbar" type="id"/>
+    <item name="posttags_toolbar_search" type="id"/>
+    <item name="posttags_toolbar_back" type="id"/>
+    <item name="postinfo_toolbar" type="id"/>
+    <item name="toolbar_back" type="id"/>
 
+
+    <item name="postinfo_content" type="id"/>
+    <item name="start_toolbar" type="id"/>
+    <item name="booru_toolbar_drawermenu" type="id"/>
+    <item name="posts_toolbar_search" type="id"/>
+    <item name="delayAutocompleteEditText" type="id"/>
+    <item name="searchDialog_delayAutocompleteEditText" type="id"/>
+    <item name="searchDialog_separator" type="id"/>
+    <item name="searchDialog_chipgroup" type="id"/>
+    <item name="posts_bottombar" type="id"/>
+    <item name="posts_toolbar" type="id"/>
+    <item name="posts_viewpager" type="id"/>
+    <item name="posts_bottombar_left" type="id"/>
+    <item name="posts_bottombar_center" type="id"/>
+    <item name="posts_page_gridview" type="id"/>
+    <item name="posts_page" type="id"/>
+    <item name="posts_page_progress" type="id"/>
+    <item name="posts_page_textview" type="id"/>
+    <item name="posts_page_gridview_element_image" type="id"/>
+    <item name="samples_bottombar" type="id"/>
+    <item name="samples_container" type="id"/>
+    <item name="samples_container_viewpager" type="id"/>
+    <item name="samples" type="id"/>
+    <item name="samples_message" type="id"/>
+    <item name="samples_progress" type="id"/>
+    <item name="samples_image" type="id"/>
+    <item name="bottombar_tagsitem" type="id"/>
+    <item name="bottombar_commentsitem" type="id"/>
+    <item name="sampleinfo_viewpager" type="id"/>
+    <item name="sampleinfo_container_viewpager" type="id"/>
+    <item name="sampleinfo_toolbar" type="id"/>
+    <item name="sampleinfo_toolbar_info" type="id"/>
+    <item name="sampleinfo_toolbar_tags" type="id"/>
+    <item name="sampleinfo_toolbar_comments" type="id"/>
+    <item name="sampleinfo_tags_chipgroup" type="id"/>
+    <item name="sampleinfo_tags_progress" type="id"/>
+    <item name="sampleinfo_tags_scrollview" type="id"/>
+    <item name="sampleinfo_progressbar" type="id"/>
+    <item name="sampleinfo_info_listview" type="id"/>
 
 </resources>

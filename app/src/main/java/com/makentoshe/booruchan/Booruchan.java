@@ -2,10 +2,9 @@ package com.makentoshe.booruchan;
 
 
 import android.app.Application;
-import com.makentoshe.booruapi.Booru;
-import com.makentoshe.booruapi.Gelbooru;
-import com.makentoshe.network.HttpClient;
-import com.makentoshe.network.fuel.FuelClientFactory;
+import com.makentoshe.booruchan.api.Booru;
+import com.makentoshe.booruchan.api.gelbooru.Gelbooru;
+import com.makentoshe.booruchan.navigation.Router;
 import com.makentoshe.style.SotisStyle;
 import com.makentoshe.style.Style;
 import io.reactivex.exceptions.UndeliverableException;
@@ -13,7 +12,6 @@ import io.reactivex.functions.Consumer;
 import io.reactivex.plugins.RxJavaPlugins;
 import ru.terrakok.cicerone.Cicerone;
 import ru.terrakok.cicerone.NavigatorHolder;
-import ru.terrakok.cicerone.Router;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,15 +21,16 @@ public final class Booruchan extends Application {
     public static Booruchan INSTANCE;
     private Cicerone<Router> cicerone;
     private Style style;
-    private List<Booru> boorus = new ArrayList<>();
+    private List<Class<? extends Booru>> boorus = new ArrayList<>();
 
     @Override
     public void onCreate() {
         super.onCreate();
         INSTANCE = this;
-        cicerone = Cicerone.create();
+        cicerone = Cicerone.create(new Router());
         initRxErrorHandler();
-        load();
+        loadStyle();
+        loadBooru();
     }
 
     private void initRxErrorHandler() {
@@ -48,11 +47,18 @@ public final class Booruchan extends Application {
         });
     }
 
-    private void load() {
+    private void loadStyle() {
         style = new SotisStyle();
-        HttpClient client = new FuelClientFactory().buildClient();
-        boorus.add(new Gelbooru(client));
     }
+//
+    private void loadBooru() {
+        boorus.add(Gelbooru.class);
+    }
+//
+//    private void load() {
+//        HttpClient client = new FuelClientFactory().buildClient();
+//        boorus.add(new Gelbooru(client));
+//    }
 
     public NavigatorHolder getNavigatorHolder() {
         return cicerone.getNavigatorHolder();
@@ -66,7 +72,7 @@ public final class Booruchan extends Application {
         return style;
     }
 
-    public List<Booru> getBooruList() {
+    public List<Class<? extends Booru>> getBooruList() {
         return boorus;
     }
 }
