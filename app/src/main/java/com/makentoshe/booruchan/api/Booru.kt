@@ -6,6 +6,8 @@ interface Booru : Serializable {
 
     val title: String
 
+    fun getCustom(): Custom
+
     fun getAutocomplete(): Autocomplete
 
     fun getPosts(): Posts

@@ -11,6 +11,8 @@ import androidx.viewpager.widget.ViewPager
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.api.Booru
 import com.makentoshe.booruchan.api.Tag
+import com.makentoshe.booruchan.repository.cache.ImageInternalCache
+import com.makentoshe.booruchan.repository.cache.InternalCacheType
 import com.makentoshe.booruchan.repository.cache.PostInternalCache
 import com.makentoshe.booruchan.screen.BooruToolbarUiInflater
 import com.makentoshe.booruchan.screen.RequestCode
@@ -88,7 +90,10 @@ class PostsFragment : Fragment() {
 
     private fun startNewSearch(tags: Set<Tag>) {
         //clear caches
-        GlobalScope.launch { PostInternalCache(requireContext()).clear() }
+        GlobalScope.launch {
+            PostInternalCache(requireContext()).clear()
+            ImageInternalCache(requireContext(), InternalCacheType.SAMPLE)
+        }
         //set tags to holder
         tagsHolder.set.clear()
         tagsHolder.set.addAll(tags)

@@ -5,7 +5,7 @@ import com.makentoshe.booruchan.api.Post
 import com.makentoshe.booruchan.api.Posts
 import java.io.*
 
-class PostInternalCache(context: Context) : InternalCache<Posts.Request, List<Post>?>(context, "posts") {
+class PostInternalCache(context: Context) : InternalCache<Posts.Request, List<Post>?>(context, InternalCacheType.POST) {
     override fun get(key: Posts.Request, loader: () -> List<Post>?): List<Post>? {
         return getIfPresent(key) ?: loader().also {
             if (it == null) return null
