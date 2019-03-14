@@ -28,6 +28,8 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import org.jetbrains.anko.AnkoContext
 import org.jetbrains.anko.find
+import pl.droidsonroids.gif.GifDrawable
+import pl.droidsonroids.gif.GifImageView
 import java.io.File
 import java.io.Serializable
 import java.util.concurrent.TimeUnit
@@ -61,8 +63,7 @@ class SamplePageFragment : Fragment() {
     private val disposables = CompositeDisposable()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return SamplePageUi()
-            .createView(AnkoContext.create(requireContext(), this))
+        return SamplePageUi().createView(AnkoContext.create(requireContext(), this))
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -85,7 +86,9 @@ class SamplePageFragment : Fragment() {
     }
 
     private fun onComplete(view: View, post: Post) {
-        when (File(post.sampleUrl).extension) {
+        val ext = File(post.sampleUrl).extension
+        println(ext)
+        when (ext) {
             "webm" -> onWebm(view, post)
             "gif" -> onGif(view, post)
             else -> onImage(view, post)
@@ -110,7 +113,21 @@ class SamplePageFragment : Fragment() {
     }
 
     private fun onGif(view: View, post: Post) {
-
+        val disposable = Single.just(post)
+            .subscribeOn(Schedulers.newThread())
+            .timeout(3, TimeUnit.SECONDS)
+            .map { samplesRepository.get(it) }
+            .map { GifDrawable(it) }
+            .observeOn(AndroidSchedulers.mainThread())
+            .doOnError { onError(view, it) }
+            .subscribe { gifdrawable ->
+                view.find<View>(R.id.samples_progress).visibility = View.GONE
+                val gifview = view.find<GifImageView>(R.id.samples_gif)
+                gifview.visibility = View.VISIBLE
+                gifview.setImageDrawable(gifdrawable)
+                gifdrawable.start()
+            }
+        disposables.add(disposable)
     }
 
     private fun onWebm(view: View, post: Post) {
