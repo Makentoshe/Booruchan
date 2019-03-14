@@ -3,8 +3,9 @@ package com.makentoshe.booruchan.screen.search
 import android.app.AlertDialog
 import android.app.Dialog
 import android.os.Bundle
+import android.view.Gravity
 import android.view.View
-import android.widget.*
+import android.widget.AutoCompleteTextView
 import androidx.fragment.app.DialogFragment
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.api.Booru
@@ -61,7 +62,9 @@ class SearchDialogFragment : DialogFragment() {
         outState.putSerializable(TAGS, searchDialogInflater.tags)
     }
 
-    private fun setParams(dialog: Dialog) = Unit
+    private fun setParams(dialog: Dialog) {
+        dialog.window?.setGravity(Gravity.TOP)
+    }
 
     companion object {
         private const val TAGS = "Tags"
