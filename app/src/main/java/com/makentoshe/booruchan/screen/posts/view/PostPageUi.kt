@@ -3,6 +3,7 @@ package com.makentoshe.booruchan.screen.posts.view
 import android.view.View
 import androidx.fragment.app.Fragment
 import com.makentoshe.booruchan.R
+import com.makentoshe.booruchan.view.AnkoProgressBar
 import org.jetbrains.anko.*
 
 class PostPageUi : AnkoComponent<Fragment> {
@@ -10,7 +11,7 @@ class PostPageUi : AnkoComponent<Fragment> {
         relativeLayout {
             id = R.id.posts_page
             PostPageUiGrid().createView(AnkoContext.createDelegate(this))
-            PostPageUiProgress().createView(AnkoContext.createDelegate(this))
+            AnkoProgressBar(R.id.posts_page_progress).createView(AnkoContext.createDelegate(this))
             PostPageUiMessage().createView(AnkoContext.createDelegate(this))
         }
     }

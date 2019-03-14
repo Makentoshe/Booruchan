@@ -1,25 +1,24 @@
 package com.makentoshe.booruchan.screen.samples.view
 
 import android.content.res.ColorStateList
+import android.graphics.Color
 import android.view.Menu
 import android.view.MenuItem
 import android.view.ViewManager
 import androidx.annotation.IdRes
 import androidx.annotation.StringRes
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.makentoshe.booruchan.Booruchan
 import com.makentoshe.booruchan.R
+import com.makentoshe.booruchan.style.getColorFromStyle
+import com.makentoshe.booruchan.style.style
 import org.jetbrains.anko.*
 import org.jetbrains.anko.custom.ankoView
 
 class SampleContentUiBottombar : AnkoComponent<_RelativeLayout> {
 
-    private val style = Booruchan.INSTANCE.style
-
     override fun createView(ui: AnkoContext<_RelativeLayout>) = with(ui.owner) {
-        bottomNavigationView {
+        bottomNavigationView(style.toolbar) {
             id = R.id.samples_bottombar
-            backgroundColorResource = style.toolbar.primaryColorRes
             menu.buildMenuItem(
                 R.string.info,
                 R.id.bottombar_infoitem
@@ -32,7 +31,11 @@ class SampleContentUiBottombar : AnkoComponent<_RelativeLayout> {
 //                R.string.comments,
 //                R.id.bottombar_commentsitem
 //            )
-            setTextColor(style.toolbar.getOnPrimaryColor(context), style.toolbar.getSecondaryColor(context))
+
+            setTextColor(
+                getColorFromStyle(android.R.attr.textColor),
+                getColorFromStyle(android.R.attr.colorAccent)
+            )
         }.lparams(matchParent, wrapContent) {
             alignParentBottom()
         }
@@ -52,7 +55,10 @@ class SampleContentUiBottombar : AnkoComponent<_RelativeLayout> {
         itemTextColor = ColorStateList(states, colors)
     }
 
-    private fun ViewManager.bottomNavigationView(init: BottomNavigationView.() -> Unit): BottomNavigationView {
-        return ankoView({ BottomNavigationView(it) }, 0, init)
+    private fun ViewManager.bottomNavigationView(
+        theme: Int = 0,
+        init: BottomNavigationView.() -> Unit
+    ): BottomNavigationView {
+        return ankoView({ BottomNavigationView(it) }, theme, init)
     }
 }

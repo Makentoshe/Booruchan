@@ -1,10 +1,9 @@
 package com.makentoshe.booruchan.screen.start.view
 
 import android.graphics.PorterDuff
-import android.util.TypedValue
 import android.view.Gravity
-import androidx.annotation.ColorInt
 import com.makentoshe.booruchan.R
+import com.makentoshe.booruchan.style.getColorFromStyle
 import org.jetbrains.anko.*
 
 class StartUiToolbarOverflow : AnkoComponent<_RelativeLayout> {
@@ -14,12 +13,7 @@ class StartUiToolbarOverflow : AnkoComponent<_RelativeLayout> {
 
             imageView {
                 setImageResource(R.drawable.ic_overflow)
-
-                val typedValue = TypedValue()
-                val theme = context.theme
-                theme.resolveAttribute(android.R.attr.textColor, typedValue, true)
-                @ColorInt val color = typedValue.data
-                setColorFilter(color, PorterDuff.Mode.SRC_ATOP)
+                setColorFilter(getColorFromStyle(android.R.attr.textColorPrimary), PorterDuff.Mode.SRC_ATOP)
             }.lparams(dip(24), dip(24)) {
                 gravity = Gravity.CENTER
             }

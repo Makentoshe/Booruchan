@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.annotation.ColorInt
 import androidx.annotation.IdRes
 import com.makentoshe.booruchan.R
+import com.makentoshe.booruchan.style.getColorFromStyle
 import org.jetbrains.anko.*
 
 open class BooruToolbarUiDrawer(
@@ -20,11 +21,7 @@ open class BooruToolbarUiDrawer(
 
             imageView {
                 setImageResource(R.drawable.ic_menu_vector)
-                val typedValue = TypedValue()
-                val theme = context.theme
-                theme.resolveAttribute(android.R.attr.textColor, typedValue, true)
-                @ColorInt val color = typedValue.data
-                setColorFilter(color, PorterDuff.Mode.SRC_ATOP)
+                setColorFilter(getColorFromStyle(android.R.attr.textColorPrimary), PorterDuff.Mode.SRC_ATOP)
             }.lparams(dip(24), dip(24)) {
                 gravity = Gravity.CENTER
             }

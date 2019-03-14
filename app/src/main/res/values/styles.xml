@@ -13,7 +13,9 @@
 
     <style name="SotisToolbar" parent="Sotis">
         <item name="android:background">@color/MaterialTeal600</item>
+        <item name="android:backgroundTint">@color/MaterialTeal600</item>
         <item name="android:textColor">@android:color/white</item>
+        <item name="colorAccent">@color/MaterialTeal900</item>
         <item name="android:textColorSecondary">@android:color/white</item>
         <item name="android:textColorPrimary">@android:color/white</item>
         <!--<item name="android:titleTextColor">@android:color/white</item>-->

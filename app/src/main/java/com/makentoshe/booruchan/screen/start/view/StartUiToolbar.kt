@@ -8,7 +8,7 @@ import org.jetbrains.anko.*
 
 class StartUiToolbar : AnkoComponent<_RelativeLayout> {
 
-    private val style = Booruchan.INSTANCE.styleAlt
+    private val style = Booruchan.INSTANCE.style
 
     override fun createView(ui: AnkoContext<_RelativeLayout>): View = with(ui.owner) {
         themedRelativeLayout(style.toolbar) {
