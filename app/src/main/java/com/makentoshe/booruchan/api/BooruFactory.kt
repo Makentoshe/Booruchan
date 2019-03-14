@@ -15,7 +15,9 @@ class BooruFactory(private val httpClient: HttpClient) {
     }
 
     private fun buildGelbooru(context: Context): Booru {
-        val client = HostHttpClient(httpClient, listOf("https://www.gelbooru.com"))
+        val hostList = mutableListOf("https://www.gelbooru.com")
+        hostList.add("http://0s.m5swyytpn5zhkltdn5wq.nblz.ru")
+        val client = HostHttpClient(httpClient, hostList)
         //todo(define the mirrors or get them from the storage using context)
         return Gelbooru(client)
     }
