@@ -5,6 +5,7 @@ import android.app.Application;
 import com.makentoshe.booruchan.api.Booru;
 import com.makentoshe.booruchan.api.gelbooru.Gelbooru;
 import com.makentoshe.booruchan.navigation.Router;
+import com.makentoshe.booruchan.style.SothisStyle;
 import com.makentoshe.style.SotisStyle;
 import com.makentoshe.style.Style;
 import io.reactivex.exceptions.UndeliverableException;
@@ -22,6 +23,7 @@ public final class Booruchan extends Application {
     private Cicerone<Router> cicerone;
     private Style style;
     private List<Class<? extends Booru>> boorus = new ArrayList<>();
+    private com.makentoshe.booruchan.style.Style styleAlt;
 
     @Override
     public void onCreate() {
@@ -49,6 +51,7 @@ public final class Booruchan extends Application {
 
     private void loadStyle() {
         style = new SotisStyle();
+        styleAlt = new SothisStyle();
     }
 //
     private void loadBooru() {
@@ -70,6 +73,10 @@ public final class Booruchan extends Application {
 
     public Style getStyle() {
         return style;
+    }
+
+    public com.makentoshe.booruchan.style.Style getStyleAlt() {
+        return styleAlt;
     }
 
     public List<Class<? extends Booru>> getBooruList() {
