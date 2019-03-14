@@ -23,4 +23,6 @@
         <item name="android:indeterminateDrawable">@color/MaterialTeal600</item>
     </style>
 
+    <style name="AppBaseChip" parent="Theme.MaterialComponents"/>
+
 </resources>

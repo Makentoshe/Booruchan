@@ -5,9 +5,12 @@ import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewManager
+import androidx.appcompat.view.ContextThemeWrapper
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
+import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.api.Tag
+import com.makentoshe.booruchan.style.style
 import org.jetbrains.anko.custom.ankoView
 
 open class _ChipGroup(ctx: Context) : ChipGroup(ctx) {
@@ -111,7 +114,7 @@ open class _ChipGroup(ctx: Context) : ChipGroup(ctx) {
 fun ViewManager.chipGroup(init: _ChipGroup.() -> Unit) = ankoView({ _ChipGroup(it) }, 0, init)
 
 fun ChipGroup.addTagToChipGroup(tag: Tag): Chip {
-    return chip {
+    return Chip(ContextThemeWrapper(context.applicationContext, R.style.AppBaseChip)).apply {
         text = tag.title
-    }
+    }.also { addView(it) }
 }
