@@ -1,5 +1,7 @@
 package com.makentoshe.booruchan.network
 
+import java.lang.RuntimeException
+
 class HostHttpClient(private val httpClient: HttpClient, private val hosts: List<String>) : HttpClient() {
 
     private var hostIndex = 0
@@ -8,8 +10,12 @@ class HostHttpClient(private val httpClient: HttpClient, private val hosts: List
     override fun get(url: String): HttpGet {
         try {
             val result = httpClient.get(currentHost.plus(url))
-            hostIndex = 0
-            return result
+            if (result.isSuccessful) {
+                hostIndex = 0
+                return result
+            } else {
+                throw Exception(result.body())
+            }
         } catch (e: Exception) {
             try {
                 return requestWithRetries { get(url) }

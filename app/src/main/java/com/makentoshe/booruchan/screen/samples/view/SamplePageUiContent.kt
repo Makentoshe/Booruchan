@@ -10,6 +10,10 @@ class SamplePageUiContent : AnkoComponent<_RelativeLayout> {
         relativeLayout {
             SamplePageUiContentImage()
                 .createView(AnkoContext.createDelegate(this))
+            SamplePageUiContentGif()
+                .createView(AnkoContext.createDelegate(this))
+            SamplePageUiContentWebm()
+                .createView(AnkoContext.createDelegate(this))
         }
     }
 }

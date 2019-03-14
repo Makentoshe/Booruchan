@@ -99,5 +99,7 @@
     <item name="sampleinfo_tags_scrollview" type="id"/>
     <item name="sampleinfo_progressbar" type="id"/>
     <item name="sampleinfo_info_listview" type="id"/>
+    <item name="samples_gif" type="id"/>
+    <item name="samples_webm" type="id"/>
 
 </resources>
