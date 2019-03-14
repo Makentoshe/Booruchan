@@ -1,22 +1,24 @@
 package com.makentoshe.booruchan.screen.posts.view
 
 import android.graphics.PorterDuff
-import com.makentoshe.booruchan.Booruchan
+import android.util.TypedValue
+import androidx.annotation.ColorInt
 import com.makentoshe.booruchan.R
+import com.makentoshe.booruchan.style.style
 import org.jetbrains.anko.*
 
 class PostPageUiProgress : AnkoComponent<_RelativeLayout> {
 
-    private val style = Booruchan.INSTANCE.style
-
     override fun createView(ui: AnkoContext<_RelativeLayout>) = with(ui.owner) {
-        progressBar {
+        themedProgressBar(style.progress) {
             id = R.id.posts_page_progress
             isIndeterminate = true
-            indeterminateDrawable.setColorFilter(
-                style.toolbar.getPrimaryColor(context),
-                PorterDuff.Mode.SRC_ATOP
-            )
+
+            val typedValue = TypedValue()
+            val theme = context.theme
+            theme.resolveAttribute(android.R.attr.indeterminateDrawable, typedValue, true)
+            @ColorInt val color = typedValue.data
+            indeterminateDrawable.setColorFilter(color, PorterDuff.Mode.SRC_ATOP)
         }.lparams {
             centerInParent()
         }

@@ -19,4 +19,8 @@
         <!--<item name="android:titleTextColor">@android:color/white</item>-->
     </style>
 
+    <style name="SotisProgress" parent="Sotis">
+        <item name="android:indeterminateDrawable">@color/MaterialTeal600</item>
+    </style>
+
 </resources>

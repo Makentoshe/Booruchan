@@ -8,7 +8,7 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.api.Booru
-import com.makentoshe.booruchan.screen.BooruToolbarUiInflater
+import com.makentoshe.booruchan.screen.booru.inflator.BooruToolbarUiInflater
 import com.makentoshe.booruchan.screen.arguments
 import org.jetbrains.anko.AnkoContext
 

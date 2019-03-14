@@ -12,6 +12,9 @@ interface Style {
     @get:StyleRes
     val main: Int
 
+    @get:StyleRes
+    val progress: Int
+
 }
 
 class SothisStyle : Style {
@@ -21,6 +24,9 @@ class SothisStyle : Style {
 
     override val main: Int
         get() = R.style.Sotis
+
+    override val progress: Int
+        get() = R.style.SotisProgress
 }
 
 

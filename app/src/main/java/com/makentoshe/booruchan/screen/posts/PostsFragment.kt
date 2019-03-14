@@ -14,7 +14,7 @@ import com.makentoshe.booruchan.api.Tag
 import com.makentoshe.booruchan.repository.cache.ImageInternalCache
 import com.makentoshe.booruchan.repository.cache.InternalCacheType
 import com.makentoshe.booruchan.repository.cache.PostInternalCache
-import com.makentoshe.booruchan.screen.BooruToolbarUiInflater
+import com.makentoshe.booruchan.screen.booru.inflator.BooruToolbarUiInflater
 import com.makentoshe.booruchan.screen.RequestCode
 import com.makentoshe.booruchan.screen.SubjectHolder
 import com.makentoshe.booruchan.screen.arguments

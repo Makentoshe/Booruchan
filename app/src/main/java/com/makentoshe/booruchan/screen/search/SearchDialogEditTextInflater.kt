@@ -12,7 +12,7 @@ import com.google.android.material.chip.ChipGroup
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.api.Tag
 import com.makentoshe.booruchan.screen.RequestCode
-import com.makentoshe.booruchan.screen.addTagToChipGroup
+import com.makentoshe.booruchan.view.addTagToChipGroup
 import org.jetbrains.anko.find
 import org.jetbrains.anko.sdk27.coroutines.onEditorAction
 import org.jetbrains.anko.sdk27.coroutines.textChangedListener
