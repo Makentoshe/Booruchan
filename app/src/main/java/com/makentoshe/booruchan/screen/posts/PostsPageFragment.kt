@@ -1,31 +1,37 @@
 package com.makentoshe.booruchan.screen.posts
 
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.GridView
+import android.widget.ProgressBar
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.makentoshe.booruchan.Booruchan
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.api.Booru
+import com.makentoshe.booruchan.api.Post
 import com.makentoshe.booruchan.api.Posts
 import com.makentoshe.booruchan.api.Tag
-import com.makentoshe.booruchan.repository.AsyncRepositoryAccess
 import com.makentoshe.booruchan.repository.CachedRepository
 import com.makentoshe.booruchan.repository.PostsRepository
+import com.makentoshe.booruchan.repository.PreviewImageRepository
+import com.makentoshe.booruchan.repository.cache.ImageInternalCache
+import com.makentoshe.booruchan.repository.cache.InternalCacheType
 import com.makentoshe.booruchan.repository.cache.PostInternalCache
 import com.makentoshe.booruchan.screen.arguments
-import com.makentoshe.booruchan.screen.posts.inflator.PostPageErrorMessageInflater
-import com.makentoshe.booruchan.screen.posts.inflator.PostPageGridViewInflater
+import com.makentoshe.booruchan.screen.posts.model.PostPageGridAdapter
 import com.makentoshe.booruchan.screen.posts.view.PostPageUi
 import com.makentoshe.booruchan.screen.samples.SampleScreen
+import io.reactivex.Single
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.schedulers.Schedulers
 import org.jetbrains.anko.AnkoContext
 import org.jetbrains.anko.find
 import java.io.Serializable
+import java.util.concurrent.TimeUnit
 
 class PostsPageFragment : Fragment() {
 
@@ -41,40 +47,49 @@ class PostsPageFragment : Fragment() {
         get() = arguments!!.get(TAGS) as Set<Tag>
         set(value) = arguments().putSerializable(TAGS, value as Serializable)
 
-    private val disposables = CompositeDisposable()
-
-    private val asyncRepositoryAccess by lazy {
+    private val postsRepository by lazy {
         val cache = PostInternalCache(requireContext())
         val source = PostsRepository(booru)
-        val repository = CachedRepository(cache, source)
-        AsyncRepositoryAccess(repository).apply {
-            request(Posts.Request(12, tags, position))
-        }
+        CachedRepository(cache, source)
     }
 
+    private val previewsRepository by lazy {
+        val cache = ImageInternalCache(requireContext(), InternalCacheType.PREVIEW)
+        val source = PreviewImageRepository(booru)
+        CachedRepository(cache, source)
+    }
+
+    private val disposables = CompositeDisposable()
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        println("Fragment: $position")
         return PostPageUi().createView(AnkoContext.create(requireContext(), this))
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        disposables.clear()
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        val disposable = Single.just(postsRepository)
+            .subscribeOn(Schedulers.newThread())
+            .map { it.get(Posts.Request(12, tags, position))!! }
+            .timeout(5, TimeUnit.SECONDS)
+            .observeOn(AndroidSchedulers.mainThread())
+            .doOnError { onError(view, it) }
+            .subscribe { posts -> onComplete(view, posts) }
+        disposables.add(disposable)
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        //show grid with the images if all is ok
-        disposables.add(asyncRepositoryAccess.onComplete {
-            Handler(Looper.getMainLooper()).post {
-                PostPageGridViewInflater(it).accept(view)
-            }
-        })
-        //show on error message when error event occur
-        disposables.add(asyncRepositoryAccess.onError {
-            Handler(Looper.getMainLooper()).post {
-                PostPageErrorMessageInflater(it).accept(view)
-            }
-        })
+    private fun onComplete(view: View, posts: List<Post>) {
+        val progress = view.find<ProgressBar>(R.id.posts_page_progress)
+        val gridview = view.find<GridView>(R.id.posts_page_gridview)
+
+        progress.visibility = View.GONE
+        gridview.visibility = View.VISIBLE
+
+        val adapter = PostPageGridAdapter(view.context, posts, previewsRepository)
+        //when subscribed on observable - the disposable will be return for storing and dispose in future
+        adapter.setOnSubscribeListener {
+            disposables.add(it)
+        }
+        gridview.adapter = adapter
+
         //click on grid element starts a new screen - samples,
         //where images in sample resolution will be displayed
         view.find<GridView>(R.id.posts_page_gridview).setOnItemClickListener { _, _, itempos, _ ->
@@ -82,6 +97,21 @@ class PostsPageFragment : Fragment() {
             val screen = SampleScreen(position, booru, tags)
             Booruchan.INSTANCE.router.navigateTo(screen)
         }
+    }
+
+    private fun onError(view: View, throwable: Throwable) {
+        val progress = view.find<ProgressBar>(R.id.posts_page_progress)
+        val message = view.find<TextView>(R.id.posts_page_textview)
+
+        progress.visibility = View.GONE
+        message.text = throwable.localizedMessage
+
+        throwable.printStackTrace()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        disposables.clear()
     }
 
     companion object {

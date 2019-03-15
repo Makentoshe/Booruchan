@@ -51,15 +51,9 @@ public final class Booruchan extends Application {
         style = new SotisStyle();
     }
 
-    //
     private void loadBooru() {
         boorus.add(Gelbooru.class);
     }
-//
-//    private void load() {
-//        HttpClient client = new FuelClientFactory().buildClient();
-//        boorus.add(new Gelbooru(client));
-//    }
 
     public NavigatorHolder getNavigatorHolder() {
         return cicerone.getNavigatorHolder();
