@@ -10,6 +10,7 @@
     </style>
 
     <style name="SotisDefault" parent="Sotis">
+        <item name="colorAccent">@color/MaterialTeal900</item>
         <item name="android:background">@android:color/white</item>
         <item name="android:textColor">@android:color/black</item>
     </style>

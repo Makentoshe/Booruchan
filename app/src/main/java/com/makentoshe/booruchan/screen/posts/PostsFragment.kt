@@ -11,13 +11,14 @@ import androidx.viewpager.widget.ViewPager
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.api.Booru
 import com.makentoshe.booruchan.api.Tag
+import com.makentoshe.booruchan.appSettings
 import com.makentoshe.booruchan.repository.cache.ImageInternalCache
 import com.makentoshe.booruchan.repository.cache.InternalCacheType
 import com.makentoshe.booruchan.repository.cache.PostInternalCache
-import com.makentoshe.booruchan.screen.booru.inflator.BooruToolbarUiInflater
 import com.makentoshe.booruchan.screen.RequestCode
 import com.makentoshe.booruchan.screen.SubjectHolder
 import com.makentoshe.booruchan.screen.arguments
+import com.makentoshe.booruchan.screen.booru.inflator.BooruToolbarUiInflater
 import com.makentoshe.booruchan.screen.posts.inflator.PostsUiBottomBarInflator
 import com.makentoshe.booruchan.screen.posts.inflator.PostsUiToolbarInflator
 import com.makentoshe.booruchan.screen.posts.model.PostsViewPagerAdapter
@@ -97,10 +98,13 @@ class PostsFragment : Fragment() {
         //set tags to holder
         tagsHolder.set.clear()
         tagsHolder.set.addAll(tags)
-        //todo put here the default tags from settings
-        //...
+        //put here the default tags from settings
+        val fixedTags = HashSet<Tag>()
+        fixedTags.addAll(tags)
+        //default tags for disable nsfw content
+        if (!appSettings.getNSFW(requireContext())) fixedTags.add(Tag.create("rating:safe"))
         //notify
-        searchController.onNext(tags)
+        searchController.onNext(fixedTags)
     }
 
     override fun onDestroyView() {
