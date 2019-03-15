@@ -5,7 +5,7 @@ import com.makentoshe.booruchan.api.gelbooru.Gelbooru
 import com.makentoshe.booruchan.network.HostHttpClient
 import com.makentoshe.booruchan.network.HttpClient
 
-class BooruFactory(private val httpClient: HttpClient) {
+class BooruFactory(private val defaultClient: HttpClient) {
 
     fun buildBooru(`class`: Class<out Booru>, context: Context): Booru {
         return when (`class`) {
@@ -16,9 +16,10 @@ class BooruFactory(private val httpClient: HttpClient) {
 
     private fun buildGelbooru(context: Context): Booru {
         val hostList = mutableListOf("https://www.gelbooru.com")
-        hostList.add("http://0s.m5swyytpn5zhkltdn5wq.nblz.ru")
-        val client = HostHttpClient(httpClient, hostList)
-        //todo(define the mirrors or get them from the storage using context)
-        return Gelbooru(client)
+//        hostList.add("http://0s.m5swyytpn5zhkltdn5wq.nblz.ru")
+//        todo(define the mirrors or get them from the storage using context)
+//        val proxy = ProxyHttpClient(defaultClient, listOf("http://service.bypass123.com/index.php"))
+        val host = HostHttpClient(defaultClient, hostList)
+        return Gelbooru(host)
     }
 }

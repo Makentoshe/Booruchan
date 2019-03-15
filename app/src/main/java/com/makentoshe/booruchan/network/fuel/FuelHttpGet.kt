@@ -8,7 +8,7 @@ import java.io.InputStream
 class FuelHttpGet(
     url: String,
     params: List<Pair<String, Any?>>?
-) : HttpGet(url) {
+) : HttpGet {
 
     private val response = url.httpGet(params).response()
 

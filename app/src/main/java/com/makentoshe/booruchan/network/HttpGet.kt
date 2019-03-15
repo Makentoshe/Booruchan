@@ -6,16 +6,16 @@ import java.io.Serializable
 /**
  * A http GET request result.
  */
-abstract class HttpGet(private val url: String) : HttpResult, Serializable {
+interface HttpGet : HttpResult, Serializable {
 
     /**
      * Returns result as an [InputStream].
      */
-    abstract fun stream(): InputStream
+    fun stream(): InputStream
 
     /**
      * Returns result as a [String].
      */
-    abstract fun body(): String
+    fun body(): String
 
 }
