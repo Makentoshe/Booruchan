@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import android.widget.RelativeLayout
 import androidx.core.view.updateLayoutParams
 import com.makentoshe.booruchan.R
-import com.makentoshe.booruchan.style.style
+import com.makentoshe.booruchan.style
 import org.jetbrains.anko.*
 
 open class BooruToolbarUi : AnkoComponent<ViewGroup> {

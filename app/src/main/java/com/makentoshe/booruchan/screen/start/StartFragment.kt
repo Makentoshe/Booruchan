@@ -1,9 +1,12 @@
 package com.makentoshe.booruchan.screen.start
 
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.makentoshe.booruchan.Booruchan
+import com.makentoshe.booruchan.router
 import com.makentoshe.booruchan.screen.start.inflator.StartUiInflatorContent
 import com.makentoshe.booruchan.screen.start.inflator.StartUiInflatorOverflow
 import com.makentoshe.booruchan.screen.start.model.StartScreenNavigator
@@ -13,7 +16,7 @@ import org.jetbrains.anko.AnkoContext
 class StartFragment : Fragment() {
 
     private val navigator by lazy {
-        StartScreenNavigator(Booruchan.INSTANCE.router)
+        StartScreenNavigator(router)
     }
 
     private val booruList by lazy {

@@ -33,9 +33,6 @@ class SotisStyle : Style {
         get() = R.style.SotisProgress
 }
 
-
-val style: Style = Booruchan.INSTANCE.style
-
 @ColorInt
 fun Context.getColorFromStyle(resid: Int): Int {
     val typedValue = TypedValue()

@@ -20,6 +20,7 @@ import com.makentoshe.booruchan.repository.PreviewImageRepository
 import com.makentoshe.booruchan.repository.cache.ImageInternalCache
 import com.makentoshe.booruchan.repository.cache.InternalCacheType
 import com.makentoshe.booruchan.repository.cache.PostInternalCache
+import com.makentoshe.booruchan.router
 import com.makentoshe.booruchan.screen.arguments
 import com.makentoshe.booruchan.screen.posts.model.PostPageGridAdapter
 import com.makentoshe.booruchan.screen.posts.view.PostPageUi
@@ -95,7 +96,7 @@ class PostsPageFragment : Fragment() {
         view.find<GridView>(R.id.posts_page_gridview).setOnItemClickListener { _, _, itempos, _ ->
             val position = this.position * 12 + itempos
             val screen = SampleScreen(position, booru, tags)
-            Booruchan.INSTANCE.router.navigateTo(screen)
+            router.navigateTo(screen)
         }
     }
 

@@ -1,7 +1,7 @@
 package com.makentoshe.booruchan.screen.start.view
 
 import com.makentoshe.booruchan.screen.start.StartFragment
-import com.makentoshe.booruchan.style.style
+import com.makentoshe.booruchan.style
 import org.jetbrains.anko.AnkoComponent
 import org.jetbrains.anko.AnkoContext
 import org.jetbrains.anko.themedRelativeLayout

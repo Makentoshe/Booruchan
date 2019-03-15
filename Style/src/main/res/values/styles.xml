@@ -2,6 +2,7 @@
 
     <!--  Base application theme.  -->
     <style name="AppBase" parent="Theme.MaterialComponents.Light.NoActionBar"/>
+
     <style name="Sotis" parent="AppBase">
         <item name="colorPrimary">@color/MaterialTeal600</item>
         <item name="colorPrimaryDark">@color/MaterialTeal900</item>

@@ -2,9 +2,8 @@ package com.makentoshe.booruchan.screen.booru.view
 
 import android.view.Gravity
 import android.view.View
-import com.makentoshe.booruchan.Booruchan
 import com.makentoshe.booruchan.R
-import com.makentoshe.booruchan.style.style
+import com.makentoshe.booruchan.style
 import org.jetbrains.anko.*
 import org.jetbrains.anko.support.v4._DrawerLayout
 
