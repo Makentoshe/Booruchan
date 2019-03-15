@@ -1,16 +1,13 @@
 package com.makentoshe.booruchan.screen.sampleinfo.view
 
-import com.makentoshe.booruchan.Booruchan
 import com.makentoshe.booruchan.R
+import com.makentoshe.booruchan.style.style
 import org.jetbrains.anko.*
 
 class SampleInfoUiToolbar : AnkoComponent<_RelativeLayout> {
 
-    private val style = Booruchan.INSTANCE.style
-
     override fun createView(ui: AnkoContext<_RelativeLayout>) = with(ui.owner) {
-        relativeLayout {
-            backgroundColorResource = style.toolbar.primaryColorRes
+        themedRelativeLayout(style.toolbar) {
             id = R.id.sampleinfo_toolbar
 
             SampleInfoUiToolbarConstr(

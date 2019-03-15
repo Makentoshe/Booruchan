@@ -5,8 +5,8 @@ import android.app.Application;
 import com.makentoshe.booruchan.api.Booru;
 import com.makentoshe.booruchan.api.gelbooru.Gelbooru;
 import com.makentoshe.booruchan.navigation.Router;
-import com.makentoshe.style.SotisStyle;
-import com.makentoshe.style.Style;
+import com.makentoshe.booruchan.style.SotisStyle;
+import com.makentoshe.booruchan.style.Style;
 import io.reactivex.exceptions.UndeliverableException;
 import io.reactivex.functions.Consumer;
 import io.reactivex.plugins.RxJavaPlugins;
@@ -20,8 +20,8 @@ public final class Booruchan extends Application {
 
     public static Booruchan INSTANCE;
     private Cicerone<Router> cicerone;
-    private Style style;
     private List<Class<? extends Booru>> boorus = new ArrayList<>();
+    private Style style;
 
     @Override
     public void onCreate() {
@@ -50,7 +50,8 @@ public final class Booruchan extends Application {
     private void loadStyle() {
         style = new SotisStyle();
     }
-//
+
+    //
     private void loadBooru() {
         boorus.add(Gelbooru.class);
     }

@@ -10,10 +10,11 @@ import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.api.Booru
 import com.makentoshe.booruchan.api.Post
 import com.makentoshe.booruchan.api.Tag
-import com.makentoshe.booruchan.screen.addTagToChipGroup
 import com.makentoshe.booruchan.screen.arguments
 import com.makentoshe.booruchan.screen.sampleinfo.view.SampleInfoTagsUi
-import org.jetbrains.anko.*
+import com.makentoshe.booruchan.view.addTagToChipGroup
+import org.jetbrains.anko.AnkoContext
+import org.jetbrains.anko.find
 
 class SampleInfoTagsFragment : Fragment() {
 

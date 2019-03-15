@@ -10,11 +10,8 @@ import org.jetbrains.anko.support.v4.viewPager
 
 class SampleUi : AnkoComponent<Fragment> {
 
-    private val style = Booruchan.INSTANCE.style
-
     override fun createView(ui: AnkoContext<Fragment>) = with(ui) {
         viewPager {
-            backgroundColor = style.background.backgroundColorRes
             id = R.id.samples_container_viewpager
         }
     }

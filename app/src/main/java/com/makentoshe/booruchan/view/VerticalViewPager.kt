@@ -9,8 +9,8 @@ import androidx.viewpager.widget.ViewPager
 import org.jetbrains.anko.custom.ankoView
 import kotlin.math.absoluteValue
 
-fun ViewManager.verticalViewPager(init: VerticalViewPager.() -> Unit) =
-    ankoView({ VerticalViewPager(it) }, 0, init)
+fun ViewManager.verticalViewPager(theme: Int = 0, init: VerticalViewPager.() -> Unit) =
+    ankoView({ VerticalViewPager(it) }, theme, init)
 
 open class VerticalViewPager(context: Context, attrs: AttributeSet? = null) : ViewPager(context, attrs) {
 

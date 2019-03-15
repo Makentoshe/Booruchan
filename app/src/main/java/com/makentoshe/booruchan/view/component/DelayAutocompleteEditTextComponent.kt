@@ -11,15 +11,13 @@ import android.widget.EditText
 import android.widget.TextView
 import androidx.annotation.ColorInt
 import androidx.core.content.ContextCompat
-import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.view.delayAutoCompleteEditText
 import org.jetbrains.anko.*
 
 class DelayAutocompleteEditTextComponent : AnkoComponent<ViewGroup> {
     override fun createView(ui: AnkoContext<ViewGroup>): View = with(ui.owner) {
         delayAutoCompleteEditText {
-            layoutParams =
-                    ViewGroup.LayoutParams(matchParent, wrapContent)
+            layoutParams = ViewGroup.LayoutParams(matchParent, wrapContent)
             gravity = Gravity.TOP and Gravity.CENTER_HORIZONTAL
             setPadding(dip(8), dip(10), dip(36), dip(8))
             singleLine = true

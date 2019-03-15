@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.makentoshe.booruchan.navigation.FragmentNavigator
 import com.makentoshe.booruchan.repository.cache.PostInternalCache
 import com.makentoshe.booruchan.screen.start.StartScreen
+import com.makentoshe.booruchan.style.style
 import ru.terrakok.cicerone.Router
 
 class AppActivity : AppCompatActivity() {
@@ -14,7 +15,7 @@ class AppActivity : AppCompatActivity() {
     private val router = Booruchan.INSTANCE.router
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        setTheme(Booruchan.INSTANCE.style.id)
+        setTheme(style.main)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         if (savedInstanceState == null) {

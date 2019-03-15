@@ -2,19 +2,16 @@ package com.makentoshe.booruchan.screen.posts.view
 
 import android.view.Gravity
 import android.view.View
-import com.makentoshe.booruchan.Booruchan
 import com.makentoshe.booruchan.R
+import com.makentoshe.booruchan.style.style
 import org.jetbrains.anko.*
 
 class PostsUiBottombar : AnkoComponent<_RelativeLayout> {
 
-    private val style = Booruchan.INSTANCE.style
-
     override fun createView(ui: AnkoContext<_RelativeLayout>): View = with(ui.owner) {
-        linearLayout {
+        themedLinearLayout(style.toolbar) {
             id = R.id.posts_bottombar
             elevation = dip(10).toFloat()
-            backgroundColorResource = style.toolbar.primaryColorRes
             createLeft()
             createCenter()
             createRight()
@@ -23,13 +20,12 @@ class PostsUiBottombar : AnkoComponent<_RelativeLayout> {
         }
     }
 
-
     private fun _LinearLayout.createLeft() {
         frameLayout {
             id = R.id.posts_bottombar_left
 
             imageView {
-                imageResource = style.drawable.static.chevron
+                imageResource = R.drawable.ic_chevron_vector
                 rotation = -90f
             }.lparams {
                 gravity = Gravity.CENTER
@@ -44,8 +40,7 @@ class PostsUiBottombar : AnkoComponent<_RelativeLayout> {
         frameLayout {
             id = R.id.posts_bottombar_center
 
-            textView {
-                textColorResource = style.toolbar.onPrimaryColorRes
+            themedTextView(style.toolbar) {
                 id = R.id.posts_bottombar_center_textview
             }.lparams {
                 gravity = Gravity.CENTER
@@ -61,7 +56,7 @@ class PostsUiBottombar : AnkoComponent<_RelativeLayout> {
             id = R.id.posts_bottombar_right
 
             imageView {
-                imageResource = style.drawable.static.chevron
+                imageResource = R.drawable.ic_chevron_vector
                 rotation = 90f
             }.lparams {
                 gravity = Gravity.CENTER
