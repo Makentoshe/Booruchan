@@ -7,6 +7,8 @@ import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.test.platform.app.InstrumentationRegistry
+import com.makentoshe.booruchan.api.BooruFactory
+import io.mockk.every
 import io.mockk.mockk
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertTrue
@@ -46,4 +48,10 @@ inline fun <reified T : Fragment> Fragment.getFragment(): T {
     childFragmentManager.fragments.forEach { if (it is T) fragment = it }
     assertNotNull(fragment)
     return fragment as T
+}
+
+fun mockBooruFactory(context: Context): BooruFactory {
+    val factory = mockk<BooruFactory>()
+    every { factory.buildBooru(Mockbooru::class.java, context) } returns Mockbooru()
+    return factory
 }

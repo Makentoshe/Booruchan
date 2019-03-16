@@ -50,7 +50,7 @@ class StartFragment : Fragment() {
 
     private fun onItemClick(parent: AdapterView<*>, view: View, position: Int, id: Long) {
         val booru = booruFactory.buildBooru(booruList[position], requireContext())
-        navigator.navigateToBooruScreen(booru, setOf())
+        navigator.navigateToBooruScreen(booru)
     }
 
     private fun onOverflowIconClick(view: View) {

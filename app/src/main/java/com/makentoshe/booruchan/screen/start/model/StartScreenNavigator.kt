@@ -11,7 +11,7 @@ class StartScreenNavigator(private val router: Router) {
         router.navigateTo(SettingsScreen())
     }
 
-    fun navigateToBooruScreen(booru: Booru, tags: Set<Tag>) {
-        router.navigateTo(BooruScreen(booru, tags))
+    fun navigateToBooruScreen(booru: Booru) {
+        router.navigateTo(BooruScreen(booru))
     }
 }

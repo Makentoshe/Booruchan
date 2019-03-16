@@ -1,17 +1,14 @@
 package com.makentoshe.booruchan.screen.start
 
-import android.content.Context
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.rule.ActivityTestRule
 import com.makentoshe.booruchan.*
-import com.makentoshe.booruchan.api.BooruFactory
 import com.makentoshe.booruchan.screen.booru.BooruFragment
 import com.makentoshe.booruchan.screen.settings.SettingsFragment
-import io.mockk.every
-import io.mockk.mockk
+import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -20,13 +17,14 @@ class StartFragmentTest {
 
     @get:Rule
     val activityTestRule = ActivityTestRule<AppActivity>(AppActivity::class.java, false, false)
-    private var booruPosition: Int = -1
 
     private lateinit var activity: AppActivity
+    private var position = -1
 
     @Before
     fun init() {
         Booruchan.INSTANCE.booruList.add(Mockbooru::class.java)
+        position = Booruchan.INSTANCE.booruList.indexOf(Mockbooru::class.java)
         activity = activityTestRule.launchActivity(null)
     }
 
@@ -54,10 +52,9 @@ class StartFragmentTest {
         activity.containsFragment<BooruFragment>()
     }
 
-}
-
-fun mockBooruFactory(context: Context): BooruFactory {
-    val factory = mockk<BooruFactory>()
-    every { factory.buildBooru(Mockbooru::class.java, context) } returns Mockbooru()
-    return factory
+    @After
+    fun after() {
+        Booruchan.INSTANCE.booruList.removeAt(position)
+        position = -1
+    }
 }
