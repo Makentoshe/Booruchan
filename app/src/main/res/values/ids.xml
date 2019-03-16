@@ -104,4 +104,5 @@
     <item name="settings_toolbar" type="id"/>
     <item name="setting_nsfw" type="id"/>
     <item name="setting_nsfw_checkbox" type="id"/>
+    <item name="search_progress" type="id"/>
 </resources>
