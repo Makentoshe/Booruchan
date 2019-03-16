@@ -1,13 +1,17 @@
 package com.makentoshe.booruchan.screen.start
 
+import android.content.Context
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.rule.ActivityTestRule
 import com.makentoshe.booruchan.*
+import com.makentoshe.booruchan.api.BooruFactory
+import com.makentoshe.booruchan.screen.booru.BooruFragment
 import com.makentoshe.booruchan.screen.settings.SettingsFragment
-import kotlinx.coroutines.test.withTestContext
+import io.mockk.every
+import io.mockk.mockk
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -41,4 +45,19 @@ class StartFragmentTest {
         activity.containsFragment<SettingsFragment>()
     }
 
+    @Test
+    fun should_navigate_to_booru_screen() {
+        activity.getFragment<StartFragment>().booruFactory = mockBooruFactory(activity)
+        //click on mocked booru
+        onView(withText(Mockbooru::class.java.simpleName)).perform(click())
+
+        activity.containsFragment<BooruFragment>()
+    }
+
+}
+
+fun mockBooruFactory(context: Context): BooruFactory {
+    val factory = mockk<BooruFactory>()
+    every { factory.buildBooru(Mockbooru::class.java, context) } returns Mockbooru()
+    return factory
 }
