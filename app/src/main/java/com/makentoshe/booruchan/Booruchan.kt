@@ -42,12 +42,7 @@ class Booruchan : Application() {
 
     private fun initRxErrorHandler() {
         RxJavaPlugins.setErrorHandler(Consumer { e ->
-            if (e is UndeliverableException) {
-                /*
-                    Just ignore this exception - in the postpage screen throws each time after device rotation
-                     */
-                return@Consumer
-            }
+            e.printStackTrace()
         })
     }
 

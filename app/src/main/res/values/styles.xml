@@ -25,6 +25,7 @@
     </style>
 
     <style name="SotisProgress" parent="SotisDefault">
+        <item name="android:background">@android:color/transparent</item>
         <item name="android:indeterminateDrawable">@color/MaterialTeal600</item>
     </style>
 
