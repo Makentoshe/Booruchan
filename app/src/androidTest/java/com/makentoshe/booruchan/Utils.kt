@@ -1,13 +1,18 @@
 package com.makentoshe.booruchan
 
+import android.app.Activity
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.test.espresso.Espresso
+import androidx.test.espresso.action.ViewActions
+import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.platform.app.InstrumentationRegistry
 import com.makentoshe.booruchan.api.BooruFactory
+import com.makentoshe.booruchan.screen.start.StartFragment
 import io.mockk.every
 import io.mockk.mockk
 import org.junit.Assert.assertNotNull
@@ -54,4 +59,10 @@ fun mockBooruFactory(context: Context): BooruFactory {
     val factory = mockk<BooruFactory>()
     every { factory.buildBooru(Mockbooru::class.java, context) } returns Mockbooru()
     return factory
+}
+
+fun AppCompatActivity.setMockbooruFactory() {
+    getFragment<StartFragment>().booruFactory = mockBooruFactory(this)
+    //click on mocked booru
+    Espresso.onView(ViewMatchers.withText(Mockbooru::class.java.simpleName)).perform(ViewActions.click())
 }
