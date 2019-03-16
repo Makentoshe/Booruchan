@@ -7,7 +7,6 @@ import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.test.platform.app.InstrumentationRegistry
-import com.makentoshe.booruapi.*
 import io.mockk.mockk
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertTrue
@@ -47,40 +46,4 @@ inline fun <reified T : Fragment> Fragment.getFragment(): T {
     childFragmentManager.fragments.forEach { if (it is T) fragment = it }
     assertNotNull(fragment)
     return fragment as T
-}
-
-class Mockbooru : Booru(mockk()) {
-    private val context: Context = InstrumentationRegistry.getInstrumentation().targetContext
-    var postsErr = false
-    var previewsErr = false
-
-    override fun getPosts(request: PostRequest): Posts {
-        if (postsErr) throw Exception()
-        val posts = mutableListOf<Post>()
-        (0 until request.count).forEach { posts.add(Post()) }
-        return Posts(posts)
-    }
-
-    override val title: String
-        get() = javaClass.simpleName
-
-    override fun customGet(request: String) = TODO("not implemented")
-    override fun getPreview(previewUrl: String): InputStream {
-        if (previewsErr) throw Exception()
-        val bytes = ByteArrayOutputStream().also {
-            (context.getDrawable(R.drawable.a) as BitmapDrawable)
-                .bitmap.compress(Bitmap.CompressFormat.JPEG, 100, it)
-        }.toByteArray()
-        return ByteArrayInputStream(bytes)
-    }
-
-    override fun autocomplete(term: String): List<Tag> {
-        val list = mutableListOf<Tag>()
-        (0 until 10).forEach {
-            list.add(Tag(name = "$term$it"))
-        }
-        return list
-    }
-
-    class Flags(val preview: Boolean = true, val posts: Boolean = true)
 }
