@@ -8,9 +8,9 @@ import androidx.fragment.app.Fragment
 import androidx.viewpager.widget.ViewPager
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.api.Booru
+import com.makentoshe.booruchan.api.Post
 import com.makentoshe.booruchan.api.Posts
 import com.makentoshe.booruchan.api.Tag
-import com.makentoshe.booruchan.repository.AsyncRepositoryAccess
 import com.makentoshe.booruchan.repository.CachedRepository
 import com.makentoshe.booruchan.repository.PostsRepository
 import com.makentoshe.booruchan.repository.cache.PostInternalCache
@@ -18,12 +18,15 @@ import com.makentoshe.booruchan.screen.arguments
 import com.makentoshe.booruchan.screen.sampleinfo.model.SampleInfoViewPagerAdapter
 import com.makentoshe.booruchan.screen.sampleinfo.view.SampleInfoUi
 import com.makentoshe.booruchan.screen.sampleinfo.view.SampleInfoUiToolbarAnimator
+import io.reactivex.Single
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.schedulers.Schedulers
 import org.jetbrains.anko.AnkoContext
 import org.jetbrains.anko.find
 import org.jetbrains.anko.support.v4.onPageChangeListener
-import org.jetbrains.anko.support.v4.runOnUiThread
 import java.io.Serializable
+import java.util.concurrent.TimeUnit
 
 class SampleInfoFragment : Fragment() {
 
@@ -45,13 +48,10 @@ class SampleInfoFragment : Fragment() {
 
     private val disposables = CompositeDisposable()
 
-    private val asyncRepositoryAccess by lazy {
+    private val postsRepository by lazy {
         val cache = PostInternalCache(requireContext())
         val source = PostsRepository(booru)
-        val repository = CachedRepository(cache, source)
-        AsyncRepositoryAccess(repository).apply {
-            request(Posts.Request(1, tags, position))
-        }
+        CachedRepository(cache, source)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -59,46 +59,50 @@ class SampleInfoFragment : Fragment() {
             .createView(AnkoContext.create(requireContext(), this))
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        disposables.clear()
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        val disposable = Single.just(postsRepository)
+            .subscribeOn(Schedulers.newThread())
+            .map { it.get(Posts.Request(1, tags, position))!! }
+            .timeout(5, TimeUnit.SECONDS)
+            .observeOn(AndroidSchedulers.mainThread())
+            .doOnError { onError(view, it) }
+            .subscribe { posts -> onComplete(view, posts[0]) }
+        disposables.add(disposable)
+
         val viewpager = view.find<ViewPager>(R.id.sampleinfo_viewpager)
-        val progressbar = view.find<View>(R.id.sampleinfo_progressbar)
-
-        disposables.add(asyncRepositoryAccess.onComplete {
-            runOnUiThread {
-                progressbar.visibility = View.GONE
-                viewpager.visibility = View.VISIBLE
-                viewpager.adapter = SampleInfoViewPagerAdapter(childFragmentManager, booru, it[0])
-                viewpager.currentItem = itemPosition
-            }
-        })
-
-        disposables.add(asyncRepositoryAccess.onError {
-            runOnUiThread {
-                progressbar.visibility = View.GONE
-                it.printStackTrace()
-            }
-        })
-
         val infotoolbar = view.find<View>(R.id.sampleinfo_toolbar_info)
         val tagstoolbar = view.find<View>(R.id.sampleinfo_toolbar_tags)
         val commtoolbar = view.find<View>(R.id.sampleinfo_toolbar_comments)
 
-        val animator = SampleInfoUiToolbarAnimator(
-            tagstoolbar,
-            infotoolbar,
-            commtoolbar
-        )
+        val animator = SampleInfoUiToolbarAnimator(tagstoolbar, infotoolbar, commtoolbar)
 
         viewpager.onPageChangeListener {
             onPageScrolled { position, offset, _ ->
                 animator.onPageScrolled(position, offset)
             }
         }
+    }
+
+    private fun onError(view: View, throwable: Throwable) {
+        val progressbar = view.find<View>(R.id.sampleinfo_progressbar)
+
+        progressbar.visibility = View.GONE
+        throwable.printStackTrace()
+    }
+
+    private fun onComplete(view: View, post: Post) {
+        val viewpager = view.find<ViewPager>(R.id.sampleinfo_viewpager)
+        val progressbar = view.find<View>(R.id.sampleinfo_progressbar)
+
+        progressbar.visibility = View.GONE
+        viewpager.visibility = View.VISIBLE
+        viewpager.adapter = SampleInfoViewPagerAdapter(childFragmentManager, booru, post)
+        viewpager.currentItem = itemPosition
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        disposables.clear()
     }
 
     companion object {
