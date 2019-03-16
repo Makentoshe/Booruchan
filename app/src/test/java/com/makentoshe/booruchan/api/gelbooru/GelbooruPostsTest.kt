@@ -25,7 +25,7 @@ class GelbooruPostsTest {
         every { mClient.get(any()) } returns mHttpGet
 
         val autocomplete = GelbooruPosts(mClient, GelbooruPostParserXml())
-        val list = autocomplete.request(10, listOf(), 1)
+        val list = autocomplete.request(10, setOf(), 1)
 
         assertEquals(5, list.size)
     }

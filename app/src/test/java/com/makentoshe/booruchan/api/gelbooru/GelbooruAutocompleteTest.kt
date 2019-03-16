@@ -7,14 +7,16 @@ import io.mockk.mockk
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import java.io.ByteArrayInputStream
+import java.io.File
+import java.io.FileReader
 
 class GelbooruAutocompleteTest {
 
     @Test
     fun `should return list of tags by term`() {
-        val str =
-            "[\"hat\",\"hatsune_miku\",\"hat_ribbon\",\"hat_bow\",\"hat_removed\",\"hata_no_kokoro\",\"hat_feather\",\"hat_flower\",\"hatsuyuki_(kantai_collection)\",\"hatsune_miku_(append)\"]"
-
+        val path = "\\src\\test\\java\\com\\makentoshe\\booruchan\\api\\gelbooru\\JsonTagsAutocomplete"
+        val file = File(File("").absolutePath, path)
+        val str = FileReader(file).readText()
         val mHttpGet = mockk<HttpGet>()
         every { mHttpGet.stream() } returns ByteArrayInputStream(str.toByteArray())
 

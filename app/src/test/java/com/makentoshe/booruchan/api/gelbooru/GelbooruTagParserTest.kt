@@ -3,6 +3,8 @@ package com.makentoshe.booruchan.api.gelbooru
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
+import java.io.File
+import java.io.FileReader
 
 class GelbooruTagParserTest {
 
@@ -14,9 +16,11 @@ class GelbooruTagParserTest {
     }
 
     @Test
-    fun `should parse autocomplete tags`() {
-        val tags = "[\"hat\",\"hatsune_miku\",\"hat_ribbon\",\"hat_bow\",\"hat_removed\",\"hata_no_kokoro\",\"hat_feather\",\"hat_flower\",\"hatsuyuki_(kantai_collection)\",\"hatsune_miku_(append)\"]"
-        val taglist = parser.parse(tags)
+    fun `should parse json autocomplete tags`() {
+        val path = "\\src\\test\\java\\com\\makentoshe\\booruchan\\api\\gelbooru\\JsonTagsAutocomplete"
+        val file = File(File("").absolutePath, path)
+        val str = FileReader(file).readText()
+        val taglist = parser.parse(str)
 
         assertEquals(10, taglist.size)
         assertEquals("hat", taglist[0].title)
