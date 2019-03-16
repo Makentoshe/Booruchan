@@ -41,9 +41,9 @@ class Booruchan : Application() {
     }
 
     private fun initRxErrorHandler() {
-        RxJavaPlugins.setErrorHandler(Consumer { e ->
+        RxJavaPlugins.setErrorHandler { e ->
             e.printStackTrace()
-        })
+        }
     }
 
     private fun loadStyle() {
