@@ -61,7 +61,7 @@ inline fun <reified T : Fragment> Fragment.getFragment(): T {
 
 fun mockBooruFactory(context: Context): BooruFactory {
     val factory = mockk<BooruFactory>()
-    every { factory.buildBooru(Mockbooru::class.java, context) } returns Mockbooru()
+    every { factory.buildBooru(Mockbooru::class.java, context) } returns Mockbooru(context)
     return factory
 }
 
