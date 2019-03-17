@@ -22,6 +22,7 @@
     <string name="download_was_started">Download was started</string>
     <string name="app_settings">Application settings</string>
     <string name="enable_nsfw">Enable NSFW</string>
+    <string name="start_new_search">Start a new search</string>
 
     <string-array name="post_properties">
         <item>Id</item>

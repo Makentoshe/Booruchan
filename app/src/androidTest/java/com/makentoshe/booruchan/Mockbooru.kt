@@ -13,7 +13,13 @@ class Mockbooru : Booru {
     }
 
     override fun getAutocomplete(): Autocomplete {
-        TODO("not implemented")
+        val mock = mockk<Autocomplete>()
+        lateinit var str: String
+        every {
+            str = any()
+            mock.request(str)
+        } returns Array(10) { Tag.create(str) }.toList()
+        return mock
     }
 
     override fun getPosts(): Posts {

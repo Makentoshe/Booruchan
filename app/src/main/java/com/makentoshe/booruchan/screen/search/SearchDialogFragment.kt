@@ -44,7 +44,7 @@ class SearchDialogFragment : DialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val view = SearchDialogUi().createView(AnkoContext.create(requireContext(), this))
-        return AlertDialog.Builder(requireContext()).setTitle("Start a new search").setView(view).create()
+        return AlertDialog.Builder(requireContext()).setTitle(R.string.start_new_search).setView(view).create()
             .also(::setParams)
             .also { onViewCreated(view, savedInstanceState) }
     }
