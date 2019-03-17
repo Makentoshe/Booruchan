@@ -1,6 +1,7 @@
 package com.makentoshe.booruchan.screen.posts
 
 import android.widget.Toolbar
+import androidx.test.espresso.Espresso.onData
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
@@ -10,9 +11,9 @@ import androidx.test.rule.ActivityTestRule
 import androidx.viewpager.widget.ViewPager
 import com.makentoshe.booruchan.*
 import com.makentoshe.booruchan.screen.booru.BooruFragment
+import com.makentoshe.booruchan.screen.samples.SampleContentFragment
 import com.makentoshe.booruchan.screen.search.SearchDialogFragment
-import com.makentoshe.booruchan.screen.start.StartFragment
-import org.hamcrest.Matchers.not
+import org.hamcrest.Matchers.*
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Before
@@ -33,9 +34,7 @@ class PostsFragmentTest {
         Booruchan.INSTANCE.booruList.add(Mockbooru::class.java)
         position = Booruchan.INSTANCE.booruList.indexOf(Mockbooru::class.java)
         activity = activityTestRule.launchActivity(null)
-        activity.getFragment<StartFragment>().booruFactory = mockBooruFactory(activity)
-        //click on mocked booru
-        onView(withText(Mockbooru::class.java.simpleName)).perform(click())
+        activity.setMockbooruFactory()
     }
 
     @Test
@@ -76,6 +75,18 @@ class PostsFragmentTest {
         scrollToRightByChevrons()
         //check the left chevron makes visible
         onView(withId(R.id.posts_bottombar_left)).check(matches(isDisplayed()))
+    }
+
+    //requires animations or transitions disable
+    @Test
+    fun should_navigate_to_samples_screen() {
+        //click on grid element
+        onData(anything())
+            .inAdapterView(allOf(withId(R.id.posts_page_gridview), isCompletelyDisplayed()))
+            .atPosition(1)
+            .perform(click())
+
+        activity.containsFragment<SampleContentFragment>()
     }
 
     @Test

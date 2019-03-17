@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
+import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -15,6 +16,9 @@ import com.makentoshe.booruchan.api.BooruFactory
 import com.makentoshe.booruchan.screen.start.StartFragment
 import io.mockk.every
 import io.mockk.mockk
+import org.hamcrest.Description
+import org.hamcrest.Matcher
+import org.hamcrest.TypeSafeMatcher
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertTrue
 import java.io.ByteArrayInputStream
@@ -65,4 +69,16 @@ fun AppCompatActivity.setMockbooruFactory() {
     getFragment<StartFragment>().booruFactory = mockBooruFactory(this)
     //click on mocked booru
     Espresso.onView(ViewMatchers.withText(Mockbooru::class.java.simpleName)).perform(ViewActions.click())
+}
+
+fun toMatcher(v: View): Matcher<View> {
+    return object : TypeSafeMatcher<View>() {
+        override fun matchesSafely(item: View): Boolean {
+            return item === v
+        }
+
+        override fun describeTo(description: Description) {
+            description.appendText(v.toString())
+        }
+    }
 }

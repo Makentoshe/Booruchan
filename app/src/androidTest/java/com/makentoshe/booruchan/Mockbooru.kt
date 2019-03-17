@@ -1,6 +1,8 @@
 package com.makentoshe.booruchan
 
 import com.makentoshe.booruchan.api.*
+import io.mockk.every
+import io.mockk.mockk
 
 class Mockbooru : Booru {
     override val title: String
@@ -15,7 +17,9 @@ class Mockbooru : Booru {
     }
 
     override fun getPosts(): Posts {
-        TODO("not implemented")
+        val mock = mockk<Posts>()
+        every { mock.request(any()) } returns Array(12) { Post.create(it.toLong()) }.toList()
+        return mock
     }
 
     override fun getTagParser(): Parser<List<Tag>> {
