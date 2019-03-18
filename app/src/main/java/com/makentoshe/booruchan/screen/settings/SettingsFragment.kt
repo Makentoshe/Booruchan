@@ -1,19 +1,15 @@
 package com.makentoshe.booruchan.screen.settings
 
-import android.app.AlertDialog
-import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
-import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.appSettings
 import com.makentoshe.booruchan.screen.RequestCode
-import com.makentoshe.booruchan.style
 import org.jetbrains.anko.AnkoContext
 import org.jetbrains.anko.find
 
@@ -67,24 +63,5 @@ class SettingsFragment : Fragment() {
                 appSettings.setNsfwAlert(requireContext(), false)
             }
         }
-    }
-}
-
-class SettingsNsfwAlertFragment : DialogFragment() {
-
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val builder = AlertDialog.Builder(requireContext(), style.dialog)
-        builder.setTitle(R.string.user_agreement)
-        builder.setMessage(R.string.user_agreement_content)
-        builder.setPositiveButton(R.string.agree) { _, _ -> onResult(1) }
-        builder.setNegativeButton(R.string.disagree) { _, _ -> onResult(0) }
-        builder.setOnCancelListener { onResult(0) }
-        builder.setOnDismissListener { onResult(0) }
-        return builder.create()
-    }
-
-    private fun onResult(result: Int) {
-        targetFragment!!.onActivityResult(RequestCode.settings, result, null)
-        dialog.dismiss()
     }
 }
