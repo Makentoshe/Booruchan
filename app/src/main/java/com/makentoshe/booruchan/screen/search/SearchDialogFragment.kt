@@ -10,7 +10,7 @@ import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.api.Booru
 import com.makentoshe.booruchan.api.Tag
 import com.makentoshe.booruchan.repository.DelayAutocompleteRepository
-import com.makentoshe.booruchan.screen.arguments
+import com.makentoshe.booruchan.model.arguments
 import com.makentoshe.booruchan.view.DelayAutocompleteEditText
 import org.jetbrains.anko.AnkoContext
 import org.jetbrains.anko.find

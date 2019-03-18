@@ -14,7 +14,7 @@ import com.makentoshe.booruchan.api.Tag
 import com.makentoshe.booruchan.repository.CachedRepository
 import com.makentoshe.booruchan.repository.PostsRepository
 import com.makentoshe.booruchan.repository.cache.PostInternalCache
-import com.makentoshe.booruchan.screen.arguments
+import com.makentoshe.booruchan.model.arguments
 import com.makentoshe.booruchan.screen.sampleinfo.model.SampleInfoViewPagerAdapter
 import com.makentoshe.booruchan.screen.sampleinfo.view.SampleInfoUi
 import com.makentoshe.booruchan.screen.sampleinfo.view.SampleInfoUiToolbarAnimator

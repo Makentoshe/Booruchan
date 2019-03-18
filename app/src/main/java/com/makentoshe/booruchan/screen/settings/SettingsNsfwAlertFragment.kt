@@ -5,7 +5,7 @@ import android.app.Dialog
 import android.os.Bundle
 import androidx.fragment.app.DialogFragment
 import com.makentoshe.booruchan.R
-import com.makentoshe.booruchan.screen.RequestCode
+import com.makentoshe.booruchan.model.RequestCode
 import com.makentoshe.booruchan.style
 
 class SettingsNsfwAlertFragment : DialogFragment() {

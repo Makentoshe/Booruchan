@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.api.Booru
 import com.makentoshe.booruchan.api.Post
-import com.makentoshe.booruchan.screen.arguments
+import com.makentoshe.booruchan.model.arguments
 import com.makentoshe.booruchan.screen.sampleinfo.model.ListViewInflater
 import com.makentoshe.booruchan.screen.sampleinfo.view.SampleInfoInfoUi
 import org.jetbrains.anko.*

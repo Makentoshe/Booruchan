@@ -12,7 +12,7 @@ import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.api.Booru
 import com.makentoshe.booruchan.api.Tag
 import com.makentoshe.booruchan.navigation.Screen
-import com.makentoshe.booruchan.screen.arguments
+import com.makentoshe.booruchan.model.arguments
 import com.makentoshe.booruchan.screen.sampleinfo.SampleInfoScreen
 import com.makentoshe.booruchan.model.VerticalViewPagerAdapter
 import com.makentoshe.booruchan.screen.samples.view.SampleContentUi

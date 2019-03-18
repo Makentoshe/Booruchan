@@ -11,7 +11,7 @@ import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.api.Tag
-import com.makentoshe.booruchan.screen.RequestCode
+import com.makentoshe.booruchan.model.RequestCode
 import com.makentoshe.booruchan.view.addTagToChipGroup
 import org.jetbrains.anko.find
 import org.jetbrains.anko.sdk27.coroutines.onEditorAction

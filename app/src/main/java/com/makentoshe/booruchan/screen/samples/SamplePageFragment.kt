@@ -24,7 +24,7 @@ import com.makentoshe.booruchan.repository.SampleImageRepository
 import com.makentoshe.booruchan.repository.cache.ImageInternalCache
 import com.makentoshe.booruchan.repository.cache.InternalCacheType
 import com.makentoshe.booruchan.repository.cache.PostInternalCache
-import com.makentoshe.booruchan.screen.arguments
+import com.makentoshe.booruchan.model.arguments
 import com.makentoshe.booruchan.screen.samples.view.SamplePageUi
 import com.makentoshe.booruchan.view.setGestureListener
 import io.reactivex.Single

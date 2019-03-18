@@ -9,15 +9,13 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.api.Booru
-import com.makentoshe.booruchan.api.Tag
 import com.makentoshe.booruchan.navigation.FragmentNavigator
-import com.makentoshe.booruchan.screen.arguments
+import com.makentoshe.booruchan.model.arguments
 import com.makentoshe.booruchan.screen.booru.model.LocalNavigatorHolder
 import com.makentoshe.booruchan.screen.booru.model.LocalNavigatorImpl
 import com.makentoshe.booruchan.screen.booru.view.BooruUi
 import org.jetbrains.anko.AnkoContext
 import org.jetbrains.anko.find
-import java.io.Serializable
 
 class BooruFragment : Fragment() {
 

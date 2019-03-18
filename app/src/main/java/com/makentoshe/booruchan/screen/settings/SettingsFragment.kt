@@ -9,7 +9,7 @@ import android.widget.CheckBox
 import androidx.fragment.app.Fragment
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.appSettings
-import com.makentoshe.booruchan.screen.RequestCode
+import com.makentoshe.booruchan.model.RequestCode
 import org.jetbrains.anko.AnkoContext
 import org.jetbrains.anko.find
 

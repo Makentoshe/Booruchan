@@ -1,4 +1,4 @@
-package com.makentoshe.booruchan.screen
+package com.makentoshe.booruchan.model
 
 object RequestCode {
     /**
