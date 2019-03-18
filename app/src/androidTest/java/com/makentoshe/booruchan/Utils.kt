@@ -1,9 +1,6 @@
 package com.makentoshe.booruchan
 
-import android.app.Activity
 import android.content.Context
-import android.graphics.Bitmap
-import android.graphics.drawable.BitmapDrawable
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
@@ -21,9 +18,6 @@ import org.hamcrest.Matcher
 import org.hamcrest.TypeSafeMatcher
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertTrue
-import java.io.ByteArrayInputStream
-import java.io.ByteArrayOutputStream
-import java.io.InputStream
 
 inline fun <reified T : Fragment> AppCompatActivity.containsFragment() {
     var contains = false

@@ -63,7 +63,6 @@ class SampleInfoFragment : Fragment() {
         val disposable = Single.just(postsRepository)
             .subscribeOn(Schedulers.newThread())
             .map { it.get(Posts.Request(1, tags, position))!! }
-            .timeout(5, TimeUnit.SECONDS)
             .observeOn(AndroidSchedulers.mainThread())
             .doOnError { onError(view, it) }
             .subscribe { posts -> onComplete(view, posts[0]) }

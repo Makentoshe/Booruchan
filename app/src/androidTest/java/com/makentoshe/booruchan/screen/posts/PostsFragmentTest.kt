@@ -1,7 +1,5 @@
 package com.makentoshe.booruchan.screen.posts
 
-import android.os.Handler
-import android.os.Looper
 import android.widget.Toolbar
 import androidx.test.espresso.Espresso.onData
 import androidx.test.espresso.Espresso.onView
@@ -15,19 +13,21 @@ import com.makentoshe.booruchan.*
 import com.makentoshe.booruchan.screen.booru.BooruFragment
 import com.makentoshe.booruchan.screen.samples.SampleContentFragment
 import com.makentoshe.booruchan.screen.search.SearchDialogFragment
+import io.reactivex.Scheduler
 import io.reactivex.android.plugins.RxAndroidPlugins
-import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.plugins.RxJavaPlugins
 import io.reactivex.schedulers.Schedulers
 import org.hamcrest.Matchers.*
-import org.junit.After
+import org.junit.*
 import org.junit.Assert.assertEquals
-import org.junit.Before
-import org.junit.Rule
-import org.junit.Test
+import io.reactivex.internal.schedulers.ExecutorScheduler
+import io.reactivex.Scheduler.Worker
+import io.reactivex.disposables.Disposable
+import java.util.concurrent.Executor
+import java.util.concurrent.TimeUnit
 
 
 class PostsFragmentTest {
-
 
     @get:Rule
     val activityTestRule = ActivityTestRule<AppActivity>(AppActivity::class.java, false, false)
@@ -40,7 +40,6 @@ class PostsFragmentTest {
         Booruchan.INSTANCE.booruList.add(Mockbooru::class.java)
         position = Booruchan.INSTANCE.booruList.indexOf(Mockbooru::class.java)
         activity = activityTestRule.launchActivity(null)
-        RxAndroidPlugins.setInitMainThreadSchedulerHandler { Schedulers.from { activity.runOnUiThread(it)} }
         activity.setMockbooruFactory()
     }
 
@@ -98,7 +97,8 @@ class PostsFragmentTest {
 
     @Test
     fun toolbar_should_contain_booru_title() {
-        onView(withId(R.id.booru_toolbar)).check { toolbar, _ ->
+        onView(withId(R.id.booru_toolbar))
+            .check { toolbar, _ ->
             toolbar as Toolbar
             assertEquals(Mockbooru::class.java.simpleName, toolbar.title)
         }

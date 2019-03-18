@@ -30,6 +30,7 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import org.jetbrains.anko.AnkoContext
 import org.jetbrains.anko.find
+import org.jetbrains.anko.support.v4.runOnUiThread
 import java.io.Serializable
 import java.util.concurrent.TimeUnit
 
@@ -69,7 +70,6 @@ class PostsPageFragment : Fragment() {
         val disposable = Single.just(postsRepository)
             .subscribeOn(Schedulers.newThread())
             .map { it.get(Posts.Request(12, tags, position))!! }
-            .timeout(5, TimeUnit.SECONDS)
             .observeOn(AndroidSchedulers.mainThread())
             .doOnError { onError(view, it) }
             .subscribe { posts -> onComplete(view, posts) }

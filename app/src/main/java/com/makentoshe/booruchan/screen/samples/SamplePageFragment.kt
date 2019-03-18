@@ -76,7 +76,6 @@ class SamplePageFragment : Fragment() {
         val disposable = Single.just(postsRepository)
             .subscribeOn(Schedulers.newThread())
             .map { it.get(Posts.Request(1, tags, position))!![0] }
-            .timeout(3, TimeUnit.SECONDS)
             .observeOn(AndroidSchedulers.mainThread())
             .doOnError { onError(view, it) }
             .subscribe { post -> onComplete(view, post) }
@@ -102,7 +101,6 @@ class SamplePageFragment : Fragment() {
     private fun onImage(view: View, post: Post) {
         val disposable = Single.just(post)
             .subscribeOn(Schedulers.newThread())
-            .timeout(3, TimeUnit.SECONDS)
             .map { samplesRepository.get(it) }
             .map { BitmapFactory.decodeByteArray(it, 0, it.size) }
             .observeOn(AndroidSchedulers.mainThread())
@@ -120,7 +118,6 @@ class SamplePageFragment : Fragment() {
     private fun onGif(view: View, post: Post) {
         val disposable = Single.just(post)
             .subscribeOn(Schedulers.newThread())
-            .timeout(3, TimeUnit.SECONDS)
             .map { samplesRepository.get(it) }
             .map { GifDrawable(it) }
             .observeOn(AndroidSchedulers.mainThread())

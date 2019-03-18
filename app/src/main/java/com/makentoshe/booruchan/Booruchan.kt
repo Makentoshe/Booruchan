@@ -42,6 +42,7 @@ class Booruchan : Application() {
 
     private fun initRxErrorHandler() {
         RxJavaPlugins.setErrorHandler { e ->
+            if (e is UndeliverableException) Unit
             e.printStackTrace()
         }
     }
