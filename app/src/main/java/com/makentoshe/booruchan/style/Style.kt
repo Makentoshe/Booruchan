@@ -21,6 +21,9 @@ interface Style {
     @get:StyleRes
     val default: Int
 
+    @get:StyleRes
+    val dialog: Int
+
 }
 
 class SotisStyle : Style {
@@ -36,6 +39,9 @@ class SotisStyle : Style {
 
     override val default: Int
         get() = R.style.SotisDefault
+
+    override val dialog: Int
+        get() = R.style.Dialog
 }
 
 @ColorInt

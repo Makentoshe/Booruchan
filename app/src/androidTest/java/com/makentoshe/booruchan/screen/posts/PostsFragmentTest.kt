@@ -1,5 +1,7 @@
 package com.makentoshe.booruchan.screen.posts
 
+import android.os.Handler
+import android.os.Looper
 import android.widget.Toolbar
 import androidx.test.espresso.Espresso.onData
 import androidx.test.espresso.Espresso.onView
@@ -13,12 +15,16 @@ import com.makentoshe.booruchan.*
 import com.makentoshe.booruchan.screen.booru.BooruFragment
 import com.makentoshe.booruchan.screen.samples.SampleContentFragment
 import com.makentoshe.booruchan.screen.search.SearchDialogFragment
+import io.reactivex.android.plugins.RxAndroidPlugins
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import org.hamcrest.Matchers.*
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+
 
 class PostsFragmentTest {
 
@@ -34,6 +40,7 @@ class PostsFragmentTest {
         Booruchan.INSTANCE.booruList.add(Mockbooru::class.java)
         position = Booruchan.INSTANCE.booruList.indexOf(Mockbooru::class.java)
         activity = activityTestRule.launchActivity(null)
+        RxAndroidPlugins.setInitMainThreadSchedulerHandler { Schedulers.from { activity.runOnUiThread(it)} }
         activity.setMockbooruFactory()
     }
 

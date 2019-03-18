@@ -30,11 +30,11 @@ class SettingsFragmentTest {
 
     @Test
     fun shouldChangeNSFWSetting() {
-        val nsfw = Booruchan.INSTANCE.settings.getNSFW(activity)
+        val nsfw = Booruchan.INSTANCE.settings.getNsfw(activity)
         //click on checkbox
         onView(withId(R.id.setting_nsfw_checkbox)).perform(click())
         //check value
-        val nsfw2 = Booruchan.INSTANCE.settings.getNSFW(activity)
+        val nsfw2 = Booruchan.INSTANCE.settings.getNsfw(activity)
         //the click changes settings
         assertNotEquals(nsfw, nsfw2)
     }

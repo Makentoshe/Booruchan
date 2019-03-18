@@ -159,7 +159,7 @@ class PostsFragment : Fragment() {
         val fixedTags = HashSet<Tag>()
         fixedTags.addAll(tags)
         //default tags for disable nsfw content
-        if (!appSettings.getNSFW(requireContext())) fixedTags.add(Tag.create("rating:safe"))
+        if (!appSettings.getNsfw(requireContext())) fixedTags.add(Tag.create("rating:safe"))
         //notify
         searchController.onNext(fixedTags)
     }

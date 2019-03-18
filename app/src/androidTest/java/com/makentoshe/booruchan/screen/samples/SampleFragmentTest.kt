@@ -10,12 +10,14 @@ import androidx.test.rule.ActivityTestRule
 import androidx.viewpager.widget.ViewPager
 import com.makentoshe.booruchan.*
 import com.makentoshe.booruchan.screen.sampleinfo.SampleInfoFragment
-import org.hamcrest.Matchers
-import org.junit.*
-import org.junit.Assert.assertEquals
-import io.reactivex.schedulers.Schedulers
 import io.reactivex.android.plugins.RxAndroidPlugins
-import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
+import org.hamcrest.Matchers
+import org.junit.After
+import org.junit.Assert.assertEquals
+import org.junit.Before
+import org.junit.Rule
+import org.junit.Test
 
 
 class SampleFragmentTest {
@@ -28,10 +30,10 @@ class SampleFragmentTest {
 
     @Before
     fun init() {
-
         Booruchan.INSTANCE.booruList.add(Mockbooru::class.java)
         position = Booruchan.INSTANCE.booruList.indexOf(Mockbooru::class.java)
         activity = activityTestRule.launchActivity(null)
+        RxAndroidPlugins.setInitMainThreadSchedulerHandler { Schedulers.from { activity.runOnUiThread(it) } }
         activity.setMockbooruFactory()
         Espresso.onData(Matchers.anything())
             .inAdapterView(

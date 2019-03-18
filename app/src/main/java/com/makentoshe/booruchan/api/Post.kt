@@ -18,7 +18,7 @@ interface Post : Serializable {
     }
 
     companion object {
-        fun create(id: Long) = object : Post {
+        fun create(id: Long, sampleUrl: String = "") = object : Post {
             override val raw: Map<String, String>
                 get() = emptyMap()
             override val id: Long
@@ -28,7 +28,7 @@ interface Post : Serializable {
             override val previewUrl: String
                 get() = ""
             override val sampleUrl: String
-                get() = ""
+                get() = sampleUrl
             override val fileUrl: String
                 get() = ""
             override val creatorId: Long
