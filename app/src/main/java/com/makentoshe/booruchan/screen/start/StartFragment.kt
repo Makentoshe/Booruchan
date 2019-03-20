@@ -1,16 +1,21 @@
 package com.makentoshe.booruchan.screen.start
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.*
 import android.widget.*
 import androidx.fragment.app.Fragment
 import com.makentoshe.booruchan.Booruchan
 import com.makentoshe.booruchan.R
+import com.makentoshe.booruchan.api.Booru
 import com.makentoshe.booruchan.api.BooruFactory
 import com.makentoshe.booruchan.api.BooruFactoryImpl
+import com.makentoshe.booruchan.api.safebooru.Safebooru
+import com.makentoshe.booruchan.model.RequestCode
 import com.makentoshe.booruchan.network.fuel.FuelClientFactory
 import com.makentoshe.booruchan.router
+import com.makentoshe.booruchan.screen.settings.AppSettings
 import com.makentoshe.booruchan.screen.start.model.StartScreenNavigator
 import com.makentoshe.booruchan.screen.start.view.StartFragmentUi
 import org.jetbrains.anko.AnkoContext
@@ -22,13 +27,16 @@ class StartFragment : Fragment() {
         StartScreenNavigator(router)
     }
 
-    private val booruList by lazy {
-        Booruchan.INSTANCE.booruList
-    }
-
     var booruFactory: BooruFactory = with(FuelClientFactory().buildClient()) {
         BooruFactoryImpl(this)
     }
+
+    private val booruList: List<Class<out Booru>>
+        get() = if (AppSettings.getNsfw(requireContext())) {
+            Booruchan.INSTANCE.booruList
+        } else {
+            Booruchan.INSTANCE.booruList.filter { it == Safebooru::class.java }
+        }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return StartFragmentUi().createView(AnkoContext.create(requireContext(), this))
@@ -38,6 +46,10 @@ class StartFragment : Fragment() {
         val icon = view.find<View>(R.id.start_toolbar_overflow)
         icon.setOnClickListener(::onOverflowIconClick)
 
+        buildBooruListView(view)
+    }
+
+    private fun buildBooruListView(view: View) {
         val listview = view.find<ListView>(R.id.start_content_listview)
         listview.adapter = buildAdapter(requireContext())
         listview.setOnItemClickListener(::onItemClick)
@@ -63,10 +75,17 @@ class StartFragment : Fragment() {
     private fun onOverflowItemMenuClick(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.settings -> {
-                navigator.navigateToSettingsScreen()
+                navigator.navigateToSettingsScreen(this)
                 return true
             }
         }
         return false
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (requestCode == RequestCode.settings) {
+            //update list view
+            buildBooruListView(view!!)
+        }
     }
 }

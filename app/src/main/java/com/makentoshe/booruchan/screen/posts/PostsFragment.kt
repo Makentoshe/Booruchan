@@ -156,14 +156,9 @@ class PostsFragment : Fragment() {
         tagsHolder.set.clear()
         tagsHolder.set.addAll(tags)
         //put here the default tags from settings
-        val fixedTags = HashSet<Tag>()
-        fixedTags.addAll(tags)
-        //default tags for disable nsfw content
-        if (!appSettings.getNsfw(requireContext())) {
-            fixedTags.add(Tag.create("rating:safe"))
-        }
+        //...
         //notify
-        searchController.onNext(fixedTags)
+        searchController.onNext(tags)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {

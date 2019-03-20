@@ -20,7 +20,7 @@ class SettingsFragment : Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        appSettings.setNsfwAlert(requireContext(), true)
+//        appSettings.setNsfwAlert(requireContext(), true)
         return SettingsUi().createView(AnkoContext.create(requireContext(), this))
     }
 
@@ -32,16 +32,21 @@ class SettingsFragment : Fragment() {
                 if (appSettings.getNsfwAlert(requireContext())) {
                     showNsfwAlertDialog()
                 } else {
-                    appSettings.setNsfw(requireContext(), isChecked)
+                    changeNsfwSetting(isChecked)
                 }
             } else {
                 if (appSettings.getNsfwAlert(requireContext())) {
                     //do nothing
                 } else {
-                    appSettings.setNsfw(requireContext(), isChecked)
+                    changeNsfwSetting(isChecked)
                 }
             }
         }
+    }
+
+    private fun changeNsfwSetting(boolean: Boolean) {
+        appSettings.setNsfw(requireContext(), boolean)
+        callTargetFragmentChangeListView()
     }
 
     private fun showNsfwAlertDialog() {
@@ -54,14 +59,18 @@ class SettingsFragment : Fragment() {
         if (requestCode == RequestCode.settings) {
             if (resultCode == 0) {
                 nsfwSetting.isChecked = false
-                appSettings.setNsfw(requireContext(), false)
+                changeNsfwSetting(false)
             }
             if (resultCode == 1) {
                 nsfwSetting.isChecked = true
-                appSettings.setNsfw(requireContext(), true)
+                changeNsfwSetting(true)
                 //no need display alert more
                 appSettings.setNsfwAlert(requireContext(), false)
             }
         }
+    }
+
+    private fun callTargetFragmentChangeListView() {
+        targetFragment!!.onActivityResult(RequestCode.settings, 0, null)
     }
 }
