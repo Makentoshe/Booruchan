@@ -75,6 +75,9 @@ class PostsPageFragment : Fragment() {
     }
 
     private fun onComplete(view: View, posts: List<Post>) {
+
+        println(posts)
+
         if (posts.isEmpty()) {
             onError(view, Exception(getString(R.string.posts_ran_out)))
 //            parentFragment?.onActivityResult(RequestCode.postpage, position, Intent())
@@ -109,8 +112,6 @@ class PostsPageFragment : Fragment() {
 
         progress.visibility = View.GONE
         message.text = throwable.localizedMessage
-
-        throwable.printStackTrace()
     }
 
     override fun onDestroyView() {

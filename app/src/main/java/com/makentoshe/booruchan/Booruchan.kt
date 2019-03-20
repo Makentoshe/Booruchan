@@ -4,12 +4,12 @@ package com.makentoshe.booruchan
 import android.app.Application
 import com.makentoshe.booruchan.api.Booru
 import com.makentoshe.booruchan.api.gelbooru.Gelbooru
+import com.makentoshe.booruchan.api.safebooru.Safebooru
 import com.makentoshe.booruchan.navigation.Router
 import com.makentoshe.booruchan.screen.settings.AppSettings
 import com.makentoshe.booruchan.style.SotisStyle
 import com.makentoshe.booruchan.style.Style
 import io.reactivex.exceptions.UndeliverableException
-import io.reactivex.functions.Consumer
 import io.reactivex.plugins.RxJavaPlugins
 import ru.terrakok.cicerone.Cicerone
 import java.util.*
@@ -53,6 +53,7 @@ class Booruchan : Application() {
 
     private fun loadBooru() {
         this.booruList.add(Gelbooru::class.java)
+        this.booruList.add(Safebooru::class.java)
     }
 
     private fun loadSettings() {
