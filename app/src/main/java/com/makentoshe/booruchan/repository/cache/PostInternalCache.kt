@@ -59,8 +59,12 @@ class PostInternalCache(context: Context) : InternalCache<Posts.Request, List<Po
         for (i in startPosition until startPosition + key.count) {
             val file = File(mainDirectory, i.toString())
             ObjectOutputStream(FileOutputStream(file)).use {
-                it.writeObject(value[i - startPosition])
-                it.flush()
+                try {
+                    it.writeObject(value[i - startPosition])
+                    it.flush()
+                } catch (e : IndexOutOfBoundsException){
+                    //its ok - caused when we request 12 items, but receive 8, for example
+                }
             }
         }
     }
