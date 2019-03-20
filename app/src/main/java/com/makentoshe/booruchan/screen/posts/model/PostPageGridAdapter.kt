@@ -42,7 +42,6 @@ class PostPageGridAdapter(
                 .doOnError {
                     it.printStackTrace()
                 }.subscribe { bitmap ->
-                    println(position)
                     imageview.setImageBitmap(bitmap)
                 }
 

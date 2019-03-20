@@ -15,12 +15,12 @@ import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.api.Booru
 import com.makentoshe.booruchan.api.Tag
 import com.makentoshe.booruchan.appSettings
-import com.makentoshe.booruchan.repository.cache.ImageInternalCache
-import com.makentoshe.booruchan.repository.cache.InternalCacheType
-import com.makentoshe.booruchan.repository.cache.PostInternalCache
 import com.makentoshe.booruchan.model.RequestCode
 import com.makentoshe.booruchan.model.SubjectHolder
 import com.makentoshe.booruchan.model.arguments
+import com.makentoshe.booruchan.repository.cache.ImageInternalCache
+import com.makentoshe.booruchan.repository.cache.InternalCacheType
+import com.makentoshe.booruchan.repository.cache.PostInternalCache
 import com.makentoshe.booruchan.screen.posts.model.PostsViewPagerAdapter
 import com.makentoshe.booruchan.screen.posts.model.TagsHolder
 import com.makentoshe.booruchan.screen.posts.view.PostsUi
@@ -170,6 +170,15 @@ class PostsFragment : Fragment() {
             //get tags
             val tags = data.getSerializableExtra(Set::class.java.simpleName) as Set<Tag>
             startNewSearch(tags)
+        }
+        //if child fragment does not received posts
+        //it means that the posts is run out
+        //the resultCode contains page without posts
+        if (requestCode == RequestCode.postpage) {
+            val pager = view!!.find<ViewPager>(R.id.posts_viewpager)
+            val adapter = pager.adapter as PostsViewPagerAdapter
+            pager.adapter = adapter.copy(count = resultCode)
+            pager.currentItem = resultCode - 1
         }
     }
 

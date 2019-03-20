@@ -15,4 +15,9 @@ object RequestCode {
      * Request code for settings
      */
     val settings = 5
+
+    /**
+     * Request code for messaging between pages and holder.
+     */
+    val postpage = 6
 }

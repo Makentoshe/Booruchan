@@ -1,5 +1,6 @@
 package com.makentoshe.booruchan.screen.posts
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,6 +14,8 @@ import com.makentoshe.booruchan.api.Booru
 import com.makentoshe.booruchan.api.Post
 import com.makentoshe.booruchan.api.Posts
 import com.makentoshe.booruchan.api.Tag
+import com.makentoshe.booruchan.model.RequestCode
+import com.makentoshe.booruchan.model.arguments
 import com.makentoshe.booruchan.repository.CachedRepository
 import com.makentoshe.booruchan.repository.PostsRepository
 import com.makentoshe.booruchan.repository.PreviewImageRepository
@@ -20,7 +23,6 @@ import com.makentoshe.booruchan.repository.cache.ImageInternalCache
 import com.makentoshe.booruchan.repository.cache.InternalCacheType
 import com.makentoshe.booruchan.repository.cache.PostInternalCache
 import com.makentoshe.booruchan.router
-import com.makentoshe.booruchan.model.arguments
 import com.makentoshe.booruchan.screen.posts.model.PostPageGridAdapter
 import com.makentoshe.booruchan.screen.posts.view.PostPageUi
 import com.makentoshe.booruchan.screen.samples.SampleScreen
@@ -30,9 +32,7 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import org.jetbrains.anko.AnkoContext
 import org.jetbrains.anko.find
-import org.jetbrains.anko.support.v4.runOnUiThread
 import java.io.Serializable
-import java.util.concurrent.TimeUnit
 
 class PostsPageFragment : Fragment() {
 
@@ -77,6 +77,11 @@ class PostsPageFragment : Fragment() {
     }
 
     private fun onComplete(view: View, posts: List<Post>) {
+        if (posts.isEmpty()) {
+            parentFragment?.onActivityResult(RequestCode.postpage, position, Intent())
+            return
+        }
+
         val progress = view.find<ProgressBar>(R.id.posts_page_progress)
         val gridview = view.find<GridView>(R.id.posts_page_gridview)
 
