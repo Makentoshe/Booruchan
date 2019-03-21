@@ -14,7 +14,7 @@ class SampleInfoTagsUi : AnkoComponent<Fragment> {
             chipGroup {
                 id = R.id.sampleinfo_tags_chipgroup
             }.lparams {
-                setMargins(dip(8), dip(10), dip(8), dip(8))
+                setMargins(dip(8), 0, dip(8), 0)
             }
         }
     }

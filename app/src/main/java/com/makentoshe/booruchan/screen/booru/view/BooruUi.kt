@@ -1,6 +1,7 @@
 package com.makentoshe.booruchan.screen.booru.view
 
 import android.view.View
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.style
@@ -15,6 +16,8 @@ class BooruUi : AnkoComponent<Fragment> {
             id = R.id.booru_drawer
             BooruUiContent().createView(AnkoContext.createDelegate(this))
             BooruUiPanel().createView(AnkoContext.createDelegate(this))
+            //disable drawer swipe
+            setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
         }
     }
 }
