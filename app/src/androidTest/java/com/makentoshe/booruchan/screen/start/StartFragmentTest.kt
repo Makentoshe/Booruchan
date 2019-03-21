@@ -7,6 +7,7 @@ import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.rule.ActivityTestRule
 import com.makentoshe.booruchan.*
 import com.makentoshe.booruchan.screen.booru.BooruFragment
+import com.makentoshe.booruchan.screen.settings.AppSettings
 import com.makentoshe.booruchan.screen.settings.SettingsFragment
 import org.junit.After
 import org.junit.Before
@@ -23,6 +24,7 @@ class StartFragmentTest {
 
     @Before
     fun init() {
+        AppSettings.setNsfw(Booruchan.INSTANCE.applicationContext, true)
         Booruchan.INSTANCE.booruList.add(Mockbooru::class.java)
         position = Booruchan.INSTANCE.booruList.indexOf(Mockbooru::class.java)
         activity = activityTestRule.launchActivity(null)

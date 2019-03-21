@@ -2,13 +2,16 @@ package com.makentoshe.booruchan.screen.settings
 
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
+import androidx.test.espresso.action.ViewActions.pressBack
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.rule.ActivityTestRule
 import com.makentoshe.booruchan.AppActivity
 import com.makentoshe.booruchan.Booruchan
+import com.makentoshe.booruchan.Mockbooru
 import com.makentoshe.booruchan.R
 import org.hamcrest.CoreMatchers.not
+import org.junit.After
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Before
@@ -24,7 +27,6 @@ class SettingsFragmentTest {
     @Before
     fun init() {
         activity = activityTestRule.launchActivity(null)
-
         Booruchan.INSTANCE.settings.setNsfw(activity, false)
         //show overflow menu
         onView(withId(R.id.start_toolbar_overflow)).perform(click())
