@@ -33,7 +33,7 @@ class SampleInfoTagsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val chipGroup = view.find<ChipGroup>(R.id.sampleinfo_tags_chipgroup)
-        post.tags.forEach { chipGroup.createChip(it) }
+        post.tags.filter { it.title.isNotBlank() }.forEach { chipGroup.createChip(it) }
     }
 
     private fun ChipGroup.createChip(tag: Tag) {
