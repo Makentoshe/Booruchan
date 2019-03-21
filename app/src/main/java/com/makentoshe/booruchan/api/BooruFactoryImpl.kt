@@ -3,8 +3,8 @@ package com.makentoshe.booruchan.api
 import android.content.Context
 import com.makentoshe.booruchan.api.gelbooru.Gelbooru
 import com.makentoshe.booruchan.api.safebooru.Safebooru
-import com.makentoshe.booruchan.network.HostHttpClient
 import com.makentoshe.booruchan.network.HttpClient
+import com.makentoshe.booruchan.network.decorator.HostHttpClient
 
 class BooruFactoryImpl(private val defaultClient: HttpClient) : BooruFactory {
 
@@ -18,9 +18,6 @@ class BooruFactoryImpl(private val defaultClient: HttpClient) : BooruFactory {
 
     private fun buildGelbooru(context: Context): Booru {
         val hostList = mutableListOf("https://www.gelbooru.com")
-//        hostList.add("http://0s.m5swyytpn5zhkltdn5wq.nblz.ru")
-//        todo(define the mirrors or get them from the storage using context)
-//        val proxy = ProxyHttpClient(defaultClient, listOf("http://service.bypass123.com/index.php"))
         val host = HostHttpClient(defaultClient, hostList)
         return Gelbooru(host)
     }

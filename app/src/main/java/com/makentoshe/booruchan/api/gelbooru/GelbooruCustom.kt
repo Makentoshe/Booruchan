@@ -7,6 +7,6 @@ import java.io.InputStream
 
 class GelbooruCustom(private val httpClient: HttpClient = FuelClientFactory().buildClient()) : Custom {
     override fun request(request: String): InputStream {
-        return httpClient.get(request).stream()
+        return httpClient.get(request).stream
     }
 }

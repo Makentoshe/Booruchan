@@ -23,6 +23,6 @@ class SafebooruPosts(
             if (index != tags.size - 1) strTags.append(" ")
         }
         val request = "/index.php?page=dapi&s=post&q=index&limit=$count&pid=$page&tags=$strTags"
-        return parser.parse(httpClient.get(request).stream())
+        return parser.parse(httpClient.get(request).stream)
     }
 }
