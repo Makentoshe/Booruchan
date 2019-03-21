@@ -4,7 +4,7 @@ import com.makentoshe.booruchan.repository.cache.ClearableCache
 
 
 class CachedRepository<K, V>(
-    internal val cache: ClearableCache<K, V?>,
+    val cache: ClearableCache<K, V?>,
     private val repository: Repository<K, V>
 ) : ClearableRepository<K, V> {
 

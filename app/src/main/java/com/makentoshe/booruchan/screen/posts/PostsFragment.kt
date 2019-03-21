@@ -155,8 +155,6 @@ class PostsFragment : Fragment() {
         //set tags to holder
         tagsHolder.set.clear()
         tagsHolder.set.addAll(tags)
-        //put here the default tags from settings
-        //...
         //notify
         searchController.onNext(tags)
     }

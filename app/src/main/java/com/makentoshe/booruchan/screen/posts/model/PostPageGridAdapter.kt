@@ -21,30 +21,56 @@ import org.jetbrains.anko.find
 class PostPageGridAdapter(
     private val context: Context,
     private val posts: List<Post>,
-    private val repository: Repository<Post, ByteArray>
+    private val previewsRepository: Repository<Post, ByteArray>,
+    private val samplesRepository: Repository<Post, ByteArray>
 ) : BaseAdapter() {
 
     private var onSubscribe: ((Disposable) -> Unit)? = null
 
-    private val observables = Array<Single<Bitmap>>(posts.size) {
-        Single.just(posts[it])
+    //contains completed Single observables which will gets bitmaps from repositories
+    private val observables = Array(posts.size) { index ->
+        Single.just(posts[index])
+                //performs mapping in new thread
             .subscribeOn(Schedulers.newThread())
-            .map { repository.get(it) }
-            .map { BitmapFactory.decodeByteArray(it, 0, it.size) }
+            .map { getPreviewBitmap(it) ?: getSampleBitmap(it)!! }
+                //performs subscribe in main thread
             .observeOn(AndroidSchedulers.mainThread())
+    }
+
+    //Returns bitmap from previews repository or null
+    private fun getPreviewBitmap(post: Post): Bitmap? {
+        val byteArray = previewsRepository.get(post)
+        return decodeByteArray(byteArray)
+    }
+
+    //Returns bitmap from samples repository or null
+    private fun getSampleBitmap(post: Post): Bitmap? {
+        val bytearray = samplesRepository.get(post)
+        return decodeByteArray(bytearray)
+    }
+
+    //decodes bytearray to Bitmap
+    private fun decodeByteArray(array: ByteArray?): Bitmap? {
+        if (array == null) return null
+        //trying to decode bytearray
+        //if preview image can't be decoded - factory returns null
+        return BitmapFactory.decodeByteArray(array, 0, array.size)
     }
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
         return convertView ?: PostPageGridElement().createView(AnkoContext.create(context)).apply {
             val imageview = find<ImageView>(R.id.posts_page_gridview_element_image)
-
+            //subscribes on bitmap receive
             val disposable = observables[position]
                 .doOnError {
+                    //calls when downloading failed
+                    println("SAS $it")
                     it.printStackTrace()
                 }.subscribe { bitmap ->
+                    //calls when downloading success
                     imageview.setImageBitmap(bitmap)
                 }
-
+            //send disposable to the listener
             onSubscribe?.invoke(disposable)
         }
     }
@@ -55,6 +81,7 @@ class PostPageGridAdapter(
 
     override fun getCount() = posts.size
 
+    //action lambda will be called every time when view subscribed on bitmap receive.
     fun setOnSubscribeListener(action: (Disposable) -> Unit): PostPageGridAdapter {
         onSubscribe = action
         return this

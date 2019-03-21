@@ -17,6 +17,7 @@ import com.makentoshe.booruchan.model.arguments
 import com.makentoshe.booruchan.repository.CachedRepository
 import com.makentoshe.booruchan.repository.PostsRepository
 import com.makentoshe.booruchan.repository.PreviewImageRepository
+import com.makentoshe.booruchan.repository.SampleImageRepository
 import com.makentoshe.booruchan.repository.cache.ImageInternalCache
 import com.makentoshe.booruchan.repository.cache.InternalCacheType
 import com.makentoshe.booruchan.repository.cache.PostInternalCache
@@ -46,15 +47,24 @@ class PostsPageFragment : Fragment() {
         get() = arguments!!.get(TAGS) as Set<Tag>
         set(value) = arguments().putSerializable(TAGS, value as Serializable)
 
+    //Repository returns list of posts by request
     private val postsRepository by lazy {
         val cache = PostInternalCache(requireContext())
         val source = PostsRepository(booru)
         CachedRepository(cache, source)
     }
 
+    //Repository returns preview image by post
     private val previewsRepository by lazy {
         val cache = ImageInternalCache(requireContext(), InternalCacheType.PREVIEW)
         val source = PreviewImageRepository(booru)
+        CachedRepository(cache, source)
+    }
+
+    //Repository returns sample image by post
+    private val samplesRepository by lazy {
+        val cache = ImageInternalCache(requireContext(), InternalCacheType.SAMPLE)
+        val source = SampleImageRepository(booru)
         CachedRepository(cache, source)
     }
 
@@ -87,7 +97,7 @@ class PostsPageFragment : Fragment() {
         progress.visibility = View.GONE
         gridview.visibility = View.VISIBLE
 
-        val adapter = PostPageGridAdapter(view.context, posts, previewsRepository)
+        val adapter = PostPageGridAdapter(view.context, posts, previewsRepository, samplesRepository)
         //when subscribed on observable - the disposable will be return for storing and dispose in future
         adapter.setOnSubscribeListener {
             disposables.add(it)

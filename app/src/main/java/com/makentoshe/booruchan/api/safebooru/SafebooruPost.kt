@@ -12,7 +12,9 @@ class SafebooruPost(
     override val fileUrl: String = raw["file_url"]?.let { "https:".plus(it) } ?: "",
     override val creatorId: Long = raw["creator_id"]?.toLong() ?: -1L,
     override val rating: Post.Rating = parseRating(raw["rating"]),
-    override val tags: Array<Tag> = parseTags(raw["tags"] ?: "")
+    override val tags: Array<Tag> = parseTags(raw["tags"] ?: ""),
+    override val previewHeight: Int = raw["preview_height"]?.toInt() ?: -1,
+    override val previewWidth: Int = raw["preview_width"]?.toInt() ?: -1
 ) : Post {
 
     companion object {
