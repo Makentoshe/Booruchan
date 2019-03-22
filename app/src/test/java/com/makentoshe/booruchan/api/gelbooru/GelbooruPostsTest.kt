@@ -1,7 +1,7 @@
 package com.makentoshe.booruchan.api.gelbooru
 
 import com.makentoshe.booruchan.network.HttpClient
-import com.makentoshe.booruchan.network.HttpGet
+import com.makentoshe.booruchan.network.HttpResult
 import io.mockk.every
 import io.mockk.mockk
 import org.junit.Assert.assertEquals
@@ -18,8 +18,8 @@ class GelbooruPostsTest {
         val file = File(File("").absolutePath, path)
         val str = FileReader(file).readText()
 
-        val mHttpGet = mockk<HttpGet>()
-        every { mHttpGet.stream() } returns ByteArrayInputStream(str.toByteArray())
+        val mHttpGet = mockk<HttpResult>()
+        every { mHttpGet.stream } returns ByteArrayInputStream(str.toByteArray())
 
         val mClient = mockk<HttpClient>()
         every { mClient.get(any()) } returns mHttpGet

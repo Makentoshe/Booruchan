@@ -22,7 +22,7 @@ class GelbooruPosts(
             strTags.append(tag.title)
             if (index != tags.size - 1) strTags.append(" ")
         }
-        val request = "/index.php?page=dapi&s=post&q=index&limit=$count&pid=$page&tags=$strTags"
+        val request = "https://gelbooru.com/index.php?page=dapi&s=post&q=index&limit=$count&pid=$page&tags=$strTags"
         return parser.parse(httpClient.get(request).stream)
     }
 }

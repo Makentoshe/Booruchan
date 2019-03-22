@@ -14,7 +14,7 @@ import com.makentoshe.booruchan.api.Post
 import com.makentoshe.booruchan.api.Posts
 import com.makentoshe.booruchan.api.Tag
 import com.makentoshe.booruchan.model.arguments
-import com.makentoshe.booruchan.repository.CachedRepository
+import com.makentoshe.booruchan.repository.decorator.CachedRepository
 import com.makentoshe.booruchan.repository.PostsRepository
 import com.makentoshe.booruchan.repository.PreviewImageRepository
 import com.makentoshe.booruchan.repository.SampleImageRepository

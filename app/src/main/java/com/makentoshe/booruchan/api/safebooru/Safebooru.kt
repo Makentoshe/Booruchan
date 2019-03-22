@@ -10,7 +10,7 @@ class Safebooru(private val httpClient: HttpClient) : Booru, Serializable {
         get() = "Safebooru"
 
     override fun getCustom(): Custom {
-        return SafebooruCustom()
+        return SafebooruCustom(httpClient)
     }
 
     override fun getAutocomplete(): Autocomplete {

@@ -12,7 +12,7 @@ class GelbooruAutocomplete(
 ) : Autocomplete, Serializable {
 
     override fun request(term: String): List<Tag> {
-        val stream = httpClient.get("/index.php?page=autocomplete&term=$term").stream
+        val stream = httpClient.get("https://gelbooru.com/index.php?page=autocomplete&term=$term").stream
         return tagParser.parse(stream)
     }
 

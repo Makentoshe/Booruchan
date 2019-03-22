@@ -4,7 +4,7 @@ import android.content.Context
 import com.makentoshe.booruchan.api.gelbooru.Gelbooru
 import com.makentoshe.booruchan.api.safebooru.Safebooru
 import com.makentoshe.booruchan.network.HttpClient
-import com.makentoshe.booruchan.network.decorator.HostHttpClient
+import com.makentoshe.booruchan.network.decorator.ProxyHttpClient
 
 class BooruFactoryImpl(private val defaultClient: HttpClient) : BooruFactory {
 
@@ -17,14 +17,12 @@ class BooruFactoryImpl(private val defaultClient: HttpClient) : BooruFactory {
     }
 
     private fun buildGelbooru(context: Context): Booru {
-        val hostList = mutableListOf("https://www.gelbooru.com")
-        val host = HostHttpClient(defaultClient, hostList)
-        return Gelbooru(host)
+        val proxy = ProxyHttpClient(defaultClient, "http://service.bypass123.com/index.php")
+        return Gelbooru(proxy)
     }
 
     private fun buildSafebooru(context: Context): Booru {
-        val hostList = listOf("https://safebooru.org")
-        val host = HostHttpClient(defaultClient, hostList)
-        return Safebooru(host)
+        val proxy = ProxyHttpClient(defaultClient, "http://service.bypass123.com/index.php")
+        return Safebooru(proxy)
     }
 }
