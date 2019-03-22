@@ -14,12 +14,11 @@ import androidx.viewpager.widget.ViewPager
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.api.Booru
 import com.makentoshe.booruchan.api.Tag
-import com.makentoshe.booruchan.appSettings
 import com.makentoshe.booruchan.model.RequestCode
 import com.makentoshe.booruchan.model.SubjectHolder
 import com.makentoshe.booruchan.model.arguments
 import com.makentoshe.booruchan.repository.cache.ImageInternalCache
-import com.makentoshe.booruchan.repository.cache.InternalCacheType
+import com.makentoshe.booruchan.repository.cache.InternalCache
 import com.makentoshe.booruchan.repository.cache.PostInternalCache
 import com.makentoshe.booruchan.screen.posts.model.PostsViewPagerAdapter
 import com.makentoshe.booruchan.screen.posts.model.TagsHolder
@@ -150,7 +149,9 @@ class PostsFragment : Fragment() {
         //clear caches
         GlobalScope.launch {
             PostInternalCache(requireContext()).clear()
-            ImageInternalCache(requireContext(), InternalCacheType.SAMPLE).clear()
+            ImageInternalCache(requireContext(), InternalCache.Type.SAMPLE).clear()
+            ImageInternalCache(requireContext(), InternalCache.Type.PREVIEW).clear()
+            ImageInternalCache(requireContext(), InternalCache.Type.FILE).clear()
         }
         //set tags to holder
         tagsHolder.set.clear()

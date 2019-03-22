@@ -5,7 +5,7 @@ import com.makentoshe.booruchan.api.Post
 import com.makentoshe.booruchan.api.Posts
 import java.io.*
 
-class PostInternalCache(context: Context) : InternalCache<Posts.Request, List<Post>?>(context, InternalCacheType.POST) {
+class PostInternalCache(context: Context) : InternalCache<Posts.Request, List<Post>?>(context, Type.POST) {
     override fun get(key: Posts.Request, loader: () -> List<Post>?): List<Post>? {
         return getIfPresent(key) ?: loader().also {
             if (it == null) return null
@@ -62,7 +62,7 @@ class PostInternalCache(context: Context) : InternalCache<Posts.Request, List<Po
                 try {
                     it.writeObject(value[i - startPosition])
                     it.flush()
-                } catch (e : IndexOutOfBoundsException){
+                } catch (e: IndexOutOfBoundsException) {
                     //its ok - caused when we request 12 items, but receive 8, for example
                 }
             }

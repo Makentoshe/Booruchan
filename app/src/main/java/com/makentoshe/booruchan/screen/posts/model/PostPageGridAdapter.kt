@@ -10,6 +10,7 @@ import android.widget.ImageView
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.api.Post
 import com.makentoshe.booruchan.repository.Repository
+import com.makentoshe.booruchan.repository.decorator.CachedRepository
 import com.makentoshe.booruchan.screen.posts.view.PostPageGridElement
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -22,7 +23,8 @@ class PostPageGridAdapter(
     private val context: Context,
     private val posts: List<Post>,
     private val previewsRepository: Repository<Post, ByteArray>,
-    private val samplesRepository: Repository<Post, ByteArray>
+    private val samplesRepository: Repository<Post, ByteArray>,
+    private val filesRepository: CachedRepository<Post, ByteArray>
 ) : BaseAdapter() {
 
     private var onSubscribe: ((Disposable) -> Unit)? = null
@@ -30,10 +32,10 @@ class PostPageGridAdapter(
     //contains completed Single observables which will gets bitmaps from repositories
     private val observables = Array(posts.size) { index ->
         Single.just(posts[index])
-                //performs mapping in new thread
+            //performs mapping in new thread
             .subscribeOn(Schedulers.newThread())
-            .map { getPreviewBitmap(it) ?: getSampleBitmap(it)!! }
-                //performs subscribe in main thread
+            .map { getPreviewBitmap(it) ?: getSampleBitmap(it) ?: getFileBitmap(it) }
+            //performs subscribe in main thread
             .observeOn(AndroidSchedulers.mainThread())
     }
 
@@ -46,6 +48,11 @@ class PostPageGridAdapter(
     //Returns bitmap from samples repository or null
     private fun getSampleBitmap(post: Post): Bitmap? {
         val bytearray = samplesRepository.get(post)
+        return decodeByteArray(bytearray)
+    }
+
+    private fun getFileBitmap(post: Post): Bitmap? {
+        val bytearray = filesRepository.get(post)
         return decodeByteArray(bytearray)
     }
 
@@ -64,7 +71,6 @@ class PostPageGridAdapter(
             val disposable = observables[position]
                 .doOnError {
                     //calls when downloading failed
-                    println("SAS $it")
                     it.printStackTrace()
                 }.subscribe { bitmap ->
                     //calls when downloading success

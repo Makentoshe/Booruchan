@@ -14,13 +14,14 @@ import com.makentoshe.booruchan.api.Post
 import com.makentoshe.booruchan.api.Posts
 import com.makentoshe.booruchan.api.Tag
 import com.makentoshe.booruchan.model.arguments
-import com.makentoshe.booruchan.repository.decorator.CachedRepository
+import com.makentoshe.booruchan.repository.FileImageRepository
 import com.makentoshe.booruchan.repository.PostsRepository
 import com.makentoshe.booruchan.repository.PreviewImageRepository
 import com.makentoshe.booruchan.repository.SampleImageRepository
 import com.makentoshe.booruchan.repository.cache.ImageInternalCache
-import com.makentoshe.booruchan.repository.cache.InternalCacheType
+import com.makentoshe.booruchan.repository.cache.InternalCache
 import com.makentoshe.booruchan.repository.cache.PostInternalCache
+import com.makentoshe.booruchan.repository.decorator.CachedRepository
 import com.makentoshe.booruchan.router
 import com.makentoshe.booruchan.screen.posts.model.PostPageGridAdapter
 import com.makentoshe.booruchan.screen.posts.view.PostPageUi
@@ -56,15 +57,24 @@ class PostsPageFragment : Fragment() {
 
     //Repository returns preview image by post
     private val previewsRepository by lazy {
-        val cache = ImageInternalCache(requireContext(), InternalCacheType.PREVIEW)
+        val cache = ImageInternalCache(requireContext(), InternalCache.Type.PREVIEW)
         val source = PreviewImageRepository(booru)
         CachedRepository(cache, source)
     }
 
     //Repository returns sample image by post
+    //Used when preview image can not be decoded
     private val samplesRepository by lazy {
-        val cache = ImageInternalCache(requireContext(), InternalCacheType.SAMPLE)
+        val cache = ImageInternalCache(requireContext(), InternalCache.Type.SAMPLE)
         val source = SampleImageRepository(booru)
+        CachedRepository(cache, source)
+    }
+
+    //Repository returns file image by post
+    //Used when preview image and sample image can't be decoded
+    private val filesRepository by lazy {
+        val cache = ImageInternalCache(requireContext(), InternalCache.Type.FILE)
+        val source = FileImageRepository(booru)
         CachedRepository(cache, source)
     }
 
@@ -97,7 +107,7 @@ class PostsPageFragment : Fragment() {
         progress.visibility = View.GONE
         gridview.visibility = View.VISIBLE
 
-        val adapter = PostPageGridAdapter(view.context, posts, previewsRepository, samplesRepository)
+        val adapter = PostPageGridAdapter(view.context, posts, previewsRepository, samplesRepository, filesRepository)
         //when subscribed on observable - the disposable will be return for storing and dispose in future
         adapter.setOnSubscribeListener {
             disposables.add(it)

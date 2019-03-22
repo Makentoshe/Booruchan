@@ -24,7 +24,7 @@ import com.makentoshe.booruchan.model.arguments
 import com.makentoshe.booruchan.repository.PostsRepository
 import com.makentoshe.booruchan.repository.SampleImageRepository
 import com.makentoshe.booruchan.repository.cache.ImageInternalCache
-import com.makentoshe.booruchan.repository.cache.InternalCacheType
+import com.makentoshe.booruchan.repository.cache.InternalCache
 import com.makentoshe.booruchan.repository.cache.PostInternalCache
 import com.makentoshe.booruchan.repository.decorator.CachedRepository
 import com.makentoshe.booruchan.screen.samples.view.SamplePageUi
@@ -62,7 +62,7 @@ class SamplePageFragment : Fragment() {
     }
 
     private val samplesRepository by lazy {
-        val cache = ImageInternalCache(requireContext(), InternalCacheType.SAMPLE)
+        val cache = ImageInternalCache(requireContext(), InternalCache.Type.SAMPLE)
         val source = SampleImageRepository(booru)
         CachedRepository(cache, source)
     }
