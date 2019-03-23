@@ -22,7 +22,7 @@ class DelayAutocompleteEditTextComponent : AnkoComponent<ViewGroup> {
             setPadding(dip(8), dip(10), dip(36), dip(8))
             singleLine = true
             imeOptions = EditorInfo.IME_ACTION_SEARCH
-            setCursorColor(Color.BLACK)
+//            setCursorColor(Color.BLACK)
         }
     }
 
