@@ -24,6 +24,7 @@ import com.makentoshe.booruchan.repository.cache.PostInternalCache
 import com.makentoshe.booruchan.repository.decorator.CachedRepository
 import com.makentoshe.booruchan.router
 import com.makentoshe.booruchan.screen.posts.model.PostPageGridAdapter
+import com.makentoshe.booruchan.screen.posts.model.getItemsCountInRequest
 import com.makentoshe.booruchan.screen.posts.view.PostPageUi
 import com.makentoshe.booruchan.screen.samples.SampleScreen
 import io.reactivex.Single
@@ -87,7 +88,7 @@ class PostsPageFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val disposable = Single.just(postsRepository)
             .subscribeOn(Schedulers.newThread())
-            .map { it.get(Posts.Request(12, tags, position))!! }
+            .map { it.get(Posts.Request(getItemsCountInRequest(requireContext()), tags, position))!! }
             .observeOn(AndroidSchedulers.mainThread())
             .doOnError { onError(view, it) }
             .subscribe { posts -> onComplete(view, posts) }
@@ -117,7 +118,7 @@ class PostsPageFragment : Fragment() {
         //click on grid element starts a new screen - samples,
         //where images in sample resolution will be displayed
         view.find<GridView>(R.id.posts_page_gridview).setOnItemClickListener { _, _, itempos, _ ->
-            val position = this.position * 12 + itempos
+            val position = this.position * getItemsCountInRequest(requireContext()) + itempos
             val screen = SampleScreen(position, booru, tags)
             router.navigateTo(screen)
         }

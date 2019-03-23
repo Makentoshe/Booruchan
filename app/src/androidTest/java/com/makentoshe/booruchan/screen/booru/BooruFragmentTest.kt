@@ -25,10 +25,10 @@ class BooruFragmentTest {
 
     @Before
     fun init() {
+        Booruchan.INSTANCE.settings.setNsfw(Booruchan.INSTANCE.applicationContext, true)
         Booruchan.INSTANCE.booruList.add(Mockbooru::class.java)
         position = Booruchan.INSTANCE.booruList.indexOf(Mockbooru::class.java)
         activity = activityTestRule.launchActivity(null)
-        Booruchan.INSTANCE.settings.setNsfw(activity, true)
         activity.getFragment<StartFragment>().booruFactory = mockBooruFactory(activity)
         //click on mocked booru
         onView(withText(Mockbooru::class.java.simpleName)).perform(click())
