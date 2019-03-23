@@ -37,10 +37,10 @@ class PostsFragmentTest {
 
     @Before
     fun init() {
+        Booruchan.INSTANCE.settings.setNsfw(Booruchan.INSTANCE.applicationContext, true)
         Booruchan.INSTANCE.booruList.add(Mockbooru::class.java)
         position = Booruchan.INSTANCE.booruList.indexOf(Mockbooru::class.java)
         activity = activityTestRule.launchActivity(null)
-        Booruchan.INSTANCE.settings.setNsfw(activity, true)
         activity.setMockbooruFactory()
     }
 

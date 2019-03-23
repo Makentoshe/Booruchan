@@ -26,8 +26,8 @@ class SettingsFragmentTest {
 
     @Before
     fun init() {
+        Booruchan.INSTANCE.settings.setNsfw(Booruchan.INSTANCE.applicationContext, false)
         activity = activityTestRule.launchActivity(null)
-        Booruchan.INSTANCE.settings.setNsfw(activity, false)
         //show overflow menu
         onView(withId(R.id.start_toolbar_overflow)).perform(click())
         //click on overflow menu item
