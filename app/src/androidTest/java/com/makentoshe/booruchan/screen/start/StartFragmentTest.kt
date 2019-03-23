@@ -28,6 +28,7 @@ class StartFragmentTest {
         Booruchan.INSTANCE.booruList.add(Mockbooru::class.java)
         position = Booruchan.INSTANCE.booruList.indexOf(Mockbooru::class.java)
         activity = activityTestRule.launchActivity(null)
+        Booruchan.INSTANCE.settings.setNsfw(activity, true)
     }
 
     @Test

@@ -33,6 +33,7 @@ class SearchDialogFragmentTest {
         Booruchan.INSTANCE.booruList.add(Mockbooru::class.java)
         position = Booruchan.INSTANCE.booruList.indexOf(Mockbooru::class.java)
         activity = activityTestRule.launchActivity(null)
+        Booruchan.INSTANCE.settings.setNsfw(activity, true)
         activity.setMockbooruFactory()
         //click on search icon
         Espresso.onView(ViewMatchers.withId(R.id.posts_toolbar_search)).perform(ViewActions.click())

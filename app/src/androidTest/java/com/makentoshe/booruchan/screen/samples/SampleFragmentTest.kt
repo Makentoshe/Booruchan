@@ -34,6 +34,7 @@ class SampleFragmentTest {
         position = Booruchan.INSTANCE.booruList.indexOf(Mockbooru::class.java)
         activity = activityTestRule.launchActivity(null)
         RxAndroidPlugins.setInitMainThreadSchedulerHandler { Schedulers.from { activity.runOnUiThread(it) } }
+        Booruchan.INSTANCE.settings.setNsfw(activity, true)
         activity.setMockbooruFactory()
         Espresso.onData(Matchers.anything())
             .inAdapterView(

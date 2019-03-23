@@ -40,10 +40,12 @@ class PostsFragmentTest {
         Booruchan.INSTANCE.booruList.add(Mockbooru::class.java)
         position = Booruchan.INSTANCE.booruList.indexOf(Mockbooru::class.java)
         activity = activityTestRule.launchActivity(null)
+        Booruchan.INSTANCE.settings.setNsfw(activity, true)
         activity.setMockbooruFactory()
     }
 
     @Test
+    @Ignore("Drawer disabled")
     fun click_on_drawermenu_should_open_drawer() {
         //click on drawer menu
         onView(withId(R.id.booru_toolbar_drawermenu)).perform(click())
