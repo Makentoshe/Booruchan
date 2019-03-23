@@ -29,8 +29,12 @@
         <item name="android:indeterminateDrawable">@color/MaterialTeal600</item>
     </style>
 
-    <style name="Dialog" parent="Theme.AppCompat.Light.Dialog.Alert">
+    <style name="DialogLight" parent="Theme.AppCompat.Light.Dialog.Alert"/>
 
+    <style name="EditTextLight" parent="ThemeOverlay.MaterialComponents.Light">
+        <item name="android:textCursorDrawable">@android:color/black</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:textColor">@android:color/white</item>
     </style>
 
     <style name="AppBaseChip" parent="Theme.MaterialComponents"/>

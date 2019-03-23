@@ -5,7 +5,6 @@ import android.util.TypedValue
 import android.view.View
 import androidx.annotation.ColorInt
 import androidx.annotation.StyleRes
-import com.makentoshe.booruchan.R
 
 interface Style {
 
@@ -24,24 +23,8 @@ interface Style {
     @get:StyleRes
     val dialog: Int
 
-}
-
-class SotisStyle : Style {
-
-    override val toolbar: Int
-        get() = R.style.SotisToolbar
-
-    override val main: Int
-        get() = R.style.Sotis
-
-    override val progress: Int
-        get() = R.style.SotisProgress
-
-    override val default: Int
-        get() = R.style.SotisDefault
-
-    override val dialog: Int
-        get() = R.style.Dialog
+    @get:StyleRes
+    val edittext: Int
 }
 
 @ColorInt
