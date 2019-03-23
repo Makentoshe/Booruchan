@@ -12,8 +12,8 @@ import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.api.Booru
 import com.makentoshe.booruchan.api.Post
 import com.makentoshe.booruchan.permission.PermissionController
-import com.makentoshe.booruchan.screen.RequestCode
-import com.makentoshe.booruchan.screen.arguments
+import com.makentoshe.booruchan.model.RequestCode
+import com.makentoshe.booruchan.model.arguments
 import com.makentoshe.booruchan.screen.samples.model.DownloadIntoInternalStorage
 
 class SampleOptionFragment : DialogFragment() {

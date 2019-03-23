@@ -6,11 +6,12 @@ import android.os.Message
 import android.view.View
 import android.view.ViewManager
 import android.widget.ProgressBar
+import androidx.annotation.StyleRes
 import androidx.appcompat.widget.AppCompatAutoCompleteTextView
 import org.jetbrains.anko.custom.ankoView
 
-fun ViewManager.delayAutoCompleteEditText(init: DelayAutocompleteEditText.() -> Unit) =
-    ankoView({ DelayAutocompleteEditText(it) }, 0, init)
+fun ViewManager.delayAutoCompleteEditText(@StyleRes theme: Int = 0, init: DelayAutocompleteEditText.() -> Unit) =
+    ankoView({ DelayAutocompleteEditText(it) }, theme, init)
 
 class DelayAutocompleteEditText(context: Context) : AppCompatAutoCompleteTextView(context) {
 

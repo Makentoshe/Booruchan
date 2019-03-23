@@ -3,7 +3,9 @@ package com.makentoshe.booruchan.screen.samples
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.davemorrissey.labs.subscaleview.ImageSource
@@ -18,13 +20,13 @@ import com.makentoshe.booruchan.api.Booru
 import com.makentoshe.booruchan.api.Post
 import com.makentoshe.booruchan.api.Posts
 import com.makentoshe.booruchan.api.Tag
-import com.makentoshe.booruchan.repository.CachedRepository
+import com.makentoshe.booruchan.model.arguments
 import com.makentoshe.booruchan.repository.PostsRepository
 import com.makentoshe.booruchan.repository.SampleImageRepository
 import com.makentoshe.booruchan.repository.cache.ImageInternalCache
-import com.makentoshe.booruchan.repository.cache.InternalCacheType
+import com.makentoshe.booruchan.repository.cache.InternalCache
 import com.makentoshe.booruchan.repository.cache.PostInternalCache
-import com.makentoshe.booruchan.screen.arguments
+import com.makentoshe.booruchan.repository.decorator.CachedRepository
 import com.makentoshe.booruchan.screen.samples.view.SamplePageUi
 import com.makentoshe.booruchan.view.setGestureListener
 import io.reactivex.Single
@@ -38,7 +40,6 @@ import pl.droidsonroids.gif.GifDrawable
 import pl.droidsonroids.gif.GifImageView
 import java.io.File
 import java.io.Serializable
-import java.util.concurrent.TimeUnit
 
 class SamplePageFragment : Fragment() {
 
@@ -61,7 +62,7 @@ class SamplePageFragment : Fragment() {
     }
 
     private val samplesRepository by lazy {
-        val cache = ImageInternalCache(requireContext(), InternalCacheType.SAMPLE)
+        val cache = ImageInternalCache(requireContext(), InternalCache.Type.SAMPLE)
         val source = SampleImageRepository(booru)
         CachedRepository(cache, source)
     }
@@ -76,7 +77,6 @@ class SamplePageFragment : Fragment() {
         val disposable = Single.just(postsRepository)
             .subscribeOn(Schedulers.newThread())
             .map { it.get(Posts.Request(1, tags, position))!![0] }
-            .timeout(3, TimeUnit.SECONDS)
             .observeOn(AndroidSchedulers.mainThread())
             .doOnError { onError(view, it) }
             .subscribe { post -> onComplete(view, post) }
@@ -84,11 +84,15 @@ class SamplePageFragment : Fragment() {
     }
 
     private fun onError(view: View, throwable: Throwable) {
+        if (throwable is IndexOutOfBoundsException) {
+            onError(view, Exception(getString(R.string.images_ran_out)))
+            return
+        }
+
         view.find<View>(R.id.samples_progress).visibility = View.GONE
         val messageview = view.find<TextView>(R.id.samples_message)
         messageview.visibility = View.VISIBLE
         messageview.text = throwable.localizedMessage
-        throwable.printStackTrace()
     }
 
     private fun onComplete(view: View, post: Post) {
@@ -102,7 +106,6 @@ class SamplePageFragment : Fragment() {
     private fun onImage(view: View, post: Post) {
         val disposable = Single.just(post)
             .subscribeOn(Schedulers.newThread())
-            .timeout(3, TimeUnit.SECONDS)
             .map { samplesRepository.get(it) }
             .map { BitmapFactory.decodeByteArray(it, 0, it.size) }
             .observeOn(AndroidSchedulers.mainThread())
@@ -120,7 +123,6 @@ class SamplePageFragment : Fragment() {
     private fun onGif(view: View, post: Post) {
         val disposable = Single.just(post)
             .subscribeOn(Schedulers.newThread())
-            .timeout(3, TimeUnit.SECONDS)
             .map { samplesRepository.get(it) }
             .map { GifDrawable(it) }
             .observeOn(AndroidSchedulers.mainThread())

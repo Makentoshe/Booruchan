@@ -5,13 +5,13 @@ import android.app.Dialog
 import android.os.Bundle
 import android.view.Gravity
 import android.view.View
-import android.widget.AutoCompleteTextView
 import androidx.fragment.app.DialogFragment
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.api.Booru
 import com.makentoshe.booruchan.api.Tag
 import com.makentoshe.booruchan.repository.DelayAutocompleteRepository
-import com.makentoshe.booruchan.screen.arguments
+import com.makentoshe.booruchan.model.arguments
+import com.makentoshe.booruchan.view.DelayAutocompleteEditText
 import org.jetbrains.anko.AnkoContext
 import org.jetbrains.anko.find
 import java.io.Serializable
@@ -44,16 +44,17 @@ class SearchDialogFragment : DialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val view = SearchDialogUi().createView(AnkoContext.create(requireContext(), this))
-        return AlertDialog.Builder(requireContext()).setTitle("Start a new search").setView(view).create()
+        return AlertDialog.Builder(requireContext()).setTitle(R.string.start_new_search).setView(view).create()
             .also(::setParams)
             .also { onViewCreated(view, savedInstanceState) }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val editText = view.find<AutoCompleteTextView>(R.id.searchDialog_delayAutocompleteEditText)
+        val editText = view.find<DelayAutocompleteEditText>(R.id.searchDialog_delayAutocompleteEditText)
         val repository = DelayAutocompleteRepository(booru)
         val adapter = DelayAutocompleteAdapter(repository)
         editText.setAdapter(adapter)
+        editText.progressBar = view.find(R.id.search_progress)
         searchDialogInflater.accept(view)
     }
 

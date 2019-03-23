@@ -5,16 +5,22 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
 import com.makentoshe.booruchan.api.Booru
 import com.makentoshe.booruchan.api.Tag
-import com.makentoshe.booruchan.screen.posts.PostsPageScreen
+import com.makentoshe.booruchan.screen.posts.PostsPageFragment
 
 class PostsViewPagerAdapter(
-    fragmentManager: FragmentManager,
+    private val fragmentManager: FragmentManager,
     private val tags: Set<Tag>,
-    private val booru: Booru
+    private val booru: Booru,
+    private var count: Int = Int.MAX_VALUE
 ) : FragmentStatePagerAdapter(fragmentManager) {
+
     override fun getItem(position: Int): Fragment {
-        return PostsPageScreen(position, booru, tags).fragment
+        return PostsPageFragment.create(position, booru, tags)
     }
 
-    override fun getCount() = Int.MAX_VALUE
+    override fun getCount() = count
+
+    fun copy(count: Int = getCount()): PostsViewPagerAdapter {
+        return PostsViewPagerAdapter(fragmentManager, tags, booru, count)
+    }
 }

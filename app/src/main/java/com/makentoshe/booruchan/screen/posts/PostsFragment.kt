@@ -5,21 +5,21 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
+import android.widget.Toolbar
+import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.viewpager.widget.ViewPager
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.api.Booru
 import com.makentoshe.booruchan.api.Tag
+import com.makentoshe.booruchan.model.RequestCode
+import com.makentoshe.booruchan.model.SubjectHolder
+import com.makentoshe.booruchan.model.arguments
 import com.makentoshe.booruchan.repository.cache.ImageInternalCache
-import com.makentoshe.booruchan.repository.cache.InternalCacheType
+import com.makentoshe.booruchan.repository.cache.InternalCache
 import com.makentoshe.booruchan.repository.cache.PostInternalCache
-import com.makentoshe.booruchan.screen.booru.inflator.BooruToolbarUiInflater
-import com.makentoshe.booruchan.screen.RequestCode
-import com.makentoshe.booruchan.screen.SubjectHolder
-import com.makentoshe.booruchan.screen.arguments
-import com.makentoshe.booruchan.screen.posts.inflator.PostsUiBottomBarInflator
-import com.makentoshe.booruchan.screen.posts.inflator.PostsUiToolbarInflator
 import com.makentoshe.booruchan.screen.posts.model.PostsViewPagerAdapter
 import com.makentoshe.booruchan.screen.posts.model.TagsHolder
 import com.makentoshe.booruchan.screen.posts.view.PostsUi
@@ -30,7 +30,10 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.jetbrains.anko.AnkoContext
 import org.jetbrains.anko.find
+import org.jetbrains.anko.findOptional
 import org.jetbrains.anko.sdk27.coroutines.onClick
+import org.jetbrains.anko.subtitleResource
+import org.jetbrains.anko.support.v4.onPageChangeListener
 
 class PostsFragment : Fragment() {
 
@@ -62,21 +65,99 @@ class PostsFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        parentFragment?.view?.findViewById<DrawerLayout>(R.id.booru_drawer)?.let {
-            BooruToolbarUiInflater(it).accept(view)
+        val viewpager = view.find<ViewPager>(R.id.posts_viewpager)
+        val toolbar = view.find<Toolbar>(R.id.booru_toolbar)
+        val drawer = parentFragment?.view?.findOptional<DrawerLayout>(R.id.booru_drawer)
+        val drawerIcon = view.find<View>(R.id.booru_toolbar_drawermenu)
+        val search = view.find<View>(R.id.posts_toolbar_search)
+        //set up the horizontal view pager for displaying the pages with the images
+        //on each starting search the old adapter will be replaced by new one with
+        //tags for current search
+        setViewPagerAdapterControl(viewpager)
+        //set up toolbar title and content subtitle
+        setToolbarInfo(toolbar)
+        //click on drawer menu
+        setDrawerMenuControl(drawer, drawerIcon)
+        //click on search icon in the toolbar
+        search.onClick { showSearchFragment() }
+        //set click controls for bottom bar
+        bottomBarControl(viewpager, view)
+    }
+
+    private fun bottomBarControl(viewpager: ViewPager, root: View) {
+        val bottomleft = root.find<View>(R.id.posts_bottombar_left)
+        val bottomcenter = root.find<View>(R.id.posts_bottombar_center)
+        val bottomright = root.find<View>(R.id.posts_bottombar_right)
+        val centertext = bottomcenter.find<TextView>(R.id.posts_bottombar_center_textview)
+        //if click was performed on first element
+        if (viewpager.currentItem == 0) {
+            bottomleft.visibility = View.INVISIBLE
+        }
+        //set default value text view in center
+        centertext.text = "0"
+        //set on right icon click listener
+        bottomright.setOnClickListener {
+            val currItem = viewpager.currentItem
+            viewpager.setCurrentItem(currItem + 1, true)
         }
 
-        view.find<View>(R.id.posts_toolbar_search).onClick { showSearchFragment() }
-
-        view.find<ViewPager>(R.id.posts_viewpager).let { v ->
-            val disposable = searchController.subscribe { tags ->
-                v.adapter = PostsViewPagerAdapter(childFragmentManager, tags, booru)
+        viewpager.onPageChangeListener {
+            onPageSelected {
+                //change text when page was scrolled
+                centertext.text = it.toString()
+                //when scrolled to the first page - hide the left chevron
+                //else display and setup functional
+                if (it < 1) {
+                    bottomleft.visibility = View.INVISIBLE
+                    bottomleft.setOnClickListener(null)
+                } else {
+                    bottomleft.visibility = View.VISIBLE
+                    bottomleft.setOnClickListener {
+                        //on left chevron click
+                        val currItem = viewpager.currentItem
+                        viewpager.setCurrentItem(currItem - 1, true)
+                    }
+                }
             }
-            disposables.add(disposable)
         }
+    }
 
-        PostsUiToolbarInflator(booru).accept(view)
-        PostsUiBottomBarInflator().accept(view)
+    private fun setToolbarInfo(toolbar: Toolbar) {
+        toolbar.title = booru.title
+        toolbar.subtitleResource = R.string.posts
+    }
+
+    private fun setViewPagerAdapterControl(viewpager: ViewPager) {
+        val disposable = searchController.subscribe { tags ->
+            viewpager.adapter = PostsViewPagerAdapter(childFragmentManager, tags, booru)
+        }
+        disposables.add(disposable)
+    }
+
+    private fun setDrawerMenuControl(drawer: DrawerLayout?, drawerIcon: View) {
+        if (drawer == null) return
+        drawerIcon.setOnClickListener {
+            if (drawer.isDrawerOpen(GravityCompat.START)) {
+                drawer.closeDrawer(GravityCompat.START)
+            } else {
+                drawer.openDrawer(GravityCompat.START)
+            }
+        }
+    }
+
+    private fun startNewSearch(tags: Set<Tag>) {
+        //clear caches
+        GlobalScope.launch {
+            PostInternalCache(requireContext()).clear()
+            ImageInternalCache(requireContext(), InternalCache.Type.SAMPLE).clear()
+            ImageInternalCache(requireContext(), InternalCache.Type.PREVIEW).clear()
+            ImageInternalCache(requireContext(), InternalCache.Type.FILE).clear()
+        }
+        //set tags to holder
+        tagsHolder.set.clear()
+        tagsHolder.set.addAll(tags)
+        //notify
+        searchController.onNext(tags)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
@@ -86,21 +167,15 @@ class PostsFragment : Fragment() {
             val tags = data.getSerializableExtra(Set::class.java.simpleName) as Set<Tag>
             startNewSearch(tags)
         }
-    }
-
-    private fun startNewSearch(tags: Set<Tag>) {
-        //clear caches
-        GlobalScope.launch {
-            PostInternalCache(requireContext()).clear()
-            ImageInternalCache(requireContext(), InternalCacheType.SAMPLE).clear()
+        //if child fragment does not received posts
+        //it means that the posts is run out
+        //the resultCode contains page without posts
+        if (requestCode == RequestCode.postpage) {
+            val pager = view!!.find<ViewPager>(R.id.posts_viewpager)
+            val adapter = pager.adapter as PostsViewPagerAdapter
+            pager.adapter = adapter.copy(count = resultCode)
+            pager.currentItem = resultCode - 1
         }
-        //set tags to holder
-        tagsHolder.set.clear()
-        tagsHolder.set.addAll(tags)
-        //todo put here the default tags from settings
-        //...
-        //notify
-        searchController.onNext(tags)
     }
 
     override fun onDestroyView() {

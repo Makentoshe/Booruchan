@@ -20,6 +20,30 @@
     <string name="score">Score</string>
     <string name="rating">Rating</string>
     <string name="download_was_started">Download was started</string>
+    <string name="app_settings">Application settings</string>
+    <string name="enable_nsfw">Enable NSFW</string>
+    <string name="start_new_search">Start a new search</string>
+    <string name="user_agreement">User agreement</string>
+    <string name="agree">Agree</string>
+    <string name="disagree">Disagree</string>
+
+    <string name="user_agreement_content">To use this function you must be at least 18 years or older, or use it under
+        parental supervision.\n\n Also, to make use of this function, you must read and agree the following:\n\n<b>1)
+        </b> If you are a minor, then you will not use this function.\n\n<b>2)</b> When browsing content, you will abide
+        to your own country laws, thereby you will not browse content, if it can be deemed as a felony.\n\n<b>3)</b> You
+        will not make use of this app with illegal, dark, malicious or evil-promoting intentions, and as such, you will
+        not make use of this app to cause any kind of intentional bullying, damage or injure by any means another
+        entity, neither to yourself.\n\n<b>4)</b> This app is provided "as is", without warranty of any kind, express or
+        implied, including but not limited to the warranties of merchantability, fitness for a particular purpose and
+        noninfringement. In no event shall the authors or copyright holders be liable for any claim, damages or other
+        liability, whether in an action of contract, tort or otherwise, arising from, out of or in connection with the
+        app or the use or other dealings in the software.\n\n<b>5)</b> You are using this app only for personal use.\n\n<b>
+            6)
+        </b> You understand that there may be content in the app that does not appeal to you or you feel is morally
+        wrong.\n\n<b>7)</b> You accept that the app is not liable for any content that you may stumble upon.\n
+    </string>
+    <string name="posts_ran_out">Posts is ran out\nCheck the previous pages to find them</string>
+    <string name="images_ran_out">Images is ran out\nCheck the previous pages to find them</string>
 
     <string-array name="post_properties">
         <item>Id</item>

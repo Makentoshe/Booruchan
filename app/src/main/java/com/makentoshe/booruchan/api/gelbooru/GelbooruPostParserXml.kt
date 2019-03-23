@@ -8,7 +8,7 @@ import org.jsoup.nodes.Attributes
 class GelbooruPostParserXml : Parser<List<Post>> {
     override fun parse(data: String): List<Post> {
         val root = Jsoup.parse(data).body().child(0)
-        val (count, offset) = extractData(root.attributes())
+//        val (count, offset) = extractData(root.attributes())
         val posts = ArrayList<Post>()
         for (i in 0 until root.childNodeSize() / 2 step 1) {
             posts.add(GelbooruPost(parseAttributesToMap(root.child(i).attributes())))
@@ -16,19 +16,11 @@ class GelbooruPostParserXml : Parser<List<Post>> {
         return posts
     }
 
-    private fun extractData(attrs: Attributes): Pair<Int, Int> {
-        var count = -1
-        try {
-            count = attrs["count"].toInt()
-        } catch (e: Exception) {
-        }
-        var offset = -1
-        try {
-            offset = attrs["offset"].toInt()
-        } catch (e: Exception) {
-        }
-        return Pair(count, offset)
-    }
+//    private fun extractData(attrs: Attributes): Pair<Int, Int> {
+//        val count = attrs["count"].toInt()
+//        val offset = attrs["offset"].toInt()
+//        return Pair(count, offset)
+//    }
 
     private fun parseAttributesToMap(attributes: Attributes): HashMap<String, String> {
         val res = HashMap<String, String>()

@@ -2,8 +2,8 @@ package com.makentoshe.booruchan.view
 
 import android.graphics.PorterDuff
 import androidx.annotation.IdRes
+import com.makentoshe.booruchan.style
 import com.makentoshe.booruchan.style.getColorFromStyle
-import com.makentoshe.booruchan.style.style
 import org.jetbrains.anko.*
 
 class AnkoProgressBar(@IdRes private val id: Int) : AnkoComponent<_RelativeLayout> {

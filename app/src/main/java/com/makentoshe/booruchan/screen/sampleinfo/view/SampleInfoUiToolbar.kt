@@ -1,7 +1,7 @@
 package com.makentoshe.booruchan.screen.sampleinfo.view
 
 import com.makentoshe.booruchan.R
-import com.makentoshe.booruchan.style.style
+import com.makentoshe.booruchan.style
 import org.jetbrains.anko.*
 
 class SampleInfoUiToolbar : AnkoComponent<_RelativeLayout> {

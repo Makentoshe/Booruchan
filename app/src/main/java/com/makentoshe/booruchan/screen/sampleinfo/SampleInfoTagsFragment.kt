@@ -10,7 +10,7 @@ import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.api.Booru
 import com.makentoshe.booruchan.api.Post
 import com.makentoshe.booruchan.api.Tag
-import com.makentoshe.booruchan.screen.arguments
+import com.makentoshe.booruchan.model.arguments
 import com.makentoshe.booruchan.screen.sampleinfo.view.SampleInfoTagsUi
 import com.makentoshe.booruchan.view.addTagToChipGroup
 import org.jetbrains.anko.AnkoContext
@@ -33,7 +33,7 @@ class SampleInfoTagsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val chipGroup = view.find<ChipGroup>(R.id.sampleinfo_tags_chipgroup)
-        post.tags.forEach { chipGroup.createChip(it) }
+        post.tags.filter { it.title.isNotBlank() }.forEach { chipGroup.createChip(it) }
     }
 
     private fun ChipGroup.createChip(tag: Tag) {

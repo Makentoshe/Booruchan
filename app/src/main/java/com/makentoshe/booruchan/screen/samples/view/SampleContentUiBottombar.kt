@@ -1,7 +1,6 @@
 package com.makentoshe.booruchan.screen.samples.view
 
 import android.content.res.ColorStateList
-import android.graphics.Color
 import android.view.Menu
 import android.view.MenuItem
 import android.view.ViewManager
@@ -9,8 +8,8 @@ import androidx.annotation.IdRes
 import androidx.annotation.StringRes
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.makentoshe.booruchan.R
+import com.makentoshe.booruchan.style
 import com.makentoshe.booruchan.style.getColorFromStyle
-import com.makentoshe.booruchan.style.style
 import org.jetbrains.anko.*
 import org.jetbrains.anko.custom.ankoView
 

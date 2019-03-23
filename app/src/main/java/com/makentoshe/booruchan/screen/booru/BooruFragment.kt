@@ -4,28 +4,24 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.api.Booru
-import com.makentoshe.booruchan.api.Tag
 import com.makentoshe.booruchan.navigation.FragmentNavigator
-import com.makentoshe.booruchan.screen.arguments
-import com.makentoshe.booruchan.screen.booru.inflator.BooruInflatorPanel
+import com.makentoshe.booruchan.model.arguments
 import com.makentoshe.booruchan.screen.booru.model.LocalNavigatorHolder
 import com.makentoshe.booruchan.screen.booru.model.LocalNavigatorImpl
 import com.makentoshe.booruchan.screen.booru.view.BooruUi
 import org.jetbrains.anko.AnkoContext
-import java.io.Serializable
+import org.jetbrains.anko.find
 
 class BooruFragment : Fragment() {
 
     private var booru: Booru
         get() = arguments!!.get(BOORU) as Booru
         set(value) = arguments().putSerializable(BOORU, value)
-
-    private var tags: Set<Tag>
-        get() = arguments!!.get(TAGS) as Set<Tag>
-        set(value) = arguments().putSerializable(TAGS, value as Serializable)
 
     private val router by lazy {
         LocalNavigatorHolder.create(this, LocalNavigatorImpl(booru))
@@ -40,7 +36,19 @@ class BooruFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        BooruInflatorPanel(router).accept(view)
+        val drawer = view.find<DrawerLayout>(R.id.booru_drawer)
+        val drawerPosts = view.find<View>(R.id.booru_drawer_panel_posts)
+        val drawerAccount = view.find<View>(R.id.booru_drawer_panel_account)
+
+        drawerPosts.setOnClickListener {
+            router.navigateToPosts()
+            drawer.closeDrawer(GravityCompat.START)
+        }
+
+        drawerAccount.setOnClickListener {
+            router.navigateToAccount()
+            drawer.closeDrawer(GravityCompat.START)
+        }
     }
 
     override fun onResume() {
@@ -55,11 +63,9 @@ class BooruFragment : Fragment() {
 
     companion object {
         private const val BOORU = "Booru"
-        private const val TAGS = "Tags"
-        fun create(booru: Booru, tags: Set<Tag>): Fragment {
+        fun create(booru: Booru): Fragment {
             return BooruFragment().apply {
                 this.booru = booru
-                this.tags = tags
             }
         }
     }
