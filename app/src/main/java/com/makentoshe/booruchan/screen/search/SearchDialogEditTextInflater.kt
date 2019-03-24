@@ -79,12 +79,26 @@ class SearchDialogEditTextInflater(
     }
 
     private fun ChipGroup.addTag(tag: Tag) {
+        var tag = tag
         addTagToChipGroup(tag).apply {
             isClickable = true
             isCloseIconVisible = true
+
             setOnCloseIconClickListener {
                 removeView(this)
                 tags.remove(tag)
+            }
+
+            setOnClickListener {
+                val newTag = if (tag.title.firstOrNull() == '-') {
+                    Tag.create(tag.title.substring(1))
+                } else {
+                    Tag.create('-'.plus(tag.title))
+                }
+                tags.remove(tag)
+                text = newTag.title
+                tags.add(newTag)
+                tag = newTag
             }
         }
     }
