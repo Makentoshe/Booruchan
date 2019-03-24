@@ -12,7 +12,7 @@ interface Booru : Serializable {
 
     fun getPosts(): Posts
 
-    fun getTagParser(): Parser<List<Tag>>
+    fun getAutocompleteTagParser(): Parser<List<Tag>>
 
     fun getPostParser(): Parser<List<Post>>
 }

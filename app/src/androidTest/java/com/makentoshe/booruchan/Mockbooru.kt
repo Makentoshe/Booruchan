@@ -40,7 +40,7 @@ class Mockbooru(private val context: Context) : Booru {
         return mock
     }
 
-    override fun getTagParser(): Parser<List<Tag>> {
+    override fun getAutocompleteTagParser(): Parser<List<Tag>> {
         TODO("not implemented")
     }
 

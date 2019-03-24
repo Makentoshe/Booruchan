@@ -11,6 +11,7 @@ class SafebooruAutocomplete(
     private val tagParser: Parser<List<Tag>>
 ) : Autocomplete, Serializable {
     override fun request(term: String): List<Tag> {
-        return emptyList()
+        val url = "https://safebooru.org/index.php?page=tags&s=list&tags=$term*&sort=desc&order_by=index_count"
+        return tagParser.parse(httpClient.get(url).stream)
     }
 }

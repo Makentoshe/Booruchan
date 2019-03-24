@@ -10,11 +10,11 @@ class Gelbooru(private val httpClient: HttpClient) : Booru, Serializable {
 
     override fun getCustom() = GelbooruCustom(httpClient)
 
-    override fun getAutocomplete() = GelbooruAutocomplete(httpClient, getTagParser())
+    override fun getAutocomplete() = GelbooruAutocomplete(httpClient, getAutocompleteTagParser())
 
     override fun getPosts() = GelbooruPosts(httpClient, getPostParser())
 
-    override fun getTagParser() = GelbooruTagParser()
+    override fun getAutocompleteTagParser() = GelbooruTagParser()
 
     override fun getPostParser() = GelbooruPostParserXml()
 }
