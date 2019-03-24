@@ -7,7 +7,6 @@ import android.widget.AutoCompleteTextView
 import android.widget.EditText
 import androidx.core.util.Consumer
 import androidx.fragment.app.DialogFragment
-import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.api.Tag
@@ -84,13 +83,8 @@ class SearchDialogEditTextInflater(
             isClickable = true
             isCloseIconVisible = true
             setOnCloseIconClickListener {
-                for (i in 0 until childCount) {
-                    val chip = getChildAt(i) as Chip
-                    if (chip.text == tag.title) {
-                        removeView(chip)
-                        tags.remove(tag)
-                    }
-                }
+                removeView(this)
+                tags.remove(tag)
             }
         }
     }
