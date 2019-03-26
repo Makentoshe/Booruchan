@@ -8,8 +8,8 @@ class HostHttpClient(private val httpClient: HttpClient, private val hosts: List
     private var hostIndex = 0
     private var currentHost = hosts[hostIndex]
 
-    override fun get(url: String): HttpResult {
-        return httpClient.get(currentHost.plus(url))
+    override fun get(url: String, params: Map<String, String>): HttpResult {
+        return httpClient.get(currentHost.plus(url), params)
     }
 
     override fun post(url: String, body: ByteArray): HttpResult {
