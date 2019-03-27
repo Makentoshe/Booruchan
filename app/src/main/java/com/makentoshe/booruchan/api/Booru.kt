@@ -6,13 +6,13 @@ interface Booru : Serializable {
 
     val title: String
 
-    fun getCustom(): Custom
+    fun getCustom(params: Map<String, String> = mapOf()): Custom
 
     fun getAutocomplete(): Autocomplete
 
     fun getPosts(): Posts
 
-    fun getTagParser(): Parser<List<Tag>>
+    fun getAutocompleteTagParser(): Parser<List<Tag>>
 
     fun getPostParser(): Parser<List<Post>>
 }

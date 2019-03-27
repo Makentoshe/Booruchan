@@ -5,8 +5,8 @@
 
     <dist:module dist:instant="true"/>
 
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
     <application
             android:name=".Booruchan"
@@ -15,7 +15,8 @@
             android:label="@string/app_name"
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
-            android:theme="@style/Sotis">
+            android:theme="@style/Sotis"
+            android:usesCleartextTraffic="true">
         <activity android:name=".AppActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>

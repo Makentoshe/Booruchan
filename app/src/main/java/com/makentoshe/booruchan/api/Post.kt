@@ -7,6 +7,8 @@ interface Post : Serializable {
     val id: Long
     val score: Int
     val previewUrl: String
+    val previewWidth: Int
+    val previewHeight: Int
     val sampleUrl: String
     val fileUrl: String
     val creatorId: Long
@@ -18,7 +20,7 @@ interface Post : Serializable {
     }
 
     companion object {
-        fun create(id: Long) = object : Post {
+        fun create(id: Long, sampleUrl: String = "") = object : Post {
             override val raw: Map<String, String>
                 get() = emptyMap()
             override val id: Long
@@ -28,7 +30,7 @@ interface Post : Serializable {
             override val previewUrl: String
                 get() = ""
             override val sampleUrl: String
-                get() = ""
+                get() = sampleUrl
             override val fileUrl: String
                 get() = ""
             override val creatorId: Long
@@ -37,6 +39,10 @@ interface Post : Serializable {
                 get() = Rating.UNSPECIFIED
             override val tags: Array<Tag>
                 get() = arrayOf()
+            override val previewWidth: Int
+                get() = -1
+            override val previewHeight: Int
+                get() = -1
         }
     }
 }

@@ -1,19 +1,23 @@
 package com.makentoshe.booruchan
 
 import android.content.Context
-import android.graphics.Bitmap
-import android.graphics.drawable.BitmapDrawable
+import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.test.espresso.Espresso
+import androidx.test.espresso.action.ViewActions
+import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.platform.app.InstrumentationRegistry
-import com.makentoshe.booruapi.*
+import com.makentoshe.booruchan.api.BooruFactory
+import com.makentoshe.booruchan.screen.start.StartFragment
+import io.mockk.every
 import io.mockk.mockk
+import org.hamcrest.Description
+import org.hamcrest.Matcher
+import org.hamcrest.TypeSafeMatcher
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertTrue
-import java.io.ByteArrayInputStream
-import java.io.ByteArrayOutputStream
-import java.io.InputStream
 
 inline fun <reified T : Fragment> AppCompatActivity.containsFragment() {
     var contains = false
@@ -49,38 +53,26 @@ inline fun <reified T : Fragment> Fragment.getFragment(): T {
     return fragment as T
 }
 
-class Mockbooru : Booru(mockk()) {
-    private val context: Context = InstrumentationRegistry.getInstrumentation().targetContext
-    var postsErr = false
-    var previewsErr = false
+fun mockBooruFactory(context: Context): BooruFactory {
+    val factory = mockk<BooruFactory>()
+    every { factory.buildBooru(Mockbooru::class.java, context) } returns Mockbooru(context)
+    return factory
+}
 
-    override fun getPosts(request: PostRequest): Posts {
-        if (postsErr) throw Exception()
-        val posts = mutableListOf<Post>()
-        (0 until request.count).forEach { posts.add(Post()) }
-        return Posts(posts)
-    }
+fun AppCompatActivity.setMockbooruFactory() {
+    getFragment<StartFragment>().booruFactory = mockBooruFactory(this)
+    //click on mocked booru
+    Espresso.onView(ViewMatchers.withText(Mockbooru::class.java.simpleName)).perform(ViewActions.click())
+}
 
-    override val title: String
-        get() = javaClass.simpleName
-
-    override fun customGet(request: String) = TODO("not implemented")
-    override fun getPreview(previewUrl: String): InputStream {
-        if (previewsErr) throw Exception()
-        val bytes = ByteArrayOutputStream().also {
-            (context.getDrawable(R.drawable.a) as BitmapDrawable)
-                .bitmap.compress(Bitmap.CompressFormat.JPEG, 100, it)
-        }.toByteArray()
-        return ByteArrayInputStream(bytes)
-    }
-
-    override fun autocomplete(term: String): List<Tag> {
-        val list = mutableListOf<Tag>()
-        (0 until 10).forEach {
-            list.add(Tag(name = "$term$it"))
+fun toMatcher(v: View): Matcher<View> {
+    return object : TypeSafeMatcher<View>() {
+        override fun matchesSafely(item: View): Boolean {
+            return item === v
         }
-        return list
-    }
 
-    class Flags(val preview: Boolean = true, val posts: Boolean = true)
+        override fun describeTo(description: Description) {
+            description.appendText(v.toString())
+        }
+    }
 }

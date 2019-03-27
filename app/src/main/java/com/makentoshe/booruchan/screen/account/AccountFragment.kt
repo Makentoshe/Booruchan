@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.api.Booru
 import com.makentoshe.booruchan.screen.booru.inflator.BooruToolbarUiInflater
-import com.makentoshe.booruchan.screen.arguments
+import com.makentoshe.booruchan.model.arguments
 import org.jetbrains.anko.AnkoContext
 
 class AccountFragment : Fragment() {

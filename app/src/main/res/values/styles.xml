@@ -4,25 +4,41 @@
     <style name="AppBase" parent="Theme.MaterialComponents.Light.NoActionBar"/>
 
     <style name="Sotis" parent="AppBase">
-        <item name="android:background">@android:color/white</item>
-        <item name="android:textColor">@android:color/black</item>
         <item name="colorPrimary">@color/MaterialTeal600</item>
         <item name="colorPrimaryDark">@color/MaterialTeal900</item>
         <item name="colorAccent">@android:color/transparent</item>
     </style>
 
-    <style name="SotisToolbar" parent="Sotis">
+    <style name="SotisDefault" parent="Sotis">
+        <item name="colorAccent">@color/MaterialTeal900</item>
+        <item name="android:background">@android:color/white</item>
+        <item name="android:textColor">@android:color/black</item>
+    </style>
+
+    <style name="SotisToolbar" parent="SotisDefault">
         <item name="android:background">@color/MaterialTeal600</item>
         <item name="android:backgroundTint">@color/MaterialTeal600</item>
         <item name="android:textColor">@android:color/white</item>
         <item name="colorAccent">@color/MaterialTeal900</item>
         <item name="android:textColorSecondary">@android:color/white</item>
         <item name="android:textColorPrimary">@android:color/white</item>
-        <!--<item name="android:titleTextColor">@android:color/white</item>-->
     </style>
 
-    <style name="SotisProgress" parent="Sotis">
+    <style name="SotisProgress" parent="SotisDefault">
+        <item name="android:background">@android:color/transparent</item>
         <item name="android:indeterminateDrawable">@color/MaterialTeal600</item>
+    </style>
+
+    <style name="SotisDialog" parent="DialogLight"/>
+
+    <style name="SotisText" parent="EditTextLight"/>
+
+    <style name="DialogLight" parent="Theme.AppCompat.Light.Dialog.Alert"/>
+
+    <style name="EditTextLight" parent="ThemeOverlay.MaterialComponents.Light">
+        <item name="android:textCursorDrawable">@android:color/black</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:textColor">@android:color/black</item>
     </style>
 
     <style name="AppBaseChip" parent="Theme.MaterialComponents"/>

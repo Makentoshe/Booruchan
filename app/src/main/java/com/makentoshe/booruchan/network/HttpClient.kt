@@ -8,13 +8,13 @@ import java.io.Serializable
 abstract class HttpClient : Serializable {
 
     /**
-     * Creates a get request to [url] and returns [HttpGet] instance as a result.
+     * Creates a get request to [url] with[params] and returns [HttpResult] instance as a result.
      */
-    abstract fun get(url: String): HttpGet
+    abstract fun get(url: String, params: Map<String, String> = mapOf()): HttpResult
 
     /**
-     * Creates a post request to [url] and returns [HttpPost] instance as a result.
+     * Creates a post request to [url] and returns [HttpResult] instance as a result.
      */
-    abstract fun post(url: String, body: ByteArray): HttpPost
+    abstract fun post(url: String, body: ByteArray): HttpResult
 }
 

@@ -1,11 +1,13 @@
 package com.makentoshe.booruchan.screen.booru.view
 
 import android.view.View
-import com.makentoshe.booruchan.Booruchan
 import com.makentoshe.booruchan.R
-import com.makentoshe.booruchan.style.style
-import org.jetbrains.anko.*
+import com.makentoshe.booruchan.style
+import org.jetbrains.anko.AnkoComponent
+import org.jetbrains.anko.AnkoContext
+import org.jetbrains.anko.matchParent
 import org.jetbrains.anko.support.v4._DrawerLayout
+import org.jetbrains.anko.themedFrameLayout
 
 class BooruUiContent : AnkoComponent<_DrawerLayout> {
 

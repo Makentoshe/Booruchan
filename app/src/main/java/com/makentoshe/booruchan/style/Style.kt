@@ -5,8 +5,6 @@ import android.util.TypedValue
 import android.view.View
 import androidx.annotation.ColorInt
 import androidx.annotation.StyleRes
-import com.makentoshe.booruchan.Booruchan
-import com.makentoshe.booruchan.R
 
 interface Style {
 
@@ -19,22 +17,15 @@ interface Style {
     @get:StyleRes
     val progress: Int
 
+    @get:StyleRes
+    val default: Int
+
+    @get:StyleRes
+    val dialog: Int
+
+    @get:StyleRes
+    val text: Int
 }
-
-class SotisStyle : Style {
-
-    override val toolbar: Int
-        get() = R.style.SotisToolbar
-
-    override val main: Int
-        get() = R.style.Sotis
-
-    override val progress: Int
-        get() = R.style.SotisProgress
-}
-
-
-val style: Style = Booruchan.INSTANCE.style
 
 @ColorInt
 fun Context.getColorFromStyle(resid: Int): Int {

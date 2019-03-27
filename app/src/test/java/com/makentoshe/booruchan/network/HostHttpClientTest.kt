@@ -1,8 +1,6 @@
 package com.makentoshe.booruchan.network
 
-import com.makentoshe.booruchan.network.HostHttpClient
-import com.makentoshe.booruchan.network.HttpClient
-import com.makentoshe.booruchan.network.HttpGet
+import com.makentoshe.booruchan.network.decorator.HostHttpClient
 import io.mockk.every
 import io.mockk.mockk
 import org.junit.Assert.assertEquals
@@ -12,8 +10,8 @@ class HostHttpClientTest {
 
     @Test
     fun `should works when host is ok`() {
-        val mHttpGet = mockk<HttpGet>()
-        every { mHttpGet.body() } returns "Success"
+        val mHttpGet = mockk<HttpResult>()
+        every { mHttpGet.body } returns "Success"
 
         val mHttpClient = mockk<HttpClient>()
         every { mHttpClient.get("https://test.com/request") } returns mHttpGet
@@ -22,13 +20,13 @@ class HostHttpClientTest {
             mHttpClient,
             listOf("https://test.com", "https://anothertest.com")
         )
-        assertEquals("Success", client.get("/request").body())
+        assertEquals("Success", client.get("/request").body)
     }
 
     @Test
     fun `should work even first host is not ok`() {
-        val mHttpGet = mockk<HttpGet>()
-        every { mHttpGet.body() } returns "Success"
+        val mHttpGet = mockk<HttpResult>()
+        every { mHttpGet.body } returns "Success"
 
         val mHttpClient = mockk<HttpClient>()
         every { mHttpClient.get("https://test.com/request") } throws Exception()
@@ -38,7 +36,7 @@ class HostHttpClientTest {
             mHttpClient,
             listOf("https://test.com", "https://anothertest.com")
         )
-        assertEquals("Success", client.get("/request").body())
+        assertEquals("Success", client.get("/request").body)
     }
 
     @Test(expected = Exception::class)
@@ -51,6 +49,6 @@ class HostHttpClientTest {
             mHttpClient,
             listOf("https://test.com", "https://anothertest.com")
         )
-        client.get("/request").body()
+        client.get("/request").body
     }
 }

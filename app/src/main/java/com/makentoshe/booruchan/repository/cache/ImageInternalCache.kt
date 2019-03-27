@@ -8,7 +8,7 @@ import java.io.FileOutputStream
 
 open class ImageInternalCache(
     context: Context,
-    type: InternalCacheType
+    type: Type
 ) : InternalCache<Post, ByteArray?>(context, type) {
 
     override fun get(key: Post, loader: () -> ByteArray?): ByteArray? {

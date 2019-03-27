@@ -7,11 +7,10 @@ import android.widget.AutoCompleteTextView
 import android.widget.EditText
 import androidx.core.util.Consumer
 import androidx.fragment.app.DialogFragment
-import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.api.Tag
-import com.makentoshe.booruchan.screen.RequestCode
+import com.makentoshe.booruchan.model.RequestCode
 import com.makentoshe.booruchan.view.addTagToChipGroup
 import org.jetbrains.anko.find
 import org.jetbrains.anko.sdk27.coroutines.onEditorAction
@@ -80,17 +79,26 @@ class SearchDialogEditTextInflater(
     }
 
     private fun ChipGroup.addTag(tag: Tag) {
+        var tag = tag
         addTagToChipGroup(tag).apply {
             isClickable = true
             isCloseIconVisible = true
+
             setOnCloseIconClickListener {
-                for (i in 0 until childCount) {
-                    val chip = getChildAt(i) as Chip
-                    if (chip.text == tag.title) {
-                        removeView(chip)
-                        tags.remove(tag)
-                    }
+                removeView(this)
+                tags.remove(tag)
+            }
+
+            setOnClickListener {
+                val newTag = if (tag.title.firstOrNull() == '-') {
+                    Tag.create(tag.title.substring(1))
+                } else {
+                    Tag.create('-'.plus(tag.title))
                 }
+                tags.remove(tag)
+                text = newTag.title
+                tags.add(newTag)
+                tag = newTag
             }
         }
     }
