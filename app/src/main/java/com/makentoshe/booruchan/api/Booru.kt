@@ -6,7 +6,7 @@ interface Booru : Serializable {
 
     val title: String
 
-    fun getCustom(): Custom
+    fun getCustom(params: Map<String, String> = mapOf()): Custom
 
     fun getAutocomplete(): Autocomplete
 

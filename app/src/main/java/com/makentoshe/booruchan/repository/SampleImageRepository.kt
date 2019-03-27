@@ -11,5 +11,5 @@ class SampleImageRepository(private val booru: Booru) : Repository<Post, ByteArr
      * @param key a post.
      * @return an image which is represented by a [ByteArray].
      */
-    override fun get(key: Post) = booru.getCustom().request(key.sampleUrl).readBytes()
+    override fun get(key: Post) = booru.getCustom().request(key.sampleUrl).stream.readBytes()
 }

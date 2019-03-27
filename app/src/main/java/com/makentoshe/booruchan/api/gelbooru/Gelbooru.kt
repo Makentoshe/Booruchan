@@ -8,7 +8,7 @@ class Gelbooru(private val httpClient: HttpClient) : Booru, Serializable {
 
     override val title: String = this::class.java.simpleName
 
-    override fun getCustom() = GelbooruCustom(httpClient)
+    override fun getCustom(params: Map<String, String>) = GelbooruCustom(httpClient, params)
 
     override fun getAutocomplete() = GelbooruAutocomplete(httpClient, getAutocompleteTagParser())
 

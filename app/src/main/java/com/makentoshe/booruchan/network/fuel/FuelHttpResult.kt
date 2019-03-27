@@ -7,6 +7,7 @@ import com.github.kittinunf.result.Result
 import com.makentoshe.booruchan.network.HttpResult
 import java.io.ByteArrayInputStream
 import java.io.InputStream
+import java.net.URL
 
 class FuelHttpResult(
     private val response: Triple<Request, Response, Result<ByteArray, FuelError>>
@@ -23,4 +24,7 @@ class FuelHttpResult(
 
     override val message: String
         get() = response.second.responseMessage
+
+    override val url: URL
+        get() = response.second.url
 }

@@ -2,6 +2,7 @@ package com.makentoshe.booruchan.network
 
 import java.io.InputStream
 import java.io.Serializable
+import java.net.URL
 
 interface HttpResult : Serializable {
 
@@ -33,4 +34,6 @@ interface HttpResult : Serializable {
      * Returns a message.
      */
     val message: String
+
+    val url: URL
 }
