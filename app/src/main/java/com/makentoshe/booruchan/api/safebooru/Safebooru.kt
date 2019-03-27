@@ -9,20 +9,18 @@ class Safebooru(private val httpClient: HttpClient) : Booru, Serializable {
     override val title: String
         get() = "Safebooru"
 
-    override fun getCustom(): Custom {
-        return SafebooruCustom(httpClient)
-    }
+    override fun getCustom(params: Map<String, String>) = SafebooruCustom(httpClient, params)
 
     override fun getAutocomplete(): Autocomplete {
-        return SafebooruAutocomplete(httpClient, getTagParser())
+        return SafebooruAutocomplete(httpClient, getAutocompleteTagParser())
     }
 
     override fun getPosts(): Posts {
         return SafebooruPosts(httpClient, getPostParser())
     }
 
-    override fun getTagParser(): Parser<List<Tag>> {
-        return SafebooruTagParser()
+    override fun getAutocompleteTagParser(): Parser<List<Tag>> {
+        return SafebooruAutocompleteTagParser()
     }
 
     override fun getPostParser(): Parser<List<Post>> {

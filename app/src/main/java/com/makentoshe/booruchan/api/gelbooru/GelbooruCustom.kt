@@ -2,11 +2,10 @@ package com.makentoshe.booruchan.api.gelbooru
 
 import com.makentoshe.booruchan.api.Custom
 import com.makentoshe.booruchan.network.HttpClient
-import com.makentoshe.booruchan.network.fuel.FuelClientFactory
-import java.io.InputStream
+import com.makentoshe.booruchan.network.HttpResult
 
-class GelbooruCustom(private val httpClient: HttpClient) : Custom {
-    override fun request(request: String): InputStream {
-        return httpClient.get(request).stream
+class GelbooruCustom(private val httpClient: HttpClient, private val params: Map<String, String>) : Custom {
+    override fun request(request: String): HttpResult {
+        return httpClient.get(request, params)
     }
 }

@@ -24,7 +24,7 @@ interface Style {
     val dialog: Int
 
     @get:StyleRes
-    val edittext: Int
+    val text: Int
 }
 
 @ColorInt

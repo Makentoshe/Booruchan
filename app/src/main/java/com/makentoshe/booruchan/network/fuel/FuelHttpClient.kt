@@ -7,8 +7,8 @@ import com.makentoshe.booruchan.network.HttpResult
 
 class FuelHttpClient : HttpClient() {
 
-    override fun get(url: String): HttpResult {
-        return FuelHttpResult(url.httpGet().response())
+    override fun get(url: String, params: Map<String, String>): HttpResult {
+        return FuelHttpResult(url.httpGet().header(params).response())
     }
 
     override fun post(url: String, body: ByteArray): HttpResult {

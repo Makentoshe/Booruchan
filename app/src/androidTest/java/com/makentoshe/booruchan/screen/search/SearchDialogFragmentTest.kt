@@ -1,6 +1,8 @@
 package com.makentoshe.booruchan.screen.search
 
+import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.view.children
 import androidx.test.espresso.Espresso
 import androidx.test.espresso.Espresso.onData
 import androidx.test.espresso.Espresso.onView
@@ -15,6 +17,7 @@ import androidx.test.rule.ActivityTestRule
 import com.google.android.material.chip.Chip
 import com.makentoshe.booruchan.*
 import org.hamcrest.CoreMatchers.anything
+import org.hamcrest.CoreMatchers.not
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -100,6 +103,38 @@ class SearchDialogFragmentTest {
         } catch (e: NoMatchingViewException) {
             //no view with text "fo"
         }
+    }
+
+    @Test
+    fun should_invert_tag_on_click() {
+        val text = "tag"
+        //type some text
+        onView(withId(R.id.searchDialog_delayAutocompleteEditText)).perform(typeText(text.plus(" ")))
+        //group should contain chip with text
+        val chipView = onView(withText(text)).check(matches(isDisplayed()))
+        //click on chip's body
+        chipView.check { view, _ ->
+            view as Chip
+            view.performClick()
+        }
+        //contains inverted tag
+        onView(withText('-'.plus(text))).check(matches(isDisplayed()))
+    }
+
+    @Test
+    fun should_uninvert_tag_on_click() {
+        val text = "-tag"
+        //type some text
+        onView(withId(R.id.searchDialog_delayAutocompleteEditText)).perform(typeText(text.plus(" ")))
+        //group should contain chip with text
+        val chipView = onView(withText(text)).check(matches(isDisplayed()))
+        //click on chip's body
+        chipView.check { view, _ ->
+            view as Chip
+            view.performClick()
+        }
+        //contains uninverted tag
+        onView(withText(text.substring(1))).check(matches(isDisplayed()))
     }
 
     @After

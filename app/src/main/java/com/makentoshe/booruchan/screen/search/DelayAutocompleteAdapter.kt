@@ -20,7 +20,7 @@ class DelayAutocompleteAdapter(
         override fun performFiltering(constraint: CharSequence?): FilterResults {
             val results = FilterResults()
             if (constraint != null) {
-                val tags = repository.get(constraint)!!
+                val tags = repository.get(constraint.toString().replace(" ", ""))!!
                 results.values = tags
                 results.count = tags.size
             }

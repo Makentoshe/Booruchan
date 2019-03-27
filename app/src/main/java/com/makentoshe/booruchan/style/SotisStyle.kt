@@ -17,8 +17,8 @@ class SotisStyle : Style {
         get() = R.style.SotisDefault
 
     override val dialog: Int
-        get() = R.style.DialogLight
+        get() = R.style.SotisDialog
 
-    override val edittext: Int
-        get() = R.style.EditTextLight
+    override val text: Int
+        get() = R.style.SotisText
 }

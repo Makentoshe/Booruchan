@@ -12,6 +12,7 @@ import com.davemorrissey.labs.subscaleview.ImageSource
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView
 import com.google.android.exoplayer2.ExoPlayerFactory
 import com.google.android.exoplayer2.source.ExtractorMediaSource
+import com.google.android.exoplayer2.source.MediaSource
 import com.google.android.exoplayer2.ui.PlayerView
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.google.android.exoplayer2.util.Util
@@ -139,23 +140,32 @@ class SamplePageFragment : Fragment() {
     }
 
     private fun onWebm(view: View, post: Post) {
-        val playerview = view.findViewById<PlayerView>(R.id.samples_webm)
-        try {
-            val uri = Uri.parse(post.sampleUrl)
-            val useragent = Util.getUserAgent(requireContext(), requireContext().getString(R.string.app_name))
-            val dataSourceFactory = DefaultDataSourceFactory(requireContext(), useragent)
-            val mediaSource = ExtractorMediaSource.Factory(dataSourceFactory).createMediaSource(uri)
-            val exoPlayer = ExoPlayerFactory.newSimpleInstance(context).also { it.prepare(mediaSource) }
-            playerview.player = exoPlayer
-            view.find<View>(R.id.samples_progress).visibility = View.GONE
-            playerview.visibility = View.VISIBLE
-            playerview.setGestureListener {
-                onDown { playerview.performClick() }
-                onLongPress { showOptionsList(post) }
+        val disposable = Single.just(post.sampleUrl)
+            .subscribeOn(Schedulers.newThread())
+            .map { booru.getCustom(mapOf("Range" to "bytes=0-1")).request(it) }
+            .map { createMediaSource(it.url.toURI().toString()) }
+            .observeOn(AndroidSchedulers.mainThread())
+            .doOnError { onError(view, it) }
+            .subscribe { mediaSource ->
+                val playerview = view.findViewById<PlayerView>(R.id.samples_webm)
+                val exoPlayer = ExoPlayerFactory.newSimpleInstance(context).also { it.prepare(mediaSource) }
+                playerview.player = exoPlayer
+                view.find<View>(R.id.samples_progress).visibility = View.GONE
+                playerview.visibility = View.VISIBLE
+                playerview.setGestureListener {
+                    onDown { playerview.performClick() }
+                    onLongPress { showOptionsList(post) }
+                }
             }
-        } catch (e: Exception) {
-            onError(view, e)
-        }
+        disposables.add(disposable)
+    }
+
+    //create media source from url
+    private fun createMediaSource(url: String): MediaSource {
+        val uri = Uri.parse(url)
+        val useragent = Util.getUserAgent(requireContext(), requireContext().getString(R.string.app_name))
+        val dataSourceFactory = DefaultDataSourceFactory(requireContext(), useragent)
+        return ExtractorMediaSource.Factory(dataSourceFactory).createMediaSource(uri)
     }
 
     private fun showOptionsList(post: Post) {

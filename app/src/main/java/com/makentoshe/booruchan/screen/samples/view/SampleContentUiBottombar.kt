@@ -1,9 +1,12 @@
 package com.makentoshe.booruchan.screen.samples.view
 
+import android.content.Context
 import android.content.res.ColorStateList
+import android.graphics.PorterDuff
 import android.view.Menu
 import android.view.MenuItem
 import android.view.ViewManager
+import androidx.annotation.DrawableRes
 import androidx.annotation.IdRes
 import androidx.annotation.StringRes
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -18,40 +21,50 @@ class SampleContentUiBottombar : AnkoComponent<_RelativeLayout> {
     override fun createView(ui: AnkoContext<_RelativeLayout>) = with(ui.owner) {
         bottomNavigationView(style.toolbar) {
             id = R.id.samples_bottombar
+
             menu.buildMenuItem(
-                R.string.info,
-                R.id.bottombar_infoitem
+                context, R.string.info,
+                R.id.bottombar_infoitem,
+                R.drawable.ic_info
             )
             menu.buildMenuItem(
-                R.string.tags,
-                R.id.bottombar_tagsitem
+                context, R.string.tags,
+                R.id.bottombar_tagsitem,
+                R.drawable.ic_tag
             )
 //            menu.buildMenuItem(
 //                R.string.comments,
 //                R.id.bottombar_commentsitem
 //            )
 
-            setTextColor(
+            setMenuItemColor(
                 getColorFromStyle(android.R.attr.textColor),
                 getColorFromStyle(android.R.attr.colorAccent)
             )
+
         }.lparams(matchParent, wrapContent) {
             alignParentBottom()
         }
     }
 
-    private fun Menu.buildMenuItem(@StringRes title: Int, @IdRes id: Int) = add(
-        Menu.NONE, id,
-        Menu.NONE, title
-    ).apply {
-        isEnabled = true
-        setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS)
-    }
+    private fun Menu.buildMenuItem(
+        context: Context,
+        @StringRes title: Int,
+        @IdRes id: Int,
+        @DrawableRes icon: Int
+    ) =
+        add(Menu.NONE, id, Menu.NONE, title).apply {
+            isEnabled = true
+            setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS)
+            val iconColor = context.getColorFromStyle(android.R.attr.textColor)
+            setIcon(icon).icon.setColorFilter(iconColor, PorterDuff.Mode.SRC_ATOP)
+        }
 
-    private fun BottomNavigationView.setTextColor(textColor: Int, textColorAlt: Int) {
+    private fun BottomNavigationView.setMenuItemColor(textColor: Int, textColorAlt: Int) {
         val states = arrayOf(intArrayOf(android.R.attr.state_enabled), intArrayOf(-android.R.attr.state_enabled))
         val colors = intArrayOf(textColor, textColorAlt)
         itemTextColor = ColorStateList(states, colors)
+        itemIconTintList = itemTextColor
     }
 
     private fun ViewManager.bottomNavigationView(
