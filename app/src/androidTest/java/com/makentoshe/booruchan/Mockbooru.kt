@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import com.makentoshe.booruchan.api.*
+import com.makentoshe.booruchan.network.HttpResult
 import io.mockk.every
 import io.mockk.mockk
 import java.io.ByteArrayInputStream
@@ -14,13 +15,15 @@ class Mockbooru(private val context: Context) : Booru {
     override val title: String
         get() = "Mockbooru"
 
-    override fun getCustom(): Custom {
+    override fun getCustom(params: Map<String, String>): Custom {
         val bos = ByteArrayOutputStream()
         BitmapFactory.decodeResource(context.resources, R.drawable.test)
             .compress(Bitmap.CompressFormat.PNG, 100, bos)
 
         return mockk<Custom>().apply {
-            every { request(any()) } returns ByteArrayInputStream(bos.toByteArray())
+            val result = mockk<HttpResult>()
+            every { result.stream } returns ByteArrayInputStream(bos.toByteArray())
+            every { request(any()) } returns result
         }
     }
 
