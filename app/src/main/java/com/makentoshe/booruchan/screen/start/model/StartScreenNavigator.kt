@@ -12,6 +12,6 @@ class StartScreenNavigator(private val router: Router) {
     }
 
     fun navigateToBooruScreen(booru: Booru) {
-        router.navigateTo(BooruScreen(booru))
+        router.navigateTo(BooruScreen(booru, setOf()))
     }
 }
