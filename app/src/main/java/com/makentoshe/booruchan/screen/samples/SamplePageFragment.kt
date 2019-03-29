@@ -80,7 +80,7 @@ class SamplePageFragment : Fragment() {
             .map { it.get(Posts.Request(1, tags, position))!![0] }
             .observeOn(AndroidSchedulers.mainThread())
             .doOnError { onError(view, it) }
-            .subscribe { post -> onComplete(view, post) }
+            .subscribe { post, _ -> onComplete(view, post) }
         disposables.add(disposable)
     }
 
@@ -111,7 +111,7 @@ class SamplePageFragment : Fragment() {
             .map { BitmapFactory.decodeByteArray(it, 0, it.size) }
             .observeOn(AndroidSchedulers.mainThread())
             .doOnError { onError(view, it) }
-            .subscribe { bitmap ->
+            .subscribe { bitmap, _ ->
                 view.find<View>(R.id.samples_progress).visibility = View.GONE
                 val imageview = view.find<SubsamplingScaleImageView>(R.id.samples_image)
                 imageview.visibility = View.VISIBLE
@@ -128,7 +128,7 @@ class SamplePageFragment : Fragment() {
             .map { GifDrawable(it) }
             .observeOn(AndroidSchedulers.mainThread())
             .doOnError { onError(view, it) }
-            .subscribe { gifdrawable ->
+            .subscribe { gifdrawable, _->
                 view.find<View>(R.id.samples_progress).visibility = View.GONE
                 val gifview = view.find<GifImageView>(R.id.samples_gif)
                 gifview.visibility = View.VISIBLE
@@ -146,7 +146,7 @@ class SamplePageFragment : Fragment() {
             .map { createMediaSource(it.url.toURI().toString()) }
             .observeOn(AndroidSchedulers.mainThread())
             .doOnError { onError(view, it) }
-            .subscribe { mediaSource ->
+            .subscribe { mediaSource, _ ->
                 val playerview = view.findViewById<PlayerView>(R.id.samples_webm)
                 val exoPlayer = ExoPlayerFactory.newSimpleInstance(context).also { it.prepare(mediaSource) }
                 playerview.player = exoPlayer

@@ -8,7 +8,11 @@ class ProxyHttpClient(private val client: HttpClient, private val proxy: String)
 
     override fun get(url: String, params: Map<String, String>): HttpResult {
         val result = client.get(url, params)
-        return if (!result.isSuccessful) get(getRedirectUrl(url)) else result
+        return try {
+            if (!result.isSuccessful) get(getRedirectUrl(url)) else result
+        } catch (e: Exception) {
+            result
+        }
     }
 
     override fun post(url: String, body: ByteArray): HttpResult {
