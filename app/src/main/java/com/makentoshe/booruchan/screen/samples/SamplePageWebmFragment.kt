@@ -1,5 +1,6 @@
 package com.makentoshe.booruchan.screen.samples
 
+import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,11 +9,12 @@ import android.view.ViewGroup
 import android.widget.MediaController
 import android.widget.VideoView
 import androidx.fragment.app.Fragment
+import androidx.viewpager.widget.ViewPager
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.api.Booru
 import com.makentoshe.booruchan.api.Post
 import com.makentoshe.booruchan.model.arguments
-import com.makentoshe.booruchan.repository.SampleImageRepository
+import com.makentoshe.booruchan.repository.PreviewImageRepository
 import com.makentoshe.booruchan.repository.cache.ImageInternalCache
 import com.makentoshe.booruchan.repository.cache.InternalCache
 import com.makentoshe.booruchan.repository.decorator.CachedRepository
@@ -24,8 +26,12 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import org.jetbrains.anko.AnkoContext
+import org.jetbrains.anko.backgroundDrawable
 import org.jetbrains.anko.find
 import org.jetbrains.anko.sdk27.coroutines.onLongClick
+import org.jetbrains.anko.sdk27.coroutines.onPrepared
+import org.jetbrains.anko.support.v4.onPageChangeListener
+import java.io.ByteArrayInputStream
 
 class SamplePageWebmFragment : Fragment() {
 
@@ -37,9 +43,13 @@ class SamplePageWebmFragment : Fragment() {
         get() = arguments!!.get(POST) as Post
         set(value) = arguments().putSerializable(POST, value)
 
-    private val samplesRepository by lazy {
-        val cache = ImageInternalCache(requireContext(), InternalCache.Type.SAMPLE)
-        val source = SampleImageRepository(booru)
+    private var position: Int
+        get() = arguments!!.getInt(POSITION)
+        set(value) = arguments().putInt(POSITION, value)
+
+    private val previewsRepository by lazy {
+        val cache = ImageInternalCache(requireContext(), InternalCache.Type.PREVIEW)
+        val source = PreviewImageRepository(booru)
         CachedRepository(cache, source)
     }
 
@@ -66,23 +76,63 @@ class SamplePageWebmFragment : Fragment() {
 
     private fun onSuccess(view: View, url: String) {
         val videoView = view.findViewById<VideoView>(R.id.samples_webm)
-        //hide progress bar
-        view.find<View>(R.id.samples_progress).visibility = View.GONE
+        videoView.setupVideoView(view, Uri.parse(url))
+        val viewpager = requireActivity().find<ViewPager>(R.id.samples_container_viewpager)
+        videoView.setupController(viewpager)
+    }
 
-        videoView.setVideoURI(Uri.parse(url))
-        videoView.setMediaController(MediaController(requireContext()))
-        videoView.requestFocus(0)
-        videoView.visibility = View.VISIBLE
-        videoView.onLongClick { showOptionsList(booru, post) }
+    private fun VideoView.setupController(viewPager: ViewPager) {
+        val mediaController = MediaController(requireContext())
+        if (viewPager.currentItem == position) {
+            //set media controller for current visible fragment
+            setMediaController(mediaController)
+        }
+        //on page change listener for controlling media controller
+        viewPager.onPageChangeListener {
+            onPageSelected {
+                if (it == position) {
+                    setMediaController(mediaController)
+                } else {
+                    setMediaController(null)
+                    stopPlayback()
+                }
+            }
+        }
+    }
+
+    private fun VideoView.setupVideoView(root: View, uri: Uri) {
+        setVideoURI(uri)
+        setPreview(post)
+        onLongClick { showOptionsList(booru, post) }
+        visibility = View.VISIBLE
+        //hide progress bar
+        root.find<View>(R.id.samples_progress).visibility = View.GONE
+
+        onPrepared { backgroundDrawable = null }
+    }
+
+    private fun VideoView.setPreview(post: Post) {
+        //showing the first frame as a preview
+        seekTo(1)
+        val disposable = Single.just(post)
+            .subscribeOn(Schedulers.newThread())
+            .map { previewsRepository.get(post) }
+            .map { BitmapDrawable.createFromStream(ByteArrayInputStream(it), "") }
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe { drawable, _ ->
+                if (drawable != null) backgroundDrawable = drawable
+            }
+        disposables.add(disposable)
     }
 
     companion object {
         private const val POST = "Post"
         private const val BOORU = "Booru"
-        fun create(booru: Booru, post: Post) = SamplePageWebmFragment().apply {
+        private const val POSITION = "Position"
+        fun create(booru: Booru, post: Post, position: Int) = SamplePageWebmFragment().apply {
             this.booru = booru
             this.post = post
+            this.position = position
         }
     }
-
 }

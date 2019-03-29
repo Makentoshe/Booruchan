@@ -90,7 +90,7 @@ class SamplePageFragment : Fragment() {
     }
 
     private fun onWebm(post: Post): Fragment {
-        return SamplePageWebmFragment.create(booru, post)
+        return SamplePageWebmFragment.create(booru, post, position)
     }
 
     override fun onDestroyView() {

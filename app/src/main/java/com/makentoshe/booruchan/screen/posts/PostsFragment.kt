@@ -17,9 +17,6 @@ import com.makentoshe.booruchan.api.Tag
 import com.makentoshe.booruchan.model.RequestCode
 import com.makentoshe.booruchan.model.SubjectHolder
 import com.makentoshe.booruchan.model.arguments
-import com.makentoshe.booruchan.repository.cache.ImageInternalCache
-import com.makentoshe.booruchan.repository.cache.InternalCache
-import com.makentoshe.booruchan.repository.cache.PostInternalCache
 import com.makentoshe.booruchan.screen.posts.model.PostsViewPagerAdapter
 import com.makentoshe.booruchan.screen.posts.model.TagsHolder
 import com.makentoshe.booruchan.screen.posts.view.PostsUi
@@ -151,16 +148,16 @@ class PostsFragment : Fragment() {
     private fun startNewSearch(tags: Set<Tag>) {
         //clear caches
         GlobalScope.launch {
-            PostInternalCache(requireContext()).clear()
-            ImageInternalCache(requireContext(), InternalCache.Type.SAMPLE).clear()
-            ImageInternalCache(requireContext(), InternalCache.Type.PREVIEW).clear()
-            ImageInternalCache(requireContext(), InternalCache.Type.FILE).clear()
+            //            PostInternalCache(requireContext()).clear()
+//            ImageInternalCache(requireContext(), InternalCache.Type.SAMPLE).clear()
+//            ImageInternalCache(requireContext(), InternalCache.Type.PREVIEW).clear()
+//            ImageInternalCache(requireContext(), InternalCache.Type.FILE).clear()
         }
         //set tags to holder
         tagsHolder.set.clear()
         tagsHolder.set.addAll(tags)
         //notify
-        searchController.onNext(tags)
+        searchController.onNext(mutableSetOf(Tag.create("webm")).apply { addAll(tags) })
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
