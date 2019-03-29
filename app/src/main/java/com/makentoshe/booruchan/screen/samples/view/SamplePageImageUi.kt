@@ -2,18 +2,18 @@ package com.makentoshe.booruchan.screen.samples.view
 
 import android.view.View
 import android.view.ViewManager
+import androidx.fragment.app.Fragment
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView
 import com.makentoshe.booruchan.R
-import org.jetbrains.anko.*
+import org.jetbrains.anko.AnkoComponent
+import org.jetbrains.anko.AnkoContext
 import org.jetbrains.anko.custom.ankoView
 
-class SamplePageUiContentImage : AnkoComponent<_RelativeLayout> {
-    override fun createView(ui: AnkoContext<_RelativeLayout>) = with(ui.owner) {
-        subsamplingScaleImageView{
+class SamplePageImageUi : AnkoComponent<Fragment> {
+    override fun createView(ui: AnkoContext<Fragment>) = with(ui) {
+        subsamplingScaleImageView {
             id = R.id.samples_image
             visibility = View.GONE
-        }.lparams(matchParent, matchParent) {
-            centerInParent()
         }
     }
 

@@ -106,4 +106,5 @@
     <item name="setting_nsfw_checkbox" type="id"/>
     <item name="search_progress" type="id"/>
     <item name="sampleinfo_toolbar_tags_search" type="id"/>
+    <item name="samples_content" type="id"/>
 </resources>

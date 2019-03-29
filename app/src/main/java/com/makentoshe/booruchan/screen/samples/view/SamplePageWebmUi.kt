@@ -2,18 +2,18 @@ package com.makentoshe.booruchan.screen.samples.view
 
 import android.view.View
 import android.view.ViewManager
+import androidx.fragment.app.Fragment
 import com.google.android.exoplayer2.ui.PlayerView
 import com.makentoshe.booruchan.R
-import org.jetbrains.anko.*
+import org.jetbrains.anko.AnkoComponent
+import org.jetbrains.anko.AnkoContext
 import org.jetbrains.anko.custom.ankoView
 
-class SamplePageUiContentWebm : AnkoComponent<_RelativeLayout> {
-    override fun createView(ui: AnkoContext<_RelativeLayout>) = with(ui.owner) {
+class SamplePageWebmUi : AnkoComponent<Fragment> {
+    override fun createView(ui: AnkoContext<Fragment>) = with(ui) {
         playerView {
             id = R.id.samples_webm
             visibility = View.GONE
-        }.lparams(matchParent, matchParent) {
-            centerInParent()
         }
     }
 
