@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.viewpager.widget.ViewPager
 import com.google.android.exoplayer2.ExoPlayerFactory
+import com.google.android.exoplayer2.Player.REPEAT_MODE_ALL
 import com.google.android.exoplayer2.source.ExtractorMediaSource
 import com.google.android.exoplayer2.source.MediaSource
 import com.google.android.exoplayer2.ui.PlayerView
@@ -56,7 +57,6 @@ class SamplePageWebmFragment : Fragment() {
             .map { booru.getCustom(mapOf("Range" to "bytes=0-1")).request(it.sampleUrl) }
             .map { createMediaSource(it.url.toURI().toString()) }
             .observeOn(AndroidSchedulers.mainThread())
-            .doOnDispose { view.findViewById<PlayerView>(R.id.samples_webm).player.release() }
             .subscribe(::onSubscribe)
         disposables.add(disposable)
     }
@@ -71,9 +71,12 @@ class SamplePageWebmFragment : Fragment() {
      */
     private fun onSuccess(view: View, source: MediaSource) {
         val playerview = view.findViewById<PlayerView>(R.id.samples_webm)
-        val exoPlayer = ExoPlayerFactory.newSimpleInstance(context).also { it.prepare(source) }
+        val exoPlayer = ExoPlayerFactory.newSimpleInstance(context)
+        exoPlayer.prepare(source)
+        exoPlayer.repeatMode = REPEAT_MODE_ALL
         playerview.player = exoPlayer
         playerview.visibility = View.VISIBLE
+
         playerview.setGestureListener {
             onDown { playerview.performClick() }
             onLongPress { showOptionsList(booru, post) }
@@ -82,7 +85,9 @@ class SamplePageWebmFragment : Fragment() {
         val viewpager = requireActivity().find<ViewPager>(R.id.samples_container_viewpager)
         viewpager.onPageChangeListener {
             onPageSelected {
-                if (position != it) exoPlayer.stop()
+                if (position != it) {
+                    exoPlayer.playWhenReady = false
+                }
             }
         }
     }
@@ -95,9 +100,12 @@ class SamplePageWebmFragment : Fragment() {
         return ExtractorMediaSource.Factory(dataSourceFactory).createMediaSource(uri)
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onStop() {
+        if (view?.findViewById<PlayerView>(R.id.samples_webm)?.player?.release() == null) {
+            System.err.println("$position item was not released")
+        }
         disposables.clear()
+        super.onStop()
     }
 
     companion object {
