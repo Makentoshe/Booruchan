@@ -17,10 +17,6 @@ import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.api.Booru
 import com.makentoshe.booruchan.api.Post
 import com.makentoshe.booruchan.model.arguments
-import com.makentoshe.booruchan.repository.PreviewImageRepository
-import com.makentoshe.booruchan.repository.cache.ImageInternalCache
-import com.makentoshe.booruchan.repository.cache.InternalCache
-import com.makentoshe.booruchan.repository.decorator.CachedRepository
 import com.makentoshe.booruchan.screen.samples.model.onError
 import com.makentoshe.booruchan.screen.samples.model.showOptionsList
 import com.makentoshe.booruchan.screen.samples.view.SamplePageWebmUi
@@ -47,12 +43,6 @@ class SamplePageWebmFragment : Fragment() {
         get() = arguments!!.getInt(POSITION)
         set(value) = arguments().putInt(POSITION, value)
 
-    private val previewsRepository by lazy {
-        val cache = ImageInternalCache(requireContext(), InternalCache.Type.PREVIEW)
-        val source = PreviewImageRepository(booru)
-        CachedRepository(cache, source)
-    }
-
     private val disposables = CompositeDisposable()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -66,10 +56,7 @@ class SamplePageWebmFragment : Fragment() {
             .map { booru.getCustom(mapOf("Range" to "bytes=0-1")).request(it.sampleUrl) }
             .map { createMediaSource(it.url.toURI().toString()) }
             .observeOn(AndroidSchedulers.mainThread())
-            .doOnDispose {
-                println("Release $position")
-                view.findViewById<PlayerView>(R.id.samples_webm).player.release()
-            }
+            .doOnDispose { view.findViewById<PlayerView>(R.id.samples_webm).player.release() }
             .subscribe(::onSubscribe)
         disposables.add(disposable)
     }
@@ -106,6 +93,11 @@ class SamplePageWebmFragment : Fragment() {
         val useragent = Util.getUserAgent(requireContext(), requireContext().getString(R.string.app_name))
         val dataSourceFactory = DefaultDataSourceFactory(requireContext(), useragent)
         return ExtractorMediaSource.Factory(dataSourceFactory).createMediaSource(uri)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        disposables.clear()
     }
 
     companion object {
