@@ -47,12 +47,6 @@ class SamplePageFragment : Fragment() {
         CachedRepository(cache, source)
     }
 
-    private val samplesRepository by lazy {
-        val cache = ImageInternalCache(requireContext(), InternalCache.Type.SAMPLE)
-        val source = SampleImageRepository(booru)
-        CachedRepository(cache, source)
-    }
-
     private val disposables = CompositeDisposable()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
