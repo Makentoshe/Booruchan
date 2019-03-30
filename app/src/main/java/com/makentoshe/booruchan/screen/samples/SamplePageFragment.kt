@@ -12,9 +12,6 @@ import com.makentoshe.booruchan.api.Posts
 import com.makentoshe.booruchan.api.Tag
 import com.makentoshe.booruchan.model.arguments
 import com.makentoshe.booruchan.repository.PostsRepository
-import com.makentoshe.booruchan.repository.SampleImageRepository
-import com.makentoshe.booruchan.repository.cache.ImageInternalCache
-import com.makentoshe.booruchan.repository.cache.InternalCache
 import com.makentoshe.booruchan.repository.cache.PostInternalCache
 import com.makentoshe.booruchan.repository.decorator.CachedRepository
 import com.makentoshe.booruchan.screen.samples.model.onError
