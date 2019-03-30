@@ -8,7 +8,7 @@ import org.jetbrains.anko.*
 
 class SamplePageWebmUi : AnkoComponent<Fragment> {
     override fun createView(ui: AnkoContext<Fragment>) = with(ui) {
-        frameLayout {
+        relativeLayout {
             lparams(matchParent, matchParent) { gravity = Gravity.CENTER }
 
             videoView {

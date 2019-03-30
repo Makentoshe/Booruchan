@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.MediaController
 import android.widget.VideoView
 import androidx.fragment.app.Fragment
@@ -60,6 +61,7 @@ class SamplePageWebmFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        //get webm uri
         val disposable = Single.just(post)
             .subscribeOn(Schedulers.newThread())
             .map { booru.getCustom(mapOf("Range" to "bytes=0-1")).request(it.sampleUrl) }
@@ -82,19 +84,23 @@ class SamplePageWebmFragment : Fragment() {
     }
 
     private fun VideoView.setupController(viewPager: ViewPager) {
-        val mediaController = MediaController(requireContext())
         if (viewPager.currentItem == position) {
             //set media controller for current visible fragment
-            setMediaController(mediaController)
+            setMediaController(MediaController(requireContext()).apply { setAnchorView(this) })
+            visibility = View.VISIBLE
+            seekTo(1)
         }
         //on page change listener for controlling media controller
         viewPager.onPageChangeListener {
             onPageSelected {
                 if (it == position) {
-                    setMediaController(mediaController)
+                    setMediaController(MediaController(requireContext()).apply { setAnchorView(this) })
+                    visibility = View.VISIBLE
+                    seekTo(1)
                 } else {
-                    setMediaController(null)
+                    visibility = View.INVISIBLE
                     stopPlayback()
+                    setMediaController(null)
                 }
             }
         }
@@ -102,27 +108,9 @@ class SamplePageWebmFragment : Fragment() {
 
     private fun VideoView.setupVideoView(root: View, uri: Uri) {
         setVideoURI(uri)
-        setPreview(post)
         onLongClick { showOptionsList(booru, post) }
-        visibility = View.VISIBLE
         //hide progress bar
         root.find<View>(R.id.samples_progress).visibility = View.GONE
-
-        onPrepared { backgroundDrawable = null }
-    }
-
-    private fun VideoView.setPreview(post: Post) {
-        //showing the first frame as a preview
-        seekTo(1)
-        val disposable = Single.just(post)
-            .subscribeOn(Schedulers.newThread())
-            .map { previewsRepository.get(post) }
-            .map { BitmapDrawable.createFromStream(ByteArrayInputStream(it), "") }
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe { drawable, _ ->
-                if (drawable != null) backgroundDrawable = drawable
-            }
-        disposables.add(disposable)
     }
 
     companion object {

@@ -107,4 +107,5 @@
     <item name="search_progress" type="id"/>
     <item name="sampleinfo_toolbar_tags_search" type="id"/>
     <item name="samples_content" type="id"/>
+    <item name="samples_content_webm_preview" type="id"/>
 </resources>
