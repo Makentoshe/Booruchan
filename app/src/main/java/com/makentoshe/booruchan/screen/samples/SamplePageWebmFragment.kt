@@ -1,16 +1,18 @@
 package com.makentoshe.booruchan.screen.samples
 
-import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.MediaController
-import android.widget.VideoView
 import androidx.fragment.app.Fragment
 import androidx.viewpager.widget.ViewPager
+import com.google.android.exoplayer2.ExoPlayerFactory
+import com.google.android.exoplayer2.source.ExtractorMediaSource
+import com.google.android.exoplayer2.source.MediaSource
+import com.google.android.exoplayer2.ui.PlayerView
+import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
+import com.google.android.exoplayer2.util.Util
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.api.Booru
 import com.makentoshe.booruchan.api.Post
@@ -22,17 +24,14 @@ import com.makentoshe.booruchan.repository.decorator.CachedRepository
 import com.makentoshe.booruchan.screen.samples.model.onError
 import com.makentoshe.booruchan.screen.samples.model.showOptionsList
 import com.makentoshe.booruchan.screen.samples.view.SamplePageWebmUi
+import com.makentoshe.booruchan.view.setGestureListener
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import org.jetbrains.anko.AnkoContext
-import org.jetbrains.anko.backgroundDrawable
 import org.jetbrains.anko.find
-import org.jetbrains.anko.sdk27.coroutines.onLongClick
-import org.jetbrains.anko.sdk27.coroutines.onPrepared
 import org.jetbrains.anko.support.v4.onPageChangeListener
-import java.io.ByteArrayInputStream
 
 class SamplePageWebmFragment : Fragment() {
 
@@ -65,52 +64,48 @@ class SamplePageWebmFragment : Fragment() {
         val disposable = Single.just(post)
             .subscribeOn(Schedulers.newThread())
             .map { booru.getCustom(mapOf("Range" to "bytes=0-1")).request(it.sampleUrl) }
-            .map { it.url.toURI().toString() }
+            .map { createMediaSource(it.url.toURI().toString()) }
             .observeOn(AndroidSchedulers.mainThread())
+            .doOnDispose {
+                println("Release $position")
+                view.findViewById<PlayerView>(R.id.samples_webm).player.release()
+            }
             .subscribe(::onSubscribe)
         disposables.add(disposable)
     }
 
-    private fun onSubscribe(url: String?, throwable: Throwable?) {
+    private fun onSubscribe(source: MediaSource?, throwable: Throwable?) {
         val pview = parentFragment!!.view!!
-        if (throwable == null) onSuccess(pview, url!!) else onError(pview, throwable)
+        if (throwable == null) onSuccess(pview, source!!) else onError(pview, throwable)
     }
 
-    private fun onSuccess(view: View, url: String) {
-        val videoView = view.findViewById<VideoView>(R.id.samples_webm)
-        videoView.setupVideoView(view, Uri.parse(url))
-        val viewpager = requireActivity().find<ViewPager>(R.id.samples_container_viewpager)
-        videoView.setupController(viewpager)
-    }
-
-    private fun VideoView.setupController(viewPager: ViewPager) {
-        if (viewPager.currentItem == position) {
-            //set media controller for current visible fragment
-            setMediaController(MediaController(requireContext()).apply { setAnchorView(this) })
-            visibility = View.VISIBLE
-            seekTo(1)
+    /**
+     * @param view is a root view of a [getParentFragment] method.
+     */
+    private fun onSuccess(view: View, source: MediaSource) {
+        val playerview = view.findViewById<PlayerView>(R.id.samples_webm)
+        val exoPlayer = ExoPlayerFactory.newSimpleInstance(context).also { it.prepare(source) }
+        playerview.player = exoPlayer
+        playerview.visibility = View.VISIBLE
+        playerview.setGestureListener {
+            onDown { playerview.performClick() }
+            onLongPress { showOptionsList(booru, post) }
         }
-        //on page change listener for controlling media controller
-        viewPager.onPageChangeListener {
+
+        val viewpager = requireActivity().find<ViewPager>(R.id.samples_container_viewpager)
+        viewpager.onPageChangeListener {
             onPageSelected {
-                if (it == position) {
-                    setMediaController(MediaController(requireContext()).apply { setAnchorView(this) })
-                    visibility = View.VISIBLE
-                    seekTo(1)
-                } else {
-                    visibility = View.INVISIBLE
-                    stopPlayback()
-                    setMediaController(null)
-                }
+                if (position != it) exoPlayer.stop()
             }
         }
     }
 
-    private fun VideoView.setupVideoView(root: View, uri: Uri) {
-        setVideoURI(uri)
-        onLongClick { showOptionsList(booru, post) }
-        //hide progress bar
-        root.find<View>(R.id.samples_progress).visibility = View.GONE
+    //create media source from url
+    private fun createMediaSource(url: String): MediaSource {
+        val uri = Uri.parse(url)
+        val useragent = Util.getUserAgent(requireContext(), requireContext().getString(R.string.app_name))
+        val dataSourceFactory = DefaultDataSourceFactory(requireContext(), useragent)
+        return ExtractorMediaSource.Factory(dataSourceFactory).createMediaSource(uri)
     }
 
     companion object {
