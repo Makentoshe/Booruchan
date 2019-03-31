@@ -99,13 +99,11 @@ class SamplePageWebmFragment : Fragment() {
         val mediaSource = createMediaSource(url)
         val playerview = view.findViewById<PlayerView>(R.id.samples_webm)
         playerview.player = createExoPlayerInstance(mediaSource)
-        println("Init $position")
     }
 
     private fun uninitVideoPlayer(view: View) {
         val playerview = view.find<PlayerView>(R.id.samples_webm)
         playerview.player?.release()
-        println("Uninit $position")
     }
 
     //create media source from url
