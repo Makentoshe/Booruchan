@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.viewpager.widget.ViewPager
+import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.ExoPlayerFactory
 import com.google.android.exoplayer2.Player.REPEAT_MODE_ALL
 import com.google.android.exoplayer2.source.ExtractorMediaSource
@@ -19,16 +20,15 @@ import com.makentoshe.booruchan.api.Booru
 import com.makentoshe.booruchan.api.Post
 import com.makentoshe.booruchan.model.arguments
 import com.makentoshe.booruchan.screen.samples.model.onError
-import com.makentoshe.booruchan.screen.samples.model.showOptionsList
 import com.makentoshe.booruchan.screen.samples.view.SamplePageWebmUi
-import com.makentoshe.booruchan.view.setGestureListener
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import org.jetbrains.anko.AnkoContext
 import org.jetbrains.anko.find
-import org.jetbrains.anko.support.v4.onPageChangeListener
+import org.jetbrains.anko.findOptional
+import org.jetbrains.anko.support.v4.__ViewPager_OnPageChangeListener
 
 class SamplePageWebmFragment : Fragment() {
 
@@ -46,6 +46,8 @@ class SamplePageWebmFragment : Fragment() {
 
     private val disposables = CompositeDisposable()
 
+    private var onPageChangeListener: ViewPager.OnPageChangeListener? = null
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return SamplePageWebmUi().createView(AnkoContext.create(requireContext(), this))
     }
@@ -55,41 +57,55 @@ class SamplePageWebmFragment : Fragment() {
         val disposable = Single.just(post)
             .subscribeOn(Schedulers.newThread())
             .map { booru.getCustom(mapOf("Range" to "bytes=0-1")).request(it.sampleUrl) }
-            .map { createMediaSource(it.url.toURI().toString()) }
+            .map { it.url.toURI().toString() }
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(::onSubscribe)
         disposables.add(disposable)
     }
 
-    private fun onSubscribe(source: MediaSource?, throwable: Throwable?) {
+    private fun onSubscribe(url: String?, throwable: Throwable?) {
         val pview = parentFragment!!.view!!
-        if (throwable == null) onSuccess(pview, source!!) else onError(pview, throwable)
+        if (throwable == null) onSuccess(pview, url!!) else onError(pview, throwable)
     }
 
     /**
      * @param view is a root view of a [getParentFragment] method.
      */
-    private fun onSuccess(view: View, source: MediaSource) {
-        val playerview = view.findViewById<PlayerView>(R.id.samples_webm)
-        val exoPlayer = ExoPlayerFactory.newSimpleInstance(context)
-        exoPlayer.prepare(source)
-        exoPlayer.repeatMode = REPEAT_MODE_ALL
-        playerview.player = exoPlayer
-        playerview.visibility = View.VISIBLE
-
-        playerview.setGestureListener {
-            onDown { playerview.performClick() }
-            onLongPress { showOptionsList(booru, post) }
-        }
-
+    private fun onSuccess(view: View, url: String) {
         val viewpager = requireActivity().find<ViewPager>(R.id.samples_container_viewpager)
-        viewpager.onPageChangeListener {
-            onPageSelected {
-                if (position != it) {
-                    exoPlayer.playWhenReady = false
-                }
-            }
+
+        val disposable = Single.just(initOnPageChangeListener(view, url)).subscribe { l, t ->
+            viewpager.addOnPageChangeListener(l)
         }
+        disposables.add(disposable)
+
+        if (position == viewpager.currentItem) initVideoPlayer(view, url)
+
+        val playerview = view.findViewById<PlayerView>(R.id.samples_webm)
+        playerview.visibility = View.VISIBLE
+    }
+
+    private fun initOnPageChangeListener(view: View, url: String): ViewPager.OnPageChangeListener {
+        //use apply to avoid smart cast
+        return __ViewPager_OnPageChangeListener().apply {
+            onPageSelected {
+                if (position == it) initVideoPlayer(view, url) else uninitVideoPlayer(view)
+            }
+        }.apply { onPageChangeListener = this }
+    }
+
+    @Synchronized
+    private fun initVideoPlayer(view: View, url: String) {
+        val mediaSource = createMediaSource(url)
+        val playerview = view.findViewById<PlayerView>(R.id.samples_webm)
+        playerview.player = createExoPlayerInstance(mediaSource)
+        println("Init $position")
+    }
+
+    private fun uninitVideoPlayer(view: View) {
+        val playerview = view.find<PlayerView>(R.id.samples_webm)
+        playerview.player?.release()
+        println("Uninit $position")
     }
 
     //create media source from url
@@ -100,12 +116,22 @@ class SamplePageWebmFragment : Fragment() {
         return ExtractorMediaSource.Factory(dataSourceFactory).createMediaSource(uri)
     }
 
-    override fun onStop() {
-        if (view?.findViewById<PlayerView>(R.id.samples_webm)?.player?.release() == null) {
-            System.err.println("$position item was not released")
-        }
+    private fun createExoPlayerInstance(source: MediaSource): ExoPlayer {
+        val exoPlayer = ExoPlayerFactory.newSimpleInstance(requireContext())
+        exoPlayer.repeatMode = REPEAT_MODE_ALL
+        exoPlayer.prepare(source)
+        return exoPlayer
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
         disposables.clear()
-        super.onStop()
+        onPageChangeListener.let {
+            if (it != null) {
+                val viewpager = requireActivity().findOptional<ViewPager>(R.id.samples_container_viewpager)
+                viewpager?.removeOnPageChangeListener(it)
+            }
+        }
     }
 
     companion object {
