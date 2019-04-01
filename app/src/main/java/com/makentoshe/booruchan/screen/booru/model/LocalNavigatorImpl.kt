@@ -1,13 +1,14 @@
 package com.makentoshe.booruchan.screen.booru.model
 
 import com.makentoshe.booruchan.api.Booru
+import com.makentoshe.booruchan.api.Tag
 import com.makentoshe.booruchan.navigation.FragmentNavigator
 import com.makentoshe.booruchan.navigation.Router
 import com.makentoshe.booruchan.screen.account.AccountScreen
 import com.makentoshe.booruchan.screen.posts.PostsScreen
 import ru.terrakok.cicerone.Cicerone
 
-class LocalNavigatorImpl(private val booru: Booru) : LocalNavigator {
+class LocalNavigatorImpl(private val booru: Booru, private val tags: Set<Tag>) : LocalNavigator {
 
     private val cicerone = Cicerone.create(Router())
 
@@ -20,7 +21,7 @@ class LocalNavigatorImpl(private val booru: Booru) : LocalNavigator {
     }
 
     override fun navigateToPosts() {
-        val screen = PostsScreen(booru)
+        val screen = PostsScreen(booru, tags)
         cicerone.router.replaceScreen(screen)
     }
 

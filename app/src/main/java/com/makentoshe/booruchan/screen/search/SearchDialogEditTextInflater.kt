@@ -49,7 +49,6 @@ class SearchDialogEditTextInflater(
     }
 
     override fun accept(view: View) {
-        println(tags)
         val editText = view.find<AutoCompleteTextView>(R.id.searchDialog_delayAutocompleteEditText)
         val chipGroup = view.find<ChipGroup>(R.id.searchDialog_chipgroup)
         //add tag after ' ' symbol

@@ -9,13 +9,15 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.api.Booru
-import com.makentoshe.booruchan.navigation.FragmentNavigator
+import com.makentoshe.booruchan.api.Tag
 import com.makentoshe.booruchan.model.arguments
+import com.makentoshe.booruchan.navigation.FragmentNavigator
 import com.makentoshe.booruchan.screen.booru.model.LocalNavigatorHolder
 import com.makentoshe.booruchan.screen.booru.model.LocalNavigatorImpl
 import com.makentoshe.booruchan.screen.booru.view.BooruUi
 import org.jetbrains.anko.AnkoContext
 import org.jetbrains.anko.find
+import java.io.Serializable
 
 class BooruFragment : Fragment() {
 
@@ -23,8 +25,12 @@ class BooruFragment : Fragment() {
         get() = arguments!!.get(BOORU) as Booru
         set(value) = arguments().putSerializable(BOORU, value)
 
+    private var tags: Set<Tag>
+        get() = arguments!!.get(TAGS) as Set<Tag>
+        set(value) = arguments().putSerializable(TAGS, value as Serializable)
+
     private val router by lazy {
-        LocalNavigatorHolder.create(this, LocalNavigatorImpl(booru))
+        LocalNavigatorHolder.create(this, LocalNavigatorImpl(booru, tags))
     }
 
     private val navigator by lazy {
@@ -63,10 +69,10 @@ class BooruFragment : Fragment() {
 
     companion object {
         private const val BOORU = "Booru"
-        fun create(booru: Booru): Fragment {
-            return BooruFragment().apply {
-                this.booru = booru
-            }
+        private const val TAGS = "Tags"
+        fun create(booru: Booru, tags: Set<Tag>) = BooruFragment().apply {
+            this.booru = booru
+            this.tags = tags
         }
     }
 }

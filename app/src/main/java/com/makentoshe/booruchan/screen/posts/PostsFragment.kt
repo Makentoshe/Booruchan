@@ -34,12 +34,17 @@ import org.jetbrains.anko.findOptional
 import org.jetbrains.anko.sdk27.coroutines.onClick
 import org.jetbrains.anko.subtitleResource
 import org.jetbrains.anko.support.v4.onPageChangeListener
+import java.io.Serializable
 
 class PostsFragment : Fragment() {
 
     private var booru: Booru
         get() = arguments!!.get(BOORU) as Booru
         set(value) = arguments().putSerializable(BOORU, value)
+
+    private var tags: Set<Tag>
+        get() = arguments!!.get(TAGS) as Set<Tag>
+        set(value) = arguments().putSerializable(TAGS, value as Serializable)
 
     private val searchController by lazy {
         val subject = BehaviorSubject.create<Set<Tag>>()
@@ -55,9 +60,7 @@ class PostsFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        FragmentDoOnCreateOnce.create(this) {
-            startNewSearch(setOf())
-        }
+        FragmentDoOnCreateOnce.create(this) { startNewSearch(tags) }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -191,9 +194,13 @@ class PostsFragment : Fragment() {
 
     companion object {
         private const val BOORU = "Booru"
-
-        fun create(booru: Booru) = PostsFragment().apply {
+        private const val TAGS = "Tags"
+        fun create(
+            booru: Booru,
+            tags: Set<Tag>
+        ) = PostsFragment().apply {
             this.booru = booru
+            this.tags = tags
         }
     }
 }
