@@ -11,10 +11,10 @@ import androidx.fragment.app.DialogFragment
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.api.Booru
 import com.makentoshe.booruchan.api.Post
-import com.makentoshe.booruchan.permission.PermissionController
 import com.makentoshe.booruchan.model.RequestCode
 import com.makentoshe.booruchan.model.arguments
-import com.makentoshe.booruchan.screen.samples.model.DownloadIntoInternalStorage
+import com.makentoshe.booruchan.permission.PermissionController
+import com.makentoshe.booruchan.screen.samples.model.DownloadIntoInternalStorageProcess
 
 class SampleOptionFragment : DialogFragment() {
 
@@ -33,7 +33,7 @@ class SampleOptionFragment : DialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return AlertDialog.Builder(requireContext()).setAdapter(buildAdapter()) { dialog, which ->
             when (which) {
-                0 -> DownloadIntoInternalStorage(post, booru.title).perform(requireContext(), permissionController)
+                0 -> DownloadIntoInternalStorageProcess(post, booru).start(requireContext(), permissionController)
             }
         }.create()
     }
