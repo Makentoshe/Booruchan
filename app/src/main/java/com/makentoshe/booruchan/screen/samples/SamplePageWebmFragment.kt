@@ -75,7 +75,7 @@ class SamplePageWebmFragment : Fragment() {
         playerview.player = exoPlayer.apply { prepare(createMediaSource(url)) }
         playerview.hideController()
         playerview.setGestureListener {
-            onDown { true }
+            onDown { playerview.performClick() }
             onLongPress { showOptionsList(booru, post) }
         }
     }
