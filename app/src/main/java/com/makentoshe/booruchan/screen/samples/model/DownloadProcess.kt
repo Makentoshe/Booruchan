@@ -7,9 +7,7 @@ import com.makentoshe.booruchan.api.Booru
 import com.makentoshe.booruchan.api.Post
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import java.io.ByteArrayOutputStream
 import java.io.File
-import java.io.InputStream
 import kotlin.coroutines.CoroutineContext
 
 class DownloadProcess(
@@ -17,19 +15,19 @@ class DownloadProcess(
     private val post: Post,
     private val ccontext: CoroutineContext = GlobalScope.coroutineContext
 ) {
+    private val enableStreamingDownload = true
 
     fun start(context: Context, result: (DownloadedData?, Throwable?) -> Unit) {
+        if (enableStreamingDownload) startStreamDownload(context, result) else startDefaultDownload(result)
+    }
+
+    private fun startDefaultDownload(result: (DownloadedData?, Throwable?) -> Unit) {
         //start a new coroutine for loading an image
         GlobalScope.launch(ccontext) {
             try {
                 val response = booru.getCustom().request(post.fileUrl)
                 //perform loading and reading bytes
-                val bytes = response.stream.readBytes(response.length) {
-                    //set download progress
-                    NotificationProcess(post).start(context) {
-                        setProgress(100, (it * 100).toInt(), false)
-                    }
-                }
+                val bytes = response.stream.readBytes()
                 //box all data into the data class
                 val data = bytes.toDownloadData(post, booru)
                 //return to main thread
@@ -40,24 +38,24 @@ class DownloadProcess(
         }
     }
 
-    /* progress from 0 to 1 */
-    private fun InputStream.readBytes(contentLength: Long, onProgress: (Float) -> Unit): ByteArray {
-        val bufferSize = 16384
-        val buffer = ByteArrayOutputStream()
-
-        var count = 0
-        val data = ByteArray(bufferSize)
-        var nRead = read(data, 0, bufferSize)
-        count += nRead
-
-        while (nRead != -1) {
-            buffer.write(data, 0, nRead)
-            nRead = read(data, 0, bufferSize)
-            onProgress(count / contentLength.toFloat())
-            count += nRead
+    private fun startStreamDownload(context: Context, result: (DownloadedData?, Throwable?) -> Unit) {
+        //init streaming download
+        val streamDownload = StreamDownload(ccontext, booru)
+        //add listeners
+        streamDownload.addListener {
+            onComplete {
+                //return to main thread
+                Handler(Looper.getMainLooper()).post { result(it.toDownloadData(post, booru), null) }
+            }
+            onPartReceived { length, _, progress ->
+                NotificationProcess(post).start(context) {
+                    setProgress(100, (progress * 100).toInt(), false)
+                    setContentText("${length * progress}/$length bytes")
+                }
+            }
         }
-
-        return buffer.toByteArray()
+        //start download
+        streamDownload.download(post.fileUrl)
     }
 
     private fun ByteArray.toDownloadData(post: Post, booru: Booru): DownloadedData {
