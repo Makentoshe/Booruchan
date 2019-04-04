@@ -20,6 +20,15 @@ class ProxyHttpClient(private val client: HttpClient, private val proxy: String)
         return if (!result.isSuccessful) post(getRedirectUrl(url), body) else result
     }
 
+    override fun head(url: String, params: Map<String, String>): HttpResult {
+        val result = client.head(url, params)
+        return try {
+            if (!result.isSuccessful) get(getRedirectUrl(url)) else result
+        } catch (e: Exception) {
+            result
+        }
+    }
+
     //perform connection to the proxy and returns a mirror url
     private fun getRedirectUrl(url: String): String {
         val redirectResult = proxy.httpPost(listOf("url" to url))

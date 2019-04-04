@@ -16,5 +16,9 @@ abstract class HttpClient : Serializable {
      * Creates a post request to [url] and returns [HttpResult] instance as a result.
      */
     abstract fun post(url: String, body: ByteArray): HttpResult
-}
 
+    /**
+     * Create a head request to [url] and returns [HttpResult] instance as a result.
+     */
+    abstract fun head(url: String, params: Map<String, String>): HttpResult
+}

@@ -15,4 +15,8 @@ class HostHttpClient(private val httpClient: HttpClient, private val hosts: List
     override fun post(url: String, body: ByteArray): HttpResult {
         return httpClient.post(url, body)
     }
+
+    override fun head(url: String, params: Map<String, String>): HttpResult {
+        return httpClient.get(currentHost.plus(url), params)
+    }
 }
