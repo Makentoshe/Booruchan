@@ -27,6 +27,10 @@ class Mockbooru(private val context: Context) : Booru {
         }
     }
 
+    override fun headCustom(params: Map<String, String>): Custom {
+        TODO("Not need in tests yet")
+    }
+
     override fun getAutocomplete(): Autocomplete {
         val mock = mockk<Autocomplete>()
         lateinit var str: String
