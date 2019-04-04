@@ -27,4 +27,7 @@ class FuelHttpResult(
 
     override val url: URL
         get() = response.second.url
+
+    override val length: Long
+        get() = response.second.contentLength
 }

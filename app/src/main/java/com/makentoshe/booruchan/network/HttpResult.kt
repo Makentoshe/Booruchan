@@ -35,5 +35,13 @@ interface HttpResult : Serializable {
      */
     val message: String
 
+    /**
+     * Returns an request url
+     */
     val url: URL
+
+    /**
+     * Returns a content length in bytes
+     */
+    val length: Long
 }
