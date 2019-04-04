@@ -40,7 +40,7 @@ class DownloadProcess(
 
     private fun startStreamDownload(context: Context, result: (DownloadedData?, Throwable?) -> Unit) {
         //init streaming download
-        val streamDownload = StreamDownload(ccontext, booru)
+        val streamDownload = StreamDownload(ccontext, booru, 1024 * 64)
         //add listeners
         streamDownload.addListener {
             onComplete {
@@ -52,6 +52,9 @@ class DownloadProcess(
                     setProgress(100, (progress * 100).toInt(), false)
                     setContentText("${length * progress}/$length bytes")
                 }
+            }
+            onError {
+                NotificationUnsuccessProcess(it, NotificationProcess(post)).start(context)
             }
         }
         //start download
