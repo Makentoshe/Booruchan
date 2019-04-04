@@ -12,7 +12,7 @@
     <string name="image">Image</string>
     <string name="tags">Tags</string>
     <string name="was_loaded_succesfully">was loaded successfully</string>
-    <string name="image_was_not_loaded_succesfully">Image wasn\'t loaded successfully</string>
+    <string name="was_not_loaded_succesfully">wasn\'t loaded successfully</string>
     <string name="permission_denied">Permission denied</string>
     <string name="download_was_not_started">Download wasn\'t started</string>
     <string name="file">File</string>

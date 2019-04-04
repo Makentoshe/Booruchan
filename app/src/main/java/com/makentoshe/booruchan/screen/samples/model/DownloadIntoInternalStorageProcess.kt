@@ -46,14 +46,12 @@ class DownloadIntoInternalStorageProcess(private val post: Post, private val boo
     }
 
     private fun onPermissionGranted(context: Context) {
-        //download file
         DownloadProcess(booru).start(post) { downloadedData, throwable ->
-            //if exception was not thrown
             if (throwable == null) {
                 SaveProcess(context).start(downloadedData!!)
                 fileWasSuccessfullyLoaded(context, downloadedData)
             } else {
-                fileWasUnsuccessfullyLoaded(context, throwable.localizedMessage)
+                fileWasUnsuccessfullyLoaded(context, throwable)
             }
         }
     }
@@ -64,33 +62,12 @@ class DownloadIntoInternalStorageProcess(private val post: Post, private val boo
 
     /* Calls when file was successfully downloaded and displays a notification message */
     private fun fileWasSuccessfullyLoaded(context: Context, downloadedData: DownloadedData) {
-        NotificationProcess(post).start(context) {
-            //set a file to the large icon
-            val byteArray = downloadedData.byteArray
-            val bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.size)
-            it.setLargeIcon(bitmap)
-            //set a content message
-            val message = StringBuilder(context.getString(R.string.file)).append(" ")
-            message.append(context.getString(R.string.was_loaded_succesfully))
-            it.setContentText(message)
-            //send to broadcast receiver a request to open current uri
-            val imageDir = SaveProcess.getImageDirectory(context, downloadedData.booruTitle)
-            val imagefile = File(imageDir, "${downloadedData.title}.${downloadedData.extension}")
-            val intent = Intent(context, AppBroadcastReceiver::class.java)
-            if (imagefile.extension == "webm") {
-                intent.putExtra(AppBroadcastReceiver.videoType, imagefile.toString())
-            } else {
-                intent.putExtra(AppBroadcastReceiver.imageType, imagefile.toString())
-            }
-            it.setContentIntent(PendingIntent.getBroadcast(context, post.id.toInt(), intent, 0))
-        }
+        NotificationSuccessProcess(downloadedData, NotificationProcess(post)).start(context)
     }
 
     /* Calls when error occurs while file was downloading */
-    private fun fileWasUnsuccessfullyLoaded(context: Context, reason: String) {
-        val message = StringBuilder(context.getString(R.string.image_was_not_loaded_succesfully))
-        if (!reason.isBlank()) message.append("\n").append(reason)
-        sendNotificationWithMessage(context, message)
+    private fun fileWasUnsuccessfullyLoaded(context: Context, throwable: Throwable) {
+        NotificationUnsuccessProcess(throwable, NotificationProcess(post)).start(context)
     }
 
     /* Calls when write external storage permission was denied */
@@ -204,7 +181,7 @@ class SaveProcess(private val context: Context) {
 class NotificationProcess(private val post: Post) {
 
     @SuppressLint("NewApi")
-    fun start(context: Context, apply: (NotificationCompat.Builder) -> Unit) {
+    fun start(context: Context, apply: NotificationCompat.Builder.() -> Unit) {
         val appName = context.getString(R.string.app_name)
         val builder = NotificationCompat.Builder(context, appName)
         //set application icon
@@ -226,4 +203,62 @@ class NotificationProcess(private val post: Post) {
     private fun NotificationCompat.Builder.onOreo(action: (NotificationCompat.Builder) -> Unit) {
         doFromSdk(Build.VERSION_CODES.O) { action(this) }
     }
+}
+
+class NotificationSuccessProcess(
+    private val downloadedData: DownloadedData,
+    private val notificationProcess: NotificationProcess
+) {
+    fun start(context: Context) {
+        notificationProcess.start(context) {
+            //set notification text
+            setText(context)
+            //set preview large icon
+            setPreview(downloadedData.byteArray)
+            //set on notification click listener
+            onClick(context)
+        }
+    }
+
+    private fun NotificationCompat.Builder.setPreview(byteArray: ByteArray) {
+        val bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.size)
+        setLargeIcon(bitmap)
+    }
+
+    private fun NotificationCompat.Builder.setText(context: Context) {
+        val message = StringBuilder(context.getString(R.string.file)).append(" ")
+        message.append(context.getString(R.string.was_loaded_succesfully))
+        setContentText(message)
+    }
+
+    private fun NotificationCompat.Builder.onClick(context: Context) {
+        val imageDir = SaveProcess.getImageDirectory(context, downloadedData.booruTitle)
+        val imagefile = File(imageDir, "${downloadedData.title}.${downloadedData.extension}")
+        val intent = Intent(context, AppBroadcastReceiver::class.java)
+        if (imagefile.extension == "webm") {
+            intent.putExtra(AppBroadcastReceiver.videoType, imagefile.toString())
+        } else {
+            intent.putExtra(AppBroadcastReceiver.imageType, imagefile.toString())
+        }
+        setContentIntent(PendingIntent.getBroadcast(context, downloadedData.title.toInt(), intent, 0))
+    }
+}
+
+class NotificationUnsuccessProcess(
+    private val throwable: Throwable,
+    private val notificationProcess: NotificationProcess
+) {
+    fun start(context: Context) {
+        notificationProcess.start(context) {
+            setText(context)
+//            onClick(context)
+        }
+    }
+
+    private fun NotificationCompat.Builder.setText(context: Context) {
+        val message = StringBuilder(context.getString(R.string.file)).append(" ")
+        message.append(context.getString(R.string.was_not_loaded_succesfully))
+        setContentText(message)
+    }
+
 }
