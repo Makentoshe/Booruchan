@@ -77,8 +77,11 @@ class DownloadIntoInternalStorageProcess(private val post: Post, private val boo
             val imageDir = SaveProcess.getImageDirectory(context, downloadedData.booruTitle)
             val imagefile = File(imageDir, "${downloadedData.title}.${downloadedData.extension}")
             val intent = Intent(context, AppBroadcastReceiver::class.java)
-            println("Process: $imagefile")
-            intent.putExtra(AppBroadcastReceiver.imageType, imagefile.toString())
+            if (imagefile.extension == "webm") {
+                intent.putExtra(AppBroadcastReceiver.videoType, imagefile.toString())
+            } else {
+                intent.putExtra(AppBroadcastReceiver.imageType, imagefile.toString())
+            }
             it.setContentIntent(PendingIntent.getBroadcast(context, post.id.toInt(), intent, 0))
         }
     }
