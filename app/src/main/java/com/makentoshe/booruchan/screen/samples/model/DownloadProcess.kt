@@ -5,6 +5,8 @@ import android.os.Handler
 import android.os.Looper
 import com.makentoshe.booruchan.api.Booru
 import com.makentoshe.booruchan.api.Post
+import com.makentoshe.booruchan.model.StreamDownload
+import com.makentoshe.booruchan.screen.settings.AppSettings
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import java.io.File
@@ -15,10 +17,13 @@ class DownloadProcess(
     private val post: Post,
     private val ccontext: CoroutineContext = GlobalScope.coroutineContext
 ) {
-    private val enableStreamingDownload = true
 
     fun start(context: Context, result: (DownloadedData?, Throwable?) -> Unit) {
-        if (enableStreamingDownload) startStreamDownload(context, result) else startDefaultDownload(result)
+        if (AppSettings.getStreamingDownload(context)) {
+            startStreamDownload(context, result)
+        } else {
+            startDefaultDownload(result)
+        }
     }
 
     private fun startDefaultDownload(result: (DownloadedData?, Throwable?) -> Unit) {

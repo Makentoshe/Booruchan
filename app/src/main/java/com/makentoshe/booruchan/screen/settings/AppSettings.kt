@@ -23,7 +23,17 @@ object AppSettings {
             .putBoolean(NSFW_ALERT, boolean).apply()
     }
 
+    fun setStreamingDownload(context: Context, boolean: Boolean) {
+        context.getSharedPreferences(APPLICATION, Context.MODE_PRIVATE).edit()
+            .putBoolean(STREAM_DOWNLOAD, boolean).apply()
+    }
+
+    fun getStreamingDownload(context: Context): Boolean {
+        return context.getSharedPreferences(APPLICATION, Context.MODE_PRIVATE).getBoolean(STREAM_DOWNLOAD, true)
+    }
+
     private const val APPLICATION = "AppSettings"
     private const val NSFW = "NotSafeForWatching"
     private const val NSFW_ALERT = "NotSafeForWatchingAlert"
+    private const val STREAM_DOWNLOAD = "StreamingDownload"
 }

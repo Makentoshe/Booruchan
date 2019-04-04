@@ -1,4 +1,4 @@
-package com.makentoshe.booruchan.screen.samples.model
+package com.makentoshe.booruchan.model
 
 import com.makentoshe.booruchan.api.Booru
 import kotlinx.coroutines.GlobalScope

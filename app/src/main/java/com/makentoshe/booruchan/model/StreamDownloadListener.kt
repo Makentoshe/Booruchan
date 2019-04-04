@@ -1,4 +1,4 @@
-package com.makentoshe.booruchan.screen.samples.model
+package com.makentoshe.booruchan.model
 
 class StreamDownloadListener {
 
