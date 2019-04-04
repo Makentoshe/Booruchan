@@ -24,6 +24,18 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+        <receiver android:name=".AppBroadcastReceiver"
+                  android:enabled="true"
+                  android:exported="true"/>
+        <provider
+                android:name="AppFileProvider"
+                android:authorities="com.makentoshe.booruchan.appfileprovider"
+                android:exported="false"
+                android:grantUriPermissions="true">
+            <meta-data
+                    android:name="android.support.FILE_PROVIDER_PATHS"
+                    android:resource="@xml/provider_paths"/>
+        </provider>
     </application>
 
 </manifest>

@@ -1,22 +1,34 @@
 package com.makentoshe.booruchan.screen.samples.model
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.app.Activity
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.Context
+import android.content.Intent
+import android.graphics.BitmapFactory
+import android.os.Build
 import android.os.Environment
 import android.os.Handler
 import android.os.Looper
+import androidx.core.app.NotificationCompat
 import com.google.android.material.snackbar.Snackbar
+import com.makentoshe.booruchan.AppBroadcastReceiver
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.api.Booru
 import com.makentoshe.booruchan.api.Post
 import com.makentoshe.booruchan.permission.PermissionRequester
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import org.jetbrains.anko.doFromSdk
 import org.jetbrains.anko.longToast
+import org.jetbrains.anko.notificationManager
 import java.io.File
 import java.io.FileOutputStream
 import kotlin.coroutines.CoroutineContext
+
 
 class DownloadIntoInternalStorageProcess(private val post: Post, private val booru: Booru) {
 
@@ -39,7 +51,7 @@ class DownloadIntoInternalStorageProcess(private val post: Post, private val boo
             //if exception was not thrown
             if (throwable == null) {
                 SaveProcess(context).start(downloadedData!!)
-                fileWasSuccessfullyLoaded(context)
+                fileWasSuccessfullyLoaded(context, downloadedData)
             } else {
                 fileWasUnsuccessfullyLoaded(context, throwable.localizedMessage)
             }
@@ -50,11 +62,25 @@ class DownloadIntoInternalStorageProcess(private val post: Post, private val boo
         permissionDeniedCallback(context)
     }
 
-    /* Calls when file was successfully downloaded */
-    private fun fileWasSuccessfullyLoaded(context: Context) {
-        val message = StringBuilder(context.getString(R.string.file)).append(" ")
-        message.append(context.getString(R.string.was_loaded_succesfully))
-        sendNotificationWithMessage(context, message)
+    /* Calls when file was successfully downloaded and displays a notification message */
+    private fun fileWasSuccessfullyLoaded(context: Context, downloadedData: DownloadedData) {
+        NotificationProcess(post).start(context) {
+            //set a file to the large icon
+            val byteArray = downloadedData.byteArray
+            val bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.size)
+            it.setLargeIcon(bitmap)
+            //set a content message
+            val message = StringBuilder(context.getString(R.string.file)).append(" ")
+            message.append(context.getString(R.string.was_loaded_succesfully))
+            it.setContentText(message)
+            //send to broadcast receiver a request to open current uri
+            val imageDir = SaveProcess.getImageDirectory(context, downloadedData.booruTitle)
+            val imagefile = File(imageDir, "${downloadedData.title}.${downloadedData.extension}")
+            val intent = Intent(context, AppBroadcastReceiver::class.java)
+            println("Process: $imagefile")
+            intent.putExtra(AppBroadcastReceiver.imageType, imagefile.toString())
+            it.setContentIntent(PendingIntent.getBroadcast(context, post.id.toInt(), intent, 0))
+        }
     }
 
     /* Calls when error occurs while file was downloading */
@@ -151,7 +177,7 @@ class SaveProcess(private val context: Context) {
     /* Saved the data to the internal storage */
     fun start(data: DownloadedData) {
         //create image file
-        val imageDir = getImageDirectory(data.booruTitle)
+        val imageDir = getImageDirectory(context, data.booruTitle)
         val imagefile = File(imageDir, "${data.title}.${data.extension}")
         imagefile.createNewFile()
         //write to it
@@ -161,11 +187,40 @@ class SaveProcess(private val context: Context) {
         }
     }
 
-    /* Returns the calculated image directory based on booru title */
-    private fun getImageDirectory(title: String): File {
-        val root = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
-        val appDir = context.getString(R.string.app_name)
-        val imageDir = File(root, "${File.separator}$appDir${File.separator}$title")
-        return imageDir.apply { mkdirs() }
+    companion object {
+        /* Returns the calculated image directory based on booru title */
+        fun getImageDirectory(context: Context, title: String): File {
+            val root = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
+            val appDir = context.getString(R.string.app_name)
+            val imageDir = File(root, "${File.separator}$appDir${File.separator}$title")
+            return imageDir.apply { mkdirs() }
+        }
+    }
+}
+
+class NotificationProcess(private val post: Post) {
+
+    @SuppressLint("NewApi")
+    fun start(context: Context, apply: (NotificationCompat.Builder) -> Unit) {
+        val appName = context.getString(R.string.app_name)
+        val builder = NotificationCompat.Builder(context, appName)
+        //set application icon
+        builder.setSmallIcon(R.drawable.ic_launcher_foreground)
+        //set application name as a title
+        builder.setContentTitle(appName)
+
+        builder.onOreo {
+            val notificationChannel = NotificationChannel(appName, appName, NotificationManager.IMPORTANCE_DEFAULT)
+            context.notificationManager.createNotificationChannel(notificationChannel)
+            builder.setChannelId(notificationChannel.id)
+        }
+        //custom settings
+        apply(builder)
+        //show notification
+        context.notificationManager.notify(post.id.toInt(), builder.build())
+    }
+
+    private fun NotificationCompat.Builder.onOreo(action: (NotificationCompat.Builder) -> Unit) {
+        doFromSdk(Build.VERSION_CODES.O) { action(this) }
     }
 }

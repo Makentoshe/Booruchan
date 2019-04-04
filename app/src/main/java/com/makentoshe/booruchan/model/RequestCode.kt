@@ -20,4 +20,9 @@ object RequestCode {
      * Request code for messaging between pages and holder.
      */
     val postpage = 6
+
+    /**
+     * Request code for images
+     */
+    val image = 7
 }
