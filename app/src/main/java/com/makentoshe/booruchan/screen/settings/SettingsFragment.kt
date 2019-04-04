@@ -8,15 +8,18 @@ import android.view.ViewGroup
 import android.widget.CheckBox
 import androidx.fragment.app.Fragment
 import com.makentoshe.booruchan.R
-import com.makentoshe.booruchan.appSettings
 import com.makentoshe.booruchan.model.RequestCode
 import org.jetbrains.anko.AnkoContext
 import org.jetbrains.anko.find
 
 class SettingsFragment : Fragment() {
 
-    private val nsfwSetting by lazy {
-        view?.find<CheckBox>(R.id.setting_nsfw_checkbox)!!
+    private val nsfwSettingController by lazy {
+        NsfwSettingController(this)
+    }
+
+    private val streamDownloadSettingsController by lazy {
+        StreamDownloadSettingController(this)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -25,52 +28,47 @@ class SettingsFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        //set default setting
-        nsfwSetting.isChecked = appSettings.getNsfw(requireContext())
-        nsfwSetting.setOnCheckedChangeListener { _, isChecked ->
-            if (isChecked) {
-                if (appSettings.getNsfwAlert(requireContext())) {
-                    showNsfwAlertDialog()
-                } else {
-                    changeNsfwSetting(isChecked)
-                }
-            } else {
-                if (appSettings.getNsfwAlert(requireContext())) {
-                    //do nothing
-                } else {
-                    changeNsfwSetting(isChecked)
-                }
-            }
-        }
-    }
-
-    private fun changeNsfwSetting(boolean: Boolean) {
-        appSettings.setNsfw(requireContext(), boolean)
-        callTargetFragmentChangeListView()
-    }
-
-    private fun showNsfwAlertDialog() {
-        val fragment = SettingsNsfwAlertFragment()
-        fragment.setTargetFragment(this, RequestCode.settings)
-        fragment.show(fragmentManager, SettingsNsfwAlertFragment::class.java.simpleName)
+        nsfwSettingController.onViewCreated()
+        streamDownloadSettingsController.onViewCreated()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == RequestCode.settings) {
-            if (resultCode == 0) {
-                nsfwSetting.isChecked = false
-                changeNsfwSetting(false)
-            }
-            if (resultCode == 1) {
-                nsfwSetting.isChecked = true
-                changeNsfwSetting(true)
-                //no need display alert more
-                appSettings.setNsfwAlert(requireContext(), false)
-            }
+            nsfwSettingController.onResult(resultCode)
+        }
+    }
+}
+
+class StreamDownloadSettingController(private val fragment: Fragment) {
+
+    private val checkbox by lazy {
+        fragment.view?.find<CheckBox>(R.id.setting_stream_download_checkbox)!!
+    }
+
+    private val view by lazy {
+        fragment.view?.find<View>(R.id.setting_stream_download)!!
+    }
+
+    private val context = fragment.requireContext()
+
+    fun onViewCreated() {
+        //set default setting
+        checkbox.isChecked = AppSettings.getStreamingDownload(context)
+        checkbox.setOnCheckedChangeListener { _, isChecked ->
+            onCheck(isChecked)
+        }
+        view.setOnClickListener {
+            checkbox.isChecked = AppSettings.getStreamingDownload(context).not()
         }
     }
 
-    private fun callTargetFragmentChangeListView() {
-        targetFragment!!.onActivityResult(RequestCode.settings, 0, null)
+    private fun onCheck(isChecked: Boolean) = if (isChecked) check() else uncheck()
+
+    private fun check() {
+        AppSettings.setStreamingDownload(context, true)
+    }
+
+    private fun uncheck() {
+        AppSettings.setStreamingDownload(context, false)
     }
 }

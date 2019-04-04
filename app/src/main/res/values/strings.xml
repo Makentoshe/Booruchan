@@ -45,6 +45,7 @@
     <string name="posts_ran_out">Posts is ran out\nCheck the previous pages to find them</string>
     <string name="images_ran_out">Images is ran out\nCheck the previous pages to find them</string>
     <string name="search_hint">Ex: blue_sky cloud 1girl</string>
+    <string name="enable_stream_download">Enable streaming download</string>
 
     <string-array name="post_properties">
         <item>Id</item>

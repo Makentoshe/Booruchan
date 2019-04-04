@@ -108,4 +108,6 @@
     <item name="sampleinfo_toolbar_tags_search" type="id"/>
     <item name="samples_content" type="id"/>
     <item name="samples_content_webm_preview" type="id"/>
+    <item name="setting_stream_download" type="id"/>
+    <item name="setting_stream_download_checkbox" type="id"/>
 </resources>
