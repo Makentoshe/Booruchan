@@ -19,7 +19,9 @@ import com.makentoshe.booruchan.api.Booru
 import com.makentoshe.booruchan.api.Post
 import com.makentoshe.booruchan.model.arguments
 import com.makentoshe.booruchan.screen.samples.model.onError
+import com.makentoshe.booruchan.screen.samples.model.showOptionsList
 import com.makentoshe.booruchan.screen.samples.view.SamplePageWebmUi
+import com.makentoshe.booruchan.view.setGestureListener
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -72,6 +74,10 @@ class SamplePageWebmFragment : Fragment() {
         playerview.visibility = View.VISIBLE
         playerview.player = exoPlayer.apply { prepare(createMediaSource(url)) }
         playerview.hideController()
+        playerview.setGestureListener {
+            onDown { true }
+            onLongPress { showOptionsList(booru, post) }
+        }
     }
 
     //create media source from url
