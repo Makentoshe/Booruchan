@@ -23,6 +23,7 @@ import com.makentoshe.booruchan.repository.decorator.StreamDownloadRepositoryDec
 import com.makentoshe.booruchan.screen.samples.model.onError
 import com.makentoshe.booruchan.screen.samples.model.showOptionsList
 import com.makentoshe.booruchan.screen.samples.view.SamplePageImageUi
+import com.makentoshe.booruchan.view.CircularProgressBar
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -30,6 +31,7 @@ import io.reactivex.schedulers.Schedulers
 import org.jetbrains.anko.AnkoContext
 import org.jetbrains.anko.find
 import org.jetbrains.anko.sdk27.coroutines.onLongClick
+import org.jetbrains.anko.support.v4.runOnUiThread
 
 class SamplePageImageFragment : Fragment() {
 
@@ -58,6 +60,10 @@ class SamplePageImageFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        val progressview = parentFragment!!.view!!.find<CircularProgressBar>(R.id.samples_progress_concrete)
+        streamListener.onPartReceived { _, _, progress ->
+            runOnUiThread { progressview.setProgress((100 * progress).toInt()) }
+        }
         val disposable = Single.just(post)
             .subscribeOn(Schedulers.newThread())
             .map { samplesRepository.get(it) }
