@@ -99,6 +99,7 @@ class SamplePageFragment : Fragment() {
         return SamplePageWebmFragment.create(booru, post, position)
     }
 
+    /* Loads preview image */
     private fun onPostLoaded(post: Post) {
         disposables.add = Single.just(post)
             .subscribeOn(Schedulers.newThread())
@@ -109,7 +110,6 @@ class SamplePageFragment : Fragment() {
                 val imageview = view!!.find<ImageView>(R.id.samples_preview)
                 if (throwable != null) {
                     imageview.visibility = View.GONE
-                    onError(view!!, throwable)
                 } else {
                     imageview.visibility = View.VISIBLE
                     imageview.setImageBitmap(preview)

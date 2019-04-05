@@ -13,11 +13,13 @@ import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.api.Booru
 import com.makentoshe.booruchan.api.Post
+import com.makentoshe.booruchan.model.StreamDownloadListener
 import com.makentoshe.booruchan.model.arguments
-import com.makentoshe.booruchan.repository.SampleImageRepository
+import com.makentoshe.booruchan.repository.StreamDownloadRepository
 import com.makentoshe.booruchan.repository.cache.ImageInternalCache
 import com.makentoshe.booruchan.repository.cache.InternalCache
 import com.makentoshe.booruchan.repository.decorator.CachedRepository
+import com.makentoshe.booruchan.repository.decorator.StreamDownloadRepositoryDecorator
 import com.makentoshe.booruchan.screen.samples.model.onError
 import com.makentoshe.booruchan.screen.samples.model.showOptionsList
 import com.makentoshe.booruchan.screen.samples.view.SamplePageImageUi
@@ -41,8 +43,12 @@ class SamplePageImageFragment : Fragment() {
 
     private val samplesRepository by lazy {
         val cache = ImageInternalCache(requireContext(), InternalCache.Type.SAMPLE)
-        val source = SampleImageRepository(booru)
-        CachedRepository(cache, source)
+        val streamSource = StreamDownloadRepositoryDecorator(StreamDownloadRepository(streamListener, booru))
+        CachedRepository(cache, streamSource)
+    }
+
+    private val streamListener by lazy {
+        StreamDownloadListener()
     }
 
     private val disposables = CompositeDisposable()
