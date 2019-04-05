@@ -8,6 +8,7 @@ import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.api.Booru
 import com.makentoshe.booruchan.api.Post
 import com.makentoshe.booruchan.permission.PermissionRequester
+import com.makentoshe.booruchan.screen.settings.AppSettings
 import org.jetbrains.anko.longToast
 
 class DownloadIntoInternalStorageProcess(private val post: Post, private val booru: Booru) {
@@ -16,7 +17,11 @@ class DownloadIntoInternalStorageProcess(private val post: Post, private val boo
         //show notification that the loading was started
         NotificationProcess(post).start(context) {
             setProgress(1, 1, true)
-            setContentText(context.getString(R.string.prepare_to_download))
+            if (AppSettings.getStreamingDownload(context)) {
+                setContentText(context.getString(R.string.prepare_to_download))
+            } else {
+                setContentText(context.getString(R.string.downloading))
+            }
         }
         context.longToast(context.getString(R.string.download_was_started)).show()
         permissionRequester.requestPermission(permission) {
