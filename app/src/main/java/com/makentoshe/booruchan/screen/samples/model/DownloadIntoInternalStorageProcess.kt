@@ -16,6 +16,7 @@ class DownloadIntoInternalStorageProcess(private val post: Post, private val boo
         //show notification that the loading was started
         NotificationProcess(post).start(context) {
             setProgress(1, 1, true)
+            setContentText(context.getString(R.string.prepare_to_download))
         }
         context.longToast(context.getString(R.string.download_was_started)).show()
         permissionRequester.requestPermission(permission) {
