@@ -110,4 +110,6 @@
     <item name="samples_content_webm_preview" type="id"/>
     <item name="setting_stream_download" type="id"/>
     <item name="setting_stream_download_checkbox" type="id"/>
+    <item name="report_toolbar" type="id"/>
+    <item name="report_body" type="id"/>
 </resources>

@@ -59,7 +59,7 @@ class DownloadProcess(
                 }
             }
             onError {
-                NotificationUnsuccessProcess(it, NotificationProcess(post)).start(context)
+                NotificationUnsuccessProcess(it, post.id.toInt(), NotificationProcess(post)).start(context)
             }
         }
         //start download

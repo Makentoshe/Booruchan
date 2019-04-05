@@ -48,7 +48,7 @@ class DownloadIntoInternalStorageProcess(private val post: Post, private val boo
 
     /* Calls when error occurs while file was downloading */
     private fun fileWasUnsuccessfullyLoaded(context: Context, throwable: Throwable) {
-        NotificationUnsuccessProcess(throwable, NotificationProcess(post)).start(context)
+        NotificationUnsuccessProcess(throwable, post.id.toInt(), NotificationProcess(post)).start(context)
     }
 
     /* Calls when write external storage permission was denied */

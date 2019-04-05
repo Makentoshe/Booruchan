@@ -24,6 +24,7 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+        <activity android:name=".screen.report.ReportActivity"/>
         <receiver android:name=".AppBroadcastReceiver"
                   android:enabled="true"
                   android:exported="true"/>

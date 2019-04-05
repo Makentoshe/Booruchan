@@ -25,4 +25,9 @@ object RequestCode {
      * Request code for images
      */
     val image = 7
+
+    /**
+     * Request code for notifications exceptions
+     */
+    val notificationError = 8
 }
