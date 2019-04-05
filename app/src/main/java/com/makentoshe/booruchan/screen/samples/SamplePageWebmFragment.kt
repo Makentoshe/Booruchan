@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.ExoPlayerFactory
@@ -27,6 +28,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import org.jetbrains.anko.AnkoContext
+import org.jetbrains.anko.find
 
 class SamplePageWebmFragment : Fragment() {
 
@@ -71,13 +73,18 @@ class SamplePageWebmFragment : Fragment() {
      */
     private fun onSuccess(view: View, url: String) {
         val playerview = view.findViewById<PlayerView>(R.id.samples_webm)
-        playerview.visibility = View.VISIBLE
         playerview.player = exoPlayer.apply { prepare(createMediaSource(url)) }
         playerview.hideController()
         playerview.setGestureListener {
             onDown { playerview.performClick() }
             onLongPress { showOptionsList(booru, post) }
         }
+        //hide progress bar
+        view.find<View>(R.id.samples_progress).visibility = View.GONE
+        //hide preview image
+        view.find<ImageView>(R.id.samples_preview).visibility = View.GONE
+        //show player view
+        playerview.visibility = View.VISIBLE
     }
 
     //create media source from url

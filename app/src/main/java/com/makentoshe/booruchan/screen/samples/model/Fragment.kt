@@ -27,6 +27,7 @@ fun Fragment.onError(root: View, throwable: Throwable) {
     val messageview = root.find<TextView>(R.id.samples_message)
     messageview.visibility = View.VISIBLE
     messageview.text = throwable.localizedMessage
+    messageview.bringToFront()
 }
 
 /**

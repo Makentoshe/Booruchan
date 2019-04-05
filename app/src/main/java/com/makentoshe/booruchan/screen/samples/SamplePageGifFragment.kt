@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.api.Booru
@@ -68,6 +69,8 @@ class SamplePageGifFragment : Fragment() {
     private fun onSuccess(view: View, drawable: GifDrawable) {
         //hide progress bar
         view.find<View>(R.id.samples_progress).visibility = View.GONE
+        //hide preview image
+        view.find<ImageView>(R.id.samples_preview).visibility = View.GONE
         //setup gif view
         view.find<GifImageView>(R.id.samples_gif).apply {
             visibility = View.VISIBLE

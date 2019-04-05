@@ -112,4 +112,5 @@
     <item name="setting_stream_download_checkbox" type="id"/>
     <item name="report_toolbar" type="id"/>
     <item name="report_body" type="id"/>
+    <item name="samples_preview" type="id"/>
 </resources>

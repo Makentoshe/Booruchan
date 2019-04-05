@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import com.davemorrissey.labs.subscaleview.ImageSource
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView
@@ -68,7 +69,9 @@ class SamplePageImageFragment : Fragment() {
     private fun onSuccess(view: View, bitmap: Bitmap) {
         //hide progress bar
         view.find<View>(R.id.samples_progress).visibility = View.GONE
-        //setup image view
+        //hide preview image
+        view.find<ImageView>(R.id.samples_preview).visibility = View.GONE
+        //setup full image
         view.find<SubsamplingScaleImageView>(R.id.samples_image).apply {
             visibility = View.VISIBLE
             setImage(ImageSource.bitmap(bitmap))
