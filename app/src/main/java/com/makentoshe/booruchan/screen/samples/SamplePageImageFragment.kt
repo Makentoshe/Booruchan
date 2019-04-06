@@ -52,7 +52,7 @@ class SamplePageImageFragment : Fragment() {
     }
 
     private val filesRepository by lazy {
-        val cache = ImageInternalCache(requireContext(), InternalCache.Type.SAMPLE)
+        val cache = ImageInternalCache(requireContext(), InternalCache.Type.FILE)
         val streamSource = StreamDownloadRepositoryDecoratorFile(StreamDownloadRepository(streamListener, booru))
         CachedRepository(cache, streamSource)
     }
