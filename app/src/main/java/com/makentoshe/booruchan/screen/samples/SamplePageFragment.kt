@@ -66,7 +66,7 @@ class SamplePageFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         //get post data
         val disposable = Single.just(postsRepository)
-            .subscribeOn(Schedulers.newThread())
+            .subscribeOn(Schedulers.io())
             .map { it.get(Posts.Request(1, tags, position))!![0] }
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(::onSubscribe)
@@ -102,7 +102,7 @@ class SamplePageFragment : Fragment() {
     /* Loads preview image */
     private fun onPostLoaded(post: Post) {
         disposables.add = Single.just(post)
-            .subscribeOn(Schedulers.newThread())
+            .subscribeOn(Schedulers.io())
             .map { previewsRepository.get(it) }
             .map { BitmapFactory.decodeByteArray(it, 0, it.size) }
             .observeOn(AndroidSchedulers.mainThread())

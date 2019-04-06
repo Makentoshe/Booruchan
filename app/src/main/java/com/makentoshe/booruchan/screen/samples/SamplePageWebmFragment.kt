@@ -55,8 +55,8 @@ class SamplePageWebmFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         //get webm uri
         val disposable = Single.just(post)
-            .subscribeOn(Schedulers.newThread())
-            .map { booru.getCustom(mapOf("Range" to "bytes=0-1")).request(it.sampleUrl) }
+            .subscribeOn(Schedulers.io())
+            .map { booru.headCustom().request(it.sampleUrl) }
             .map { it.url.toURI().toString() }
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(::onSubscribe)

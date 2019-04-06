@@ -87,7 +87,7 @@ class PostsPageFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val disposable = Single.just(postsRepository)
-            .subscribeOn(Schedulers.newThread())
+            .subscribeOn(Schedulers.io())
             .map { it.get(Posts.Request(getItemsCountInRequest(requireContext()), tags, position))!! }
             .observeOn(AndroidSchedulers.mainThread())
             .doOnError { onError(view, it) }

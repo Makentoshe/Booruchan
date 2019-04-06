@@ -49,7 +49,7 @@ fun loadFromRepository(
     repository: Repository<Post, ByteArray>,
     onSubscribe: (ByteArray?, Throwable?) -> Unit
 ) = Single.just(post)
-    .subscribeOn(Schedulers.newThread())
+    .subscribeOn(Schedulers.io())
     .map { repository.get(it) }
     .observeOn(AndroidSchedulers.mainThread())
     .subscribe { b, t -> onSubscribe(b, t) }
