@@ -4,9 +4,10 @@ import com.makentoshe.booruchan.api.Post
 import com.makentoshe.booruchan.repository.Repository
 import com.makentoshe.booruchan.repository.StreamDownloadRepository
 
-class StreamDownloadRepositoryDecorator(private val streamDownloadRepository: StreamDownloadRepository) :
-    Repository<Post, ByteArray> {
+class StreamDownloadRepositoryDecoratorFile(
+    private val streamDownloadRepository: StreamDownloadRepository
+) : Repository<Post, ByteArray> {
     override fun get(key: Post): ByteArray? {
-        return streamDownloadRepository.get(key.sampleUrl)
+        return streamDownloadRepository.get(key.fileUrl)
     }
 }

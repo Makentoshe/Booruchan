@@ -15,11 +15,13 @@ import com.makentoshe.booruchan.api.Booru
 import com.makentoshe.booruchan.api.Post
 import com.makentoshe.booruchan.model.StreamDownloadListener
 import com.makentoshe.booruchan.model.arguments
+import com.makentoshe.booruchan.repository.Repository
 import com.makentoshe.booruchan.repository.StreamDownloadRepository
 import com.makentoshe.booruchan.repository.cache.ImageInternalCache
 import com.makentoshe.booruchan.repository.cache.InternalCache
 import com.makentoshe.booruchan.repository.decorator.CachedRepository
-import com.makentoshe.booruchan.repository.decorator.StreamDownloadRepositoryDecorator
+import com.makentoshe.booruchan.repository.decorator.StreamDownloadRepositoryDecoratorFile
+import com.makentoshe.booruchan.repository.decorator.StreamDownloadRepositoryDecoratorSample
 import com.makentoshe.booruchan.screen.samples.model.onError
 import com.makentoshe.booruchan.screen.samples.model.showOptionsList
 import com.makentoshe.booruchan.screen.samples.view.SamplePageImageUi
@@ -45,13 +47,17 @@ class SamplePageImageFragment : Fragment() {
 
     private val samplesRepository by lazy {
         val cache = ImageInternalCache(requireContext(), InternalCache.Type.SAMPLE)
-        val streamSource = StreamDownloadRepositoryDecorator(StreamDownloadRepository(streamListener, booru))
+        val streamSource = StreamDownloadRepositoryDecoratorSample(StreamDownloadRepository(streamListener, booru))
         CachedRepository(cache, streamSource)
     }
 
-    private val streamListener by lazy {
-        StreamDownloadListener()
+    private val filesRepository by lazy {
+        val cache = ImageInternalCache(requireContext(), InternalCache.Type.SAMPLE)
+        val streamSource = StreamDownloadRepositoryDecoratorFile(StreamDownloadRepository(streamListener, booru))
+        CachedRepository(cache, streamSource)
     }
+
+    private val streamListener by lazy { StreamDownloadListener() }
 
     private val disposables = CompositeDisposable()
 
@@ -59,25 +65,52 @@ class SamplePageImageFragment : Fragment() {
         return SamplePageImageUi().createView(AnkoContext.create(requireContext(), this))
     }
 
+    /* Starts loading image file */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val progressview = parentFragment!!.view!!.find<CircularProgressBar>(R.id.samples_progress_concrete)
         streamListener.onPartReceived { _, _, progress ->
             runOnUiThread { progressview.setProgress((100 * progress).toInt()) }
         }
+        loadFromRepository(samplesRepository) { b, t -> onSampleReceived(b, t) }
+    }
+
+    /* Performs loading image file from repository */
+    private fun loadFromRepository(
+        repository: Repository<Post, ByteArray>,
+        onSubscribe: (ByteArray?, Throwable?) -> Unit
+    ) {
         val disposable = Single.just(post)
             .subscribeOn(Schedulers.newThread())
-            .map { samplesRepository.get(it) }
-            .map { BitmapFactory.decodeByteArray(it, 0, it.size) }
+            .map { repository.get(it) }
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(::onSubscribe)
+            .subscribe { b, t -> onSubscribe(b, t) }
         disposables.add(disposable)
     }
 
-    private fun onSubscribe(bitmap: Bitmap?, throwable: Throwable?) {
+    /* Calls on loading finished. It can be success or failed*/
+    private fun onSampleReceived(byteArray: ByteArray?, throwable: Throwable?) {
         val pview = parentFragment!!.view!!
-        if (throwable == null) onSuccess(pview, bitmap!!) else onError(pview, throwable)
+        //if error
+        if (throwable != null) return onError(pview, throwable)
+        //if byte array was downloaded and decoded to a bitmap
+        val bitmap = byteArray?.toBitmap()
+        if (bitmap != null) return onSuccess(pview, bitmap)
+        //if bitmap was downloaded but decode was failed
+        //second try with files repository
+        loadFromRepository(filesRepository) { b, t -> onFileReceived(b, t) }
     }
 
+    private fun onFileReceived(byteArray: ByteArray?, throwable: Throwable?) {
+        val pview = parentFragment!!.view!!
+        //if error
+        if (throwable != null) return onError(pview, throwable)
+        //if byte array was downloaded and decoded to a bitmap
+        val bitmap = byteArray?.toBitmap()
+        if (bitmap != null) return onSuccess(pview, bitmap)
+        else onError(pview, Throwable("Image decode failed."))
+    }
+
+    /* Calls on image was successfully loaded. Setup the image into the view*/
     private fun onSuccess(view: View, bitmap: Bitmap) {
         //hide progress bar
         view.find<View>(R.id.samples_progress).visibility = View.GONE
@@ -89,6 +122,11 @@ class SamplePageImageFragment : Fragment() {
             setImage(ImageSource.bitmap(bitmap))
             onLongClick { showOptionsList(booru, post) }
         }
+    }
+
+    /* Decode bitmap from byte array */
+    private fun ByteArray.toBitmap(): Bitmap? {
+        return BitmapFactory.decodeByteArray(this, 0, size)
     }
 
     override fun onDestroy() {
