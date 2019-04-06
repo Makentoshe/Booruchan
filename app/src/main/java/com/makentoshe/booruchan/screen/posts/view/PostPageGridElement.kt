@@ -11,11 +11,14 @@ class PostPageGridElement : AnkoComponent<Context> {
         cardView {
             radius = 0f
             elevation = dip(4).toFloat()
-            imageView {
-                setPadding(dip(4), dip(4), dip(4), dip(4))
-                id = R.id.posts_page_gridview_element_image
-            }.lparams(matchParent, matchParent)
             lparams(dip(100), dip(100))
+
+            relativeLayout {
+                imageView {
+                    setPadding(dip(4), dip(4), dip(4), dip(4))
+                    id = R.id.posts_page_gridview_element_image
+                }.lparams(matchParent, matchParent)
+            }.lparams(matchParent, matchParent)
         }
     }
 }
