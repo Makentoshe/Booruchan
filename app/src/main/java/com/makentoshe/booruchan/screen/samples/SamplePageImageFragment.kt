@@ -14,22 +14,20 @@ import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.api.Booru
 import com.makentoshe.booruchan.api.Post
 import com.makentoshe.booruchan.model.StreamDownloadListener
+import com.makentoshe.booruchan.model.add
 import com.makentoshe.booruchan.model.arguments
-import com.makentoshe.booruchan.repository.Repository
 import com.makentoshe.booruchan.repository.StreamDownloadRepository
 import com.makentoshe.booruchan.repository.cache.ImageInternalCache
 import com.makentoshe.booruchan.repository.cache.InternalCache
 import com.makentoshe.booruchan.repository.decorator.CachedRepository
 import com.makentoshe.booruchan.repository.decorator.StreamDownloadRepositoryDecoratorFile
 import com.makentoshe.booruchan.repository.decorator.StreamDownloadRepositoryDecoratorSample
+import com.makentoshe.booruchan.screen.samples.model.loadFromRepository
 import com.makentoshe.booruchan.screen.samples.model.onError
 import com.makentoshe.booruchan.screen.samples.model.showOptionsList
 import com.makentoshe.booruchan.screen.samples.view.SamplePageImageUi
 import com.makentoshe.booruchan.view.CircularProgressBar
-import io.reactivex.Single
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.schedulers.Schedulers
 import org.jetbrains.anko.AnkoContext
 import org.jetbrains.anko.find
 import org.jetbrains.anko.sdk27.coroutines.onLongClick
@@ -71,20 +69,7 @@ class SamplePageImageFragment : Fragment() {
         streamListener.onPartReceived { _, _, progress ->
             runOnUiThread { progressview.setProgress((100 * progress).toInt()) }
         }
-        loadFromRepository(samplesRepository) { b, t -> onSampleReceived(b, t) }
-    }
-
-    /* Performs loading image file from repository */
-    private fun loadFromRepository(
-        repository: Repository<Post, ByteArray>,
-        onSubscribe: (ByteArray?, Throwable?) -> Unit
-    ) {
-        val disposable = Single.just(post)
-            .subscribeOn(Schedulers.newThread())
-            .map { repository.get(it) }
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe { b, t -> onSubscribe(b, t) }
-        disposables.add(disposable)
+        disposables.add = loadFromRepository(post, samplesRepository) { b, t -> onSampleReceived(b, t) }
     }
 
     /* Calls on loading finished. It can be success or failed*/
@@ -97,7 +82,7 @@ class SamplePageImageFragment : Fragment() {
         if (bitmap != null) return onSuccess(pview, bitmap)
         //if bitmap was downloaded but decode was failed
         //second try with files repository
-        loadFromRepository(filesRepository) { b, t -> onFileReceived(b, t) }
+        disposables.add = loadFromRepository(post, filesRepository) { b, t -> onFileReceived(b, t) }
     }
 
     private fun onFileReceived(byteArray: ByteArray?, throwable: Throwable?) {
