@@ -6,7 +6,11 @@ import androidx.fragment.app.Fragment
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.api.Booru
 import com.makentoshe.booruchan.api.Post
+import com.makentoshe.booruchan.repository.Repository
 import com.makentoshe.booruchan.screen.samples.SampleOptionFragment
+import io.reactivex.Single
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import org.jetbrains.anko.find
 
 /**
@@ -37,3 +41,15 @@ fun Fragment.showOptionsList(booru: Booru, post: Post) {
     SampleOptionFragment.create(booru, post)
         .show(childFragmentManager, SampleOptionFragment::class.java.simpleName)
 }
+
+
+/* Performs loading image file from repository */
+fun loadFromRepository(
+    post: Post,
+    repository: Repository<Post, ByteArray>,
+    onSubscribe: (ByteArray?, Throwable?) -> Unit
+) = Single.just(post)
+    .subscribeOn(Schedulers.newThread())
+    .map { repository.get(it) }
+    .observeOn(AndroidSchedulers.mainThread())
+    .subscribe { b, t -> onSubscribe(b, t) }

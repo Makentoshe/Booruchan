@@ -10,20 +10,20 @@ import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.api.Booru
 import com.makentoshe.booruchan.api.Post
 import com.makentoshe.booruchan.model.StreamDownloadListener
+import com.makentoshe.booruchan.model.add
 import com.makentoshe.booruchan.model.arguments
 import com.makentoshe.booruchan.repository.StreamDownloadRepository
 import com.makentoshe.booruchan.repository.cache.ImageInternalCache
 import com.makentoshe.booruchan.repository.cache.InternalCache
 import com.makentoshe.booruchan.repository.decorator.CachedRepository
+import com.makentoshe.booruchan.repository.decorator.StreamDownloadRepositoryDecoratorFile
 import com.makentoshe.booruchan.repository.decorator.StreamDownloadRepositoryDecoratorSample
+import com.makentoshe.booruchan.screen.samples.model.loadFromRepository
 import com.makentoshe.booruchan.screen.samples.model.onError
 import com.makentoshe.booruchan.screen.samples.model.showOptionsList
 import com.makentoshe.booruchan.screen.samples.view.SamplePageGifUi
 import com.makentoshe.booruchan.view.CircularProgressBar
-import io.reactivex.Single
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.schedulers.Schedulers
 import org.jetbrains.anko.AnkoContext
 import org.jetbrains.anko.find
 import org.jetbrains.anko.sdk27.coroutines.onLongClick
@@ -48,6 +48,13 @@ class SamplePageGifFragment : Fragment() {
         CachedRepository(cache, source)
     }
 
+    private val filesRepository by lazy {
+        val cache = ImageInternalCache(requireContext(), InternalCache.Type.FILE)
+        val streamSource = StreamDownloadRepository(streamListener, booru)
+        val source = StreamDownloadRepositoryDecoratorFile(streamSource)
+        CachedRepository(cache, source)
+    }
+
     private val streamListener by lazy { StreamDownloadListener() }
 
     private val disposables = CompositeDisposable()
@@ -62,22 +69,37 @@ class SamplePageGifFragment : Fragment() {
             runOnUiThread { progressview.setProgress((100 * progress).toInt()) }
         }
 
-        val disposable = Single.just(post)
-            .subscribeOn(Schedulers.newThread())
-            .map { samplesRepository.get(it) }
-            .map { GifDrawable(it) }
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(::onSubscribe)
+        val disposable = loadFromRepository(post, samplesRepository) { b, t ->
+            onSampleReceive(if (b != null) GifDrawable(b) else null, t)
+        }
         disposables.add(disposable)
     }
 
-    private fun onSubscribe(drawable: GifDrawable?, throwable: Throwable?) {
+    private fun onSampleReceive(drawable: GifDrawable?, throwable: Throwable?) {
         //get root view from parent fragment
         val pview = parentFragment!!.view!!
 
-        if (throwable == null) onSuccess(pview, drawable!!) else onError(pview, throwable)
+        if (throwable != null) return onError(pview, throwable)
+
+        if (drawable != null) return onSuccess(pview, drawable)
+
+        disposables.add = loadFromRepository(post, filesRepository) { b, t ->
+            onFileReceive(if (b != null) GifDrawable(b) else null, t)
+        }
     }
 
+    private fun onFileReceive(drawable: GifDrawable?, throwable: Throwable?) {
+        //get root view from parent fragment
+        val pview = parentFragment!!.view!!
+
+        if (throwable != null) return onError(pview, throwable)
+
+        if (drawable != null) return onSuccess(pview, drawable)
+
+        onError(pview, Throwable("Gif decode failed."))
+    }
+
+    /* Calls when gif image was successfully downloaded */
     private fun onSuccess(view: View, drawable: GifDrawable) {
         //hide progress bar
         view.find<View>(R.id.samples_progress).visibility = View.GONE
