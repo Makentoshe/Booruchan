@@ -16,6 +16,11 @@ class SamplePageUiProgressBar : AnkoComponent<_RelativeLayout> {
         relativeLayout {
             id = R.id.samples_progress
 
+            imageView {
+                setImageResource(R.drawable.ic_circle_closed)
+                imageAlpha = 200
+            }.lparams(dip(64), dip(64)) { centerInParent() }
+
             themedProgressBar(style.progress) {
                 isIndeterminate = true
                 indeterminateDrawable.setColorFilter(
@@ -29,11 +34,11 @@ class SamplePageUiProgressBar : AnkoComponent<_RelativeLayout> {
                 setProgressColor(getColorFromStyle(R.attr.colorPrimary))
                 setTextColor(Color.TRANSPARENT)
                 setProgressWidth(10)
-            }.lparams(dip(52), dip(52))
+            }.lparams(dip(52), dip(52)) { centerInParent() }
 
-        }.lparams {
-            centerInParent()
-        }
+
+
+        }.lparams { centerInParent() }
     }
 
     private fun ViewManager.circularProgressBar(init: CircularProgressBar.() -> Unit): CircularProgressBar {
