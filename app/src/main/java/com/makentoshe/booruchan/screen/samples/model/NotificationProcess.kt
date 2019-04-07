@@ -18,7 +18,7 @@ class NotificationProcess(private val post: Post) {
         val appName = context.getString(R.string.app_name)
         val builder = NotificationCompat.Builder(context, appName)
         //set application icon
-        builder.setSmallIcon(R.drawable.ic_launcher_foreground)
+        builder.setSmallIcon(android.R.drawable.sym_def_app_icon)
         //set application name as a title
         builder.setContentTitle(appName)
 
