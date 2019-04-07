@@ -128,8 +128,17 @@ class PostsPageFragment : Fragment() {
         val progress = view.find<ProgressBar>(R.id.posts_page_progress)
         val message = view.find<TextView>(R.id.posts_page_textview)
 
-        progress.visibility = View.GONE
         message.text = throwable.localizedMessage
+        message.visibility = View.VISIBLE
+        progress.visibility = View.GONE
+
+        view.setOnClickListener {
+            progress.visibility = View.VISIBLE
+            message.text = ""
+            message.visibility = View.GONE
+            view.setOnClickListener(null)
+            onViewCreated(view, null)
+        }
     }
 
     override fun onDestroyView() {
