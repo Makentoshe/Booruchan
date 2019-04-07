@@ -127,8 +127,9 @@ class PostsPageFragment : Fragment() {
     private fun onError(view: View, throwable: Throwable) {
         val progress = view.find<ProgressBar>(R.id.posts_page_progress)
         val message = view.find<TextView>(R.id.posts_page_textview)
-
-        message.text = throwable.localizedMessage
+        val messagetext = StringBuilder(throwable.localizedMessage).append("\n")
+        messagetext.append(R.string.tap_for_retry)
+        message.text = messagetext
         message.visibility = View.VISIBLE
         progress.visibility = View.GONE
 
