@@ -25,6 +25,7 @@ class StreamDownloadRepository(
     }
 
     private fun loadFully(url: String): ByteArray {
+        println("Load full")
         return booru.getCustom().request(url).stream.readBytes()
     }
 

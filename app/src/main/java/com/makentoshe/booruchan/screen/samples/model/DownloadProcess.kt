@@ -5,7 +5,8 @@ import android.os.Handler
 import android.os.Looper
 import com.makentoshe.booruchan.api.Booru
 import com.makentoshe.booruchan.api.Post
-import com.makentoshe.booruchan.model.StreamDownload
+import com.makentoshe.booruchan.model.StreamDownloadListener
+import com.makentoshe.booruchan.repository.StreamDownloadRepository
 import com.makentoshe.booruchan.screen.settings.AppSettings
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -44,26 +45,24 @@ class DownloadProcess(
     }
 
     private fun startStreamDownload(context: Context, result: (DownloadedData?, Throwable?) -> Unit) {
-        //init streaming download
-        val streamDownload = StreamDownload(ccontext, booru, 1024 * 64)
         //add listeners
-        streamDownload.addListener {
-            onComplete {
-                //return to main thread
-                Handler(Looper.getMainLooper()).post { result(it.toDownloadData(post, booru), null) }
-            }
+        val listener = StreamDownloadListener().apply {
             onPartReceived { length, _, progress ->
                 NotificationProcess(post).start(context) {
                     setProgress(100, (progress * 100).toInt(), false)
                     setContentText("${length * progress}/$length bytes")
                 }
             }
-            onError {
-                NotificationUnsuccessProcess(it, post.id.toInt(), NotificationProcess(post)).start(context)
+        }
+        //init streaming download
+        GlobalScope.launch(ccontext) {
+            try {
+                val byteArray = StreamDownloadRepository(listener, booru).get(post.fileUrl)
+                Handler(Looper.getMainLooper()).post { result(byteArray.toDownloadData(post, booru), null) }
+            } catch (e: Exception) {
+                NotificationUnsuccessProcess(e, post.id.toInt(), NotificationProcess(post)).start(context)
             }
         }
-        //start download
-        streamDownload.download(post.fileUrl)
     }
 
     private fun ByteArray.toDownloadData(post: Post, booru: Booru): DownloadedData {
