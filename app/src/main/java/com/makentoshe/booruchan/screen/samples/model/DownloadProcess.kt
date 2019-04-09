@@ -6,6 +6,8 @@ import android.os.Looper
 import com.makentoshe.booruchan.api.Booru
 import com.makentoshe.booruchan.api.Post
 import com.makentoshe.booruchan.model.StreamDownloadListener
+import com.makentoshe.booruchan.notification.NotificationProcess
+import com.makentoshe.booruchan.notification.NotificationUnsuccessProcess
 import com.makentoshe.booruchan.repository.StreamDownloadRepository
 import com.makentoshe.booruchan.screen.settings.AppSettings
 import kotlinx.coroutines.GlobalScope
@@ -60,7 +62,11 @@ class DownloadProcess(
                 val byteArray = StreamDownloadRepository(listener, booru).get(post.fileUrl)
                 Handler(Looper.getMainLooper()).post { result(byteArray.toDownloadData(post, booru), null) }
             } catch (e: Exception) {
-                NotificationUnsuccessProcess(e, post.id.toInt(), NotificationProcess(post)).start(context)
+                NotificationUnsuccessProcess(
+                    e,
+                    post.id.toInt(),
+                    NotificationProcess(post)
+                ).start(context)
             }
         }
     }

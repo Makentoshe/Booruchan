@@ -7,8 +7,10 @@ import com.google.android.material.snackbar.Snackbar
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.api.Booru
 import com.makentoshe.booruchan.api.Post
+import com.makentoshe.booruchan.notification.NotificationProcess
+import com.makentoshe.booruchan.notification.NotificationSuccessProcess
+import com.makentoshe.booruchan.notification.NotificationUnsuccessProcess
 import com.makentoshe.booruchan.permission.PermissionRequester
-import com.makentoshe.booruchan.screen.settings.AppSettings
 import org.jetbrains.anko.longToast
 
 class DownloadIntoInternalStorageProcess(private val post: Post, private val booru: Booru) {
@@ -17,11 +19,7 @@ class DownloadIntoInternalStorageProcess(private val post: Post, private val boo
         //show notification that the loading was started
         NotificationProcess(post).start(context) {
             setProgress(1, 1, true)
-            if (AppSettings.getStreamingDownload(context)) {
-                setContentText(context.getString(R.string.prepare_to_download))
-            } else {
-                setContentText(context.getString(R.string.downloading))
-            }
+            setContentText(context.getString(R.string.downloading))
         }
         context.longToast(context.getString(R.string.download_was_started)).show()
         permissionRequester.requestPermission(permission) {
@@ -49,12 +47,19 @@ class DownloadIntoInternalStorageProcess(private val post: Post, private val boo
 
     /* Calls when file was successfully downloaded and displays a notification message */
     private fun fileWasSuccessfullyLoaded(context: Context, downloadedData: DownloadedData) {
-        NotificationSuccessProcess(downloadedData, NotificationProcess(post)).start(context)
+        NotificationSuccessProcess(
+            downloadedData,
+            NotificationProcess(post)
+        ).start(context)
     }
 
     /* Calls when error occurs while file was downloading */
     private fun fileWasUnsuccessfullyLoaded(context: Context, throwable: Throwable) {
-        NotificationUnsuccessProcess(throwable, post.id.toInt(), NotificationProcess(post)).start(context)
+        NotificationUnsuccessProcess(
+            throwable,
+            post.id.toInt(),
+            NotificationProcess(post)
+        ).start(context)
     }
 
     /* Calls when write external storage permission was denied */

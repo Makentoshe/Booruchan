@@ -1,4 +1,4 @@
-package com.makentoshe.booruchan.screen.samples.model
+package com.makentoshe.booruchan.notification
 
 import android.app.PendingIntent
 import android.content.Context

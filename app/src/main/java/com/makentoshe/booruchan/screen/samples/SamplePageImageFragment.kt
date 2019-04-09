@@ -72,7 +72,9 @@ class SamplePageImageFragment : Fragment() {
         }
         disposables.add = loadFromRepository(post, samplesRepository) { b, t -> onSampleReceived(b, t) }
         //on long click to the view
-        pview.onLongClick { showOptionsList(booru, post) }
+        view.onLongClick { showOptionsList(booru, post) }
+        //and on the preview
+        pview.find<ImageView>(R.id.samples_preview).onLongClick { showOptionsList(booru, post) }
     }
 
     /* Calls on loading finished. It can be success or failed*/

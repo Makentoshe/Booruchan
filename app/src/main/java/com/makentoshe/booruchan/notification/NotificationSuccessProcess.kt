@@ -1,4 +1,4 @@
-package com.makentoshe.booruchan.screen.samples.model
+package com.makentoshe.booruchan.notification
 
 import android.app.PendingIntent
 import android.content.Context
@@ -7,6 +7,8 @@ import android.graphics.BitmapFactory
 import androidx.core.app.NotificationCompat
 import com.makentoshe.booruchan.AppBroadcastReceiver
 import com.makentoshe.booruchan.R
+import com.makentoshe.booruchan.screen.samples.model.DownloadedData
+import com.makentoshe.booruchan.screen.samples.model.SaveProcess
 import java.io.File
 
 class NotificationSuccessProcess(
