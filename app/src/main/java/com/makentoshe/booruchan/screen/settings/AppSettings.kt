@@ -32,8 +32,19 @@ object AppSettings {
         return context.getSharedPreferences(APPLICATION, Context.MODE_PRIVATE).getBoolean(STREAM_DOWNLOAD, true)
     }
 
+    fun setWebmPlayingOnPlace(context: Context, boolean: Boolean) {
+        context.getSharedPreferences(APPLICATION, Context.MODE_PRIVATE).edit()
+            .putBoolean(WEBM_PLAYING, boolean).apply()
+    }
+
+    fun getWebmPlayingOnPlace(context: Context): Boolean {
+        return context.getSharedPreferences(APPLICATION, Context.MODE_PRIVATE).getBoolean(WEBM_PLAYING, true)
+    }
+
+
     private const val APPLICATION = "AppSettings"
     private const val NSFW = "NotSafeForWatching"
     private const val NSFW_ALERT = "NotSafeForWatchingAlert"
     private const val STREAM_DOWNLOAD = "StreamingDownload"
+    private const val WEBM_PLAYING = "WebMPlayingOnPlace"
 }

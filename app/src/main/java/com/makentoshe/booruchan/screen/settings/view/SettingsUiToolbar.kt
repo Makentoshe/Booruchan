@@ -1,4 +1,4 @@
-package com.makentoshe.booruchan.screen.settings
+package com.makentoshe.booruchan.screen.settings.view
 
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.style
