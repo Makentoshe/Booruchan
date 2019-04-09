@@ -1,40 +1,31 @@
-package com.makentoshe.booruchan.screen.samples
+package com.makentoshe.booruchan.screen.webmplayer
 
 import android.net.Uri
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
+import android.view.*
 import androidx.fragment.app.Fragment
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.ExoPlayerFactory
-import com.google.android.exoplayer2.Player.REPEAT_MODE_ALL
+import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.source.ExtractorMediaSource
 import com.google.android.exoplayer2.source.MediaSource
 import com.google.android.exoplayer2.ui.PlayerView
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.google.android.exoplayer2.util.Util
+import com.google.android.material.snackbar.Snackbar
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.api.Booru
 import com.makentoshe.booruchan.api.Post
 import com.makentoshe.booruchan.model.arguments
-import com.makentoshe.booruchan.router
-import com.makentoshe.booruchan.screen.samples.model.onError
 import com.makentoshe.booruchan.screen.samples.model.showOptionsList
-import com.makentoshe.booruchan.screen.samples.view.SamplePageWebmUi
-import com.makentoshe.booruchan.screen.settings.AppSettings
-import com.makentoshe.booruchan.screen.webmplayer.WebmPlayerScreen
 import com.makentoshe.booruchan.view.setGestureListener
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
-import org.jetbrains.anko.AnkoContext
-import org.jetbrains.anko.find
+import org.jetbrains.anko.*
 
-class SamplePageWebmFragment : Fragment() {
+class WebmPlayerFragment : Fragment() {
 
     private var booru: Booru
         get() = arguments!!.get(BOORU) as Booru
@@ -44,44 +35,31 @@ class SamplePageWebmFragment : Fragment() {
         get() = arguments!!.get(POST) as Post
         set(value) = arguments().putSerializable(POST, value)
 
-    private var position: Int
-        get() = arguments!!.getInt(POSITION)
-        set(value) = arguments().putInt(POSITION, value)
-
     private val disposables = CompositeDisposable()
 
     private val exoPlayer by lazy { createExoPlayerInstance() }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return SamplePageWebmUi().createView(AnkoContext.create(requireContext(), this))
+        return WebmPlayerUi().createView(AnkoContext.create(requireContext(), this))
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        if (AppSettings.getWebmPlayingOnPlace(requireContext()).not()) {
-            val pview = parentFragment!!.view!!
-            pview.find<View>(R.id.samples_progress).visibility = View.GONE
-            val messageview = pview.find<TextView>(R.id.samples_message)
-            messageview.setText(R.string.tap_to_play)
-            messageview.visibility = View.VISIBLE
-            messageview.bringToFront()
-            pview.setOnClickListener {
-                router.navigateTo(WebmPlayerScreen(booru, post))
-            }
-        } else {
-            //get webm uri
-            val disposable = Single.just(post)
-                .subscribeOn(Schedulers.io())
-                .map { booru.headCustom().request(it.sampleUrl) }
-                .map { it.url.toURI().toString() }
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(::onSubscribe)
-            disposables.add(disposable)
-        }
+        //get webm uri
+        val disposable = Single.just(post)
+            .subscribeOn(Schedulers.io())
+            .map { booru.headCustom().request(it.sampleUrl) }
+            .map { it.url.toURI().toString() }
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(::onSubscribe)
+        disposables.add(disposable)
     }
 
     private fun onSubscribe(url: String?, throwable: Throwable?) {
-        val pview = parentFragment!!.view ?: targetFragment!!.view!!
-        if (throwable == null) onSuccess(pview, url!!) else onError(pview, throwable)
+        if (throwable == null) {
+            onSuccess(view!!, url!!)
+        } else {
+            Snackbar.make(view!!, throwable.localizedMessage, Snackbar.LENGTH_LONG).show()
+        }
     }
 
     /**
@@ -95,10 +73,6 @@ class SamplePageWebmFragment : Fragment() {
             onDown { playerview.performClick() }
             onLongPress { showOptionsList(booru, post) }
         }
-        //hide progress bar
-        view.find<View>(R.id.samples_progress).visibility = View.GONE
-        //hide preview image
-        view.find<ImageView>(R.id.samples_preview).visibility = View.GONE
         //show player view
         playerview.visibility = View.VISIBLE
     }
@@ -113,7 +87,7 @@ class SamplePageWebmFragment : Fragment() {
 
     private fun createExoPlayerInstance(): ExoPlayer {
         val exoPlayer = ExoPlayerFactory.newSimpleInstance(requireContext())
-        exoPlayer.repeatMode = REPEAT_MODE_ALL
+        exoPlayer.repeatMode = Player.REPEAT_MODE_ALL
         return exoPlayer
     }
 
@@ -126,11 +100,9 @@ class SamplePageWebmFragment : Fragment() {
     companion object {
         private const val POST = "Post"
         private const val BOORU = "Booru"
-        private const val POSITION = "Position"
-        fun create(booru: Booru, post: Post, position: Int) = SamplePageWebmFragment().apply {
+        fun create(booru: Booru, post: Post) = WebmPlayerFragment().apply {
             this.booru = booru
             this.post = post
-            this.position = position
         }
     }
 }
