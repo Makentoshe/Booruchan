@@ -48,6 +48,7 @@
     <string name="enable_stream_download">Enable streaming download</string>
     <string name="prepare_to_download">Prepairings to download file</string>
     <string name="downloading">Downloading</string>
+    <string name="download">Download</string>
 
     <string-array name="post_properties">
         <item>Id</item>
@@ -59,6 +60,6 @@
         <item>Score</item>
     </string-array>
     <string-array name="sample_options">
-        <item>Download</item>
+        <item>@string/download</item>
     </string-array>
 </resources>

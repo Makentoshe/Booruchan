@@ -36,7 +36,7 @@ class SampleFragmentTest {
         position = Booruchan.INSTANCE.booruList.indexOf(Mockbooru::class.java)
         activity = activityTestRule.launchActivity(null)
         activity.setMockbooruFactory()
-        Espresso.onData(Matchers.anything())
+        Espresso.onData(Matchers.anything()).let { Thread.sleep(1000); it }
             .inAdapterView(
                 Matchers.allOf(
                     ViewMatchers.withId(R.id.posts_page_gridview),

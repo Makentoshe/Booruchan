@@ -114,4 +114,5 @@
     <item name="report_body" type="id"/>
     <item name="samples_preview" type="id"/>
     <item name="samples_progress_concrete" type="id"/>
+    <item name="samples_page" type="id"/>
 </resources>
