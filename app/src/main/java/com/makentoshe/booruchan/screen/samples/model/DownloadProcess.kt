@@ -6,8 +6,6 @@ import android.os.Looper
 import com.makentoshe.booruchan.api.Booru
 import com.makentoshe.booruchan.api.Post
 import com.makentoshe.booruchan.model.StreamDownloadListener
-import com.makentoshe.booruchan.notification.NotificationProcess
-import com.makentoshe.booruchan.notification.NotificationUnsuccessProcess
 import com.makentoshe.booruchan.repository.StreamDownloadRepository
 import com.makentoshe.booruchan.screen.settings.AppSettings
 import kotlinx.coroutines.GlobalScope

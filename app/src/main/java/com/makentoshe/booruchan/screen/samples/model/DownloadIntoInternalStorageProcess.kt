@@ -7,9 +7,6 @@ import com.google.android.material.snackbar.Snackbar
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.api.Booru
 import com.makentoshe.booruchan.api.Post
-import com.makentoshe.booruchan.notification.NotificationProcess
-import com.makentoshe.booruchan.notification.NotificationSuccessProcess
-import com.makentoshe.booruchan.notification.NotificationUnsuccessProcess
 import com.makentoshe.booruchan.permission.PermissionRequester
 import org.jetbrains.anko.longToast
 
