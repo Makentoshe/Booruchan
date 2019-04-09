@@ -20,11 +20,7 @@ class DownloadProcess(
 ) {
 
     fun start(context: Context, result: (DownloadedData?, Throwable?) -> Unit) {
-        if (AppSettings.getStreamingDownload(context)) {
-            startStreamDownload(context, result)
-        } else {
-            startDefaultDownload(result)
-        }
+        startStreamDownload(context, result)
     }
 
     private fun startDefaultDownload(result: (DownloadedData?, Throwable?) -> Unit) {
