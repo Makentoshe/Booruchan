@@ -114,4 +114,9 @@
     <item name="report_body" type="id"/>
     <item name="samples_preview" type="id"/>
     <item name="samples_progress_concrete" type="id"/>
+    <item name="samples_page" type="id"/>
+    <item name="setting_webm_on_place" type="id"/>
+    <item name="setting_webm_on_place_checkbox" type="id"/>
+    <item name="samples_webm_container" type="id"/>
+    <item name="posts_page_gridview_element_type" type="id"/>
 </resources>

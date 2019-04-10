@@ -20,14 +20,23 @@ class StreamDownloadRepository(
     override fun get(key: String): ByteArray {
         //check file length in bytes
         val length = booru.headCustom().request(key).length
-        var count = 0
+        //if length was not calculated (mb use proxy) just load
+        return if (length == -1L) loadFully(key) else loadParts(length, key)
+    }
 
+    private fun loadFully(url: String): ByteArray {
+        println("Load full")
+        return booru.getCustom().request(url).stream.readBytes()
+    }
+
+    private fun loadParts(length: Long, url: String): ByteArray {
+        var count = 0
         while (true) {
             //calc segment
             start = end - 1
             end += bufferSize
             //get segment bytes and write to buffer
-            val response = booru.getCustom(mapOf("Range" to "bytes=$start-$end")).request(key)
+            val response = booru.getCustom(mapOf("Range" to "bytes=$start-$end")).request(url)
             val bytes = response.stream.readBytes()
             buffer.write(bytes)
             //invoke listener the segment was received

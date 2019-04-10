@@ -30,13 +30,13 @@ class SampleFragmentTest {
 
     @Before
     fun init() {
+        RxAndroidPlugins.setInitMainThreadSchedulerHandler { Schedulers.from { activity.runOnUiThread(it) } }
         Booruchan.INSTANCE.settings.setNsfw(Booruchan.INSTANCE.applicationContext, true)
         Booruchan.INSTANCE.booruList.add(Mockbooru::class.java)
         position = Booruchan.INSTANCE.booruList.indexOf(Mockbooru::class.java)
         activity = activityTestRule.launchActivity(null)
-        RxAndroidPlugins.setInitMainThreadSchedulerHandler { Schedulers.from { activity.runOnUiThread(it) } }
         activity.setMockbooruFactory()
-        Espresso.onData(Matchers.anything())
+        Espresso.onData(Matchers.anything()).let { Thread.sleep(1000); it }
             .inAdapterView(
                 Matchers.allOf(
                     ViewMatchers.withId(R.id.posts_page_gridview),

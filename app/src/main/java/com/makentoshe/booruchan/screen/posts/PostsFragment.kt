@@ -33,6 +33,7 @@ import org.jetbrains.anko.find
 import org.jetbrains.anko.findOptional
 import org.jetbrains.anko.sdk27.coroutines.onClick
 import org.jetbrains.anko.subtitleResource
+import org.jetbrains.anko.support.v4.findOptional
 import org.jetbrains.anko.support.v4.onPageChangeListener
 import java.io.Serializable
 
@@ -161,6 +162,10 @@ class PostsFragment : Fragment() {
         tagsHolder.set.addAll(tags)
         //notify
         searchController.onNext(tags)
+        //change bottom bar indicator to the start
+        findOptional<TextView>(R.id.posts_bottombar_center_textview)?.text = "0"
+        //and hide the left button
+        findOptional<View>(R.id.posts_bottombar_left)?.visibility = View.INVISIBLE
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {

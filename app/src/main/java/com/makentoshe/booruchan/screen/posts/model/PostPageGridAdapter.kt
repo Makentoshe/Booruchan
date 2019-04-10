@@ -7,36 +7,42 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.ImageView
+import androidx.core.view.updateLayoutParams
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.api.Post
 import com.makentoshe.booruchan.repository.Repository
-import com.makentoshe.booruchan.repository.decorator.CachedRepository
-import com.makentoshe.booruchan.screen.posts.view.PostPageGridElement
+import com.makentoshe.booruchan.screen.posts.view.PostPageGridElementUi
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import org.jetbrains.anko.AnkoContext
+import org.jetbrains.anko.dip
 import org.jetbrains.anko.find
+import java.io.File
 
 class PostPageGridAdapter(
     private val context: Context,
     private val posts: List<Post>,
     private val previewsRepository: Repository<Post, ByteArray>,
     private val samplesRepository: Repository<Post, ByteArray>,
-    private val filesRepository: CachedRepository<Post, ByteArray>
+    private val filesRepository: Repository<Post, ByteArray>
 ) : BaseAdapter() {
 
     private var onSubscribe: ((Disposable) -> Unit)? = null
 
-    //contains completed Single observables which will gets bitmaps from repositories
-    private val observables = Array(posts.size) { index ->
-        Single.just(posts[index])
-            //performs mapping in new thread
+    private val elementsContainer by lazy {
+        GridElementsContainer().apply {
+            Array(posts.size) { add(buildGridElement(posts[it], it)) }
+        }
+    }
+
+    private fun buildGridElement(post: Post, position: Int): GridElement {
+        val observable = Single.just(post)
             .subscribeOn(Schedulers.newThread())
             .map { getPreviewBitmap(it) ?: getSampleBitmap(it) ?: getFileBitmap(it) }
-            //performs subscribe in main thread
             .observeOn(AndroidSchedulers.mainThread())
+        return GridElement(position, post, observable)
     }
 
     //Returns bitmap from previews repository or null
@@ -65,19 +71,36 @@ class PostPageGridAdapter(
     }
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
-        return convertView ?: PostPageGridElement().createView(AnkoContext.create(context)).apply {
-            val imageview = find<ImageView>(R.id.posts_page_gridview_element_image)
-            //subscribes on bitmap receive
-            val disposable = observables[position]
-                .doOnError {
-                    //calls when downloading failed
-                    it.printStackTrace()
-                }.subscribe { bitmap ->
-                    //calls when downloading success
-                    imageview.setImageBitmap(bitmap)
-                }
+        return convertView ?: PostPageGridElementUi().createView(AnkoContext.create(context)).apply {
+            val element = elementsContainer.get(position)
+            val disposable = element.observable.subscribe { bitmap, throwable ->
+                if (bitmap != null) onSuccess(element, bitmap, this) else onError(throwable)
+            }
             //send disposable to the listener
             onSubscribe?.invoke(disposable)
+        }
+    }
+
+    private fun onError(throwable: Throwable) {
+        //calls when downloading failed
+        throwable.printStackTrace()
+    }
+
+    private fun onSuccess(gridElement: GridElement, bitmap: Bitmap, view: View) {
+        val imageview = view.find<ImageView>(R.id.posts_page_gridview_element_image)
+        imageview.setImageBitmap(bitmap)
+
+        val typeview = view.find<ImageView>(R.id.posts_page_gridview_element_type)
+        when (File(gridElement.post.fileUrl).extension) {
+            "webm" -> {
+                typeview.setImageResource(R.drawable.ic_webm)
+                typeview.updateLayoutParams<ViewGroup.MarginLayoutParams> {
+                    setMargins(0, 0, context.dip(2), context.dip(2))
+                }
+            }
+            "gif" -> {
+                typeview.setImageResource(R.drawable.ic_gif)
+            }
         }
     }
 
@@ -92,4 +115,24 @@ class PostPageGridAdapter(
         onSubscribe = action
         return this
     }
+}
+
+class GridElement(
+    val position: Int,
+    val post: Post,
+    val observable: Single<Bitmap?>
+)
+
+class GridElementsContainer {
+
+    private val list = ArrayList<GridElement>()
+
+    fun add(element: GridElement) {
+        list.add(element)
+    }
+
+    fun get(index: Int): GridElement {
+        return list[index]
+    }
+
 }

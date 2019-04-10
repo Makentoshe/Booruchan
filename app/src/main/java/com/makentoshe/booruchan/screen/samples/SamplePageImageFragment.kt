@@ -65,11 +65,16 @@ class SamplePageImageFragment : Fragment() {
 
     /* Starts loading image file */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val progressview = parentFragment!!.view!!.find<CircularProgressBar>(R.id.samples_progress_concrete)
+        val pview = parentFragment!!.view!!
+        val progressview = pview.find<CircularProgressBar>(R.id.samples_progress_concrete)
         streamListener.onPartReceived { _, _, progress ->
             runOnUiThread { progressview.setProgress((100 * progress).toInt()) }
         }
         disposables.add = loadFromRepository(post, samplesRepository) { b, t -> onSampleReceived(b, t) }
+        //on long click to the view
+        view.onLongClick { showOptionsList(booru, post) }
+        //and on the preview
+        pview.find<ImageView>(R.id.samples_preview).onLongClick { showOptionsList(booru, post) }
     }
 
     /* Calls on loading finished. It can be success or failed*/
@@ -105,7 +110,6 @@ class SamplePageImageFragment : Fragment() {
         view.find<SubsamplingScaleImageView>(R.id.samples_image).apply {
             visibility = View.VISIBLE
             setImage(ImageSource.bitmap(bitmap))
-            onLongClick { showOptionsList(booru, post) }
         }
     }
 

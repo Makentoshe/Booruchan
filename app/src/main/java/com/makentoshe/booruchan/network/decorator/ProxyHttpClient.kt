@@ -33,6 +33,6 @@ class ProxyHttpClient(private val client: HttpClient, private val proxy: String)
     private fun getRedirectUrl(url: String): String {
         val redirectResult = proxy.httpPost(listOf("url" to url))
             .allowRedirects(false).response()
-        return redirectResult.second.headers["Location"]!![0]
+        return redirectResult.second.headers.getValue("Location")[0]
     }
 }

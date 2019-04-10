@@ -1,4 +1,4 @@
-package com.makentoshe.booruchan.screen.settings
+package com.makentoshe.booruchan.screen.settings.view
 
 import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
@@ -15,7 +15,8 @@ class SettingsUi : AnkoComponent<Fragment> {
             linearLayout {
                 orientation = LinearLayout.VERTICAL
                 SettingsUiNSFW().createView(AnkoContext.createDelegate(this))
-                SettingsUiStreamingDownload().createView(AnkoContext.createDelegate(this))
+                SettingsUiWebmOnPlace().createView(AnkoContext.createDelegate(this))
+//                SettingsUiStreamingDownload().createView(AnkoContext.createDelegate(this))
             }.lparams(matchParent, matchParent) {
                 below(R.id.settings_toolbar)
             }
