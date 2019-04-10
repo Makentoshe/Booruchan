@@ -16,22 +16,16 @@ class SettingsFragment : Fragment() {
         NsfwSettingController(this)
     }
 
-    private val streamDownloadSettingsController by lazy {
-        StreamDownloadSettingController(this)
-    }
-
     private val webmOnPlaceController by lazy {
         WebMPlayingOnPlaceController(this)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-//        appSettings.setNsfwAlert(requireContext(), true)
         return SettingsUi().createView(AnkoContext.create(requireContext(), this))
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         nsfwSettingController.onViewCreated()
-//        streamDownloadSettingsController.onViewCreated()
         webmOnPlaceController.onViewCreated()
     }
 
