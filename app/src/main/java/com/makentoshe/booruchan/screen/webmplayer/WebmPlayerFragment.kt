@@ -2,7 +2,9 @@ package com.makentoshe.booruchan.screen.webmplayer
 
 import android.net.Uri
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.ExoPlayerFactory
@@ -23,7 +25,7 @@ import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
-import org.jetbrains.anko.*
+import org.jetbrains.anko.AnkoContext
 
 class WebmPlayerFragment : Fragment() {
 
@@ -75,6 +77,7 @@ class WebmPlayerFragment : Fragment() {
         }
         //show player view
         playerview.visibility = View.VISIBLE
+        playerview.bringToFront()
     }
 
     //create media source from url

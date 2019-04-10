@@ -11,8 +11,7 @@ import org.jetbrains.anko.*
 import org.jetbrains.anko.custom.ankoView
 
 class WebmPlayerUi : AnkoComponent<Fragment> {
-    override fun createView(ui: AnkoContext<Fragment>): View =
-        with(ui) {
+    override fun createView(ui: AnkoContext<Fragment>): View = with(ui) {
         relativeLayout {
             lparams(matchParent, matchParent) { gravity =
                 Gravity.CENTER

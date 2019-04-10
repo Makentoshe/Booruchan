@@ -33,7 +33,6 @@ import org.jetbrains.anko.find
 import org.jetbrains.anko.findOptional
 import org.jetbrains.anko.sdk27.coroutines.onClick
 import org.jetbrains.anko.subtitleResource
-import org.jetbrains.anko.support.v4.find
 import org.jetbrains.anko.support.v4.findOptional
 import org.jetbrains.anko.support.v4.onPageChangeListener
 import java.io.Serializable
