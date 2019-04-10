@@ -10,8 +10,8 @@ android {
         applicationId "com.makentoshe.booruchan"
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 6
-        versionName "RC 5"
+        versionCode 7
+        versionName "RC 6"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
