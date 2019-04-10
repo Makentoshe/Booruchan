@@ -38,7 +38,7 @@ object AppSettings {
     }
 
     fun getWebmPlayingOnPlace(context: Context): Boolean {
-        return context.getSharedPreferences(APPLICATION, Context.MODE_PRIVATE).getBoolean(WEBM_PLAYING, true)
+        return context.getSharedPreferences(APPLICATION, Context.MODE_PRIVATE).getBoolean(WEBM_PLAYING, false)
     }
 
 

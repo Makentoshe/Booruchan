@@ -20,12 +20,12 @@ class WebMPlayingOnPlaceController(private val fragment: Fragment) {
 
     fun onViewCreated() {
         //set default setting
-        checkbox.isChecked = AppSettings.getStreamingDownload(context)
+        checkbox.isChecked = AppSettings.getWebmPlayingOnPlace(context)
         checkbox.setOnCheckedChangeListener { _, isChecked ->
             onCheck(isChecked)
         }
         view.setOnClickListener {
-            checkbox.isChecked = AppSettings.getStreamingDownload(context).not()
+            checkbox.isChecked = AppSettings.getWebmPlayingOnPlace(context).not()
         }
     }
 
