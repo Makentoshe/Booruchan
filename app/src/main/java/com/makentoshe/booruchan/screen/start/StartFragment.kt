@@ -75,7 +75,7 @@ class StartFragment : Fragment() {
     private fun onOverflowItemMenuClick(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.settings -> {
-                navigator.navigateToSettingsScreen(this)
+                navigator.navigateToSettingsScreen()
                 return true
             }
         }
@@ -87,5 +87,10 @@ class StartFragment : Fragment() {
             //update list view
             buildBooruListView(view!!)
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        println("Resume")
     }
 }
