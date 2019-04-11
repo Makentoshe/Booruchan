@@ -31,7 +31,7 @@ class SettingWithCheckUi(
         startOf(checkboxId)
     }
 
-    private fun _RelativeLayout.createCheckbox() = checkBox {
+    private fun _RelativeLayout.createCheckbox() = themedCheckBox(style.toolbar) {
         id = checkboxId
         gravity = Gravity.CENTER
     }.lparams(height = matchParent) {

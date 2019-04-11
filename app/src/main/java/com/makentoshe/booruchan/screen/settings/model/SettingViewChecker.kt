@@ -10,10 +10,8 @@ abstract class SettingViewChecker(
 ) : SettingView {
 
     override fun bind(context: Context) {
+        trigger.setOnCheckedChangeListener { _, isChecked -> onStateChanged(context, isChecked) }
         setDefaultSetting(context)
-        trigger.setOnCheckedChangeListener { _, isChecked ->
-            onStateChanged(context, isChecked)
-        }
     }
 
     abstract fun setDefaultSetting(context: Context)

@@ -1,4 +1,4 @@
-package com.makentoshe.booruchan.screen.settings.defaultscreen
+package com.makentoshe.booruchan.screen.settings.defaultscreen.model
 
 import android.content.Context
 import android.view.View
@@ -6,6 +6,7 @@ import android.widget.CheckBox
 import androidx.fragment.app.Fragment
 import com.makentoshe.booruchan.model.RequestCode
 import com.makentoshe.booruchan.screen.settings.AppSettings
+import com.makentoshe.booruchan.screen.settings.defaultscreen.SettingsNsfwAlertFragment
 import com.makentoshe.booruchan.screen.settings.model.SettingViewChecker
 
 class SettingViewCheckerNsfw(root: View, trigger: CheckBox) : SettingViewChecker(root, trigger) {

@@ -11,6 +11,7 @@ import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.model.RequestCode
 import com.makentoshe.booruchan.model.arguments
 import com.makentoshe.booruchan.screen.settings.AppSettings
+import com.makentoshe.booruchan.screen.settings.defaultscreen.model.SettingViewCheckerNsfw
 import com.makentoshe.booruchan.screen.settings.defaultscreen.view.SettingsDefaultUi
 import org.jetbrains.anko.AnkoContext
 import org.jetbrains.anko.find
