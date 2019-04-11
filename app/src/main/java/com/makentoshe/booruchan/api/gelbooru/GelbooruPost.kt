@@ -14,7 +14,8 @@ class GelbooruPost(
     override val rating: Post.Rating = parseRating(raw["rating"]),
     override val tags: Array<Tag> = parseTags(raw["tags"] ?: ""),
     override val previewHeight: Int = raw["preview_height"]?.toInt() ?: -1,
-    override val previewWidth: Int = raw["preview_width"]?.toInt() ?: -1
+    override val previewWidth: Int = raw["preview_width"]?.toInt() ?: -1,
+    override val source: String = raw["source"] ?: ""
 ) : Post {
 
     companion object {
