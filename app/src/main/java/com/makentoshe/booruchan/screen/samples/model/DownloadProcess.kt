@@ -7,7 +7,6 @@ import com.makentoshe.booruchan.api.Booru
 import com.makentoshe.booruchan.api.Post
 import com.makentoshe.booruchan.model.StreamDownloadListener
 import com.makentoshe.booruchan.repository.StreamDownloadRepository
-import com.makentoshe.booruchan.screen.settings.AppSettings
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import java.io.File

@@ -119,4 +119,7 @@
     <item name="setting_webm_on_place_checkbox" type="id"/>
     <item name="samples_webm_container" type="id"/>
     <item name="posts_page_gridview_element_type" type="id"/>
+    <item name="settings_viewpager" type="id"/>
+    <item name="settings_tab" type="id"/>
+    <item name="settings_container" type="id"/>
 </resources>

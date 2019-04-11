@@ -1,10 +1,11 @@
-package com.makentoshe.booruchan.screen.settings
+package com.makentoshe.booruchan.screen.settings.defaultscreen
 
 import android.view.View
 import android.widget.CheckBox
 import androidx.fragment.app.Fragment
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.model.RequestCode
+import com.makentoshe.booruchan.screen.settings.AppSettings
 import org.jetbrains.anko.find
 
 class NsfwSettingController(private val fragment: Fragment) {

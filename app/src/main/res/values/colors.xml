@@ -9,4 +9,5 @@
     <color name="MaterialPink800">#AD1457</color>
     <color name="MaterialPink600">#D81B60</color>
     <color name="MaterialIndigo200">#9fa8da</color>
+    <color name="MaterialGrey500">#9e9e9e</color>
 </resources>
