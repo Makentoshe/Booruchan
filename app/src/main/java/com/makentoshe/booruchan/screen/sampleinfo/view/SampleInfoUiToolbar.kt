@@ -38,9 +38,9 @@ class SampleInfoUiToolbar : AnkoComponent<_RelativeLayout> {
         SampleInfoUiToolbarConstr(
             R.id.sampleinfo_toolbar_tags,
             R.string.tags
-        ).createView(AnkoContext.createDelegate(this)).apply {
+        ) {
             createSearchIcon().visibility = View.GONE
-        }
+        }.createView(AnkoContext.createDelegate(this))
     }
 
     private fun _RelativeLayout.createSearchIcon() = themedFrameLayout(style.toolbar) {

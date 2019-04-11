@@ -8,7 +8,8 @@ import org.jetbrains.anko.*
 
 class SampleInfoUiToolbarConstr(
     @IdRes private val id: Int,
-    @StringRes private val text: Int
+    @StringRes private val text: Int,
+    private val action: _RelativeLayout.()-> Unit = {}
 ) : AnkoComponent<_RelativeLayout> {
 
     override fun createView(ui: AnkoContext<_RelativeLayout>) = with(ui.owner) {
@@ -19,6 +20,7 @@ class SampleInfoUiToolbarConstr(
                 textResource = this@SampleInfoUiToolbarConstr.text
                 setPadding(dip(16), dip(16), 0, dip(20))
             }.lparams { alignParentLeft() }
+            action()
         }.lparams(matchParent, matchParent)
     }
 }
