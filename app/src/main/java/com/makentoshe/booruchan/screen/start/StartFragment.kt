@@ -82,15 +82,9 @@ class StartFragment : Fragment() {
         return false
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (requestCode == RequestCode.settings) {
-            //update list view
-            buildBooruListView(view!!)
-        }
-    }
-
     override fun onResume() {
         super.onResume()
-        println("Resume")
+        //update list view if setting was changed in settings screen
+        buildBooruListView(view!!)
     }
 }
