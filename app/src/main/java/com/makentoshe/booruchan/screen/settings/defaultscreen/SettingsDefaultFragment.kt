@@ -49,6 +49,7 @@ class SettingsDefaultFragment : Fragment() {
             //no need display alert more
             AppSettings.setNsfwAlert(requireContext(), false)
         }
+        AppSettings.setNsfw(requireContext(), nsfwTrigger.isChecked)
     }
 
     companion object {
