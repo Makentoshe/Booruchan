@@ -60,7 +60,7 @@ class SampleInfoFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val disposable = Single.just(postsRepository)
-            .subscribeOn(Schedulers.newThread())
+            .subscribeOn(Schedulers.io())
             .map { it.get(Posts.Request(1, tags, position))!! }
             .observeOn(AndroidSchedulers.mainThread())
             .doOnError { onError(view, it) }

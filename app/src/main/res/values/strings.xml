@@ -51,6 +51,7 @@
     <string name="download">Download</string>
     <string name="enable_webm_playing_on_place">Enable WebM playing on place</string>
     <string name="tap_to_play">Tap to start playing</string>
+    <string name="source">Source</string>
 
     <string-array name="post_properties">
         <item>Id</item>

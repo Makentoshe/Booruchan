@@ -22,6 +22,9 @@
         <item name="colorAccent">@color/MaterialTeal900</item>
         <item name="android:textColorSecondary">@android:color/white</item>
         <item name="android:textColorPrimary">@android:color/white</item>
+        <item name="tabTextColor">@android:color/darker_gray</item>
+        <item name="android:colorControlNormal">@android:color/darker_gray</item>
+        <item name="tabSelectedTextColor">@android:color/white</item>
     </style>
 
     <style name="SotisProgress" parent="SotisDefault">

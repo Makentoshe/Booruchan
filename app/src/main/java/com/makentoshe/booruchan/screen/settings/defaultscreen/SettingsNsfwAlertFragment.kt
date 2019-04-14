@@ -1,4 +1,4 @@
-package com.makentoshe.booruchan.screen.settings
+package com.makentoshe.booruchan.screen.settings.defaultscreen
 
 import android.app.AlertDialog
 import android.app.Dialog

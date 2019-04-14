@@ -14,6 +14,7 @@ interface Post : Serializable {
     val creatorId: Long
     val rating: Rating
     val tags: Array<Tag>
+    val source: String
 
     enum class Rating {
         SAFE, QUESTIONABLE, EXPLICIT, UNSPECIFIED
@@ -43,6 +44,8 @@ interface Post : Serializable {
                 get() = -1
             override val previewHeight: Int
                 get() = -1
+            override val source: String
+                get() = ""
         }
     }
 }

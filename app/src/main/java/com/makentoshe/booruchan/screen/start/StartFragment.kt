@@ -75,17 +75,16 @@ class StartFragment : Fragment() {
     private fun onOverflowItemMenuClick(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.settings -> {
-                navigator.navigateToSettingsScreen(this)
+                navigator.navigateToSettingsScreen()
                 return true
             }
         }
         return false
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (requestCode == RequestCode.settings) {
-            //update list view
-            buildBooruListView(view!!)
-        }
+    override fun onResume() {
+        super.onResume()
+        //update list view if setting was changed in settings screen
+        buildBooruListView(view!!)
     }
 }

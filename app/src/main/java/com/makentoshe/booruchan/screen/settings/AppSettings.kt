@@ -11,11 +11,15 @@ object AppSettings {
     }
 
     fun getNsfw(context: Context): Boolean {
-        return context.getSharedPreferences(APPLICATION, Context.MODE_PRIVATE).getBoolean(NSFW, false)
+        return context.getSharedPreferences(APPLICATION, Context.MODE_PRIVATE).getBoolean(
+            NSFW, false
+        )
     }
 
     fun getNsfwAlert(context: Context): Boolean {
-        return context.getSharedPreferences(APPLICATION, Context.MODE_PRIVATE).getBoolean(NSFW_ALERT, true)
+        return context.getSharedPreferences(APPLICATION, Context.MODE_PRIVATE).getBoolean(
+            NSFW_ALERT, true
+        )
     }
 
     fun setNsfwAlert(context: Context, boolean: Boolean) {
@@ -29,7 +33,9 @@ object AppSettings {
     }
 
     fun getStreamingDownload(context: Context): Boolean {
-        return context.getSharedPreferences(APPLICATION, Context.MODE_PRIVATE).getBoolean(STREAM_DOWNLOAD, true)
+        return context.getSharedPreferences(APPLICATION, Context.MODE_PRIVATE).getBoolean(
+            STREAM_DOWNLOAD, true
+        )
     }
 
     fun setWebmPlayingOnPlace(context: Context, boolean: Boolean) {
@@ -38,9 +44,10 @@ object AppSettings {
     }
 
     fun getWebmPlayingOnPlace(context: Context): Boolean {
-        return context.getSharedPreferences(APPLICATION, Context.MODE_PRIVATE).getBoolean(WEBM_PLAYING, false)
+        return context.getSharedPreferences(APPLICATION, Context.MODE_PRIVATE).getBoolean(
+            WEBM_PLAYING, false
+        )
     }
-
 
     private const val APPLICATION = "AppSettings"
     private const val NSFW = "NotSafeForWatching"

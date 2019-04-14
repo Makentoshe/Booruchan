@@ -49,6 +49,7 @@ class FragmentNavigator(
             is Replace -> replace(command)
             is BackTo -> backTo(command)
             is Back -> back()
+            is ForwardWithReplace -> fragmentForwardWithReplace(command)
         }
     }
 
@@ -69,6 +70,26 @@ class FragmentNavigator(
 
         fragmentTransaction
             .add(containerId, fragment, screen.screenKey)
+            .addToBackStack(screen.screenKey)
+            .commit()
+        localStackCopy!!.add(screen.screenKey)
+    }
+
+    private fun fragmentForwardWithReplace(command: ForwardWithReplace) {
+        val screen = command.screen
+        val fragment = createFragment(screen)
+
+        val fragmentTransaction = fragmentManager.beginTransaction()
+
+        setupFragmentTransaction(
+            command,
+            fragmentManager.findFragmentById(containerId),
+            fragment,
+            fragmentTransaction
+        )
+
+        fragmentTransaction
+            .replace(containerId, fragment, screen.screenKey)
             .addToBackStack(screen.screenKey)
             .commit()
         localStackCopy!!.add(screen.screenKey)

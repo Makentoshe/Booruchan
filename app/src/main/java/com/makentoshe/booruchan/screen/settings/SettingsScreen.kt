@@ -4,9 +4,7 @@ import androidx.fragment.app.Fragment
 import com.makentoshe.booruchan.model.RequestCode
 import com.makentoshe.booruchan.navigation.Screen
 
-class SettingsScreen(private val target: Fragment) : Screen() {
+class SettingsScreen : Screen() {
     override val fragment: Fragment
-        get() = SettingsFragment().apply {
-            setTargetFragment(target, RequestCode.settings)
-        }
+        get() = SettingsFragment()
 }
