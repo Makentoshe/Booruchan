@@ -3,6 +3,7 @@ package com.makentoshe.booruchan.notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
+import android.graphics.Color
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
@@ -16,6 +17,7 @@ class NotificationBuilder {
         builder.setContentTitle(param.title)
         builder.setContentText(param.text)
         builder.setSmallIcon(param.smallIconResource.id)
+        builder.color = Color.TRANSPARENT
         return CustomNotification(builder)
     }
 
@@ -53,7 +55,7 @@ class NotificationBuilder {
     data class Params(
         val context: Context,
         val title: String? = null,
-        val smallIconResource: IconResource = IconResource(android.R.drawable.sym_def_app_icon),
+        val smallIconResource: IconResource = IconResource(R.drawable.ic_launcher_mono),
         val text: String? = null
     )
 
