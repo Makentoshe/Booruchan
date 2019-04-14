@@ -17,7 +17,18 @@ interface Post : Serializable {
     val source: String
 
     enum class Rating {
-        SAFE, QUESTIONABLE, EXPLICIT, UNSPECIFIED
+        SAFE, QUESTIONABLE, EXPLICIT, UNSPECIFIED;
+
+        companion object {
+            fun parseRating(str: String?): Post.Rating {
+                return when (str) {
+                    "s" -> Post.Rating.SAFE
+                    "q" -> Post.Rating.QUESTIONABLE
+                    "e" -> Post.Rating.EXPLICIT
+                    else -> Post.Rating.UNSPECIFIED
+                }
+            }
+        }
     }
 
     companion object {

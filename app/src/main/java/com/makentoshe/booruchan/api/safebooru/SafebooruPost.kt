@@ -1,6 +1,7 @@
 package com.makentoshe.booruchan.api.safebooru
 
 import com.makentoshe.booruchan.api.Post
+import com.makentoshe.booruchan.api.Post.Rating.Companion.parseRating
 import com.makentoshe.booruchan.api.Tag
 
 class SafebooruPost(
@@ -19,15 +20,6 @@ class SafebooruPost(
 ) : Post {
 
     companion object {
-        private fun parseRating(str: String?): Post.Rating {
-            return when (str) {
-                "s" -> Post.Rating.SAFE
-                "q" -> Post.Rating.QUESTIONABLE
-                "e" -> Post.Rating.EXPLICIT
-                else -> Post.Rating.UNSPECIFIED
-            }
-        }
-
         private fun parseTags(str: String): Array<Tag> {
             if (str.isBlank()) return arrayOf()
             val stags = str.split(" ").toTypedArray()
