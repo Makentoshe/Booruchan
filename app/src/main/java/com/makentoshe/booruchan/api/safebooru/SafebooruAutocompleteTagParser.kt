@@ -2,6 +2,7 @@ package com.makentoshe.booruchan.api.safebooru
 
 import com.makentoshe.booruchan.api.Parser
 import com.makentoshe.booruchan.api.Tag
+import com.makentoshe.booruchan.api.Tag.Companion.defineTagType
 import org.jsoup.Jsoup
 
 class SafebooruAutocompleteTagParser : Parser<List<Tag>> {
@@ -20,7 +21,7 @@ class SafebooruAutocompleteTagParser : Parser<List<Tag>> {
             val type = data[2].text().split(" ")[0]
             val ambiguous = data[2].text().contains("ambiguous")
 
-            val tag = SafebooruTag(title = title, type = SafebooruTag.defineType(type), ambiguous = ambiguous)
+            val tag = SafebooruTag(title = title, type = defineTagType(type), ambiguous = ambiguous)
             result.add(tag)
         }
 
