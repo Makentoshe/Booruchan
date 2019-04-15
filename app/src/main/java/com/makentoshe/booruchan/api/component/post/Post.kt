@@ -59,12 +59,6 @@ interface Post : Serializable {
             override val source: String
                 get() = ""
         }
-
-        fun tagParser(source: String, action: (String) -> Tag): Array<Tag> {
-            if (source.isBlank()) return arrayOf()
-            val stags = source.split(" ").toTypedArray()
-            return Array(stags.size) { action(source) }
-        }
     }
 }
 
