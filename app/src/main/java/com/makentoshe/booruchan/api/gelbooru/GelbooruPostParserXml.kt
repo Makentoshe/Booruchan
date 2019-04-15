@@ -1,6 +1,6 @@
 package com.makentoshe.booruchan.api.gelbooru
 
-import com.makentoshe.booruchan.api.component.parser.Parser
+import com.makentoshe.booruchan.api.Parser
 import com.makentoshe.booruchan.api.component.post.Post
 import com.makentoshe.booruchan.api.component.post.PostTagsParser
 import org.jsoup.Jsoup

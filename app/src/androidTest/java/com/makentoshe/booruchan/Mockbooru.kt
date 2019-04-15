@@ -4,7 +4,7 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import com.makentoshe.booruchan.api.*
-import com.makentoshe.booruchan.api.component.parser.Parser
+import com.makentoshe.booruchan.api.Parser
 import com.makentoshe.booruchan.api.component.post.Post
 import com.makentoshe.booruchan.network.HttpResult
 import io.mockk.every

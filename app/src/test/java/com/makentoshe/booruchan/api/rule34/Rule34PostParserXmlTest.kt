@@ -1,6 +1,6 @@
 package com.makentoshe.booruchan.api.rule34
 
-import com.makentoshe.booruchan.api.component.parser.Parser
+import com.makentoshe.booruchan.api.Parser
 import com.makentoshe.booruchan.api.component.post.Post
 import io.mockk.mockk
 import org.junit.Assert.assertEquals

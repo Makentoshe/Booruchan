@@ -1,7 +1,7 @@
 package com.makentoshe.booruchan.api.component.post
 
 import com.makentoshe.booruchan.api.Tag
-import com.makentoshe.booruchan.api.component.parser.Parser
+import com.makentoshe.booruchan.api.Parser
 import java.io.Serializable
 
 class PostTagsParser(private val tagFactory: (String) -> Tag) : Parser<Array<Tag>>, Serializable {
