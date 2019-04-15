@@ -9,7 +9,7 @@ import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.api.Booru
-import com.makentoshe.booruchan.api.Post
+import com.makentoshe.booruchan.api.component.post.Post
 import com.makentoshe.booruchan.api.Posts
 import com.makentoshe.booruchan.api.Tag
 import com.makentoshe.booruchan.model.add

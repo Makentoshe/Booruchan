@@ -4,7 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import androidx.core.app.NotificationCompat
 import com.makentoshe.booruchan.R
-import com.makentoshe.booruchan.api.Post
+import com.makentoshe.booruchan.api.component.post.Post
 import com.makentoshe.booruchan.notification.NotificationBuilder
 
 class NotificationProcess(private val post: Post) {

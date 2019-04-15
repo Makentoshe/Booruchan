@@ -1,5 +1,6 @@
-package com.makentoshe.booruchan.api
+package com.makentoshe.booruchan.api.component.post
 
+import com.makentoshe.booruchan.api.Tag
 import java.io.Serializable
 
 interface Post : Serializable {
@@ -20,12 +21,12 @@ interface Post : Serializable {
         SAFE, QUESTIONABLE, EXPLICIT, UNSPECIFIED;
 
         companion object {
-            fun parseRating(str: String?): Post.Rating {
+            fun parseRating(str: String?): Rating {
                 return when (str) {
-                    "s" -> Post.Rating.SAFE
-                    "q" -> Post.Rating.QUESTIONABLE
-                    "e" -> Post.Rating.EXPLICIT
-                    else -> Post.Rating.UNSPECIFIED
+                    "s" -> SAFE
+                    "q" -> QUESTIONABLE
+                    "e" -> EXPLICIT
+                    else -> UNSPECIFIED
                 }
             }
         }
@@ -58,5 +59,12 @@ interface Post : Serializable {
             override val source: String
                 get() = ""
         }
+
+        fun tagParser(source: String, action: (String) -> Tag): Array<Tag> {
+            if (source.isBlank()) return arrayOf()
+            val stags = source.split(" ").toTypedArray()
+            return Array(stags.size) { action(source) }
+        }
     }
 }
+

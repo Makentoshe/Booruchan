@@ -1,6 +1,6 @@
 package com.makentoshe.booruchan.repository.decorator
 
-import com.makentoshe.booruchan.api.Post
+import com.makentoshe.booruchan.api.component.post.Post
 import com.makentoshe.booruchan.repository.Repository
 import com.makentoshe.booruchan.repository.StreamDownloadRepository
 

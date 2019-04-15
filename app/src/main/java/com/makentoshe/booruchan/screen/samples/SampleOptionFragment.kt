@@ -10,7 +10,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.api.Booru
-import com.makentoshe.booruchan.api.Post
+import com.makentoshe.booruchan.api.component.post.Post
 import com.makentoshe.booruchan.model.RequestCode
 import com.makentoshe.booruchan.model.arguments
 import com.makentoshe.booruchan.permission.PermissionController

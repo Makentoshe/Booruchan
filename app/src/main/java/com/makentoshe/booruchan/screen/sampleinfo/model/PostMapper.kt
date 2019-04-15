@@ -2,7 +2,7 @@ package com.makentoshe.booruchan.screen.sampleinfo.model
 
 import android.content.Context
 import com.makentoshe.booruchan.R
-import com.makentoshe.booruchan.api.Post
+import com.makentoshe.booruchan.api.component.post.Post
 
 class PostMapper {
 

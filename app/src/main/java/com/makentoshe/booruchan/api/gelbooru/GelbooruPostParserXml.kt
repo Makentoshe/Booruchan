@@ -1,7 +1,7 @@
 package com.makentoshe.booruchan.api.gelbooru
 
 import com.makentoshe.booruchan.api.Parser
-import com.makentoshe.booruchan.api.Post
+import com.makentoshe.booruchan.api.component.post.Post
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Attributes
 

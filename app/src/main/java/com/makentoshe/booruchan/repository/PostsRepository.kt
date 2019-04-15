@@ -1,7 +1,7 @@
 package com.makentoshe.booruchan.repository
 
 import com.makentoshe.booruchan.api.Booru
-import com.makentoshe.booruchan.api.Post
+import com.makentoshe.booruchan.api.component.post.Post
 import com.makentoshe.booruchan.api.Posts
 
 import java.io.Serializable

@@ -1,6 +1,7 @@
 package com.makentoshe.booruchan.api.rule34
 
 import com.makentoshe.booruchan.api.*
+import com.makentoshe.booruchan.api.component.post.Post
 import com.makentoshe.booruchan.network.HttpClient
 import java.io.Serializable
 

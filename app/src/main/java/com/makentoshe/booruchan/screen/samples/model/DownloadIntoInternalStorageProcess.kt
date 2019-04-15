@@ -6,7 +6,7 @@ import android.content.Context
 import com.google.android.material.snackbar.Snackbar
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.api.Booru
-import com.makentoshe.booruchan.api.Post
+import com.makentoshe.booruchan.api.component.post.Post
 import com.makentoshe.booruchan.permission.PermissionRequester
 import org.jetbrains.anko.longToast
 

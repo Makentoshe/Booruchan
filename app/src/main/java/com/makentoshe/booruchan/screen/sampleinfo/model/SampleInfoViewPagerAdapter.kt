@@ -4,8 +4,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import com.makentoshe.booruchan.api.Booru
-import com.makentoshe.booruchan.api.Post
-import com.makentoshe.booruchan.screen.sampleinfo.SampleInfoCommentsFragment
+import com.makentoshe.booruchan.api.component.post.Post
 import com.makentoshe.booruchan.screen.sampleinfo.SampleInfoInfoFragment
 import com.makentoshe.booruchan.screen.sampleinfo.SampleInfoTagsFragment
 
