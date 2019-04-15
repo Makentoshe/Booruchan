@@ -1,7 +1,7 @@
 # <img src="https://github.com/Makentoshe/Booruchan/blob/master/app/src/main/ic_launcher_round-web.png?raw=true" width="40px"/> Booruchan
 Open source application for displaying pictures from image boards.
 
-At the moment it is supports [Gelbooru](https://www.gelbooru.com/) and [Safebooru](http://safebooru.org/)
+At the moment it is supports [Gelbooru](https://www.gelbooru.com/), [Safebooru](http://safebooru.org/) and [Rule34](https://rule34.xxx/)
 
 ## Main features
 
