@@ -1,6 +1,8 @@
 package com.makentoshe.booruchan.api.rule34
 
-import com.makentoshe.booruchan.api.*
+import com.makentoshe.booruchan.api.Booru
+import com.makentoshe.booruchan.api.GetCustom
+import com.makentoshe.booruchan.api.HeadCustom
 import com.makentoshe.booruchan.api.component.parser.Parser
 import com.makentoshe.booruchan.api.component.post.Post
 import com.makentoshe.booruchan.api.component.post.PostTagsParser
@@ -16,14 +18,12 @@ class Rule34(private val httpClient: HttpClient) : Booru, Serializable {
 
     override fun getAutocomplete() = Rule34Autocomplete(httpClient, getAutocompleteTagParser())
 
-    override fun getPosts(): Posts {
-        TODO("not implemented")
-    }
+    override fun getPosts() = Rule34Posts(httpClient, getPostParser())
 
     override fun getAutocompleteTagParser() = Rule34AutocompleteTagParser()
 
     override fun getPostParser(): Parser<List<Post>> {
-        val factory = {it: String -> Rule34Tag(title = it)}
+        val factory = { it: String -> Rule34Tag(title = it) }
         val parser = PostTagsParser(factory)
         return Rule34PostParserXml(parser)
     }

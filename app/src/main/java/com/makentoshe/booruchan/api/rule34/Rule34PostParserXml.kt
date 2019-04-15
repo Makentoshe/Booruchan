@@ -7,8 +7,7 @@ import com.makentoshe.booruchan.api.gelbooru.GelbooruPost
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Attributes
 
-class Rule34PostParserXml(private val postTagsParser: PostTagsParser) :
-    Parser<List<Post>> {
+class Rule34PostParserXml(private val postTagsParser: PostTagsParser) : Parser<List<Post>> {
 
     override fun parse(data: String): List<Post> {
         val root = Jsoup.parse(data).body().child(0)
