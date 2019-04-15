@@ -1,5 +1,6 @@
-package com.makentoshe.booruchan.api
+package com.makentoshe.booruchan.api.component.post
 
+import com.makentoshe.booruchan.api.Tag
 import java.io.Serializable
 
 interface Post : Serializable {
@@ -17,7 +18,18 @@ interface Post : Serializable {
     val source: String
 
     enum class Rating {
-        SAFE, QUESTIONABLE, EXPLICIT, UNSPECIFIED
+        SAFE, QUESTIONABLE, EXPLICIT, UNSPECIFIED;
+
+        companion object {
+            fun parseRating(str: String?): Rating {
+                return when (str) {
+                    "s" -> SAFE
+                    "q" -> QUESTIONABLE
+                    "e" -> EXPLICIT
+                    else -> UNSPECIFIED
+                }
+            }
+        }
     }
 
     companion object {
@@ -49,3 +61,4 @@ interface Post : Serializable {
         }
     }
 }
+

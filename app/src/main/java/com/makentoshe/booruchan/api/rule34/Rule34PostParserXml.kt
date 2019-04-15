@@ -1,12 +1,13 @@
-package com.makentoshe.booruchan.api.gelbooru
+package com.makentoshe.booruchan.api.rule34
 
 import com.makentoshe.booruchan.api.Parser
 import com.makentoshe.booruchan.api.component.post.Post
 import com.makentoshe.booruchan.api.component.post.PostTagsParser
+import com.makentoshe.booruchan.api.gelbooru.GelbooruPost
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Attributes
 
-class GelbooruPostParserXml(private val postTagsParser: PostTagsParser) :
+class Rule34PostParserXml(private val postTagsParser: PostTagsParser) :
     Parser<List<Post>> {
 
     override fun parse(data: String): List<Post> {

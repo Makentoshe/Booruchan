@@ -12,7 +12,7 @@ import android.widget.ListView
 import androidx.fragment.app.Fragment
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.api.Booru
-import com.makentoshe.booruchan.api.Post
+import com.makentoshe.booruchan.api.component.post.Post
 import com.makentoshe.booruchan.model.arguments
 import com.makentoshe.booruchan.screen.sampleinfo.model.PostMapper
 import com.makentoshe.booruchan.screen.sampleinfo.view.SampleInfoInfoUi

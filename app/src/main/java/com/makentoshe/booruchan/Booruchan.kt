@@ -4,6 +4,7 @@ package com.makentoshe.booruchan
 import android.app.Application
 import com.makentoshe.booruchan.api.Booru
 import com.makentoshe.booruchan.api.gelbooru.Gelbooru
+import com.makentoshe.booruchan.api.rule34.Rule34
 import com.makentoshe.booruchan.api.safebooru.Safebooru
 import com.makentoshe.booruchan.navigation.Router
 import com.makentoshe.booruchan.screen.settings.AppSettings
@@ -54,6 +55,7 @@ class Booruchan : Application() {
     private fun loadBooru() {
         this.booruList.add(Gelbooru::class.java)
         this.booruList.add(Safebooru::class.java)
+        this.booruList.add(Rule34::class.java)
     }
 
     private fun loadSettings() {

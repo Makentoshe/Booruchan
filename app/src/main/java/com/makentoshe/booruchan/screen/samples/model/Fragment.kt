@@ -5,7 +5,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.api.Booru
-import com.makentoshe.booruchan.api.Post
+import com.makentoshe.booruchan.api.component.post.Post
 import com.makentoshe.booruchan.repository.Repository
 import com.makentoshe.booruchan.screen.samples.SampleOptionFragment
 import io.reactivex.Single

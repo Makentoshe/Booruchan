@@ -1,7 +1,7 @@
 package com.makentoshe.booruchan.repository.cache
 
 import android.content.Context
-import com.makentoshe.booruchan.api.Post
+import com.makentoshe.booruchan.api.component.post.Post
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream

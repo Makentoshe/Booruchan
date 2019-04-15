@@ -1,7 +1,6 @@
 package com.makentoshe.booruchan.screen.start
 
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.view.*
 import android.widget.*
@@ -9,10 +8,8 @@ import androidx.fragment.app.Fragment
 import com.makentoshe.booruchan.Booruchan
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.api.Booru
-import com.makentoshe.booruchan.api.BooruFactory
 import com.makentoshe.booruchan.api.BooruFactoryImpl
 import com.makentoshe.booruchan.api.safebooru.Safebooru
-import com.makentoshe.booruchan.model.RequestCode
 import com.makentoshe.booruchan.network.fuel.FuelClientFactory
 import com.makentoshe.booruchan.router
 import com.makentoshe.booruchan.screen.settings.AppSettings
@@ -27,9 +24,7 @@ class StartFragment : Fragment() {
         StartScreenNavigator(router)
     }
 
-    var booruFactory: BooruFactory = with(FuelClientFactory().buildClient()) {
-        BooruFactoryImpl(this)
-    }
+    var booruFactory = BooruFactoryImpl(FuelClientFactory().buildClient())
 
     private val booruList: List<Class<out Booru>>
         get() = if (AppSettings.getNsfw(requireContext())) {

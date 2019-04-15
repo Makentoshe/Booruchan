@@ -9,7 +9,7 @@ import android.widget.BaseAdapter
 import android.widget.ImageView
 import androidx.core.view.updateLayoutParams
 import com.makentoshe.booruchan.R
-import com.makentoshe.booruchan.api.Post
+import com.makentoshe.booruchan.api.component.post.Post
 import com.makentoshe.booruchan.repository.Repository
 import com.makentoshe.booruchan.screen.posts.view.PostPageGridElementUi
 import io.reactivex.Single
