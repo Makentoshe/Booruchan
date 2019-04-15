@@ -1,6 +1,6 @@
 package com.makentoshe.booruchan.api.rule34
 
-import com.makentoshe.booruchan.api.Parser
+import com.makentoshe.booruchan.api.component.parser.Parser
 import com.makentoshe.booruchan.api.Tag
 import com.makentoshe.booruchan.network.HttpClient
 import com.makentoshe.booruchan.network.HttpResult

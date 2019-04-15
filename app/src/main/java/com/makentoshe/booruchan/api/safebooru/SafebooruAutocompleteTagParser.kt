@@ -1,6 +1,6 @@
 package com.makentoshe.booruchan.api.safebooru
 
-import com.makentoshe.booruchan.api.Parser
+import com.makentoshe.booruchan.api.component.parser.Parser
 import com.makentoshe.booruchan.api.Tag
 import com.makentoshe.booruchan.api.Tag.Companion.defineTagType
 import org.jsoup.Jsoup

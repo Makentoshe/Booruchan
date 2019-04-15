@@ -1,12 +1,13 @@
 package com.makentoshe.booruchan.api.safebooru
 
-import com.makentoshe.booruchan.api.Parser
+import com.makentoshe.booruchan.api.component.parser.Parser
 import com.makentoshe.booruchan.api.component.post.Post
 import com.makentoshe.booruchan.api.component.post.PostTagsParser
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Attributes
 
-class SafebooruPostParserXml(private val postTagsParser: PostTagsParser) : Parser<List<Post>> {
+class SafebooruPostParserXml(private val postTagsParser: PostTagsParser) :
+    Parser<List<Post>> {
     override fun parse(data: String): List<Post> {
         val root = Jsoup.parse(data).body().child(0)
         val posts = ArrayList<Post>()

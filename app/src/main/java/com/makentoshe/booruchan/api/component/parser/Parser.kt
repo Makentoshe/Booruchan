@@ -1,4 +1,4 @@
-package com.makentoshe.booruchan.api
+package com.makentoshe.booruchan.api.component.parser
 
 import java.io.InputStream
 import java.util.*

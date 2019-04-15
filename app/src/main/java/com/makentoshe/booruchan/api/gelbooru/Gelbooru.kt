@@ -3,7 +3,7 @@ package com.makentoshe.booruchan.api.gelbooru
 import com.makentoshe.booruchan.api.Booru
 import com.makentoshe.booruchan.api.GetCustom
 import com.makentoshe.booruchan.api.HeadCustom
-import com.makentoshe.booruchan.api.Parser
+import com.makentoshe.booruchan.api.component.parser.Parser
 import com.makentoshe.booruchan.api.component.post.Post
 import com.makentoshe.booruchan.api.component.post.PostTagsParser
 import com.makentoshe.booruchan.network.HttpClient
