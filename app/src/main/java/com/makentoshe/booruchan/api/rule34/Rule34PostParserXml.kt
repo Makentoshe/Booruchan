@@ -7,15 +7,14 @@ import com.makentoshe.booruchan.api.gelbooru.GelbooruPost
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Attributes
 
-class Rule34PostParserXml(private val postTagsParser: PostTagsParser) :
-    Parser<List<Post>> {
+class Rule34PostParserXml(private val postTagsParser: PostTagsParser) : Parser<List<Post>> {
 
     override fun parse(data: String): List<Post> {
         val root = Jsoup.parse(data).body().child(0)
         val posts = ArrayList<Post>()
         for (i in 0 until root.childNodeSize() / 2 step 1) {
             val attrs = parseAttributesToMap(root.child(i).attributes())
-            val post = GelbooruPost(postTagsParser, attrs)
+            val post = Rule34Post(postTagsParser, attrs)
             posts.add(post)
         }
         return posts

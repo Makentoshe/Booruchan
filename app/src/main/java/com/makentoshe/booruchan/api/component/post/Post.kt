@@ -17,21 +17,6 @@ interface Post : Serializable {
     val tags: Array<Tag>
     val source: String
 
-    enum class Rating {
-        SAFE, QUESTIONABLE, EXPLICIT, UNSPECIFIED;
-
-        companion object {
-            fun parseRating(str: String?): Rating {
-                return when (str) {
-                    "s" -> SAFE
-                    "q" -> QUESTIONABLE
-                    "e" -> EXPLICIT
-                    else -> UNSPECIFIED
-                }
-            }
-        }
-    }
-
     companion object {
         fun create(id: Long, sampleUrl: String = "") = object : Post {
             override val raw: Map<String, String>
@@ -61,4 +46,3 @@ interface Post : Serializable {
         }
     }
 }
-

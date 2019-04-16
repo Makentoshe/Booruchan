@@ -1,12 +1,11 @@
-package com.makentoshe.booruchan.api.gelbooru
+package com.makentoshe.booruchan.api.rule34
 
 import com.makentoshe.booruchan.api.Tag
 import com.makentoshe.booruchan.api.component.post.Post
 import com.makentoshe.booruchan.api.component.post.PostTagsParser
 import com.makentoshe.booruchan.api.component.post.Rating
-import com.makentoshe.booruchan.api.component.post.Rating.Companion.parseRating
 
-class GelbooruPost(
+class Rule34Post(
     private val postTagsParser: PostTagsParser,
     override val raw: Map<String, String> = emptyMap(),
     override val id: Long = raw["id"]?.toLong() ?: -1L,
@@ -15,9 +14,9 @@ class GelbooruPost(
     override val sampleUrl: String = raw["sample_url"] ?: "",
     override val fileUrl: String = raw["file_url"] ?: "",
     override val creatorId: Long = raw["creator_id"]?.toLong() ?: -1L,
-    override val rating: Rating = parseRating(raw["rating"]),
+    override val rating: Rating = Rating.parseRating(raw["rating"]),
     override val tags: Array<Tag> = postTagsParser.parse(raw["tags"] ?: ""),
     override val previewHeight: Int = raw["preview_height"]?.toInt() ?: -1,
     override val previewWidth: Int = raw["preview_width"]?.toInt() ?: -1,
     override val source: String = raw["source"] ?: ""
-) : Post
+): Post
