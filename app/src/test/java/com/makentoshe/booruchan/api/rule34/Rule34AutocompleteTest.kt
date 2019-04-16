@@ -39,7 +39,7 @@ class Rule34AutocompleteTest {
         val list = autocomplete.request("hat")
 
         Assert.assertEquals(10, list.size)
-        Assert.assertEquals("hatsune_miku (6115)", list[0].title)
+        Assert.assertEquals("hatsune_miku", list[0].title)
     }
 
 }

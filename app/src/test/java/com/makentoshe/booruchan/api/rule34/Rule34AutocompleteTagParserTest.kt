@@ -25,7 +25,7 @@ class Rule34AutocompleteTagParserTest {
         val result = parser.parse(responseStream)
 
         assertEquals(10, result.size)
-        assertEquals("hatsune_miku (6115)", result[0].title)
+        assertEquals("hatsune_miku", result[0].title)
     }
 
 }
