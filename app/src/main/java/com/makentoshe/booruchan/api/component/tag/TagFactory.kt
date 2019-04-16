@@ -1,7 +1,8 @@
 package com.makentoshe.booruchan.api.component.tag
 
+import java.io.Serializable
 
-interface TagFactory<T : Tag> {
+interface TagFactory<T : Tag> : Serializable {
 
     fun build(attributes: Map<String, String>, action: T.() -> Unit = {}): T
 
