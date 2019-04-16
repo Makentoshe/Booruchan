@@ -26,6 +26,7 @@ class Gelbooru(private val httpClient: HttpClient) : Booru, Serializable {
     override fun getPostParser(): Parser<List<Post>> {
         val factory = { it: String -> GelbooruTag(title = it) }
         val parser = PostTagsParser(factory)
-        return GelbooruPostParserXml(parser)
+        val postFactory = GelbooruPostFactory(parser)
+        return GelbooruPostParserXml(postFactory)
     }
 }

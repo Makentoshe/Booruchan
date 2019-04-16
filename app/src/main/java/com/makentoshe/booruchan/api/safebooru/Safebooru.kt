@@ -31,6 +31,7 @@ class Safebooru(private val httpClient: HttpClient) : Booru, Serializable {
     override fun getPostParser(): Parser<List<Post>> {
         val factory = {it: String -> SafebooruTag(title = it)}
         val postTagsParser = PostTagsParser(factory)
-        return SafebooruPostParserXml(postTagsParser)
+        val postFactory = SafebooruPostFactory(postTagsParser)
+        return SafebooruPostParserXml(postFactory)
     }
 }

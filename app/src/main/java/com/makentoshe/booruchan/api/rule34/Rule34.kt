@@ -25,6 +25,7 @@ class Rule34(private val httpClient: HttpClient) : Booru, Serializable {
     override fun getPostParser(): Parser<List<Post>> {
         val factory = { it: String -> Rule34Tag(title = it) }
         val parser = PostTagsParser(factory)
-        return Rule34PostParserXml(parser)
+        val postFactory = Rule34PostFactory(parser)
+        return Rule34PostParserXml(postFactory)
     }
 }
