@@ -1,9 +1,9 @@
 package com.makentoshe.booruchan.api.safebooru
 
 import com.makentoshe.booruchan.api.*
-import com.makentoshe.booruchan.api.Parser
 import com.makentoshe.booruchan.api.component.post.Post
 import com.makentoshe.booruchan.api.component.post.PostTagsParser
+import com.makentoshe.booruchan.api.component.tag.Tag
 import com.makentoshe.booruchan.network.HttpClient
 import java.io.Serializable
 
@@ -29,8 +29,8 @@ class Safebooru(private val httpClient: HttpClient) : Booru, Serializable {
     }
 
     override fun getPostParser(): Parser<List<Post>> {
-        val factory = {it: String -> SafebooruTag(title = it)}
-        val postTagsParser = PostTagsParser(factory)
+        val tagFactory = SafebooruTagFactory()
+        val postTagsParser = PostTagsParser(tagFactory)
         val postFactory = SafebooruPostFactory(postTagsParser)
         return SafebooruPostParserXml(postFactory)
     }

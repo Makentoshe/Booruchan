@@ -3,7 +3,7 @@ package com.makentoshe.booruchan.screen.samples.model
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
 import com.makentoshe.booruchan.api.Booru
-import com.makentoshe.booruchan.api.Tag
+import com.makentoshe.booruchan.api.component.tag.Tag
 import com.makentoshe.booruchan.screen.samples.SamplePageFragment
 
 class SampleHorizontalViewPagerAdapter(

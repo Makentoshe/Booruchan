@@ -11,7 +11,7 @@ class Rule34PostFactoryTest {
 
     @Before
     fun init() {
-        val factory = { it: String -> Rule34Tag(title = it) }
+        val factory = Rule34TagFactory()
         val postTagsParser = PostTagsParser(factory)
         this.factory = Rule34PostFactory(postTagsParser)
     }

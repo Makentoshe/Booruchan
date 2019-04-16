@@ -2,7 +2,7 @@ package com.makentoshe.booruchan.api.rule34
 
 import com.makentoshe.booruchan.api.Autocomplete
 import com.makentoshe.booruchan.api.Parser
-import com.makentoshe.booruchan.api.Tag
+import com.makentoshe.booruchan.api.component.tag.Tag
 import com.makentoshe.booruchan.network.HttpClient
 
 class Rule34Autocomplete(

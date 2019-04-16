@@ -2,7 +2,7 @@ package com.makentoshe.booruchan.api.rule34
 
 import com.google.gson.Gson
 import com.makentoshe.booruchan.api.Parser
-import com.makentoshe.booruchan.api.Tag
+import com.makentoshe.booruchan.api.component.tag.Tag
 
 class Rule34AutocompleteTagParser : Parser<List<Tag>> {
     override fun parse(data: String): List<Tag> {

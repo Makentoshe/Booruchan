@@ -1,6 +1,7 @@
 package com.makentoshe.booruchan.api
 
 import com.makentoshe.booruchan.api.component.post.Post
+import com.makentoshe.booruchan.api.component.tag.Tag
 
 interface Posts {
     fun request(count: Int, tags: Set<Tag>, page: Int): List<Post>

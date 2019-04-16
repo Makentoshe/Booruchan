@@ -7,7 +7,7 @@ import android.widget.BaseAdapter
 import android.widget.Filter
 import android.widget.Filterable
 import android.widget.TextView
-import com.makentoshe.booruchan.api.Tag
+import com.makentoshe.booruchan.api.component.tag.Tag
 import com.makentoshe.booruchan.repository.Repository
 
 class DelayAutocompleteAdapter(

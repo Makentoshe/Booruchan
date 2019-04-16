@@ -12,7 +12,7 @@ import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.api.Booru
 import com.makentoshe.booruchan.api.component.post.Post
 import com.makentoshe.booruchan.api.Posts
-import com.makentoshe.booruchan.api.Tag
+import com.makentoshe.booruchan.api.component.tag.Tag
 import com.makentoshe.booruchan.model.arguments
 import com.makentoshe.booruchan.repository.FileImageRepository
 import com.makentoshe.booruchan.repository.PostsRepository

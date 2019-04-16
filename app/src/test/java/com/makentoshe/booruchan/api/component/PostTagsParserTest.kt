@@ -1,8 +1,9 @@
 package com.makentoshe.booruchan.api.component
 
 import com.makentoshe.booruchan.api.Parser
-import com.makentoshe.booruchan.api.Tag
 import com.makentoshe.booruchan.api.component.post.PostTagsParser
+import com.makentoshe.booruchan.api.component.tag.Tag
+import com.makentoshe.booruchan.api.component.tag.TagFactory
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
@@ -13,7 +14,7 @@ class PostTagsParserTest {
 
     @Before
     fun init() {
-        val factory = { it: String -> Tag.create(it) }
+        val factory = TagFactoryImpl()
         parser = PostTagsParser(factory)
     }
 
@@ -27,5 +28,11 @@ class PostTagsParserTest {
         assertEquals("asa", result[1].title)
         assertEquals("tag", result[2].title)
         assertEquals("psa", result[3].title)
+    }
+
+    class TagFactoryImpl : TagFactory<Tag> {
+        override fun build(attributes: Map<String, String>, action: Tag.() -> Unit): Tag {
+            return Tag.create(attributes["name"] ?: error(""))
+        }
     }
 }

@@ -3,7 +3,7 @@ package com.makentoshe.booruchan.api.gelbooru
 import com.google.gson.Gson
 import com.google.gson.JsonObject
 import com.google.gson.JsonPrimitive
-import com.makentoshe.booruchan.api.Tag
+import com.makentoshe.booruchan.api.component.tag.Tag
 import com.makentoshe.booruchan.api.Parser
 
 class GelbooruTagParser : Parser<List<Tag>> {

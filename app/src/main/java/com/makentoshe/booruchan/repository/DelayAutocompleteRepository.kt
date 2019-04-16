@@ -1,7 +1,7 @@
 package com.makentoshe.booruchan.repository
 
 import com.makentoshe.booruchan.api.Booru
-import com.makentoshe.booruchan.api.Tag
+import com.makentoshe.booruchan.api.component.tag.Tag
 
 
 class DelayAutocompleteRepository(private val booru: Booru) : Repository<CharSequence, List<Tag>> {

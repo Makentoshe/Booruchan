@@ -1,6 +1,6 @@
 package com.makentoshe.booruchan.api.gelbooru
 
-import com.makentoshe.booruchan.api.Tag
+import com.makentoshe.booruchan.api.component.tag.Tag
 import com.makentoshe.booruchan.api.component.post.Post
 import com.makentoshe.booruchan.api.component.post.PostTagsParser
 import com.makentoshe.booruchan.api.component.post.Rating

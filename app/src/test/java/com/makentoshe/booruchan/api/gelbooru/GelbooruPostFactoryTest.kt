@@ -11,14 +11,14 @@ class GelbooruPostFactoryTest {
 
     @Before
     fun init() {
-        val factory = { it: String -> GelbooruTag(title = it) }
+        val factory = GelbooruTagFactory()
         val postTagsParser = PostTagsParser(factory)
         this.factory = GelbooruPostFactory(postTagsParser)
     }
 
     @Test
     fun `should build post from map`() {
-        val post = factory.build("id" to "1234", "score" to "5")
+        val post = factory.build("id" to "1234", "score" to "5", "tags" to "sas asa psa")
 
         assertEquals(post.id, 1234L)
         assertEquals(post.score, 5)

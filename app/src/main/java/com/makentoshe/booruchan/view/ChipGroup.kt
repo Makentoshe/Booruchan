@@ -9,7 +9,7 @@ import androidx.appcompat.view.ContextThemeWrapper
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.makentoshe.booruchan.R
-import com.makentoshe.booruchan.api.Tag
+import com.makentoshe.booruchan.api.component.tag.Tag
 import org.jetbrains.anko.custom.ankoView
 
 open class _ChipGroup(ctx: Context) : ChipGroup(ctx) {

@@ -8,7 +8,7 @@ import android.view.View
 import androidx.fragment.app.DialogFragment
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.api.Booru
-import com.makentoshe.booruchan.api.Tag
+import com.makentoshe.booruchan.api.component.tag.Tag
 import com.makentoshe.booruchan.repository.DelayAutocompleteRepository
 import com.makentoshe.booruchan.model.arguments
 import com.makentoshe.booruchan.view.DelayAutocompleteEditText

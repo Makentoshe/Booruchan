@@ -1,7 +1,7 @@
 package com.makentoshe.booruchan.api.safebooru
 
-import com.makentoshe.booruchan.api.Tag
-import com.makentoshe.booruchan.api.Tag.Companion.defineTagType
+import com.makentoshe.booruchan.api.component.tag.Tag
+import com.makentoshe.booruchan.api.component.tag.Type
 
 class SafebooruTag(
     override val raw: Map<String, String> = emptyMap(),
@@ -9,5 +9,5 @@ class SafebooruTag(
     override val id: Long = raw["id"]?.toLong() ?: -1L,
     override val count: Int = raw["count"]?.toInt() ?: -1,
     override val ambiguous: Boolean = raw["ambiguous"]?.toBoolean() ?: false,
-    override val type: Tag.Type = defineTagType(raw["type"])
+    override val type: Type = Type.define(raw["type"])
 ) : Tag

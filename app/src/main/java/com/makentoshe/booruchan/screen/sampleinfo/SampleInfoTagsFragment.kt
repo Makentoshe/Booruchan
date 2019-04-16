@@ -9,7 +9,7 @@ import com.google.android.material.chip.ChipGroup
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.api.Booru
 import com.makentoshe.booruchan.api.component.post.Post
-import com.makentoshe.booruchan.api.Tag
+import com.makentoshe.booruchan.api.component.tag.Tag
 import com.makentoshe.booruchan.model.arguments
 import com.makentoshe.booruchan.router
 import com.makentoshe.booruchan.screen.booru.BooruScreen

@@ -3,7 +3,7 @@ package com.makentoshe.booruchan.screen.posts.model
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProviders
-import com.makentoshe.booruchan.api.Tag
+import com.makentoshe.booruchan.api.component.tag.Tag
 
 class TagsHolder : ViewModel() {
 

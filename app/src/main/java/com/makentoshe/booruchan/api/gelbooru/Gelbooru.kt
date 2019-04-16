@@ -24,8 +24,8 @@ class Gelbooru(private val httpClient: HttpClient) : Booru, Serializable {
     override fun getAutocompleteTagParser() = GelbooruTagParser()
 
     override fun getPostParser(): Parser<List<Post>> {
-        val factory = { it: String -> GelbooruTag(title = it) }
-        val parser = PostTagsParser(factory)
+        val tagFactory = GelbooruTagFactory()
+        val parser = PostTagsParser(tagFactory)
         val postFactory = GelbooruPostFactory(parser)
         return GelbooruPostParserXml(postFactory)
     }

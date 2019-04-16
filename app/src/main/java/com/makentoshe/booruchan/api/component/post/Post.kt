@@ -1,6 +1,6 @@
 package com.makentoshe.booruchan.api.component.post
 
-import com.makentoshe.booruchan.api.Tag
+import com.makentoshe.booruchan.api.component.tag.Tag
 import java.io.Serializable
 
 interface Post : Serializable {

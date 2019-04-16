@@ -3,7 +3,7 @@ package com.makentoshe.booruchan.api.gelbooru
 import com.makentoshe.booruchan.api.Parser
 import com.makentoshe.booruchan.api.component.post.Post
 import com.makentoshe.booruchan.api.Posts
-import com.makentoshe.booruchan.api.Tag
+import com.makentoshe.booruchan.api.component.tag.Tag
 import com.makentoshe.booruchan.network.HttpClient
 import java.io.Serializable
 

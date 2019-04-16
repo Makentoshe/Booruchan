@@ -13,7 +13,7 @@ import androidx.fragment.app.Fragment
 import androidx.viewpager.widget.ViewPager
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.api.Booru
-import com.makentoshe.booruchan.api.Tag
+import com.makentoshe.booruchan.api.component.tag.Tag
 import com.makentoshe.booruchan.model.RequestCode
 import com.makentoshe.booruchan.model.SubjectHolder
 import com.makentoshe.booruchan.model.arguments

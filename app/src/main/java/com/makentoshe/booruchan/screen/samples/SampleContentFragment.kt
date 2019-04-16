@@ -10,7 +10,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.makentoshe.booruchan.Booruchan
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.api.Booru
-import com.makentoshe.booruchan.api.Tag
+import com.makentoshe.booruchan.api.component.tag.Tag
 import com.makentoshe.booruchan.navigation.Screen
 import com.makentoshe.booruchan.model.arguments
 import com.makentoshe.booruchan.screen.sampleinfo.SampleInfoScreen

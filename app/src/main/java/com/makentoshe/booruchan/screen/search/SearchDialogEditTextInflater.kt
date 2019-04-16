@@ -9,7 +9,7 @@ import androidx.core.util.Consumer
 import androidx.fragment.app.DialogFragment
 import com.google.android.material.chip.ChipGroup
 import com.makentoshe.booruchan.R
-import com.makentoshe.booruchan.api.Tag
+import com.makentoshe.booruchan.api.component.tag.Tag
 import com.makentoshe.booruchan.model.RequestCode
 import com.makentoshe.booruchan.view.addTagToChipGroup
 import org.jetbrains.anko.find
