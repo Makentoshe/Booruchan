@@ -1,9 +1,6 @@
 package com.makentoshe.booruchan.api.gelbooru
 
-import com.makentoshe.booruchan.api.Booru
-import com.makentoshe.booruchan.api.GetCustom
-import com.makentoshe.booruchan.api.HeadCustom
-import com.makentoshe.booruchan.api.Parser
+import com.makentoshe.booruchan.api.*
 import com.makentoshe.booruchan.api.component.post.Post
 import com.makentoshe.booruchan.api.component.post.PostTagsParser
 import com.makentoshe.booruchan.network.HttpClient
@@ -28,5 +25,11 @@ class Gelbooru(private val httpClient: HttpClient) : Booru, Serializable {
         val parser = PostTagsParser(tagFactory)
         val postFactory = GelbooruPostFactory(parser)
         return GelbooruPostParserXml(postFactory)
+    }
+
+    override fun getComments(): Comments {
+        val commentFactory = GelbooruCommentFactory()
+        val commentParser = GelbooruCommentParserXml(commentFactory)
+        return GelbooruComments(httpClient, commentParser)
     }
 }

@@ -57,4 +57,8 @@ class Mockbooru(private val context: Context) : Booru {
     override fun getPostParser(): Parser<List<Post>> {
         TODO("not implemented")
     }
+
+    override fun getComments(): Comments {
+        TODO("not implemented")
+    }
 }

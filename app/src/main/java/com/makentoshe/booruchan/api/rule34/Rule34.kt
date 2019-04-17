@@ -1,9 +1,6 @@
 package com.makentoshe.booruchan.api.rule34
 
-import com.makentoshe.booruchan.api.Booru
-import com.makentoshe.booruchan.api.GetCustom
-import com.makentoshe.booruchan.api.HeadCustom
-import com.makentoshe.booruchan.api.Parser
+import com.makentoshe.booruchan.api.*
 import com.makentoshe.booruchan.api.component.post.Post
 import com.makentoshe.booruchan.api.component.post.PostTagsParser
 import com.makentoshe.booruchan.network.HttpClient
@@ -27,5 +24,11 @@ class Rule34(private val httpClient: HttpClient) : Booru, Serializable {
         val parser = PostTagsParser(tagFactory)
         val postFactory = Rule34PostFactory(parser)
         return Rule34PostParserXml(postFactory)
+    }
+
+    override fun getComments(): Comments {
+        val commentFactory = Rule34CommentFactory()
+        val commentParser = Rule34CommentParserXml(commentFactory)
+        return Rule34Comments(httpClient, commentParser)
     }
 }

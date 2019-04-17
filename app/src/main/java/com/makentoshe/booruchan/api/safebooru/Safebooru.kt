@@ -34,4 +34,10 @@ class Safebooru(private val httpClient: HttpClient) : Booru, Serializable {
         val postFactory = SafebooruPostFactory(postTagsParser)
         return SafebooruPostParserXml(postFactory)
     }
+
+    override fun getComments(): Comments {
+        val commentFactory = SafebooruCommentFactory()
+        val commentParser = SafebooruCommentParserXml(commentFactory)
+        return SafebooruComments(httpClient, commentParser)
+    }
 }

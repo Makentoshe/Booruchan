@@ -19,4 +19,6 @@ interface Booru : Serializable {
     fun getAutocompleteTagParser(): Parser<List<Tag>>
 
     fun getPostParser(): Parser<List<Post>>
+
+    fun getComments(): Comments
 }
