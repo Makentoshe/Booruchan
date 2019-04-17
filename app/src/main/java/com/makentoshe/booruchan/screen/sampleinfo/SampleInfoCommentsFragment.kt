@@ -60,7 +60,7 @@ class SampleInfoCommentsFragment : Fragment() {
     }
 
     private fun handleComments(root: View, comments: List<Comment>) {
-        if (comments.isEmpty()) displayNoCommentsMessage(root)
+        if (comments.isEmpty()) return displayNoCommentsMessage(root)
 
         hideProgressBar(root)
 
