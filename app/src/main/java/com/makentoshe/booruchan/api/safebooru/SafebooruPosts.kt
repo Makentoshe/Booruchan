@@ -17,4 +17,10 @@ class SafebooruPosts(
         val request = "https://safebooru.org/index.php?page=dapi&s=post&q=index&limit=$count&pid=$page&tags=$strTags"
         return parser.parse(httpClient.get(request).stream)
     }
+
+    override fun request(postId: Long): Post {
+        val url = "https://safebooru.org/index.php?page=dapi&s=post&q=index&id=$postId"
+        val response = httpClient.get(url)
+        return parser.parse(response.stream)[0]
+    }
 }

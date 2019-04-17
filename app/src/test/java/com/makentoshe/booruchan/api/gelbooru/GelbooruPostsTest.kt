@@ -34,9 +34,17 @@ class GelbooruPostsTest {
     }
 
     @Test
-    fun `should return list of posts`() {
+    fun `should return list of posts by tags`() {
         val posts = booru.getPosts()
         val list = posts.request(10, setOf(), 1)
         assertEquals(5, list.size)
+    }
+
+    @Test
+    fun `should return post by id`() {
+        val posts = booru.getPosts()
+        val post = posts.request(10)
+        
+        assertEquals(4646976L, post.id)
     }
 }

@@ -17,4 +17,9 @@ class Rule34Posts(
         return parser.parse(httpClient.get(url).stream)
     }
 
+    override fun request(postId: Long): Post {
+        val url = "https://rule34.xxx/index.php?page=dapi&s=post&q=index&id=$postId"
+        val response = httpClient.get(url)
+        return parser.parse(response.stream)[0]
+    }
 }

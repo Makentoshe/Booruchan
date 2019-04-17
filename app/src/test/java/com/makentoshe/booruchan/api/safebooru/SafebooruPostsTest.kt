@@ -1,4 +1,4 @@
-package com.makentoshe.booruchan.api.rule34
+package com.makentoshe.booruchan.api.safebooru
 
 import com.makentoshe.booruchan.api.Posts
 import com.makentoshe.booruchan.network.HttpClient
@@ -13,13 +13,13 @@ import java.io.File
 import java.io.FileReader
 import java.io.InputStream
 
-class Rule34PostsTest {
+class SafebooruPostsTest {
 
     private lateinit var posts: Posts
     private lateinit var response: InputStream
     @Before
     fun init() {
-        val path = "\\src\\test\\java\\com\\makentoshe\\booruchan\\api\\rule34\\XmlPosts"
+        val path = "\\src\\test\\java\\com\\makentoshe\\booruchan\\api\\safebooru\\XmlPosts"
         val file = File(File("").absolutePath, path)
         response = ByteArrayInputStream(FileReader(file).readText().toByteArray())
 
@@ -29,9 +29,9 @@ class Rule34PostsTest {
         val mClient = mockk<HttpClient>()
         every { mClient.get(any()) } returns result
 
-        val parser = Rule34(mClient).getPostParser()
+        val parser = Safebooru(mClient).getPostParser()
 
-        posts = Rule34Posts(mClient, parser)
+        posts = SafebooruPosts(mClient, parser)
     }
 
     @Test
@@ -44,6 +44,6 @@ class Rule34PostsTest {
     @Test
     fun `should return post by id`() {
         val post = posts.request(10)
-        assertEquals(3177214L, post.id)
+        assertEquals(2817059L, post.id)
     }
 }

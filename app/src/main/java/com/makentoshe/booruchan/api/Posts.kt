@@ -8,6 +8,8 @@ interface Posts {
 
     fun request(request: Request): List<Post> = request(request.count, request.tags, request.page)
 
+    fun request(postId: Long): Post
+
     fun setOfTags2String(set: Set<Tag>): String {
         val strTags = StringBuilder()
         set.forEachIndexed { index, tag ->
