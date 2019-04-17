@@ -93,9 +93,7 @@ class SampleInfoCommentsFragment : Fragment() {
 
     override fun onDestroy() {
         super.onDestroy()
-        isFinallyDestroy {
-            disposables.clear()
-        }
+        disposables.clear()
     }
 
     companion object {

@@ -9,8 +9,3 @@ fun Fragment.arguments(): Bundle {
     }
     return arguments!!
 }
-
-fun Fragment.isFinallyDestroy(action: () -> Unit) {
-    val activity = activity
-    if (activity != null && activity.isChangingConfigurations.not()) action()
-}
