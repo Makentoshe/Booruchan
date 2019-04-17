@@ -122,4 +122,11 @@
     <item name="settings_viewpager" type="id"/>
     <item name="settings_tab" type="id"/>
     <item name="settings_container" type="id"/>
+    <item name="sampleinfo_comments_textview" type="id"/>
+    <item name="sampleinfo_comments_progressbar" type="id"/>
+    <item name="sampleinfo_comments_recycleview" type="id"/>
+    <item name="comment_body" type="id"/>
+    <item name="comment_author" type="id"/>
+    <item name="comment_date" type="id"/>
+    <item name="comment_meta" type="id"/>
 </resources>
