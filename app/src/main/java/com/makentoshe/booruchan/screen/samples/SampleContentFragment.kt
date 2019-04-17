@@ -67,7 +67,7 @@ class SampleContentFragment : Fragment() {
         }
         //on bottom navigation bar click the item
         view.find<BottomNavigationView>(R.id.samples_bottombar).setOnNavigationItemSelectedListener {
-            //try to find viewpager or return
+            //try to find viewpager or return false
             //the current item value contains the post number that we need
             val horizontalviewpager = view.findOptional<ViewPager>(R.id.samples_container_viewpager)?: return@setOnNavigationItemSelectedListener false
             //create screen with the selected params and navigate to it

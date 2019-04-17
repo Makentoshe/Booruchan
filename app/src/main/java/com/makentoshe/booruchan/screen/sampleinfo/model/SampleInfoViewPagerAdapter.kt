@@ -5,6 +5,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import com.makentoshe.booruchan.api.Booru
 import com.makentoshe.booruchan.api.component.post.Post
+import com.makentoshe.booruchan.screen.sampleinfo.SampleInfoCommentsFragment
 import com.makentoshe.booruchan.screen.sampleinfo.SampleInfoInfoFragment
 import com.makentoshe.booruchan.screen.sampleinfo.SampleInfoTagsFragment
 
@@ -17,10 +18,10 @@ class SampleInfoViewPagerAdapter(
         return when (position) {
             0 -> SampleInfoInfoFragment.create(booru, post)
             1 -> SampleInfoTagsFragment.create(booru, post)
-//            2 -> SampleInfoCommentsFragment.create()
+            2 -> SampleInfoCommentsFragment.create(booru, post)
             else -> throw IllegalStateException()
         }
     }
 
-    override fun getCount() = 2
+    override fun getCount() = 3
 }

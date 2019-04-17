@@ -32,10 +32,11 @@ class SampleContentUiBottombar : AnkoComponent<_RelativeLayout> {
                 R.id.bottombar_tagsitem,
                 R.drawable.ic_tag
             )
-//            menu.buildMenuItem(
-//                R.string.comments,
-//                R.id.bottombar_commentsitem
-//            )
+            menu.buildMenuItem(
+                context, R.string.comments,
+                R.id.bottombar_commentsitem,
+                R.drawable.ic_comments
+            )
 
             setMenuItemColor(
                 getColorFromStyle(android.R.attr.textColor),
@@ -47,12 +48,7 @@ class SampleContentUiBottombar : AnkoComponent<_RelativeLayout> {
         }
     }
 
-    private fun Menu.buildMenuItem(
-        context: Context,
-        @StringRes title: Int,
-        @IdRes id: Int,
-        @DrawableRes icon: Int
-    ) =
+    private fun Menu.buildMenuItem(context: Context, title: Int, id: Int, icon: Int) =
         add(Menu.NONE, id, Menu.NONE, title).apply {
             isEnabled = true
             setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS)
