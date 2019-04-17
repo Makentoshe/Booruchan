@@ -42,8 +42,8 @@ class SampleInfoTagsFragment : Fragment() {
 
         val searchIcon = requireActivity().find<View>(R.id.sampleinfo_toolbar_tags_search)
         searchIcon.setOnClickListener {
-            router.backTo(StartScreen())
-            router.navigateTo(BooruScreen(booru, tags))
+            router.backTo(BooruScreen(booru, tags))
+            router.replaceScreen(BooruScreen(booru, tags))
         }
     }
 
