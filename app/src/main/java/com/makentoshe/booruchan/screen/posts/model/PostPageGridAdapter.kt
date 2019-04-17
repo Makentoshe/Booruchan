@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.ImageView
+import android.widget.ProgressBar
 import androidx.core.view.updateLayoutParams
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.api.component.post.Post
@@ -89,6 +90,9 @@ class PostPageGridAdapter(
     private fun onSuccess(gridElement: GridElement, bitmap: Bitmap, view: View) {
         val imageview = view.find<ImageView>(R.id.posts_page_gridview_element_image)
         imageview.setImageBitmap(bitmap)
+
+        val progressbar = view.find<ProgressBar>(R.id.posts_page_gridview_element_progress)
+        progressbar.visibility = View.GONE
 
         val typeview = view.find<ImageView>(R.id.posts_page_gridview_element_type)
         when (File(gridElement.post.fileUrl).extension) {

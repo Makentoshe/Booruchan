@@ -129,4 +129,5 @@
     <item name="comment_author" type="id"/>
     <item name="comment_date" type="id"/>
     <item name="comment_meta" type="id"/>
+    <item name="posts_page_gridview_element_progress" type="id"/>
 </resources>

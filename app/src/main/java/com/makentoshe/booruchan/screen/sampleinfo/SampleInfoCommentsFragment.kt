@@ -14,14 +14,14 @@ import com.makentoshe.booruchan.api.Booru
 import com.makentoshe.booruchan.api.component.comment.Comment
 import com.makentoshe.booruchan.api.component.post.Post
 import com.makentoshe.booruchan.model.arguments
-import com.makentoshe.booruchan.model.isFinallyDestroy
 import com.makentoshe.booruchan.screen.sampleinfo.model.CommentsRecyclerAdapter
 import com.makentoshe.booruchan.screen.sampleinfo.view.SampleInfoCommentsUi
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
-import org.jetbrains.anko.*
+import org.jetbrains.anko.AnkoContext
+import org.jetbrains.anko.find
 
 class SampleInfoCommentsFragment : Fragment() {
 
