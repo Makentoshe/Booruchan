@@ -19,5 +19,6 @@ class SafebooruPost(
     override val tags: Array<Tag> = postTagsParser.parse(raw["tags"] ?: ""),
     override val previewHeight: Int = raw["preview_height"]?.toInt() ?: -1,
     override val previewWidth: Int = raw["preview_width"]?.toInt() ?: -1,
-    override val source: String = raw["source"] ?: ""
+    override val source: String = raw["source"] ?: "",
+    override val hasComments: Boolean = raw["has_comments"]?.toBoolean() ?: false
 ) : Post

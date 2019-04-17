@@ -16,6 +16,7 @@ interface Post : Serializable {
     val rating: Rating
     val tags: Array<Tag>
     val source: String
+    val hasComments: Boolean
 
     companion object {
         fun create(id: Long, sampleUrl: String = "") = object : Post {
@@ -43,6 +44,8 @@ interface Post : Serializable {
                 get() = -1
             override val source: String
                 get() = ""
+            override val hasComments: Boolean
+                get() = true
         }
     }
 }

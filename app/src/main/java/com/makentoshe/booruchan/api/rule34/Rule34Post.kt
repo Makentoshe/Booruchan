@@ -1,9 +1,9 @@
 package com.makentoshe.booruchan.api.rule34
 
-import com.makentoshe.booruchan.api.component.tag.Tag
 import com.makentoshe.booruchan.api.component.post.Post
 import com.makentoshe.booruchan.api.component.post.PostTagsParser
 import com.makentoshe.booruchan.api.component.post.Rating
+import com.makentoshe.booruchan.api.component.tag.Tag
 
 class Rule34Post(
     private val postTagsParser: PostTagsParser,
@@ -18,5 +18,6 @@ class Rule34Post(
     override val tags: Array<Tag> = postTagsParser.parse(raw["tags"] ?: ""),
     override val previewHeight: Int = raw["preview_height"]?.toInt() ?: -1,
     override val previewWidth: Int = raw["preview_width"]?.toInt() ?: -1,
-    override val source: String = raw["source"] ?: ""
-): Post
+    override val source: String = raw["source"] ?: "",
+    override val hasComments: Boolean = raw["has_comments"]?.toBoolean() ?: false
+) : Post
