@@ -7,24 +7,25 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.makentoshe.booruchan.Booruchan
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.api.Booru
 import com.makentoshe.booruchan.api.component.tag.Tag
-import com.makentoshe.booruchan.navigation.Screen
-import com.makentoshe.booruchan.model.arguments
-import com.makentoshe.booruchan.screen.sampleinfo.SampleInfoScreen
 import com.makentoshe.booruchan.model.VerticalViewPagerAdapter
+import com.makentoshe.booruchan.model.arguments
+import com.makentoshe.booruchan.navigation.Router
+import com.makentoshe.booruchan.navigation.Screen
+import com.makentoshe.booruchan.screen.sampleinfo.SampleInfoScreen
 import com.makentoshe.booruchan.screen.samples.view.SampleContentUi
 import org.jetbrains.anko.AnkoContext
 import org.jetbrains.anko.find
 import org.jetbrains.anko.findOptional
 import org.jetbrains.anko.support.v4.onPageChangeListener
+import org.koin.android.ext.android.inject
 import java.io.Serializable
 
 class SampleContentFragment : Fragment() {
 
-    private val router = Booruchan.INSTANCE.router
+    private val router: Router by inject()
 
     //displaying starts from current position
     private var position: Int
@@ -69,10 +70,11 @@ class SampleContentFragment : Fragment() {
         view.find<BottomNavigationView>(R.id.samples_bottombar).setOnNavigationItemSelectedListener {
             //try to find viewpager or return false
             //the current item value contains the post number that we need
-            val horizontalviewpager = view.findOptional<ViewPager>(R.id.samples_container_viewpager)?: return@setOnNavigationItemSelectedListener false
+            val horizontalviewpager = view.findOptional<ViewPager>(R.id.samples_container_viewpager)
+                ?: return@setOnNavigationItemSelectedListener false
             //create screen with the selected params and navigate to it
             val screen = SampleInfoScreen(it.itemId, booru, tags, horizontalviewpager.currentItem)
-            Booruchan.INSTANCE.router.navigateTo(screen)
+            router.navigateTo(screen)
             return@setOnNavigationItemSelectedListener true
         }
     }

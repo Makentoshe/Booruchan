@@ -11,15 +11,18 @@ import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.api.Booru
 import com.makentoshe.booruchan.api.component.post.Post
 import com.makentoshe.booruchan.model.arguments
-import com.makentoshe.booruchan.router
+import com.makentoshe.booruchan.navigation.Router
 import com.makentoshe.booruchan.screen.samples.view.SamplePageWebmUi
 import com.makentoshe.booruchan.screen.settings.AppSettings
 import com.makentoshe.booruchan.screen.webmplayer.WebmPlayerScreen
 import io.reactivex.disposables.CompositeDisposable
 import org.jetbrains.anko.AnkoContext
 import org.jetbrains.anko.find
+import org.koin.android.ext.android.inject
 
 class SamplePageWebmFragment : Fragment() {
+
+    private val router: Router by inject()
 
     private var booru: Booru
         get() = arguments!!.get(BOORU) as Booru

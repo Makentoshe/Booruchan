@@ -1,6 +1,5 @@
 package com.makentoshe.booruchan
 
-
 import android.app.Application
 import com.makentoshe.booruchan.api.Booru
 import com.makentoshe.booruchan.api.gelbooru.Gelbooru
@@ -18,26 +17,26 @@ import org.koin.core.context.startKoin
 import org.koin.core.module.Module
 import org.koin.dsl.module
 import ru.terrakok.cicerone.Cicerone
-import java.util.*
-import kotlin.collections.ArrayList
 
 class Booruchan : Application() {
 
     private val cicerone = Cicerone.create(Router())
 
-    val booruList = ArrayList<Class<out Booru>>()
+    private val booruList = ArrayList<Class<out Booru>>().apply {
+        add(Gelbooru::class.java)
+        add(Safebooru::class.java)
+        add(Rule34::class.java)
+    }
 
     private val appModule: Module = module {
         single { AppSettings }
         single { cicerone.router }
         single { cicerone.navigatorHolder }
-        single { ArrayList<Class<out Booru>>() }
+        single<List<Class<out Booru>>> { booruList }
     }
 
     lateinit var style: Style
         private set
-
-    val router = cicerone.router
 
     lateinit var settings: AppSettings
         private set
@@ -52,8 +51,6 @@ class Booruchan : Application() {
         }
         initRxErrorHandler()
         loadStyle()
-        loadBooru()
-        loadSettings()
     }
 
     private fun initRxErrorHandler() {
@@ -67,23 +64,10 @@ class Booruchan : Application() {
         style = SotisStyle()
     }
 
-    private fun loadBooru() {
-        this.booruList.add(Gelbooru::class.java)
-        this.booruList.add(Safebooru::class.java)
-        this.booruList.add(Rule34::class.java)
-    }
-
-    private fun loadSettings() {
-        settings = AppSettings
-    }
-
     companion object {
-
         lateinit var INSTANCE: Booruchan
     }
 }
 
 val style = Booruchan.INSTANCE.style
-
-val router = Booruchan.INSTANCE.router
 

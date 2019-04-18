@@ -5,14 +5,12 @@ import android.os.Bundle
 import android.view.*
 import android.widget.*
 import androidx.fragment.app.Fragment
-import com.makentoshe.booruchan.Booruchan
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.api.Booru
 import com.makentoshe.booruchan.api.BooruFactoryImpl
 import com.makentoshe.booruchan.api.safebooru.Safebooru
 import com.makentoshe.booruchan.navigation.Router
 import com.makentoshe.booruchan.network.fuel.FuelClientFactory
-import com.makentoshe.booruchan.router
 import com.makentoshe.booruchan.screen.settings.AppSettings
 import com.makentoshe.booruchan.screen.start.model.StartScreenNavigator
 import com.makentoshe.booruchan.screen.start.view.StartFragmentUi
@@ -23,18 +21,21 @@ import org.koin.android.ext.android.inject
 class StartFragment : Fragment() {
 
     private val router: Router by inject()
+    private val appSettings: AppSettings by inject()
+    private val booruList: List<Class<out Booru>> by inject()
 
     private val navigator by lazy {
         StartScreenNavigator(router)
     }
 
-    var booruFactory = BooruFactoryImpl(FuelClientFactory().buildClient())
+    private var booruFactory = BooruFactoryImpl(FuelClientFactory().buildClient())
 
-    private val booruList: List<Class<out Booru>>
-        get() = if (AppSettings.getNsfw(requireContext())) {
-            Booruchan.INSTANCE.booruList
+    // List with the boorus filtered with nsfw settings
+    private val currentBooruList: List<Class<out Booru>>
+        get() = if (appSettings.getNsfw(requireContext())) {
+            booruList
         } else {
-            Booruchan.INSTANCE.booruList.filter { it == Safebooru::class.java }
+            booruList.filter { it == Safebooru::class.java }
         }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -55,12 +56,12 @@ class StartFragment : Fragment() {
     }
 
     private fun buildAdapter(context: Context): ListAdapter {
-        val boorusTitles = Array(booruList.size) { booruList[it].simpleName }
+        val boorusTitles = Array(currentBooruList.size) { currentBooruList[it].simpleName }
         return ArrayAdapter(context, android.R.layout.simple_list_item_1, boorusTitles)
     }
 
     private fun onItemClick(parent: AdapterView<*>, view: View, position: Int, id: Long) {
-        val booru = booruFactory.buildBooru(booruList[position], requireContext())
+        val booru = booruFactory.buildBooru(currentBooruList[position], requireContext())
         navigator.navigateToBooruScreen(booru)
     }
 

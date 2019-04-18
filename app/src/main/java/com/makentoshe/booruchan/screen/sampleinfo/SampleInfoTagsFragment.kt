@@ -11,15 +11,17 @@ import com.makentoshe.booruchan.api.Booru
 import com.makentoshe.booruchan.api.component.post.Post
 import com.makentoshe.booruchan.api.component.tag.Tag
 import com.makentoshe.booruchan.model.arguments
-import com.makentoshe.booruchan.router
+import com.makentoshe.booruchan.navigation.Router
 import com.makentoshe.booruchan.screen.booru.BooruScreen
 import com.makentoshe.booruchan.screen.sampleinfo.view.SampleInfoTagsUi
-import com.makentoshe.booruchan.screen.start.StartScreen
 import com.makentoshe.booruchan.view.addTagToChipGroup
 import org.jetbrains.anko.AnkoContext
 import org.jetbrains.anko.find
+import org.koin.android.ext.android.inject
 
 class SampleInfoTagsFragment : Fragment() {
+
+    private val router: Router by inject()
 
     private var booru: Booru
         get() = arguments!!.get(BOORU) as Booru

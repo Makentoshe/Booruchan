@@ -14,6 +14,7 @@ import com.makentoshe.booruchan.api.Posts
 import com.makentoshe.booruchan.api.component.post.Post
 import com.makentoshe.booruchan.api.component.tag.Tag
 import com.makentoshe.booruchan.model.arguments
+import com.makentoshe.booruchan.navigation.Router
 import com.makentoshe.booruchan.repository.FileImageRepository
 import com.makentoshe.booruchan.repository.PostsRepository
 import com.makentoshe.booruchan.repository.PreviewImageRepository
@@ -22,7 +23,6 @@ import com.makentoshe.booruchan.repository.cache.ImageInternalCache
 import com.makentoshe.booruchan.repository.cache.InternalCache
 import com.makentoshe.booruchan.repository.cache.PostInternalCache
 import com.makentoshe.booruchan.repository.decorator.CachedRepository
-import com.makentoshe.booruchan.router
 import com.makentoshe.booruchan.screen.posts.model.PostPageGridAdapter
 import com.makentoshe.booruchan.screen.posts.model.getItemsCountInRequest
 import com.makentoshe.booruchan.screen.posts.view.PostPageUi
@@ -30,13 +30,15 @@ import com.makentoshe.booruchan.screen.samples.SampleScreen
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import org.jetbrains.anko.AnkoContext
 import org.jetbrains.anko.find
+import org.koin.android.ext.android.inject
 import java.io.Serializable
 
 class PostsPageFragment : Fragment() {
+
+    private val router: Router by inject()
 
     private var position: Int
         get() = arguments!!.getInt(POS)
