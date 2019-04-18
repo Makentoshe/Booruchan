@@ -12,19 +12,30 @@ import com.makentoshe.booruchan.style.SotisStyle
 import com.makentoshe.booruchan.style.Style
 import io.reactivex.exceptions.UndeliverableException
 import io.reactivex.plugins.RxJavaPlugins
+import org.koin.android.ext.koin.androidContext
+import org.koin.android.ext.koin.androidLogger
+import org.koin.core.context.startKoin
+import org.koin.core.module.Module
+import org.koin.dsl.module
 import ru.terrakok.cicerone.Cicerone
 import java.util.*
+import kotlin.collections.ArrayList
 
 class Booruchan : Application() {
 
-    private var cicerone = Cicerone.create(Router())
+    private val cicerone = Cicerone.create(Router())
 
     val booruList = ArrayList<Class<out Booru>>()
 
+    private val appModule: Module = module {
+        single { AppSettings }
+        single { cicerone.router }
+        single { cicerone.navigatorHolder }
+        single { ArrayList<Class<out Booru>>() }
+    }
+
     lateinit var style: Style
         private set
-
-    val navigatorHolder = cicerone.navigatorHolder
 
     val router = cicerone.router
 
@@ -34,7 +45,11 @@ class Booruchan : Application() {
     override fun onCreate() {
         super.onCreate()
         INSTANCE = this
-        cicerone = Cicerone.create(Router())
+        startKoin {
+            androidLogger()
+            androidContext(this@Booruchan)
+            modules(appModule)
+        }
         initRxErrorHandler()
         loadStyle()
         loadBooru()
@@ -72,4 +87,3 @@ val style = Booruchan.INSTANCE.style
 
 val router = Booruchan.INSTANCE.router
 
-val appSettings = Booruchan.INSTANCE.settings

@@ -10,6 +10,7 @@ import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.api.Booru
 import com.makentoshe.booruchan.api.BooruFactoryImpl
 import com.makentoshe.booruchan.api.safebooru.Safebooru
+import com.makentoshe.booruchan.navigation.Router
 import com.makentoshe.booruchan.network.fuel.FuelClientFactory
 import com.makentoshe.booruchan.router
 import com.makentoshe.booruchan.screen.settings.AppSettings
@@ -17,8 +18,11 @@ import com.makentoshe.booruchan.screen.start.model.StartScreenNavigator
 import com.makentoshe.booruchan.screen.start.view.StartFragmentUi
 import org.jetbrains.anko.AnkoContext
 import org.jetbrains.anko.find
+import org.koin.android.ext.android.inject
 
 class StartFragment : Fragment() {
+
+    private val router: Router by inject()
 
     private val navigator by lazy {
         StartScreenNavigator(router)

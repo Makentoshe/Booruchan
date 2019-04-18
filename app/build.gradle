@@ -66,6 +66,8 @@ dependencies {
     //https://github.com/google/ExoPlayer
     implementation 'com.google.android.exoplayer:exoplayer:2.9.4'
 
+    implementation 'org.koin:koin-android:2.0.0-rc-2'
+
     testImplementation 'junit:junit:4.12'
     testImplementation "io.mockk:mockk:1.8.13.kotlin13"
     testImplementation 'net.bytebuddy:byte-buddy-agent:1.8.22'
