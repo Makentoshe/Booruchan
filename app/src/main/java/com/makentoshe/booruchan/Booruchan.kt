@@ -7,11 +7,11 @@ import com.makentoshe.booruchan.api.rule34.Rule34
 import com.makentoshe.booruchan.api.safebooru.Safebooru
 import com.makentoshe.booruchan.navigation.Router
 import com.makentoshe.booruchan.screen.settings.AppSettings
+import com.makentoshe.booruchan.screen.start.buildStartScope
 import com.makentoshe.booruchan.style.SotisStyle
 import com.makentoshe.booruchan.style.Style
 import io.reactivex.exceptions.UndeliverableException
 import io.reactivex.plugins.RxJavaPlugins
-import org.koin.android.ext.android.inject
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
@@ -33,7 +33,8 @@ class Booruchan : Application() {
         single { AppSettings }
         single { cicerone.router }
         single { cicerone.navigatorHolder }
-        single<List<Class<out Booru>>> { booruList }
+
+        buildStartScope(booruList)
     }
 
     lateinit var style: Style
