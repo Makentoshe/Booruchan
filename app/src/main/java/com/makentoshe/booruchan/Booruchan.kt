@@ -11,6 +11,7 @@ import com.makentoshe.booruchan.style.SotisStyle
 import com.makentoshe.booruchan.style.Style
 import io.reactivex.exceptions.UndeliverableException
 import io.reactivex.plugins.RxJavaPlugins
+import org.koin.android.ext.android.inject
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
@@ -36,9 +37,6 @@ class Booruchan : Application() {
     }
 
     lateinit var style: Style
-        private set
-
-    lateinit var settings: AppSettings
         private set
 
     override fun onCreate() {
