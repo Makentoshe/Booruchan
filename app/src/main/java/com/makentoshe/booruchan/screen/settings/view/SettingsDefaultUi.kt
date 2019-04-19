@@ -1,4 +1,4 @@
-package com.makentoshe.booruchan.screen.settings.defaultscreen.view
+package com.makentoshe.booruchan.screen.settings.view
 
 import android.view.View
 import android.widget.LinearLayout

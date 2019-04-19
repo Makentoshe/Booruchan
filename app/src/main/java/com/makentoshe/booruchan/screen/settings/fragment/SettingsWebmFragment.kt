@@ -1,15 +1,15 @@
-package com.makentoshe.booruchan.screen.settings.webmscreen
+package com.makentoshe.booruchan.screen.settings.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.CheckBox
 import androidx.fragment.app.Fragment
-import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.model.arguments
+import com.makentoshe.booruchan.screen.settings.controller.webm.WebmPlayerSettingController
+import com.makentoshe.booruchan.screen.settings.view.SettingsWebmUi
 import org.jetbrains.anko.AnkoContext
-import org.jetbrains.anko.find
+import org.koin.androidx.scope.currentScope
 
 class SettingsWebmFragment : Fragment() {
 
@@ -17,18 +17,14 @@ class SettingsWebmFragment : Fragment() {
         set(value) = arguments().putInt(POSITION, value)
         get() = arguments!!.getInt(POSITION)
 
+    private val webmPlayerSettingController by currentScope.inject<WebmPlayerSettingController>()
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return SettingsWebmUi().createView(AnkoContext.create(requireContext(), this))
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        initWebmPlaying(view)
-    }
-
-    private fun initWebmPlaying(view: View) {
-        val webmPlayingRoot = view.find<View>(R.id.setting_webm_on_place)
-        val webmPlayingTrigger = view.find<CheckBox>(R.id.setting_webm_on_place_checkbox)
-        SettingViewCheckerWebmPlaying(webmPlayingRoot, webmPlayingTrigger).bind(requireContext())
+        webmPlayerSettingController.bindView(view)
     }
 
     companion object {

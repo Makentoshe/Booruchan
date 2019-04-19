@@ -1,4 +1,4 @@
-package com.makentoshe.booruchan.screen.settings.webmscreen
+package com.makentoshe.booruchan.screen.settings.view
 
 import android.view.View
 import android.widget.LinearLayout

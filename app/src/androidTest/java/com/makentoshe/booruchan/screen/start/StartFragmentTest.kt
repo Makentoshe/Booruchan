@@ -8,7 +8,7 @@ import androidx.test.rule.ActivityTestRule
 import com.makentoshe.booruchan.*
 import com.makentoshe.booruchan.screen.booru.BooruFragment
 import com.makentoshe.booruchan.screen.settings.AppSettings
-import com.makentoshe.booruchan.screen.settings.SettingsFragment
+import com.makentoshe.booruchan.screen.settings.fragment.SettingsFragment
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule

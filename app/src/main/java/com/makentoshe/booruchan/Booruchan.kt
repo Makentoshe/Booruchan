@@ -7,6 +7,11 @@ import com.makentoshe.booruchan.api.rule34.Rule34
 import com.makentoshe.booruchan.api.safebooru.Safebooru
 import com.makentoshe.booruchan.navigation.Router
 import com.makentoshe.booruchan.screen.settings.AppSettings
+import com.makentoshe.booruchan.screen.settings.model.SettingsScreenBuilder
+import com.makentoshe.booruchan.screen.settings.scope.buildSettingsDefaultScope
+import com.makentoshe.booruchan.screen.settings.scope.buildSettingsPageScope
+import com.makentoshe.booruchan.screen.settings.scope.buildSettingsScope
+import com.makentoshe.booruchan.screen.settings.scope.buildWebmSettingsScope
 import com.makentoshe.booruchan.screen.start.buildStartScope
 import com.makentoshe.booruchan.style.SotisStyle
 import com.makentoshe.booruchan.style.Style
@@ -33,8 +38,13 @@ class Booruchan : Application() {
         single { AppSettings }
         single { cicerone.router }
         single { cicerone.navigatorHolder }
+        factory { SettingsScreenBuilder() }
 
         buildStartScope(booruList)
+        buildSettingsScope()
+        buildSettingsPageScope()
+        buildSettingsDefaultScope()
+        buildWebmSettingsScope()
     }
 
     lateinit var style: Style
