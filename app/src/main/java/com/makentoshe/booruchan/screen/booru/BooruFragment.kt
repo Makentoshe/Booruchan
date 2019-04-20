@@ -4,21 +4,17 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.GravityCompat
-import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.api.Booru
 import com.makentoshe.booruchan.api.component.tag.Tag
-import com.makentoshe.booruchan.model.CiceroneFactory
 import com.makentoshe.booruchan.model.arguments
 import com.makentoshe.booruchan.navigation.FragmentNavigator
 import com.makentoshe.booruchan.screen.booru.view.BooruUi
 import org.jetbrains.anko.AnkoContext
-import org.jetbrains.anko.find
-import org.koin.androidx.viewmodel.dsl.viewModel
+import org.koin.androidx.scope.currentScope
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import org.koin.core.module.Module
+import org.koin.core.parameter.parametersOf
 import java.io.Serializable
 
 class BooruFragment : Fragment() {
@@ -31,17 +27,12 @@ class BooruFragment : Fragment() {
         get() = arguments!!.get(TAGS) as Set<Tag>
         set(value) = arguments().putSerializable(TAGS, value as Serializable)
 
-    private val localRouter by lazy { LocalRouter(booru, tags) }
-
-    private val navigator by lazy {
-        FragmentNavigator(requireActivity(), R.id.booru_drawer_content, childFragmentManager)
+    private val navigatorViewModel by viewModel<LocalNavigatorViewModel> {
+        parametersOf(currentScope.get<LocalRouter> { parametersOf(booru, tags) })
     }
 
-    private val navigatorViewModel by viewModel<LocalNavigatorViewModel>()
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        navigatorViewModel.localRouter = localRouter
-        super.onCreate(savedInstanceState)
+    private val fragmentNavigator by currentScope.inject<FragmentNavigator> {
+        parametersOf(requireActivity(), childFragmentManager)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -50,7 +41,7 @@ class BooruFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        navigatorViewModel.setNavigator(navigator)
+        navigatorViewModel.setNavigator(fragmentNavigator)
     }
 
     override fun onPause() {

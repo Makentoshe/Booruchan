@@ -8,17 +8,15 @@ import com.makentoshe.booruchan.navigation.Screen
 import com.makentoshe.booruchan.screen.booru.model.LocalNavigator
 
 class LocalNavigatorViewModel(
-    ciceroneFactory: CiceroneFactory
+    ciceroneFactory: CiceroneFactory,
+    private val localRouter: LocalRouter
 ) : ViewModel(), LocalNavigator {
 
     private val cicerone = ciceroneFactory.build(Router())
 
-    lateinit var localRouter: LocalRouter
-
     private var isScreenSetuped = false
 
     override fun setNavigator(navigator: FragmentNavigator) {
-        println(isScreenSetuped)
         cicerone.navigatorHolder.setNavigator(navigator)
         if (!isScreenSetuped) navigateToPosts()
     }
