@@ -4,13 +4,10 @@ import androidx.fragment.app.Fragment
 
 /**
  * Displays alert dialog.
+ *
+ * @param fragment is a parent fragment from the dialog will be displayed.
  */
-class NsfwAlertController {
-
-    /**
-     * The parent fragment, from the dialog will be displayed.
-     */
-    lateinit var fragment: Fragment
+class NsfwAlertController(private val fragment: Fragment) {
 
     /**
      * Displays alert dialog.
@@ -18,8 +15,6 @@ class NsfwAlertController {
      * @param result is a function calls when decision was made with the result.
      */
     fun showAlert(result: (Boolean) -> Unit) {
-        if (!this::fragment.isInitialized) result(false)
-
         val alertFragment = SettingsNsfwAlertFragment()
         alertFragment.show(fragment.fragmentManager, alertFragment::class.java.simpleName)
         alertFragment.setOnDialogResultListener {

@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import com.makentoshe.booruchan.model.arguments
 import org.jetbrains.anko.AnkoContext
 import org.koin.androidx.scope.currentScope
+import org.koin.core.parameter.parametersOf
 
 class SettingsDefaultFragment : Fragment() {
 
@@ -16,15 +17,8 @@ class SettingsDefaultFragment : Fragment() {
         get() = arguments!!.getInt(POSITION)
 
     // Controller for nsfw setting behaviour
-    private val nsfwSettingController by currentScope.inject<NsfwSettingController>()
-
-    // Controller displays alert dialog when nsfw setting changes at the first time
-    private val nsfwSettingAlertController by currentScope.inject<NsfwAlertController>()
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        //set up a fragment instance for displaying alert dialog
-        nsfwSettingAlertController.fragment = this
+    private val nsfwSettingController by currentScope.inject<NsfwSettingController> {
+        parametersOf(this)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
