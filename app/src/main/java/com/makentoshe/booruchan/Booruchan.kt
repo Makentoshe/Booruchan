@@ -7,6 +7,7 @@ import com.makentoshe.booruchan.api.rule34.Rule34
 import com.makentoshe.booruchan.api.safebooru.Safebooru
 import com.makentoshe.booruchan.navigation.Router
 import com.makentoshe.booruchan.screen.booru.buildBooruScope
+import com.makentoshe.booruchan.screen.posts.buildPostsScope
 import com.makentoshe.booruchan.screen.settings.AppSettings
 import com.makentoshe.booruchan.screen.settings.common.buildSettingsDefaultScope
 import com.makentoshe.booruchan.screen.settings.container.buildSettingsScope
@@ -47,6 +48,7 @@ class Booruchan : Application() {
         buildSettingsDefaultScope()
         buildWebmSettingsScope()
         buildBooruScope()
+        buildPostsScope()
     }
 
     lateinit var style: Style
