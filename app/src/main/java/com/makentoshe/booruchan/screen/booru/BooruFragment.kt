@@ -22,7 +22,7 @@ import java.io.Serializable
 class BooruFragment : Fragment() {
 
     init {
-        currentScope.get<Fragment>(named("BooruFragment")) { parametersOf(this) }
+        currentScope.get<Fragment>(named(BooruModule.fragmentStr)) { parametersOf(this) }
     }
 
     private var booru: Booru
@@ -34,7 +34,7 @@ class BooruFragment : Fragment() {
         set(value) = arguments().putSerializable(TAGS, value as Serializable)
 
     private val navigatorViewModel by viewModel<LocalNavigatorViewModel> {
-        val cicerone = currentScope.get<Cicerone<Router>>(named("BooruCicerone"))
+        val cicerone = currentScope.get<Cicerone<Router>>(named(BooruModule.ciceroneStr))
         val localRouter = currentScope.get<LocalRouter>()
         parametersOf(cicerone, localRouter)
     }
@@ -44,8 +44,8 @@ class BooruFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         //provides params to the scope
-        currentScope.get<Booru> { parametersOf(booru) }
-        currentScope.get<Set<Tag>> { parametersOf(tags) }
+        currentScope.get<Booru>(named(BooruModule.booruStr)) { parametersOf(booru) }
+        currentScope.get<Set<Tag>>(named(BooruModule.tagsStr)) { parametersOf(tags) }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

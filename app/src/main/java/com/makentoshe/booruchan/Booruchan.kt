@@ -2,7 +2,7 @@ package com.makentoshe.booruchan
 
 import android.app.Application
 import com.makentoshe.booruchan.navigation.Router
-import com.makentoshe.booruchan.screen.booru.booruModule
+import com.makentoshe.booruchan.screen.booru.BooruModule
 import com.makentoshe.booruchan.screen.posts.buildPostsScope
 import com.makentoshe.booruchan.screen.settings.AppSettings
 import com.makentoshe.booruchan.screen.settings.page.SettingsScreenBuilder
@@ -41,7 +41,7 @@ class Booruchan : Application() {
         startKoin {
             androidLogger()
             androidContext(this@Booruchan)
-            modules(appModule, startModule, settingsModule, booruModule)
+            modules(appModule, startModule, settingsModule, BooruModule.module)
         }
         initRxErrorHandler()
         loadStyle()
