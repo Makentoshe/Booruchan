@@ -14,7 +14,7 @@ import com.makentoshe.booruchan.screen.settings.container.buildSettingsScope
 import com.makentoshe.booruchan.screen.settings.page.SettingsScreenBuilder
 import com.makentoshe.booruchan.screen.settings.page.buildSettingsPageScope
 import com.makentoshe.booruchan.screen.settings.webm.buildWebmSettingsScope
-import com.makentoshe.booruchan.screen.start.buildStartScope
+import com.makentoshe.booruchan.screen.start.startModule
 import com.makentoshe.booruchan.style.SotisStyle
 import com.makentoshe.booruchan.style.Style
 import io.reactivex.exceptions.UndeliverableException
@@ -30,19 +30,12 @@ class Booruchan : Application() {
 
     private val cicerone = Cicerone.create(Router())
 
-    private val booruList = ArrayList<Class<out Booru>>().apply {
-        add(Gelbooru::class.java)
-        add(Safebooru::class.java)
-        add(Rule34::class.java)
-    }
-
     private val appModule: Module = module {
         single { AppSettings }
         single { cicerone.router }
         single { cicerone.navigatorHolder }
         factory { SettingsScreenBuilder() }
 
-        buildStartScope(booruList)
         buildSettingsScope()
         buildSettingsPageScope()
         buildSettingsDefaultScope()
@@ -60,7 +53,7 @@ class Booruchan : Application() {
         startKoin {
             androidLogger()
             androidContext(this@Booruchan)
-            modules(appModule)
+            modules(appModule, startModule)
         }
         initRxErrorHandler()
         loadStyle()
@@ -84,3 +77,10 @@ class Booruchan : Application() {
 
 val style = Booruchan.INSTANCE.style
 
+val appModule = module {
+    single { Cicerone.create(Router()) }
+    single { AppSettings }
+    single { get<Cicerone<Router>>().router }
+    single { get<Cicerone<Router>>().navigatorHolder }
+    factory { SettingsScreenBuilder() }
+}
