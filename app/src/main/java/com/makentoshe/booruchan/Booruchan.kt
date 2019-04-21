@@ -1,19 +1,12 @@
 package com.makentoshe.booruchan
 
 import android.app.Application
-import com.makentoshe.booruchan.api.Booru
-import com.makentoshe.booruchan.api.gelbooru.Gelbooru
-import com.makentoshe.booruchan.api.rule34.Rule34
-import com.makentoshe.booruchan.api.safebooru.Safebooru
 import com.makentoshe.booruchan.navigation.Router
 import com.makentoshe.booruchan.screen.booru.buildBooruScope
 import com.makentoshe.booruchan.screen.posts.buildPostsScope
 import com.makentoshe.booruchan.screen.settings.AppSettings
-import com.makentoshe.booruchan.screen.settings.common.buildSettingsDefaultScope
-import com.makentoshe.booruchan.screen.settings.container.buildSettingsScope
 import com.makentoshe.booruchan.screen.settings.page.SettingsScreenBuilder
-import com.makentoshe.booruchan.screen.settings.page.buildSettingsPageScope
-import com.makentoshe.booruchan.screen.settings.webm.buildWebmSettingsScope
+import com.makentoshe.booruchan.screen.settings.settingsModule
 import com.makentoshe.booruchan.screen.start.startModule
 import com.makentoshe.booruchan.style.SotisStyle
 import com.makentoshe.booruchan.style.Style
@@ -36,10 +29,6 @@ class Booruchan : Application() {
         single { cicerone.navigatorHolder }
         factory { SettingsScreenBuilder() }
 
-        buildSettingsScope()
-        buildSettingsPageScope()
-        buildSettingsDefaultScope()
-        buildWebmSettingsScope()
         buildBooruScope()
         buildPostsScope()
     }
@@ -53,7 +42,7 @@ class Booruchan : Application() {
         startKoin {
             androidLogger()
             androidContext(this@Booruchan)
-            modules(appModule, startModule)
+            modules(appModule, startModule, settingsModule)
         }
         initRxErrorHandler()
         loadStyle()
