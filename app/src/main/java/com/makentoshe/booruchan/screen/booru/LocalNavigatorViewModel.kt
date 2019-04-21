@@ -6,13 +6,12 @@ import com.makentoshe.booruchan.navigation.FragmentNavigator
 import com.makentoshe.booruchan.navigation.Router
 import com.makentoshe.booruchan.navigation.Screen
 import com.makentoshe.booruchan.screen.booru.model.LocalNavigator
+import ru.terrakok.cicerone.Cicerone
 
 class LocalNavigatorViewModel(
-    ciceroneFactory: CiceroneFactory,
+    private val cicerone: Cicerone<Router>,
     private val localRouter: LocalRouter
 ) : ViewModel(), LocalNavigator {
-
-    private val cicerone = ciceroneFactory.build(Router())
 
     private var isScreenSetuped = false
 

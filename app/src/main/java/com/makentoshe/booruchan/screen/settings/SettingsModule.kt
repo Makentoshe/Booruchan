@@ -17,19 +17,25 @@ import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
 val settingsModule = module {
+    val defaultFragmentStr = "DefaultFragment"
+    
     scope(named<SettingsFragment>()) {
         scoped { ViewPagerController() }
         scoped { TabController() }
     }
+
     scope(named<SettingsDefaultFragment>()) {
-        scoped { (fragment: Fragment) -> fragment }
+        scoped(named(defaultFragmentStr)) { (fragment: Fragment) -> fragment }
+
         scoped { NsfwStateController(get(), get()) }
-        scoped { NsfwAlertController(get()) }
+        scoped { NsfwAlertController(get(named(defaultFragmentStr))) }
         scoped { NsfwSettingController(get(), get()) }
     }
+
     scope(named<SettingsPageFragment>()) {
         scoped { ContentController(get()) }
     }
+
     scope(named<SettingsWebmFragment>()) {
         scoped { WebmPlayerStateController(get(), get()) }
         scoped { WebmPlayerSettingController(get()) }

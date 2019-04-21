@@ -8,12 +8,13 @@ import androidx.fragment.app.Fragment
 import org.jetbrains.anko.AnkoContext
 import org.koin.androidx.scope.currentScope
 import org.koin.core.parameter.parametersOf
+import org.koin.core.qualifier.named
 
 class SettingsDefaultFragment : Fragment() {
 
     init {
         //provide fragment instance to the scope
-        currentScope.get<Fragment> { parametersOf(this) }
+        currentScope.get<Fragment>(named("DefaultFragment")) { parametersOf(this) }
     }
 
     // Controller for nsfw setting behaviour

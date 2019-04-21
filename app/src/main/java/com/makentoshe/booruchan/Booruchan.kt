@@ -2,7 +2,7 @@ package com.makentoshe.booruchan
 
 import android.app.Application
 import com.makentoshe.booruchan.navigation.Router
-import com.makentoshe.booruchan.screen.booru.buildBooruScope
+import com.makentoshe.booruchan.screen.booru.booruModule
 import com.makentoshe.booruchan.screen.posts.buildPostsScope
 import com.makentoshe.booruchan.screen.settings.AppSettings
 import com.makentoshe.booruchan.screen.settings.page.SettingsScreenBuilder
@@ -29,7 +29,6 @@ class Booruchan : Application() {
         single { cicerone.navigatorHolder }
         factory { SettingsScreenBuilder() }
 
-        buildBooruScope()
         buildPostsScope()
     }
 
@@ -42,7 +41,7 @@ class Booruchan : Application() {
         startKoin {
             androidLogger()
             androidContext(this@Booruchan)
-            modules(appModule, startModule, settingsModule)
+            modules(appModule, startModule, settingsModule, booruModule)
         }
         initRxErrorHandler()
         loadStyle()
