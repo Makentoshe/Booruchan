@@ -3,7 +3,7 @@ package com.makentoshe.booruchan
 import android.app.Application
 import com.makentoshe.booruchan.navigation.Router
 import com.makentoshe.booruchan.screen.booru.BooruModule
-import com.makentoshe.booruchan.screen.posts.buildPostsScope
+import com.makentoshe.booruchan.screen.posts.PostsModule
 import com.makentoshe.booruchan.screen.settings.AppSettings
 import com.makentoshe.booruchan.screen.settings.page.SettingsScreenBuilder
 import com.makentoshe.booruchan.screen.settings.settingsModule
@@ -28,8 +28,6 @@ class Booruchan : Application() {
         single { cicerone.router }
         single { cicerone.navigatorHolder }
         factory { SettingsScreenBuilder() }
-
-        buildPostsScope()
     }
 
     lateinit var style: Style
@@ -41,7 +39,13 @@ class Booruchan : Application() {
         startKoin {
             androidLogger()
             androidContext(this@Booruchan)
-            modules(appModule, startModule, settingsModule, BooruModule.module)
+            modules(
+                appModule,
+                startModule,
+                settingsModule,
+                BooruModule.module,
+                PostsModule.module
+            )
         }
         initRxErrorHandler()
         loadStyle()

@@ -4,11 +4,11 @@ import android.view.View
 import android.widget.TextView
 import androidx.viewpager.widget.ViewPager
 import com.makentoshe.booruchan.R
-import com.makentoshe.booruchan.screen.posts.viewmodel.SearchStateViewModel
+import com.makentoshe.booruchan.screen.posts.viewmodel.SearchState
 import org.jetbrains.anko.find
 import org.jetbrains.anko.support.v4.onPageChangeListener
 
-class BottomBarController(private val searchStateViewModel: SearchStateViewModel) {
+class BottomBarController(private val searchState: SearchState) {
 
     fun bindView(view: View) {
         val viewpager = view.find<ViewPager>(R.id.posts_viewpager)
@@ -36,7 +36,7 @@ class BottomBarController(private val searchStateViewModel: SearchStateViewModel
         }
 
         //change bottom bar indicator to the start
-        searchStateViewModel.onSearchStarted {
+        searchState.onSearchStarted {
             centertext.text = "0"
         }
     }
@@ -71,7 +71,7 @@ class BottomBarController(private val searchStateViewModel: SearchStateViewModel
         }
 
         //hide the left button
-        searchStateViewModel.onSearchStarted {
+        searchState.onSearchStarted {
             view.visibility = View.INVISIBLE
         }
     }

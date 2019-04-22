@@ -10,6 +10,7 @@ import androidx.viewpager.widget.ViewPager
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.api.Booru
 import com.makentoshe.booruchan.api.component.tag.Tag
+import com.makentoshe.booruchan.model.BooruHolder
 import com.makentoshe.booruchan.model.RequestCode
 import com.makentoshe.booruchan.model.arguments
 import com.makentoshe.booruchan.screen.posts.controller.BottomBarController
@@ -18,6 +19,7 @@ import com.makentoshe.booruchan.screen.posts.controller.ToolbarController
 import com.makentoshe.booruchan.screen.posts.controller.ViewPagerController
 import com.makentoshe.booruchan.screen.posts.model.PostsViewPagerAdapter
 import com.makentoshe.booruchan.screen.posts.view.PostsUi
+import com.makentoshe.booruchan.screen.posts.viewmodel.SearchState
 import com.makentoshe.booruchan.screen.posts.viewmodel.SearchStateViewModel
 import com.makentoshe.booruchan.screen.posts.viewmodel.TagsViewModel
 import org.jetbrains.anko.AnkoContext
@@ -25,11 +27,17 @@ import org.jetbrains.anko.find
 import org.koin.androidx.scope.currentScope
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
+import org.koin.core.qualifier.named
 import java.io.Serializable
 
-class PostsFragment : Fragment() {
+class PostsFragment : Fragment(), BooruHolder {
 
-    private var booru: Booru
+    init {
+        currentScope.get<Fragment>(named(PostsModule.fragmentStr)) { parametersOf(this) }
+        currentScope.get<BooruHolder>(named(PostsModule.booruStr)) { parametersOf(this) }
+    }
+
+    override var booru: Booru
         get() = arguments!!.get(BOORU) as Booru
         set(value) = arguments().putSerializable(BOORU, value)
 
@@ -37,9 +45,9 @@ class PostsFragment : Fragment() {
         get() = arguments!!.get(TAGS) as Set<Tag>
         set(value) = arguments().putSerializable(TAGS, value as Serializable)
 
-    private val tagsViewModel by viewModel<TagsViewModel> {
-        parametersOf(setOf<Tag>())
-    }
+    private val toolbarController by currentScope.inject<ToolbarController>()
+
+    private val tagsViewModel by viewModel<TagsViewModel> { parametersOf(tags) }
 
     private val searchStateViewModel by viewModel<SearchStateViewModel> {
         parametersOf(tagsViewModel, tags)
@@ -49,22 +57,17 @@ class PostsFragment : Fragment() {
         parametersOf(searchStateViewModel)
     }
 
-    private val toolbarController by currentScope.inject<ToolbarController> {
-        parametersOf(booru)
-    }
-
     private val viewPagerController by currentScope.inject<ViewPagerController> {
-        parametersOf(booru, searchStateViewModel, childFragmentManager)
+        parametersOf(searchStateViewModel)
     }
 
     private val magnifyController by currentScope.inject<MagnifyController> {
-        parametersOf(booru, this, tagsViewModel)
+        parametersOf(tagsViewModel)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //initialize lazy viewmodel where the new search start in a init block
-        searchStateViewModel
+        currentScope.get<SearchState> { parametersOf(searchStateViewModel) }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

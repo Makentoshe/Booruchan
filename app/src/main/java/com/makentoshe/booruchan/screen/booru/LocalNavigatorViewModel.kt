@@ -1,10 +1,8 @@
 package com.makentoshe.booruchan.screen.booru
 
 import androidx.lifecycle.ViewModel
-import com.makentoshe.booruchan.model.CiceroneFactory
 import com.makentoshe.booruchan.navigation.FragmentNavigator
 import com.makentoshe.booruchan.navigation.Router
-import com.makentoshe.booruchan.navigation.Screen
 import com.makentoshe.booruchan.screen.booru.model.LocalNavigator
 import ru.terrakok.cicerone.Cicerone
 
