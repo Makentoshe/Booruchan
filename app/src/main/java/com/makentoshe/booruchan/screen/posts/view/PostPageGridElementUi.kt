@@ -47,3 +47,11 @@ class PostPageGridElementUi : AnkoComponent<Context> {
         alignParentRight()
     }
 }
+
+class PostPageGridElementUiFactory {
+
+    fun createView(context: Context): View {
+        return PostPageGridElementUi().createView(AnkoContext.create(context))
+    }
+}
+
