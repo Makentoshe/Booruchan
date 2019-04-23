@@ -6,14 +6,11 @@ import com.makentoshe.booruchan.api.Posts
 import com.makentoshe.booruchan.api.component.post.Post
 import com.makentoshe.booruchan.api.component.tag.Tag
 import com.makentoshe.booruchan.model.BooruHolderImpl
-import com.makentoshe.booruchan.repository.PostsRepository
 import com.makentoshe.booruchan.repository.PreviewImageRepository
-import com.makentoshe.booruchan.repository.Repository
-import com.makentoshe.booruchan.repository.cache.ClearableCache
 import com.makentoshe.booruchan.repository.cache.ImageInternalCache
 import com.makentoshe.booruchan.repository.cache.InternalCache
-import com.makentoshe.booruchan.repository.cache.PostInternalCache
 import com.makentoshe.booruchan.repository.decorator.CachedRepository
+import com.makentoshe.booruchan.repository.factory.CachedRepositoryFactory
 import com.makentoshe.booruchan.screen.posts.container.controller.TagsHolderImpl
 import com.makentoshe.booruchan.screen.posts.page.controller.PostsPageContentController
 import com.makentoshe.booruchan.screen.posts.page.controller.gridelement.PostPageGridElementControllerFactory
@@ -39,30 +36,6 @@ object PostsPageModule {
         return getViewModel(fragment)
     }
 
-    private fun Scope.getPreviewImageCache(): ImageInternalCache {
-        return ImageInternalCache(get(), InternalCache.Type.PREVIEW)
-    }
-
-    private fun Scope.getPreviewImageRepository(booru: Booru = getViewModel().booru): PreviewImageRepository {
-        return PreviewImageRepository(booru)
-    }
-
-    private fun Scope.getPreviewImageCachedRepository(booru: Booru = getViewModel().booru): CachedRepository<Post, ByteArray> {
-        return CachedRepository(getPreviewImageCache(), getPreviewImageRepository(booru))
-    }
-
-    private fun Scope.getPostsRepository(booru: Booru = getViewModel().booru): Repository<Posts.Request, List<Post>> {
-        return PostsRepository(booru)
-    }
-
-    private fun Scope.getPostsCache(): ClearableCache<Posts.Request, List<Post>?> {
-        return PostInternalCache(get())
-    }
-
-    private fun Scope.getPostsCachedRepository(booru: Booru = getViewModel().booru): Repository<Posts.Request, List<Post>> {
-        return CachedRepository(getPostsCache(), getPostsRepository(booru))
-    }
-
     val module = module {
 
         scope(named<PostsPageFragment>()) {
@@ -74,8 +47,10 @@ object PostsPageModule {
             scoped(named(DISPOSABLE)) { CompositeDisposable() }
             /* composite disposable */
             scoped { PostsPreviewImageDownloadControllerFactory(get(named(DISPOSABLE))) }
-            /* download controller factory */
-            scoped { PostPageGridElementControllerFactory(get(), getPreviewImageCachedRepository()) }
+            /* download controller factory, repository factory */
+            scoped {
+                val repositoryFactory = get<CachedRepositoryFactory> { parametersOf(getViewModel().booru) }
+                PostPageGridElementControllerFactory(get(), repositoryFactory) }
             /* ui factory, controller factory */
             scoped { PostPageGridAdapterFactory(get(), get()) }
             /* adapter factory */
@@ -83,12 +58,12 @@ object PostsPageModule {
         }
 
         viewModel { (booru: Booru, tags: Set<Tag>, position: Int) ->
+            val repositoryFactory = get<CachedRepositoryFactory> { parametersOf(booru) }
             val booruHolder = BooruHolderImpl(booru)
             val tagsHolder = TagsHolderImpl(tags)
             val disposables = CompositeDisposable()
             val request = get<Posts.Request> { parametersOf(tags, position) }
-            val repository = getPostsCachedRepository(booru)
-            val postsDownloadController = PostsDownloadControllerImpl(repository, request, disposables)
+            val postsDownloadController = PostsDownloadControllerImpl(repositoryFactory, request, disposables)
             PostsPageViewModel(booruHolder, tagsHolder, position, postsDownloadController, disposables)
         }
     }

@@ -1,35 +1,37 @@
 package com.makentoshe.booruchan.screen.posts.page.controller.imagedownload
 
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import com.makentoshe.booruchan.api.component.post.Post
-import com.makentoshe.booruchan.repository.Repository
-import io.reactivex.Single
-import io.reactivex.android.schedulers.AndroidSchedulers
+import com.makentoshe.booruchan.repository.factory.RepositoryFactory
+import com.makentoshe.booruchan.screen.posts.page.controller.PreviewImageDownloadStrategy
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.BehaviorSubject
 
 /**
  * Controller performs previews image downloading.
  *
- * @param repository is a source.
+ * @param repositoryFactory is a source.
  * @param disposables is a disposables container for releasing in future.
  */
 class PostsPreviewImageDownloadControllerImpl(
-    private val repository: Repository<Post, ByteArray>,
+    private val repositoryFactory: RepositoryFactory,
     private val disposables: CompositeDisposable
 ) : PostsPreviewImageDownloadController {
 
     private val observable = BehaviorSubject.create<Bitmap>()
 
     override fun start(post: Post) {
-        val disposable = Single.just(repository)
-            .subscribeOn(Schedulers.io())
-            .map { it.get(post) }
-            .map { BitmapFactory.decodeByteArray(it, 0, it.size) }
-            .observeOn(AndroidSchedulers.mainThread())
-        disposable.toObservable().safeSubscribe(observable)
+        val previewRepository = repositoryFactory.buildPreviewsRepository()
+        val previewStrategy = PreviewImageDownloadStrategy(previewRepository, disposables)
+        //start preview downloading
+        previewStrategy.start(post)
+
+        previewStrategy.onSuccess { observable.onNext(it) }
+        //replace on error by new strategy (sample)
+        previewStrategy.onError {
+            //call here new strategy
+            observable.onError(it)
+        }
     }
 
     override fun onSuccess(action: (Bitmap) -> Unit) {

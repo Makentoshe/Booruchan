@@ -2,6 +2,7 @@ package com.makentoshe.booruchan.screen.posts.page.controller.gridelement
 
 import com.makentoshe.booruchan.api.component.post.Post
 import com.makentoshe.booruchan.repository.Repository
+import com.makentoshe.booruchan.repository.factory.RepositoryFactory
 import com.makentoshe.booruchan.screen.posts.page.controller.imagedownload.PostsPreviewImageDownloadControllerFactory
 
 /**
@@ -9,18 +10,18 @@ import com.makentoshe.booruchan.screen.posts.page.controller.imagedownload.Posts
  *
  * @param downloadControllerFactory is a factory which created an associated with
  * the current grid element download controller for downloading a preview image.
- * @param repository is a preview images source.
+ * @param repositoryFactory is a factory, creates any type of repositories.
  */
 class PostPageGridElementControllerFactory(
     private val downloadControllerFactory: PostsPreviewImageDownloadControllerFactory,
-    private val repository: Repository<Post, ByteArray>
+    private val repositoryFactory: RepositoryFactory
 ) {
 
     /**
      * Returns a grid element controller with the started preview downloading process.
      */
     fun createController(post: Post): PostPageGridElementController {
-        val downloadController = downloadControllerFactory.buildController(repository)
+        val downloadController = downloadControllerFactory.buildController(repositoryFactory)
         //start downloading
         downloadController.start(post)
         return PostPageGridElementController(downloadController)

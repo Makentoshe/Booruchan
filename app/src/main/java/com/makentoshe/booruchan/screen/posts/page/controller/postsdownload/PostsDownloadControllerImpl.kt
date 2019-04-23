@@ -3,6 +3,7 @@ package com.makentoshe.booruchan.screen.posts.page.controller.postsdownload
 import com.makentoshe.booruchan.api.Posts
 import com.makentoshe.booruchan.api.component.post.Post
 import com.makentoshe.booruchan.repository.Repository
+import com.makentoshe.booruchan.repository.factory.RepositoryFactory
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -13,12 +14,12 @@ import io.reactivex.subjects.ReplaySubject
 /**
  * Performs posts downloading.
  *
- * @param repository is a source.
+ * @param repositoryFactory is a factory that creates source.
  * @param request is a request for searching process.
  * @param disposables is a disposable container where the disposables stores.
  */
 class PostsDownloadControllerImpl(
-    private val repository: Repository<Posts.Request, List<Post>>,
+    private val repositoryFactory: RepositoryFactory,
     private val request: Posts.Request,
     private val disposables: CompositeDisposable
 ) : PostsDownloadController {
@@ -26,6 +27,7 @@ class PostsDownloadControllerImpl(
     private val observable = ReplaySubject.create<List<Post>>()
 
     override fun start() {
+        val repository = repositoryFactory.buildPostsRepository()
         val disposable = Single.just(repository)
             .subscribeOn(Schedulers.io())
             .map { it.get(request) }

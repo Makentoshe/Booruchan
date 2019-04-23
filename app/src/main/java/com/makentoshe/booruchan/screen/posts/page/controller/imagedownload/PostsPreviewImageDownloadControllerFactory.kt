@@ -1,8 +1,7 @@
 package com.makentoshe.booruchan.screen.posts.page.controller.imagedownload
 
 import androidx.fragment.app.Fragment
-import com.makentoshe.booruchan.api.component.post.Post
-import com.makentoshe.booruchan.repository.Repository
+import com.makentoshe.booruchan.repository.factory.RepositoryFactory
 import io.reactivex.disposables.CompositeDisposable
 
 /**
@@ -15,7 +14,7 @@ class PostsPreviewImageDownloadControllerFactory(private val disposables: Compos
     /**
      * Creates a controller instance with the current repository as a source.
      */
-    fun buildController(repository: Repository<Post, ByteArray>): PostsPreviewImageDownloadController {
-        return PostsPreviewImageDownloadControllerImpl(repository, disposables)
+    fun buildController(repositoryFactory: RepositoryFactory): PostsPreviewImageDownloadController {
+        return PostsPreviewImageDownloadControllerImpl(repositoryFactory, disposables)
     }
 }
