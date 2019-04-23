@@ -8,12 +8,13 @@ import com.makentoshe.booruchan.screen.posts.view.PostPageGridElementUiFactory
 
 class PostPageGridAdapter(
     private val posts: List<Post>,
-    private val uiFactory: PostPageGridElementUiFactory
+    private val uiFactory: PostPageGridElementUiFactory,
+    private val controllerFactory: PostPageGridElementControllerFactory
 ) : BaseAdapter() {
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
         val view = convertView ?: uiFactory.createView(parent!!.context)
-//        controllerFactory.createController(getItem(position)).bindView(view)
+        controllerFactory.createController().bindView(view)
         return view
     }
 
@@ -25,11 +26,11 @@ class PostPageGridAdapter(
 }
 
 class PostPageGridAdapterFactory(
-    private val uiFactory: PostPageGridElementUiFactory
-//    private val controllerFactory: PostPageGridElementControllerFactory
+    private val uiFactory: PostPageGridElementUiFactory,
+    private val controllerFactory: PostPageGridElementControllerFactory
 ) {
     fun build(posts: List<Post>): BaseAdapter {
-        return PostPageGridAdapter(posts, uiFactory)
+        return PostPageGridAdapter(posts, uiFactory, controllerFactory)
     }
 }
 

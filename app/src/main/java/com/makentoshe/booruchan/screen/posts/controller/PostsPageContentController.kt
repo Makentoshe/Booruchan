@@ -10,6 +10,9 @@ import com.makentoshe.booruchan.screen.posts.PostPageGridAdapterFactory
 import com.makentoshe.booruchan.screen.posts.PostsDownloadEventListener
 import org.jetbrains.anko.find
 
+/**
+ * Perform controlling page's root-view.
+ */
 class PostsPageContentController(
     private val postsDownloadEventListener: PostsDownloadEventListener,
     private val adapterFactory: PostPageGridAdapterFactory
@@ -45,7 +48,6 @@ class PostsPageContentController(
         val gridview = view.find<GridView>(R.id.posts_page_gridview)
         gridview.visibility = View.VISIBLE
 
-        println("Create adapter")
         val adapter = adapterFactory.build(posts)
         gridview.adapter = adapter
     }

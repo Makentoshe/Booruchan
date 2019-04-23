@@ -196,8 +196,10 @@ object PostsPageModule {
         }
 
         scoped { PostPageGridElementUiFactory() }
-//        scoped { PostPageGridElementControllerFactory(get()) }
-        scoped { PostPageGridAdapterFactory(get()) }
+        scoped { PostPageGridElementControllerFactory() }
+        /* ui factory, controller factory*/
+        scoped { PostPageGridAdapterFactory(get(), get()) }
+        /* adapter factory */
         scoped { PostsPageContentController(getViewModel(), get()) }
 
         viewModel { (booru: Booru, tags: Set<Tag>, position: Int) ->
