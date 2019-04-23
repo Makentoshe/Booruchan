@@ -8,7 +8,7 @@ import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.rule.ActivityTestRule
 import com.makentoshe.booruchan.*
 import com.makentoshe.booruchan.screen.account.AccountFragment
-import com.makentoshe.booruchan.screen.posts.PostsFragment
+import com.makentoshe.booruchan.screen.posts.container.PostsFragment
 import com.makentoshe.booruchan.screen.start.StartFragment
 import org.junit.After
 import org.junit.Before

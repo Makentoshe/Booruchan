@@ -5,9 +5,9 @@ import com.makentoshe.booruchan.api.Posts
 import com.makentoshe.booruchan.api.component.tag.Tag
 import com.makentoshe.booruchan.navigation.Router
 import com.makentoshe.booruchan.screen.booru.BooruModule
-import com.makentoshe.booruchan.screen.posts.PostsModule
-import com.makentoshe.booruchan.screen.posts.PostsPageModule
-import com.makentoshe.booruchan.screen.posts.model.getItemsCountInRequest
+import com.makentoshe.booruchan.screen.posts.container.PostsModule
+import com.makentoshe.booruchan.screen.posts.page.PostsPageModule
+import com.makentoshe.booruchan.screen.posts.container.model.getItemsCountInRequest
 import com.makentoshe.booruchan.screen.settings.AppSettings
 import com.makentoshe.booruchan.screen.settings.page.SettingsScreenBuilder
 import com.makentoshe.booruchan.screen.settings.settingsModule

@@ -4,7 +4,7 @@ import com.makentoshe.booruchan.api.Booru
 import com.makentoshe.booruchan.api.component.tag.Tag
 import com.makentoshe.booruchan.navigation.Router
 import com.makentoshe.booruchan.screen.account.AccountScreen
-import com.makentoshe.booruchan.screen.posts.PostsScreen
+import com.makentoshe.booruchan.screen.posts.container.PostsScreen
 
 class LocalRouter(private val booru: Booru, private val tags: Set<Tag>) {
 
