@@ -24,9 +24,11 @@ import com.makentoshe.booruchan.repository.cache.ImageInternalCache
 import com.makentoshe.booruchan.repository.cache.InternalCache
 import com.makentoshe.booruchan.repository.cache.PostInternalCache
 import com.makentoshe.booruchan.repository.decorator.CachedRepository
+import com.makentoshe.booruchan.screen.posts.controller.PostsPageContentController
 import com.makentoshe.booruchan.screen.posts.controller.TagsHolderImpl
 import com.makentoshe.booruchan.screen.posts.model.PostPageGridAdapter
 import com.makentoshe.booruchan.screen.posts.model.getItemsCountInRequest
+import com.makentoshe.booruchan.screen.posts.view.PostPageGridElementUiFactory
 import com.makentoshe.booruchan.screen.posts.view.PostPageUi
 import com.makentoshe.booruchan.screen.samples.SampleScreen
 import io.reactivex.disposables.CompositeDisposable
@@ -193,10 +195,10 @@ object PostsPageModule {
             scoped(named(FRAGMENT)) { (fragment: Fragment) -> fragment }
         }
 
-//        scoped { PostPageGridElementUiFactory() }
+        scoped { PostPageGridElementUiFactory() }
 //        scoped { PostPageGridElementControllerFactory(get()) }
-//        scoped { PostPageGridAdapterFactory(get(), get()) }
-        scoped { PostsPageContentController(getViewModel()) }
+        scoped { PostPageGridAdapterFactory(get()) }
+        scoped { PostsPageContentController(getViewModel(), get()) }
 
         viewModel { (booru: Booru, tags: Set<Tag>, position: Int) ->
             val booruHolder = BooruHolderImpl(booru)
@@ -209,108 +211,3 @@ object PostsPageModule {
         }
     }
 }
-
-class PostsPageContentController(
-    private val postsDownloadEventListener: PostsDownloadEventListener
-//    private val adapterFactory: PostPageGridAdapterFactory
-) {
-
-    fun bindView(view: View) {
-        //change view on posts loading failed
-        postsDownloadEventListener.onError {
-            bindViewOnError(view, it)
-        }
-        //change view on posts loading success
-        postsDownloadEventListener.onSuccess {
-            bindViewOnSuccess(view, it)
-        }
-    }
-
-    private fun bindViewOnSuccess(view: View, posts: List<Post>) {
-        if (posts.isEmpty()) {
-            return bindViewOnError(view, Exception(view.context.getString(R.string.posts_ran_out)))
-        }
-
-        hideProgressBar(view)
-        showGridElements(view, posts)
-        setOnGridElementClickListener(view)
-    }
-
-    private fun hideProgressBar(view: View) {
-        val progress = view.find<ProgressBar>(R.id.posts_page_progress)
-        progress.visibility = View.GONE
-    }
-
-    private fun showGridElements(view: View, posts: List<Post>) {
-        val gridview = view.find<GridView>(R.id.posts_page_gridview)
-        gridview.visibility = View.VISIBLE
-
-        println("Create adapter")
-//        val adapter = adapterFactory.build(posts)
-//        gridview.adapter = adapter
-    }
-
-    private fun setOnGridElementClickListener(view: View) {
-//        val gridview = view.find<GridView>(R.id.posts_page_gridview)
-//        gridview.setOnItemClickListener { _, _, itempos, _ ->
-//            val position = this.position * getItemsCountInRequest(requireContext()) + itempos
-//            val screen = SampleScreen(position, booru, tags)
-//            router.navigateTo(screen)
-//        }
-    }
-
-    private fun bindViewOnError(view: View, throwable: Throwable) {
-        val messagetext = StringBuilder(throwable.localizedMessage).append("\n")
-            .append(R.string.tap_for_retry).toString()
-
-        displayMessage(view, messagetext)
-        hideProgressBar(view)
-
-//        view.setOnClickListener {
-//            progress.visibility = View.VISIBLE
-//            message.text = ""
-//            message.visibility = View.GONE
-//            view.setOnClickListener(null)
-//            onViewCreated(view, null)
-//        }
-    }
-
-    private fun displayMessage(view: View, messagetext: String) {
-        val messageview = view.find<TextView>(R.id.posts_page_textview)
-        messageview.text = messagetext
-        messageview.visibility = View.VISIBLE
-    }
-
-    private fun showProgressBar(view: View) {
-        val progress = view.find<ProgressBar>(R.id.posts_page_progress)
-        progress.visibility = View.VISIBLE
-    }
-}
-//
-//class PostPageGridAdapterFactory(
-//    private val uiFactory: PostPageGridElementUiFactory,
-//    private val controllerFactory: PostPageGridElementControllerFactory
-//) {
-//    fun build(posts: List<Post>): BaseAdapter {
-//        return PostPageGridAdapter(posts, uiFactory, controllerFactory)
-//    }
-//}
-
-//class PostPageGridAdapter(
-//    private val posts: List<Post>,
-//    private val uiFactory: PostPageGridElementUiFactory
-////    private val controllerFactory: PostPageGridElementControllerFactory
-//) : BaseAdapter() {
-//
-//    override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
-//        val view = convertView ?: uiFactory.createView(parent!!.context)
-////        controllerFactory.createController(getItem(position)).bindView(view)
-//        return view
-//    }
-//
-//    override fun getItem(position: Int) = posts[position]
-//
-//    override fun getItemId(position: Int) = position.toLong()
-//
-//    override fun getCount() = posts.size
-//}
