@@ -1,47 +1,71 @@
 package com.makentoshe.booruchan.screen.posts
 
 import androidx.fragment.app.Fragment
+import com.makentoshe.booruchan.api.Booru
 import com.makentoshe.booruchan.api.component.tag.Tag
-import com.makentoshe.booruchan.model.BooruHolder
+import com.makentoshe.booruchan.model.BooruHolderImpl
 import com.makentoshe.booruchan.screen.posts.controller.*
-import com.makentoshe.booruchan.screen.posts.viewmodel.SearchState
-import com.makentoshe.booruchan.screen.posts.viewmodel.SearchStateViewModel
-import com.makentoshe.booruchan.screen.posts.viewmodel.TagsViewModel
+import com.makentoshe.booruchan.screen.posts.viewmodel.PostsViewModel
+import io.reactivex.disposables.CompositeDisposable
 import org.koin.androidx.viewmodel.dsl.viewModel
+import org.koin.androidx.viewmodel.ext.koin.getViewModel
 import org.koin.core.qualifier.named
+import org.koin.core.scope.Scope
 import org.koin.dsl.module
 
 object PostsModule {
-    const val booruStr = "PostsBooru"
-    const val fragmentStr = "PostsFragment"
+    const val FRAGMENT = "PostsFragment"
+
+    private fun Scope.getPostsViewModel(): PostsViewModel {
+        val fragment = get<Fragment>(named(FRAGMENT))
+        return getViewModel(fragment)
+    }
 
     val module = module {
         scope(named<PostsFragment>()) {
-            scoped(named(fragmentStr)) { (fragment: Fragment) -> fragment }
-            scoped(named(booruStr)) { (booruHolder: BooruHolder) -> booruHolder }
-            scoped { (searchState: SearchState) -> searchState }
+            /* provide a fragment instance to the scope */
+            scoped(named(FRAGMENT)) { (fragment: Fragment) -> fragment }
 
-            scoped { ToolbarController(get<BooruHolder>(named(booruStr)).booru) }
-
-            scoped { (searchState: SearchState) -> BottomBarController(searchState) }
-
-            scoped { (searchState: SearchState) ->
-                val fragmentManager = get<Fragment>(named(fragmentStr)).childFragmentManager
-                val booru = get<BooruHolder>(named(booruStr)).booru
-                ViewPagerController(booru, searchState, fragmentManager)
+            scoped {
+                val viewModel = getPostsViewModel()
+                ToolbarController(viewModel.booru)
             }
 
-            scoped { (tags: TagsViewModel) ->
-                val booru = get<BooruHolder>(named(booruStr)).booru
-                val fragment = get<Fragment>(named(fragmentStr))
-                MagnifyController(booru, fragment, tags)
+            scoped {
+                val viewModel = getPostsViewModel()
+                PostsMagnifyController(viewModel, get(named(FRAGMENT)), viewModel)
             }
 
-            viewModel { (tags: Set<Tag>) -> TagsViewModel(tags) }
-
-            viewModel { (tagsViewModel: TagsViewModel, initialTags: Set<Tag>) ->
-                SearchStateViewModel(get(), initialTags, tagsViewModel, SearchController())
+            scoped {
+                val viewModel = getPostsViewModel()
+                val left = BottomBarLeftController(viewModel)
+                val center = BottomBarCenterController(viewModel)
+                val right = BottomBarRightController()
+                BottomBarController(left, center, right)
             }
+
+            scoped {
+                val viewModel = getPostsViewModel()
+                val fragment = get<Fragment>(named(FRAGMENT))
+                ViewPagerController(viewModel, viewModel, fragment.childFragmentManager)
+            }
+        }
+
+        /* Initial tags and booru impl */
+        viewModel { (tags: Set<Tag>, booru: Booru) ->
+            val tagsHolder = TagsHolderImpl(tags)
+            val booruHolder = BooruHolderImpl(booru)
+            val disposables = CompositeDisposable()
+            val searchRxProvider = SearchRxProvider(disposables)
+            val cacheController = CacheControllerImpl(get())
+            PostsViewModel(
+                tagsHolder,
+                booruHolder,
+                searchRxProvider,
+                disposables,
+                cacheController
+            )
         }
     }
 }
+

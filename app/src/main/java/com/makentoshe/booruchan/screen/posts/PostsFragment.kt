@@ -14,14 +14,12 @@ import com.makentoshe.booruchan.model.BooruHolder
 import com.makentoshe.booruchan.model.RequestCode
 import com.makentoshe.booruchan.model.arguments
 import com.makentoshe.booruchan.screen.posts.controller.BottomBarController
-import com.makentoshe.booruchan.screen.posts.controller.MagnifyController
+import com.makentoshe.booruchan.screen.posts.controller.PostsMagnifyController
 import com.makentoshe.booruchan.screen.posts.controller.ToolbarController
 import com.makentoshe.booruchan.screen.posts.controller.ViewPagerController
 import com.makentoshe.booruchan.screen.posts.model.PostsViewPagerAdapter
 import com.makentoshe.booruchan.screen.posts.view.PostsUi
-import com.makentoshe.booruchan.screen.posts.viewmodel.SearchState
-import com.makentoshe.booruchan.screen.posts.viewmodel.SearchStateViewModel
-import com.makentoshe.booruchan.screen.posts.viewmodel.TagsViewModel
+import com.makentoshe.booruchan.screen.posts.viewmodel.PostsViewModel
 import org.jetbrains.anko.AnkoContext
 import org.jetbrains.anko.find
 import org.koin.androidx.scope.currentScope
@@ -33,8 +31,7 @@ import java.io.Serializable
 class PostsFragment : Fragment(), BooruHolder {
 
     init {
-        currentScope.get<Fragment>(named(PostsModule.fragmentStr)) { parametersOf(this) }
-        currentScope.get<BooruHolder>(named(PostsModule.booruStr)) { parametersOf(this) }
+        currentScope.get<Fragment>(named(PostsModule.FRAGMENT)) { parametersOf(this) }
     }
 
     override var booru: Booru
@@ -45,29 +42,19 @@ class PostsFragment : Fragment(), BooruHolder {
         get() = arguments!!.get(TAGS) as Set<Tag>
         set(value) = arguments().putSerializable(TAGS, value as Serializable)
 
+    private val viewModel by viewModel<PostsViewModel> { parametersOf(tags, booru) }
+
     private val toolbarController by currentScope.inject<ToolbarController>()
 
-    private val tagsViewModel by viewModel<TagsViewModel> { parametersOf(tags) }
+    private val magnifyController by currentScope.inject<PostsMagnifyController>()
 
-    private val searchStateViewModel by viewModel<SearchStateViewModel> {
-        parametersOf(tagsViewModel, tags)
-    }
+    private val bottomBarController by currentScope.inject<BottomBarController>()
 
-    private val bottomBarController by currentScope.inject<BottomBarController> {
-        parametersOf(searchStateViewModel)
-    }
-
-    private val viewPagerController by currentScope.inject<ViewPagerController> {
-        parametersOf(searchStateViewModel)
-    }
-
-    private val magnifyController by currentScope.inject<MagnifyController> {
-        parametersOf(tagsViewModel)
-    }
+    private val viewPagerController by currentScope.inject<ViewPagerController>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        viewModel.init()
         super.onCreate(savedInstanceState)
-        currentScope.get<SearchState> { parametersOf(searchStateViewModel) }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -75,22 +62,11 @@ class PostsFragment : Fragment(), BooruHolder {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        viewPagerController.bindView(view)
-        magnifyController.bindView(view)
         toolbarController.bindView(view)
+        magnifyController.bindView(view)
         bottomBarController.bindView(view)
+        viewPagerController.bindView(view)
     }
-
-//    private fun setDrawerMenuControl(drawer: DrawerLayout?, drawerIcon: View) {
-//        if (drawer == null) return
-//        drawerIcon.setOnClickListener {
-//            if (drawer.isDrawerOpen(GravityCompat.START)) {
-//                drawer.closeDrawer(GravityCompat.START)
-//            } else {
-//                drawer.openDrawer(GravityCompat.START)
-//            }
-//        }
-//    }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
         //if new search was started
@@ -109,12 +85,12 @@ class PostsFragment : Fragment(), BooruHolder {
     private fun onSearchResultReceived(data: Intent) {
         val set = data.getSerializableExtra(Set::class.java.simpleName) as Set<*>
         val tags = set.filter { it is Tag }.map { it as Tag }.toSet()
-        searchStateViewModel.startSearch(tags)
+        viewModel.startSearch(tags)
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        searchStateViewModel.clearDisposables()
+    override fun onDestroy() {
+        super.onDestroy()
+        viewModel.dispose()
     }
 
     companion object {

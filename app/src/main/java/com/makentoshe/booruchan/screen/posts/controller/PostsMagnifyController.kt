@@ -3,16 +3,15 @@ package com.makentoshe.booruchan.screen.posts.controller
 import android.view.View
 import androidx.fragment.app.Fragment
 import com.makentoshe.booruchan.R
-import com.makentoshe.booruchan.api.Booru
+import com.makentoshe.booruchan.model.BooruHolder
 import com.makentoshe.booruchan.model.RequestCode
-import com.makentoshe.booruchan.screen.posts.viewmodel.TagsViewModel
 import com.makentoshe.booruchan.screen.search.SearchDialogFragment
 import org.jetbrains.anko.find
 
-class MagnifyController(
-    private val booru: Booru,
+class PostsMagnifyController(
+    private val booruHolder: BooruHolder,
     private val targetFragment: Fragment,
-    private val tagsViewModel: TagsViewModel
+    private val tagsHolder: TagsHolder
 ) {
 
     fun bindView(view: View) {
@@ -23,7 +22,7 @@ class MagnifyController(
 
     private fun onClicked(view: View) {
         val fragment =
-            SearchDialogFragment.create(tagsViewModel.set, booru)
+            SearchDialogFragment.create(tagsHolder.set, booruHolder.booru)
         fragment.setTargetFragment(targetFragment, RequestCode.search)
         fragment.show(targetFragment.fragmentManager, SearchDialogFragment::class.java.simpleName)
     }

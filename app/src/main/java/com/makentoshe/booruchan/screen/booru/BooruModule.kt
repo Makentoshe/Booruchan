@@ -25,7 +25,7 @@ object BooruModule {
             scoped(named(tagsStr)) { (tags: Set<Tag>) -> tags }
             scoped(named(fragmentStr)) { (fragment: Fragment) -> fragment }
             scoped(named(actStr)) { get<Fragment>(named(fragmentStr)).requireActivity() }
-            scoped { get<Fragment>(named(fragmentStr)).childFragmentManager }
+            scoped(named(fmStr)) { get<Fragment>(named(fragmentStr)).childFragmentManager }
             scoped(named(ciceroneStr)) { Cicerone.create(Router()) }
 
             scoped { LocalRouter(get(named(booruStr)), get(named(tagsStr))) }

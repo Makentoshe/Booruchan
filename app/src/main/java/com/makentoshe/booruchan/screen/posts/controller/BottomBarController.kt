@@ -4,27 +4,42 @@ import android.view.View
 import android.widget.TextView
 import androidx.viewpager.widget.ViewPager
 import com.makentoshe.booruchan.R
-import com.makentoshe.booruchan.screen.posts.viewmodel.SearchState
 import org.jetbrains.anko.find
 import org.jetbrains.anko.support.v4.onPageChangeListener
 
-class BottomBarController(private val searchState: SearchState) {
+class BottomBarController(
+    private val leftController: BottomBarLeftController,
+    private val centerController: BottomBarCenterController,
+    private val rightController: BottomBarRightController
+) {
+
+    fun bindView(view: View) {
+        leftController.bindView(view)
+        rightController.bindView(view)
+        centerController.bindView(view)
+    }
+}
+
+class BottomBarRightController {
+    fun bindView(view: View) {
+        val viewpager = view.find<ViewPager>(R.id.posts_viewpager)
+        val bottomright = view.find<View>(R.id.posts_bottombar_right)
+
+        //set on right icon click listener
+        bottomright.setOnClickListener {
+            val currItem = viewpager.currentItem
+            viewpager.setCurrentItem(currItem + 1, true)
+        }
+    }
+}
+
+class BottomBarCenterController(private val searchController: SearchController) {
 
     fun bindView(view: View) {
         val viewpager = view.find<ViewPager>(R.id.posts_viewpager)
-
-        val bottomleft = view.find<View>(R.id.posts_bottombar_left)
         val bottomcenter = view.find<View>(R.id.posts_bottombar_center)
-        val bottomright = view.find<View>(R.id.posts_bottombar_right)
 
-        bindLeft(bottomleft, viewpager)
-        bindRight(bottomright, viewpager)
-        bindCenter(bottomcenter, viewpager)
-
-    }
-
-    private fun bindCenter(view: View, viewpager: ViewPager) {
-        val centertext = view.find<TextView>(R.id.posts_bottombar_center_textview)
+        val centertext = bottomcenter.find<TextView>(R.id.posts_bottombar_center_textview)
         //set default value text view in center
         centertext.text = "0"
 
@@ -36,31 +51,29 @@ class BottomBarController(private val searchState: SearchState) {
         }
 
         //change bottom bar indicator to the start
-        searchState.onSearchStarted {
+        searchController.onSearchStarted {
             centertext.text = "0"
         }
     }
+}
 
-    private fun bindRight(view: View, viewpager: ViewPager) {
-        //set on right icon click listener
-        view.setOnClickListener {
-            val currItem = viewpager.currentItem
-            viewpager.setCurrentItem(currItem + 1, true)
-        }
-    }
+class BottomBarLeftController(private val searchController: SearchController) {
 
-    private fun bindLeft(view: View, viewpager: ViewPager) {
+    fun bindView(view: View) {
+        val viewpager = view.find<ViewPager>(R.id.posts_viewpager)
+        val bottomLeft = view.find<View>(R.id.posts_bottombar_left)
+
         //if click was performed on first element
-        if (viewpager.currentItem == 0) view.visibility = View.INVISIBLE
+        if (viewpager.currentItem == 0) bottomLeft.visibility = View.INVISIBLE
         viewpager.onPageChangeListener {
             onPageSelected {
                 //when scrolled to the first page - hide the left chevron
                 //else display and setup functional
-                view.visibility = if (it < 1) {
-                    view.setOnClickListener(null)
+                bottomLeft.visibility = if (it < 1) {
+                    bottomLeft.setOnClickListener(null)
                     View.INVISIBLE
                 } else {
-                    view.setOnClickListener {
+                    bottomLeft.setOnClickListener {
                         //on left chevron click
                         val currItem = viewpager.currentItem
                         viewpager.setCurrentItem(currItem - 1, true)
@@ -71,8 +84,8 @@ class BottomBarController(private val searchState: SearchState) {
         }
 
         //hide the left button
-        searchState.onSearchStarted {
-            view.visibility = View.INVISIBLE
+        searchController.onSearchStarted {
+            bottomLeft.visibility = View.INVISIBLE
         }
     }
 }
