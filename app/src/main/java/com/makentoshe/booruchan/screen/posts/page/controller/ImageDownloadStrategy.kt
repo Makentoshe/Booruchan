@@ -14,7 +14,7 @@ import io.reactivex.subjects.BehaviorSubject
 /**
  * Class performs preview image downloading
  */
-class PreviewImageDownloadStrategy(
+class ImageDownloadStrategy(
     private val repository: Repository<Post, ByteArray>,
     private val disposables: CompositeDisposable
 ): PostsPreviewImageDownloadController {

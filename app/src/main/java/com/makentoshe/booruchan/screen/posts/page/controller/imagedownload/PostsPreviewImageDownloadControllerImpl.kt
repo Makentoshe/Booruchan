@@ -3,12 +3,14 @@ package com.makentoshe.booruchan.screen.posts.page.controller.imagedownload
 import android.graphics.Bitmap
 import com.makentoshe.booruchan.api.component.post.Post
 import com.makentoshe.booruchan.repository.factory.RepositoryFactory
-import com.makentoshe.booruchan.screen.posts.page.controller.PreviewImageDownloadStrategy
+import com.makentoshe.booruchan.screen.posts.page.controller.ImageDownloadStrategy
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.subjects.BehaviorSubject
 
 /**
- * Controller performs previews image downloading.
+ * Controller performs previews image downloading. It uses some downloading strategies.
+ * If a preview image was not downloaded or correctly decoded from a byte array into bitmap,
+ * then it's tries to make a same algorithm but with another repository (sample or file).
  *
  * @param repositoryFactory is a source.
  * @param disposables is a disposables container for releasing in future.
@@ -22,14 +24,25 @@ class PostsPreviewImageDownloadControllerImpl(
 
     override fun start(post: Post) {
         val previewRepository = repositoryFactory.buildPreviewsRepository()
-        val previewStrategy = PreviewImageDownloadStrategy(previewRepository, disposables)
+        val previewStrategy = ImageDownloadStrategy(previewRepository, disposables)
         //start preview downloading
         previewStrategy.start(post)
 
         previewStrategy.onSuccess { observable.onNext(it) }
-        //replace on error by new strategy (sample)
-        previewStrategy.onError {
-            //call here new strategy
+        //tries a new strategy - sample
+        previewStrategy.onError { alternativeStrategySample(post) }
+    }
+
+    private fun alternativeStrategySample(post: Post) {
+        val sampleRepository = repositoryFactory.buildSamplesRepository()
+        val sampleStrategy = ImageDownloadStrategy(sampleRepository, disposables)
+        //start sample downloading
+        sampleStrategy.start(post)
+
+        //send downloaded sample as a preview image
+        sampleStrategy.onSuccess { observable.onNext(it) }
+        sampleStrategy.onError {
+            //call here a new strategy
             observable.onError(it)
         }
     }

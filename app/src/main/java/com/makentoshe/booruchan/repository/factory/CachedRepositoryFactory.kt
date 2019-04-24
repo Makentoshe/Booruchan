@@ -7,6 +7,7 @@ import com.makentoshe.booruchan.api.component.post.Post
 import com.makentoshe.booruchan.repository.PostsRepository
 import com.makentoshe.booruchan.repository.PreviewImageRepository
 import com.makentoshe.booruchan.repository.Repository
+import com.makentoshe.booruchan.repository.SampleImageRepository
 import com.makentoshe.booruchan.repository.cache.ImageInternalCache
 import com.makentoshe.booruchan.repository.cache.InternalCache
 import com.makentoshe.booruchan.repository.cache.PostInternalCache
@@ -25,6 +26,12 @@ class CachedRepositoryFactory(
 
     override fun buildPreviewsRepository(): Repository<Post, ByteArray> {
         val source = PreviewImageRepository(booru)
+        val cache = ImageInternalCache(context, InternalCache.Type.PREVIEW)
+        return CachedRepository(cache, source)
+    }
+
+    override fun buildSamplesRepository(): Repository<Post, ByteArray> {
+        val source = SampleImageRepository(booru)
         val cache = ImageInternalCache(context, InternalCache.Type.PREVIEW)
         return CachedRepository(cache, source)
     }

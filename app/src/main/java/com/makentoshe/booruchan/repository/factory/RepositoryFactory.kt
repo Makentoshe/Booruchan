@@ -8,4 +8,6 @@ interface RepositoryFactory {
     fun buildPostsRepository(): Repository<Posts.Request, List<Post>>
 
     fun buildPreviewsRepository(): Repository<Post, ByteArray>
+
+    fun buildSamplesRepository(): Repository<Post, ByteArray>
 }
