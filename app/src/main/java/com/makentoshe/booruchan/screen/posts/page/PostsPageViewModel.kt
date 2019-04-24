@@ -10,14 +10,12 @@ import com.makentoshe.booruchan.model.BooruHolder
 import com.makentoshe.booruchan.screen.posts.container.controller.TagsHolder
 import com.makentoshe.booruchan.screen.posts.page.controller.postsdownload.PostsDownloadController
 import com.makentoshe.booruchan.screen.posts.page.controller.postsdownload.PostsDownloadEventListener
-import io.reactivex.disposables.Disposable
 
 class PostsPageViewModel(
     private val booruHolder: BooruHolder,
     private val tagsHolder: TagsHolder,
     private val position: Int,
-    private val postsDownloadController: PostsDownloadController,
-    private val disposables: Disposable
+    private val postsDownloadController: PostsDownloadController
 ) : ViewModel(), BooruHolder, TagsHolder, PostsDownloadEventListener {
 
     override val booru: Booru
@@ -48,9 +46,4 @@ class PostsPageViewModel(
     override fun onError(action: (Throwable) -> Unit) {
         postsDownloadController.onError(action)
     }
-
-    /**
-     * Clear all disposables.
-     */
-    override fun onCleared() = disposables.dispose()
 }

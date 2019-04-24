@@ -64,14 +64,13 @@ object PostsPageModule {
             scoped { PostsPageContentController(getViewModel(), get()) }
         }
 
-        viewModel { (booru: Booru, tags: Set<Tag>, position: Int) ->
+        viewModel { (booru: Booru, tags: Set<Tag>, position: Int, disposables: CompositeDisposable) ->
             val repositoryFactory = get<CachedRepositoryFactory> { parametersOf(booru) }
             val booruHolder = BooruHolderImpl(booru)
             val tagsHolder = TagsHolderImpl(tags)
-            val disposables = CompositeDisposable()
             val request = get<Posts.Request> { parametersOf(tags, position) }
             val postsDownloadController = PostsDownloadControllerImpl(repositoryFactory, request, disposables)
-            PostsPageViewModel(booruHolder, tagsHolder, position, postsDownloadController, disposables)
+            PostsPageViewModel(booruHolder, tagsHolder, position, postsDownloadController)
         }
     }
 }

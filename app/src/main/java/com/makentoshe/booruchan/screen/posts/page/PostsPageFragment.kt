@@ -8,12 +8,6 @@ import androidx.fragment.app.Fragment
 import com.makentoshe.booruchan.api.Booru
 import com.makentoshe.booruchan.api.component.tag.Tag
 import com.makentoshe.booruchan.model.arguments
-import com.makentoshe.booruchan.repository.FileImageRepository
-import com.makentoshe.booruchan.repository.PreviewImageRepository
-import com.makentoshe.booruchan.repository.SampleImageRepository
-import com.makentoshe.booruchan.repository.cache.ImageInternalCache
-import com.makentoshe.booruchan.repository.cache.InternalCache
-import com.makentoshe.booruchan.repository.decorator.CachedRepository
 import com.makentoshe.booruchan.screen.posts.page.controller.PostsPageContentController
 import com.makentoshe.booruchan.screen.posts.page.view.PostPageUi
 import io.reactivex.disposables.CompositeDisposable
@@ -44,35 +38,14 @@ class PostsPageFragment : Fragment() {
         get() = arguments!!.get(TAGS) as Set<Tag>
         set(value) = arguments().putSerializable(TAGS, value as Serializable)
 
-    private val viewmodel by viewModel<PostsPageViewModel> { parametersOf(booru, tags, position) }
+    private val viewmodel by viewModel<PostsPageViewModel> {
+        parametersOf(booru, tags, position, disposable as CompositeDisposable)
+    }
 
     private val contentController by currentScope.inject<PostsPageContentController>()
 
     /* Disposable that must be disposed on the onDestroy method */
     private val disposable: Disposable by currentScope.inject<CompositeDisposable>(named(PostsPageModule.DISPOSABLE))
-
-    //Repository returns preview image by post
-    private val previewsRepository by lazy {
-        val cache = ImageInternalCache(requireContext(), InternalCache.Type.PREVIEW)
-        val source = PreviewImageRepository(booru)
-        CachedRepository(cache, source)
-    }
-
-    //Repository returns sample image by post
-    //Used when preview image can not be decoded
-    private val samplesRepository by lazy {
-        val cache = ImageInternalCache(requireContext(), InternalCache.Type.SAMPLE)
-        val source = SampleImageRepository(booru)
-        CachedRepository(cache, source)
-    }
-
-    //Repository returns file image by post
-    //Used when preview image and sample image can't be decoded
-    private val filesRepository by lazy {
-        val cache = ImageInternalCache(requireContext(), InternalCache.Type.FILE)
-        val source = FileImageRepository(booru)
-        CachedRepository(cache, source)
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         viewmodel.init()
