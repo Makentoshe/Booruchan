@@ -13,6 +13,9 @@ import com.makentoshe.booruchan.repository.cache.InternalCache
 import com.makentoshe.booruchan.repository.cache.PostInternalCache
 import com.makentoshe.booruchan.repository.decorator.CachedRepository
 
+/**
+ * Factory for creating repositories with the internal cache.
+ */
 class CachedRepositoryFactory(
     private val booru: Booru,
     private val context: Context
