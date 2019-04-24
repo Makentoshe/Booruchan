@@ -5,9 +5,9 @@ import com.makentoshe.booruchan.BuildConfig
 import com.makentoshe.booruchan.api.Booru
 import com.makentoshe.booruchan.api.component.tag.Tag
 import com.makentoshe.booruchan.model.BooruHolder
+import com.makentoshe.booruchan.model.TagsHolder
 import com.makentoshe.booruchan.screen.posts.container.controller.CacheController
 import com.makentoshe.booruchan.screen.posts.container.controller.SearchController
-import com.makentoshe.booruchan.model.TagsHolder
 import io.reactivex.disposables.Disposable
 
 class PostsViewModel(
@@ -30,13 +30,7 @@ class PostsViewModel(
 
     override fun startSearch(tags: Set<Tag>) {
         cacheController.clearAll()
-        updateTags(tags)
         searchController.startSearch(tags)
-    }
-
-    private fun updateTags(set: Set<Tag>) {
-        tagsHolder.set.clear()
-        tagsHolder.set.addAll(set)
     }
 
     override fun onSearchStarted(action: (Set<Tag>) -> Unit) {

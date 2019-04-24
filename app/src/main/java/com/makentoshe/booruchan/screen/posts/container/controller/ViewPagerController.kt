@@ -21,11 +21,7 @@ class ViewPagerController(
         //on each starting search the old adapter will be replaced by new one with
         //tags for current search
         searchController.onSearchStarted { tags ->
-            viewpager.adapter = PostsViewPagerAdapter(
-                fragmentManager,
-                tags,
-                booruHolder.booru
-            )
+            viewpager.adapter = PostsViewPagerAdapter(fragmentManager, tags, booruHolder.booru)
         }
     }
 }

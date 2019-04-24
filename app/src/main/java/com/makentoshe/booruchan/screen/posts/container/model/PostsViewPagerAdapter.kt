@@ -21,11 +21,6 @@ class PostsViewPagerAdapter(
     override fun getCount() = count
 
     fun copy(count: Int = getCount()): PostsViewPagerAdapter {
-        return PostsViewPagerAdapter(
-            fragmentManager,
-            tags,
-            booru,
-            count
-        )
+        return PostsViewPagerAdapter(fragmentManager, tags, booru, count)
     }
 }
