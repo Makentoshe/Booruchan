@@ -1,5 +1,7 @@
 package com.makentoshe.booruchan.screen.posts.page.controller.gridelement
 
+import android.graphics.Color
+import android.graphics.PorterDuff
 import android.view.View
 import android.widget.ImageView
 import android.widget.ProgressBar
@@ -32,8 +34,14 @@ class GridElementController(
         }
 
         listener.onError {
+            //set error image
+            val drawable = view.context.getDrawable(R.drawable.ic_alert_octagon_outline)!!
+            drawable.mutate().setColorFilter(Color.GRAY, PorterDuff.Mode.SRC_ATOP)
+            imageview.setImageDrawable(drawable)
             //hide progress
             progressbar.visibility = View.GONE
+
+            it.printStackTrace()
         }
     }
 }

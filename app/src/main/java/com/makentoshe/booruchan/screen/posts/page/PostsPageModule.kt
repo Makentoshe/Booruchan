@@ -40,9 +40,9 @@ object PostsPageModule {
 
         scope(named<PostsPageFragment>()) {
             scoped(named(FRAGMENT)) { (fragment: Fragment) -> fragment }
+            scoped(named(DISPOSABLE)) { CompositeDisposable() }
             scoped { PostPageGridElementUiBuilder() }
             scoped { GridElementTypeControllerBuilder() }
-            scoped(named(DISPOSABLE)) { CompositeDisposable() }
             scoped { PostsPreviewImageDownloadControllerBuilder(get(named(DISPOSABLE))) }
             scoped {
                 val repositoryFactory = get<CachedRepositoryFactory> { parametersOf(getViewModel().booru) }
