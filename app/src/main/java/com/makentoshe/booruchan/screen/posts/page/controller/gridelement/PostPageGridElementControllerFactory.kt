@@ -13,6 +13,7 @@ import com.makentoshe.booruchan.screen.posts.page.controller.imagedownload.Posts
  * @param downloadControllerFactory is a factory which created an associated with
  * the current grid element download controller for downloading a preview image.
  * @param repositoryFactory is a factory, creates any type of repositories.
+ * @param typeControllerFactory is a factory, creates controller for controlling element types.
  */
 class PostPageGridElementControllerFactory(
     private val downloadControllerFactory: PostsPreviewImageDownloadControllerFactory,

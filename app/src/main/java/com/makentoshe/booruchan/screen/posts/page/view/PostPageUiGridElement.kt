@@ -48,6 +48,9 @@ class PostPageGridElementUi : AnkoComponent<Context> {
     }
 }
 
+/**
+ * Creates ui for a single grid element.
+ */
 class PostPageGridElementUiFactory {
 
     fun createView(context: Context): View {
