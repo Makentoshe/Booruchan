@@ -4,18 +4,27 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.ProgressBar
 import com.makentoshe.booruchan.R
+import com.makentoshe.booruchan.api.component.post.Post
+import com.makentoshe.booruchan.screen.posts.page.GridElementTypeController
 import com.makentoshe.booruchan.screen.posts.page.controller.imagedownload.PostsPreviewImageDownloadEventListener
 import org.jetbrains.anko.find
+import java.io.File
 
 /**
  * Controller for single grid element.
  *
  * @param listener is a preview downloading result listener.
  */
-class PostPageGridElementController(private val listener: PostsPreviewImageDownloadEventListener) {
+class PostPageGridElementController(
+    private val listener: PostsPreviewImageDownloadEventListener,
+    private val typeController: GridElementTypeController
+) {
+
     fun bindView(view: View) {
         val imageview = view.find<ImageView>(R.id.posts_page_gridview_element_image)
         val progressbar = view.find<ProgressBar>(R.id.posts_page_gridview_element_progress)
+
+        typeController.bindView(view)
 
         //preview was downloaded successfully
         listener.onSuccess {

@@ -34,7 +34,7 @@ class PostPageGridElementUi : AnkoComponent<Context> {
         alpha = 0.75f
         id = R.id.posts_page_gridview_element_type
         backgroundColor = Color.WHITE
-    }.lparams(height = dip(12)) {
+    }.lparams(height = dip(16), width = dip(16)) {
         alignParentRight()
         alignParentBottom()
     }

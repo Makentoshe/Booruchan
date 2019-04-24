@@ -1,8 +1,10 @@
 package com.makentoshe.booruchan.screen.posts.page.controller.gridelement
 
 import com.makentoshe.booruchan.api.component.post.Post
-import com.makentoshe.booruchan.repository.Repository
 import com.makentoshe.booruchan.repository.factory.RepositoryFactory
+import com.makentoshe.booruchan.screen.posts.page.GridElementTypeController
+import com.makentoshe.booruchan.screen.posts.page.GridElementTypeControllerFactory
+import com.makentoshe.booruchan.screen.posts.page.controller.imagedownload.PostsPreviewImageDownloadController
 import com.makentoshe.booruchan.screen.posts.page.controller.imagedownload.PostsPreviewImageDownloadControllerFactory
 
 /**
@@ -14,16 +16,27 @@ import com.makentoshe.booruchan.screen.posts.page.controller.imagedownload.Posts
  */
 class PostPageGridElementControllerFactory(
     private val downloadControllerFactory: PostsPreviewImageDownloadControllerFactory,
-    private val repositoryFactory: RepositoryFactory
+    private val repositoryFactory: RepositoryFactory,
+    private val typeControllerFactory: GridElementTypeControllerFactory
 ) {
 
     /**
      * Returns a grid element controller with the started preview downloading process.
      */
     fun createController(post: Post): PostPageGridElementController {
+        val downloadController = buildDownloadController(post)
+        val typeController = buildTypeController(post)
+        return PostPageGridElementController(downloadController, typeController)
+    }
+
+    private fun buildDownloadController(post: Post): PostsPreviewImageDownloadController {
         val downloadController = downloadControllerFactory.buildController(repositoryFactory)
         //start downloading
         downloadController.start(post)
-        return PostPageGridElementController(downloadController)
+        return downloadController
+    }
+
+    private fun buildTypeController(post: Post): GridElementTypeController {
+        return typeControllerFactory.buildController(post)
     }
 }
