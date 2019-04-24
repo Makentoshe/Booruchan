@@ -4,6 +4,7 @@ import android.view.View
 import android.widget.GridView
 import android.widget.ProgressBar
 import android.widget.TextView
+import com.makentoshe.booruchan.BuildConfig
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.api.component.post.Post
 import com.makentoshe.booruchan.model.BooruHolder
@@ -13,7 +14,7 @@ import com.makentoshe.booruchan.navigation.Router
 import com.makentoshe.booruchan.navigation.Screen
 import com.makentoshe.booruchan.screen.posts.container.model.getItemsCountInRequest
 import com.makentoshe.booruchan.screen.posts.page.controller.postsdownload.PostsDownloadEventListener
-import com.makentoshe.booruchan.screen.posts.page.model.PostPageGridAdapterBuilder
+import com.makentoshe.booruchan.screen.posts.page.model.GridAdapterBuilder
 import com.makentoshe.booruchan.screen.samples.SampleScreen
 import org.jetbrains.anko.find
 
@@ -25,7 +26,7 @@ import org.jetbrains.anko.find
  */
 class PostsPageContentController(
     private val postsDownloadEventListener: PostsDownloadEventListener,
-    private val adapterBuilder: PostPageGridAdapterBuilder,
+    private val adapterBuilder: GridAdapterBuilder,
     private val positionHolder: PositionHolder,
     private val postPageContentRouter: PostPageContentRouter
 ) {
@@ -34,6 +35,7 @@ class PostsPageContentController(
         //change view on posts loading failed
         postsDownloadEventListener.onError {
             bindViewOnError(view, it)
+            if (BuildConfig.DEBUG) it.printStackTrace()
         }
         //change view on posts loading success
         postsDownloadEventListener.onSuccess {

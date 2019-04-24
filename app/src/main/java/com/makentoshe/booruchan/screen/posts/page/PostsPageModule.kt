@@ -12,11 +12,11 @@ import com.makentoshe.booruchan.screen.posts.page.controller.gridelement.GridEle
 import com.makentoshe.booruchan.screen.posts.page.controller.PostPageContentRouter
 import com.makentoshe.booruchan.screen.posts.page.controller.PostsPageContentController
 import com.makentoshe.booruchan.screen.posts.page.controller.SampleScreenBuilder
-import com.makentoshe.booruchan.screen.posts.page.controller.gridelement.PostPageGridElementControllerBuilder
+import com.makentoshe.booruchan.screen.posts.page.controller.gridelement.GridElementControllerBuilder
 import com.makentoshe.booruchan.screen.posts.page.controller.imagedownload.PostsPreviewImageDownloadControllerBuilder
 import com.makentoshe.booruchan.screen.posts.page.controller.postsdownload.PostsDownloadController
 import com.makentoshe.booruchan.screen.posts.page.controller.postsdownload.PostsDownloadControllerImpl
-import com.makentoshe.booruchan.screen.posts.page.model.PostPageGridAdapterBuilder
+import com.makentoshe.booruchan.screen.posts.page.model.GridAdapterBuilder
 import com.makentoshe.booruchan.screen.posts.page.view.PostPageGridElementUiBuilder
 import io.reactivex.disposables.CompositeDisposable
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -46,9 +46,9 @@ object PostsPageModule {
             scoped { PostsPreviewImageDownloadControllerBuilder(get(named(DISPOSABLE))) }
             scoped {
                 val repositoryFactory = get<CachedRepositoryFactory> { parametersOf(getViewModel().booru) }
-                PostPageGridElementControllerBuilder(get(), repositoryFactory, get())
+                GridElementControllerBuilder(get(), repositoryFactory, get())
             }
-            scoped { PostPageGridAdapterBuilder(get(), get()) }
+            scoped { GridAdapterBuilder(get(), get()) }
             scoped { PostsPageContentController(getViewModel(), get(), getViewModel(), get()) }
             scoped { SampleScreenBuilder(getViewModel(), getViewModel()) }
             scoped { PostPageContentRouter(get(), get()) }

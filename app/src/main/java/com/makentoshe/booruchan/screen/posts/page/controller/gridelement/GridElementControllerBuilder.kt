@@ -13,7 +13,7 @@ import com.makentoshe.booruchan.screen.posts.page.controller.imagedownload.Posts
  * @param repositoryFactory is a factory, creates any type of repositories.
  * @param typeControllerBuilder is a factory, creates controller for controlling element types.
  */
-class PostPageGridElementControllerBuilder(
+class GridElementControllerBuilder(
     private val downloadControllerBuilder: PostsPreviewImageDownloadControllerBuilder,
     private val repositoryFactory: RepositoryFactory,
     private val typeControllerBuilder: GridElementTypeControllerBuilder
@@ -22,13 +22,10 @@ class PostPageGridElementControllerBuilder(
     /**
      * Returns a grid element controller with the started preview downloading process.
      */
-    fun createController(post: Post): PostPageGridElementController {
+    fun createController(post: Post): GridElementController {
         val downloadController = buildDownloadController(post)
         val typeController = buildTypeController(post)
-        return PostPageGridElementController(
-            downloadController,
-            typeController
-        )
+        return GridElementController(downloadController, typeController)
     }
 
     private fun buildDownloadController(post: Post): PostsPreviewImageDownloadController {

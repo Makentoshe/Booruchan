@@ -12,7 +12,7 @@ import org.jetbrains.anko.find
  *
  * @param listener is a preview downloading result listener.
  */
-class PostPageGridElementController(
+class GridElementController(
     private val listener: PostsPreviewImageDownloadEventListener,
     private val typeController: GridElementTypeController
 ) {
@@ -27,6 +27,11 @@ class PostPageGridElementController(
         listener.onSuccess {
             //set image
             imageview.setImageBitmap(it)
+            //hide progress
+            progressbar.visibility = View.GONE
+        }
+
+        listener.onError {
             //hide progress
             progressbar.visibility = View.GONE
         }

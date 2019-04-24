@@ -4,7 +4,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
 import com.makentoshe.booruchan.api.component.post.Post
-import com.makentoshe.booruchan.screen.posts.page.controller.gridelement.PostPageGridElementControllerBuilder
+import com.makentoshe.booruchan.screen.posts.page.controller.gridelement.GridElementControllerBuilder
 import com.makentoshe.booruchan.screen.posts.page.view.PostPageGridElementUiBuilder
 
 /**
@@ -14,10 +14,10 @@ import com.makentoshe.booruchan.screen.posts.page.view.PostPageGridElementUiBuil
  * @param uiBuilder is a factory which creates a grid's element views.
  * @param controllerBuilder is a factory which creates a grid's element controllers.
  */
-class PostPageGridAdapter(
+class GridAdapter(
     private val posts: List<Post>,
     private val uiBuilder: PostPageGridElementUiBuilder,
-    private val controllerBuilder: PostPageGridElementControllerBuilder
+    private val controllerBuilder: GridElementControllerBuilder
 ) : BaseAdapter() {
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
