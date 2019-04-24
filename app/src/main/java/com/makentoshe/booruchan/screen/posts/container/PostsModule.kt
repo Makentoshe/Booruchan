@@ -51,14 +51,15 @@ object PostsModule {
             }
         }
 
+        factory<CacheController> { CacheControllerImpl(get()) }
+
         /* Initial tags and booru impl */
         viewModel { (tags: Set<Tag>, booru: Booru) ->
             val tagsHolder = TagsHolderImpl(tags)
             val booruHolder = BooruHolderImpl(booru)
             val disposables = CompositeDisposable()
             val searchRxProvider = SearchRxProvider(disposables)
-            val cacheController = CacheControllerImpl(get())
-            PostsViewModel(tagsHolder, booruHolder, searchRxProvider, disposables, cacheController)
+            PostsViewModel(tagsHolder, booruHolder, searchRxProvider, disposables, get())
         }
     }
 }
