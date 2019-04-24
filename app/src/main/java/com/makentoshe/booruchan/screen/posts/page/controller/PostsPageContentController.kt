@@ -6,8 +6,15 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.api.component.post.Post
+import com.makentoshe.booruchan.model.BooruHolder
+import com.makentoshe.booruchan.model.PositionHolder
+import com.makentoshe.booruchan.model.TagsHolder
+import com.makentoshe.booruchan.navigation.Router
+import com.makentoshe.booruchan.navigation.Screen
+import com.makentoshe.booruchan.screen.posts.container.model.getItemsCountInRequest
 import com.makentoshe.booruchan.screen.posts.page.controller.postsdownload.PostsDownloadEventListener
 import com.makentoshe.booruchan.screen.posts.page.model.PostPageGridAdapterFactory
+import com.makentoshe.booruchan.screen.samples.SampleScreen
 import org.jetbrains.anko.find
 
 /**
@@ -18,7 +25,9 @@ import org.jetbrains.anko.find
  */
 class PostsPageContentController(
     private val postsDownloadEventListener: PostsDownloadEventListener,
-    private val adapterFactory: PostPageGridAdapterFactory
+    private val adapterFactory: PostPageGridAdapterFactory,
+    private val positionHolder: PositionHolder,
+    private val postPageContentRouter: PostPageContentRouter
 ) {
 
     fun bindView(view: View) {
@@ -56,12 +65,11 @@ class PostsPageContentController(
     }
 
     private fun setOnGridElementClickListener(view: View) {
-//        val gridview = view.find<GridView>(R.id.posts_page_gridview)
-//        gridview.setOnItemClickListener { _, _, itempos, _ ->
-//            val position = this.position * getItemsCountInRequest(requireContext()) + itempos
-//            val screen = SampleScreen(position, booru, tags)
-//            router.navigateTo(screen)
-//        }
+        val gridview = view.find<GridView>(R.id.posts_page_gridview)
+        gridview.setOnItemClickListener { _, _, itempos, _ ->
+            val position = positionHolder.position * getItemsCountInRequest(view.context) + itempos
+            postPageContentRouter.navigateToSampleScreen(position)
+        }
     }
 
     private fun bindViewOnError(view: View, throwable: Throwable) {
@@ -89,5 +97,24 @@ class PostsPageContentController(
     private fun showProgressBar(view: View) {
         val progress = view.find<ProgressBar>(R.id.posts_page_progress)
         progress.visibility = View.VISIBLE
+    }
+}
+
+class PostPageContentRouter(
+    private val router: Router,
+    private val sampleScreenBuilder: SampleScreenBuilder
+) {
+    fun navigateToSampleScreen(position: Int) {
+        val screen = sampleScreenBuilder.build(position)
+        router.navigateTo(screen)
+    }
+}
+
+class SampleScreenBuilder(
+    private val booruHolder: BooruHolder,
+    private val tagsHolder: TagsHolder
+) {
+    fun build(position: Int): Screen {
+        return SampleScreen(position, booruHolder.booru, tagsHolder.set)
     }
 }

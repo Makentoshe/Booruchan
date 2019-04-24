@@ -7,22 +7,26 @@ import com.makentoshe.booruchan.api.Booru
 import com.makentoshe.booruchan.api.component.post.Post
 import com.makentoshe.booruchan.api.component.tag.Tag
 import com.makentoshe.booruchan.model.BooruHolder
-import com.makentoshe.booruchan.screen.posts.container.controller.TagsHolder
+import com.makentoshe.booruchan.model.PositionHolder
+import com.makentoshe.booruchan.model.TagsHolder
 import com.makentoshe.booruchan.screen.posts.page.controller.postsdownload.PostsDownloadController
 import com.makentoshe.booruchan.screen.posts.page.controller.postsdownload.PostsDownloadEventListener
 
 class PostsPageViewModel(
     private val booruHolder: BooruHolder,
     private val tagsHolder: TagsHolder,
-    private val position: Int,
+    private val positionHolder: PositionHolder,
     private val postsDownloadController: PostsDownloadController
-) : ViewModel(), BooruHolder, TagsHolder, PostsDownloadEventListener {
+) : ViewModel(), BooruHolder, TagsHolder, PositionHolder, PostsDownloadEventListener {
 
     override val booru: Booru
         get() = booruHolder.booru
 
     override val set: MutableSet<Tag>
         get() = tagsHolder.set
+
+    override val position: Int
+        get() = positionHolder.position
 
     /* starts loading on fragment create */
     init {

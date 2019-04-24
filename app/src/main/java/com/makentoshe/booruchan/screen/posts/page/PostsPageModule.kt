@@ -12,11 +12,15 @@ import com.makentoshe.booruchan.api.Posts
 import com.makentoshe.booruchan.api.component.post.Post
 import com.makentoshe.booruchan.api.component.tag.Tag
 import com.makentoshe.booruchan.model.BooruHolderImpl
+import com.makentoshe.booruchan.model.PositionHolderImpl
+import com.makentoshe.booruchan.model.TagsHolderImpl
 import com.makentoshe.booruchan.repository.factory.CachedRepositoryFactory
-import com.makentoshe.booruchan.screen.posts.container.controller.TagsHolderImpl
+import com.makentoshe.booruchan.screen.posts.page.controller.PostPageContentRouter
 import com.makentoshe.booruchan.screen.posts.page.controller.PostsPageContentController
+import com.makentoshe.booruchan.screen.posts.page.controller.SampleScreenBuilder
 import com.makentoshe.booruchan.screen.posts.page.controller.gridelement.PostPageGridElementControllerFactory
 import com.makentoshe.booruchan.screen.posts.page.controller.imagedownload.PostsPreviewImageDownloadControllerFactory
+import com.makentoshe.booruchan.screen.posts.page.controller.postsdownload.PostsDownloadController
 import com.makentoshe.booruchan.screen.posts.page.controller.postsdownload.PostsDownloadControllerImpl
 import com.makentoshe.booruchan.screen.posts.page.model.PostPageGridAdapterFactory
 import com.makentoshe.booruchan.screen.posts.page.view.PostPageGridElementUiFactory
@@ -43,34 +47,35 @@ object PostsPageModule {
     val module = module {
 
         scope(named<PostsPageFragment>()) {
-
             scoped(named(FRAGMENT)) { (fragment: Fragment) -> fragment }
-
             scoped { PostPageGridElementUiFactory() }
-
             scoped { GridElementTypeControllerFactory() }
-
             scoped(named(DISPOSABLE)) { CompositeDisposable() }
-            /* composite disposable */
             scoped { PostsPreviewImageDownloadControllerFactory(get(named(DISPOSABLE))) }
-            /* download controller factory, repository factory */
             scoped {
                 val repositoryFactory = get<CachedRepositoryFactory> { parametersOf(getViewModel().booru) }
                 PostPageGridElementControllerFactory(get(), repositoryFactory, get())
             }
-            /* ui factory, controller factory */
             scoped { PostPageGridAdapterFactory(get(), get()) }
-            /* adapter factory */
-            scoped { PostsPageContentController(getViewModel(), get()) }
+            scoped { PostsPageContentController(getViewModel(), get(), getViewModel(), get()) }
+            scoped { SampleScreenBuilder(getViewModel(), getViewModel()) }
+            scoped { PostPageContentRouter(get(), get()) }
+        }
+
+        factory<PostsDownloadController> { (booru: Booru, tags: Set<Tag>, position: Int, disposables: CompositeDisposable) ->
+            val repositoryFactory = get<CachedRepositoryFactory> { parametersOf(booru) }
+            val request = get<Posts.Request> { parametersOf(tags, position) }
+            PostsDownloadControllerImpl(repositoryFactory, request, disposables)
         }
 
         viewModel { (booru: Booru, tags: Set<Tag>, position: Int, disposables: CompositeDisposable) ->
-            val repositoryFactory = get<CachedRepositoryFactory> { parametersOf(booru) }
             val booruHolder = BooruHolderImpl(booru)
             val tagsHolder = TagsHolderImpl(tags)
-            val request = get<Posts.Request> { parametersOf(tags, position) }
-            val postsDownloadController = PostsDownloadControllerImpl(repositoryFactory, request, disposables)
-            PostsPageViewModel(booruHolder, tagsHolder, position, postsDownloadController)
+            val positionHolder = PositionHolderImpl(position)
+
+            val postsDownloadController = get<PostsDownloadController> { parametersOf(booru, tags, position, disposables) }
+
+            PostsPageViewModel(booruHolder, tagsHolder, positionHolder, postsDownloadController)
         }
     }
 }

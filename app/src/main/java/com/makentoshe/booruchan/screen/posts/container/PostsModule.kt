@@ -4,6 +4,7 @@ import androidx.fragment.app.Fragment
 import com.makentoshe.booruchan.api.Booru
 import com.makentoshe.booruchan.api.component.tag.Tag
 import com.makentoshe.booruchan.model.BooruHolderImpl
+import com.makentoshe.booruchan.model.TagsHolderImpl
 import com.makentoshe.booruchan.screen.posts.container.controller.*
 import io.reactivex.disposables.CompositeDisposable
 import org.koin.androidx.viewmodel.dsl.viewModel

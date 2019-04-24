@@ -1,4 +1,4 @@
-package com.makentoshe.booruchan.screen.posts.container.controller
+package com.makentoshe.booruchan.model
 
 import com.makentoshe.booruchan.api.component.tag.Tag
 

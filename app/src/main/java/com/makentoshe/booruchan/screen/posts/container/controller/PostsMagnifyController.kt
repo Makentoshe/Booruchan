@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.model.BooruHolder
 import com.makentoshe.booruchan.model.RequestCode
+import com.makentoshe.booruchan.model.TagsHolder
 import com.makentoshe.booruchan.screen.search.SearchDialogFragment
 import org.jetbrains.anko.find
 

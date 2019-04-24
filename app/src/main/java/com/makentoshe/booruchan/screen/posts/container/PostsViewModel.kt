@@ -7,7 +7,7 @@ import com.makentoshe.booruchan.api.component.tag.Tag
 import com.makentoshe.booruchan.model.BooruHolder
 import com.makentoshe.booruchan.screen.posts.container.controller.CacheController
 import com.makentoshe.booruchan.screen.posts.container.controller.SearchController
-import com.makentoshe.booruchan.screen.posts.container.controller.TagsHolder
+import com.makentoshe.booruchan.model.TagsHolder
 import io.reactivex.disposables.Disposable
 
 class PostsViewModel(
