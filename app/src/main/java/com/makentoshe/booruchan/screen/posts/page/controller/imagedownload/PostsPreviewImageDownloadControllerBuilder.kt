@@ -9,7 +9,7 @@ import io.reactivex.disposables.CompositeDisposable
  *
  * @param disposables is a local disposables container which will be disposed each [Fragment.onDestroy].
  */
-class PostsPreviewImageDownloadControllerFactory(private val disposables: CompositeDisposable) {
+class PostsPreviewImageDownloadControllerBuilder(private val disposables: CompositeDisposable) {
 
     /**
      * Creates a controller instance with the current repository as a source.

@@ -2,23 +2,21 @@ package com.makentoshe.booruchan.screen.posts.page.controller.gridelement
 
 import com.makentoshe.booruchan.api.component.post.Post
 import com.makentoshe.booruchan.repository.factory.RepositoryFactory
-import com.makentoshe.booruchan.screen.posts.page.GridElementTypeController
-import com.makentoshe.booruchan.screen.posts.page.GridElementTypeControllerFactory
 import com.makentoshe.booruchan.screen.posts.page.controller.imagedownload.PostsPreviewImageDownloadController
-import com.makentoshe.booruchan.screen.posts.page.controller.imagedownload.PostsPreviewImageDownloadControllerFactory
+import com.makentoshe.booruchan.screen.posts.page.controller.imagedownload.PostsPreviewImageDownloadControllerBuilder
 
 /**
  * Factory creates a grid element controller.
  *
- * @param downloadControllerFactory is a factory which created an associated with
+ * @param downloadControllerBuilder is a factory which created an associated with
  * the current grid element download controller for downloading a preview image.
  * @param repositoryFactory is a factory, creates any type of repositories.
- * @param typeControllerFactory is a factory, creates controller for controlling element types.
+ * @param typeControllerBuilder is a factory, creates controller for controlling element types.
  */
-class PostPageGridElementControllerFactory(
-    private val downloadControllerFactory: PostsPreviewImageDownloadControllerFactory,
+class PostPageGridElementControllerBuilder(
+    private val downloadControllerBuilder: PostsPreviewImageDownloadControllerBuilder,
     private val repositoryFactory: RepositoryFactory,
-    private val typeControllerFactory: GridElementTypeControllerFactory
+    private val typeControllerBuilder: GridElementTypeControllerBuilder
 ) {
 
     /**
@@ -27,17 +25,20 @@ class PostPageGridElementControllerFactory(
     fun createController(post: Post): PostPageGridElementController {
         val downloadController = buildDownloadController(post)
         val typeController = buildTypeController(post)
-        return PostPageGridElementController(downloadController, typeController)
+        return PostPageGridElementController(
+            downloadController,
+            typeController
+        )
     }
 
     private fun buildDownloadController(post: Post): PostsPreviewImageDownloadController {
-        val downloadController = downloadControllerFactory.buildController(repositoryFactory)
+        val downloadController = downloadControllerBuilder.buildController(repositoryFactory)
         //start downloading
         downloadController.start(post)
         return downloadController
     }
 
     private fun buildTypeController(post: Post): GridElementTypeController {
-        return typeControllerFactory.buildController(post)
+        return typeControllerBuilder.buildController(post)
     }
 }

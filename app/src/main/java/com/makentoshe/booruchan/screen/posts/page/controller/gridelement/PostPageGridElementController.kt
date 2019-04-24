@@ -4,11 +4,8 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.ProgressBar
 import com.makentoshe.booruchan.R
-import com.makentoshe.booruchan.api.component.post.Post
-import com.makentoshe.booruchan.screen.posts.page.GridElementTypeController
 import com.makentoshe.booruchan.screen.posts.page.controller.imagedownload.PostsPreviewImageDownloadEventListener
 import org.jetbrains.anko.find
-import java.io.File
 
 /**
  * Controller for single grid element.

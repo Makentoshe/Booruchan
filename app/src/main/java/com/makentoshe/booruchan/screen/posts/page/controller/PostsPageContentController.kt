@@ -13,7 +13,7 @@ import com.makentoshe.booruchan.navigation.Router
 import com.makentoshe.booruchan.navigation.Screen
 import com.makentoshe.booruchan.screen.posts.container.model.getItemsCountInRequest
 import com.makentoshe.booruchan.screen.posts.page.controller.postsdownload.PostsDownloadEventListener
-import com.makentoshe.booruchan.screen.posts.page.model.PostPageGridAdapterFactory
+import com.makentoshe.booruchan.screen.posts.page.model.PostPageGridAdapterBuilder
 import com.makentoshe.booruchan.screen.samples.SampleScreen
 import org.jetbrains.anko.find
 
@@ -21,11 +21,11 @@ import org.jetbrains.anko.find
  * Perform controlling page's root-view.
  *
  * @param postsDownloadEventListener is a listener for posts loading status.
- * @param adapterFactory is a factory which creates GridAdapter instances.
+ * @param adapterBuilder is a factory which creates GridAdapter instances.
  */
 class PostsPageContentController(
     private val postsDownloadEventListener: PostsDownloadEventListener,
-    private val adapterFactory: PostPageGridAdapterFactory,
+    private val adapterBuilder: PostPageGridAdapterBuilder,
     private val positionHolder: PositionHolder,
     private val postPageContentRouter: PostPageContentRouter
 ) {
@@ -60,7 +60,7 @@ class PostsPageContentController(
         val gridview = view.find<GridView>(R.id.posts_page_gridview)
         gridview.visibility = View.VISIBLE
 
-        val adapter = adapterFactory.build(posts)
+        val adapter = adapterBuilder.build(posts)
         gridview.adapter = adapter
     }
 

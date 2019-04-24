@@ -9,6 +9,19 @@ import org.jetbrains.anko.*
 import org.jetbrains.anko.cardview.v7._CardView
 import org.jetbrains.anko.cardview.v7.cardView
 
+/**
+ * Creates ui for a single grid element.
+ */
+class PostPageGridElementUiBuilder {
+
+    fun createView(context: Context): View {
+        return PostPageGridElementUi().createView(AnkoContext.create(context))
+    }
+}
+
+/**
+ * A single grid element ui.
+ */
 class PostPageGridElementUi : AnkoComponent<Context> {
     override fun createView(ui: AnkoContext<Context>): View = with(ui) {
         cardView {
@@ -45,16 +58,6 @@ class PostPageGridElementUi : AnkoComponent<Context> {
     }.lparams(dip(16), dip(16)) {
         alignParentTop()
         alignParentRight()
-    }
-}
-
-/**
- * Creates ui for a single grid element.
- */
-class PostPageGridElementUiFactory {
-
-    fun createView(context: Context): View {
-        return PostPageGridElementUi().createView(AnkoContext.create(context))
     }
 }
 

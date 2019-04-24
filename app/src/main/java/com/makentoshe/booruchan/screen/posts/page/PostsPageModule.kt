@@ -1,38 +1,30 @@
 package com.makentoshe.booruchan.screen.posts.page
 
-import android.graphics.Color
-import android.graphics.PorterDuff
-import android.graphics.drawable.Drawable
-import android.view.View
-import android.widget.ImageView
 import androidx.fragment.app.Fragment
-import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.api.Booru
 import com.makentoshe.booruchan.api.Posts
-import com.makentoshe.booruchan.api.component.post.Post
 import com.makentoshe.booruchan.api.component.tag.Tag
 import com.makentoshe.booruchan.model.BooruHolderImpl
 import com.makentoshe.booruchan.model.PositionHolderImpl
 import com.makentoshe.booruchan.model.TagsHolderImpl
 import com.makentoshe.booruchan.repository.factory.CachedRepositoryFactory
+import com.makentoshe.booruchan.screen.posts.page.controller.gridelement.GridElementTypeControllerBuilder
 import com.makentoshe.booruchan.screen.posts.page.controller.PostPageContentRouter
 import com.makentoshe.booruchan.screen.posts.page.controller.PostsPageContentController
 import com.makentoshe.booruchan.screen.posts.page.controller.SampleScreenBuilder
-import com.makentoshe.booruchan.screen.posts.page.controller.gridelement.PostPageGridElementControllerFactory
-import com.makentoshe.booruchan.screen.posts.page.controller.imagedownload.PostsPreviewImageDownloadControllerFactory
+import com.makentoshe.booruchan.screen.posts.page.controller.gridelement.PostPageGridElementControllerBuilder
+import com.makentoshe.booruchan.screen.posts.page.controller.imagedownload.PostsPreviewImageDownloadControllerBuilder
 import com.makentoshe.booruchan.screen.posts.page.controller.postsdownload.PostsDownloadController
 import com.makentoshe.booruchan.screen.posts.page.controller.postsdownload.PostsDownloadControllerImpl
-import com.makentoshe.booruchan.screen.posts.page.model.PostPageGridAdapterFactory
-import com.makentoshe.booruchan.screen.posts.page.view.PostPageGridElementUiFactory
+import com.makentoshe.booruchan.screen.posts.page.model.PostPageGridAdapterBuilder
+import com.makentoshe.booruchan.screen.posts.page.view.PostPageGridElementUiBuilder
 import io.reactivex.disposables.CompositeDisposable
-import org.jetbrains.anko.find
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.androidx.viewmodel.ext.koin.getViewModel
 import org.koin.core.parameter.parametersOf
 import org.koin.core.qualifier.named
 import org.koin.core.scope.Scope
 import org.koin.dsl.module
-import java.io.File
 
 object PostsPageModule {
 
@@ -48,15 +40,15 @@ object PostsPageModule {
 
         scope(named<PostsPageFragment>()) {
             scoped(named(FRAGMENT)) { (fragment: Fragment) -> fragment }
-            scoped { PostPageGridElementUiFactory() }
-            scoped { GridElementTypeControllerFactory() }
+            scoped { PostPageGridElementUiBuilder() }
+            scoped { GridElementTypeControllerBuilder() }
             scoped(named(DISPOSABLE)) { CompositeDisposable() }
-            scoped { PostsPreviewImageDownloadControllerFactory(get(named(DISPOSABLE))) }
+            scoped { PostsPreviewImageDownloadControllerBuilder(get(named(DISPOSABLE))) }
             scoped {
                 val repositoryFactory = get<CachedRepositoryFactory> { parametersOf(getViewModel().booru) }
-                PostPageGridElementControllerFactory(get(), repositoryFactory, get())
+                PostPageGridElementControllerBuilder(get(), repositoryFactory, get())
             }
-            scoped { PostPageGridAdapterFactory(get(), get()) }
+            scoped { PostPageGridAdapterBuilder(get(), get()) }
             scoped { PostsPageContentController(getViewModel(), get(), getViewModel(), get()) }
             scoped { SampleScreenBuilder(getViewModel(), getViewModel()) }
             scoped { PostPageContentRouter(get(), get()) }
@@ -77,44 +69,5 @@ object PostsPageModule {
 
             PostsPageViewModel(booruHolder, tagsHolder, positionHolder, postsDownloadController)
         }
-    }
-}
-
-class GridElementTypeControllerFactory {
-    fun buildController(post: Post): GridElementTypeController {
-        return GridElementTypeController(post)
-    }
-}
-
-class GridElementTypeController(private val post: Post) {
-
-    fun bindView(view: View) {
-
-        when (File(post.fileUrl).extension) {
-            "webm" -> videoType(view)
-            "gif" -> animationType(view)
-            else -> defaultType(view)
-        }
-    }
-
-    private fun videoType(view: View) {
-        val videoDrawable = view.context.getDrawable(R.drawable.ic_video)!!
-        view.setType(videoDrawable)
-    }
-
-    private fun animationType(view: View) {
-        val animationDrawable = view.context.getDrawable(R.drawable.ic_animation)!!
-        view.setType(animationDrawable)
-    }
-
-    private fun defaultType(view: View) {
-        val typeview = view.find<ImageView>(R.id.posts_page_gridview_element_type)
-        typeview.visibility = View.GONE
-    }
-
-    private fun View.setType(typeDrawable: Drawable) {
-        val typeview = find<ImageView>(R.id.posts_page_gridview_element_type)
-        typeDrawable.mutate().setColorFilter(Color.BLACK, PorterDuff.Mode.SRC_ATOP)
-        typeview.setImageDrawable(typeDrawable)
     }
 }
