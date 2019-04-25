@@ -1,4 +1,4 @@
-package com.makentoshe.booruchan.screen.samples.view
+package com.makentoshe.booruchan.screen.samples.swipe.view
 
 import android.graphics.Color
 import com.makentoshe.booruchan.R

@@ -10,6 +10,7 @@ import com.makentoshe.booruchan.screen.booru.BooruModule
 import com.makentoshe.booruchan.screen.posts.container.PostsModule
 import com.makentoshe.booruchan.screen.posts.container.model.getItemsCountInRequest
 import com.makentoshe.booruchan.screen.posts.page.PostsPageModule
+import com.makentoshe.booruchan.screen.samples.SampleModule
 import com.makentoshe.booruchan.screen.settings.AppSettings
 import com.makentoshe.booruchan.screen.settings.page.SettingsScreenBuilder
 import com.makentoshe.booruchan.screen.settings.settingsModule
@@ -60,7 +61,8 @@ class Booruchan : Application() {
                 settingsModule,
                 BooruModule.module,
                 PostsModule.module,
-                PostsPageModule.module
+                PostsPageModule.module,
+                SampleModule.module
             )
         }
         initRxErrorHandler()

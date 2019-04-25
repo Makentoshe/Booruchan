@@ -1,4 +1,4 @@
-package com.makentoshe.booruchan.screen.samples.view
+package com.makentoshe.booruchan.screen.samples.swipe.view
 
 import android.content.Context
 import android.content.res.ColorStateList
@@ -6,9 +6,6 @@ import android.graphics.PorterDuff
 import android.view.Menu
 import android.view.MenuItem
 import android.view.ViewManager
-import androidx.annotation.DrawableRes
-import androidx.annotation.IdRes
-import androidx.annotation.StringRes
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.style

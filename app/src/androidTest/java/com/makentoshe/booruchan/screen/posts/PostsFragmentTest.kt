@@ -11,20 +11,11 @@ import androidx.test.rule.ActivityTestRule
 import androidx.viewpager.widget.ViewPager
 import com.makentoshe.booruchan.*
 import com.makentoshe.booruchan.screen.booru.BooruFragment
-import com.makentoshe.booruchan.screen.samples.SampleContentFragment
+import com.makentoshe.booruchan.screen.samples.swipe.SampleSwipeFragment
 import com.makentoshe.booruchan.screen.search.SearchDialogFragment
-import io.reactivex.Scheduler
-import io.reactivex.android.plugins.RxAndroidPlugins
-import io.reactivex.plugins.RxJavaPlugins
-import io.reactivex.schedulers.Schedulers
 import org.hamcrest.Matchers.*
 import org.junit.*
 import org.junit.Assert.assertEquals
-import io.reactivex.internal.schedulers.ExecutorScheduler
-import io.reactivex.Scheduler.Worker
-import io.reactivex.disposables.Disposable
-import java.util.concurrent.Executor
-import java.util.concurrent.TimeUnit
 
 
 class PostsFragmentTest {
@@ -94,7 +85,7 @@ class PostsFragmentTest {
             .atPosition(1)
             .perform(click())
 
-        activity.containsFragment<SampleContentFragment>()
+        activity.containsFragment<SampleSwipeFragment>()
     }
 
     @Test

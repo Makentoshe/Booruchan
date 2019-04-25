@@ -4,6 +4,7 @@ import androidx.fragment.app.Fragment
 import com.makentoshe.booruchan.api.Booru
 import com.makentoshe.booruchan.api.component.tag.Tag
 import com.makentoshe.booruchan.navigation.Screen
+import com.makentoshe.booruchan.screen.samples.swipe.SampleSwipeFragment
 
 class SampleScreen(
     private val position: Int,
@@ -11,5 +12,5 @@ class SampleScreen(
     private val tags: Set<Tag>
 ) : Screen() {
     override val fragment: Fragment
-        get() = SampleContentFragment.create(position, booru, tags)
+        get() = SampleSwipeFragment.create(position, booru, tags)
 }
