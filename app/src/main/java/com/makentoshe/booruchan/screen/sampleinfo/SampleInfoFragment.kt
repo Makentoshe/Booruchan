@@ -7,14 +7,15 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.viewpager.widget.ViewPager
 import com.makentoshe.booruchan.R
+import com.makentoshe.booruchan.anko.onPageChangeListener
 import com.makentoshe.booruchan.api.Booru
-import com.makentoshe.booruchan.api.component.post.Post
 import com.makentoshe.booruchan.api.Posts
+import com.makentoshe.booruchan.api.component.post.Post
 import com.makentoshe.booruchan.api.component.tag.Tag
-import com.makentoshe.booruchan.repository.decorator.CachedRepository
+import com.makentoshe.booruchan.model.arguments
 import com.makentoshe.booruchan.repository.PostsRepository
 import com.makentoshe.booruchan.repository.cache.PostInternalCache
-import com.makentoshe.booruchan.model.arguments
+import com.makentoshe.booruchan.repository.decorator.CachedRepository
 import com.makentoshe.booruchan.screen.sampleinfo.model.SampleInfoViewPagerAdapter
 import com.makentoshe.booruchan.screen.sampleinfo.view.SampleInfoUi
 import com.makentoshe.booruchan.screen.sampleinfo.view.SampleInfoUiToolbarAnimator
@@ -24,7 +25,6 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import org.jetbrains.anko.AnkoContext
 import org.jetbrains.anko.find
-import org.jetbrains.anko.support.v4.onPageChangeListener
 import java.io.Serializable
 
 class SampleInfoFragment : Fragment() {

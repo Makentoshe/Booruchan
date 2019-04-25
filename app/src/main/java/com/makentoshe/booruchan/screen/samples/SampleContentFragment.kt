@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.makentoshe.booruchan.R
+import com.makentoshe.booruchan.anko.onPageChangeListener
 import com.makentoshe.booruchan.api.Booru
 import com.makentoshe.booruchan.api.component.tag.Tag
 import com.makentoshe.booruchan.model.VerticalViewPagerAdapter
@@ -19,7 +20,6 @@ import com.makentoshe.booruchan.screen.samples.view.SampleContentUi
 import org.jetbrains.anko.AnkoContext
 import org.jetbrains.anko.find
 import org.jetbrains.anko.findOptional
-import org.jetbrains.anko.support.v4.onPageChangeListener
 import org.koin.android.ext.android.inject
 import java.io.Serializable
 

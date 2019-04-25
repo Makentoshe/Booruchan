@@ -4,8 +4,8 @@ import android.view.View
 import android.widget.TextView
 import androidx.viewpager.widget.ViewPager
 import com.makentoshe.booruchan.R
+import com.makentoshe.booruchan.anko.onPageChangeListener
 import org.jetbrains.anko.find
-import org.jetbrains.anko.support.v4.onPageChangeListener
 
 class BottomBarController(
     private val leftController: BottomBarLeftController,

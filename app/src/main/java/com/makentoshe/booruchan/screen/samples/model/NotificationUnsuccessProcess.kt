@@ -5,7 +5,7 @@ import android.content.Context
 import android.content.Intent
 import androidx.core.app.NotificationCompat
 import com.makentoshe.booruchan.R
-import com.makentoshe.booruchan.screen.report.ReportActivity
+//import com.makentoshe.booruchan.screen.report.ReportActivity
 import java.io.PrintWriter
 import java.io.StringWriter
 
@@ -28,13 +28,13 @@ class NotificationUnsuccessProcess(
     }
 
     private fun NotificationCompat.Builder.onClick(context: Context) {
-        val intent = Intent(context, ReportActivity::class.java)
-        intent.putExtra(ReportActivity.body, throwable.getStackTraceString())
-        intent.putExtra(ReportActivity.title, getMessage(context))
-        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
-        val pintent = PendingIntent.getActivity(context, id, intent, PendingIntent.FLAG_UPDATE_CURRENT)
-
-        setContentIntent(pintent)
+//        val intent = Intent(context, ReportActivity::class.java)
+//        intent.putExtra(ReportActivity.body, throwable.getStackTraceString())
+//        intent.putExtra(ReportActivity.title, getMessage(context))
+//        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
+//        val pintent = PendingIntent.getActivity(context, id, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+//
+//        setContentIntent(pintent)
     }
 
     private fun getMessage(context: Context): String {
