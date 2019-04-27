@@ -10,18 +10,15 @@ import androidx.fragment.app.Fragment
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.api.Booru
 import com.makentoshe.booruchan.api.component.post.Post
-import com.makentoshe.booruchan.api.Posts
 import com.makentoshe.booruchan.api.component.tag.Tag
 import com.makentoshe.booruchan.model.add
 import com.makentoshe.booruchan.model.arguments
-import com.makentoshe.booruchan.repository.PostsRepository
 import com.makentoshe.booruchan.repository.PreviewImageRepository
 import com.makentoshe.booruchan.repository.cache.ImageInternalCache
 import com.makentoshe.booruchan.repository.cache.InternalCache
-import com.makentoshe.booruchan.repository.cache.PostInternalCache
 import com.makentoshe.booruchan.repository.decorator.CachedRepository
 import com.makentoshe.booruchan.screen.samples.SamplePageViewModel
-import com.makentoshe.booruchan.screen.samples.model.onError
+import com.makentoshe.booruchan.screen.samples.controller.SamplePageContentController
 import com.makentoshe.booruchan.screen.samples.view.SamplePageUi
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -29,12 +26,17 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import org.jetbrains.anko.AnkoContext
 import org.jetbrains.anko.find
+import org.koin.androidx.scope.currentScope
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 import java.io.File
 import java.io.Serializable
 
 class SamplePageFragment : Fragment() {
+
+    init {
+        currentScope.get<SamplePageFragment> { parametersOf(this) }
+    }
 
     private var position: Int
         get() = arguments!!.getInt(POSITION)
@@ -60,13 +62,15 @@ class SamplePageFragment : Fragment() {
         parametersOf(booru, tags, position, disposables)
     }
 
+    private val contentController by currentScope.inject<SamplePageContentController>()
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return SamplePageUi().createView(AnkoContext.create(requireContext(), this))
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         viewModel.onSuccess { onComplete(it[0]) }
-        viewModel.onError { onError(view, it) }
+        contentController.bindView(view)
     }
 
     private fun onComplete(post: Post) {
