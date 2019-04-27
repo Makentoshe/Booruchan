@@ -11,7 +11,7 @@ import androidx.test.rule.ActivityTestRule
 import androidx.viewpager.widget.ViewPager
 import com.makentoshe.booruchan.*
 import com.makentoshe.booruchan.screen.booru.BooruFragment
-import com.makentoshe.booruchan.screen.samples.swipe.SampleSwipeFragment
+import com.makentoshe.booruchan.screen.samples.fragment.SampleSwipeFragment
 import com.makentoshe.booruchan.screen.search.SearchDialogFragment
 import org.hamcrest.Matchers.*
 import org.junit.*

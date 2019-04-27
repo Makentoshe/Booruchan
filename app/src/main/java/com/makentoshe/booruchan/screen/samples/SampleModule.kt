@@ -2,10 +2,11 @@ package com.makentoshe.booruchan.screen.samples
 
 import com.makentoshe.booruchan.api.Booru
 import com.makentoshe.booruchan.api.component.tag.Tag
-import com.makentoshe.booruchan.screen.samples.container.SampleFragment
-import com.makentoshe.booruchan.screen.samples.swipe.SampleSwipeFragment
-import com.makentoshe.booruchan.screen.samples.swipe.controller.BottomBarController
-import com.makentoshe.booruchan.screen.samples.swipe.controller.ContentController
+import com.makentoshe.booruchan.screen.samples.controller.SampleContentController
+import com.makentoshe.booruchan.screen.samples.fragment.SampleFragment
+import com.makentoshe.booruchan.screen.samples.fragment.SampleSwipeFragment
+import com.makentoshe.booruchan.screen.samples.controller.SampleSwipeBottomBarController
+import com.makentoshe.booruchan.screen.samples.controller.SampleSwipeContentController
 import org.koin.core.module.Module
 import org.koin.core.qualifier.named
 
@@ -20,7 +21,7 @@ object SampleModule {
         get() = scope(named<SampleFragment>()) {
             scoped { (fragment: SampleFragment) -> fragment }
             scoped { (booru: Booru, tags: Set<Tag>, position: Int) ->
-                com.makentoshe.booruchan.screen.samples.container.ContentController(
+                SampleContentController(
                     booru,
                     tags,
                     position,
@@ -33,11 +34,16 @@ object SampleModule {
         get() = scope(named<SampleSwipeFragment>()) {
             scoped { (fragment: SampleSwipeFragment) -> fragment }
             scoped { (booru: Booru, tags: Set<Tag>) ->
-                BottomBarController(booru, tags)
+                SampleSwipeBottomBarController(booru, tags)
             }
             scoped { (booru: Booru, tags: Set<Tag>, position: Int) ->
                 val fragmentManager = get<SampleSwipeFragment>().childFragmentManager
-                ContentController(booru, tags, position, fragmentManager)
+                SampleSwipeContentController(
+                    booru,
+                    tags,
+                    position,
+                    fragmentManager
+                )
             }
         }
 }

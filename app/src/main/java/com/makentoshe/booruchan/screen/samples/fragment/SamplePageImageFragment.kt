@@ -1,4 +1,4 @@
-package com.makentoshe.booruchan.screen.samples
+package com.makentoshe.booruchan.screen.samples.fragment
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory

@@ -1,4 +1,4 @@
-package com.makentoshe.booruchan.screen.samples.swipe.controller
+package com.makentoshe.booruchan.screen.samples.controller
 
 import android.view.View
 import androidx.fragment.app.Fragment
@@ -11,7 +11,7 @@ import com.makentoshe.booruchan.api.component.tag.Tag
 import com.makentoshe.booruchan.model.VerticalViewPagerAdapter
 import com.makentoshe.booruchan.navigation.Router
 import com.makentoshe.booruchan.navigation.Screen
-import com.makentoshe.booruchan.screen.samples.container.SampleFragment
+import com.makentoshe.booruchan.screen.samples.fragment.SampleFragment
 import org.jetbrains.anko.find
 import org.koin.core.KoinComponent
 import org.koin.core.inject
@@ -19,7 +19,7 @@ import org.koin.core.inject
 /**
  * Controls a vertical viewpager behaviour.
  */
-class ContentController(
+class SampleSwipeContentController(
     private val booru: Booru,
     private val tags: Set<Tag>,
     private val position: Int,

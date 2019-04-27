@@ -1,4 +1,4 @@
-package com.makentoshe.booruchan.screen.samples.swipe.controller
+package com.makentoshe.booruchan.screen.samples.controller
 
 import android.view.View
 import androidx.viewpager.widget.ViewPager
@@ -14,7 +14,7 @@ import org.jetbrains.anko.findOptional
 import org.koin.core.KoinComponent
 import org.koin.core.inject
 
-class BottomBarController(
+class SampleSwipeBottomBarController(
     private val booru: Booru,
     private val tags: Set<Tag>
 ) : KoinComponent {

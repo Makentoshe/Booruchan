@@ -1,4 +1,4 @@
-package com.makentoshe.booruchan.screen.samples.container
+package com.makentoshe.booruchan.screen.samples.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,6 +9,7 @@ import androidx.fragment.app.FragmentManager
 import com.makentoshe.booruchan.api.Booru
 import com.makentoshe.booruchan.api.component.tag.Tag
 import com.makentoshe.booruchan.model.arguments
+import com.makentoshe.booruchan.screen.samples.controller.SampleContentController
 import com.makentoshe.booruchan.screen.samples.view.SampleUi
 import org.jetbrains.anko.AnkoContext
 import org.koin.androidx.scope.currentScope
@@ -37,7 +38,7 @@ class SampleFragment : Fragment() {
         return SampleUi().createView(AnkoContext.create(requireContext(), this))
     }
 
-    private val contentController by currentScope.inject<ContentController> {
+    private val contentController by currentScope.inject<SampleContentController> {
         parametersOf(booru, tags, position)
     }
 

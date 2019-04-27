@@ -1,4 +1,4 @@
-package com.makentoshe.booruchan.screen.samples
+package com.makentoshe.booruchan.screen.samples.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater

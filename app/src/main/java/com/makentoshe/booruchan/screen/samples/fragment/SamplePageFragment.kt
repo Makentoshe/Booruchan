@@ -1,4 +1,4 @@
-package com.makentoshe.booruchan.screen.samples
+package com.makentoshe.booruchan.screen.samples.fragment
 
 import android.graphics.BitmapFactory
 import android.os.Bundle
@@ -96,7 +96,11 @@ class SamplePageFragment : Fragment() {
     }
 
     private fun onWebm(post: Post): Fragment {
-        return SamplePageWebmFragment.create(booru, post, position)
+        return SamplePageWebmFragment.create(
+            booru,
+            post,
+            position
+        )
     }
 
     /* Loads preview image */

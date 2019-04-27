@@ -1,4 +1,4 @@
-package com.makentoshe.booruchan.screen.samples.swipe.view
+package com.makentoshe.booruchan.screen.samples.view
 
 import android.content.Context
 import android.content.res.ColorStateList
@@ -13,7 +13,7 @@ import com.makentoshe.booruchan.style.getColorFromStyle
 import org.jetbrains.anko.*
 import org.jetbrains.anko.custom.ankoView
 
-class SampleContentUiBottombar : AnkoComponent<_RelativeLayout> {
+class SampleSwipeUiBottombar : AnkoComponent<_RelativeLayout> {
 
     override fun createView(ui: AnkoContext<_RelativeLayout>) = with(ui.owner) {
         bottomNavigationView(style.toolbar) {

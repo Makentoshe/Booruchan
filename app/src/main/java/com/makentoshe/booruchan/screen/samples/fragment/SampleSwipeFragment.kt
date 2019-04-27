@@ -1,4 +1,4 @@
-package com.makentoshe.booruchan.screen.samples.swipe
+package com.makentoshe.booruchan.screen.samples.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,9 +8,9 @@ import androidx.fragment.app.Fragment
 import com.makentoshe.booruchan.api.Booru
 import com.makentoshe.booruchan.api.component.tag.Tag
 import com.makentoshe.booruchan.model.arguments
-import com.makentoshe.booruchan.screen.samples.swipe.controller.BottomBarController
-import com.makentoshe.booruchan.screen.samples.swipe.controller.ContentController
-import com.makentoshe.booruchan.screen.samples.swipe.view.SampleContentUi
+import com.makentoshe.booruchan.screen.samples.controller.SampleSwipeBottomBarController
+import com.makentoshe.booruchan.screen.samples.controller.SampleSwipeContentController
+import com.makentoshe.booruchan.screen.samples.view.SampleSwipeUi
 import org.jetbrains.anko.AnkoContext
 import org.koin.androidx.scope.currentScope
 import org.koin.core.parameter.parametersOf
@@ -39,16 +39,17 @@ class SampleSwipeFragment : Fragment() {
         get() = arguments!!.get(TAGS) as Set<Tag>
         set(value) = arguments().putSerializable(TAGS, value as Serializable)
 
-    private val bottomBarController by currentScope.inject<BottomBarController> {
+    private val bottomBarController by currentScope.inject<SampleSwipeBottomBarController> {
         parametersOf(booru, tags)
     }
 
-    private val contentController by currentScope.inject<ContentController> {
+    private val contentController by currentScope.inject<SampleSwipeContentController> {
         parametersOf(booru, tags, position)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return SampleContentUi().createView(AnkoContext.create(requireContext(), this))
+        return SampleSwipeUi()
+            .createView(AnkoContext.create(requireContext(), this))
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

@@ -1,4 +1,4 @@
-package com.makentoshe.booruchan.screen.samples.container
+package com.makentoshe.booruchan.screen.samples.controller
 
 import android.view.View
 import androidx.fragment.app.FragmentManager
@@ -9,7 +9,7 @@ import com.makentoshe.booruchan.api.component.tag.Tag
 import com.makentoshe.booruchan.screen.samples.model.SampleHorizontalViewPagerAdapter
 import org.jetbrains.anko.find
 
-class ContentController(
+class SampleContentController(
     private val booru: Booru,
     private val tags: Set<Tag>,
     private val position: Int,
