@@ -25,7 +25,7 @@ class BottomBarRightController {
         val viewpager = view.find<ViewPager>(R.id.posts_viewpager)
         val bottomright = view.find<View>(R.id.posts_bottombar_right)
 
-        //set on right icon click listener
+        //tags on right icon click listener
         bottomright.setOnClickListener {
             val currItem = viewpager.currentItem
             viewpager.setCurrentItem(currItem + 1, true)
@@ -40,7 +40,7 @@ class BottomBarCenterController(private val searchController: SearchController) 
         val bottomcenter = view.find<View>(R.id.posts_bottombar_center)
 
         val centertext = bottomcenter.find<TextView>(R.id.posts_bottombar_center_textview)
-        //set default value text view in center
+        //tags default value text view in center
         centertext.text = "0"
 
         viewpager.onPageChangeListener {

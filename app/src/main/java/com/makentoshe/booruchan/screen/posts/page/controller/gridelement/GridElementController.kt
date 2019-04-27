@@ -27,14 +27,14 @@ class GridElementController(
 
         //preview was downloaded successfully
         listener.onSuccess {
-            //set image
+            //tags image
             imageview.setImageBitmap(it)
             //hide progress
             progressbar.visibility = View.GONE
         }
 
         listener.onError {
-            //set error image
+            //tags error image
             val drawable = view.context.getDrawable(R.drawable.ic_alert_octagon_outline)!!
             drawable.mutate().setColorFilter(Color.GRAY, PorterDuff.Mode.SRC_ATOP)
             imageview.setImageDrawable(drawable)

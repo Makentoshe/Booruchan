@@ -19,11 +19,11 @@ class PostsViewModel(
 ) : ViewModel(), TagsHolder, BooruHolder, SearchController, Disposable {
 
     init {
-        startSearch(set)
+        startSearch(tags)
     }
 
-    override val set: MutableSet<Tag>
-        get() = tagsHolder.set
+    override val tags: MutableSet<Tag>
+        get() = tagsHolder.tags
 
     override val booru: Booru
         get() = booruHolder.booru

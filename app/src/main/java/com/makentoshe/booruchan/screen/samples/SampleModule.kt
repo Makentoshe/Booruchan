@@ -2,19 +2,26 @@ package com.makentoshe.booruchan.screen.samples
 
 import com.makentoshe.booruchan.api.Booru
 import com.makentoshe.booruchan.api.component.tag.Tag
+import com.makentoshe.booruchan.screen.posts.page.controller.postsdownload.PostsDownloadController
 import com.makentoshe.booruchan.screen.samples.controller.SampleContentController
 import com.makentoshe.booruchan.screen.samples.fragment.SampleFragment
 import com.makentoshe.booruchan.screen.samples.fragment.SampleSwipeFragment
 import com.makentoshe.booruchan.screen.samples.controller.SampleSwipeBottomBarController
 import com.makentoshe.booruchan.screen.samples.controller.SampleSwipeContentController
+import com.makentoshe.booruchan.screen.samples.fragment.SamplePageFragment
+import io.reactivex.disposables.CompositeDisposable
+import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.module.Module
+import org.koin.core.parameter.parametersOf
 import org.koin.core.qualifier.named
+import java.util.HashSet
 
 object SampleModule {
 
     val module = org.koin.dsl.module {
         sampleFragmentScope
         sampleSwipeFragmentScope
+        samplePageFragmentScope
     }
 
     private val Module.sampleFragmentScope: Unit
@@ -46,4 +53,13 @@ object SampleModule {
                 )
             }
         }
+
+    private val Module.samplePageFragmentScope: Unit
+     get() = scope(named<SamplePageFragment>()) {
+
+         viewModel { (booru: Booru, tags: Set<Tag>, position: Int, disposables: CompositeDisposable) ->
+             val postsDownloadController = get<PostsDownloadController> { parametersOf(booru, disposables)}
+             SamplePageViewModel(booru, HashSet(tags), position, postsDownloadController)
+         }
+     }
 }

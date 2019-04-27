@@ -15,11 +15,11 @@ class NotificationSuccessProcess(
 ) {
     fun start(context: Context) {
         notificationProcess.start(context) {
-            //set notification text
+            //tags notification text
             setText(context)
-            //set preview large icon
+            //tags preview large icon
             setPreview(downloadedData.byteArray)
-            //set on notification click listener
+            //tags on notification click listener
             onClick(context)
         }
     }

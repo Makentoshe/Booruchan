@@ -10,6 +10,6 @@ class SampleScreenBuilder(
     private val tagsHolder: TagsHolder
 ) {
     fun build(position: Int): Screen {
-        return SampleScreen(position, booruHolder.booru, tagsHolder.set)
+        return SampleScreen(position, booruHolder.booru, tagsHolder.tags)
     }
 }

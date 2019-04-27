@@ -8,7 +8,7 @@ import com.makentoshe.booruchan.api.component.tag.Tag
 interface SearchController {
 
     /**
-     * Starts a new search with the current set of the tags
+     * Starts a new search with the current tags of the tags
      */
     fun startSearch(tags: Set<Tag>)
 

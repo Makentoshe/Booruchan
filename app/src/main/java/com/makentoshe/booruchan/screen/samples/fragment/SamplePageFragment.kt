@@ -20,6 +20,7 @@ import com.makentoshe.booruchan.repository.cache.ImageInternalCache
 import com.makentoshe.booruchan.repository.cache.InternalCache
 import com.makentoshe.booruchan.repository.cache.PostInternalCache
 import com.makentoshe.booruchan.repository.decorator.CachedRepository
+import com.makentoshe.booruchan.screen.samples.SamplePageViewModel
 import com.makentoshe.booruchan.screen.samples.model.onError
 import com.makentoshe.booruchan.screen.samples.view.SamplePageUi
 import io.reactivex.Single
@@ -28,6 +29,8 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import org.jetbrains.anko.AnkoContext
 import org.jetbrains.anko.find
+import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.parameter.parametersOf
 import java.io.File
 import java.io.Serializable
 
@@ -45,12 +48,6 @@ class SamplePageFragment : Fragment() {
         get() = arguments!!.get(TAGS) as Set<Tag>
         set(value) = arguments().putSerializable(TAGS, value as Serializable)
 
-    private val postsRepository by lazy {
-        val cache = PostInternalCache(requireContext())
-        val source = PostsRepository(booru)
-        CachedRepository(cache, source)
-    }
-
     private val previewsRepository by lazy {
         val cache = ImageInternalCache(requireContext(), InternalCache.Type.PREVIEW)
         val source = PreviewImageRepository(booru)
@@ -59,22 +56,17 @@ class SamplePageFragment : Fragment() {
 
     private val disposables = CompositeDisposable()
 
+    private val viewModel by viewModel<SamplePageViewModel> {
+        parametersOf(booru, tags, position, disposables)
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return SamplePageUi().createView(AnkoContext.create(requireContext(), this))
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        //get post data
-        val disposable = Single.just(postsRepository)
-            .subscribeOn(Schedulers.io())
-            .map { it.get(Posts.Request(1, tags, position))!![0] }
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(::onSubscribe)
-        disposables.add(disposable)
-    }
-
-    private fun onSubscribe(post: Post?, throwable: Throwable?) {
-        if (throwable == null) onComplete(post!!) else onError(view!!, throwable)
+        viewModel.onSuccess { onComplete(it[0]) }
+        viewModel.onError { onError(view, it) }
     }
 
     private fun onComplete(post: Post) {

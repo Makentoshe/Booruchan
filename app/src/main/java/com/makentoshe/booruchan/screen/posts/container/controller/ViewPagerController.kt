@@ -17,7 +17,7 @@ class ViewPagerController(
     fun bindView(view: View) {
         val viewpager = view.find<ViewPager>(R.id.posts_viewpager)
 
-        //set up the horizontal view pager for displaying the pages with the images
+        //tags up the horizontal view pager for displaying the pages with the images
         //on each starting search the old adapter will be replaced by new one with
         //tags for current search
         searchController.onSearchStarted { tags ->

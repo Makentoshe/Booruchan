@@ -3,15 +3,15 @@ package com.makentoshe.booruchan.model
 import com.makentoshe.booruchan.api.component.tag.Tag
 
 /**
- * Storing a set of the tags between fragment recreations while fragment will not completely finished.
+ * Storing a tags of the tags between fragment recreations while fragment will not completely finished.
  */
 interface TagsHolder {
-    val set: MutableSet<Tag>
+    val tags: MutableSet<Tag>
 }
 
 class TagsHolderImpl(
     initialSet: Set<Tag>
 ) : TagsHolder {
 
-    override val set = mutableSetOf<Tag>().apply { addAll(initialSet) }
+    override val tags = mutableSetOf<Tag>().apply { addAll(initialSet) }
 }

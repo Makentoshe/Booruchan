@@ -29,7 +29,7 @@ class NsfwSettingController(
     fun bindView(view: View) {
         val nsfwTrigger = view.find<CheckBox>(R.id.setting_nsfw_checkbox)
         nsfwTrigger.setOnCheckedChangeListener(::onStateChanged)
-        //set default value
+        //tags default value
         nsfwTrigger.isChecked = nsfwStateController.state
 
         onNegativeAlertListener = { nsfwTrigger.isChecked = false }

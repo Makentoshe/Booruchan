@@ -13,7 +13,7 @@ class WebmPlayerSettingController(
     fun bindView(view: View) {
         val webmPlayingRoot = view.find<View>(R.id.setting_webm_on_place)
         val webmPlayingTrigger = view.find<CheckBox>(R.id.setting_webm_on_place_checkbox)
-        //set default value
+        //tags default value
         webmPlayingTrigger.isChecked = stateController.state
 
         webmPlayingTrigger.setOnCheckedChangeListener(::onStateChanged)

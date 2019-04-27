@@ -21,7 +21,7 @@ class SampleContentController(
         //adapter for horizontal scrolling
         viewpager.adapter =
             SampleHorizontalViewPagerAdapter(fragmentManager, booru, tags)
-        //set adapter to the position on which the click event was invoked
+        //tags adapter to the position on which the click event was invoked
         viewpager.currentItem = position
     }
 }

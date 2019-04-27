@@ -26,15 +26,15 @@ class PostsPageViewModel(
     override val booru: Booru
         get() = booruHolder.booru
 
-    override val set: MutableSet<Tag>
-        get() = tagsHolder.set
+    override val tags: MutableSet<Tag>
+        get() = tagsHolder.tags
 
     override val position: Int
         get() = positionHolder.position
 
     /* starts loading on fragment create */
     init {
-        val request = get<Posts.Request> { parametersOf(set, position) }
+        val request = get<Posts.Request> { parametersOf(tags, position) }
         postsDownloadController.start(request)
     }
 
