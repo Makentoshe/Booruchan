@@ -52,24 +52,13 @@ object PostsPageModule {
             scoped { PostPageContentRouter(get(), get()) }
         }
 
-        factory { (booru: Booru, tags: Set<Tag>, position: Int, disposables: CompositeDisposable) ->
-            val repositoryFactory = get<CachedRepositoryFactory> { parametersOf(booru) }
-            val request = get<Posts.Request> { parametersOf(tags, position) }
-            PostsDownloadController.build(repositoryFactory, request, disposables)
-        }
-
-        factory { (booru: Booru, disposables: CompositeDisposable) ->
-            val repositoryFactory = get<CachedRepositoryFactory> { parametersOf(booru) }
-            PreviewImageDownloadController.build(repositoryFactory, disposables)
-        }
 
         viewModel { (booru: Booru, tags: Set<Tag>, position: Int, disposables: CompositeDisposable) ->
             val booruHolder = BooruHolderImpl(booru)
             val tagsHolder = TagsHolderImpl(tags)
             val positionHolder = PositionHolderImpl(position)
 
-            val postsDownloadController =
-                get<PostsDownloadController> { parametersOf(booru, tags, position, disposables) }
+            val postsDownloadController = get<PostsDownloadController> { parametersOf(booru, disposables) }
 
             PostsPageViewModel(booruHolder, tagsHolder, positionHolder, postsDownloadController)
         }

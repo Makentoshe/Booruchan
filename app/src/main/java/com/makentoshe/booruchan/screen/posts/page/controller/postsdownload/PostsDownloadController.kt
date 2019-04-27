@@ -14,35 +14,32 @@ import io.reactivex.subjects.ReplaySubject
  */
 interface PostsDownloadController : PostsDownloadEventListener {
     /**
-     * Starts posts downloading.
+     * Starts posts downloading using request.
      */
-    fun start()
+    fun start(request: Posts.Request)
 
     companion object {
 
         fun build(
             repositoryFactory: RepositoryFactory,
-            request: Posts.Request,
             disposables: CompositeDisposable
-        ): PostsDownloadController = PostsDownloadControllerImpl(repositoryFactory, request, disposables)
+        ): PostsDownloadController = PostsDownloadControllerImpl(repositoryFactory, disposables)
     }
 
     /**
      * An object performs posts downloading.
      *
      * @param repositoryFactory is a factory that creates source.
-     * @param request is a request for searching process.
      * @param disposables is a disposable container where the disposables stores.
      */
     private class PostsDownloadControllerImpl(
         private val repositoryFactory: RepositoryFactory,
-        private val request: Posts.Request,
         private val disposables: CompositeDisposable
     ) : PostsDownloadController {
 
         private val observable = ReplaySubject.create<List<Post>>()
 
-        override fun start() {
+        override fun start(request: Posts.Request) {
             val repository = repositoryFactory.buildPostsRepository()
             val disposable = Single.just(repository)
                 .subscribeOn(Schedulers.io())

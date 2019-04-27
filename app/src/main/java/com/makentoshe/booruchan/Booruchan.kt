@@ -10,6 +10,8 @@ import com.makentoshe.booruchan.screen.booru.BooruModule
 import com.makentoshe.booruchan.screen.posts.container.PostsModule
 import com.makentoshe.booruchan.screen.posts.container.model.getItemsCountInRequest
 import com.makentoshe.booruchan.screen.posts.page.PostsPageModule
+import com.makentoshe.booruchan.screen.posts.page.controller.imagedownload.PreviewImageDownloadController
+import com.makentoshe.booruchan.screen.posts.page.controller.postsdownload.PostsDownloadController
 import com.makentoshe.booruchan.screen.samples.SampleModule
 import com.makentoshe.booruchan.screen.settings.AppSettings
 import com.makentoshe.booruchan.screen.settings.page.SettingsScreenBuilder
@@ -17,12 +19,14 @@ import com.makentoshe.booruchan.screen.settings.settingsModule
 import com.makentoshe.booruchan.screen.start.startModule
 import com.makentoshe.booruchan.style.SotisStyle
 import com.makentoshe.booruchan.style.Style
+import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.exceptions.UndeliverableException
 import io.reactivex.plugins.RxJavaPlugins
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
 import org.koin.core.module.Module
+import org.koin.core.parameter.parametersOf
 import org.koin.dsl.module
 import ru.terrakok.cicerone.Cicerone
 
@@ -43,6 +47,16 @@ class Booruchan : Application() {
         factory { (tags: Set<Tag>, position: Int) ->
             val itemsCount = getItemsCountInRequest(get())
             Posts.Request(itemsCount, tags, position)
+        }
+        /* Creates a controller for downloading posts */
+        factory { (booru: Booru, disposables: CompositeDisposable) ->
+            val repositoryFactory = get<CachedRepositoryFactory> { parametersOf(booru) }
+            PostsDownloadController.build(repositoryFactory, disposables)
+        }
+        /* Created a controller for downloading preview images */
+        factory { (booru: Booru, disposables: CompositeDisposable) ->
+            val repositoryFactory = get<CachedRepositoryFactory> { parametersOf(booru) }
+            PreviewImageDownloadController.build(repositoryFactory, disposables)
         }
     }
 
