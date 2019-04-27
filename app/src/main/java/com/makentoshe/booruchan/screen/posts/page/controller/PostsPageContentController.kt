@@ -7,15 +7,10 @@ import android.widget.TextView
 import com.makentoshe.booruchan.BuildConfig
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.api.component.post.Post
-import com.makentoshe.booruchan.model.BooruHolder
 import com.makentoshe.booruchan.model.PositionHolder
-import com.makentoshe.booruchan.model.TagsHolder
-import com.makentoshe.booruchan.navigation.Router
-import com.makentoshe.booruchan.navigation.Screen
 import com.makentoshe.booruchan.screen.posts.container.model.getItemsCountInRequest
 import com.makentoshe.booruchan.screen.posts.page.controller.postsdownload.PostsDownloadEventListener
 import com.makentoshe.booruchan.screen.posts.page.model.GridAdapterBuilder
-import com.makentoshe.booruchan.screen.samples.SampleScreen
 import org.jetbrains.anko.find
 
 /**
@@ -99,24 +94,5 @@ class PostsPageContentController(
     private fun showProgressBar(view: View) {
         val progress = view.find<ProgressBar>(R.id.posts_page_progress)
         progress.visibility = View.VISIBLE
-    }
-}
-
-class PostPageContentRouter(
-    private val router: Router,
-    private val sampleScreenBuilder: SampleScreenBuilder
-) {
-    fun navigateToSampleScreen(position: Int) {
-        val screen = sampleScreenBuilder.build(position)
-        router.navigateTo(screen)
-    }
-}
-
-class SampleScreenBuilder(
-    private val booruHolder: BooruHolder,
-    private val tagsHolder: TagsHolder
-) {
-    fun build(position: Int): Screen {
-        return SampleScreen(position, booruHolder.booru, tagsHolder.set)
     }
 }
