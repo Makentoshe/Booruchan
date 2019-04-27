@@ -1,4 +1,4 @@
-package com.makentoshe.booruchan.screen.posts.page.controller
+package com.makentoshe.booruchan.screen.posts.page.model
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory

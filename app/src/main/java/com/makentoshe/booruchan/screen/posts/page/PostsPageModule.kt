@@ -1,22 +1,18 @@
 package com.makentoshe.booruchan.screen.posts.page
 
-import androidx.fragment.app.Fragment
 import com.makentoshe.booruchan.api.Booru
-import com.makentoshe.booruchan.api.Posts
 import com.makentoshe.booruchan.api.component.tag.Tag
 import com.makentoshe.booruchan.model.BooruHolderImpl
 import com.makentoshe.booruchan.model.PositionHolderImpl
 import com.makentoshe.booruchan.model.TagsHolderImpl
 import com.makentoshe.booruchan.repository.factory.CachedRepositoryFactory
-import com.makentoshe.booruchan.screen.posts.page.controller.PostPageContentRouter
+import com.makentoshe.booruchan.screen.posts.page.model.PostPageContentRouter
 import com.makentoshe.booruchan.screen.posts.page.controller.PostsPageContentController
-import com.makentoshe.booruchan.screen.posts.page.controller.SampleScreenBuilder
+import com.makentoshe.booruchan.screen.posts.page.model.SampleScreenBuilder
 import com.makentoshe.booruchan.screen.posts.page.controller.gridelement.GridElementControllerBuilder
-import com.makentoshe.booruchan.screen.posts.page.controller.gridelement.GridElementTypeControllerBuilder
-import com.makentoshe.booruchan.screen.posts.page.controller.imagedownload.PreviewImageDownloadController
 import com.makentoshe.booruchan.screen.posts.page.controller.postsdownload.PostsDownloadController
 import com.makentoshe.booruchan.screen.posts.page.model.GridAdapterBuilder
-import com.makentoshe.booruchan.screen.posts.page.view.PostPageGridElementUiBuilder
+import com.makentoshe.booruchan.screen.posts.page.view.GridElementUiBuilder
 import io.reactivex.disposables.CompositeDisposable
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.androidx.viewmodel.ext.koin.getViewModel
@@ -27,28 +23,32 @@ import org.koin.dsl.module
 
 object PostsPageModule {
 
-    const val FRAGMENT = "PostsPageFragment"
     const val DISPOSABLE = "PostsPageDisposables"
 
     private fun Scope.getViewModel(): PostsPageViewModel {
-        val fragment = get<Fragment>(named(FRAGMENT))
+        val fragment = get<PostsPageFragment>()
         return getViewModel(fragment)
     }
 
     val module = module {
 
         scope(named<PostsPageFragment>()) {
-            scoped(named(FRAGMENT)) { (fragment: Fragment) -> fragment }
+            scoped { (fragment: PostsPageFragment) -> fragment }
             scoped(named(DISPOSABLE)) { CompositeDisposable() }
-            scoped { PostPageGridElementUiBuilder() }
-            scoped { GridElementTypeControllerBuilder() }
+            scoped { GridElementUiBuilder() }
             scoped {
-                val repositoryFactory = get<CachedRepositoryFactory> { parametersOf(getViewModel().booru) }
-                GridElementControllerBuilder(get(named(DISPOSABLE)), repositoryFactory, get())
+                val booru = getViewModel().booru
+                val rFactory = get<CachedRepositoryFactory> { parametersOf(booru) }
+                GridElementControllerBuilder(rFactory, get(named(DISPOSABLE)))
             }
             scoped { GridAdapterBuilder(get(), get()) }
             scoped { PostsPageContentController(getViewModel(), get(), getViewModel(), get()) }
-            scoped { SampleScreenBuilder(getViewModel(), getViewModel()) }
+            scoped {
+                SampleScreenBuilder(
+                    getViewModel(),
+                    getViewModel()
+                )
+            }
             scoped { PostPageContentRouter(get(), get()) }
         }
 

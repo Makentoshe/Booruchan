@@ -23,7 +23,7 @@ class PostsPageFragment : Fragment() {
 
     init {
         //provide current fragment instance to the scope
-        currentScope.get<Fragment>(named(PostsPageModule.FRAGMENT)) { parametersOf(this) }
+        currentScope.get<PostsPageFragment> { parametersOf(this) }
     }
 
     private var position: Int

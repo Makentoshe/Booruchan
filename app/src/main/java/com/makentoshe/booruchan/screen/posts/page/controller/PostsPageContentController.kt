@@ -11,6 +11,7 @@ import com.makentoshe.booruchan.model.PositionHolder
 import com.makentoshe.booruchan.screen.posts.container.model.getItemsCountInRequest
 import com.makentoshe.booruchan.screen.posts.page.controller.postsdownload.PostsDownloadEventListener
 import com.makentoshe.booruchan.screen.posts.page.model.GridAdapterBuilder
+import com.makentoshe.booruchan.screen.posts.page.model.PostPageContentRouter
 import org.jetbrains.anko.find
 
 /**

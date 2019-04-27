@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import android.widget.BaseAdapter
 import com.makentoshe.booruchan.api.component.post.Post
 import com.makentoshe.booruchan.screen.posts.page.controller.gridelement.GridElementControllerBuilder
-import com.makentoshe.booruchan.screen.posts.page.view.PostPageGridElementUiBuilder
+import com.makentoshe.booruchan.screen.posts.page.view.GridElementUiBuilder
 
 /**
  * Adapter creates and bindings grid's element views and grid's element controllers.
@@ -16,7 +16,7 @@ import com.makentoshe.booruchan.screen.posts.page.view.PostPageGridElementUiBuil
  */
 class GridAdapter(
     private val posts: List<Post>,
-    private val uiBuilder: PostPageGridElementUiBuilder,
+    private val uiBuilder: GridElementUiBuilder,
     private val controllerBuilder: GridElementControllerBuilder
 ) : BaseAdapter() {
 

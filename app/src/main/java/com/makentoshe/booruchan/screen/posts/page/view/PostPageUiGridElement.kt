@@ -12,7 +12,7 @@ import org.jetbrains.anko.cardview.v7.cardView
 /**
  * Creates ui for a single grid element.
  */
-class PostPageGridElementUiBuilder {
+class GridElementUiBuilder {
 
     fun createView(context: Context): View {
         return PostPageGridElementUi().createView(AnkoContext.create(context))
