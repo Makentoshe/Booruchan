@@ -8,11 +8,16 @@ import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.api.component.post.Post
 import com.makentoshe.booruchan.screen.posts.page.controller.imagedownload.PreviewImageDownloadController
 import com.makentoshe.booruchan.screen.posts.page.controller.postsdownload.PostsDownloadEventListener
+import com.makentoshe.booruchan.screen.samples.model.SamplePageFragmentRouter
+import com.makentoshe.booruchan.screen.samples.model.SamplePageConcreteFragmentFactory
 import org.jetbrains.anko.find
+import java.io.File
 
 class SamplePageContentController(
     private val postsDownloadEventListener: PostsDownloadEventListener,
-    private val previewImageDownloadController: PreviewImageDownloadController
+    private val previewImageDownloadController: PreviewImageDownloadController,
+    private val fragmentFactory: SamplePageConcreteFragmentFactory,
+    private val fragmentRouter: SamplePageFragmentRouter
 ) {
 
     fun bindView(view: View) {
@@ -38,6 +43,14 @@ class SamplePageContentController(
      */
     private fun bindOnSuccess(view: View, post: Post) {
         previewImageDownloadController.start(post)
+
+        val fragment = when (File(post.sampleUrl).extension) {
+            "webm" -> fragmentFactory.buildWebmFragment(post)
+            "gif" -> fragmentFactory.buildGifFragment(post)
+            else -> fragmentFactory.buildImageFragment(post)
+        }
+
+        fragmentRouter.add(fragment)
     }
 
     /**

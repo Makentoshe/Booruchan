@@ -2,16 +2,15 @@ package com.makentoshe.booruchan.screen.samples
 
 import com.makentoshe.booruchan.api.Booru
 import com.makentoshe.booruchan.api.component.tag.Tag
-import com.makentoshe.booruchan.repository.factory.CachedRepositoryFactory
 import com.makentoshe.booruchan.screen.posts.page.controller.imagedownload.PreviewImageDownloadController
 import com.makentoshe.booruchan.screen.posts.page.controller.postsdownload.PostsDownloadController
 import com.makentoshe.booruchan.screen.samples.controller.SampleContentController
 import com.makentoshe.booruchan.screen.samples.controller.SamplePageContentController
 import com.makentoshe.booruchan.screen.samples.controller.SampleSwipeBottomBarController
 import com.makentoshe.booruchan.screen.samples.controller.SampleSwipeContentController
-import com.makentoshe.booruchan.screen.samples.fragment.SampleFragment
-import com.makentoshe.booruchan.screen.samples.fragment.SamplePageFragment
-import com.makentoshe.booruchan.screen.samples.fragment.SampleSwipeFragment
+import com.makentoshe.booruchan.screen.samples.fragment.*
+import com.makentoshe.booruchan.screen.samples.model.SamplePageFragmentRouter
+import com.makentoshe.booruchan.screen.samples.model.SamplePageConcreteFragmentFactory
 import io.reactivex.disposables.CompositeDisposable
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.androidx.viewmodel.ext.koin.getViewModel
@@ -73,8 +72,14 @@ object SampleModule {
             scoped {
                 val vm = getSamplePageViewModel()
                 val d = get<CompositeDisposable>(named(PAGE_DISPOSABLE))
-                val prevDownCtrl = get<PreviewImageDownloadController> { parametersOf(vm.booru, d)}
-                SamplePageContentController(vm, prevDownCtrl)
+                val prevDownCtrl = get<PreviewImageDownloadController> { parametersOf(vm.booru, d) }
+                val fragmentFactory = SamplePageConcreteFragmentFactory(
+                    vm.booru,
+                    vm.position
+                )
+                val router =
+                    SamplePageFragmentRouter(get<SamplePageFragment>().childFragmentManager)
+                SamplePageContentController(vm, prevDownCtrl, fragmentFactory, router)
             }
 
             viewModel { (b: Booru, t: Set<Tag>, p: Int, d: CompositeDisposable) ->

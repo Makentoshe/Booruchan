@@ -30,4 +30,6 @@ class SamplePageViewModel(
     override fun onError(action: (Throwable) -> Unit) {
         postsDownloadController.onError(action)
     }
+
+    fun init() = Unit
 }

@@ -5,15 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.api.Booru
-import com.makentoshe.booruchan.api.component.post.Post
 import com.makentoshe.booruchan.api.component.tag.Tag
 import com.makentoshe.booruchan.model.arguments
-import com.makentoshe.booruchan.repository.PreviewImageRepository
-import com.makentoshe.booruchan.repository.cache.ImageInternalCache
-import com.makentoshe.booruchan.repository.cache.InternalCache
-import com.makentoshe.booruchan.repository.decorator.CachedRepository
 import com.makentoshe.booruchan.screen.samples.SampleModule
 import com.makentoshe.booruchan.screen.samples.SamplePageViewModel
 import com.makentoshe.booruchan.screen.samples.controller.SamplePageContentController
@@ -24,7 +18,6 @@ import org.koin.androidx.scope.currentScope
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 import org.koin.core.qualifier.named
-import java.io.File
 import java.io.Serializable
 
 class SamplePageFragment : Fragment() {
@@ -52,50 +45,23 @@ class SamplePageFragment : Fragment() {
         get() = arguments!!.get(TAGS) as Set<Tag>
         set(value) = arguments().putSerializable(TAGS, value as Serializable)
 
-    private val previewsRepository by lazy {
-        val cache = ImageInternalCache(requireContext(), InternalCache.Type.PREVIEW)
-        val source = PreviewImageRepository(booru)
-        CachedRepository(cache, source)
-    }
-
     private val viewModel by viewModel<SamplePageViewModel> {
         parametersOf(booru, tags, position, disposables)
     }
 
     private val contentController by currentScope.inject<SamplePageContentController>()
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        viewModel.init()
+        super.onCreate(savedInstanceState)
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return SamplePageUi().createView(AnkoContext.create(requireContext(), this))
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        viewModel.onSuccess { onComplete(it[0]) }
         contentController.bindView(view)
-    }
-
-    private fun onComplete(post: Post) {
-        val fragment = when (File(post.sampleUrl).extension) {
-            "webm" -> onWebm(post)
-            "gif" -> onGif(post)
-            else -> onImage(post)
-        }
-        childFragmentManager.beginTransaction().add(R.id.samples_content, fragment).commit()
-    }
-
-    private fun onImage(post: Post): Fragment {
-        return SamplePageImageFragment.create(booru, post)
-    }
-
-    private fun onGif(post: Post): Fragment {
-        return SamplePageGifFragment.create(booru, post)
-    }
-
-    private fun onWebm(post: Post): Fragment {
-        return SamplePageWebmFragment.create(
-            booru,
-            post,
-            position
-        )
     }
 
     override fun onDestroyView() {
