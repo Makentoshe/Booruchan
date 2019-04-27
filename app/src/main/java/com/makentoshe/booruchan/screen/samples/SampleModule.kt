@@ -2,6 +2,8 @@ package com.makentoshe.booruchan.screen.samples
 
 import com.makentoshe.booruchan.api.Booru
 import com.makentoshe.booruchan.api.component.tag.Tag
+import com.makentoshe.booruchan.repository.factory.CachedRepositoryFactory
+import com.makentoshe.booruchan.screen.posts.page.controller.imagedownload.PreviewImageDownloadController
 import com.makentoshe.booruchan.screen.posts.page.controller.postsdownload.PostsDownloadController
 import com.makentoshe.booruchan.screen.samples.controller.SampleContentController
 import com.makentoshe.booruchan.screen.samples.controller.SamplePageContentController
@@ -62,14 +64,22 @@ object SampleModule {
         return getViewModel(fragment)
     }
 
+    const val PAGE_DISPOSABLE = "SamplePageFragmentDisposables"
     private val Module.samplePageFragmentScope: Unit
         get() = scope(named<SamplePageFragment>()) {
             scoped { (fragment: SamplePageFragment) -> fragment }
-            scoped { SamplePageContentController(getSamplePageViewModel()) }
+            scoped(named(PAGE_DISPOSABLE)) { (d: CompositeDisposable) -> d }
 
-            viewModel { (booru: Booru, tags: Set<Tag>, position: Int, disposables: CompositeDisposable) ->
-                val postsDownloadController = get<PostsDownloadController> { parametersOf(booru, disposables) }
-                SamplePageViewModel(booru, HashSet(tags), position, postsDownloadController)
+            scoped {
+                val vm = getSamplePageViewModel()
+                val d = get<CompositeDisposable>(named(PAGE_DISPOSABLE))
+                val prevDownCtrl = get<PreviewImageDownloadController> { parametersOf(vm.booru, d)}
+                SamplePageContentController(vm, prevDownCtrl)
+            }
+
+            viewModel { (b: Booru, t: Set<Tag>, p: Int, d: CompositeDisposable) ->
+                val pdc = get<PostsDownloadController> { parametersOf(b, d) }
+                SamplePageViewModel(b, HashSet(t), p, pdc)
             }
         }
 }

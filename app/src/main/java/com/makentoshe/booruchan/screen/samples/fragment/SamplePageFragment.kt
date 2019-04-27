@@ -1,41 +1,43 @@
 package com.makentoshe.booruchan.screen.samples.fragment
 
-import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.api.Booru
 import com.makentoshe.booruchan.api.component.post.Post
 import com.makentoshe.booruchan.api.component.tag.Tag
-import com.makentoshe.booruchan.model.add
 import com.makentoshe.booruchan.model.arguments
 import com.makentoshe.booruchan.repository.PreviewImageRepository
 import com.makentoshe.booruchan.repository.cache.ImageInternalCache
 import com.makentoshe.booruchan.repository.cache.InternalCache
 import com.makentoshe.booruchan.repository.decorator.CachedRepository
+import com.makentoshe.booruchan.screen.samples.SampleModule
 import com.makentoshe.booruchan.screen.samples.SamplePageViewModel
 import com.makentoshe.booruchan.screen.samples.controller.SamplePageContentController
 import com.makentoshe.booruchan.screen.samples.view.SamplePageUi
-import io.reactivex.Single
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.schedulers.Schedulers
 import org.jetbrains.anko.AnkoContext
-import org.jetbrains.anko.find
 import org.koin.androidx.scope.currentScope
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
+import org.koin.core.qualifier.named
 import java.io.File
 import java.io.Serializable
 
 class SamplePageFragment : Fragment() {
 
+    private val disposables: CompositeDisposable
+
     init {
+        //provide current fragment instance to the scope
         currentScope.get<SamplePageFragment> { parametersOf(this) }
+        //provide composite disposables to the scope
+        this.disposables = currentScope.get(named(SampleModule.PAGE_DISPOSABLE)) {
+            parametersOf(CompositeDisposable())
+        }
     }
 
     private var position: Int
@@ -55,8 +57,6 @@ class SamplePageFragment : Fragment() {
         val source = PreviewImageRepository(booru)
         CachedRepository(cache, source)
     }
-
-    private val disposables = CompositeDisposable()
 
     private val viewModel by viewModel<SamplePageViewModel> {
         parametersOf(booru, tags, position, disposables)
@@ -80,7 +80,6 @@ class SamplePageFragment : Fragment() {
             else -> onImage(post)
         }
         childFragmentManager.beginTransaction().add(R.id.samples_content, fragment).commit()
-        onPostLoaded(post)
     }
 
     private fun onImage(post: Post): Fragment {
@@ -97,24 +96,6 @@ class SamplePageFragment : Fragment() {
             post,
             position
         )
-    }
-
-    /* Loads preview image */
-    private fun onPostLoaded(post: Post) {
-        disposables.add = Single.just(post)
-            .subscribeOn(Schedulers.io())
-            .map { previewsRepository.get(it) }
-            .map { BitmapFactory.decodeByteArray(it, 0, it.size) }
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe { preview, throwable ->
-                val imageview = view!!.find<ImageView>(R.id.samples_preview)
-                if (throwable != null) {
-                    imageview.visibility = View.GONE
-                } else {
-                    imageview.visibility = View.VISIBLE
-                    imageview.setImageBitmap(preview)
-                }
-            }
     }
 
     override fun onDestroyView() {

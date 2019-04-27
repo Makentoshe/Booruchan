@@ -1,27 +1,52 @@
 package com.makentoshe.booruchan.screen.samples.controller
 
+import android.graphics.Bitmap
 import android.view.View
+import android.widget.ImageView
 import android.widget.TextView
 import com.makentoshe.booruchan.R
+import com.makentoshe.booruchan.api.component.post.Post
+import com.makentoshe.booruchan.screen.posts.page.controller.imagedownload.PreviewImageDownloadController
 import com.makentoshe.booruchan.screen.posts.page.controller.postsdownload.PostsDownloadEventListener
 import org.jetbrains.anko.find
 
 class SamplePageContentController(
-    private val postsDownloadEventListener: PostsDownloadEventListener
+    private val postsDownloadEventListener: PostsDownloadEventListener,
+    private val previewImageDownloadController: PreviewImageDownloadController
 ) {
 
     fun bindView(view: View) {
+        postsDownloadEventListener.onSuccess {
+            bindOnSuccess(view, it[0])
+        }
+
         postsDownloadEventListener.onError {
             bindOnError(view, it)
         }
+
+        previewImageDownloadController.onSuccess {
+            previewBindOnSuccess(view, it)
+        }
+
+        previewImageDownloadController.onError {
+            previewBindOnError(view, it)
+        }
     }
 
+    /**
+     * Calls when post was successfully downloaded.
+     */
+    private fun bindOnSuccess(view: View, post: Post) {
+        previewImageDownloadController.start(post)
+    }
+
+    /**
+     * Calls on posts downloading was finished with errors.
+     * Just inform user about current error.
+     */
     private fun bindOnError(view: View, throwable: Throwable) {
         //show message when items is out of stock
-        if (throwable is IndexOutOfBoundsException) {
-            bindOnError(view, Exception(view.context.getString(R.string.images_ran_out)))
-            return
-        }
+        if (ifIsOutOfStock(view, throwable)) return
         //hide progress bar
         view.find<View>(R.id.samples_progress).visibility = View.GONE
         //and display a message
@@ -30,5 +55,35 @@ class SamplePageContentController(
         messageview.text = throwable.localizedMessage
         messageview.bringToFront()
 
+    }
+
+    /**
+     * Returns true if [t] is an instance of the [IndexOutOfBoundsException].
+     * That means the posts downloading returns 0 element (out of stock).
+     */
+    private fun ifIsOutOfStock(view: View, t: Throwable): Boolean {
+        if (t is IndexOutOfBoundsException) {
+            val message = view.context.getString(R.string.images_ran_out)
+            bindOnError(view, Exception(message))
+            return true
+        }
+        return false
+    }
+
+    /**
+     * Calls when preview loading was finished successfully.
+     */
+    private fun previewBindOnSuccess(view: View, bitmap: Bitmap) {
+        val imageview = view.find<ImageView>(R.id.samples_preview)
+        imageview.visibility = View.VISIBLE
+        imageview.setImageBitmap(bitmap)
+    }
+
+    /**
+     * Calls when preview loading failed.
+     */
+    private fun previewBindOnError(view: View, throwable: Throwable) {
+        val imageview = view.find<ImageView>(R.id.samples_preview)
+        imageview.visibility = View.GONE
     }
 }
