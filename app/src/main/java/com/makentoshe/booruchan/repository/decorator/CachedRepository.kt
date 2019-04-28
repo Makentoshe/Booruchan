@@ -1,11 +1,11 @@
 package com.makentoshe.booruchan.repository.decorator
 
 import com.makentoshe.booruchan.repository.Repository
-import com.makentoshe.booruchan.repository.cache.ClearableCache
+import com.makentoshe.booruchan.repository.cache.Cache
 
 
 class CachedRepository<K, V>(
-    val cache: ClearableCache<K, V?>,
+    val cache: Cache<K, V?>,
     private val repository: Repository<K, V>
 ) : Repository<K, V> {
 

@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.api.Booru
 import com.makentoshe.booruchan.api.component.post.Post
+import com.makentoshe.booruchan.model.StreamDownloadController
 import com.makentoshe.booruchan.model.StreamDownloadListener
 import com.makentoshe.booruchan.model.add
 import com.makentoshe.booruchan.model.arguments
@@ -55,7 +56,7 @@ class SamplePageGifFragment : Fragment() {
         CachedRepository(cache, source)
     }
 
-    private val streamListener by lazy { StreamDownloadListener() }
+    private val streamListener by lazy { StreamDownloadController.create() }
 
     private val disposables = CompositeDisposable()
 

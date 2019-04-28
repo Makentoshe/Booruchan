@@ -5,6 +5,7 @@ import android.os.Handler
 import android.os.Looper
 import com.makentoshe.booruchan.api.Booru
 import com.makentoshe.booruchan.api.component.post.Post
+import com.makentoshe.booruchan.model.StreamDownloadController
 import com.makentoshe.booruchan.model.StreamDownloadListener
 import com.makentoshe.booruchan.repository.StreamDownloadRepository
 import kotlinx.coroutines.GlobalScope
@@ -41,7 +42,7 @@ class DownloadProcess(
 
     private fun startStreamDownload(context: Context, result: (DownloadedData?, Throwable?) -> Unit) {
         //add listeners
-        val listener = StreamDownloadListener().apply {
+        val listener = StreamDownloadController.create().apply {
             onPartReceived { length, _, progress ->
                 NotificationProcess(post).start(context) {
                     setProgress(100, (progress * 100).toInt(), false)

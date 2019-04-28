@@ -1,6 +1,7 @@
 package com.makentoshe.booruchan.repository
 
 import com.makentoshe.booruchan.api.Booru
+import com.makentoshe.booruchan.model.StreamDownloadController
 import com.makentoshe.booruchan.model.StreamDownloadListener
 import java.io.ByteArrayOutputStream
 
@@ -8,7 +9,7 @@ import java.io.ByteArrayOutputStream
  * Repository for streaming downloads.
  */
 class StreamDownloadRepository(
-    private val listener: StreamDownloadListener,
+    private val listener: StreamDownloadController,
     private val booru: Booru
 ) : Repository<String, ByteArray> {
 

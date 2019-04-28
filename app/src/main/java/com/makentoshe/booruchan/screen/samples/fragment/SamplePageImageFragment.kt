@@ -1,5 +1,6 @@
 package com.makentoshe.booruchan.screen.samples.fragment
 
+import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
@@ -12,16 +13,20 @@ import com.davemorrissey.labs.subscaleview.ImageSource
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.api.Booru
+import com.makentoshe.booruchan.api.Posts
 import com.makentoshe.booruchan.api.component.post.Post
+import com.makentoshe.booruchan.model.StreamDownloadController
 import com.makentoshe.booruchan.model.StreamDownloadListener
 import com.makentoshe.booruchan.model.add
 import com.makentoshe.booruchan.model.arguments
+import com.makentoshe.booruchan.repository.Repository
 import com.makentoshe.booruchan.repository.StreamDownloadRepository
 import com.makentoshe.booruchan.repository.cache.ImageInternalCache
 import com.makentoshe.booruchan.repository.cache.InternalCache
 import com.makentoshe.booruchan.repository.decorator.CachedRepository
 import com.makentoshe.booruchan.repository.decorator.StreamDownloadRepositoryDecoratorFile
 import com.makentoshe.booruchan.repository.decorator.StreamDownloadRepositoryDecoratorSample
+import com.makentoshe.booruchan.repository.factory.RepositoryFactory
 import com.makentoshe.booruchan.screen.samples.model.loadFromRepository
 import com.makentoshe.booruchan.screen.samples.model.onError
 import com.makentoshe.booruchan.screen.samples.model.showOptionsList
@@ -55,7 +60,7 @@ class SamplePageImageFragment : Fragment() {
         CachedRepository(cache, streamSource)
     }
 
-    private val streamListener by lazy { StreamDownloadListener() }
+    private val streamListener by lazy { StreamDownloadController.create() }
 
     private val disposables = CompositeDisposable()
 
@@ -132,3 +137,21 @@ class SamplePageImageFragment : Fragment() {
         }
     }
 }
+
+//class StreamRepositoryFactory(
+//    private val booru: Booru,
+//    private val streamDownloadListener: StreamDownloadListener
+//) : RepositoryFactory {
+//
+//    override fun buildPostsRepository(): Repository<Posts.Request, List<Post>> {
+//        val streamSource =
+//    }
+//
+//    override fun buildPreviewsRepository(): Repository<Post, ByteArray> {
+//        return StreamDownloadRepositoryDecoratorSample(StreamDownloadRepository(streamListener, booru))
+//    }
+//
+//    override fun buildSamplesRepository(): Repository<Post, ByteArray> {
+//        TODO("not implemented")
+//    }
+//}
