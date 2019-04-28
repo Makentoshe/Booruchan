@@ -1,8 +1,7 @@
-package com.makentoshe.booruchan.repository.decorator
+package com.makentoshe.booruchan.repository.stream
 
 import com.makentoshe.booruchan.api.component.post.Post
 import com.makentoshe.booruchan.repository.Repository
-import com.makentoshe.booruchan.repository.StreamDownloadRepository
 
 class StreamDownloadRepositoryDecoratorPreview(private val streamDownloadRepository: StreamDownloadRepository) :
     Repository<Post, ByteArray> {

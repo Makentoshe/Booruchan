@@ -1,6 +1,5 @@
 package com.makentoshe.booruchan.screen.samples.fragment
 
-import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
@@ -13,20 +12,16 @@ import com.davemorrissey.labs.subscaleview.ImageSource
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.api.Booru
-import com.makentoshe.booruchan.api.Posts
 import com.makentoshe.booruchan.api.component.post.Post
 import com.makentoshe.booruchan.model.StreamDownloadController
-import com.makentoshe.booruchan.model.StreamDownloadListener
 import com.makentoshe.booruchan.model.add
 import com.makentoshe.booruchan.model.arguments
-import com.makentoshe.booruchan.repository.Repository
-import com.makentoshe.booruchan.repository.StreamDownloadRepository
+import com.makentoshe.booruchan.repository.stream.StreamDownloadRepository
 import com.makentoshe.booruchan.repository.cache.ImageInternalCache
 import com.makentoshe.booruchan.repository.cache.InternalCache
-import com.makentoshe.booruchan.repository.decorator.CachedRepository
-import com.makentoshe.booruchan.repository.decorator.StreamDownloadRepositoryDecoratorFile
-import com.makentoshe.booruchan.repository.decorator.StreamDownloadRepositoryDecoratorSample
-import com.makentoshe.booruchan.repository.factory.RepositoryFactory
+import com.makentoshe.booruchan.repository.cache.CachedRepository
+import com.makentoshe.booruchan.repository.stream.StreamDownloadRepositoryDecoratorFile
+import com.makentoshe.booruchan.repository.stream.StreamDownloadRepositoryDecoratorSample
 import com.makentoshe.booruchan.screen.samples.model.loadFromRepository
 import com.makentoshe.booruchan.screen.samples.model.onError
 import com.makentoshe.booruchan.screen.samples.model.showOptionsList
@@ -50,13 +45,23 @@ class SamplePageImageFragment : Fragment() {
 
     private val samplesRepository by lazy {
         val cache = ImageInternalCache(requireContext(), InternalCache.Type.SAMPLE)
-        val streamSource = StreamDownloadRepositoryDecoratorSample(StreamDownloadRepository(streamListener, booru))
+        val streamSource = StreamDownloadRepositoryDecoratorSample(
+            StreamDownloadRepository(
+                streamListener,
+                booru
+            )
+        )
         CachedRepository(cache, streamSource)
     }
 
     private val filesRepository by lazy {
         val cache = ImageInternalCache(requireContext(), InternalCache.Type.FILE)
-        val streamSource = StreamDownloadRepositoryDecoratorFile(StreamDownloadRepository(streamListener, booru))
+        val streamSource = StreamDownloadRepositoryDecoratorFile(
+            StreamDownloadRepository(
+                streamListener,
+                booru
+            )
+        )
         CachedRepository(cache, streamSource)
     }
 

@@ -1,4 +1,4 @@
-package com.makentoshe.booruchan.repository.factory
+package com.makentoshe.booruchan.repository.cache
 
 import android.content.Context
 import com.makentoshe.booruchan.api.Booru
@@ -8,10 +8,7 @@ import com.makentoshe.booruchan.repository.PostsRepository
 import com.makentoshe.booruchan.repository.PreviewImageRepository
 import com.makentoshe.booruchan.repository.Repository
 import com.makentoshe.booruchan.repository.SampleImageRepository
-import com.makentoshe.booruchan.repository.cache.ImageInternalCache
-import com.makentoshe.booruchan.repository.cache.InternalCache
-import com.makentoshe.booruchan.repository.cache.PostInternalCache
-import com.makentoshe.booruchan.repository.decorator.CachedRepository
+import com.makentoshe.booruchan.repository.RepositoryFactory
 
 /**
  * Factory for creating repositories with the internal cache.

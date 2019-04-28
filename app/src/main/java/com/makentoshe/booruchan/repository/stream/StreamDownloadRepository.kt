@@ -1,8 +1,8 @@
-package com.makentoshe.booruchan.repository
+package com.makentoshe.booruchan.repository.stream
 
 import com.makentoshe.booruchan.api.Booru
 import com.makentoshe.booruchan.model.StreamDownloadController
-import com.makentoshe.booruchan.model.StreamDownloadListener
+import com.makentoshe.booruchan.repository.Repository
 import java.io.ByteArrayOutputStream
 
 /**

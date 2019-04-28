@@ -1,7 +1,6 @@
-package com.makentoshe.booruchan.repository.decorator
+package com.makentoshe.booruchan.repository.cache
 
 import com.makentoshe.booruchan.repository.Repository
-import com.makentoshe.booruchan.repository.cache.Cache
 
 
 class CachedRepository<K, V>(

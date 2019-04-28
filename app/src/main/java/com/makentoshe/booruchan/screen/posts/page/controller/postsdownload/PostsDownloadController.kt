@@ -2,7 +2,7 @@ package com.makentoshe.booruchan.screen.posts.page.controller.postsdownload
 
 import com.makentoshe.booruchan.api.Posts
 import com.makentoshe.booruchan.api.component.post.Post
-import com.makentoshe.booruchan.repository.factory.RepositoryFactory
+import com.makentoshe.booruchan.repository.RepositoryFactory
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable

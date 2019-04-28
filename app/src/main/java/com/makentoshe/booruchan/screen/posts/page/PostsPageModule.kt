@@ -5,7 +5,7 @@ import com.makentoshe.booruchan.api.component.tag.Tag
 import com.makentoshe.booruchan.model.BooruHolderImpl
 import com.makentoshe.booruchan.model.PositionHolderImpl
 import com.makentoshe.booruchan.model.TagsHolderImpl
-import com.makentoshe.booruchan.repository.factory.CachedRepositoryFactory
+import com.makentoshe.booruchan.repository.cache.CachedRepositoryFactory
 import com.makentoshe.booruchan.screen.posts.page.model.PostPageContentRouter
 import com.makentoshe.booruchan.screen.posts.page.controller.PostsPageContentController
 import com.makentoshe.booruchan.screen.posts.page.model.SampleScreenBuilder

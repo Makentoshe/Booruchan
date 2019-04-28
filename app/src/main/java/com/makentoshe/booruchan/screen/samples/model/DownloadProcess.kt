@@ -6,8 +6,7 @@ import android.os.Looper
 import com.makentoshe.booruchan.api.Booru
 import com.makentoshe.booruchan.api.component.post.Post
 import com.makentoshe.booruchan.model.StreamDownloadController
-import com.makentoshe.booruchan.model.StreamDownloadListener
-import com.makentoshe.booruchan.repository.StreamDownloadRepository
+import com.makentoshe.booruchan.repository.stream.StreamDownloadRepository
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import java.io.File

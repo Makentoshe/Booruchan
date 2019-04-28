@@ -1,4 +1,4 @@
-package com.makentoshe.booruchan.repository.factory
+package com.makentoshe.booruchan.repository
 
 import com.makentoshe.booruchan.api.Posts
 import com.makentoshe.booruchan.api.component.post.Post
