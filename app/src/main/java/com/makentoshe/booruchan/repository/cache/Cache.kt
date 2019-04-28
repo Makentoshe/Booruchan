@@ -8,8 +8,4 @@ interface Cache<K, V> : Serializable {
     fun remove(key: K): V?
     fun getAll(): Collection<V>
     fun clear()
-
-    companion object {
-        fun <K, V> create(size: Int): Cache<K, V> = CacheImpl(size)
-    }
 }
