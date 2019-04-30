@@ -55,11 +55,15 @@ class Booruchan : Application() {
             val repositoryFactory = get<StreamRepositoryFactory> { parametersOf(booru, null) }
             PostsDownloadController.build(repositoryFactory, disposables)
         }
-        /* Created a controller for downloading preview images */
+        /* Creates a controller for downloading preview images */
         factory { (booru: Booru, disposables: CompositeDisposable) ->
             val repositoryFactory = get<StreamRepositoryFactory> { parametersOf(booru, null) }
             PreviewImageDownloadController.build(repositoryFactory, disposables)
         }
+        /* Creates a controller for stream downloading */
+        factory { StreamDownloadController.create() }
+        /* Creates a container for holding disposables */
+        factory { CompositeDisposable() }
 
     }
 

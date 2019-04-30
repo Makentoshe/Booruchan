@@ -16,12 +16,6 @@ import com.makentoshe.booruchan.api.component.post.Post
 import com.makentoshe.booruchan.model.StreamDownloadController
 import com.makentoshe.booruchan.model.add
 import com.makentoshe.booruchan.model.arguments
-import com.makentoshe.booruchan.repository.cache.CachedRepository
-import com.makentoshe.booruchan.repository.cache.ImageInternalCache
-import com.makentoshe.booruchan.repository.cache.InternalCache
-import com.makentoshe.booruchan.repository.stream.StreamDownloadRepository
-import com.makentoshe.booruchan.repository.stream.StreamDownloadRepositoryDecoratorFile
-import com.makentoshe.booruchan.repository.stream.StreamDownloadRepositoryDecoratorSample
 import com.makentoshe.booruchan.repository.stream.StreamRepositoryFactory
 import com.makentoshe.booruchan.screen.samples.model.loadFromRepository
 import com.makentoshe.booruchan.screen.samples.model.onError
@@ -34,6 +28,7 @@ import org.jetbrains.anko.find
 import org.jetbrains.anko.sdk27.coroutines.onLongClick
 import org.jetbrains.anko.support.v4.runOnUiThread
 import org.koin.android.ext.android.get
+import org.koin.android.ext.android.inject
 import org.koin.core.parameter.parametersOf
 
 class SamplePageImageFragment : Fragment() {
@@ -46,6 +41,8 @@ class SamplePageImageFragment : Fragment() {
         get() = arguments!!.get(POST) as Post
         set(value) = arguments().putSerializable(POST, value)
 
+    private val streamListener by inject<StreamDownloadController>()
+
     private val samplesRepository by lazy {
         val factory = get<StreamRepositoryFactory> { parametersOf(booru, streamListener) }
         factory.buildSamplesRepository()
@@ -56,9 +53,7 @@ class SamplePageImageFragment : Fragment() {
         factory.buildFilesRepository()
     }
 
-    private val streamListener by lazy { StreamDownloadController.create() }
-
-    private val disposables = CompositeDisposable()
+    private val disposables by inject<CompositeDisposable>()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return SamplePageImageUi().createView(AnkoContext.create(requireContext(), this))
