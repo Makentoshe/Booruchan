@@ -52,14 +52,8 @@ class SamplePageImageFragment : Fragment() {
     }
 
     private val filesRepository by lazy {
-        val cache = ImageInternalCache(requireContext(), InternalCache.Type.FILE)
-        val streamSource = StreamDownloadRepositoryDecoratorFile(
-            StreamDownloadRepository(
-                streamListener,
-                booru
-            )
-        )
-        CachedRepository(cache, streamSource)
+        val factory = get<StreamRepositoryFactory> { parametersOf(booru, streamListener) }
+        factory.buildFilesRepository()
     }
 
     private val streamListener by lazy { StreamDownloadController.create() }
@@ -139,21 +133,3 @@ class SamplePageImageFragment : Fragment() {
         }
     }
 }
-
-//class StreamRepositoryFactory(
-//    private val booru: Booru,
-//    private val streamDownloadListener: StreamDownloadListener
-//) : RepositoryFactory {
-//
-//    override fun buildPostsRepository(): Repository<Posts.Request, List<Post>> {
-//        val streamSource =
-//    }
-//
-//    override fun buildPreviewsRepository(): Repository<Post, ByteArray> {
-//        return StreamDownloadRepositoryDecoratorSample(StreamDownloadRepository(streamListener, booru))
-//    }
-//
-//    override fun buildSamplesRepository(): Repository<Post, ByteArray> {
-//        TODO("not implemented")
-//    }
-//}
