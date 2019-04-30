@@ -16,12 +16,13 @@ import com.makentoshe.booruchan.api.component.post.Post
 import com.makentoshe.booruchan.model.StreamDownloadController
 import com.makentoshe.booruchan.model.add
 import com.makentoshe.booruchan.model.arguments
-import com.makentoshe.booruchan.repository.stream.StreamDownloadRepository
+import com.makentoshe.booruchan.repository.cache.CachedRepository
 import com.makentoshe.booruchan.repository.cache.ImageInternalCache
 import com.makentoshe.booruchan.repository.cache.InternalCache
-import com.makentoshe.booruchan.repository.cache.CachedRepository
+import com.makentoshe.booruchan.repository.stream.StreamDownloadRepository
 import com.makentoshe.booruchan.repository.stream.StreamDownloadRepositoryDecoratorFile
 import com.makentoshe.booruchan.repository.stream.StreamDownloadRepositoryDecoratorSample
+import com.makentoshe.booruchan.repository.stream.StreamRepositoryFactory
 import com.makentoshe.booruchan.screen.samples.model.loadFromRepository
 import com.makentoshe.booruchan.screen.samples.model.onError
 import com.makentoshe.booruchan.screen.samples.model.showOptionsList
@@ -32,6 +33,8 @@ import org.jetbrains.anko.AnkoContext
 import org.jetbrains.anko.find
 import org.jetbrains.anko.sdk27.coroutines.onLongClick
 import org.jetbrains.anko.support.v4.runOnUiThread
+import org.koin.android.ext.android.get
+import org.koin.core.parameter.parametersOf
 
 class SamplePageImageFragment : Fragment() {
 
@@ -44,14 +47,8 @@ class SamplePageImageFragment : Fragment() {
         set(value) = arguments().putSerializable(POST, value)
 
     private val samplesRepository by lazy {
-        val cache = ImageInternalCache(requireContext(), InternalCache.Type.SAMPLE)
-        val streamSource = StreamDownloadRepositoryDecoratorSample(
-            StreamDownloadRepository(
-                streamListener,
-                booru
-            )
-        )
-        CachedRepository(cache, streamSource)
+        val factory = get<StreamRepositoryFactory> { parametersOf(booru, streamListener) }
+        factory.buildSamplesRepository()
     }
 
     private val filesRepository by lazy {
