@@ -10,6 +10,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.BehaviorSubject
+import java.util.*
 
 /**
  * Class performs image downloading from repository.
@@ -20,6 +21,8 @@ class ImageDownloadStrategy(
 ): ImageDownloadListener {
 
     private val observable = BehaviorSubject.create<Bitmap>()
+
+    private val errorListenerList = LinkedList<(Throwable) -> Unit>()
 
     fun start(post: Post) {
         Single.just(repository)

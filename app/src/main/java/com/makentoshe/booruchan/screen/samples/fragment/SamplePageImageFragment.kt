@@ -1,34 +1,27 @@
 package com.makentoshe.booruchan.screen.samples.fragment
 
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.fragment.app.Fragment
-import com.davemorrissey.labs.subscaleview.ImageSource
-import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.api.Booru
 import com.makentoshe.booruchan.api.component.post.Post
 import com.makentoshe.booruchan.model.StreamDownloadController
-import com.makentoshe.booruchan.model.add
 import com.makentoshe.booruchan.model.arguments
-import com.makentoshe.booruchan.repository.stream.StreamRepositoryFactory
-import com.makentoshe.booruchan.screen.samples.model.loadFromRepository
-import com.makentoshe.booruchan.screen.samples.model.onError
-import com.makentoshe.booruchan.screen.samples.model.showOptionsList
+import com.makentoshe.booruchan.screen.samples.SamplePageImageViewModel
+import com.makentoshe.booruchan.screen.samples.controller.ProgressBarController
+import com.makentoshe.booruchan.screen.samples.controller.SampleOptionsController
+import com.makentoshe.booruchan.screen.samples.controller.SamplePageImageController
 import com.makentoshe.booruchan.screen.samples.view.SamplePageImageUi
-import com.makentoshe.booruchan.view.CircularProgressBar
 import io.reactivex.disposables.CompositeDisposable
 import org.jetbrains.anko.AnkoContext
 import org.jetbrains.anko.find
 import org.jetbrains.anko.sdk27.coroutines.onLongClick
-import org.jetbrains.anko.support.v4.runOnUiThread
-import org.koin.android.ext.android.get
 import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 
 class SamplePageImageFragment : Fragment() {
@@ -41,19 +34,25 @@ class SamplePageImageFragment : Fragment() {
         get() = arguments!!.get(POST) as Post
         set(value) = arguments().putSerializable(POST, value)
 
+    private val disposables by inject<CompositeDisposable>()
+
     private val streamListener by inject<StreamDownloadController>()
 
-    private val samplesRepository by lazy {
-        val factory = get<StreamRepositoryFactory> { parametersOf(booru, streamListener) }
-        factory.buildSamplesRepository()
+    private val viewModel by viewModel<SamplePageImageViewModel> {
+        parametersOf(booru, post, disposables, streamListener)
     }
 
-    private val filesRepository by lazy {
-        val factory = get<StreamRepositoryFactory> { parametersOf(booru, streamListener) }
-        factory.buildFilesRepository()
+    private val progressController by lazy {
+        ProgressBarController(streamListener)
     }
 
-    private val disposables by inject<CompositeDisposable>()
+    private val controller by lazy {
+        SamplePageImageController(viewModel)
+    }
+
+    private val optionsController by lazy {
+        SampleOptionsController(booru, post)
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return SamplePageImageUi().createView(AnkoContext.create(requireContext(), this))
@@ -62,56 +61,19 @@ class SamplePageImageFragment : Fragment() {
     /* Starts loading image file */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val pview = parentFragment!!.view!!
-        val progressview = pview.find<CircularProgressBar>(R.id.samples_progress_concrete)
-        streamListener.onPartReceived { _, _, progress ->
-            runOnUiThread { progressview.setProgress((100 * progress).toInt()) }
-        }
-        disposables.add = loadFromRepository(post, samplesRepository) { b, t -> onSampleReceived(b, t) }
+
+        progressController.bindView(pview)
+
+        controller.bindView(pview)
+
         //on long click to the view
-        view.onLongClick { showOptionsList(booru, post) }
-        //and on the preview
-        pview.find<ImageView>(R.id.samples_preview).onLongClick { showOptionsList(booru, post) }
-    }
-
-    /* Calls on loading finished. It can be success or failed*/
-    private fun onSampleReceived(byteArray: ByteArray?, throwable: Throwable?) {
-        val pview = parentFragment!!.view!!
-        //if error
-        if (throwable != null) return onError(pview, throwable)
-        //if byte array was downloaded and decoded to a bitmap
-        val bitmap = byteArray?.toBitmap()
-        if (bitmap != null) return onSuccess(pview, bitmap)
-        //if bitmap was downloaded but decode was failed
-        //second try with files repository
-        disposables.add = loadFromRepository(post, filesRepository) { b, t -> onFileReceived(b, t) }
-    }
-
-    private fun onFileReceived(byteArray: ByteArray?, throwable: Throwable?) {
-        val pview = parentFragment!!.view!!
-        //if error
-        if (throwable != null) return onError(pview, throwable)
-        //if byte array was downloaded and decoded to a bitmap
-        val bitmap = byteArray?.toBitmap()
-        if (bitmap != null) return onSuccess(pview, bitmap)
-        else onError(pview, Throwable("Image decode failed."))
-    }
-
-    /* Calls on image was successfully loaded. Setup the image into the view*/
-    private fun onSuccess(view: View, bitmap: Bitmap) {
-        //hide progress bar
-        view.find<View>(R.id.samples_progress).visibility = View.GONE
-        //hide preview image
-        view.find<ImageView>(R.id.samples_preview).visibility = View.GONE
-        //setup full image
-        view.find<SubsamplingScaleImageView>(R.id.samples_image).apply {
-            visibility = View.VISIBLE
-            setImage(ImageSource.bitmap(bitmap))
+        view.onLongClick {
+            optionsController.show(this@SamplePageImageFragment)
         }
-    }
-
-    /* Decode bitmap from byte array */
-    private fun ByteArray.toBitmap(): Bitmap? {
-        return BitmapFactory.decodeByteArray(this, 0, size)
+        //and on the preview
+        pview.find<ImageView>(R.id.samples_preview).onLongClick {
+            optionsController.show(this@SamplePageImageFragment)
+        }
     }
 
     override fun onDestroy() {

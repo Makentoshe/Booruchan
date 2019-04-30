@@ -1,7 +1,9 @@
 package com.makentoshe.booruchan.screen.samples
 
 import com.makentoshe.booruchan.api.Booru
+import com.makentoshe.booruchan.api.component.post.Post
 import com.makentoshe.booruchan.api.component.tag.Tag
+import com.makentoshe.booruchan.model.StreamDownloadController
 import com.makentoshe.booruchan.screen.posts.page.controller.imagedownload.PreviewImageDownloadController
 import com.makentoshe.booruchan.screen.posts.page.controller.postsdownload.PostsDownloadController
 import com.makentoshe.booruchan.screen.samples.controller.SampleContentController
@@ -9,8 +11,8 @@ import com.makentoshe.booruchan.screen.samples.controller.SamplePageContentContr
 import com.makentoshe.booruchan.screen.samples.controller.SampleSwipeBottomBarController
 import com.makentoshe.booruchan.screen.samples.controller.SampleSwipeContentController
 import com.makentoshe.booruchan.screen.samples.fragment.*
-import com.makentoshe.booruchan.screen.samples.model.SamplePageFragmentRouter
 import com.makentoshe.booruchan.screen.samples.model.SamplePageConcreteFragmentFactory
+import com.makentoshe.booruchan.screen.samples.model.SamplePageFragmentRouter
 import io.reactivex.disposables.CompositeDisposable
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.androidx.viewmodel.ext.koin.getViewModel
@@ -26,6 +28,7 @@ object SampleModule {
         sampleFragmentScope
         sampleSwipeFragmentScope
         samplePageFragmentScope
+        samplePageImageFragmentScope
     }
 
     private val Module.sampleFragmentScope: Unit
@@ -85,6 +88,14 @@ object SampleModule {
             viewModel { (b: Booru, t: Set<Tag>, p: Int, d: CompositeDisposable) ->
                 val pdc = get<PostsDownloadController> { parametersOf(b, d) }
                 SamplePageViewModel(b, HashSet(t), p, pdc)
+            }
+        }
+
+    private val Module.samplePageImageFragmentScope: Unit
+        get() = scope(named<SamplePageImageFragment>()) {
+
+            viewModel { (b: Booru, p: Post, d: CompositeDisposable, s: StreamDownloadController) ->
+                SamplePageImageViewModel(b, p, d, s)
             }
         }
 }
