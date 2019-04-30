@@ -5,13 +5,13 @@ import com.makentoshe.booruchan.api.component.tag.Tag
 import com.makentoshe.booruchan.model.BooruHolderImpl
 import com.makentoshe.booruchan.model.PositionHolderImpl
 import com.makentoshe.booruchan.model.TagsHolderImpl
-import com.makentoshe.booruchan.repository.cache.CachedRepositoryFactory
-import com.makentoshe.booruchan.screen.posts.page.model.PostPageContentRouter
+import com.makentoshe.booruchan.repository.stream.StreamRepositoryFactory
 import com.makentoshe.booruchan.screen.posts.page.controller.PostsPageContentController
-import com.makentoshe.booruchan.screen.posts.page.model.SampleScreenBuilder
 import com.makentoshe.booruchan.screen.posts.page.controller.gridelement.GridElementControllerBuilder
 import com.makentoshe.booruchan.screen.posts.page.controller.postsdownload.PostsDownloadController
 import com.makentoshe.booruchan.screen.posts.page.model.GridAdapterBuilder
+import com.makentoshe.booruchan.screen.posts.page.model.PostPageContentRouter
+import com.makentoshe.booruchan.screen.posts.page.model.SampleScreenBuilder
 import com.makentoshe.booruchan.screen.posts.page.view.GridElementUiBuilder
 import io.reactivex.disposables.CompositeDisposable
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -38,17 +38,12 @@ object PostsPageModule {
             scoped { GridElementUiBuilder() }
             scoped {
                 val booru = getViewModel().booru
-                val rFactory = get<CachedRepositoryFactory> { parametersOf(booru) }
+                val rFactory = get<StreamRepositoryFactory> { parametersOf(booru, null) }
                 GridElementControllerBuilder(rFactory, get(named(DISPOSABLE)))
             }
             scoped { GridAdapterBuilder(get(), get()) }
             scoped { PostsPageContentController(getViewModel(), get(), getViewModel(), get()) }
-            scoped {
-                SampleScreenBuilder(
-                    getViewModel(),
-                    getViewModel()
-                )
-            }
+            scoped { SampleScreenBuilder(getViewModel(), getViewModel()) }
             scoped { PostPageContentRouter(get(), get()) }
         }
 

@@ -4,8 +4,9 @@ import android.app.Application
 import com.makentoshe.booruchan.api.Booru
 import com.makentoshe.booruchan.api.Posts
 import com.makentoshe.booruchan.api.component.tag.Tag
+import com.makentoshe.booruchan.model.StreamDownloadController
 import com.makentoshe.booruchan.navigation.Router
-import com.makentoshe.booruchan.repository.cache.CachedRepositoryFactory
+import com.makentoshe.booruchan.repository.stream.StreamRepositoryFactory
 import com.makentoshe.booruchan.screen.booru.BooruModule
 import com.makentoshe.booruchan.screen.posts.container.PostsModule
 import com.makentoshe.booruchan.screen.posts.container.model.getItemsCountInRequest
@@ -40,8 +41,9 @@ class Booruchan : Application() {
         single { cicerone.navigatorHolder }
         factory { SettingsScreenBuilder() }
 
-        /* Creates a factory, creates cached repositories */
-        factory { (booru: Booru) -> CachedRepositoryFactory(booru, get()) }
+        factory { (booru: Booru, controller: StreamDownloadController) ->
+            StreamRepositoryFactory(booru, controller)
+        }
 
         /* Creates a posts request */
         factory { (tags: Set<Tag>, position: Int) ->
@@ -50,14 +52,15 @@ class Booruchan : Application() {
         }
         /* Creates a controller for downloading posts */
         factory { (booru: Booru, disposables: CompositeDisposable) ->
-            val repositoryFactory = get<CachedRepositoryFactory> { parametersOf(booru) }
+            val repositoryFactory = get<StreamRepositoryFactory> { parametersOf(booru, null) }
             PostsDownloadController.build(repositoryFactory, disposables)
         }
         /* Created a controller for downloading preview images */
         factory { (booru: Booru, disposables: CompositeDisposable) ->
-            val repositoryFactory = get<CachedRepositoryFactory> { parametersOf(booru) }
+            val repositoryFactory = get<StreamRepositoryFactory> { parametersOf(booru, null) }
             PreviewImageDownloadController.build(repositoryFactory, disposables)
         }
+
     }
 
     lateinit var style: Style

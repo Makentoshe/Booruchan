@@ -7,9 +7,10 @@ import java.io.ByteArrayOutputStream
 
 /**
  * Repository for streaming downloads.
+ * If streaming download was not supports, a file will be downloaded wholly.
  */
 class StreamDownloadRepository(
-    private val listener: StreamDownloadController,
+    private val listener: StreamDownloadController? = null,
     private val booru: Booru
 ) : Repository<String, ByteArray> {
 
@@ -22,11 +23,10 @@ class StreamDownloadRepository(
         //check file length in bytes
         val length = booru.headCustom().request(key).length
         //if length was not calculated (mb use proxy) just load
-        return if (length == -1L) loadFully(key) else loadParts(length, key)
+        return if (length == -1L) loadWholly(key) else loadParts(length, key)
     }
 
-    private fun loadFully(url: String): ByteArray {
-        println("Load full")
+    private fun loadWholly(url: String): ByteArray {
         return booru.getCustom().request(url).stream.readBytes()
     }
 
@@ -42,13 +42,13 @@ class StreamDownloadRepository(
             buffer.write(bytes)
             //invoke listener the segment was received
             count += bytes.size
-            listener.invokeOnPartReceived(length, bytes, (count.toFloat() / length) - 1)
+            listener?.invokeOnPartReceived(length, bytes, (count.toFloat() / length) - 1)
 
             //when stream is ends
             if (bytes.size < bufferSize) {
                 //invoke listener and finish
                 val array = buffer.toByteArray()
-                listener.invokeOnComplete(array)
+                listener?.invokeOnComplete(array)
                 return array
             }
         }
