@@ -1,4 +1,4 @@
-package com.makentoshe.booruchan.screen.posts.page.model
+package com.makentoshe.booruchan.screen.posts.page.controller.imagedownload
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -12,16 +12,16 @@ import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.BehaviorSubject
 
 /**
- * Class performs preview image downloading
+ * Class performs image downloading from repository.
  */
 class ImageDownloadStrategy(
     private val repository: Repository<Post, ByteArray>,
     private val disposables: CompositeDisposable
-): PreviewImageDownloadController {
+): ImageDownloadListener {
 
     private val observable = BehaviorSubject.create<Bitmap>()
 
-    override fun start(post: Post) {
+    fun start(post: Post) {
         Single.just(repository)
             .subscribeOn(Schedulers.io())
             .map { it.get(post) }

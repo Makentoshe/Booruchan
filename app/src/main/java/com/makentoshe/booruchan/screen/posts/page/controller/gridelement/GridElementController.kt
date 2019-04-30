@@ -6,7 +6,7 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.ProgressBar
 import com.makentoshe.booruchan.R
-import com.makentoshe.booruchan.screen.posts.page.controller.imagedownload.PreviewImageDownloadEventListener
+import com.makentoshe.booruchan.screen.posts.page.controller.imagedownload.ImageDownloadListener
 import org.jetbrains.anko.find
 
 /**
@@ -15,7 +15,7 @@ import org.jetbrains.anko.find
  * @param listener is a preview downloading result listener.
  */
 class GridElementController(
-    private val listener: PreviewImageDownloadEventListener,
+    private val listener: ImageDownloadListener,
     private val typeController: GridElementTypeController
 ) {
 

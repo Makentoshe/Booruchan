@@ -3,14 +3,13 @@ package com.makentoshe.booruchan.screen.posts.page.controller.imagedownload
 import android.graphics.Bitmap
 import com.makentoshe.booruchan.api.component.post.Post
 import com.makentoshe.booruchan.repository.RepositoryFactory
-import com.makentoshe.booruchan.screen.posts.page.model.ImageDownloadStrategy
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.subjects.BehaviorSubject
 
 /**
  * Controller start preview image downloading.
  */
-interface PreviewImageDownloadController : PreviewImageDownloadEventListener {
+interface PreviewImageDownloadController : ImageDownloadListener {
 
     /**
      * Start preview image downloading using a post.
@@ -44,7 +43,10 @@ interface PreviewImageDownloadController : PreviewImageDownloadEventListener {
         override fun start(post: Post) {
             val previewRepository = repositoryFactory.buildPreviewsRepository()
             val previewStrategy =
-                ImageDownloadStrategy(previewRepository, disposables)
+                ImageDownloadStrategy(
+                    previewRepository,
+                    disposables
+                )
             //start preview downloading
             previewStrategy.start(post)
 
@@ -56,7 +58,10 @@ interface PreviewImageDownloadController : PreviewImageDownloadEventListener {
         private fun alternativeStrategySample(post: Post) {
             val sampleRepository = repositoryFactory.buildSamplesRepository()
             val sampleStrategy =
-                ImageDownloadStrategy(sampleRepository, disposables)
+                ImageDownloadStrategy(
+                    sampleRepository,
+                    disposables
+                )
             //start sample downloading
             sampleStrategy.start(post)
 

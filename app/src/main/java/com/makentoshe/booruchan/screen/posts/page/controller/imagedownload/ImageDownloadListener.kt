@@ -5,7 +5,7 @@ import android.graphics.Bitmap
 /**
  * Interface for posts preview download listeners.
  */
-interface PreviewImageDownloadEventListener {
+interface ImageDownloadListener {
 
     /**
      * Calls on preview image downloaded successfully.
