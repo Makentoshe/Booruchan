@@ -38,4 +38,11 @@ class StreamRepositoryFactory(
         val cache = ImageInternalCache(get(), InternalCache.Type.SAMPLE)
         return CachedRepository(cache, sampleStream)
     }
+
+    override fun buildFilesRepository(): Repository<Post, ByteArray> {
+        val streamSource = StreamDownloadRepository(controller, booru)
+        val fileStream = StreamDownloadRepositoryDecoratorFile(streamSource)
+        val cache = ImageInternalCache(get(), InternalCache.Type.FILE)
+        return CachedRepository(cache, fileStream)
+    }
 }

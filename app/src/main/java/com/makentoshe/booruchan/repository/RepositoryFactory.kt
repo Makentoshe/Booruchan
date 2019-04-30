@@ -14,4 +14,6 @@ interface RepositoryFactory {
     fun buildPreviewsRepository(): Repository<Post, ByteArray>
 
     fun buildSamplesRepository(): Repository<Post, ByteArray>
+
+    fun buildFilesRepository(): Repository<Post, ByteArray>
 }
