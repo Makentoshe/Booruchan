@@ -1,5 +1,6 @@
 package com.makentoshe.booruchan.screen.samples
 
+import androidx.fragment.app.FragmentManager
 import com.makentoshe.booruchan.api.Booru
 import com.makentoshe.booruchan.api.component.post.Post
 import com.makentoshe.booruchan.api.component.tag.Tag
@@ -49,10 +50,12 @@ object SampleModule : KoinComponent {
         }
 
         scope(named<SamplePageGifFragment>()) {
-            scoped { (l: GifDownloadListener) ->
-                SamplePageGifController(
-                    l
-                )
+            scoped { (l: GifDownloadListener) -> SamplePageGifController(l) }
+        }
+
+        scope(named<SamplePageWebmFragment>()) {
+            scoped { (b: Booru, p: Post, fm: FragmentManager) ->
+                SamplePageWebmController(b, p, fm)
             }
         }
     }
