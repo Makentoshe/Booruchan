@@ -4,31 +4,46 @@ import com.makentoshe.booruchan.api.Booru
 import com.makentoshe.booruchan.api.component.post.Post
 import com.makentoshe.booruchan.api.component.tag.Tag
 import com.makentoshe.booruchan.model.StreamDownloadController
+import com.makentoshe.booruchan.model.StreamDownloadListener
+import com.makentoshe.booruchan.screen.posts.page.controller.imagedownload.ImageDownloadListener
 import com.makentoshe.booruchan.screen.posts.page.controller.imagedownload.PreviewImageDownloadController
 import com.makentoshe.booruchan.screen.posts.page.controller.postsdownload.PostsDownloadController
-import com.makentoshe.booruchan.screen.samples.controller.SampleContentController
-import com.makentoshe.booruchan.screen.samples.controller.SamplePageContentController
-import com.makentoshe.booruchan.screen.samples.controller.SampleSwipeBottomBarController
-import com.makentoshe.booruchan.screen.samples.controller.SampleSwipeContentController
-import com.makentoshe.booruchan.screen.samples.fragment.*
+import com.makentoshe.booruchan.screen.samples.controller.*
+import com.makentoshe.booruchan.screen.samples.fragment.SampleFragment
+import com.makentoshe.booruchan.screen.samples.fragment.SamplePageFragment
+import com.makentoshe.booruchan.screen.samples.fragment.SamplePageImageFragment
+import com.makentoshe.booruchan.screen.samples.fragment.SampleSwipeFragment
 import com.makentoshe.booruchan.screen.samples.model.SamplePageConcreteFragmentFactory
 import com.makentoshe.booruchan.screen.samples.model.SamplePageFragmentRouter
 import io.reactivex.disposables.CompositeDisposable
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.androidx.viewmodel.ext.koin.getViewModel
+import org.koin.core.KoinComponent
 import org.koin.core.module.Module
 import org.koin.core.parameter.parametersOf
 import org.koin.core.qualifier.named
 import org.koin.core.scope.Scope
 import java.util.*
 
-object SampleModule {
+object SampleModule : KoinComponent {
 
     val module = org.koin.dsl.module {
+        /* Controller for the sample progress bar */
+        factory { (l: StreamDownloadListener) -> ProgressBarController(l) }
+        /* Controller for samples shows options menu */
+        factory { (b: Booru, p: Post) -> SampleOptionsController(b, p) }
+
         sampleFragmentScope
         sampleSwipeFragmentScope
         samplePageFragmentScope
-        samplePageImageFragmentScope
+
+        viewModel { (b: Booru, p: Post, d: CompositeDisposable, c: StreamDownloadController) ->
+            SamplePageImageViewModel(b, p, d, c)
+        }
+
+        scope(named<SamplePageImageFragment>()) {
+            scoped { (l: ImageDownloadListener) -> SamplePageImageController(l) }
+        }
     }
 
     private val Module.sampleFragmentScope: Unit
@@ -88,14 +103,6 @@ object SampleModule {
             viewModel { (b: Booru, t: Set<Tag>, p: Int, d: CompositeDisposable) ->
                 val pdc = get<PostsDownloadController> { parametersOf(b, d) }
                 SamplePageViewModel(b, HashSet(t), p, pdc)
-            }
-        }
-
-    private val Module.samplePageImageFragmentScope: Unit
-        get() = scope(named<SamplePageImageFragment>()) {
-
-            viewModel { (b: Booru, p: Post, d: CompositeDisposable, s: StreamDownloadController) ->
-                SamplePageImageViewModel(b, p, d, s)
             }
         }
 }
