@@ -1,20 +1,23 @@
 package com.makentoshe.booruchan.screen.samples.controller
 
-import android.graphics.Bitmap
 import android.view.View
 import android.widget.TextView
 import com.makentoshe.booruchan.R
-import com.makentoshe.booruchan.screen.posts.page.controller.imagedownload.ImageDownloadListener
+import com.makentoshe.booruchan.screen.posts.page.controller.imagedownload.DownloadListener
 import org.jetbrains.anko.find
 
-abstract class SamplePageController(protected val listener: ImageDownloadListener) {
+/**
+ * Controller for a concrete sample page.
+ * Displays error message when downloading was failed and a [T] otherwise.
+ */
+abstract class SamplePageController<T>(protected val listener: DownloadListener<T>) {
 
     fun bindView(view: View) {
         listener.onSuccess { bindOnSuccess(view, it) }
         listener.onError { bindOnError(view, it) }
     }
 
-    protected abstract fun bindOnSuccess(view: View, bitmap: Bitmap)
+    protected abstract fun bindOnSuccess(view: View, t: T)
 
     protected open fun bindOnError(view: View, throwable: Throwable) {
         //show message when items is out of stock

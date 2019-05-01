@@ -9,9 +9,9 @@ import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.screen.posts.page.controller.imagedownload.ImageDownloadListener
 import org.jetbrains.anko.find
 
-class SamplePageImageController(listener: ImageDownloadListener) : SamplePageController(listener) {
+class SamplePageImageController(listener: ImageDownloadListener) : SamplePageController<Bitmap>(listener) {
 
-    protected override fun bindOnSuccess(view: View, bitmap: Bitmap) {
+    protected override fun bindOnSuccess(view: View, t: Bitmap) {
         //hide progress bar
         view.find<View>(R.id.samples_progress).visibility = View.GONE
         //hide preview image
@@ -20,7 +20,7 @@ class SamplePageImageController(listener: ImageDownloadListener) : SamplePageCon
         //setup full image
         view.find<SubsamplingScaleImageView>(R.id.samples_image).apply {
             visibility = View.VISIBLE
-            setImage(ImageSource.bitmap(bitmap))
+            setImage(ImageSource.bitmap(t))
         }
     }
 }

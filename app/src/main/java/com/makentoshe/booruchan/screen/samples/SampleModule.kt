@@ -5,14 +5,12 @@ import com.makentoshe.booruchan.api.component.post.Post
 import com.makentoshe.booruchan.api.component.tag.Tag
 import com.makentoshe.booruchan.model.StreamDownloadController
 import com.makentoshe.booruchan.model.StreamDownloadListener
+import com.makentoshe.booruchan.screen.posts.page.controller.imagedownload.GifDownloadListener
 import com.makentoshe.booruchan.screen.posts.page.controller.imagedownload.ImageDownloadListener
 import com.makentoshe.booruchan.screen.posts.page.controller.imagedownload.PreviewImageDownloadController
 import com.makentoshe.booruchan.screen.posts.page.controller.postsdownload.PostsDownloadController
 import com.makentoshe.booruchan.screen.samples.controller.*
-import com.makentoshe.booruchan.screen.samples.fragment.SampleFragment
-import com.makentoshe.booruchan.screen.samples.fragment.SamplePageFragment
-import com.makentoshe.booruchan.screen.samples.fragment.SamplePageImageFragment
-import com.makentoshe.booruchan.screen.samples.fragment.SampleSwipeFragment
+import com.makentoshe.booruchan.screen.samples.fragment.*
 import com.makentoshe.booruchan.screen.samples.model.SamplePageConcreteFragmentFactory
 import com.makentoshe.booruchan.screen.samples.model.SamplePageFragmentRouter
 import io.reactivex.disposables.CompositeDisposable
@@ -43,6 +41,18 @@ object SampleModule : KoinComponent {
 
         scope(named<SamplePageImageFragment>()) {
             scoped { (l: ImageDownloadListener) -> SamplePageImageController(l) }
+        }
+
+        viewModel { (b: Booru, p: Post, d: CompositeDisposable, c: StreamDownloadController) ->
+            SamplePageGifViewModel(b, p, d, c)
+        }
+
+        scope(named<SamplePageGifFragment>()) {
+            scoped { (l: GifDownloadListener) ->
+                SamplePageGifController(
+                    l
+                )
+            }
         }
     }
 

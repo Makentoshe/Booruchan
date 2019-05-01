@@ -4,31 +4,26 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.api.Booru
 import com.makentoshe.booruchan.api.component.post.Post
 import com.makentoshe.booruchan.model.StreamDownloadController
-import com.makentoshe.booruchan.model.add
 import com.makentoshe.booruchan.model.arguments
-import com.makentoshe.booruchan.repository.stream.StreamDownloadRepository
-import com.makentoshe.booruchan.repository.cache.ImageInternalCache
-import com.makentoshe.booruchan.repository.cache.InternalCache
-import com.makentoshe.booruchan.repository.cache.CachedRepository
-import com.makentoshe.booruchan.repository.stream.StreamDownloadRepositoryDecoratorFile
-import com.makentoshe.booruchan.repository.stream.StreamDownloadRepositoryDecoratorSample
-import com.makentoshe.booruchan.screen.samples.model.loadFromRepository
-import com.makentoshe.booruchan.screen.samples.model.onError
+import com.makentoshe.booruchan.screen.samples.SamplePageGifViewModel
+import com.makentoshe.booruchan.screen.samples.controller.ProgressBarController
+import com.makentoshe.booruchan.screen.samples.controller.SampleOptionsController
+import com.makentoshe.booruchan.screen.samples.controller.SamplePageGifController
 import com.makentoshe.booruchan.screen.samples.model.showOptionsList
 import com.makentoshe.booruchan.screen.samples.view.SamplePageGifUi
-import com.makentoshe.booruchan.view.CircularProgressBar
 import io.reactivex.disposables.CompositeDisposable
 import org.jetbrains.anko.AnkoContext
 import org.jetbrains.anko.find
 import org.jetbrains.anko.sdk27.coroutines.onLongClick
-import org.jetbrains.anko.support.v4.runOnUiThread
-import pl.droidsonroids.gif.GifDrawable
+import org.koin.android.ext.android.inject
+import org.koin.androidx.scope.currentScope
+import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.parameter.parametersOf
 import pl.droidsonroids.gif.GifImageView
 
 class SamplePageGifFragment : Fragment() {
@@ -41,78 +36,43 @@ class SamplePageGifFragment : Fragment() {
         get() = arguments!!.get(POST) as Post
         set(value) = arguments().putSerializable(POST, value)
 
-    private val samplesRepository by lazy {
-        val cache = ImageInternalCache(requireContext(), InternalCache.Type.SAMPLE)
-        val streamSource = StreamDownloadRepository(streamListener, booru)
-        val source = StreamDownloadRepositoryDecoratorSample(streamSource)
-        CachedRepository(cache, source)
+    /* Container for disposables that must be disposed on fragment destroyed
+     * to avoiding memory leaks.
+     * */
+    private val disposables by inject<CompositeDisposable>()
+    /* Listener for streaming downloads */
+    private val streamListener by inject<StreamDownloadController>()
+    /* Controller for displaying a gif image after it will be downloaded */
+    private val contentController by currentScope.inject<SamplePageGifController> {
+        parametersOf(viewModel)
     }
-
-    private val filesRepository by lazy {
-        val cache = ImageInternalCache(requireContext(), InternalCache.Type.FILE)
-        val streamSource = StreamDownloadRepository(streamListener, booru)
-        val source = StreamDownloadRepositoryDecoratorFile(streamSource)
-        CachedRepository(cache, source)
+    /* Controller for displaying progress in progress bar */
+    private val progressBarController by inject<ProgressBarController> {
+        parametersOf(streamListener)
     }
-
-    private val streamListener by lazy { StreamDownloadController.create() }
-
-    private val disposables = CompositeDisposable()
+    /* Controller for displaying options menu */
+    private val optionsController by inject<SampleOptionsController> {
+        parametersOf(booru, post)
+    }
+    /* ViewModel holds the downloading to avoid downloading interrupts on fragment recreate */
+    private val viewModel by viewModel<SamplePageGifViewModel> {
+        parametersOf(booru, post, disposables, streamListener)
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return SamplePageGifUi().createView(AnkoContext.create(requireContext(), this))
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val progressview = parentFragment!!.view!!.find<CircularProgressBar>(R.id.samples_progress_concrete)
-        streamListener.onPartReceived { _, _, progress ->
-            runOnUiThread { progressview.setProgress((100 * progress).toInt()) }
-        }
-
-        val disposable = loadFromRepository(post, samplesRepository) { b, t ->
-            onSampleReceive(if (b != null) GifDrawable(b) else null, t)
-        }
-        disposables.add(disposable)
-    }
-
-    private fun onSampleReceive(drawable: GifDrawable?, throwable: Throwable?) {
-        //get root view from parent fragment
         val pview = parentFragment!!.view!!
+        //progress controller for displaying a progress
+        progressBarController.bindView(pview)
+        //content displaying controller
+        contentController.bindView(pview)
 
-        if (throwable != null) return onError(pview, throwable)
-
-        if (drawable != null) return onSuccess(pview, drawable)
-
-        disposables.add = loadFromRepository(post, filesRepository) { b, t ->
-            onFileReceive(if (b != null) GifDrawable(b) else null, t)
+        pview.find<GifImageView>(R.id.samples_gif).onLongClick {
+            optionsController.show(this@SamplePageGifFragment)
         }
-    }
-
-    private fun onFileReceive(drawable: GifDrawable?, throwable: Throwable?) {
-        //get root view from parent fragment
-        val pview = parentFragment!!.view!!
-
-        if (throwable != null) return onError(pview, throwable)
-
-        if (drawable != null) return onSuccess(pview, drawable)
-
-        onError(pview, Throwable("Gif decode failed."))
-    }
-
-    /* Calls when gif image was successfully downloaded */
-    private fun onSuccess(view: View, drawable: GifDrawable) {
-        //hide progress bar
-        view.find<View>(R.id.samples_progress).visibility = View.GONE
-        //hide preview image
-        view.find<ImageView>(R.id.samples_preview).visibility = View.GONE
-        //setup gif view
-        view.find<GifImageView>(R.id.samples_gif).apply {
-            visibility = View.VISIBLE
-            setImageDrawable(drawable)
-            onLongClick { showOptionsList(booru, post) }
-        }
-        //start gif animation
-        drawable.start()
     }
 
     override fun onDestroy() {
