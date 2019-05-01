@@ -9,7 +9,10 @@ import com.makentoshe.booruchan.api.component.tag.Tag
 import com.makentoshe.booruchan.screen.samples.model.SampleHorizontalViewPagerAdapter
 import org.jetbrains.anko.find
 
-class SampleContentController(
+/**
+ * Controller for the [SampleFragment].
+ */
+class SampleController(
     private val booru: Booru,
     private val tags: Set<Tag>,
     private val position: Int,

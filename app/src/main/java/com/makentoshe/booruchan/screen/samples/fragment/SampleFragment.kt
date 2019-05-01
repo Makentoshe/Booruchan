@@ -9,7 +9,7 @@ import androidx.fragment.app.FragmentManager
 import com.makentoshe.booruchan.api.Booru
 import com.makentoshe.booruchan.api.component.tag.Tag
 import com.makentoshe.booruchan.model.arguments
-import com.makentoshe.booruchan.screen.samples.controller.SampleContentController
+import com.makentoshe.booruchan.screen.samples.controller.SampleController
 import com.makentoshe.booruchan.screen.samples.view.SampleUi
 import org.jetbrains.anko.AnkoContext
 import org.koin.androidx.scope.currentScope
@@ -38,7 +38,7 @@ class SampleFragment : Fragment() {
         return SampleUi().createView(AnkoContext.create(requireContext(), this))
     }
 
-    private val contentController by currentScope.inject<SampleContentController> {
+    private val contentController by currentScope.inject<SampleController> {
         parametersOf(booru, tags, position)
     }
 

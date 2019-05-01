@@ -12,7 +12,7 @@ import pl.droidsonroids.gif.GifImageView
  * Controller for [SamplePageGifFragment].
  * Displays a gif animation after a successfull downloading.
  */
-class SamplePageGifController(listener: GifDownloadListener) : SamplePageController<GifDrawable>(listener) {
+class SamplePageGifController(listener: GifDownloadListener) : SamplePageSpecificController<GifDrawable>(listener) {
 
     override fun bindOnSuccess(view: View, t: GifDrawable) {
         //hide progress bar

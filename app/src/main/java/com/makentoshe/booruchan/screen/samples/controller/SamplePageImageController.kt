@@ -9,7 +9,7 @@ import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.screen.posts.page.controller.imagedownload.ImageDownloadListener
 import org.jetbrains.anko.find
 
-class SamplePageImageController(listener: ImageDownloadListener) : SamplePageController<Bitmap>(listener) {
+class SamplePageImageController(listener: ImageDownloadListener) : SamplePageSpecificController<Bitmap>(listener) {
 
     protected override fun bindOnSuccess(view: View, t: Bitmap) {
         //hide progress bar

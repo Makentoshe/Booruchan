@@ -1,11 +1,11 @@
-package com.makentoshe.booruchan.screen.samples.controller
+package com.makentoshe.booruchan.screen.samples.model
 
 import androidx.fragment.app.Fragment
 import com.makentoshe.booruchan.api.Booru
 import com.makentoshe.booruchan.api.component.post.Post
 import com.makentoshe.booruchan.screen.samples.fragment.SampleOptionFragment
 
-class SampleOptionsController(
+class SampleOptionsMenu(
     private val booru: Booru,
     private val post: Post
 ) {

@@ -12,9 +12,8 @@ import com.makentoshe.booruchan.model.StreamDownloadController
 import com.makentoshe.booruchan.model.arguments
 import com.makentoshe.booruchan.screen.samples.SamplePageGifViewModel
 import com.makentoshe.booruchan.screen.samples.controller.ProgressBarController
-import com.makentoshe.booruchan.screen.samples.controller.SampleOptionsController
+import com.makentoshe.booruchan.screen.samples.model.SampleOptionsMenu
 import com.makentoshe.booruchan.screen.samples.controller.SamplePageGifController
-import com.makentoshe.booruchan.screen.samples.model.showOptionsList
 import com.makentoshe.booruchan.screen.samples.view.SamplePageGifUi
 import io.reactivex.disposables.CompositeDisposable
 import org.jetbrains.anko.AnkoContext
@@ -51,7 +50,7 @@ class SamplePageGifFragment : Fragment() {
         parametersOf(streamListener)
     }
     /* Controller for displaying options menu */
-    private val optionsController by inject<SampleOptionsController> {
+    private val optionsController by inject<SampleOptionsMenu> {
         parametersOf(booru, post)
     }
     /* ViewModel holds the downloading to avoid downloading interrupts on fragment recreate */

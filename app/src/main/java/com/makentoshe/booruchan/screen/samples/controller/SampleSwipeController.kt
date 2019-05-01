@@ -19,7 +19,7 @@ import org.koin.core.inject
 /**
  * Controls a vertical viewpager behaviour.
  */
-class SampleSwipeContentController(
+class SampleSwipeController(
     private val booru: Booru,
     private val tags: Set<Tag>,
     private val position: Int,

@@ -13,7 +13,7 @@ import com.makentoshe.booruchan.model.StreamDownloadController
 import com.makentoshe.booruchan.model.arguments
 import com.makentoshe.booruchan.screen.samples.SamplePageImageViewModel
 import com.makentoshe.booruchan.screen.samples.controller.ProgressBarController
-import com.makentoshe.booruchan.screen.samples.controller.SampleOptionsController
+import com.makentoshe.booruchan.screen.samples.model.SampleOptionsMenu
 import com.makentoshe.booruchan.screen.samples.controller.SamplePageImageController
 import com.makentoshe.booruchan.screen.samples.view.SamplePageImageUi
 import io.reactivex.disposables.CompositeDisposable
@@ -60,7 +60,7 @@ class SamplePageImageFragment : Fragment() {
         parametersOf(viewModel)
     }
     /* Controller for displaying options menu */
-    private val optionsController by inject<SampleOptionsController> {
+    private val optionsController by inject<SampleOptionsMenu> {
         parametersOf(booru, post)
     }
 

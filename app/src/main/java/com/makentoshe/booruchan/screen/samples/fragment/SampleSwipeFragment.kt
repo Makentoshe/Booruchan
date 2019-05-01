@@ -9,7 +9,7 @@ import com.makentoshe.booruchan.api.Booru
 import com.makentoshe.booruchan.api.component.tag.Tag
 import com.makentoshe.booruchan.model.arguments
 import com.makentoshe.booruchan.screen.samples.controller.SampleSwipeBottomBarController
-import com.makentoshe.booruchan.screen.samples.controller.SampleSwipeContentController
+import com.makentoshe.booruchan.screen.samples.controller.SampleSwipeController
 import com.makentoshe.booruchan.screen.samples.view.SampleSwipeUi
 import org.jetbrains.anko.AnkoContext
 import org.koin.androidx.scope.currentScope
@@ -43,7 +43,7 @@ class SampleSwipeFragment : Fragment() {
         parametersOf(booru, tags)
     }
 
-    private val contentController by currentScope.inject<SampleSwipeContentController> {
+    private val contentController by currentScope.inject<SampleSwipeController> {
         parametersOf(booru, tags, position)
     }
 

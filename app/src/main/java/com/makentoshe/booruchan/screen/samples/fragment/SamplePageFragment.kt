@@ -10,7 +10,7 @@ import com.makentoshe.booruchan.api.component.tag.Tag
 import com.makentoshe.booruchan.model.arguments
 import com.makentoshe.booruchan.screen.samples.SampleModule
 import com.makentoshe.booruchan.screen.samples.SamplePageViewModel
-import com.makentoshe.booruchan.screen.samples.controller.SamplePageContentController
+import com.makentoshe.booruchan.screen.samples.controller.SamplePageController
 import com.makentoshe.booruchan.screen.samples.view.SamplePageUi
 import io.reactivex.disposables.CompositeDisposable
 import org.jetbrains.anko.AnkoContext
@@ -49,7 +49,7 @@ class SamplePageFragment : Fragment() {
         parametersOf(booru, tags, position, disposables)
     }
 
-    private val contentController by currentScope.inject<SamplePageContentController>()
+    private val contentController by currentScope.inject<SamplePageController>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         viewModel.init()

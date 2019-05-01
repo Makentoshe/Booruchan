@@ -11,6 +11,7 @@ import com.makentoshe.booruchan.screen.posts.page.controller.imagedownload.Previ
 import com.makentoshe.booruchan.screen.posts.page.controller.postsdownload.PostsDownloadController
 import com.makentoshe.booruchan.screen.samples.controller.*
 import com.makentoshe.booruchan.screen.samples.fragment.*
+import com.makentoshe.booruchan.screen.samples.model.SampleOptionsMenu
 import com.makentoshe.booruchan.screen.samples.model.SamplePageConcreteFragmentFactory
 import com.makentoshe.booruchan.screen.samples.model.SamplePageFragmentRouter
 import io.reactivex.disposables.CompositeDisposable
@@ -29,7 +30,7 @@ object SampleModule : KoinComponent {
         /* Controller for the sample progress bar */
         factory { (l: StreamDownloadListener) -> ProgressBarController(l) }
         /* Controller for samples shows options menu */
-        factory { (b: Booru, p: Post) -> SampleOptionsController(b, p) }
+        factory { (b: Booru, p: Post) -> SampleOptionsMenu(b, p) }
 
         sampleFragmentScope
         sampleSwipeFragmentScope
@@ -60,7 +61,7 @@ object SampleModule : KoinComponent {
         get() = scope(named<SampleFragment>()) {
             scoped { (fragment: SampleFragment) -> fragment }
             scoped { (booru: Booru, tags: Set<Tag>, position: Int) ->
-                SampleContentController(
+                SampleController(
                     booru,
                     tags,
                     position,
@@ -77,7 +78,7 @@ object SampleModule : KoinComponent {
             }
             scoped { (booru: Booru, tags: Set<Tag>, position: Int) ->
                 val fragmentManager = get<SampleSwipeFragment>().childFragmentManager
-                SampleSwipeContentController(
+                SampleSwipeController(
                     booru,
                     tags,
                     position,
@@ -107,7 +108,7 @@ object SampleModule : KoinComponent {
                 )
                 val router =
                     SamplePageFragmentRouter(get<SamplePageFragment>().childFragmentManager)
-                SamplePageContentController(vm, prevDownCtrl, fragmentFactory, router)
+                SamplePageController(vm, prevDownCtrl, fragmentFactory, router)
             }
 
             viewModel { (b: Booru, t: Set<Tag>, p: Int, d: CompositeDisposable) ->
