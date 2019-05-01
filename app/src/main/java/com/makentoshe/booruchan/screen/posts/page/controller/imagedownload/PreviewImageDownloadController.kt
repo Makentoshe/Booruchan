@@ -42,11 +42,8 @@ interface PreviewImageDownloadController : ImageDownloadListener {
 
         override fun start(post: Post) {
             val previewRepository = repositoryFactory.buildPreviewsRepository()
-            val previewStrategy =
-                ImageDownloadStrategy(
-                    previewRepository,
-                    disposables
-                )
+            val downloadStrategy = DownloadStrategy(previewRepository, disposables)
+            val previewStrategy = ImageDownloadStrategy(downloadStrategy)
             //start preview downloading
             previewStrategy.start(post)
 
@@ -57,11 +54,8 @@ interface PreviewImageDownloadController : ImageDownloadListener {
 
         private fun alternativeStrategySample(post: Post) {
             val sampleRepository = repositoryFactory.buildSamplesRepository()
-            val sampleStrategy =
-                ImageDownloadStrategy(
-                    sampleRepository,
-                    disposables
-                )
+            val downloadStrategy = DownloadStrategy(sampleRepository, disposables)
+            val sampleStrategy = ImageDownloadStrategy(downloadStrategy)
             //start sample downloading
             sampleStrategy.start(post)
 
