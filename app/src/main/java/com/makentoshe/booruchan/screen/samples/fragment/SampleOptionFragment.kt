@@ -26,9 +26,7 @@ class SampleOptionFragment : DialogFragment() {
         get() = arguments!!.get(BOORU) as Booru
         set(value) = arguments().putSerializable(BOORU, value)
 
-    private val permissionController by lazy {
-        PermissionController(lifecycle)
-    }
+    private val permissionController = PermissionController(this)
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return AlertDialog.Builder(requireContext()).setAdapter(buildAdapter()) { dialog, which ->
@@ -36,18 +34,6 @@ class SampleOptionFragment : DialogFragment() {
                 0 -> DownloadIntoInternalStorageProcess(post, booru).start(requireContext(), permissionController)
             }
         }.create()
-    }
-
-    override fun onStart() {
-        super.onStart()
-        permissionController.handlePermissionRequest {
-            val status = ContextCompat.checkSelfPermission(requireContext(), it)
-            if (status == PackageManager.PERMISSION_GRANTED) {
-                permissionController.sendPermissionResult(true)
-            } else {
-                requestPermissions(arrayOf(it), RequestCode.permission)
-            }
-        }
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {

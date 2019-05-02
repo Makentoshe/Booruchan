@@ -1,11 +1,13 @@
 package com.makentoshe.booruchan.screen.samples
 
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.makentoshe.booruchan.api.Booru
 import com.makentoshe.booruchan.api.component.post.Post
 import com.makentoshe.booruchan.api.component.tag.Tag
 import com.makentoshe.booruchan.model.StreamDownloadController
 import com.makentoshe.booruchan.model.StreamDownloadListener
+import com.makentoshe.booruchan.permission.PermissionController
 import com.makentoshe.booruchan.screen.posts.page.controller.imagedownload.GifDownloadListener
 import com.makentoshe.booruchan.screen.posts.page.controller.imagedownload.ImageDownloadListener
 import com.makentoshe.booruchan.screen.posts.page.controller.imagedownload.PreviewImageDownloadController
@@ -32,6 +34,8 @@ object SampleModule : KoinComponent {
         factory { (l: StreamDownloadListener) -> ProgressBarController(l) }
         /* Controller for samples shows options menu */
         factory { (b: Booru, p: Post) -> SampleOptionsMenu(b, p) }
+        /* Controller for requesting application permissions reactivelly */
+        factory { (f: Fragment) -> PermissionController(f) }
 
         sampleFragmentScope
         sampleSwipeFragmentScope
@@ -54,10 +58,9 @@ object SampleModule : KoinComponent {
         }
 
         scope(named<SamplePageWebmFragment>()) {
-            scoped { (b: Booru, p: Post, fm: FragmentManager) ->
-                SamplePageWebmController(b, p, fm)
-            }
+            scoped { (b: Booru, p: Post, fm: FragmentManager) -> SamplePageWebmController(b, p, fm) }
         }
+
     }
 
     private val Module.sampleFragmentScope: Unit
