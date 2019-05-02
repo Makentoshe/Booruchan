@@ -6,7 +6,7 @@ import com.makentoshe.booruchan.R
 import java.io.File
 import java.io.FileOutputStream
 
-class SaveProcess(private val context: Context) {
+class ExternalStorageSave(private val context: Context) {
 
     /* Saved the data to the internal storage */
     fun start(data: DownloadedData) {

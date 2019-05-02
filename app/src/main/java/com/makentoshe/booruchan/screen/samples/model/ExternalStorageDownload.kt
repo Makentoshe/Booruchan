@@ -12,7 +12,7 @@ import kotlinx.coroutines.launch
 import java.io.File
 import kotlin.coroutines.CoroutineContext
 
-class DownloadProcess(
+class ExternalStorageDownload(
     private val booru: Booru,
     private val post: Post,
     private val ccontext: CoroutineContext = GlobalScope.coroutineContext
@@ -20,23 +20,6 @@ class DownloadProcess(
 
     fun start(context: Context, result: (DownloadedData?, Throwable?) -> Unit) {
         startStreamDownload(context, result)
-    }
-
-    private fun startDefaultDownload(result: (DownloadedData?, Throwable?) -> Unit) {
-        //start a new coroutine for loading an image
-        GlobalScope.launch(ccontext) {
-            try {
-                val response = booru.getCustom().request(post.fileUrl)
-                //perform loading and reading bytes
-                val bytes = response.stream.readBytes()
-                //box all data into the data class
-                val data = bytes.toDownloadData(post, booru)
-                //return to main thread
-                Handler(Looper.getMainLooper()).post { result(data, null) }
-            } catch (e: Exception) {
-                Handler(Looper.getMainLooper()).post { result(null, e) }
-            }
-        }
     }
 
     private fun startStreamDownload(context: Context, result: (DownloadedData?, Throwable?) -> Unit) {

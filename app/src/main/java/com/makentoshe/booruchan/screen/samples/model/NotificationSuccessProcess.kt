@@ -36,7 +36,7 @@ class NotificationSuccessProcess(
     }
 
     private fun NotificationCompat.Builder.onClick(context: Context) {
-        val imageDir = SaveProcess.getImageDirectory(
+        val imageDir = ExternalStorageSave.getImageDirectory(
             context,
             downloadedData.booruTitle
         )

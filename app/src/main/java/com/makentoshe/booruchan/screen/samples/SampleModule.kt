@@ -1,6 +1,5 @@
 package com.makentoshe.booruchan.screen.samples
 
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.makentoshe.booruchan.api.Booru
 import com.makentoshe.booruchan.api.component.post.Post
@@ -34,8 +33,6 @@ object SampleModule : KoinComponent {
         factory { (l: StreamDownloadListener) -> ProgressBarController(l) }
         /* Controller for samples shows options menu */
         factory { (b: Booru, p: Post) -> SampleOptionsMenu(b, p) }
-        /* Controller for requesting application permissions reactivelly */
-        factory { (f: Fragment) -> PermissionController(f) }
 
         sampleFragmentScope
         sampleSwipeFragmentScope

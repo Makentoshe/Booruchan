@@ -2,19 +2,19 @@ package com.makentoshe.booruchan.screen.samples.fragment
 
 import android.app.AlertDialog
 import android.app.Dialog
-import android.content.pm.PackageManager
+import android.content.DialogInterface
 import android.os.Bundle
 import android.widget.ArrayAdapter
 import android.widget.ListAdapter
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.api.Booru
 import com.makentoshe.booruchan.api.component.post.Post
-import com.makentoshe.booruchan.model.RequestCode
 import com.makentoshe.booruchan.model.arguments
-import com.makentoshe.booruchan.permission.PermissionController
-import com.makentoshe.booruchan.screen.samples.model.DownloadIntoInternalStorageProcess
+import com.makentoshe.booruchan.screen.samples.model.ExternalStorageDownloader
+import com.tbruyelle.rxpermissions2.RxPermissions
+import io.reactivex.disposables.CompositeDisposable
+import org.koin.android.ext.android.inject
 
 class SampleOptionFragment : DialogFragment() {
 
@@ -26,20 +26,26 @@ class SampleOptionFragment : DialogFragment() {
         get() = arguments!!.get(BOORU) as Booru
         set(value) = arguments().putSerializable(BOORU, value)
 
-    private val permissionController = PermissionController(this)
+    private val disposables by inject<CompositeDisposable>()
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        return AlertDialog.Builder(requireContext()).setAdapter(buildAdapter()) { dialog, which ->
-            when (which) {
-                0 -> DownloadIntoInternalStorageProcess(post, booru).start(requireContext(), permissionController)
-            }
-        }.create()
+        return AlertDialog.Builder(requireContext()).setAdapter(buildAdapter(), ::onDialogItemClick).create()
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        //the permission request will be always for one permission at the time.
-        permissionController.sendPermissionResult(grantResults[0] == PackageManager.PERMISSION_GRANTED)
+    private fun onDialogItemClick(dialog: DialogInterface, position: Int) {
+        when (position) {
+            0 -> onDownloadItemClick()
+        }
+    }
+
+    private fun onDownloadItemClick() {
+        val rxPermissions = RxPermissions(requireActivity())
+        ExternalStorageDownloader(post, booru, rxPermissions).start(requireContext())
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        disposables.clear()
     }
 
     private fun buildAdapter(): ListAdapter {
@@ -57,3 +63,4 @@ class SampleOptionFragment : DialogFragment() {
         }
     }
 }
+
