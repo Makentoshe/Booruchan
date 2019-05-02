@@ -6,10 +6,10 @@ import com.makentoshe.booruchan.screen.samples.fragment.SamplePageGifFragment
 import com.makentoshe.booruchan.screen.samples.fragment.SamplePageImageFragment
 import com.makentoshe.booruchan.screen.samples.fragment.SamplePageWebmFragment
 
-class SamplePageConcreteFragmentFactory(private val booru: Booru, private val position: Int) {
+class SamplePageConcreteFragmentFactory(private val booru: Booru) {
 
     fun buildWebmFragment(post: Post) =
-        SamplePageWebmFragment.create(booru, post, position)
+        SamplePageWebmFragment.create(booru, post)
 
     fun buildGifFragment(post: Post) =
         SamplePageGifFragment.create(booru, post)

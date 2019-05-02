@@ -49,8 +49,7 @@ class SamplePageWebmFragment : Fragment() {
     companion object {
         private const val POST = "Post"
         private const val BOORU = "Booru"
-        private const val POSITION = "Position"
-        fun create(booru: Booru, post: Post, position: Int) = SamplePageWebmFragment().apply {
+        fun create(booru: Booru, post: Post) = SamplePageWebmFragment().apply {
             this.booru = booru
             this.post = post
         }

@@ -105,10 +105,7 @@ object SampleModule : KoinComponent {
                 val vm = getSamplePageViewModel()
                 val d = get<CompositeDisposable>(named(PAGE_DISPOSABLE))
                 val prevDownCtrl = get<PreviewImageDownloadController> { parametersOf(vm.booru, d) }
-                val fragmentFactory = SamplePageConcreteFragmentFactory(
-                    vm.booru,
-                    vm.position
-                )
+                val fragmentFactory = SamplePageConcreteFragmentFactory(vm.booru)
                 val router =
                     SamplePageFragmentRouter(get<SamplePageFragment>().childFragmentManager)
                 SamplePageController(vm, prevDownCtrl, fragmentFactory, router)
