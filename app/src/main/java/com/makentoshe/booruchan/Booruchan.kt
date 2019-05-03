@@ -1,44 +1,102 @@
 package com.makentoshe.booruchan
 
-
 import android.app.Application
 import com.makentoshe.booruchan.api.Booru
-import com.makentoshe.booruchan.api.gelbooru.Gelbooru
-import com.makentoshe.booruchan.api.rule34.Rule34
-import com.makentoshe.booruchan.api.safebooru.Safebooru
+import com.makentoshe.booruchan.api.Posts
+import com.makentoshe.booruchan.api.component.post.Post
+import com.makentoshe.booruchan.api.component.tag.Tag
+import com.makentoshe.booruchan.model.StreamDownloadController
 import com.makentoshe.booruchan.navigation.Router
+import com.makentoshe.booruchan.repository.stream.StreamRepositoryFactory
+import com.makentoshe.booruchan.screen.booru.BooruModule
+import com.makentoshe.booruchan.screen.posts.container.PostsModule
+import com.makentoshe.booruchan.screen.posts.container.model.getItemsCountInRequest
+import com.makentoshe.booruchan.screen.posts.page.PostsPageModule
+import com.makentoshe.booruchan.screen.posts.page.controller.imagedownload.PreviewImageDownloadController
+import com.makentoshe.booruchan.screen.posts.page.controller.postsdownload.PostsDownloadController
+import com.makentoshe.booruchan.screen.sampleinfo.SampleInfoModule
+import com.makentoshe.booruchan.screen.samples.SampleModule
+import com.makentoshe.booruchan.screen.samples.model.SampleOptionsMenu
 import com.makentoshe.booruchan.screen.settings.AppSettings
+import com.makentoshe.booruchan.screen.settings.page.SettingsScreenBuilder
+import com.makentoshe.booruchan.screen.settings.settingsModule
+import com.makentoshe.booruchan.screen.start.startModule
+import com.makentoshe.booruchan.screen.webmplayer.WebmPlayerModule
 import com.makentoshe.booruchan.style.SotisStyle
 import com.makentoshe.booruchan.style.Style
+import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.exceptions.UndeliverableException
 import io.reactivex.plugins.RxJavaPlugins
+import org.koin.android.ext.koin.androidContext
+import org.koin.android.ext.koin.androidLogger
+import org.koin.core.context.startKoin
+import org.koin.core.module.Module
+import org.koin.core.parameter.parametersOf
+import org.koin.dsl.module
 import ru.terrakok.cicerone.Cicerone
-import java.util.*
 
 class Booruchan : Application() {
 
-    private var cicerone = Cicerone.create(Router())
+    private val cicerone = Cicerone.create(Router())
 
-    val booruList = ArrayList<Class<out Booru>>()
+    private val appModule: Module = module {
+        single { AppSettings }
+        single { cicerone.router }
+        single { cicerone.navigatorHolder }
+        factory { SettingsScreenBuilder() }
+
+        factory { (booru: Booru, controller: StreamDownloadController?) ->
+            StreamRepositoryFactory(booru, controller)
+        }
+
+        /* Creates a posts request */
+        factory { (tags: Set<Tag>, position: Int) ->
+            val itemsCount = getItemsCountInRequest(get())
+            Posts.Request(itemsCount, tags, position)
+        }
+        /* Creates a controller for downloading posts */
+        factory { (booru: Booru, disposables: CompositeDisposable) ->
+            val repositoryFactory = get<StreamRepositoryFactory> { parametersOf(booru, null) }
+            PostsDownloadController.build(repositoryFactory, disposables)
+        }
+        /* Creates a controller for downloading preview images */
+        factory { (booru: Booru, disposables: CompositeDisposable) ->
+            val repositoryFactory = get<StreamRepositoryFactory> { parametersOf(booru, null) }
+            PreviewImageDownloadController.build(repositoryFactory, disposables)
+        }
+        /* Creates a controller for stream downloading */
+        factory { StreamDownloadController.create() }
+
+        /* Creates a container for holding disposables */
+        factory { CompositeDisposable() }
+
+        /* Controller for samples shows options menu */
+        factory { (b: Booru, p: Post) -> SampleOptionsMenu(b, p) }
+    }
 
     lateinit var style: Style
-        private set
-
-    val navigatorHolder = cicerone.navigatorHolder
-
-    val router = cicerone.router
-
-    lateinit var settings: AppSettings
         private set
 
     override fun onCreate() {
         super.onCreate()
         INSTANCE = this
-        cicerone = Cicerone.create(Router())
+        startKoin {
+            androidLogger()
+            androidContext(this@Booruchan)
+            modules(
+                appModule,
+                startModule,
+                settingsModule,
+                PostsModule.module,
+                BooruModule.module,
+                SampleModule.module,
+                PostsPageModule.module,
+                WebmPlayerModule.module,
+                SampleInfoModule.module
+            )
+        }
         initRxErrorHandler()
         loadStyle()
-        loadBooru()
-        loadSettings()
     }
 
     private fun initRxErrorHandler() {
@@ -52,24 +110,17 @@ class Booruchan : Application() {
         style = SotisStyle()
     }
 
-    private fun loadBooru() {
-        this.booruList.add(Gelbooru::class.java)
-        this.booruList.add(Safebooru::class.java)
-        this.booruList.add(Rule34::class.java)
-    }
-
-    private fun loadSettings() {
-        settings = AppSettings
-    }
-
     companion object {
-
         lateinit var INSTANCE: Booruchan
     }
 }
 
 val style = Booruchan.INSTANCE.style
 
-val router = Booruchan.INSTANCE.router
-
-val appSettings = Booruchan.INSTANCE.settings
+val appModule = module {
+    single { Cicerone.create(Router()) }
+    single { AppSettings }
+    single { get<Cicerone<Router>>().router }
+    single { get<Cicerone<Router>>().navigatorHolder }
+    factory { SettingsScreenBuilder() }
+}

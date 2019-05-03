@@ -5,7 +5,7 @@ import android.content.Context
 /**
  * Cache used android's internal storage for containing values V by key K
  */
-abstract class InternalCache<K, V>(context: Context, type: Type) : ClearableCache<K, V> {
+abstract class InternalCache<K, V>(context: Context, type: Type) : Cache<K, V> {
 
     protected val mainDirectory = context.getDir(type.name, Context.MODE_PRIVATE)!!
 

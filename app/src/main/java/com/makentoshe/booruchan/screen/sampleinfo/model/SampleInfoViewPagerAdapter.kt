@@ -5,9 +5,9 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import com.makentoshe.booruchan.api.Booru
 import com.makentoshe.booruchan.api.component.post.Post
-import com.makentoshe.booruchan.screen.sampleinfo.SampleInfoCommentsFragment
-import com.makentoshe.booruchan.screen.sampleinfo.SampleInfoInfoFragment
-import com.makentoshe.booruchan.screen.sampleinfo.SampleInfoTagsFragment
+import com.makentoshe.booruchan.screen.sampleinfo.fragment.SampleInfoCommentsFragment
+import com.makentoshe.booruchan.screen.sampleinfo.fragment.SampleInfoInfoFragment
+import com.makentoshe.booruchan.screen.sampleinfo.fragment.SampleInfoTagsFragment
 
 class SampleInfoViewPagerAdapter(
     fragmentManager: FragmentManager,

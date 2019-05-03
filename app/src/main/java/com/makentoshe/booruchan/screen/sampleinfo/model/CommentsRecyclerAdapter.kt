@@ -10,14 +10,11 @@ import com.makentoshe.booruchan.screen.sampleinfo.view.CommentsViewHolder
 import org.jetbrains.anko.AnkoContext
 import org.jetbrains.anko.find
 
-class CommentsRecyclerAdapter(
-    private val comments: List<Comment>
-) : RecyclerView.Adapter<CommentsViewHolder>() {
+class CommentsRecyclerAdapter(private val comments: List<Comment>) : RecyclerView.Adapter<CommentsViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CommentsViewHolder {
         val context = parent.context
-        val view = CommentUi()
-            .createView(AnkoContext.create(context, context))
+        val view = CommentUi().createView(AnkoContext.create(context, context))
         return CommentsViewHolder(view)
     }
 

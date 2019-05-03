@@ -1,27 +1,22 @@
 package com.makentoshe.booruchan.permission
 
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.OnLifecycleEvent
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import io.reactivex.subjects.BehaviorSubject
+import org.koin.core.KoinComponent
+import org.koin.core.inject
 import java.io.Serializable
 
 /**
  * Class for checking an requesting permissions.
  */
-class PermissionController(lifecycle: Lifecycle) : PermissionRequestController(), Serializable, LifecycleObserver {
-
-    init {
-        lifecycle.addObserver(this)
-    }
+class PermissionController : PermissionRequestController(), Serializable, LifecycleObserver, KoinComponent {
 
     private val requestObservable = BehaviorSubject.create<String>()
     private val receiveObservable = BehaviorSubject.create<Boolean>()
 
-    private val disposable = CompositeDisposable()
+    private val disposable by inject<CompositeDisposable>()
 
     override fun requestPermission(permission: String, result: (Boolean) -> Unit) {
         requestObservable.onNext(permission)
@@ -43,7 +38,5 @@ class PermissionController(lifecycle: Lifecycle) : PermissionRequestController()
 
     override fun sendPermissionResult(result: Boolean) = receiveObservable.onNext(result)
 
-    @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
-    fun onStop() = disposable.clear()
-
+    fun invokeOnStop() = disposable.clear()
 }

@@ -33,9 +33,9 @@ class SearchDialogFragment : DialogFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //after recreation the set of tags will be saved
+        //after recreation the tags of tags will be saved
         //in the bundle, so just restore them into global var
-        //note: tags set from the bundle also contains the original set
+        //note: tags tags from the bundle also contains the original tags
         if (savedInstanceState != null) {
             val tags = savedInstanceState.getSerializable(TAGS) as Set<Tag>
             this.tags = tags

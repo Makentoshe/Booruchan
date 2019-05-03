@@ -36,7 +36,7 @@ open class VerticalViewPager(context: Context, attrs: AttributeSet? = null) : Vi
                     // Counteract the default slide transition
                     view.translationX = view.width * -position
 
-                    //set Y position to swipe in from top
+                    //tags Y position to swipe in from top
                     val yPosition = position * view.height
                     view.translationY = yPosition
 
