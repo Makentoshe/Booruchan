@@ -15,7 +15,7 @@ class SettingsViewPagerAdapter(
 
     override fun getItem(position: Int) = SettingsPageFragment.create(position)
 
-    override fun getCount() = 2
+    override fun getCount() = 1
 
     override fun getPageTitle(position: Int): CharSequence? {
         return screenBuilder.build(position).screenKey

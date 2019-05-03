@@ -9,7 +9,7 @@ import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.rule.ActivityTestRule
 import androidx.viewpager.widget.ViewPager
 import com.makentoshe.booruchan.*
-import com.makentoshe.booruchan.screen.sampleinfo.SampleInfoFragment
+import com.makentoshe.booruchan.screen.sampleinfo.fragment.SampleInfoFragment
 import io.reactivex.android.plugins.RxAndroidPlugins
 import io.reactivex.schedulers.Schedulers
 import org.hamcrest.Matchers

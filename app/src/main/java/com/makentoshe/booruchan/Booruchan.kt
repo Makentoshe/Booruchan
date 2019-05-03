@@ -14,6 +14,7 @@ import com.makentoshe.booruchan.screen.posts.container.model.getItemsCountInRequ
 import com.makentoshe.booruchan.screen.posts.page.PostsPageModule
 import com.makentoshe.booruchan.screen.posts.page.controller.imagedownload.PreviewImageDownloadController
 import com.makentoshe.booruchan.screen.posts.page.controller.postsdownload.PostsDownloadController
+import com.makentoshe.booruchan.screen.sampleinfo.SampleInfoModule
 import com.makentoshe.booruchan.screen.samples.SampleModule
 import com.makentoshe.booruchan.screen.samples.model.SampleOptionsMenu
 import com.makentoshe.booruchan.screen.settings.AppSettings
@@ -21,7 +22,6 @@ import com.makentoshe.booruchan.screen.settings.page.SettingsScreenBuilder
 import com.makentoshe.booruchan.screen.settings.settingsModule
 import com.makentoshe.booruchan.screen.start.startModule
 import com.makentoshe.booruchan.screen.webmplayer.WebmPlayerModule
-import com.makentoshe.booruchan.screen.webmplayer.WebmPlayerViewModel
 import com.makentoshe.booruchan.style.SotisStyle
 import com.makentoshe.booruchan.style.Style
 import io.reactivex.disposables.CompositeDisposable
@@ -45,7 +45,7 @@ class Booruchan : Application() {
         single { cicerone.navigatorHolder }
         factory { SettingsScreenBuilder() }
 
-        factory { (booru: Booru, controller: StreamDownloadController) ->
+        factory { (booru: Booru, controller: StreamDownloadController?) ->
             StreamRepositoryFactory(booru, controller)
         }
 
@@ -91,7 +91,8 @@ class Booruchan : Application() {
                 BooruModule.module,
                 SampleModule.module,
                 PostsPageModule.module,
-                WebmPlayerModule.module
+                WebmPlayerModule.module,
+                SampleInfoModule.module
             )
         }
         initRxErrorHandler()
