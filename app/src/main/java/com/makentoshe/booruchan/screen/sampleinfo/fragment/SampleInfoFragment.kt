@@ -16,6 +16,7 @@ import com.makentoshe.booruchan.screen.sampleinfo.view.SampleInfoUi
 import io.reactivex.disposables.CompositeDisposable
 import org.jetbrains.anko.AnkoContext
 import org.koin.android.ext.android.inject
+import org.koin.androidx.scope.currentScope
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 import java.io.Serializable
@@ -44,7 +45,7 @@ class SampleInfoFragment : Fragment() {
         parametersOf(booru, tags, position, disposables)
     }
 
-    private val viewController by inject<SampleInfoViewController> {
+    private val viewController by currentScope.inject<SampleInfoViewController> {
         parametersOf(view!!, postsDownloadListener, booru, itemPosition)
     }
 
