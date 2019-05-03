@@ -3,6 +3,7 @@ package com.makentoshe.booruchan
 import android.app.Application
 import com.makentoshe.booruchan.api.Booru
 import com.makentoshe.booruchan.api.Posts
+import com.makentoshe.booruchan.api.component.post.Post
 import com.makentoshe.booruchan.api.component.tag.Tag
 import com.makentoshe.booruchan.model.StreamDownloadController
 import com.makentoshe.booruchan.navigation.Router
@@ -14,10 +15,13 @@ import com.makentoshe.booruchan.screen.posts.page.PostsPageModule
 import com.makentoshe.booruchan.screen.posts.page.controller.imagedownload.PreviewImageDownloadController
 import com.makentoshe.booruchan.screen.posts.page.controller.postsdownload.PostsDownloadController
 import com.makentoshe.booruchan.screen.samples.SampleModule
+import com.makentoshe.booruchan.screen.samples.model.SampleOptionsMenu
 import com.makentoshe.booruchan.screen.settings.AppSettings
 import com.makentoshe.booruchan.screen.settings.page.SettingsScreenBuilder
 import com.makentoshe.booruchan.screen.settings.settingsModule
 import com.makentoshe.booruchan.screen.start.startModule
+import com.makentoshe.booruchan.screen.webmplayer.WebmPlayerModule
+import com.makentoshe.booruchan.screen.webmplayer.WebmPlayerViewModel
 import com.makentoshe.booruchan.style.SotisStyle
 import com.makentoshe.booruchan.style.Style
 import io.reactivex.disposables.CompositeDisposable
@@ -62,9 +66,12 @@ class Booruchan : Application() {
         }
         /* Creates a controller for stream downloading */
         factory { StreamDownloadController.create() }
+
         /* Creates a container for holding disposables */
         factory { CompositeDisposable() }
 
+        /* Controller for samples shows options menu */
+        factory { (b: Booru, p: Post) -> SampleOptionsMenu(b, p) }
     }
 
     lateinit var style: Style
@@ -80,10 +87,11 @@ class Booruchan : Application() {
                 appModule,
                 startModule,
                 settingsModule,
-                BooruModule.module,
                 PostsModule.module,
+                BooruModule.module,
+                SampleModule.module,
                 PostsPageModule.module,
-                SampleModule.module
+                WebmPlayerModule.module
             )
         }
         initRxErrorHandler()

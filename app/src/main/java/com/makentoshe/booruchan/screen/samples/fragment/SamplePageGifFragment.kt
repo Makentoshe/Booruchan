@@ -11,7 +11,7 @@ import com.makentoshe.booruchan.api.component.post.Post
 import com.makentoshe.booruchan.model.StreamDownloadController
 import com.makentoshe.booruchan.model.arguments
 import com.makentoshe.booruchan.screen.samples.SamplePageGifViewModel
-import com.makentoshe.booruchan.screen.samples.controller.ProgressBarController
+import com.makentoshe.booruchan.screen.samples.controller.CircularProgressBarController
 import com.makentoshe.booruchan.screen.samples.model.SampleOptionsMenu
 import com.makentoshe.booruchan.screen.samples.controller.SamplePageGifController
 import com.makentoshe.booruchan.screen.samples.view.SamplePageGifUi
@@ -46,7 +46,7 @@ class SamplePageGifFragment : Fragment() {
         parametersOf(viewModel)
     }
     /* Controller for displaying progress in progress bar */
-    private val progressBarController by inject<ProgressBarController> {
+    private val progressBarController by inject<CircularProgressBarController> {
         parametersOf(streamListener)
     }
     /* Controller for displaying options menu */

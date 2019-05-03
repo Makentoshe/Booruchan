@@ -6,9 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.google.android.exoplayer2.ExoPlayer
-import com.google.android.exoplayer2.ExoPlayerFactory
-import com.google.android.exoplayer2.Player
+import com.google.android.exoplayer2.SimpleExoPlayer
 import com.google.android.exoplayer2.source.ExtractorMediaSource
 import com.google.android.exoplayer2.source.MediaSource
 import com.google.android.exoplayer2.ui.PlayerView
@@ -19,13 +17,14 @@ import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.api.Booru
 import com.makentoshe.booruchan.api.component.post.Post
 import com.makentoshe.booruchan.model.arguments
-import com.makentoshe.booruchan.screen.samples.model.showOptionsList
+import com.makentoshe.booruchan.screen.samples.model.SampleOptionsMenu
 import com.makentoshe.booruchan.view.setGestureListener
-import io.reactivex.Single
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.schedulers.Schedulers
 import org.jetbrains.anko.AnkoContext
+import org.koin.android.ext.android.inject
+import org.koin.androidx.scope.currentScope
+import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.parameter.parametersOf
 
 class WebmPlayerFragment : Fragment() {
 
@@ -37,31 +36,25 @@ class WebmPlayerFragment : Fragment() {
         get() = arguments!!.get(POST) as Post
         set(value) = arguments().putSerializable(POST, value)
 
-    private val disposables = CompositeDisposable()
+    private val disposables by inject<CompositeDisposable>()
 
-    private val exoPlayer by lazy { createExoPlayerInstance() }
+    private val viewModel by viewModel<WebmPlayerViewModel> { parametersOf(booru, post, disposables) }
+
+    private val sampleOptionsMenu by inject<SampleOptionsMenu> { parametersOf(booru, post) }
+
+    private val exoPlayer by currentScope.inject<SimpleExoPlayer>()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return WebmPlayerUi().createView(AnkoContext.create(requireContext(), this))
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        //get webm uri
-        val disposable = Single.just(post)
-            .subscribeOn(Schedulers.io())
-            .map { booru.headCustom().request(it.sampleUrl) }
-            .map { it.url.toURI().toString() }
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(::onSubscribe)
-        disposables.add(disposable)
+        viewModel.onSuccess { onSuccess(view, it) }
+        viewModel.onError { onError(view, it) }
     }
 
-    private fun onSubscribe(url: String?, throwable: Throwable?) {
-        if (throwable == null) {
-            onSuccess(view!!, url!!)
-        } else {
-            Snackbar.make(view!!, throwable.localizedMessage, Snackbar.LENGTH_LONG).show()
-        }
+    private fun onError(view: View, throwable: Throwable) {
+        Snackbar.make(view, throwable.localizedMessage, Snackbar.LENGTH_LONG).show()
     }
 
     /**
@@ -69,15 +62,18 @@ class WebmPlayerFragment : Fragment() {
      */
     private fun onSuccess(view: View, url: String) {
         val playerview = view.findViewById<PlayerView>(R.id.samples_webm)
-        playerview.player = exoPlayer.apply { prepare(createMediaSource(url)) }
-        playerview.hideController()
+
+        exoPlayer.prepare(createMediaSource(url))
+        exoPlayer.addListener(WebmPlayerListener(view))
+        playerview.player = exoPlayer
+
         playerview.setGestureListener {
             onDown { playerview.performClick() }
-            onLongPress { showOptionsList(booru, post) }
+            onLongPress { sampleOptionsMenu.show(this@WebmPlayerFragment) }
         }
-        //show player view
+
+        playerview.hideController()
         playerview.visibility = View.VISIBLE
-        playerview.bringToFront()
     }
 
     //create media source from url
@@ -86,12 +82,6 @@ class WebmPlayerFragment : Fragment() {
         val useragent = Util.getUserAgent(requireContext(), requireContext().getString(R.string.app_name))
         val dataSourceFactory = DefaultDataSourceFactory(requireContext(), useragent)
         return ExtractorMediaSource.Factory(dataSourceFactory).createMediaSource(uri)
-    }
-
-    private fun createExoPlayerInstance(): ExoPlayer {
-        val exoPlayer = ExoPlayerFactory.newSimpleInstance(requireContext())
-        exoPlayer.repeatMode = Player.REPEAT_MODE_ALL
-        return exoPlayer
     }
 
     override fun onDestroy() {

@@ -12,7 +12,7 @@ import com.makentoshe.booruchan.api.component.post.Post
 import com.makentoshe.booruchan.model.StreamDownloadController
 import com.makentoshe.booruchan.model.arguments
 import com.makentoshe.booruchan.screen.samples.SamplePageImageViewModel
-import com.makentoshe.booruchan.screen.samples.controller.ProgressBarController
+import com.makentoshe.booruchan.screen.samples.controller.CircularProgressBarController
 import com.makentoshe.booruchan.screen.samples.model.SampleOptionsMenu
 import com.makentoshe.booruchan.screen.samples.controller.SamplePageImageController
 import com.makentoshe.booruchan.screen.samples.view.SamplePageImageUi
@@ -52,7 +52,7 @@ class SamplePageImageFragment : Fragment() {
         parametersOf(booru, post, disposables, streamListener)
     }
     /* Controller for displaying a progress bar with current progress value */
-    private val progressController by inject<ProgressBarController> {
+    private val progressController by inject<CircularProgressBarController> {
         parametersOf(streamListener)
     }
     /* Controller for displaying content */

@@ -8,7 +8,8 @@ import com.makentoshe.booruchan.model.StreamDownloadListener
 import com.makentoshe.booruchan.view.CircularProgressBar
 import org.jetbrains.anko.find
 
-class ProgressBarController(private val streamListener: StreamDownloadListener) {
+class CircularProgressBarController(private val streamListener: StreamDownloadListener) {
+
     fun bindView(view: View) {
         val progressview = view.find<CircularProgressBar>(R.id.samples_progress_concrete)
 

@@ -6,14 +6,12 @@ import com.makentoshe.booruchan.api.component.post.Post
 import com.makentoshe.booruchan.api.component.tag.Tag
 import com.makentoshe.booruchan.model.StreamDownloadController
 import com.makentoshe.booruchan.model.StreamDownloadListener
-import com.makentoshe.booruchan.permission.PermissionController
 import com.makentoshe.booruchan.screen.posts.page.controller.imagedownload.GifDownloadListener
 import com.makentoshe.booruchan.screen.posts.page.controller.imagedownload.ImageDownloadListener
 import com.makentoshe.booruchan.screen.posts.page.controller.imagedownload.PreviewImageDownloadController
 import com.makentoshe.booruchan.screen.posts.page.controller.postsdownload.PostsDownloadController
 import com.makentoshe.booruchan.screen.samples.controller.*
 import com.makentoshe.booruchan.screen.samples.fragment.*
-import com.makentoshe.booruchan.screen.samples.model.SampleOptionsMenu
 import com.makentoshe.booruchan.screen.samples.model.SamplePageConcreteFragmentFactory
 import com.makentoshe.booruchan.screen.samples.model.SamplePageFragmentRouter
 import io.reactivex.disposables.CompositeDisposable
@@ -30,9 +28,7 @@ object SampleModule : KoinComponent {
 
     val module = org.koin.dsl.module {
         /* Controller for the sample progress bar */
-        factory { (l: StreamDownloadListener) -> ProgressBarController(l) }
-        /* Controller for samples shows options menu */
-        factory { (b: Booru, p: Post) -> SampleOptionsMenu(b, p) }
+        factory { (l: StreamDownloadListener) -> CircularProgressBarController(l) }
 
         sampleFragmentScope
         sampleSwipeFragmentScope
