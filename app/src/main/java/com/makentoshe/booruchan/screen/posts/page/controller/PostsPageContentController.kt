@@ -9,7 +9,7 @@ import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.api.component.post.Post
 import com.makentoshe.booruchan.model.PositionHolder
 import com.makentoshe.booruchan.screen.posts.container.model.getItemsCountInRequest
-import com.makentoshe.booruchan.screen.posts.page.controller.postsdownload.PostsDownloadEventListener
+import com.makentoshe.booruchan.screen.posts.page.controller.postsdownload.PostsDownloadListener
 import com.makentoshe.booruchan.screen.posts.page.model.GridAdapterBuilder
 import com.makentoshe.booruchan.screen.posts.page.model.PostPageContentRouter
 import org.jetbrains.anko.find
@@ -17,11 +17,11 @@ import org.jetbrains.anko.find
 /**
  * Perform controlling page's root-view.
  *
- * @param postsDownloadEventListener is a listener for posts loading status.
+ * @param postsDownloadListener is a listener for posts loading status.
  * @param adapterBuilder is a factory which creates GridAdapter instances.
  */
 class PostsPageContentController(
-    private val postsDownloadEventListener: PostsDownloadEventListener,
+    private val postsDownloadListener: PostsDownloadListener,
     private val adapterBuilder: GridAdapterBuilder,
     private val positionHolder: PositionHolder,
     private val postPageContentRouter: PostPageContentRouter
@@ -29,12 +29,12 @@ class PostsPageContentController(
 
     fun bindView(view: View) {
         //change view on posts loading failed
-        postsDownloadEventListener.onError {
+        postsDownloadListener.onError {
             bindViewOnError(view, it)
             if (BuildConfig.DEBUG) it.printStackTrace()
         }
         //change view on posts loading success
-        postsDownloadEventListener.onSuccess {
+        postsDownloadListener.onSuccess {
             bindViewOnSuccess(view, it)
         }
     }

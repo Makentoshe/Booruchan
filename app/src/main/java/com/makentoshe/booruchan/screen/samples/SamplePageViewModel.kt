@@ -9,14 +9,14 @@ import com.makentoshe.booruchan.model.BooruHolder
 import com.makentoshe.booruchan.model.PositionHolder
 import com.makentoshe.booruchan.model.TagsHolder
 import com.makentoshe.booruchan.screen.posts.page.controller.postsdownload.PostsDownloadController
-import com.makentoshe.booruchan.screen.posts.page.controller.postsdownload.PostsDownloadEventListener
+import com.makentoshe.booruchan.screen.posts.page.controller.postsdownload.PostsDownloadListener
 
 class SamplePageViewModel(
     override val booru: Booru,
     override val tags: MutableSet<Tag>,
     override val position: Int,
     private val postsDownloadController: PostsDownloadController
-) : ViewModel(), BooruHolder, TagsHolder, PositionHolder, PostsDownloadEventListener {
+) : ViewModel(), BooruHolder, TagsHolder, PositionHolder, PostsDownloadListener {
 
     init {
         val request = Posts.Request(1, tags, position)

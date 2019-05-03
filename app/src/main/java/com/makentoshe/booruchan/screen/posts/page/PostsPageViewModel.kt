@@ -11,7 +11,7 @@ import com.makentoshe.booruchan.model.BooruHolder
 import com.makentoshe.booruchan.model.PositionHolder
 import com.makentoshe.booruchan.model.TagsHolder
 import com.makentoshe.booruchan.screen.posts.page.controller.postsdownload.PostsDownloadController
-import com.makentoshe.booruchan.screen.posts.page.controller.postsdownload.PostsDownloadEventListener
+import com.makentoshe.booruchan.screen.posts.page.controller.postsdownload.PostsDownloadListener
 import org.koin.core.KoinComponent
 import org.koin.core.get
 import org.koin.core.parameter.parametersOf
@@ -21,7 +21,7 @@ class PostsPageViewModel(
     private val tagsHolder: TagsHolder,
     private val positionHolder: PositionHolder,
     private val postsDownloadController: PostsDownloadController
-) : ViewModel(), BooruHolder, TagsHolder, PositionHolder, PostsDownloadEventListener, KoinComponent {
+) : ViewModel(), BooruHolder, TagsHolder, PositionHolder, PostsDownloadListener, KoinComponent {
 
     override val booru: Booru
         get() = booruHolder.booru

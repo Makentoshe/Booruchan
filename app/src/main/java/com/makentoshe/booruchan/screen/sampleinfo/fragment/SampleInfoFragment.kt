@@ -9,7 +9,7 @@ import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.api.Booru
 import com.makentoshe.booruchan.api.component.tag.Tag
 import com.makentoshe.booruchan.model.arguments
-import com.makentoshe.booruchan.screen.posts.page.controller.postsdownload.PostsDownloadEventListener
+import com.makentoshe.booruchan.screen.posts.page.controller.postsdownload.PostsDownloadListener
 import com.makentoshe.booruchan.screen.sampleinfo.controller.SampleInfoViewController
 import com.makentoshe.booruchan.screen.sampleinfo.SampleInfoViewModel
 import com.makentoshe.booruchan.screen.sampleinfo.view.SampleInfoUi
@@ -40,12 +40,12 @@ class SampleInfoFragment : Fragment() {
 
     private val disposables by inject<CompositeDisposable>()
 
-    private val postsDownloadEventListener: PostsDownloadEventListener by viewModel<SampleInfoViewModel> {
+    private val postsDownloadListener: PostsDownloadListener by viewModel<SampleInfoViewModel> {
         parametersOf(booru, tags, position, disposables)
     }
 
     private val viewController by inject<SampleInfoViewController> {
-        parametersOf(view!!, postsDownloadEventListener, booru, itemPosition)
+        parametersOf(view!!, postsDownloadListener, booru, itemPosition)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

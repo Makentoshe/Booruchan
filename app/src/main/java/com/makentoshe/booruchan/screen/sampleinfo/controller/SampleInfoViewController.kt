@@ -8,14 +8,14 @@ import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.anko.onPageChangeListener
 import com.makentoshe.booruchan.api.Booru
 import com.makentoshe.booruchan.api.component.post.Post
-import com.makentoshe.booruchan.screen.posts.page.controller.postsdownload.PostsDownloadEventListener
+import com.makentoshe.booruchan.screen.posts.page.controller.postsdownload.PostsDownloadListener
 import com.makentoshe.booruchan.screen.sampleinfo.model.SampleInfoViewPagerAdapter
 import com.makentoshe.booruchan.screen.sampleinfo.view.SampleInfoUiToolbarAnimator
 import org.jetbrains.anko.find
 
 class SampleInfoViewController(
     private val root: View,
-    private val downloadListener: PostsDownloadEventListener,
+    private val downloadListener: PostsDownloadListener,
     private val booru: Booru,
     private val itemPosition: Int
 ) {

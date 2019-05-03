@@ -3,7 +3,7 @@ package com.makentoshe.booruchan.screen.sampleinfo
 import android.view.View
 import com.makentoshe.booruchan.api.Booru
 import com.makentoshe.booruchan.api.component.tag.Tag
-import com.makentoshe.booruchan.screen.posts.page.controller.postsdownload.PostsDownloadEventListener
+import com.makentoshe.booruchan.screen.posts.page.controller.postsdownload.PostsDownloadListener
 import com.makentoshe.booruchan.screen.sampleinfo.controller.SampleInfoViewController
 import com.makentoshe.booruchan.screen.sampleinfo.fragment.SampleInfoFragment
 import io.reactivex.disposables.CompositeDisposable
@@ -18,7 +18,7 @@ object SampleInfoModule {
             SampleInfoViewModel(b, t, p, d)
         }
         scope(named<SampleInfoFragment>()) {
-            scoped { (v: View, l: PostsDownloadEventListener, b: Booru, i: Int) ->
+            scoped { (v: View, l: PostsDownloadListener, b: Booru, i: Int) ->
                 SampleInfoViewController(v, l, b, i)
             }
         }

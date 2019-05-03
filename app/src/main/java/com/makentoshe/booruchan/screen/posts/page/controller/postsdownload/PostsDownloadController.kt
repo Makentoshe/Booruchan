@@ -12,7 +12,7 @@ import io.reactivex.subjects.ReplaySubject
 /**
  * Controller starts posts downloading
  */
-interface PostsDownloadController : PostsDownloadEventListener {
+interface PostsDownloadController : PostsDownloadListener {
     /**
      * Starts posts downloading using request.
      */

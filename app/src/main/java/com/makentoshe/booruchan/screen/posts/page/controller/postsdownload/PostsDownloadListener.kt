@@ -5,7 +5,7 @@ import com.makentoshe.booruchan.api.component.post.Post
 /**
  * Interface for posts download listeners
  */
-interface PostsDownloadEventListener {
+interface PostsDownloadListener {
 
     /**
      * Calls on posts downloaded successfully

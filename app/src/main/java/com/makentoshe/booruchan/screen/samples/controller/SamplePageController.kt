@@ -7,7 +7,7 @@ import android.widget.TextView
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.api.component.post.Post
 import com.makentoshe.booruchan.screen.posts.page.controller.imagedownload.PreviewImageDownloadController
-import com.makentoshe.booruchan.screen.posts.page.controller.postsdownload.PostsDownloadEventListener
+import com.makentoshe.booruchan.screen.posts.page.controller.postsdownload.PostsDownloadListener
 import com.makentoshe.booruchan.screen.samples.model.SamplePageFragmentRouter
 import com.makentoshe.booruchan.screen.samples.model.SamplePageConcreteFragmentFactory
 import org.jetbrains.anko.find
@@ -17,18 +17,18 @@ import java.io.File
  * Controller for the [SamplePageFragment].
  */
 class SamplePageController(
-    private val postsDownloadEventListener: PostsDownloadEventListener,
+    private val postsDownloadListener: PostsDownloadListener,
     private val previewImageDownloadController: PreviewImageDownloadController,
     private val fragmentFactory: SamplePageConcreteFragmentFactory,
     private val fragmentRouter: SamplePageFragmentRouter
 ) {
 
     fun bindView(view: View) {
-        postsDownloadEventListener.onSuccess {
+        postsDownloadListener.onSuccess {
             bindOnSuccess(view, it[0])
         }
 
-        postsDownloadEventListener.onError {
+        postsDownloadListener.onError {
             bindOnError(view, it)
         }
 
