@@ -5,9 +5,11 @@ import com.makentoshe.booruchan.api.Booru
 import com.makentoshe.booruchan.api.component.post.Post
 import com.makentoshe.booruchan.api.component.tag.Tag
 import com.makentoshe.booruchan.screen.posts.page.controller.postsdownload.PostsDownloadListener
+import com.makentoshe.booruchan.screen.sampleinfo.controller.SampleInfoInfoViewController
 import com.makentoshe.booruchan.screen.sampleinfo.controller.SampleInfoTagsViewController
 import com.makentoshe.booruchan.screen.sampleinfo.controller.SampleInfoViewController
 import com.makentoshe.booruchan.screen.sampleinfo.fragment.SampleInfoFragment
+import com.makentoshe.booruchan.screen.sampleinfo.fragment.SampleInfoInfoFragment
 import com.makentoshe.booruchan.screen.sampleinfo.fragment.SampleInfoTagsFragment
 import io.reactivex.disposables.CompositeDisposable
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -30,5 +32,12 @@ object SampleInfoModule {
         scope(named<SampleInfoTagsFragment>()) {
             scoped { (v: View, b: Booru, p: Post) -> SampleInfoTagsViewController(v, b, p) }
         }
+
+        scope(named<SampleInfoInfoFragment>()) {
+            scoped { (view: View, post: Post) ->
+                SampleInfoInfoViewController(view, post)
+            }
+        }
+
     }
 }

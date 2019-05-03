@@ -15,17 +15,13 @@ import org.koin.core.parameter.parametersOf
 
 class SampleInfoViewModel(
     private val booru: Booru, tags: Set<Tag>, position: Int, private val disposables: CompositeDisposable
-) : ViewModel(),
-    PostsDownloadListener,
-    KoinComponent {
+) : ViewModel(), PostsDownloadListener, KoinComponent {
 
     private val repositoryFactory by inject<StreamRepositoryFactory> {
         parametersOf(booru, null)
     }
 
-    private val downloadController =
-        PostsDownloadController
-            .build(repositoryFactory, disposables)
+    private val downloadController = PostsDownloadController.build(repositoryFactory, disposables)
 
     init {
         downloadController.start(Posts.Request(1, tags, position))
