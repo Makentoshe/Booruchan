@@ -2,8 +2,10 @@ package com.makentoshe.booruchan.repository.stream
 
 import com.makentoshe.booruchan.api.Booru
 import com.makentoshe.booruchan.api.Posts
+import com.makentoshe.booruchan.api.component.comment.Comment
 import com.makentoshe.booruchan.api.component.post.Post
 import com.makentoshe.booruchan.model.StreamDownloadController
+import com.makentoshe.booruchan.repository.CommentsRepository
 import com.makentoshe.booruchan.repository.PostsRepository
 import com.makentoshe.booruchan.repository.Repository
 import com.makentoshe.booruchan.repository.RepositoryFactory
@@ -44,5 +46,9 @@ class StreamRepositoryFactory(
         val fileStream = StreamDownloadRepositoryDecoratorFile(streamSource)
         val cache = ImageInternalCache(get(), InternalCache.Type.FILE)
         return CachedRepository(cache, fileStream)
+    }
+
+    override fun buildCommentaryRepository(): Repository<Post, List<Comment>> {
+        return CommentsRepository(booru)
     }
 }
