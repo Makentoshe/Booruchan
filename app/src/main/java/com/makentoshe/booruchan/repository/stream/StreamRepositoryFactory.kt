@@ -4,11 +4,9 @@ import com.makentoshe.booruchan.api.Booru
 import com.makentoshe.booruchan.api.Posts
 import com.makentoshe.booruchan.api.component.comment.Comment
 import com.makentoshe.booruchan.api.component.post.Post
+import com.makentoshe.booruchan.api.component.tag.Tag
 import com.makentoshe.booruchan.model.StreamDownloadController
-import com.makentoshe.booruchan.repository.CommentsRepository
-import com.makentoshe.booruchan.repository.PostsRepository
-import com.makentoshe.booruchan.repository.Repository
-import com.makentoshe.booruchan.repository.RepositoryFactory
+import com.makentoshe.booruchan.repository.*
 import com.makentoshe.booruchan.repository.cache.CachedRepository
 import com.makentoshe.booruchan.repository.cache.ImageInternalCache
 import com.makentoshe.booruchan.repository.cache.InternalCache
@@ -50,5 +48,9 @@ class StreamRepositoryFactory(
 
     override fun buildCommentaryRepository(): Repository<Post, List<Comment>> {
         return CommentsRepository(booru)
+    }
+
+    override fun buildAutocompleteRepository(): Repository<CharSequence, List<Tag>> {
+        return DelayAutocompleteRepository(booru)
     }
 }

@@ -63,7 +63,6 @@ class SearchDialogEditTextInflater(
             if (!tags.add(it)) return@setImeAction
             chipGroup.addTag(it)
         }
-        editText.onItemSelectedListener
         //add tag after clicking on the list item
         editText.setOnItemClickListener { parent, view, position, id ->
             editText.setText("")

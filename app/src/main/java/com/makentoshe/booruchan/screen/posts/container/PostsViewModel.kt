@@ -8,15 +8,16 @@ import com.makentoshe.booruchan.model.BooruHolder
 import com.makentoshe.booruchan.model.TagsHolder
 import com.makentoshe.booruchan.screen.posts.container.controller.CacheController
 import com.makentoshe.booruchan.screen.posts.container.controller.SearchController
+import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 
 class PostsViewModel(
     private val tagsHolder: TagsHolder,
     private val booruHolder: BooruHolder,
     private val searchController: SearchController,
-    private val disposable: Disposable,
+    private val disposables: CompositeDisposable,
     private val cacheController: CacheController
-) : ViewModel(), TagsHolder, BooruHolder, SearchController, Disposable {
+) : ViewModel(), TagsHolder, BooruHolder, SearchController {
 
     init {
         startSearch(tags)
@@ -39,14 +40,12 @@ class PostsViewModel(
         searchController.onSearchStarted(action)
     }
 
-    override fun isDisposed() = disposable.isDisposed
-
-    override fun dispose() = disposable.dispose()
-
     fun init() {
         if (BuildConfig.DEBUG) println("Log $this")
     }
 
-    override fun onCleared() = dispose()
+    override fun onCleared() {
+        disposables.clear()
+    }
 
 }

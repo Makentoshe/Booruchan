@@ -3,6 +3,7 @@ package com.makentoshe.booruchan.repository
 import com.makentoshe.booruchan.api.Posts
 import com.makentoshe.booruchan.api.component.comment.Comment
 import com.makentoshe.booruchan.api.component.post.Post
+import com.makentoshe.booruchan.api.component.tag.Tag
 import com.makentoshe.booruchan.repository.Repository
 
 /**
@@ -19,4 +20,6 @@ interface RepositoryFactory {
     fun buildFilesRepository(): Repository<Post, ByteArray>
 
     fun buildCommentaryRepository(): Repository<Post, List<Comment>>
+
+    fun buildAutocompleteRepository(): Repository<CharSequence, List<Tag>>
 }

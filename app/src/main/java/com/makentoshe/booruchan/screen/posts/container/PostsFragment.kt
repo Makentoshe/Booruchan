@@ -19,8 +19,10 @@ import com.makentoshe.booruchan.screen.posts.container.controller.ToolbarControl
 import com.makentoshe.booruchan.screen.posts.container.controller.ViewPagerController
 import com.makentoshe.booruchan.screen.posts.container.model.PostsViewPagerAdapter
 import com.makentoshe.booruchan.screen.posts.container.view.PostsUi
+import io.reactivex.disposables.CompositeDisposable
 import org.jetbrains.anko.AnkoContext
 import org.jetbrains.anko.find
+import org.koin.android.ext.android.inject
 import org.koin.androidx.scope.currentScope
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
@@ -41,7 +43,9 @@ class PostsFragment : Fragment(), BooruHolder {
         get() = arguments!!.get(TAGS) as Set<Tag>
         set(value) = arguments().putSerializable(TAGS, value as Serializable)
 
-    private val viewModel by viewModel<PostsViewModel> { parametersOf(tags, booru) }
+    private val disposables by inject<CompositeDisposable>()
+
+    private val viewModel by viewModel<PostsViewModel> { parametersOf(tags, booru, disposables) }
 
     private val toolbarController by currentScope.inject<ToolbarController>()
 
@@ -89,7 +93,7 @@ class PostsFragment : Fragment(), BooruHolder {
 
     override fun onDestroy() {
         super.onDestroy()
-        viewModel.dispose()
+        disposables.clear()
     }
 
     companion object {
