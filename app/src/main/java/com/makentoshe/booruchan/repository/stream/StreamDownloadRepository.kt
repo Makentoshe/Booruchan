@@ -15,7 +15,7 @@ class StreamDownloadRepository(
 ) : Repository<String, ByteArray> {
 
     private var start = 0
-    private var end = 0
+    private var end = 1
     private val buffer = ByteArrayOutputStream()
     private val bufferSize: Int = 16384
 
