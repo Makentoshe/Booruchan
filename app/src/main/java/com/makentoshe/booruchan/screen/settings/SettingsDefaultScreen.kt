@@ -5,6 +5,7 @@ import com.makentoshe.booruchan.navigation.Screen
 import com.makentoshe.booruchan.screen.settings.fragment.SettingsDefaultFragment
 
 class SettingsDefaultScreen(private val position: Int) : Screen() {
+
     override val fragment: Fragment
         get() = SettingsDefaultFragment.create(position)
 
