@@ -8,7 +8,6 @@ import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.api.Booru
 import com.makentoshe.booruchan.api.component.post.Post
 import com.makentoshe.booruchan.navigation.Router
-import com.makentoshe.booruchan.screen.settings.AppSettings
 import com.makentoshe.booruchan.screen.webmplayer.WebmPlayerScreen
 import org.jetbrains.anko.find
 import org.koin.core.KoinComponent
@@ -20,13 +19,7 @@ class SamplePageWebmController(
     private val fragmentManager: FragmentManager
 ) : KoinComponent {
 
-    fun bindView(view: View) {
-        if (AppSettings.getWebmPlayingOnPlace(get())) {
-            bindViewToCurrentScreen(view)
-        } else {
-            bindViewToNewScreen(view)
-        }
-    }
+    fun bindView(view: View) = bindViewToNewScreen(view)
 
     private fun bindViewToCurrentScreen(view: View) {
         fragmentManager.beginTransaction()
