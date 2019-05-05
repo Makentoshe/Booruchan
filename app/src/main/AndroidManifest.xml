@@ -25,6 +25,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".screen.report.ReportActivity"/>
+        <activity android:name=".TestActivity"/>
         <receiver android:name=".AppBroadcastReceiver"
                   android:enabled="true"
                   android:exported="true"/>

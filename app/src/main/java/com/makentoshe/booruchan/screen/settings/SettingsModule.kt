@@ -1,43 +1,28 @@
 package com.makentoshe.booruchan.screen.settings
 
 import androidx.fragment.app.Fragment
-import com.makentoshe.booruchan.screen.settings.common.NsfwAlertController
-import com.makentoshe.booruchan.screen.settings.common.NsfwSettingController
-import com.makentoshe.booruchan.screen.settings.common.NsfwStateController
-import com.makentoshe.booruchan.screen.settings.common.SettingsDefaultFragment
-import com.makentoshe.booruchan.screen.settings.container.SettingsFragment
-import com.makentoshe.booruchan.screen.settings.container.TabController
-import com.makentoshe.booruchan.screen.settings.container.ViewPagerController
-import com.makentoshe.booruchan.screen.settings.page.ContentController
-import com.makentoshe.booruchan.screen.settings.page.SettingsPageFragment
-import com.makentoshe.booruchan.screen.settings.webm.SettingsWebmFragment
-import com.makentoshe.booruchan.screen.settings.webm.WebmPlayerSettingController
-import com.makentoshe.booruchan.screen.settings.webm.WebmPlayerStateController
+import com.makentoshe.booruchan.screen.settings.controller.*
+import com.makentoshe.booruchan.screen.settings.fragment.SettingsPageFragment
+import com.makentoshe.booruchan.screen.settings.model.SettingsScreenBuilder
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
-val settingsModule = module {
-    val defaultFragmentStr = "DefaultFragment"
-    
-    scope(named<SettingsFragment>()) {
-        scoped { ViewPagerController() }
-        scoped { TabController() }
-    }
+object SettingsModule {
 
-    scope(named<SettingsDefaultFragment>()) {
-        scoped(named(defaultFragmentStr)) { (fragment: Fragment) -> fragment }
+    val module = module {
 
-        scoped { NsfwStateController(get(), get()) }
-        scoped { NsfwAlertController(get(named(defaultFragmentStr))) }
-        scoped { NsfwSettingController(get(), get()) }
-    }
+        factory { SettingsViewPagerController() }
 
-    scope(named<SettingsPageFragment>()) {
-        scoped { ContentController(get()) }
-    }
+        factory { SettingsTabController() }
 
-    scope(named<SettingsWebmFragment>()) {
-        scoped { WebmPlayerStateController(get(), get()) }
-        scoped { WebmPlayerSettingController(get()) }
+        factory { (f: Fragment) ->
+            val alertController = NsfwAlertController(f)
+            val stateController = NsfwStateController(get(), f.requireContext())
+            NsfwSettingController(alertController, stateController)
+        }
+
+        factory { SettingsScreenBuilder() }
+
+        factory { SettingsPageController(get()) }
     }
 }

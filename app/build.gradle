@@ -28,7 +28,6 @@ android {
     //for ExoPlayer too
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_1_8
-        freeCompilerArgs = ["-XXLanguage:+InlineClasses"]
     }
 }
 
@@ -76,16 +75,20 @@ dependencies {
 
     //Koin
     //https://github.com/InsertKoinIO/koin
+    implementation "org.koin:koin-core:$koin_version"
     implementation "org.koin:koin-android:$koin_version"
     implementation "org.koin:koin-androidx-scope:$koin_version"
-    implementation "org.koin:koin-core:$koin_version"
     implementation "org.koin:koin-androidx-viewmodel:$koin_version"
+    testImplementation "org.koin:koin-test:$koin_version"
+    androidTestImplementation "org.koin:koin-test:$koin_version"
+
+    testImplementation "io.mockk:mockk:1.8.13.kotlin13"
+    androidTestImplementation "io.mockk:mockk:1.8.13.kotlin13"
+    androidTestImplementation "io.mockk:mockk-android:1.8.13.kotlin13"
 
     testImplementation 'junit:junit:4.12'
-    testImplementation "io.mockk:mockk:1.8.13.kotlin13"
     testImplementation 'net.bytebuddy:byte-buddy-agent:1.8.22'
 
-    androidTestImplementation "io.mockk:mockk-android:1.8.13.kotlin13"
     androidTestImplementation "androidx.test.ext:junit:1.1.0"
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-contrib:3.1.1'

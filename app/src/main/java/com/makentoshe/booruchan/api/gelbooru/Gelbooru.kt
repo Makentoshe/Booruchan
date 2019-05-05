@@ -8,7 +8,9 @@ import java.io.Serializable
 
 class Gelbooru(private val httpClient: HttpClient) : Booru, Serializable {
 
-    override val title: String = this::class.java.simpleName
+    override val title = "Gelbooru"
+
+    override val nsfw = true
 
     override fun getCustom(params: Map<String, String>) = GetCustom(httpClient, params)
 

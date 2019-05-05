@@ -9,6 +9,8 @@ import java.io.Serializable
 class Rule34(private val httpClient: HttpClient) : Booru, Serializable {
     override val title = "Rule 34"
 
+    override val nsfw = true
+
     override fun getCustom(params: Map<String, String>) = GetCustom(httpClient, params)
 
     override fun headCustom(params: Map<String, String>) = HeadCustom(httpClient, params)

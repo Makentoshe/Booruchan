@@ -18,9 +18,9 @@ import com.makentoshe.booruchan.screen.sampleinfo.SampleInfoModule
 import com.makentoshe.booruchan.screen.samples.SampleModule
 import com.makentoshe.booruchan.screen.samples.model.SampleOptionsMenu
 import com.makentoshe.booruchan.screen.settings.AppSettings
-import com.makentoshe.booruchan.screen.settings.page.SettingsScreenBuilder
-import com.makentoshe.booruchan.screen.settings.settingsModule
-import com.makentoshe.booruchan.screen.start.startModule
+import com.makentoshe.booruchan.screen.settings.SettingsModule
+import com.makentoshe.booruchan.screen.settings.model.SettingsScreenBuilder
+import com.makentoshe.booruchan.screen.start.StartModule
 import com.makentoshe.booruchan.screen.webmplayer.WebmPlayerModule
 import com.makentoshe.booruchan.style.SotisStyle
 import com.makentoshe.booruchan.style.Style
@@ -37,56 +37,20 @@ import ru.terrakok.cicerone.Cicerone
 
 class Booruchan : Application() {
 
-    private val cicerone = Cicerone.create(Router())
-
-    private val appModule: Module = module {
-        single { AppSettings }
-        single { cicerone.router }
-        single { cicerone.navigatorHolder }
-        factory { SettingsScreenBuilder() }
-
-        factory { (booru: Booru, controller: StreamDownloadController?) ->
-            StreamRepositoryFactory(booru, controller)
-        }
-
-        /* Creates a posts request */
-        factory { (tags: Set<Tag>, position: Int) ->
-            val itemsCount = getItemsCountInRequest(get())
-            Posts.Request(itemsCount, tags, position)
-        }
-        /* Creates a controller for downloading posts */
-        factory { (booru: Booru, disposables: CompositeDisposable) ->
-            val repositoryFactory = get<StreamRepositoryFactory> { parametersOf(booru, null) }
-            PostsDownloadController.build(repositoryFactory, disposables)
-        }
-        /* Creates a controller for downloading preview images */
-        factory { (booru: Booru, disposables: CompositeDisposable) ->
-            val repositoryFactory = get<StreamRepositoryFactory> { parametersOf(booru, null) }
-            PreviewImageDownloadController.build(repositoryFactory, disposables)
-        }
-        /* Creates a controller for stream downloading */
-        factory { StreamDownloadController.create() }
-
-        /* Creates a container for holding disposables */
-        factory { CompositeDisposable() }
-
-        /* Controller for samples shows options menu */
-        factory { (b: Booru, p: Post) -> SampleOptionsMenu(b, p) }
-    }
-
     lateinit var style: Style
         private set
 
     override fun onCreate() {
         super.onCreate()
+        loadStyle()
         INSTANCE = this
         startKoin {
             androidLogger()
             androidContext(this@Booruchan)
             modules(
                 appModule,
-                startModule,
-                settingsModule,
+                StartModule.module,
+                SettingsModule.module,
                 PostsModule.module,
                 BooruModule.module,
                 SampleModule.module,
@@ -96,7 +60,6 @@ class Booruchan : Application() {
             )
         }
         initRxErrorHandler()
-        loadStyle()
     }
 
     private fun initRxErrorHandler() {
@@ -120,7 +83,39 @@ val style = Booruchan.INSTANCE.style
 val appModule = module {
     single { Cicerone.create(Router()) }
     single { AppSettings }
+    single { style }
     single { get<Cicerone<Router>>().router }
     single { get<Cicerone<Router>>().navigatorHolder }
-    factory { SettingsScreenBuilder() }
+
+    /* Creates a factory for building repositories with the stream listeners */
+    factory { (booru: Booru, controller: StreamDownloadController?) ->
+        StreamRepositoryFactory(booru, controller)
+    }
+
+    /* Creates a posts request */
+    factory { (tags: Set<Tag>, position: Int) ->
+        val itemsCount = getItemsCountInRequest(get())
+        Posts.Request(itemsCount, tags, position)
+    }
+    /* Creates a controller for downloading posts */
+    factory { (booru: Booru, disposables: CompositeDisposable) ->
+        val repositoryFactory = get<StreamRepositoryFactory> { parametersOf(booru, null) }
+        PostsDownloadController.build(repositoryFactory, disposables)
+    }
+    /* Creates a controller for downloading preview images */
+    factory { (booru: Booru, disposables: CompositeDisposable) ->
+        val repositoryFactory = get<StreamRepositoryFactory> { parametersOf(booru, null) }
+        PreviewImageDownloadController.build(repositoryFactory, disposables)
+    }
+    /* Creates a controller for stream downloading */
+    factory { StreamDownloadController.create() }
+
+    /* Creates a container for holding disposables */
+    factory { CompositeDisposable() }
+
+    /* Controller for samples shows options menu */
+    factory { (b: Booru, p: Post) -> SampleOptionsMenu(b, p) }
+
 }
+
+typealias Boorus = List<Booru>

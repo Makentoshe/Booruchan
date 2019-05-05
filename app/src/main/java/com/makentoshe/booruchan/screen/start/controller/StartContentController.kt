@@ -5,6 +5,7 @@ import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.ListAdapter
 import android.widget.ListView
+import com.makentoshe.booruchan.Boorus
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.api.Booru
 import com.makentoshe.booruchan.api.BooruFactory
@@ -14,18 +15,14 @@ import org.jetbrains.anko.find
 import org.koin.core.KoinComponent
 import org.koin.core.inject
 
-class ContentController(
-    private val navigator: StartScreenNavigator,
-    private val booruFactory: BooruFactory,
-    private val booruList: List<Class<out Booru>>
-) : KoinComponent {
+class StartContentController(private val booruList: Boorus) : KoinComponent {
 
     private val appSettings by inject<AppSettings>()
 
+    private val navigator by inject<StartScreenNavigator>()
+
     fun bindView(context: Context, view: View) {
-        val filteredList = booruList.map {
-            booruFactory.buildBooru(it, context)
-        }.filter {
+        val filteredList = booruList.filter {
             appSettings.getNsfw(context) or it.nsfw.not()
         }
 

@@ -1,63 +1,91 @@
 package com.makentoshe.booruchan.screen.start
 
+import androidx.test.espresso.Espresso.onData
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
+import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.rule.ActivityTestRule
-import com.makentoshe.booruchan.*
+import com.makentoshe.booruchan.R
+import com.makentoshe.booruchan.TestActivity
+import com.makentoshe.booruchan.api.Booru
+import com.makentoshe.booruchan.appModule
+import com.makentoshe.booruchan.navigation.FragmentNavigator
 import com.makentoshe.booruchan.screen.booru.BooruFragment
-import com.makentoshe.booruchan.screen.settings.AppSettings
-import com.makentoshe.booruchan.screen.settings.container.SettingsFragment
-import org.junit.After
+import com.makentoshe.booruchan.screen.booru.BooruModule
+import com.makentoshe.booruchan.screen.posts.container.PostsModule
+import com.makentoshe.booruchan.screen.posts.page.PostsPageModule
+import com.makentoshe.booruchan.screen.settings.SettingsModule
+import com.makentoshe.booruchan.screen.settings.fragment.SettingsFragment
+import com.makentoshe.booruchan.screen.start.controller.StartContentController
+import com.makentoshe.booruchan.screen.start.controller.StartOverflowController
+import com.makentoshe.booruchan.screen.start.model.StartScreenNavigator
+import io.mockk.every
+import io.mockk.mockk
+import org.hamcrest.CoreMatchers.anything
+import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import org.koin.android.ext.koin.androidContext
+import org.koin.core.context.startKoin
+import org.koin.core.context.stopKoin
+import org.koin.dsl.module
+import org.koin.test.AutoCloseKoinTest
+import org.koin.test.get
+import ru.terrakok.cicerone.NavigatorHolder
 
-class StartFragmentTest {
+
+class StartFragmentTest : AutoCloseKoinTest() {
 
     @get:Rule
-    val activityTestRule = ActivityTestRule<AppActivity>(AppActivity::class.java, false, false)
+    val rule = ActivityTestRule<TestActivity>(TestActivity::class.java, false, false)
+    private val instrumentation = InstrumentationRegistry.getInstrumentation()
 
-    private lateinit var activity: AppActivity
-    private var position = -1
+    private lateinit var activity: TestActivity
+
+    private val booru = mockk<Booru>().apply {
+        every { title } returns "Testbooru"
+        every { nsfw } returns false
+    }
 
     @Before
     fun init() {
-        Booruchan.INSTANCE.settings.setNsfw(Booruchan.INSTANCE.applicationContext, true)
-        AppSettings.setNsfw(Booruchan.INSTANCE.applicationContext, true)
-        Booruchan.INSTANCE.booruList.add(Mockbooru::class.java)
-        position = Booruchan.INSTANCE.booruList.indexOf(Mockbooru::class.java)
-        activity = activityTestRule.launchActivity(null)
+        stopKoin()
+        startKoin {
+            androidContext(instrumentation.context)
+            modules(appModule, SettingsModule.module, BooruModule.module, PostsModule.module, PostsPageModule.module,
+                module {
+                    single { StartOverflowController() }
+                    single { StartContentController(listOf(booru)) }
+                    single { StartScreenNavigator(setOf()) }
+                }
+            )
+        }
+
+        activity = rule.launchActivity(null)
+
+        instrumentation.runOnMainSync {
+            val navigator = FragmentNavigator(activity, R.id.appcontainer)
+            get<NavigatorHolder>().setNavigator(navigator)
+            //setup start screen
+            activity.supportFragmentManager.beginTransaction().add(R.id.appcontainer, StartFragment()).commitNow()
+        }
     }
 
     @Test
-    fun should_contain_StartFragment_at_the_startup() {
-        activity.containsFragment<StartFragment>()
-    }
-
-    @Test
-    fun should_navigate_to_settings_screen() {
-        //show overflow menu
+    fun shouldNavigateToSettingsScreen() {
         onView(withId(R.id.start_toolbar_overflow)).perform(click())
-        //click on overflow menu item
         onView(withText(R.string.settings)).perform(click())
-
-        activity.containsFragment<SettingsFragment>()
+        //the SettingsFragment is replace the StartFragment
+        assertEquals(SettingsFragment::class.java, activity.supportFragmentManager.fragments[0]::class.java)
     }
 
     @Test
-    fun should_navigate_to_booru_screen() {
-        activity.getFragment<StartFragment>().booruFactory = mockBooruFactory(activity)
-        //click on mocked booru
-        onView(withText(Mockbooru::class.java.simpleName)).perform(click())
-
-        activity.containsFragment<BooruFragment>()
-    }
-
-    @After
-    fun after() {
-        Booruchan.INSTANCE.booruList.removeAt(position)
-        position = -1
+    fun shouldNavigateToBooruScreen() {
+        onData(anything()).inAdapterView(withId(R.id.start_content_listview)).atPosition(0).perform(click())
+        //the next fragment after the StartFragment must be the BooruFragment
+        assertEquals(BooruFragment::class.java, activity.supportFragmentManager.fragments[1]::class.java)
     }
 }

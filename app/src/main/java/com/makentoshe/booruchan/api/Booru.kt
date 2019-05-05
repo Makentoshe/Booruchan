@@ -8,6 +8,8 @@ interface Booru : Serializable {
 
     val title: String
 
+    val nsfw: Boolean
+
     fun getCustom(params: Map<String, String> = mapOf()): Custom
 
     fun headCustom(params: Map<String, String> = mapOf()): Custom

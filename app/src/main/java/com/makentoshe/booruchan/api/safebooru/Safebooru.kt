@@ -9,8 +9,9 @@ import java.io.Serializable
 
 class Safebooru(private val httpClient: HttpClient) : Booru, Serializable {
 
-    override val title: String
-        get() = "Safebooru"
+    override val title = "Safebooru"
+
+    override val nsfw = false
 
     override fun getCustom(params: Map<String, String>) = GetCustom(httpClient, params)
 
