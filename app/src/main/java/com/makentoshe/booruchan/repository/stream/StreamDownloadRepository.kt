@@ -1,5 +1,6 @@
 package com.makentoshe.booruchan.repository.stream
 
+import android.util.Log
 import com.makentoshe.booruchan.api.Booru
 import com.makentoshe.booruchan.model.StreamDownloadController
 import com.makentoshe.booruchan.repository.Repository
@@ -15,8 +16,7 @@ class StreamDownloadRepository(
 ) : Repository<String, ByteArray> {
 
     private var start = 0
-    private var end = 1
-    private val buffer = ByteArrayOutputStream()
+    private var end = -1
     private val bufferSize: Int = 16384
 
     override fun get(key: String): ByteArray {
@@ -32,9 +32,10 @@ class StreamDownloadRepository(
 
     private fun loadParts(length: Long, url: String): ByteArray {
         var count = 0
+        val buffer = ByteArrayOutputStream(length.toInt())
         while (true) {
             //calc segment
-            start = end - 1
+            start = end + 1
             end += bufferSize
             //get segment bytes and write to buffer
             val response = booru.getCustom(mapOf("Range" to "bytes=$start-$end")).request(url)
@@ -42,8 +43,8 @@ class StreamDownloadRepository(
             buffer.write(bytes)
             //invoke listener the segment was received
             count += bytes.size
-            listener?.invokeOnPartReceived(length, bytes, (count.toFloat() / length) - 1)
-
+            val progress = (count.toFloat() / length)
+            listener?.invokeOnPartReceived(length, bytes, progress)
             //when stream is ends
             if (bytes.size < bufferSize) {
                 //invoke listener and finish
