@@ -1,8 +1,8 @@
 package com.makentoshe.booruchan.screen.settings.model
 
-import com.makentoshe.booruchan.screen.settings.fragment.SettingsNsfwAlertFragment
+import java.io.Serializable
 
-interface OnDialogResultListener {
+interface OnDialogResultListener : Serializable {
     /**
      * Calls when dialog was canceled
      */
@@ -27,7 +27,7 @@ interface OnDialogResultListener {
         fun create() = OnDialogResultListenerImpl()
     }
 
-    class OnDialogResultListenerImpl : OnDialogResultListener {
+    class OnDialogResultListenerImpl : OnDialogResultListener, Serializable {
 
         var onCancelListener: (() -> Unit)? = null
         var onDismissListener: (() -> Unit)? = null
@@ -42,13 +42,4 @@ interface OnDialogResultListener {
 
         override fun onNegativeButtonClick() = onNegativeButtonClick?.invoke() ?: Unit
     }
-}
-
-
-fun SettingsNsfwAlertFragment.setOnDialogResultListener(
-    init: OnDialogResultListener.OnDialogResultListenerImpl.() -> Unit
-) {
-    val listener = OnDialogResultListener.OnDialogResultListenerImpl()
-    listener.init()
-    onDialogResultListener = listener
 }

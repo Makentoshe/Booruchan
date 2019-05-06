@@ -2,7 +2,7 @@ package com.makentoshe.booruchan.screen.settings.controller
 
 import androidx.fragment.app.FragmentManager
 import com.makentoshe.booruchan.screen.settings.fragment.SettingsNsfwAlertFragment
-import com.makentoshe.booruchan.screen.settings.model.setOnDialogResultListener
+import com.makentoshe.booruchan.screen.settings.model.OnDialogResultListener
 
 /**
  * Displays alert dialog.
@@ -17,12 +17,11 @@ class NsfwAlertController(private val fragmentManager: FragmentManager) {
      * @param result is a function calls when decision was made with the result.
      */
     fun showAlert(result: (Boolean) -> Unit) {
-        val alertFragment = SettingsNsfwAlertFragment()
-        alertFragment.show(fragmentManager, alertFragment::class.java.simpleName)
-        alertFragment.setOnDialogResultListener {
-            onCancelListener = { result(false) }
-            onPositiveButtonClick = { result(true) }
-            onNegativeButtonClick = { result(false) }
-        }
+        val listener = OnDialogResultListener.create()
+        listener.onCancelListener = { result(false) }
+        listener.onNegativeButtonClick = { result(false) }
+        listener.onPositiveButtonClick = { result(true) }
+
+        SettingsNsfwAlertFragment.show(fragmentManager, listener)
     }
 }
