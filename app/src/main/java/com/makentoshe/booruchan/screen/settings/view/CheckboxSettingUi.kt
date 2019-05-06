@@ -1,4 +1,4 @@
-package com.makentoshe.booruchan.screen.settings.model
+package com.makentoshe.booruchan.screen.settings.view
 
 import android.view.Gravity
 import android.view.View
@@ -8,11 +8,12 @@ import androidx.annotation.StringRes
 import com.makentoshe.booruchan.style
 import org.jetbrains.anko.*
 
-class SettingWithCheckUi(
+class CheckboxSettingUi(
     @IdRes private val mainId: Int,
     @IdRes private val checkboxId: Int,
     @StringRes private val textRes: Int
 ) : AnkoComponent<ViewGroup> {
+
     override fun createView(ui: AnkoContext<ViewGroup>): View = with(ui.owner) {
         relativeLayout {
             id = mainId
