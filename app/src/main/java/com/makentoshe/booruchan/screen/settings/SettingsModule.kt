@@ -17,7 +17,7 @@ object SettingsModule {
 
         factory { (f: Fragment) ->
             val alertController = NsfwAlertController(f.requireFragmentManager())
-            val stateController = NsfwStateController(get(), f.requireContext())
+            val stateController = NsfwStateController(get())
             NsfwSettingController(alertController, stateController)
         }
 

@@ -1,34 +1,41 @@
 package com.makentoshe.booruchan.screen.settings
 
 import android.content.Context
+import org.koin.core.KoinComponent
+import org.koin.core.get
 
-object AppSettings {
+class AppSettings {
 
-    fun setNsfw(context: Context, boolean: Boolean) {
-        context.getSharedPreferences(APPLICATION, Context.MODE_PRIVATE).edit()
-            .putBoolean(NSFW, boolean)
-            .apply()
+    val default: Default
+        get() = Default()
+
+    class Default : KoinComponent {
+
+        private val context: Context
+            get() = get()
+
+        var nsfw: Boolean
+            set(value) {
+                context.getSharedPreferences(AppName, Context.MODE_PRIVATE)
+                    .edit().putBoolean(this::nsfw.name, value).apply()
+            }
+            get() {
+                return context.getSharedPreferences(AppName, Context.MODE_PRIVATE)
+                    .getBoolean(this::nsfw.name, false)
+            }
+
+        var alert: Boolean
+            set(value) {
+                context.getSharedPreferences(AppName, Context.MODE_PRIVATE)
+                    .edit().putBoolean(this::alert.name, value).apply()
+            }
+            get() {
+                return context.getSharedPreferences(AppName, Context.MODE_PRIVATE)
+                    .getBoolean(this::alert.name, true)
+            }
     }
 
-    fun getNsfw(context: Context): Boolean {
-        return context.getSharedPreferences(APPLICATION, Context.MODE_PRIVATE).getBoolean(
-            NSFW, false
-        )
+    companion object {
+        private const val AppName = "Booruchan"
     }
-
-    fun getNsfwAlert(context: Context): Boolean {
-        return context.getSharedPreferences(APPLICATION, Context.MODE_PRIVATE).getBoolean(
-            NSFW_ALERT, true
-        )
-    }
-
-    fun setNsfwAlert(context: Context, boolean: Boolean) {
-        context.getSharedPreferences(APPLICATION, Context.MODE_PRIVATE).edit()
-            .putBoolean(NSFW_ALERT, boolean).apply()
-    }
-
-
-    private const val APPLICATION = "AppSettings"
-    private const val NSFW = "NotSafeForWatching"
-    private const val NSFW_ALERT = "NotSafeForWatchingAlert"
 }

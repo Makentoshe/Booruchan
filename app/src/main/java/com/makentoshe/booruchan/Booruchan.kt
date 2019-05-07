@@ -82,7 +82,7 @@ val style = Booruchan.INSTANCE.style
 
 val appModule = module {
     single { Cicerone.create(Router()) }
-    single { AppSettings }
+    single { AppSettings() }
     single { style }
     single { get<Cicerone<Router>>().router }
     single { get<Cicerone<Router>>().navigatorHolder }

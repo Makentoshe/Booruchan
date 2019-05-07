@@ -23,7 +23,7 @@ class StartContentController(private val booruList: Boorus) : KoinComponent {
 
     fun bindView(context: Context, view: View) {
         val filteredList = booruList.filter {
-            appSettings.getNsfw(context) or it.nsfw.not()
+            appSettings.default.nsfw or it.nsfw.not()
         }
 
         val listview = view.find<ListView>(R.id.start_content_listview)

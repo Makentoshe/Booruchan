@@ -9,7 +9,6 @@ import androidx.test.rule.ActivityTestRule
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.TestActivity
 import com.makentoshe.booruchan.api.Booru
-import com.makentoshe.booruchan.navigation.Router
 import com.makentoshe.booruchan.screen.settings.AppSettings
 import com.makentoshe.booruchan.screen.start.model.StartScreenNavigator
 import io.mockk.every
@@ -20,6 +19,7 @@ import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 import org.koin.core.context.stopKoin
 import org.koin.dsl.module
@@ -55,8 +55,9 @@ class StartContentControllerTest : AutoCloseKoinTest() {
     fun init() {
         stopKoin()
         startKoin {
+            androidContext(instrumentation.context)
             modules(module {
-                single { AppSettings }
+                single { AppSettings() }
                 factory { spyk(StartScreenNavigator(setOf())) }
                 factory { StartContentController(list) }
             })
@@ -67,7 +68,7 @@ class StartContentControllerTest : AutoCloseKoinTest() {
     @Test
     fun shouldDisplayAllBoorusIfNsfwSettingEnabled() {
         //set nsfw as true
-        get<AppSettings>().setNsfw(activity, true)
+        get<AppSettings>().default.nsfw = true
 
         bindController()
         //check
@@ -83,7 +84,7 @@ class StartContentControllerTest : AutoCloseKoinTest() {
     @Test
     fun shouldDisplayOnlySafeBoorusIfNsfwSettingDisabled() {
         //set nsfw as false
-        get<AppSettings>().setNsfw(activity, false)
+        get<AppSettings>().default.nsfw = false
 
         bindController()
         //check (expected only one booru)

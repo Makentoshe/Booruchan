@@ -7,17 +7,12 @@ import androidx.test.rule.ActivityTestRule
 import androidx.viewpager.widget.ViewPager
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.TestActivity
-import com.makentoshe.booruchan.appModule
-import com.makentoshe.booruchan.screen.settings.SettingsModule
 import com.makentoshe.booruchan.screen.settings.fragment.SettingsPageFragment
 import org.jetbrains.anko.find
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.koin.android.ext.koin.androidContext
-import org.koin.core.context.startKoin
-import org.koin.core.context.stopKoin
 import org.koin.test.KoinTest
 import org.koin.test.get
 
@@ -31,12 +26,6 @@ class SettingsViewPagerAdapterTest : KoinTest {
 
     @Before
     fun init() {
-        stopKoin()
-        startKoin {
-            androidContext(instrumentation.context)
-            modules(appModule, SettingsModule.module)
-        }
-
         activity = rule.launchActivity(null)
 
         instrumentation.runOnMainSync {
