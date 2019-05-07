@@ -21,6 +21,6 @@ object SettingsModule {
 
         factory { SettingsScreenBuilder() }
 
-        factory { SettingsPageController(get()) }
+        factory { (p: Int, fm: FragmentManager) -> SettingsPageController(p, fm, get()) }
     }
 }

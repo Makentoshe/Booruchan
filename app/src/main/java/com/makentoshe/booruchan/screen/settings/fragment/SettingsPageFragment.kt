@@ -10,6 +10,7 @@ import com.makentoshe.booruchan.screen.settings.controller.SettingsPageControlle
 import com.makentoshe.booruchan.screen.settings.view.SettingsPageUi
 import org.jetbrains.anko.AnkoContext
 import org.koin.android.ext.android.inject
+import org.koin.core.parameter.parametersOf
 
 /* Container for concrete fragments settings */
 class SettingsPageFragment : Fragment() {
@@ -18,14 +19,16 @@ class SettingsPageFragment : Fragment() {
         set(value) = arguments().putInt(POSITION, value)
         get() = arguments!!.getInt(POSITION)
 
-    private val contentController by inject<SettingsPageController>()
+    private val contentController by inject<SettingsPageController> {
+        parametersOf(position, childFragmentManager)
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return SettingsPageUi().createView(AnkoContext.create(requireContext()))
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        contentController.bindView(position, childFragmentManager)
+        contentController.bindView()
     }
 
     companion object {
