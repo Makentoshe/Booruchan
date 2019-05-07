@@ -1,6 +1,6 @@
 package com.makentoshe.booruchan.screen.settings
 
-import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import com.makentoshe.booruchan.screen.settings.controller.*
 import com.makentoshe.booruchan.screen.settings.model.SettingsScreenBuilder
 import org.koin.dsl.module
@@ -13,8 +13,8 @@ object SettingsModule {
 
         factory { SettingsTabController() }
 
-        factory { (f: Fragment) ->
-            val alertController = NsfwAlertController(f.requireFragmentManager())
+        factory { (fm: FragmentManager) ->
+            val alertController = NsfwAlertController(fm)
             val stateController = NsfwStateController()
             NsfwSettingController(alertController, stateController)
         }

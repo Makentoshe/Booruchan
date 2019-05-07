@@ -17,7 +17,7 @@ class SettingsDefaultFragment : Fragment() {
 
     // Controller for nsfw setting behaviour
     private val nsfwSettingController by inject<NsfwSettingController> {
-        parametersOf(this)
+        parametersOf(requireFragmentManager())
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
