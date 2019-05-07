@@ -8,6 +8,7 @@ import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.rule.ActivityTestRule
 import androidx.test.uiautomator.UiDevice
 import com.makentoshe.booruchan.TestActivity
+import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
@@ -57,7 +58,7 @@ class NsfwAlertControllerTest {
     }
 
     @Test(timeout = 5000)
-    fun shouldReturnFalseOnCancelOrOnDismiss() {
+    fun shouldReturnFalseOnCancel() {
         var result: Boolean? = null
         controller.showAlert { result = it }
         device.pressBack()
@@ -96,7 +97,7 @@ class NsfwAlertControllerTest {
     }
 
     @Test(timeout = 5000)
-    fun shouldReturnFalseOnCancelOrOnDismissAfterRotation() {
+    fun shouldReturnFalseOnCancelAfterRotation() {
         var result: Boolean? = null
         controller.showAlert { result = it }
         //rotate device
@@ -106,5 +107,10 @@ class NsfwAlertControllerTest {
         while (result == null) Thread.yield()
 
         assertEquals(false, result)
+    }
+
+    @After
+    fun after() {
+        activity.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
     }
 }

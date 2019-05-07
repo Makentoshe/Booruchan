@@ -40,7 +40,7 @@ class SettingsNsfwAlertFragment : DialogFragment() {
 
     companion object {
         private const val LISTENER = "Listener"
-        fun show(fragmentManager: FragmentManager, listener: OnDialogResultListener): DialogFragment {
+        fun show(fragmentManager: FragmentManager, listener: OnDialogResultListener): SettingsNsfwAlertFragment {
             return SettingsNsfwAlertFragment().apply {
                 this.onDialogResultListener = listener
 
