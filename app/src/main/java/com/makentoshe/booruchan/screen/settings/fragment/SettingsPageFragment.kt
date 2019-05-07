@@ -21,7 +21,7 @@ class SettingsPageFragment : Fragment() {
     private val contentController by inject<SettingsPageController>()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return SettingsPageUi().createView(AnkoContext.create(requireContext(), this))
+        return SettingsPageUi().createView(AnkoContext.create(requireContext()))
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
