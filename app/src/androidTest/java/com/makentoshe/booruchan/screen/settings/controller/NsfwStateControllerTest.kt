@@ -28,7 +28,7 @@ class NsfwStateControllerTest : KoinTest {
             androidContext(instrumentation.context)
             modules(module {
                 single { AppSettings(identifier) }
-                single { NsfwStateController() }
+                single { NsfwStateController(get()) }
             })
         }
 
