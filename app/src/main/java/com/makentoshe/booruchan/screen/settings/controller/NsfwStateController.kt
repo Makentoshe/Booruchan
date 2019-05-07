@@ -1,15 +1,13 @@
 package com.makentoshe.booruchan.screen.settings.controller
 
 import com.makentoshe.booruchan.screen.settings.AppSettings
-import org.koin.core.KoinComponent
-import org.koin.core.get
 
 /**
  * Controls nsfw setting on the application settings level.
  */
-class NsfwStateController: KoinComponent {
+class NsfwStateController(appSettings: AppSettings) {
 
-    private val default = get<AppSettings>().default
+    private val default = appSettings.default
 
     /**
      * Enable nsfw setting.

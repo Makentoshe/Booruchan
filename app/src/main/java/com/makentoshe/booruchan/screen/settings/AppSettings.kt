@@ -4,10 +4,9 @@ import android.content.Context
 import org.koin.core.KoinComponent
 import org.koin.core.get
 
-class AppSettings(private val identifier: String) {
+class AppSettings(identifier: String) {
 
-    val default: Default
-        get() = Default(identifier)
+    val default = Default(identifier)
 
     class Default(private val identifier: String) : KoinComponent {
 
