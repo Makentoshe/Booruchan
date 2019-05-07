@@ -29,6 +29,8 @@ import org.koin.test.get
 
 class StartContentControllerTest : AutoCloseKoinTest() {
 
+    private val identifier = this::class.java.simpleName
+
     @get:Rule
     val rule = ActivityTestRule<TestActivity>(TestActivity::class.java, false, false)
     private lateinit var activity: TestActivity
@@ -57,7 +59,7 @@ class StartContentControllerTest : AutoCloseKoinTest() {
         startKoin {
             androidContext(instrumentation.context)
             modules(module {
-                single { AppSettings() }
+                single { AppSettings(identifier) }
                 factory { spyk(StartScreenNavigator(setOf())) }
                 factory { StartContentController(list) }
             })

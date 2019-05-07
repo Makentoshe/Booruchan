@@ -1,24 +1,28 @@
 package com.makentoshe.booruchan.screen.settings.controller
 
 import com.makentoshe.booruchan.screen.settings.AppSettings
+import org.koin.core.KoinComponent
+import org.koin.core.get
 
 /**
  * Controls nsfw setting on the application settings level.
  */
-class NsfwStateController(private val appSettings: AppSettings) {
+class NsfwStateController: KoinComponent {
+
+    private val default = get<AppSettings>().default
 
     /**
      * Enable nsfw setting.
      */
     fun enable() {
-        appSettings.default.nsfw = true
+        default.nsfw = true
     }
 
     /**
      * Disable nsfw setting.
      */
     fun disable() {
-        appSettings.default.nsfw = false
+        default.nsfw = false
     }
 
     /**
@@ -26,18 +30,18 @@ class NsfwStateController(private val appSettings: AppSettings) {
      * the alert dialog will not be appears when the nsfw setting enables.
      */
     fun disableAlert() {
-        appSettings.default.alert = false
+        default.alert = false
     }
 
     /**
      * Returns the current state of the nsfw setting
      */
     val state: Boolean
-        get() = appSettings.default.nsfw
+        get() = default.nsfw
 
     /**
      * Returns the current state of the nsfw alert setting
      */
     val shouldShowAlert: Boolean
-        get() = appSettings.default.alert
+        get() = default.alert
 }
