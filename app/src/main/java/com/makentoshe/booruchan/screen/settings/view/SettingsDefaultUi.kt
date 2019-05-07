@@ -1,15 +1,14 @@
 package com.makentoshe.booruchan.screen.settings.view
 
-import android.view.View
+import android.content.Context
 import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.style
 import org.jetbrains.anko.*
 
-class SettingsDefaultUi : AnkoComponent<Fragment> {
-    override fun createView(ui: AnkoContext<Fragment>): View =
-        with(ui) {
+class SettingsDefaultUi : AnkoComponent<Context> {
+    override fun createView(ui: AnkoContext<Context>) = with(ui) {
         themedLinearLayout(style.default) {
             orientation = LinearLayout.VERTICAL
             lparams(matchParent, matchParent)

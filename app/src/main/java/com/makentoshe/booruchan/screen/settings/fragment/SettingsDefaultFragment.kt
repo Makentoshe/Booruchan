@@ -21,7 +21,7 @@ class SettingsDefaultFragment : Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return SettingsDefaultUi().createView(AnkoContext.create(requireContext(), this))
+        return SettingsDefaultUi().createView(AnkoContext.create(requireContext()))
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
