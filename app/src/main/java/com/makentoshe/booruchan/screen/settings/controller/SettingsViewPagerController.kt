@@ -8,14 +8,11 @@ import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.screen.settings.model.SettingsViewPagerAdapter
 import org.jetbrains.anko.find
 
-class SettingsViewPagerController {
+class SettingsViewPagerController(private val fragmentManager: FragmentManager) {
 
-    fun bindView(view: View, childFragmentManager: FragmentManager) {
+    fun bindView(view: View) {
         val viewpager = view.find<ViewPager>(R.id.settings_viewpager)
-        viewpager.adapter = buildAdapter(childFragmentManager)
+        viewpager.adapter = SettingsViewPagerAdapter(fragmentManager)
     }
 
-    private fun buildAdapter(childFragmentManager: FragmentManager): PagerAdapter {
-        return SettingsViewPagerAdapter(childFragmentManager)
-    }
 }

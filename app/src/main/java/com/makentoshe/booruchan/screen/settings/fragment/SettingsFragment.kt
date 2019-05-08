@@ -11,21 +11,24 @@ import com.makentoshe.booruchan.screen.settings.view.SettingsUi
 import org.jetbrains.anko.AnkoContext
 import org.koin.android.ext.android.inject
 import org.koin.androidx.scope.currentScope
+import org.koin.core.parameter.parametersOf
 
 class SettingsFragment : Fragment() {
 
     // Controller for view pager
-    private val viewPagerController: SettingsViewPagerController by inject()
+    private val viewPagerController: SettingsViewPagerController by inject {
+        parametersOf(childFragmentManager)
+    }
 
     // Controller for viewpager's tab layout
     private val tabController: SettingsTabController by inject()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return SettingsUi().createView(AnkoContext.create(requireContext(), this))
+        return SettingsUi().createView(AnkoContext.create(requireContext()))
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        viewPagerController.bindView(view, childFragmentManager)
+        viewPagerController.bindView(view)
         tabController.bindView(view)
     }
 }

@@ -9,7 +9,7 @@ object SettingsModule {
 
     val module = module {
 
-        factory { SettingsViewPagerController() }
+        factory { (fm: FragmentManager) -> SettingsViewPagerController(fm) }
 
         factory { SettingsTabController() }
 
