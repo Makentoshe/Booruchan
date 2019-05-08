@@ -31,8 +31,6 @@ class PostsViewModel(
 
     override fun startSearch(tags: Set<Tag>) {
         cacheController.clearAll()
-        this.tags.clear()
-        this.tags.addAll(tags)
         searchController.startSearch(tags)
     }
 
