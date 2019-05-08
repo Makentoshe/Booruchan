@@ -23,12 +23,12 @@ class LocalNavigatorViewModel(
     }
 
     override fun navigateToPosts() {
-        localRouter.navigateToPosts(cicerone.router)
+        localRouter.navigateToPosts()
         isScreenSetuped = true
     }
 
     override fun navigateToAccount() {
-        localRouter.navigateToAccount(cicerone.router)
+        localRouter.navigateToAccount()
         isScreenSetuped = true
     }
 }

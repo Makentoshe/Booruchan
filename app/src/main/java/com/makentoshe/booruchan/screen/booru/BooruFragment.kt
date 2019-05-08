@@ -12,6 +12,7 @@ import com.makentoshe.booruchan.navigation.FragmentNavigator
 import com.makentoshe.booruchan.navigation.Router
 import com.makentoshe.booruchan.screen.booru.view.BooruUi
 import org.jetbrains.anko.AnkoContext
+import org.koin.android.ext.android.inject
 import org.koin.androidx.scope.currentScope
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
@@ -20,10 +21,6 @@ import ru.terrakok.cicerone.Cicerone
 import java.io.Serializable
 
 class BooruFragment : Fragment() {
-
-    init {
-        currentScope.get<Fragment>(named(BooruModule.fragmentStr)) { parametersOf(this) }
-    }
 
     private var booru: Booru
         get() = arguments!!.get(BOORU) as Booru
@@ -34,18 +31,11 @@ class BooruFragment : Fragment() {
         set(value) = arguments().putSerializable(TAGS, value as Serializable)
 
     private val navigatorViewModel by viewModel<LocalNavigatorViewModel> {
-        val cicerone = currentScope.get<Cicerone<Router>>(named(BooruModule.ciceroneStr))
-        val localRouter = currentScope.get<LocalRouter>()
-        parametersOf(cicerone, localRouter)
+        parametersOf(booru, tags)
     }
 
-    private val fragmentNavigator by currentScope.inject<FragmentNavigator>()
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        //provides params to the scope
-        currentScope.get<Booru>(named(BooruModule.booruStr)) { parametersOf(booru) }
-        currentScope.get<Set<Tag>>(named(BooruModule.tagsStr)) { parametersOf(tags) }
+    private val fragmentNavigator by inject<FragmentNavigator> {
+        parametersOf(requireActivity(), childFragmentManager)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

@@ -6,14 +6,14 @@ import com.makentoshe.booruchan.navigation.Router
 import com.makentoshe.booruchan.screen.account.AccountScreen
 import com.makentoshe.booruchan.screen.posts.container.PostsScreen
 
-class LocalRouter(private val booru: Booru, private val tags: Set<Tag>) {
+class LocalRouter(private val booru: Booru, private val tags: Set<Tag>, private val router: Router) {
 
-    fun navigateToPosts(router: Router) {
+    fun navigateToPosts() {
         val screen = PostsScreen(booru, tags)
         router.navigateWithReplace(screen)
     }
 
-    fun navigateToAccount(router: Router) {
+    fun navigateToAccount() {
         val screen = AccountScreen(booru)
         router.navigateWithReplace(screen)
     }
