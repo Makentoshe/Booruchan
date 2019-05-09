@@ -3,6 +3,7 @@ package com.makentoshe.booruchan.screen.posts.page.controller.imagedownload
 import android.graphics.Bitmap
 import com.makentoshe.booruchan.api.component.post.Post
 import com.makentoshe.booruchan.repository.RepositoryFactory
+import com.makentoshe.booruchan.repository.stream.StreamRepositoryFactory
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.subjects.BehaviorSubject
 
@@ -18,7 +19,7 @@ interface PreviewImageDownloadController : ImageDownloadListener {
 
     companion object {
         fun build(
-            repositoryFactory: RepositoryFactory,
+            repositoryFactory: StreamRepositoryFactory,
             disposables: CompositeDisposable
         ): PreviewImageDownloadController {
             return PreviewImageDownloadControllerImpl(repositoryFactory, disposables)
@@ -34,7 +35,7 @@ interface PreviewImageDownloadController : ImageDownloadListener {
      * @param disposables is a disposables container for releasing in future.
      */
     private class PreviewImageDownloadControllerImpl(
-        private val repositoryFactory: RepositoryFactory,
+        private val repositoryFactory: StreamRepositoryFactory,
         private val disposables: CompositeDisposable
     ) : PreviewImageDownloadController {
 

@@ -52,12 +52,12 @@ class PostPageGridElementUi : AnkoComponent<Context> {
         alignParentBottom()
     }
 
-    private fun _RelativeLayout.createProgress() = themedProgressBar(style.progress) {
+    private fun _RelativeLayout.createProgress() = horizontalProgressBar(style.progress) {
         id = R.id.posts_page_gridview_element_progress
-        isIndeterminate = true
-    }.lparams(dip(16), dip(16)) {
-        alignParentTop()
-        alignParentRight()
+        max = 100
+    }.lparams(matchParent, dip(2)) {
+        alignParentBottom()
+        setMargins(dip(4), 0, dip(4), dip(8))
     }
 }
 

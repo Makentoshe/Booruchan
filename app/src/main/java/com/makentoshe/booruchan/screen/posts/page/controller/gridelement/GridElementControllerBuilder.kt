@@ -1,10 +1,14 @@
 package com.makentoshe.booruchan.screen.posts.page.controller.gridelement
 
+import com.makentoshe.booruchan.api.Booru
 import com.makentoshe.booruchan.api.component.post.Post
-import com.makentoshe.booruchan.repository.RepositoryFactory
+import com.makentoshe.booruchan.model.StreamDownloadController
+import com.makentoshe.booruchan.repository.stream.StreamRepositoryFactory
 import com.makentoshe.booruchan.screen.posts.page.controller.imagedownload.PreviewImageDownloadController
 import io.reactivex.disposables.CompositeDisposable
 import org.koin.core.KoinComponent
+import org.koin.core.get
+import org.koin.core.parameter.parametersOf
 
 /**
  * Factory creates a grid element controller.
@@ -13,9 +17,15 @@ import org.koin.core.KoinComponent
  * disposed.
  */
 class GridElementControllerBuilder(
-    private val repositoryFactory: RepositoryFactory,
+    private val booru: Booru,
     private val compositeDisposable: CompositeDisposable
 ) : KoinComponent {
+
+    private val progressController = StreamDownloadController.create()
+
+    private val repositoryFactory = get<StreamRepositoryFactory> {
+        parametersOf(booru, progressController)
+    }
 
     /**
      * Returns a grid element controller with the started preview downloading process.
@@ -23,7 +33,7 @@ class GridElementControllerBuilder(
     fun createController(post: Post): GridElementController {
         val downloadController = buildDownloadController(post)
         val typeController = GridElementTypeController(post)
-        return GridElementController(downloadController, typeController)
+        return GridElementController(downloadController, typeController, progressController)
     }
 
     private fun buildDownloadController(post: Post): PreviewImageDownloadController {

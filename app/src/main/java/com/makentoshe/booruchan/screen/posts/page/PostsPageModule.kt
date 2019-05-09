@@ -38,8 +38,7 @@ object PostsPageModule {
             scoped { GridElementUiBuilder() }
             scoped {
                 val booru = getViewModel().booru
-                val rFactory = get<StreamRepositoryFactory> { parametersOf(booru, null) }
-                GridElementControllerBuilder(rFactory, get(named(DISPOSABLE)))
+                GridElementControllerBuilder(booru, get(named(DISPOSABLE)))
             }
             scoped { GridAdapterBuilder(get(), get()) }
             scoped { PostsPageContentController(getViewModel(), get(), getViewModel(), get()) }

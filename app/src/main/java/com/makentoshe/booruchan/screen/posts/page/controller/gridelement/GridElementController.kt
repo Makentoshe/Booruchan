@@ -6,6 +6,7 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.ProgressBar
 import com.makentoshe.booruchan.R
+import com.makentoshe.booruchan.model.StreamDownloadListener
 import com.makentoshe.booruchan.screen.posts.page.controller.imagedownload.ImageDownloadListener
 import org.jetbrains.anko.find
 
@@ -16,7 +17,8 @@ import org.jetbrains.anko.find
  */
 class GridElementController(
     private val listener: ImageDownloadListener,
-    private val typeController: GridElementTypeController
+    private val typeController: GridElementTypeController,
+    private val streamListener: StreamDownloadListener
 ) {
 
     fun bindView(view: View) {
@@ -31,6 +33,10 @@ class GridElementController(
             imageview.setImageBitmap(it)
             //hide progress
             progressbar.visibility = View.GONE
+        }
+
+        streamListener.onPartReceived { _, _, progress ->
+            progressbar.progress = (progress * 100).toInt()
         }
 
         listener.onError {
