@@ -1,5 +1,6 @@
 package com.makentoshe.booruchan.screen.booru.view
 
+import android.content.Context
 import android.view.View
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
@@ -10,8 +11,8 @@ import org.jetbrains.anko.AnkoContext
 import org.jetbrains.anko.support.v4.drawerLayout
 import org.jetbrains.anko.support.v4.themedDrawerLayout
 
-class BooruUi : AnkoComponent<Fragment> {
-    override fun createView(ui: AnkoContext<Fragment>): View = with(ui) {
+class BooruUi : AnkoComponent<Context> {
+    override fun createView(ui: AnkoContext<Context>): View = with(ui) {
         themedDrawerLayout(style.default) {
             id = R.id.booru_drawer
             BooruUiContent().createView(AnkoContext.createDelegate(this))

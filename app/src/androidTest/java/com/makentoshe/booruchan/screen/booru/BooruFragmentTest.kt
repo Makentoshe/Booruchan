@@ -1,59 +1,109 @@
-//package com.makentoshe.booruchan.screen.booru
-//
-//import androidx.test.espresso.Espresso.onView
-//import androidx.test.espresso.action.ViewActions.click
-//import androidx.test.espresso.contrib.DrawerActions.open
-//import androidx.test.espresso.matcher.ViewMatchers.withId
-//import androidx.test.espresso.matcher.ViewMatchers.withText
-//import androidx.test.rule.ActivityTestRule
-//import com.makentoshe.booruchan.*
-//import com.makentoshe.booruchan.screen.account.AccountFragment
-//import com.makentoshe.booruchan.screen.posts.container.PostsFragment
-//import com.makentoshe.booruchan.screen.start.StartFragment
-//import org.junit.After
-//import org.junit.Before
-//import org.junit.Rule
-//import org.junit.Test
-//
-//class BooruFragmentTest {
-//
-//    @get:Rule
-//    val activityTestRule = ActivityTestRule<AppActivity>(AppActivity::class.java, false, false)
-//
-//    private lateinit var activity: AppActivity
-//    private var position = -1
-//
-//    @Before
-//    fun init() {
-//        Booruchan.INSTANCE.settings.setNsfw(Booruchan.INSTANCE.applicationContext, true)
-//        Booruchan.INSTANCE.booruList.add(Mockbooru::class.java)
-//        position = Booruchan.INSTANCE.booruList.indexOf(Mockbooru::class.java)
-//        activity = activityTestRule.launchActivity(null)
-//        activity.getFragment<StartFragment>().booruFactory = mockBooruFactory(activity)
-//        //click on mocked booru
-//        onView(withText(Mockbooru::class.java.simpleName)).perform(click())
-//    }
-//
-//    @Test
-//    fun should_display_posts_screen_on_start() {
-//        //check current screen is posts
-//        activity.getFragment<BooruFragment>().containsFragment<PostsFragment>()
-//    }
-//
-//    @Test
-//    fun should_change_current_screen_to_account_screen() {
-//        //swipe to open drawer
-//        onView(withId(R.id.booru_drawer)).perform(open())
-//        //click to the account screen
-//        onView(withId(R.id.booru_drawer_panel_account)).perform(click())
-//        //check current screen is account
-//        activity.getFragment<BooruFragment>().containsFragment<AccountFragment>()
-//    }
-//
-//    @After
-//    fun after() {
-//        Booruchan.INSTANCE.booruList.removeAt(position)
-//        position = -1
-//    }
-//
-//}
+package com.makentoshe.booruchan.screen.booru
+
+import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.FragmentManager
+import androidx.test.platform.app.InstrumentationRegistry
+import androidx.test.rule.ActivityTestRule
+import com.makentoshe.booruchan.R
+import com.makentoshe.booruchan.TestActivity
+import com.makentoshe.booruchan.api.Booru
+import com.makentoshe.booruchan.api.component.tag.Tag
+import com.makentoshe.booruchan.appModule
+import com.makentoshe.booruchan.navigation.FragmentNavigator
+import com.makentoshe.booruchan.navigation.Router
+import com.makentoshe.booruchan.screen.account.AccountFragment
+import com.makentoshe.booruchan.screen.booru.model.LocalNavigator
+import com.makentoshe.booruchan.screen.posts.container.PostsFragment
+import com.makentoshe.booruchan.screen.posts.container.PostsModule
+import com.makentoshe.booruchan.screen.posts.page.PostsPageModule
+import io.mockk.every
+import io.mockk.mockk
+import io.mockk.spyk
+import org.junit.Assert.assertEquals
+import org.junit.Before
+import org.junit.Rule
+import org.junit.Test
+import org.koin.android.ext.koin.androidContext
+import org.koin.androidx.viewmodel.dsl.viewModel
+import org.koin.core.context.startKoin
+import org.koin.core.context.stopKoin
+import org.koin.dsl.module
+import ru.terrakok.cicerone.Cicerone
+
+class BooruFragmentTest {
+
+    @get:Rule
+    val rule = ActivityTestRule<TestActivity>(TestActivity::class.java, false, false)
+    private val instrumentation = InstrumentationRegistry.getInstrumentation()
+
+    private lateinit var activity: TestActivity
+    private lateinit var fragment: BooruFragment
+    private lateinit var localNavigator: LocalNavigator
+
+    private val booru = mockk<Booru>().apply {
+        every { title } returns "Testbooru"
+        every { nsfw } returns false
+    }
+
+    @Before
+    fun init() {
+        stopKoin()
+        startKoin {
+            androidContext(instrumentation.context)
+            modules(appModule, PostsModule.module, PostsPageModule.module, module {
+
+                factory { (fa: FragmentActivity, fm: FragmentManager) ->
+                    FragmentNavigator(fa, R.id.booru_drawer_content, fm)
+                }
+
+                viewModel { (b: Booru, t: Set<Tag>) ->
+                    val router = Router()
+                    val localRouter = LocalRouter(b, t, router)
+                    val cicerone = Cicerone.create(router)
+                    spyk(LocalNavigatorViewModel(cicerone, localRouter)).also {
+                        localNavigator = it
+                    }
+                }
+            })
+        }
+
+        activity = rule.launchActivity(null)
+        instrumentation.runOnMainSync {
+            fragment = BooruFragment.create(booru, setOf())
+            activity.supportFragmentManager.beginTransaction().add(R.id.appcontainer, fragment).commitNow()
+        }
+    }
+
+    @Test
+    fun shouldNavigateToPostsScreenAtStartup() {
+        val f = fragment.childFragmentManager.fragments[0]
+        assertEquals(PostsFragment::class, f::class)
+    }
+
+    @Test
+    fun shouldNavigateToAccountScreen() {
+        instrumentation.runOnMainSync {
+            localNavigator.navigateToAccount()
+        }
+        Thread.sleep(1000)
+        val f = fragment.childFragmentManager.fragments[0]
+        assertEquals(AccountFragment::class, f::class)
+    }
+
+    @Test
+    fun shouldNavigateToPostsScreen() {
+        instrumentation.runOnMainSync {
+            localNavigator.navigateToAccount()
+        }
+        Thread.sleep(1000)
+        val fa = fragment.childFragmentManager.fragments[0]
+        assertEquals(AccountFragment::class, fa::class)
+
+        instrumentation.runOnMainSync {
+            localNavigator.navigateToPosts()
+        }
+        Thread.sleep(1000)
+        val fb = fragment.childFragmentManager.fragments[0]
+        assertEquals(PostsFragment::class, fb::class)
+    }
+}

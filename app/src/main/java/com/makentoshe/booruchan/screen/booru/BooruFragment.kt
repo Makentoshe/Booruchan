@@ -39,7 +39,7 @@ class BooruFragment : Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return BooruUi().createView(AnkoContext.create(requireContext(), this))
+        return BooruUi().createView(AnkoContext.create(requireContext()))
     }
 
     override fun onResume() {
