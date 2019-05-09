@@ -19,7 +19,7 @@ interface Post : Serializable {
     val hasComments: Boolean
 
     companion object {
-        fun create(id: Long, sampleUrl: String = "") = object : Post {
+        fun create(id: Long, previewUrl: String = "", sampleUrl: String = "") = object : Post {
             override val raw: Map<String, String>
                 get() = emptyMap()
             override val id: Long
@@ -27,7 +27,7 @@ interface Post : Serializable {
             override val score: Int
                 get() = -1
             override val previewUrl: String
-                get() = ""
+                get() = previewUrl
             override val sampleUrl: String
                 get() = sampleUrl
             override val fileUrl: String

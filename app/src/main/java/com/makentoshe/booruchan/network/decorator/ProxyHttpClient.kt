@@ -61,7 +61,7 @@ class ProxyHttpClient(private val client: HttpClient, private val proxy: String)
     private fun log(result: HttpResult) = if (BuildConfig.DEBUG) {
         val message = StringBuilder("Result code is ${result.code}").append("\n")
         message.append("Message: ").append(result.message).append("\n")
-        message.append("Url: ").append(result.url).append("\n")
+        message.append("Url: ").append(result.url).append("\n\n")
         logger.log(Level.INFO, message.toString())
     } else Unit
 
