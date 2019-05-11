@@ -14,7 +14,10 @@ import com.makentoshe.booruchan.navigation.Router
 import com.makentoshe.booruchan.screen.settings.AppSettings
 import com.makentoshe.booruchan.screen.settings.SettingsModule
 import com.makentoshe.booruchan.style
-import io.mockk.*
+import io.mockk.Runs
+import io.mockk.every
+import io.mockk.just
+import io.mockk.mockk
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -37,6 +40,7 @@ class SettingsDefaultFragmentTest : KoinTest {
     private lateinit var appSettings: AppSettings
     private lateinit var activity: TestActivity
     private lateinit var sharedPreferences: SharedPreferences
+
     @Before
     fun init() {
         sharedPreferences = mockk()
@@ -61,10 +65,7 @@ class SettingsDefaultFragmentTest : KoinTest {
         every { sharedPreferences.getBoolean("nsfw", any()) } returns false
         every { sharedPreferences.getBoolean("alert", any()) } returns false
 
-        instrumentation.runOnMainSync {
-            fragment = SettingsDefaultFragment.create(0)
-            activity.supportFragmentManager.beginTransaction().add(R.id.appcontainer, fragment).commit()
-        }
+        setContent()
 
         onView(withId(R.id.setting_nsfw)).check(matches(isDisplayed()))
         onView(withId(R.id.setting_nsfw_checkbox)).check(matches(isDisplayed()))
@@ -77,13 +78,8 @@ class SettingsDefaultFragmentTest : KoinTest {
         every { sharedPreferences.getBoolean("nsfw", any()) } returns false
         every { sharedPreferences.getBoolean("alert", any()) } returns true
 
-        every { sharedPreferences.edit().putBoolean("nsfw", any()).apply() } just Runs
-        every { sharedPreferences.edit().putBoolean("alert", any()).apply() } just Runs
-
-        instrumentation.runOnMainSync {
-            fragment = SettingsDefaultFragment.create(0)
-            activity.supportFragmentManager.beginTransaction().add(R.id.appcontainer, fragment).commit()
-        }
+        mockCalls()
+        setContent()
 
         //click on checkbox
         onView(withId(R.id.setting_nsfw_checkbox)).perform(click()).noActivity()
@@ -100,13 +96,8 @@ class SettingsDefaultFragmentTest : KoinTest {
         every { sharedPreferences.getBoolean("nsfw", any()) } returns false
         every { sharedPreferences.getBoolean("alert", any()) } returns true
 
-        every { sharedPreferences.edit().putBoolean("nsfw", any()).apply() } just Runs
-        every { sharedPreferences.edit().putBoolean("alert", any()).apply() } just Runs
-
-        instrumentation.runOnMainSync {
-            fragment = SettingsDefaultFragment.create(0)
-            activity.supportFragmentManager.beginTransaction().add(R.id.appcontainer, fragment).commit()
-        }
+        mockCalls()
+        setContent()
 
         //click on checkbox
         onView(withId(R.id.setting_nsfw_checkbox)).perform(click())
@@ -123,13 +114,8 @@ class SettingsDefaultFragmentTest : KoinTest {
         every { sharedPreferences.getBoolean("nsfw", any()) } returns false
         every { sharedPreferences.getBoolean("alert", any()) } returns false
 
-        every { sharedPreferences.edit().putBoolean("nsfw", any()).apply() } just Runs
-        every { sharedPreferences.edit().putBoolean("alert", any()).apply() } just Runs
-
-        instrumentation.runOnMainSync {
-            fragment = SettingsDefaultFragment.create(0)
-            activity.supportFragmentManager.beginTransaction().add(R.id.appcontainer, fragment).commit()
-        }
+        mockCalls()
+        setContent()
 
         //click on checkbox
         onView(withId(R.id.setting_nsfw_checkbox)).perform(click())
@@ -144,13 +130,8 @@ class SettingsDefaultFragmentTest : KoinTest {
         every { sharedPreferences.getBoolean("nsfw", any()) } returns false
         every { sharedPreferences.getBoolean("alert", any()) } returns false
 
-        every { sharedPreferences.edit().putBoolean("nsfw", any()).apply() } just Runs
-        every { sharedPreferences.edit().putBoolean("alert", any()).apply() } just Runs
-
-        instrumentation.runOnMainSync {
-            fragment = SettingsDefaultFragment.create(0)
-            activity.supportFragmentManager.beginTransaction().add(R.id.appcontainer, fragment).commit()
-        }
+        mockCalls()
+        setContent()
 
         //click on root
         onView(withId(R.id.setting_nsfw)).perform(click())
@@ -165,14 +146,8 @@ class SettingsDefaultFragmentTest : KoinTest {
         every { sharedPreferences.getBoolean("nsfw", any()) } returns true
         every { sharedPreferences.getBoolean("alert", any()) } returns false
 
-        every { sharedPreferences.edit().putBoolean("nsfw", any()).apply() } just Runs
-        every { sharedPreferences.edit().putBoolean("alert", any()).apply() } just Runs
-
-        instrumentation.runOnMainSync {
-            fragment = SettingsDefaultFragment.create(0)
-            Log.i(this::class.java.name, "SAS")
-            activity.supportFragmentManager.beginTransaction().add(R.id.appcontainer, fragment).commit()
-        }
+        mockCalls()
+        setContent()
 
         //click on root
         onView(withId(R.id.setting_nsfw)).perform(click())
@@ -187,13 +162,8 @@ class SettingsDefaultFragmentTest : KoinTest {
         every { sharedPreferences.getBoolean("alert", any()) } returns false
         every { sharedPreferences.getBoolean("nsfw", any()) } returns true
 
-        every { sharedPreferences.edit().putBoolean("nsfw", any()).apply() } just Runs
-        every { sharedPreferences.edit().putBoolean("alert", any()).apply() } just Runs
-
-        instrumentation.runOnMainSync {
-            fragment = SettingsDefaultFragment.create(0)
-            activity.supportFragmentManager.beginTransaction().add(R.id.appcontainer, fragment).commit()
-        }
+        mockCalls()
+        setContent()
 
         //click on checkbox
         onView(withId(R.id.setting_nsfw_checkbox)).perform(click())
@@ -208,13 +178,8 @@ class SettingsDefaultFragmentTest : KoinTest {
         every { sharedPreferences.getBoolean("alert", any()) } returns true
         every { sharedPreferences.getBoolean("nsfw", any()) } returns false
 
-        every { sharedPreferences.edit().putBoolean("nsfw", any()).apply() } just Runs
-        every { sharedPreferences.edit().putBoolean("alert", any()).apply() } just Runs
-
-        instrumentation.runOnMainSync {
-            fragment = SettingsDefaultFragment.create(0)
-            activity.supportFragmentManager.beginTransaction().add(R.id.appcontainer, fragment).commit()
-        }
+        mockCalls()
+        setContent()
 
         //click on checkbox
         onView(withId(R.id.setting_nsfw_checkbox)).perform(click())
@@ -234,5 +199,16 @@ class SettingsDefaultFragmentTest : KoinTest {
     @After
     fun after() {
         Log.i(this::class.java.simpleName, "\n\n")
+    }
+
+    private fun setContent() = instrumentation.runOnMainSync {
+        fragment = SettingsDefaultFragment.create(0)
+        activity.supportFragmentManager.beginTransaction().add(R.id.appcontainer, fragment).commit()
+    }
+
+    private fun mockCalls() {
+        every { sharedPreferences.edit().putBoolean("nsfw", any()).apply() } just Runs
+        every { sharedPreferences.edit().putBoolean("alert", any()).apply() } just Runs
+
     }
 }
