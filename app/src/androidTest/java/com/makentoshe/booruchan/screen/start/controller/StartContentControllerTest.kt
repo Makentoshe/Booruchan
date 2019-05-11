@@ -1,5 +1,6 @@
 package com.makentoshe.booruchan.screen.start.controller
 
+import android.content.SharedPreferences
 import android.view.ViewGroup
 import android.widget.ListView
 import androidx.test.espresso.Espresso.onView
@@ -29,13 +30,9 @@ import org.koin.test.get
 
 class StartContentControllerTest : AutoCloseKoinTest() {
 
-    private val identifier = this::class.java.simpleName
-
     @get:Rule
     val rule = ActivityTestRule<TestActivity>(TestActivity::class.java, false, false)
-    private lateinit var activity: TestActivity
     private val instrumentation = InstrumentationRegistry.getInstrumentation()
-
     private val nsfwBooru1 = mockk<Booru>().apply {
         every { nsfw } returns true
         every { title } returns "NsfwBooru1"
@@ -53,13 +50,18 @@ class StartContentControllerTest : AutoCloseKoinTest() {
 
     private val list = listOf(nsfwBooru1, nsfwBooru2, booru)
 
+    private lateinit var activity: TestActivity
+    private lateinit var preferences: SharedPreferences
+
     @Before
     fun init() {
+        preferences = mockk()
+
         stopKoin()
         startKoin {
             androidContext(instrumentation.context)
             modules(module {
-                single { AppSettings(identifier) }
+                single { AppSettings(preferences) }
                 factory { spyk(StartScreenNavigator(setOf())) }
                 factory { StartContentController(list) }
             })
@@ -69,8 +71,8 @@ class StartContentControllerTest : AutoCloseKoinTest() {
 
     @Test
     fun shouldDisplayAllBoorusIfNsfwSettingEnabled() {
-        //set nsfw as true
-        get<AppSettings>().default.nsfw = true
+        //mock nsfw as true
+        every { preferences.getBoolean("nsfw", false) } returns true
 
         bindController()
         //check
@@ -85,8 +87,8 @@ class StartContentControllerTest : AutoCloseKoinTest() {
 
     @Test
     fun shouldDisplayOnlySafeBoorusIfNsfwSettingDisabled() {
-        //set nsfw as false
-        get<AppSettings>().default.nsfw = false
+        //mock nsfw as false
+        every { preferences.getBoolean("nsfw", false) } returns false
 
         bindController()
         //check (expected only one booru)

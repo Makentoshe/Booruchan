@@ -1,36 +1,31 @@
 package com.makentoshe.booruchan.screen.settings
 
-import android.content.Context
-import org.koin.core.KoinComponent
-import org.koin.core.get
+import android.content.SharedPreferences
+import android.util.Log
+import com.makentoshe.booruchan.BuildConfig
 
-class AppSettings(identifier: String) {
+class AppSettings(sharedPreferences: SharedPreferences) {
 
-    val default = Default(identifier)
+    val default = Default(sharedPreferences)
 
-    class Default(private val identifier: String) : KoinComponent {
-
-        private val context: Context
-            get() = get()
+    class Default(private val sharedPreferences: SharedPreferences) {
 
         var nsfw: Boolean
             set(value) {
-                context.getSharedPreferences(identifier, Context.MODE_PRIVATE)
-                    .edit().putBoolean(this::nsfw.name, value).apply()
+                if (BuildConfig.DEBUG) Log.i(this::class.java.name, "nsfw=$value")
+                sharedPreferences.edit().putBoolean(this::nsfw.name, value).apply()
             }
             get() {
-                return context.getSharedPreferences(identifier, Context.MODE_PRIVATE)
-                    .getBoolean(this::nsfw.name, false)
+                return sharedPreferences.getBoolean(this::nsfw.name, false)
             }
 
         var alert: Boolean
             set(value) {
-                context.getSharedPreferences(identifier, Context.MODE_PRIVATE)
-                    .edit().putBoolean(this::alert.name, value).apply()
+                if (BuildConfig.DEBUG) Log.i(this::class.java.name, "alert=$value")
+                sharedPreferences.edit().putBoolean(this::alert.name, value).apply()
             }
             get() {
-                return context.getSharedPreferences(identifier, Context.MODE_PRIVATE)
-                    .getBoolean(this::alert.name, true)
+                return sharedPreferences.getBoolean(this::alert.name, true)
             }
     }
 }

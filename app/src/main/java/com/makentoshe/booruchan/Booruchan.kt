@@ -1,6 +1,8 @@
 package com.makentoshe.booruchan
 
 import android.app.Application
+import android.content.Context
+import android.content.SharedPreferences
 import com.makentoshe.booruchan.api.Booru
 import com.makentoshe.booruchan.api.Posts
 import com.makentoshe.booruchan.api.component.post.Post
@@ -80,7 +82,10 @@ val style = Booruchan.INSTANCE.style
 
 val appModule = module {
     single { Cicerone.create(Router()) }
-    single { AppSettings(identifier = "Booruchan") }
+    single {
+        val preferences = get<Context>().getSharedPreferences("Booruchan", Context.MODE_PRIVATE)
+        AppSettings(preferences)
+    }
     single { style }
     single { get<Cicerone<Router>>().router }
     single { get<Cicerone<Router>>().navigatorHolder }

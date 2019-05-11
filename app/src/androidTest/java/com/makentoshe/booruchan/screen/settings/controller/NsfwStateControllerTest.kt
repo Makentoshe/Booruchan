@@ -1,7 +1,9 @@
 package com.makentoshe.booruchan.screen.settings.controller
 
+import android.content.Context
 import androidx.test.platform.app.InstrumentationRegistry
 import com.makentoshe.booruchan.screen.settings.AppSettings
+import io.mockk.mockk
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Before
@@ -16,18 +18,18 @@ import org.koin.test.get
 class NsfwStateControllerTest : KoinTest {
 
     private val instrumentation = InstrumentationRegistry.getInstrumentation()
-    private val identifier = this::class.java.simpleName
 
     private lateinit var controller: NsfwStateController
     private lateinit var appSettings: AppSettings
 
     @Before
     fun init() {
+        val prefs = instrumentation.context.getSharedPreferences(this::class.java.simpleName, Context.MODE_PRIVATE)
         stopKoin()
         startKoin {
             androidContext(instrumentation.context)
             modules(module {
-                single { AppSettings(identifier) }
+                single { AppSettings(prefs) }
                 single { NsfwStateController(get()) }
             })
         }
