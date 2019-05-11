@@ -12,6 +12,7 @@ import com.makentoshe.booruchan.navigation.Router
 import com.makentoshe.booruchan.repository.stream.StreamRepositoryFactory
 import com.makentoshe.booruchan.screen.booru.BooruModule
 import com.makentoshe.booruchan.screen.posts.container.PostsModule
+import com.makentoshe.booruchan.screen.posts.container.controller.CacheController
 import com.makentoshe.booruchan.screen.posts.container.model.getItemsCountInRequest
 import com.makentoshe.booruchan.screen.posts.page.PostsPageModule
 import com.makentoshe.booruchan.screen.posts.page.controller.imagedownload.PreviewImageDownloadController
@@ -30,12 +31,14 @@ import io.reactivex.exceptions.UndeliverableException
 import io.reactivex.plugins.RxJavaPlugins
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
+import org.koin.core.KoinComponent
 import org.koin.core.context.startKoin
+import org.koin.core.get
 import org.koin.core.parameter.parametersOf
 import org.koin.dsl.module
 import ru.terrakok.cicerone.Cicerone
 
-class Booruchan : Application() {
+class Booruchan : Application(), KoinComponent {
 
     lateinit var style: Style
         private set
@@ -71,6 +74,12 @@ class Booruchan : Application() {
 
     private fun loadStyle() {
         style = SotisStyle()
+    }
+
+    override fun onTerminate() {
+        super.onTerminate()
+        //clear caches on app close.
+        get<CacheController>().clearAll()
     }
 
     companion object {
