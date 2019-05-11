@@ -61,7 +61,7 @@ class PostsFragment : Fragment(), BooruHolder {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return PostsUi().createView(AnkoContext.create(requireContext(), this))
+        return PostsUi().createView(AnkoContext.create(requireContext()))
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
