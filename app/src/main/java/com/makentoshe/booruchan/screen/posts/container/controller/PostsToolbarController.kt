@@ -7,7 +7,7 @@ import com.makentoshe.booruchan.api.Booru
 import org.jetbrains.anko.find
 import org.jetbrains.anko.subtitleResource
 
-class ToolbarController(private val booru: Booru) {
+class PostsToolbarController(private val booru: Booru) {
 
     fun bindView(view: View) {
         val toolbar = view.find<Toolbar>(R.id.booru_toolbar)

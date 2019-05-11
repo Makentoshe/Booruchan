@@ -1,6 +1,7 @@
 package com.makentoshe.booruchan.screen.posts.container
 
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import com.makentoshe.booruchan.api.Booru
 import com.makentoshe.booruchan.api.component.tag.Tag
 import com.makentoshe.booruchan.model.BooruHolderImpl
@@ -17,41 +18,21 @@ import org.koin.core.scope.Scope
 import org.koin.dsl.module
 
 object PostsModule {
-    const val FRAGMENT = "PostsFragment"
-
-    private fun Scope.getPostsViewModel(): PostsViewModel {
-        val fragment = get<Fragment>(named(FRAGMENT))
-        return getViewModel(fragment)
-    }
-
     val module = module {
-        scope(named<PostsFragment>()) {
-            /* provide a fragment instance to the scope */
-            scoped(named(FRAGMENT)) { (fragment: Fragment) -> fragment }
 
-            scoped {
-                val viewModel = getPostsViewModel()
-                ToolbarController(viewModel.booru)
-            }
+        factory { (b: Booru) -> PostsToolbarController(b) }
 
-            scoped {
-                val viewModel = getPostsViewModel()
-                PostsMagnifyController(viewModel, get(named(FRAGMENT)), viewModel)
-            }
+        factory { (b: Booru, t: Set<Tag>, f: Fragment) -> PostsMagnifyController(b, f, t) }
 
-            scoped {
-                val viewModel = getPostsViewModel()
-                val left = BottomBarLeftController(viewModel)
-                val center = BottomBarCenterController(viewModel)
-                val right = BottomBarRightController()
-                BottomBarController(left, center, right)
-            }
+        factory { (sc: SearchController) ->
+            val left = BottomBarLeftController(sc)
+            val center = BottomBarCenterController(sc)
+            val right = BottomBarRightController()
+            PostsBottomBarController(left, center, right)
+        }
 
-            scoped {
-                val viewModel = getPostsViewModel()
-                val fragment = get<Fragment>(named(FRAGMENT))
-                ViewPagerController(viewModel, viewModel, fragment.childFragmentManager)
-            }
+        factory { (b: Booru, sc:SearchController, fm: FragmentManager ) ->
+            PostsViewPagerController(b, sc, fm)
         }
 
         factory {
@@ -62,12 +43,9 @@ object PostsModule {
             CacheController.create(postsCache, sampleCache, previewCache, fileCache)
         }
 
-        /* Initial tags and booru impl */
-        viewModel { (tags: Set<Tag>, booru: Booru, d: CompositeDisposable) ->
-            val tagsHolder = TagsHolderImpl(tags)
-            val booruHolder = BooruHolderImpl(booru)
+        viewModel { (t: Set<Tag>, d: CompositeDisposable) ->
             val searchRxProvider = SearchRxProvider(d)
-            PostsViewModel(tagsHolder, booruHolder, searchRxProvider, d, get())
+            PostsViewModel(searchRxProvider, d, get()).apply { startSearch(t) }
         }
     }
 }

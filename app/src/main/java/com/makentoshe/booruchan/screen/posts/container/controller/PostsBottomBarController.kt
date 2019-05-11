@@ -7,7 +7,7 @@ import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.anko.onPageChangeListener
 import org.jetbrains.anko.find
 
-class BottomBarController(
+class PostsBottomBarController(
     private val leftController: BottomBarLeftController,
     private val centerController: BottomBarCenterController,
     private val rightController: BottomBarRightController

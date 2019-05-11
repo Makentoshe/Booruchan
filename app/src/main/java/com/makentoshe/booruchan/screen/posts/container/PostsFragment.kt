@@ -13,27 +13,18 @@ import com.makentoshe.booruchan.api.component.tag.Tag
 import com.makentoshe.booruchan.model.BooruHolder
 import com.makentoshe.booruchan.model.RequestCode
 import com.makentoshe.booruchan.model.arguments
-import com.makentoshe.booruchan.screen.posts.container.controller.BottomBarController
-import com.makentoshe.booruchan.screen.posts.container.controller.PostsMagnifyController
-import com.makentoshe.booruchan.screen.posts.container.controller.ToolbarController
-import com.makentoshe.booruchan.screen.posts.container.controller.ViewPagerController
+import com.makentoshe.booruchan.screen.posts.container.controller.*
 import com.makentoshe.booruchan.screen.posts.container.model.PostsViewPagerAdapter
 import com.makentoshe.booruchan.screen.posts.container.view.PostsUi
 import io.reactivex.disposables.CompositeDisposable
 import org.jetbrains.anko.AnkoContext
 import org.jetbrains.anko.find
 import org.koin.android.ext.android.inject
-import org.koin.androidx.scope.currentScope
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
-import org.koin.core.qualifier.named
 import java.io.Serializable
 
 class PostsFragment : Fragment(), BooruHolder {
-
-    init {
-        currentScope.get<Fragment>(named(PostsModule.FRAGMENT)) { parametersOf(this) }
-    }
 
     override var booru: Booru
         get() = arguments!!.get(BOORU) as Booru
@@ -45,19 +36,24 @@ class PostsFragment : Fragment(), BooruHolder {
 
     private val disposables by inject<CompositeDisposable>()
 
-    private val viewModel by viewModel<PostsViewModel> { parametersOf(tags, booru, disposables) }
+    private val toolbarController by inject<PostsToolbarController> {
+        parametersOf(booru)
+    }
 
-    private val toolbarController by currentScope.inject<ToolbarController>()
+    private val magnifyController by inject<PostsMagnifyController> {
+        parametersOf(booru, tags, this)
+    }
 
-    private val magnifyController by currentScope.inject<PostsMagnifyController>()
+    private val bottomBarController by inject<PostsBottomBarController> {
+        parametersOf(searchController)
+    }
 
-    private val bottomBarController by currentScope.inject<BottomBarController>()
+    private val viewPagerController by inject<PostsViewPagerController> {
+        parametersOf(booru, searchController, childFragmentManager)
+    }
 
-    private val viewPagerController by currentScope.inject<ViewPagerController>()
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        viewModel.init()
-        super.onCreate(savedInstanceState)
+    private val searchController: SearchController by viewModel<PostsViewModel> {
+        parametersOf(tags, disposables)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -88,7 +84,7 @@ class PostsFragment : Fragment(), BooruHolder {
     private fun onSearchResultReceived(data: Intent) {
         val set = data.getSerializableExtra(Set::class.java.simpleName) as Set<*>
         val tags = set.filter { it is Tag }.map { it as Tag }.toSet()
-        viewModel.startSearch(tags)
+        searchController.startSearch(tags)
     }
 
     override fun onDestroy() {
