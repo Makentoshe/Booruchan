@@ -6,6 +6,7 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.ProgressBar
 import com.makentoshe.booruchan.R
+import com.makentoshe.booruchan.api.component.post.Post
 import com.makentoshe.booruchan.model.StreamDownloadListener
 import com.makentoshe.booruchan.screen.posts.page.controller.imagedownload.ImageDownloadListener
 import org.jetbrains.anko.find
@@ -17,7 +18,7 @@ import org.jetbrains.anko.find
  */
 class GridElementController(
     private val listener: ImageDownloadListener,
-    private val typeController: GridElementTypeController,
+    private val post: Post,
     private val streamListener: StreamDownloadListener
 ) {
 
@@ -25,7 +26,7 @@ class GridElementController(
         val imageview = view.find<ImageView>(R.id.posts_page_gridview_element_image)
         val progressbar = view.find<ProgressBar>(R.id.posts_page_gridview_element_progress)
 
-        typeController.bindView(view)
+        setType(view)
 
         //preview was downloaded successfully
         listener.onSuccess {
@@ -49,6 +50,11 @@ class GridElementController(
 
             it.printStackTrace()
         }
+    }
+
+    private fun setType(view: View) {
+        val typeView = view.find<ImageView>(R.id.posts_page_gridview_element_type)
+        ConcreteTypeControllerFactory(typeView).build(post).setType()
     }
 }
 

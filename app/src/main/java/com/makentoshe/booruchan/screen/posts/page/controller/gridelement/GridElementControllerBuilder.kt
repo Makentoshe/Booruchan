@@ -32,8 +32,7 @@ class GridElementControllerBuilder(
      */
     fun createController(post: Post): GridElementController {
         val downloadController = buildDownloadController(post)
-        val typeController = GridElementTypeController(post)
-        return GridElementController(downloadController, typeController, progressController)
+        return GridElementController(downloadController, post, progressController)
     }
 
     private fun buildDownloadController(post: Post): PreviewImageDownloadController {
