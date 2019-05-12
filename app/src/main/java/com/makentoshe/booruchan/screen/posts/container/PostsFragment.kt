@@ -24,9 +24,9 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 import java.io.Serializable
 
-class PostsFragment : Fragment(), BooruHolder {
+class PostsFragment : Fragment() {
 
-    override var booru: Booru
+    private var booru: Booru
         get() = arguments!!.get(BOORU) as Booru
         set(value) = arguments().putSerializable(BOORU, value)
 
