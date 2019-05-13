@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.api.component.comment.Comment
 import com.makentoshe.booruchan.api.component.post.Post
-import com.makentoshe.booruchan.screen.posts.page.controller.imagedownload.DownloadListener
+import com.makentoshe.booruchan.common.download.DownloadListener
 import com.makentoshe.booruchan.screen.sampleinfo.model.CommentsRecyclerAdapter
 import org.jetbrains.anko.find
 

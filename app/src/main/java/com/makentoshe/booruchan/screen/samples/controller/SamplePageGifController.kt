@@ -3,7 +3,7 @@ package com.makentoshe.booruchan.screen.samples.controller
 import android.view.View
 import android.widget.ImageView
 import com.makentoshe.booruchan.R
-import com.makentoshe.booruchan.screen.posts.page.controller.imagedownload.GifDownloadListener
+import com.makentoshe.booruchan.common.download.GifDownloadListener
 import org.jetbrains.anko.find
 import pl.droidsonroids.gif.GifDrawable
 import pl.droidsonroids.gif.GifImageView

@@ -1,9 +1,11 @@
-package com.makentoshe.booruchan.screen.posts.page.controller.imagedownload
+package com.makentoshe.booruchan.common.download
 
 import com.makentoshe.booruchan.api.component.post.Post
 import com.makentoshe.booruchan.common.SchedulersProvider
 import com.makentoshe.booruchan.repository.Repository
+import io.mockk.every
 import io.mockk.mockk
+import io.mockk.spyk
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import org.junit.After
@@ -17,19 +19,16 @@ class DownloadStrategyTest {
     private var disposable = CompositeDisposable()
 
     private lateinit var strategy: DownloadStrategy
-    private lateinit var repository: Repository<Post, ByteArray>
     private val schedulersProvider = SchedulersProvider(Schedulers.trampoline(), Schedulers.trampoline())
 
     @Test(timeout = 5000)
     fun shouldCallOnSuccessOnRepositoryReturns() {
         val bytes = Random.nextBytes(39)
 
-        //create "mocked" repository
-        repository = object : Repository<Post, ByteArray> {
-            override fun get(key: Post) = bytes
-        }
-        //create testing object
-        strategy = DownloadStrategy(repository, disposable, schedulersProvider)
+        val repository = mockk<Repository<Post, ByteArray>>()
+        every { repository.get(any()) } returns bytes
+
+        strategy = spyk(DownloadStrategy(repository, disposable, schedulersProvider))
         //set listener
         var result: ByteArray? = null
         strategy.onSuccess { result = it }
@@ -45,10 +44,9 @@ class DownloadStrategyTest {
     fun shouldCallOnErrorOnRepositoryReturns() {
         val err = Throwable()
 
-        //create "mocked" repository
-        repository = object : Repository<Post, ByteArray> {
-            override fun get(key: Post) = throw err
-        }
+        val repository = mockk<Repository<Post, ByteArray>>()
+        every { repository.get(any()) } throws err
+
         //create testing object
         strategy = DownloadStrategy(repository, disposable, schedulersProvider)
         //set listener

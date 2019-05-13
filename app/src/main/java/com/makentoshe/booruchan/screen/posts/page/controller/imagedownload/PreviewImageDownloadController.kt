@@ -2,12 +2,9 @@ package com.makentoshe.booruchan.screen.posts.page.controller.imagedownload
 
 import android.graphics.Bitmap
 import com.makentoshe.booruchan.api.component.post.Post
-import com.makentoshe.booruchan.common.SchedulersProvider
-import com.makentoshe.booruchan.repository.RepositoryFactory
+import com.makentoshe.booruchan.common.download.DownloadStrategy
 import com.makentoshe.booruchan.repository.stream.StreamRepositoryFactory
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.BehaviorSubject
 import org.koin.core.KoinComponent
 import org.koin.core.get
@@ -48,7 +45,8 @@ interface PreviewImageDownloadController : ImageDownloadListener {
 
         override fun start(post: Post) {
             val previewRepository = repositoryFactory.buildPreviewsRepository()
-            val downloadStrategy = DownloadStrategy(previewRepository, disposables, get())
+            val downloadStrategy =
+                DownloadStrategy(previewRepository, disposables, get())
             val previewStrategy = ImageDownloadStrategy(downloadStrategy)
             //start preview downloading
             previewStrategy.start(post)
@@ -60,7 +58,8 @@ interface PreviewImageDownloadController : ImageDownloadListener {
 
         private fun alternativeStrategySample(post: Post) {
             val sampleRepository = repositoryFactory.buildSamplesRepository()
-            val downloadStrategy = DownloadStrategy(sampleRepository, disposables, get())
+            val downloadStrategy =
+                DownloadStrategy(sampleRepository, disposables, get())
             val sampleStrategy = ImageDownloadStrategy(downloadStrategy)
             //start sample downloading
             sampleStrategy.start(post)

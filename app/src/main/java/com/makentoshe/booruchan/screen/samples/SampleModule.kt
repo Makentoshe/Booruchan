@@ -4,9 +4,9 @@ import androidx.fragment.app.FragmentManager
 import com.makentoshe.booruchan.api.Booru
 import com.makentoshe.booruchan.api.component.post.Post
 import com.makentoshe.booruchan.api.component.tag.Tag
+import com.makentoshe.booruchan.common.download.GifDownloadListener
 import com.makentoshe.booruchan.model.StreamDownloadController
 import com.makentoshe.booruchan.model.StreamDownloadListener
-import com.makentoshe.booruchan.screen.posts.page.controller.imagedownload.GifDownloadListener
 import com.makentoshe.booruchan.screen.posts.page.controller.imagedownload.ImageDownloadListener
 import com.makentoshe.booruchan.screen.posts.page.controller.imagedownload.PreviewImageDownloadController
 import com.makentoshe.booruchan.screen.posts.page.controller.postsdownload.PostsDownloadController

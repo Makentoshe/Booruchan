@@ -1,4 +1,4 @@
-package com.makentoshe.booruchan.screen.posts.page.controller.imagedownload
+package com.makentoshe.booruchan.common.download
 
 interface DownloadListener<T> {
 

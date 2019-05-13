@@ -9,7 +9,7 @@ import com.makentoshe.booruchan.api.Booru
 import com.makentoshe.booruchan.api.component.comment.Comment
 import com.makentoshe.booruchan.api.component.post.Post
 import com.makentoshe.booruchan.model.arguments
-import com.makentoshe.booruchan.screen.posts.page.controller.imagedownload.DownloadListener
+import com.makentoshe.booruchan.common.download.DownloadListener
 import com.makentoshe.booruchan.screen.sampleinfo.controller.SampleInfoCommentsViewController
 import com.makentoshe.booruchan.screen.sampleinfo.SampleInfoCommentsViewModel
 import com.makentoshe.booruchan.screen.sampleinfo.view.SampleInfoCommentsUi

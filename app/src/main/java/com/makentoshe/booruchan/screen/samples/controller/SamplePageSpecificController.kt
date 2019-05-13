@@ -3,7 +3,7 @@ package com.makentoshe.booruchan.screen.samples.controller
 import android.view.View
 import android.widget.TextView
 import com.makentoshe.booruchan.R
-import com.makentoshe.booruchan.screen.posts.page.controller.imagedownload.DownloadListener
+import com.makentoshe.booruchan.common.download.DownloadListener
 import org.jetbrains.anko.find
 
 /**

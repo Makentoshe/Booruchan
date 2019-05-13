@@ -3,7 +3,7 @@ package com.makentoshe.booruchan.screen.webmplayer
 import androidx.lifecycle.ViewModel
 import com.makentoshe.booruchan.api.Booru
 import com.makentoshe.booruchan.api.component.post.Post
-import com.makentoshe.booruchan.screen.posts.page.controller.imagedownload.DownloadListener
+import com.makentoshe.booruchan.common.download.DownloadListener
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable

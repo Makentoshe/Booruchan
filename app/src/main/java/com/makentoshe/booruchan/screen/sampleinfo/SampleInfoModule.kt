@@ -5,7 +5,7 @@ import com.makentoshe.booruchan.api.Booru
 import com.makentoshe.booruchan.api.component.comment.Comment
 import com.makentoshe.booruchan.api.component.post.Post
 import com.makentoshe.booruchan.api.component.tag.Tag
-import com.makentoshe.booruchan.screen.posts.page.controller.imagedownload.DownloadListener
+import com.makentoshe.booruchan.common.download.DownloadListener
 import com.makentoshe.booruchan.screen.posts.page.controller.postsdownload.PostsDownloadListener
 import com.makentoshe.booruchan.screen.sampleinfo.controller.SampleInfoCommentsViewController
 import com.makentoshe.booruchan.screen.sampleinfo.controller.SampleInfoInfoViewController

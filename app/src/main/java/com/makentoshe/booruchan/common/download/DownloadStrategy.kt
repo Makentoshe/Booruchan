@@ -1,12 +1,10 @@
-package com.makentoshe.booruchan.screen.posts.page.controller.imagedownload
+package com.makentoshe.booruchan.common.download
 
 import com.makentoshe.booruchan.api.component.post.Post
 import com.makentoshe.booruchan.common.SchedulersProvider
 import com.makentoshe.booruchan.repository.Repository
 import io.reactivex.Single
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.BehaviorSubject
 
 open class DownloadStrategy(
