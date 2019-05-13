@@ -3,6 +3,7 @@ package com.makentoshe.booruchan.screen.sampleinfo.model
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
+import androidx.fragment.app.FragmentStatePagerAdapter
 import com.makentoshe.booruchan.api.Booru
 import com.makentoshe.booruchan.api.component.post.Post
 import com.makentoshe.booruchan.screen.sampleinfo.fragment.SampleInfoCommentsFragment
@@ -13,7 +14,7 @@ class SampleInfoViewPagerAdapter(
     fragmentManager: FragmentManager,
     private val booru: Booru,
     private val post: Post
-) : FragmentPagerAdapter(fragmentManager) {
+) : FragmentStatePagerAdapter(fragmentManager) {
     override fun getItem(position: Int): Fragment {
         return when (position) {
             0 -> SampleInfoInfoFragment.create(booru, post)
