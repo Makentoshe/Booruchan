@@ -8,33 +8,31 @@ import com.makentoshe.booruchan.screen.posts.page.model.StreamProgressBarControl
 /**
  * Controller for single grid element.
  *
- * @param listener is a preview downloading result listener.
+ * @param imageListener is a preview downloading result imageListener.
  */
 class GridElementController(
-    private val listener: ImageDownloadListener,
+    private val imageListener: ImageDownloadListener,
     private val streamListener: StreamDownloadListener
 ) {
 
     /**
      * Binds view controllers and download event listeners.
      */
-    fun bindControllers(
-        imageReceiveController: ImageViewController,
-        streamProgressBarController: StreamProgressBarController
-    ) {
+    fun bindControllers(imageController: ImageViewController, progressController: StreamProgressBarController) {
         //preview was downloaded successfully
-        listener.onSuccess {
-            imageReceiveController.onSuccess(it)
-            streamProgressBarController.onComplete()
+        imageListener.onSuccess {
+            imageController.onSuccess(it)
+            progressController.onComplete()
         }
 
         streamListener.onPartReceived { _, _, progress ->
-            streamProgressBarController.onProgress(progress)
+            progressController.onProgress(progress)
         }
 
-        listener.onError {
-            imageReceiveController.onError(it)
-            streamProgressBarController.onError()
+        //preview was not downloaded or downloaded with the error
+        imageListener.onError {
+            imageController.onError(it)
+            progressController.onError()
             it.printStackTrace()
         }
     }

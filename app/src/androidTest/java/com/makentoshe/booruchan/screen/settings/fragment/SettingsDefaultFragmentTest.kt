@@ -100,11 +100,11 @@ class SettingsDefaultFragmentTest : KoinTest {
         setContent()
 
         //click on checkbox
-        onView(withId(R.id.setting_nsfw_checkbox)).perform(click())
+        onView(withId(R.id.setting_nsfw_checkbox)).perform(click()).noActivity()
         //click on negative button
-        onView(withId(android.R.id.button1)).perform(click())
+        onView(withId(android.R.id.button1)).perform(click()).noActivity()
         //check checkbox is checked
-        onView(withId(R.id.setting_nsfw_checkbox)).check(matches(isChecked()))
+        onView(withId(R.id.setting_nsfw_checkbox)).check(matches(isChecked())).noActivity()
     }
 
     @Test
