@@ -1,6 +1,7 @@
 package com.makentoshe.booruchan.screen.posts.page.controller.imagedownload
 
 import com.makentoshe.booruchan.api.component.post.Post
+import com.makentoshe.booruchan.common.SchedulersProvider
 import com.makentoshe.booruchan.repository.Repository
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -10,16 +11,17 @@ import io.reactivex.subjects.BehaviorSubject
 
 open class DownloadStrategy(
     private val repository: Repository<Post, ByteArray>,
-    private val disposables: CompositeDisposable
+    private val disposables: CompositeDisposable,
+    private val schedulersProvider: SchedulersProvider
 ) : DownloadListener<ByteArray> {
 
     private val observable = BehaviorSubject.create<ByteArray>()
 
     fun start(post: Post) {
         Single.just(repository)
-            .subscribeOn(Schedulers.io())
+            .subscribeOn(schedulersProvider.background)
             .map { it.get(post) }
-            .observeOn(AndroidSchedulers.mainThread())
+            .observeOn(schedulersProvider.foreground)
             .toObservable().safeSubscribe(observable)
     }
 

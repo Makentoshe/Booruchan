@@ -24,14 +24,14 @@ class SamplePageImageViewModel(
 
     private fun initSampleDownloadStrategy(disposables: CompositeDisposable): ImageDownloadStrategy {
         val repository = repositoryFactory.buildSamplesRepository()
-        return ImageDownloadStrategy(DownloadStrategy(repository, disposables))
+        return ImageDownloadStrategy(DownloadStrategy(repository, disposables, get()))
     }
 
     private val fileDownloadStrategy = initFileDownloadStrategy(disposables)
 
     private fun initFileDownloadStrategy(disposables: CompositeDisposable): ImageDownloadStrategy {
         val repository = repositoryFactory.buildFilesRepository()
-        return ImageDownloadStrategy(DownloadStrategy(repository, disposables))
+        return ImageDownloadStrategy(DownloadStrategy(repository, disposables, get()))
     }
 
     init {

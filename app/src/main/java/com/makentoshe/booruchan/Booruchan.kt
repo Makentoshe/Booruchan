@@ -2,11 +2,11 @@ package com.makentoshe.booruchan
 
 import android.app.Application
 import android.content.Context
-import android.content.SharedPreferences
 import com.makentoshe.booruchan.api.Booru
 import com.makentoshe.booruchan.api.Posts
 import com.makentoshe.booruchan.api.component.post.Post
 import com.makentoshe.booruchan.api.component.tag.Tag
+import com.makentoshe.booruchan.common.SchedulersProvider
 import com.makentoshe.booruchan.model.StreamDownloadController
 import com.makentoshe.booruchan.navigation.Router
 import com.makentoshe.booruchan.repository.stream.StreamRepositoryFactory
@@ -26,9 +26,11 @@ import com.makentoshe.booruchan.screen.start.StartModule
 import com.makentoshe.booruchan.screen.webmplayer.WebmPlayerModule
 import com.makentoshe.booruchan.style.SotisStyle
 import com.makentoshe.booruchan.style.Style
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.exceptions.UndeliverableException
 import io.reactivex.plugins.RxJavaPlugins
+import io.reactivex.schedulers.Schedulers
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.KoinComponent
@@ -128,6 +130,8 @@ val appModule = module {
     /* Controller for samples shows options menu */
     factory { (b: Booru, p: Post) -> SampleOptionsMenu(b, p) }
 
+    /* Provides schedulers for a foreground and a background tasks */
+    single { SchedulersProvider(AndroidSchedulers.mainThread(), Schedulers.io()) }
 }
 
 typealias Boorus = List<Booru>

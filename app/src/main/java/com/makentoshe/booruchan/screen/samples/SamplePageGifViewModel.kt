@@ -3,12 +3,15 @@ package com.makentoshe.booruchan.screen.samples
 import androidx.lifecycle.ViewModel
 import com.makentoshe.booruchan.api.Booru
 import com.makentoshe.booruchan.api.component.post.Post
+import com.makentoshe.booruchan.common.SchedulersProvider
 import com.makentoshe.booruchan.model.StreamDownloadController
 import com.makentoshe.booruchan.repository.stream.StreamRepositoryFactory
 import com.makentoshe.booruchan.screen.posts.page.controller.imagedownload.DownloadStrategy
 import com.makentoshe.booruchan.screen.posts.page.controller.imagedownload.GifDownloadListener
 import com.makentoshe.booruchan.screen.posts.page.controller.imagedownload.GifDownloadStrategy
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.schedulers.Schedulers
 import org.koin.core.KoinComponent
 import org.koin.core.get
 import org.koin.core.parameter.parametersOf
@@ -26,14 +29,14 @@ class SamplePageGifViewModel(
 
     private fun initSampleDownloadStrategy(disposables: CompositeDisposable): GifDownloadStrategy {
         val repository = repositoryFactory.buildSamplesRepository()
-        return GifDownloadStrategy(DownloadStrategy(repository, disposables))
+        return GifDownloadStrategy(DownloadStrategy(repository, disposables, get()))
     }
 
     private val fileDownloadStrategy = initFileDownloadStrategy(disposables)
 
     private fun initFileDownloadStrategy(disposables: CompositeDisposable): GifDownloadStrategy {
         val repository = repositoryFactory.buildFilesRepository()
-        return GifDownloadStrategy(DownloadStrategy(repository, disposables))
+        return GifDownloadStrategy(DownloadStrategy(repository, disposables, get()))
     }
 
     init {
