@@ -6,7 +6,7 @@ import android.widget.ImageView
 import com.davemorrissey.labs.subscaleview.ImageSource
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView
 import com.makentoshe.booruchan.R
-import com.makentoshe.booruchan.screen.posts.page.controller.imagedownload.ImageDownloadListener
+import com.makentoshe.booruchan.common.download.ImageDownloadListener
 import org.jetbrains.anko.find
 
 class SamplePageImageController(listener: ImageDownloadListener) : SamplePageSpecificController<Bitmap>(listener) {

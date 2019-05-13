@@ -3,6 +3,8 @@ package com.makentoshe.booruchan.screen.posts.page.controller.imagedownload
 import android.graphics.Bitmap
 import com.makentoshe.booruchan.api.component.post.Post
 import com.makentoshe.booruchan.common.download.DownloadStrategy
+import com.makentoshe.booruchan.common.download.ImageDownloadListener
+import com.makentoshe.booruchan.common.download.ImageDownloadStrategy
 import com.makentoshe.booruchan.repository.stream.StreamRepositoryFactory
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.subjects.BehaviorSubject

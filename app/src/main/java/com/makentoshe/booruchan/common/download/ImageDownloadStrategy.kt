@@ -1,16 +1,13 @@
-package com.makentoshe.booruchan.screen.posts.page.controller.imagedownload
+package com.makentoshe.booruchan.common.download
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import com.makentoshe.booruchan.api.component.post.Post
-import com.makentoshe.booruchan.common.download.DownloadStrategy
 
 /**
  * Class performs image downloading from repository.
  */
-class ImageDownloadStrategy(
-    private val downloadStrategy: DownloadStrategy
-) : ImageDownloadListener {
+class ImageDownloadStrategy(private val downloadStrategy: DownloadStrategy) : ImageDownloadListener {
 
     fun start(post: Post) = downloadStrategy.start(post)
 

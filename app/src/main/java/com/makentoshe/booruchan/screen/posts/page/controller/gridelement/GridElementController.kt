@@ -1,7 +1,7 @@
 package com.makentoshe.booruchan.screen.posts.page.controller.gridelement
 
+import com.makentoshe.booruchan.common.download.ImageDownloadListener
 import com.makentoshe.booruchan.model.StreamDownloadListener
-import com.makentoshe.booruchan.screen.posts.page.controller.imagedownload.ImageDownloadListener
 import com.makentoshe.booruchan.screen.posts.page.model.ImageViewController
 import com.makentoshe.booruchan.screen.posts.page.model.StreamProgressBarController
 

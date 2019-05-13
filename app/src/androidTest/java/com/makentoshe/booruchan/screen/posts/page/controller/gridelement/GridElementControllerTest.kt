@@ -1,7 +1,7 @@
 package com.makentoshe.booruchan.screen.posts.page.controller.gridelement
 
+import com.makentoshe.booruchan.common.download.ImageDownloadListener
 import com.makentoshe.booruchan.model.StreamDownloadListener
-import com.makentoshe.booruchan.screen.posts.page.controller.imagedownload.ImageDownloadListener
 import io.mockk.*
 import org.junit.Before
 import org.junit.Test

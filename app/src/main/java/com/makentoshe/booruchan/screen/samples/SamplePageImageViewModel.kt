@@ -4,11 +4,11 @@ import android.graphics.Bitmap
 import androidx.lifecycle.ViewModel
 import com.makentoshe.booruchan.api.Booru
 import com.makentoshe.booruchan.api.component.post.Post
+import com.makentoshe.booruchan.common.download.DownloadStrategy
+import com.makentoshe.booruchan.common.download.ImageDownloadListener
+import com.makentoshe.booruchan.common.download.ImageDownloadStrategy
 import com.makentoshe.booruchan.model.StreamDownloadController
 import com.makentoshe.booruchan.repository.stream.StreamRepositoryFactory
-import com.makentoshe.booruchan.common.download.DownloadStrategy
-import com.makentoshe.booruchan.screen.posts.page.controller.imagedownload.ImageDownloadListener
-import com.makentoshe.booruchan.screen.posts.page.controller.imagedownload.ImageDownloadStrategy
 import io.reactivex.disposables.CompositeDisposable
 import org.koin.core.KoinComponent
 import org.koin.core.get
