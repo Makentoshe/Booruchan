@@ -29,10 +29,12 @@ class GridElementControllerBuilder(
 
     /**
      * Returns a grid element controller with the started preview downloading process.
+     * The returned [GridElementController] instance will be contains a listeners for any downloading events,
+     * such as onSuccess, onError etc.
      */
     fun createController(post: Post): GridElementController {
         val downloadController = buildDownloadController(post)
-        return GridElementController(downloadController, post, progressController)
+        return GridElementController(downloadController, progressController)
     }
 
     private fun buildDownloadController(post: Post): PreviewImageDownloadController {
