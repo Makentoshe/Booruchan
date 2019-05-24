@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          xmlns:dist="http://schemas.android.com/apk/distribution"
-          package="com.makentoshe.booruchan">
+<manifest
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:dist="http://schemas.android.com/apk/distribution"
+        xmlns:tools="http://schemas.android.com/tools"
+        package="com.makentoshe.booruchan">
 
     <dist:module dist:instant="true"/>
 
@@ -16,7 +18,8 @@
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/Sotis"
-            android:usesCleartextTraffic="true">
+            tools:ignore="GoogleAppIndexingWarning">
+
         <activity android:name=".AppActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -24,11 +27,14 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".screen.report.ReportActivity"/>
+
         <activity android:name=".TestActivity"/>
-        <receiver android:name=".AppBroadcastReceiver"
-                  android:enabled="true"
-                  android:exported="true"/>
+
+        <receiver
+                android:name=".AppBroadcastReceiver"
+                android:enabled="true"
+                android:exported="true"/>
+
         <provider
                 android:name="AppFileProvider"
                 android:authorities="com.makentoshe.booruchan.appfileprovider"
@@ -38,6 +44,7 @@
                     android:name="android.support.FILE_PROVIDER_PATHS"
                     android:resource="@xml/provider_paths"/>
         </provider>
+
     </application>
 
 </manifest>
