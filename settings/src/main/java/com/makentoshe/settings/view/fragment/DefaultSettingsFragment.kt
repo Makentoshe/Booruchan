@@ -10,26 +10,32 @@ import com.makentoshe.settings.model.realm.RealmBooleanSettingController
 import com.makentoshe.settings.view.DefaultSettingsFragmentUi
 import com.makentoshe.settings.view.controller.NsfwController
 import com.makentoshe.settings.view.controller.NsfwControllerAlert
+import io.realm.Realm
+import io.realm.RealmConfiguration
 import org.jetbrains.anko.AnkoContext
 
 class DefaultSettingsFragment : Fragment() {
 
     lateinit var nsfwControllerFactory: NsfwController.Factory
+        private set
 
     lateinit var nsfwControllerAlertFactory: NsfwControllerAlert.Factory
+        private set
+
+    lateinit var realmConfiguration: RealmConfiguration
+        private set
 
     private val nsfwControllerAlert by lazy {
         nsfwControllerAlertFactory.build(requireFragmentManager())
     }
 
     private val nsfwController by lazy {
-        val controller = RealmBooleanSettingController()
+        val controller = RealmBooleanSettingController(realmConfiguration)
         nsfwControllerFactory.build(controller, nsfwControllerAlert)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return DefaultSettingsFragmentUi()
-            .createView(AnkoContext.create(requireContext(), false))
+        return DefaultSettingsFragmentUi().createView(AnkoContext.create(requireContext(), false))
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -39,9 +45,14 @@ class DefaultSettingsFragment : Fragment() {
     class Factory {
 
         fun build(): DefaultSettingsFragment {
+            return build(Realm.getDefaultConfiguration()!!)
+        }
+
+        fun build(configuration: RealmConfiguration): DefaultSettingsFragment {
             val fragment = DefaultSettingsFragment()
             fragment.nsfwControllerFactory = NsfwController.Factory()
             fragment.nsfwControllerAlertFactory = NsfwControllerAlert.Factory()
+            fragment.realmConfiguration = configuration
             return fragment
         }
 

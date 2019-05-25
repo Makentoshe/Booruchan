@@ -13,7 +13,7 @@ class SettingsFragmentUiToolbar : AnkoComponent<_RelativeLayout> {
         themedRelativeLayout(style) {
             id = com.makentoshe.settings.R.id.settings_toolbar
             themedToolbar(style) {
-                titleResource = com.makentoshe.settings.R.string.app_name
+                titleResource = com.makentoshe.settings.R.string.title
             }.lparams(matchParent, matchParent)
         }.lparams(matchParent, height) {
             alignParentTop()

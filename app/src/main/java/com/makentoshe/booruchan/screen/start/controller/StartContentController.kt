@@ -11,6 +11,7 @@ import com.makentoshe.booruchan.api.Booru
 import com.makentoshe.booruchan.screen.start.model.StartScreenNavigator
 import com.makentoshe.settings.model.realm.RealmBooleanSettingController
 import com.makentoshe.settings.view.controller.NsfwSettingController
+import io.realm.Realm
 import org.jetbrains.anko.find
 import org.koin.core.KoinComponent
 import org.koin.core.inject
@@ -19,7 +20,8 @@ class StartContentController(private val booruList: Boorus) : KoinComponent {
 
     private val navigator by inject<StartScreenNavigator>()
 
-    private val controller = NsfwSettingController.Factory().build(RealmBooleanSettingController())
+    private val controller =
+        NsfwSettingController.Factory().build(RealmBooleanSettingController(Realm.getDefaultConfiguration()!!))
 
     fun bindView(context: Context, view: View) {
         val nsfwSetting = controller.get()

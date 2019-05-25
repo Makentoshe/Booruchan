@@ -1,5 +1,4 @@
 <resources>
-    <string name="app_name">Settings</string>
     <string name="title">Application settings</string>
     <string name="default_setting">Default</string>
     <string name="nsfw_setting_title">Enable NSFW</string>

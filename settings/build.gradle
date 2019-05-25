@@ -44,6 +44,10 @@ dependencies {
 
     testImplementation 'junit:junit:4.12'
 
+    androidTestImplementation "io.mockk:mockk:1.8.13.kotlin13"
+    androidTestImplementation "io.mockk:mockk-android:1.8.13.kotlin13"
+
+    androidTestImplementation 'androidx.test:rules:1.1.1'
     androidTestImplementation 'androidx.test:runner:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
 }
