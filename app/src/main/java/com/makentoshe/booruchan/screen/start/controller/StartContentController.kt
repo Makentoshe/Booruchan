@@ -8,21 +8,21 @@ import android.widget.ListView
 import com.makentoshe.booruchan.Boorus
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.api.Booru
-import com.makentoshe.booruchan.api.BooruFactory
-import com.makentoshe.booruchan.screen.settings.AppSettings
 import com.makentoshe.booruchan.screen.start.model.StartScreenNavigator
+import com.makentoshe.settings.model.realm.RealmBooleanSettingController
+import com.makentoshe.settings.view.controller.NsfwSettingController
 import org.jetbrains.anko.find
 import org.koin.core.KoinComponent
 import org.koin.core.inject
 
 class StartContentController(private val booruList: Boorus) : KoinComponent {
 
-    private val appSettings by inject<AppSettings>()
-
     private val navigator by inject<StartScreenNavigator>()
 
+    private val controller = NsfwSettingController.Factory().build(RealmBooleanSettingController())
+
     fun bindView(context: Context, view: View) {
-        val nsfwSetting = appSettings.default.nsfw
+        val nsfwSetting = controller.get()
         val filteredList = booruList.filter { nsfwSetting or it.nsfw.not() }
 
         val listview = view.find<ListView>(R.id.start_content_listview)

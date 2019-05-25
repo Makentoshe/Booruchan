@@ -1,7 +1,8 @@
 package com.makentoshe.settings.model
 
 /**
- * Interface for controlling setting.
+ * Interface for controlling ans storing setting with type [V].
+ * It can be database or shared preferences or something else.
  */
 interface SettingController<V> {
 

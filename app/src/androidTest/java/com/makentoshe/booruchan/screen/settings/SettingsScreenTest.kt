@@ -1,5 +1,6 @@
 package com.makentoshe.booruchan.screen.settings
 
+import com.makentoshe.booruchan.screen.SettingsScreen
 import com.makentoshe.booruchan.screen.settings.fragment.SettingsFragment
 import org.junit.Assert.assertEquals
 import org.junit.Before

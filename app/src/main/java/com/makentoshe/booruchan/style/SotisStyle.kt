@@ -1,24 +1,24 @@
 package com.makentoshe.booruchan.style
 
-import com.makentoshe.booruchan.R
+import com.makentoshe.style.R
 
 class SotisStyle : Style {
 
     override val toolbar: Int
-        get() = R.style.SotisToolbar
+        get() = R.style.SothisToolbar
 
     override val main: Int
-        get() = R.style.Sotis
+        get() = R.style.Sothis
 
     override val progress: Int
-        get() = R.style.SotisProgress
+        get() = R.style.SothisProgress
 
     override val default: Int
-        get() = R.style.SotisDefault
+        get() = R.style.SothisDefault
 
     override val dialog: Int
-        get() = R.style.SotisDialog
+        get() = R.style.SothisDialog
 
     override val text: Int
-        get() = R.style.SotisText
+        get() = R.style.SothisText
 }

@@ -20,12 +20,11 @@ import com.makentoshe.booruchan.screen.posts.page.controller.postsdownload.Posts
 import com.makentoshe.booruchan.screen.sampleinfo.SampleInfoModule
 import com.makentoshe.booruchan.screen.samples.SampleModule
 import com.makentoshe.booruchan.screen.samples.model.SampleOptionsMenu
-import com.makentoshe.booruchan.screen.settings.AppSettings
-import com.makentoshe.booruchan.screen.settings.SettingsModule
 import com.makentoshe.booruchan.screen.start.StartModule
 import com.makentoshe.booruchan.screen.webmplayer.WebmPlayerModule
 import com.makentoshe.booruchan.style.SotisStyle
 import com.makentoshe.booruchan.style.Style
+import com.makentoshe.settings.SettingsInit
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.exceptions.UndeliverableException
@@ -47,6 +46,7 @@ class Booruchan : Application(), KoinComponent {
 
     override fun onCreate() {
         super.onCreate()
+        SettingsInit().init(applicationContext)
         loadStyle()
         INSTANCE = this
         startKoin {
@@ -55,7 +55,6 @@ class Booruchan : Application(), KoinComponent {
             modules(
                 appModule,
                 StartModule.module,
-                SettingsModule.module,
                 PostsModule.module,
                 BooruModule.module,
                 SampleModule.module,
@@ -93,10 +92,6 @@ val style = Booruchan.INSTANCE.style
 
 val appModule = module {
     single { Cicerone.create(Router()) }
-    single {
-        val preferences = get<Context>().getSharedPreferences("Booruchan", Context.MODE_PRIVATE)
-        AppSettings(preferences)
-    }
     single { style }
     single { get<Cicerone<Router>>().router }
     single { get<Cicerone<Router>>().navigatorHolder }

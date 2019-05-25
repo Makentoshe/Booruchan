@@ -4,7 +4,7 @@ import com.makentoshe.booruchan.api.Booru
 import com.makentoshe.booruchan.api.component.tag.Tag
 import com.makentoshe.booruchan.navigation.Router
 import com.makentoshe.booruchan.screen.booru.BooruScreen
-import com.makentoshe.booruchan.screen.settings.SettingsScreen
+import com.makentoshe.booruchan.screen.SettingsScreen
 import org.koin.core.KoinComponent
 import org.koin.core.inject
 

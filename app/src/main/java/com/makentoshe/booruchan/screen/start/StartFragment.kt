@@ -26,8 +26,6 @@ class StartFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         overflowController.bindView(requireContext(), view)
-
-        contentController.bindView(requireContext(), view)
     }
 
     override fun onResume() {
