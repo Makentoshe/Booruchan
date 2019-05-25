@@ -26,8 +26,8 @@ class RealmBooleanSettingController : SettingController<Boolean> {
     override fun get(key: String, default: Boolean): Boolean = Realm.getDefaultInstance().use { realm ->
         realm.beginTransaction()
         val value = realm.where(RealmBooleanSetting::class.java).equalTo(Setting<*>::title.name, key).findFirst()?.value
-        if (value == null) put(key, default)
         realm.commitTransaction()
+        if (value == null) put(key, default)
         return@use value ?: default
     }
 }
