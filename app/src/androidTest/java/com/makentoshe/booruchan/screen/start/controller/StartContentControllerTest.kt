@@ -10,7 +10,6 @@ import androidx.test.rule.ActivityTestRule
 import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.TestActivity
 import com.makentoshe.booruchan.api.Booru
-import com.makentoshe.booruchan.screen.settings.AppSettings
 import com.makentoshe.booruchan.screen.start.model.StartScreenNavigator
 import io.mockk.every
 import io.mockk.mockk
@@ -51,17 +50,13 @@ class StartContentControllerTest : AutoCloseKoinTest() {
     private val list = listOf(nsfwBooru1, nsfwBooru2, booru)
 
     private lateinit var activity: TestActivity
-    private lateinit var preferences: SharedPreferences
 
     @Before
     fun init() {
-        preferences = mockk()
-
         stopKoin()
         startKoin {
             androidContext(instrumentation.context)
             modules(module {
-                single { AppSettings(preferences) }
                 factory { spyk(StartScreenNavigator(setOf())) }
                 factory { StartContentController(list) }
             })
@@ -72,8 +67,6 @@ class StartContentControllerTest : AutoCloseKoinTest() {
     @Test
     fun shouldDisplayAllBoorusIfNsfwSettingEnabled() {
         //mock nsfw as true
-        every { preferences.getBoolean("nsfw", false) } returns true
-
         bindController()
         //check
         onView(withId(R.id.start_content_listview)).check { view, _ ->
@@ -82,20 +75,6 @@ class StartContentControllerTest : AutoCloseKoinTest() {
                 val title = view.adapter.getItem(index) as String
                 assertEquals(booru.title, title)
             }
-        }
-    }
-
-    @Test
-    fun shouldDisplayOnlySafeBoorusIfNsfwSettingDisabled() {
-        //mock nsfw as false
-        every { preferences.getBoolean("nsfw", false) } returns false
-
-        bindController()
-        //check (expected only one booru)
-        onView(withId(R.id.start_content_listview)).check { view, _ ->
-            view as ListView
-            val title = view.adapter.getItem(0) as String
-            assertEquals(booru.title, title)
         }
     }
 

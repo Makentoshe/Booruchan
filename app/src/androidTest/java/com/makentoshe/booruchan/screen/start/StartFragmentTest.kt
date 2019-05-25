@@ -16,11 +16,10 @@ import com.makentoshe.booruchan.screen.booru.BooruFragment
 import com.makentoshe.booruchan.screen.booru.BooruModule
 import com.makentoshe.booruchan.screen.posts.container.PostsModule
 import com.makentoshe.booruchan.screen.posts.page.PostsPageModule
-import com.makentoshe.booruchan.screen.settings.SettingsModule
-import com.makentoshe.booruchan.screen.settings.fragment.SettingsFragment
 import com.makentoshe.booruchan.screen.start.controller.StartContentController
 import com.makentoshe.booruchan.screen.start.controller.StartOverflowController
 import com.makentoshe.booruchan.screen.start.model.StartScreenNavigator
+import com.makentoshe.settings.screen.fragment.SettingsFragment
 import io.mockk.every
 import io.mockk.mockk
 import org.hamcrest.CoreMatchers.anything
@@ -55,7 +54,7 @@ class StartFragmentTest : AutoCloseKoinTest() {
         stopKoin()
         startKoin {
             androidContext(instrumentation.context)
-            modules(appModule, SettingsModule.module, BooruModule.module, PostsModule.module, PostsPageModule.module,
+            modules(appModule, BooruModule.module, PostsModule.module, PostsPageModule.module,
                 module {
                     single { StartOverflowController() }
                     single { StartContentController(listOf(booru)) }

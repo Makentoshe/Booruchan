@@ -10,7 +10,7 @@ import com.makentoshe.booruchan.R
 import com.makentoshe.booruchan.api.Booru
 import com.makentoshe.booruchan.screen.start.model.StartScreenNavigator
 import com.makentoshe.settings.model.realm.RealmBooleanSettingController
-import com.makentoshe.settings.view.controller.NsfwSettingController
+import com.makentoshe.settings.screen.controller.NsfwSettingController
 import io.realm.Realm
 import org.jetbrains.anko.find
 import org.koin.core.KoinComponent
