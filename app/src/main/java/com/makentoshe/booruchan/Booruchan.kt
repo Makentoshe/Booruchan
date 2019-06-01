@@ -20,7 +20,6 @@ import com.makentoshe.booruchan.screen.posts.page.controller.postsdownload.Posts
 import com.makentoshe.booruchan.screen.sampleinfo.SampleInfoModule
 import com.makentoshe.booruchan.screen.samples.SampleModule
 import com.makentoshe.booruchan.screen.samples.model.SampleOptionsMenu
-import com.makentoshe.booruchan.screen.start.StartModule
 import com.makentoshe.booruchan.screen.webmplayer.WebmPlayerModule
 import com.makentoshe.booruchan.style.SotisStyle
 import com.makentoshe.booruchan.style.Style
@@ -54,7 +53,6 @@ class Booruchan : Application(), KoinComponent {
             androidContext(this@Booruchan)
             modules(
                 appModule,
-                StartModule.module,
                 PostsModule.module,
                 BooruModule.module,
                 SampleModule.module,

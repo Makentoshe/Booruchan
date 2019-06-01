@@ -1,11 +1,10 @@
-package com.makentoshe.booruchan.screen.start
+package com.makentoshe.booruchan.screen
 
 import androidx.fragment.app.Fragment
 import com.makentoshe.booruchan.api.BooruFactoryImpl
 import com.makentoshe.booruchan.navigation.Router
 import com.makentoshe.booruchan.navigation.Screen
 import com.makentoshe.booruchan.network.fuel.FuelClientFactory
-import com.makentoshe.booruchan.screen.SettingsScreen
 import com.makentoshe.booruchan.screen.booru.BooruScreen
 import com.makentoshe.boorulibrary.booru.entity.Booru
 import com.makentoshe.boorulibrary.booru.gelbooru.Gelbooru

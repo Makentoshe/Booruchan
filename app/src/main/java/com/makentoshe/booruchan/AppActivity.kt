@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.makentoshe.booruchan.navigation.FragmentNavigator
 import com.makentoshe.booruchan.navigation.Router
-import com.makentoshe.booruchan.screen.start.StartScreen
+import com.makentoshe.booruchan.screen.StartScreen
 import org.koin.android.ext.android.inject
 import ru.terrakok.cicerone.NavigatorHolder
 
