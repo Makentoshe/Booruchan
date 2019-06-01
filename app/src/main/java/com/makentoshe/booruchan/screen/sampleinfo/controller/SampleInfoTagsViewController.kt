@@ -32,8 +32,8 @@ class SampleInfoTagsViewController(
 
         val searchIcon = getSearchIcon(fragment)
         searchIcon.setOnClickListener {
-            router.backTo(BooruScreen(booru, tags))
-            router.replaceScreen(BooruScreen(booru, tags))
+//            router.backTo(BooruScreen(booru, tags))
+//            router.replaceScreen(BooruScreen(booru, tags))
         }
     }
 

@@ -37,6 +37,7 @@ dependencies {
     implementation project(":style")
     implementation project(":startview")
     implementation project(":api")
+    implementation project(":booruview")
 
     implementation 'androidx.appcompat:appcompat:1.0.2'
     implementation 'androidx.core:core-ktx:1.0.1'
