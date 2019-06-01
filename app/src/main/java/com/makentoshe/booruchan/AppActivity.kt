@@ -20,7 +20,7 @@ class AppActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         if (savedInstanceState == null) {
-            router.newRootScreen(StartScreen())
+            router.newRootScreen(StartScreen(router))
         }
     }
 

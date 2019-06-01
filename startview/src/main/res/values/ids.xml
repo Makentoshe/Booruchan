@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="start_toolbar" type="id"/>
+    <item name="start_toolbar_overflow" type="id"/>
+    <item name="start_content_listview" type="id"/>
+    <item name="settings" type="id"/>
+</resources>

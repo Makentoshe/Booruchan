@@ -26,7 +26,7 @@ object StartModule {
                 add(Gelbooru::class.java)
                 add(Safebooru::class.java)
                 add(Rule34::class.java)
-            }.map { booruFactory.buildBooru(it, get()) }
+            }.map { booruFactory.buildBooru(it) }
         }
 
         /* Navigation used in start screen*/
