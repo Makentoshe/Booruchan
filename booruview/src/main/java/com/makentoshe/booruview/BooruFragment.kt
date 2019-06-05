@@ -8,9 +8,11 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.makentoshe.boorulibrary.booru.entity.Booru
 import com.makentoshe.boorulibrary.entitiy.Tag
+import com.makentoshe.booruview.navigation.BooruFragmentNavigator
+import com.makentoshe.navigation.FragmentNavigator
+import com.makentoshe.navigation.Router
 import org.jetbrains.anko.AnkoContext
 import ru.terrakok.cicerone.Cicerone
-import java.io.Serializable
 
 class BooruFragment : Fragment() {
 
@@ -26,15 +28,7 @@ class BooruFragment : Fragment() {
         set(value) = (arguments ?: Bundle().also { arguments = it }).putSerializable(NAVIGATOR, value)
         get() = arguments!!.get(NAVIGATOR) as BooruFragmentNavigator
 
-    private var booru: Booru
-        set(value) = (arguments ?: Bundle().also { arguments = it }).putSerializable(BOORU, value)
-        get() = arguments!!.get(BOORU) as Booru
-
-    private var tags: Set<Tag>
-        set(value) = (arguments ?: Bundle().also { arguments = it }).putSerializable(TAGS, value as Serializable)
-        get() = arguments!!.get(TAGS) as Set<Tag>
-
-    override fun onAttach(context: Context?) {
+    override fun onAttach(context: Context) {
         super.onAttach(context)
         fragmentNavigator = FragmentNavigator(requireActivity(), containerId, childFragmentManager)
     }
@@ -72,15 +66,12 @@ class BooruFragment : Fragment() {
     }
 
     companion object {
-        private const val BOORU = "Booru"
-        private const val TAGS = "Tags"
         private const val NAVIGATOR = "Navigator"
         private const val ATTACH = "ShouldStartScreenOnNavigatorAttach"
         fun build(booru: Booru, tags: Set<Tag>): Fragment {
             val fragment = BooruFragment()
-            fragment.booru = booru
-            fragment.tags = tags
-            fragment.navigator = BooruFragmentNavigator(Cicerone.create())
+            val cicerone = Cicerone.create(Router())
+            fragment.navigator = BooruFragmentNavigator(cicerone, booru, tags)
             return fragment
         }
     }

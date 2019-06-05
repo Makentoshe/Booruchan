@@ -1,4 +1,4 @@
-package com.makentoshe.booruview
+package com.makentoshe.booruview.navigation
 
 interface BooruPanelFragmentNavigator {
 
