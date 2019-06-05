@@ -26,6 +26,6 @@ class PostsMagnifyController(
     private fun onClicked(view: View) {
         val fragment = SearchDialogFragment.create(tags, booru)
         fragment.setTargetFragment(targetFragment, RequestCode.search)
-        fragment.show(targetFragment.fragmentManager, SearchDialogFragment::class.java.simpleName)
+        fragment.show(targetFragment.requireFragmentManager(), SearchDialogFragment::class.java.simpleName)
     }
 }

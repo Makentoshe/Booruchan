@@ -67,9 +67,9 @@ class PostsFragment : Fragment() {
         viewPagerController.bindView(view)
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         //if new search was started
-        if (requestCode == RequestCode.search) onSearchResultReceived(data)
+        if (requestCode == RequestCode.search) onSearchResultReceived(data!!)
         //if child fragment does not received posts
         //it means that the posts is run out
         //the resultCode contains page without posts

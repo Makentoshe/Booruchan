@@ -31,11 +31,11 @@ class SettingsNsfwAlertFragment : DialogFragment() {
         return builder.create()
     }
 
-    override fun onCancel(dialog: DialogInterface?) {
+    override fun onCancel(dialog: DialogInterface) {
         onDialogResultListener.onCancel()
     }
 
-    override fun onDismiss(dialog: DialogInterface?) {
+    override fun onDismiss(dialog: DialogInterface) {
         onDialogResultListener.onDismiss()
     }
 
