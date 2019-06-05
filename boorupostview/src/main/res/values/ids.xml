@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="panelview" type="id"/>
+    <item name="toolbar" type="id"/>
+    <item name="toolbar_view" type="id"/>
+    <item name="contentview" type="id"/>
+    <item name="magnify_icon" type="id"/>
+    <item name="magnify_view" type="id"/>
+    <item name="slidingPanel" type="id"/>
+</resources>
