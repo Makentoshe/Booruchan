@@ -7,9 +7,10 @@
         <item name="colorPrimary">@color/MaterialTeal600</item>
         <item name="colorPrimaryDark">@color/MaterialTeal900</item>
         <item name="colorAccent">@color/MaterialTeal900</item>
-        <item name="toolbar_style">@style/SothisToolbar</item>
         <item name="android:textColor">@android:color/black</item>
         <item name="android:background">@android:color/white</item>
+        <item name="toolbar_style">@style/SothisToolbar</item>
+        <item name="button_style_material">@style/SothisMaterialButton</item>
     </style>
 
     <style name="SothisDefault" parent="Sothis">
@@ -18,7 +19,7 @@
         <item name="android:textColor">@android:color/black</item>
     </style>
 
-    <style name="SothisToolbar" parent="SothisDefault">
+    <style name="SothisToolbar" parent="Sothis">
         <item name="android:background">@color/MaterialTeal600</item>
         <item name="android:backgroundTint">@color/MaterialTeal600</item>
         <item name="android:textColor">@android:color/white</item>
@@ -28,6 +29,10 @@
         <item name="tabTextColor">@android:color/darker_gray</item>
         <item name="android:colorControlNormal">@android:color/darker_gray</item>
         <item name="tabSelectedTextColor">@android:color/white</item>
+    </style>
+
+    <style name="SothisMaterialButton" parent="Sothis">
+        <item name="android:strokeColor">@android:color/white</item>
     </style>
 
     <style name="SothisProgress" parent="SothisDefault">
