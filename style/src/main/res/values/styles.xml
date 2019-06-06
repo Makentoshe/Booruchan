@@ -10,13 +10,8 @@
         <item name="android:textColor">@android:color/black</item>
         <item name="android:background">@android:color/white</item>
         <item name="toolbar_style">@style/SothisToolbar</item>
-        <item name="button_style_material">@style/SothisMaterialButton</item>
-    </style>
-
-    <style name="SothisDefault" parent="Sothis">
-        <item name="colorAccent">@color/MaterialTeal900</item>
-        <item name="android:background">@android:color/white</item>
-        <item name="android:textColor">@android:color/black</item>
+        <item name="text_button_style_material">@style/SothisMaterialTextButton</item>
+        <item name="input_text_style_material">@style/SothisMaterialTextInputLayout</item>
     </style>
 
     <style name="SothisToolbar" parent="Sothis">
@@ -31,9 +26,31 @@
         <item name="tabSelectedTextColor">@android:color/white</item>
     </style>
 
-    <style name="SothisMaterialButton" parent="Sothis">
+    <style name="SothisMaterialTextButton" parent="Widget.AppCompat.Button.Borderless.Colored">
         <item name="android:strokeColor">@android:color/white</item>
     </style>
+
+    <style name="SothisMaterialTextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+        <item name="boxStrokeColor">@color/material_text_input_layout_sothis</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textColorHint">@android:color/white</item>
+    </style>
+
+    <style name="SothisMaterialEditText" parent="Sothis">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textColorHint">@android:color/white</item>
+    </style>
+
+
+
+
+
+    <style name="SothisDefault" parent="Sothis">
+        <item name="colorAccent">@color/MaterialTeal900</item>
+        <item name="android:background">@android:color/white</item>
+        <item name="android:textColor">@android:color/black</item>
+    </style>
+
 
     <style name="SothisProgress" parent="SothisDefault">
         <item name="android:background">@android:color/transparent</item>

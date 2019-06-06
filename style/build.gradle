@@ -46,7 +46,7 @@ dependencies {
 
     // Material components
     // https://github.com/material-components/material-components-android
-    api 'com.google.android.material:material:1.1.0-alpha07'
+    implementation 'com.google.android.material:material:1.1.0-alpha07'
 
     implementation 'androidx.appcompat:appcompat:1.0.2'
 

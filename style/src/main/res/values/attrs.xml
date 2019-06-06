@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <attr name="toolbar_style" format="reference"/>
-    <attr name="button_style_material" format="reference"/>
+    <attr name="text_button_style_material" format="reference"/>
+    <attr name="input_text_style_material" format="reference"/>
 </resources>
