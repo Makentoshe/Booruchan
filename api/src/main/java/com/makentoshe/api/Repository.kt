@@ -10,10 +10,14 @@ interface Repository<K, V> {
     fun get(key: K): V?
 }
 
-class BooruRepository: Repository<Any, List<Booru>> {
+class BooruRepository : Repository<Any, List<Booru>> {
     override fun get(key: Any): List<Booru> {
         return listOf(Gelbooru(), Safebooru())
     }
+}
+
+class TagRepository(private val booru: Booru) : Repository<String, Tag> {
+    override fun get(key: String) = booru.tagFactory.build(key)
 }
 
 class AutocompleteRepository(booru: Booru, networkExecutor: NetworkExecutor) : Repository<String, List<Tag>> {
