@@ -13,9 +13,4 @@ class SettingsViewPagerController(private val fragmentManager: FragmentManager) 
         viewpager.adapter = SettingsViewPagerAdapter(view.context, fragmentManager)
     }
 
-    class Factory {
-        fun build(fragmentManager: FragmentManager): SettingsViewPagerController {
-            return SettingsViewPagerController(fragmentManager)
-        }
-    }
 }

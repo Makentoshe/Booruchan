@@ -27,7 +27,7 @@ class SettingsFragmentTest {
     fun init() {
         Realm.init(instrumentation.targetContext)
         activity = rule.launchActivity(null)
-        val fragment = SettingsFragment.Factory().build()
+        val fragment = SettingsFragment.build()
 
         instrumentation.runOnMainSync {
             activity.supportFragmentManager
