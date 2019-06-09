@@ -1,7 +1,9 @@
 package com.makentoshe.startview
 
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.ListView
 import androidx.fragment.app.Fragment
 import com.makentoshe.api.BooruRepository
@@ -16,10 +18,14 @@ import org.jetbrains.anko.find
 class StartFragment : Fragment() {
 
     /** Controller for the listview */
-    private lateinit var contentController: StartFragmentContentController
+    private var contentController: StartFragmentContentController
+        set(value) = (arguments ?: Bundle().also { arguments = it }).putSerializable(CONTENTC, value)
+        get() = arguments!!.get(CONTENTC) as StartFragmentContentController
 
     /** Controller for the overflow icon */
-    private lateinit var overflowController: StartFragmentOverflowController
+    private var overflowController: StartFragmentOverflowController
+        set(value) = (arguments ?: Bundle().also { arguments = it }).putSerializable(OVERFLOWC, value)
+        get() = arguments!!.get(OVERFLOWC) as StartFragmentOverflowController
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return StartFragmentUi().createView(AnkoContext.create(requireContext()))
@@ -34,6 +40,9 @@ class StartFragment : Fragment() {
     }
 
     companion object {
+        private const val CONTENTC = "ContentController"
+        private const val OVERFLOWC = "OverflowController"
+
         /**
          * Creates a StartFragmentInstance
          * @param navigator is a navigator interfaces performs navigation from start screen to other

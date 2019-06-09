@@ -9,6 +9,7 @@ import com.makentoshe.api.BooruRepository
 import com.makentoshe.boorulibrary.booru.entity.Booru
 import com.makentoshe.settings.model.SettingController
 import com.makentoshe.settings.screen.controller.NsfwSettingController
+import java.io.Serializable
 
 /**
  * [ListView] content controller performs displaying a list of available booru.
@@ -21,7 +22,8 @@ class StartFragmentContentController(
     private val repository: BooruRepository,
     private val settingController: SettingController<Boolean>,
     private val navigator: StartFragmentNavigator
-) {
+) : Serializable {
+
     /** [ListView] item layout id */
     private val elementLayout = android.R.layout.simple_list_item_1
 

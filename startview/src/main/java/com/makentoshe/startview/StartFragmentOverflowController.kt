@@ -5,15 +5,14 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.widget.PopupMenu
+import java.io.Serializable
 
 /**
  * Overflow icon controller performs displaying a popup menu.
  *
  * @param navigator performs navigation to another screen
  */
-class StartFragmentOverflowController(
-    private val navigator: StartFragmentNavigator
-) {
+class StartFragmentOverflowController(private val navigator: StartFragmentNavigator) : Serializable {
 
     /** Binds controller to the [view] */
     fun bindView(view: View) = view.setOnClickListener {
