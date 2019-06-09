@@ -3,6 +3,7 @@ package com.makentoshe.boorupostview
 import android.content.Context
 import android.view.inputmethod.EditorInfo
 import android.widget.FrameLayout
+import com.makentoshe.style.chipGroup
 import com.makentoshe.style.materialButton
 import com.makentoshe.style.materialEditText
 import org.jetbrains.anko.*
@@ -16,6 +17,7 @@ class PostsContentFragmentUi : AnkoComponent<Context> {
 
             createTagSearchEditText()
             createSearchButton()
+            createChipGroup()
         }
     }
 
@@ -24,6 +26,7 @@ class PostsContentFragmentUi : AnkoComponent<Context> {
         val editHeight = height / 3 * 2
         val hintColor = attr(android.R.attr.textColor).data
         materialEditText { editText ->
+            id = com.makentoshe.boorupostview.R.id.search_text_box
             editText.id = com.makentoshe.boorupostview.R.id.search_edit_text
             editText.hint = "blue_sky cloud 1girl"
             editText.singleLine = true
@@ -47,6 +50,20 @@ class PostsContentFragmentUi : AnkoComponent<Context> {
             stateListAnimator = null
         }.lparams(matchParent, dip(56)) {
             alignParentBottom()
+        }
+    }
+
+    private fun _RelativeLayout.createChipGroup() {
+        scrollView {
+            setPadding(dip(8), 0, dip(8), 0)
+
+            chipGroup {
+                id = com.makentoshe.boorupostview.R.id.search_chip_group
+            }
+
+        }.lparams(matchParent, matchParent) {
+            below(com.makentoshe.boorupostview.R.id.search_text_box)
+            above(com.makentoshe.boorupostview.R.id.search_button)
         }
     }
 }

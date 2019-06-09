@@ -1,6 +1,7 @@
 package com.makentoshe.boorupostview
 
 import android.content.Context
+import android.graphics.Color
 import android.view.Gravity
 import android.view.ViewManager
 import androidx.annotation.StyleRes
@@ -18,6 +19,7 @@ class PostsFragmentUi : AnkoComponent<Context> {
             slidingUpPanel {
                 id = com.makentoshe.boorupostview.R.id.slidingPanel
                 setGravity(Gravity.BOTTOM)
+                coveredFadeColor = Color.TRANSPARENT
                 shadowHeight = 0
                 panelHeight = 0
                 panelState = SlidingUpPanelLayout.PanelState.EXPANDED

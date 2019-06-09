@@ -2,9 +2,11 @@ package com.makentoshe.booruchan
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import com.makentoshe.booruchan.navigation.FragmentNavigator
 import com.makentoshe.booruchan.navigation.Router
 import com.makentoshe.booruchan.screen.StartScreen
+import com.makentoshe.style.OnBackFragment
 import org.koin.android.ext.android.inject
 import ru.terrakok.cicerone.NavigatorHolder
 
@@ -32,6 +34,22 @@ class AppActivity : AppCompatActivity() {
     override fun onPause() {
         super.onPause()
         navigatorHolder.removeNavigator()
+    }
+
+    override fun onBackPressed() {
+        supportFragmentManager.fragments.forEach {
+            if (resolveFragmentOnBackPressed(it)) return
+        }
+
+        super.onBackPressed()
+    }
+
+    private fun resolveFragmentOnBackPressed(fragment: Fragment) : Boolean{
+        if (fragment is OnBackFragment && fragment.onBackPressed()) return true
+        else fragment.childFragmentManager.fragments.forEach {
+            if (resolveFragmentOnBackPressed(it)) return true
+        }
+        return false
     }
 
 }

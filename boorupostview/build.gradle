@@ -42,8 +42,6 @@ dependencies {
     implementation "org.jetbrains.anko:anko-appcompat-v7:$anko_version"
     implementation "org.jetbrains.anko:anko-coroutines:$anko_version"
 
-    implementation 'androidx.appcompat:appcompat:1.0.2'
-
     // SlidingUpPanelLayout
     // https://github.com/umano/AndroidSlidingUpPanel
     implementation 'com.sothree.slidinguppanel:library:3.4.0'
@@ -60,6 +58,12 @@ dependencies {
     // https://github.com/JakeWharton/RxBinding
     implementation 'com.jakewharton.rxbinding3:rxbinding-core:3.0.0-alpha2'
     implementation 'com.jakewharton.rxbinding3:rxbinding-appcompat:3.0.0-alpha2'
+
+    // Material components
+    // https://github.com/material-components/material-components-android
+    implementation 'com.google.android.material:material:1.1.0-alpha07'
+
+    implementation 'androidx.appcompat:appcompat:1.0.2'
 
     testImplementation 'junit:junit:4.12'
 

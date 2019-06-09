@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <dimen name="chip_padding">4dp</dimen>
     <dimen name="toolbar_height">56dp</dimen>
     <dimen name="toolbar_bottom_margin">4dp</dimen>
     <dimen name="toolbar_height_alt">64dp</dimen>

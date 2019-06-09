@@ -5,6 +5,10 @@
     <item name="toolbar_view" type="id"/>
     <item name="contentview" type="id"/>
     <item name="magnify_icon" type="id"/>
+    <item name="search_button" type="id"/>
     <item name="magnify_view" type="id"/>
     <item name="slidingPanel" type="id"/>
+    <item name="search_edit_text" type="id"/>
+    <item name="search_text_box" type="id"/>
+    <item name="search_chip_group" type="id"/>
 </resources>
