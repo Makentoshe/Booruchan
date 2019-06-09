@@ -6,5 +6,5 @@ import com.makentoshe.settings.screen.fragment.SettingsFragment
 
 class SettingsScreen : Screen() {
     override val fragment: Fragment
-        get() = SettingsFragment.Factory().build()
+        get() = SettingsFragment.build()
 }
