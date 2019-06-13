@@ -1,4 +1,4 @@
-package com.makentoshe.boorupostview
+package com.makentoshe.boorupostview.model
 
 import android.view.LayoutInflater
 import android.view.View

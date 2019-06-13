@@ -1,8 +1,10 @@
 package com.makentoshe.api
 
 import com.makentoshe.boorulibrary.booru.entity.Booru
+import com.makentoshe.boorulibrary.booru.entity.PostsRequest
 import com.makentoshe.boorulibrary.booru.gelbooru.Gelbooru
 import com.makentoshe.boorulibrary.booru.safebooru.Safebooru
+import com.makentoshe.boorulibrary.entitiy.Post
 import com.makentoshe.boorulibrary.entitiy.Tag
 import com.makentoshe.boorulibrary.network.executor.NetworkExecutor
 
@@ -26,3 +28,14 @@ class AutocompleteRepository(booru: Booru, networkExecutor: NetworkExecutor) : R
 
     override fun get(key: String) = autocomplete.request(key)
 }
+
+class PostsRepository(booru: Booru, networkExecutor: NetworkExecutor) : Repository<PostsRequest, List<Post>> {
+
+    private val posts = booru.getPosts(networkExecutor)
+
+    override fun get(key: PostsRequest) = posts.request(key)
+}
+
+data class DefaultPostsRequest(
+    override val count: Int, override val tags: Set<Tag>, override val page: Int
+) : PostsRequest

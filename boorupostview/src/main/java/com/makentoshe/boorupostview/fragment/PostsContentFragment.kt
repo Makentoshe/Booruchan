@@ -1,7 +1,5 @@
-package com.makentoshe.boorupostview
+package com.makentoshe.boorupostview.fragment
 
-import android.content.Context
-import android.content.IntentFilter
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -14,6 +12,10 @@ import com.makentoshe.api.NetworkExecutorBuilder
 import com.makentoshe.api.TagRepository
 import com.makentoshe.boorulibrary.booru.entity.Booru
 import com.makentoshe.boorulibrary.entitiy.Tag
+import com.makentoshe.boorupostview.presenter.PostsContentFragmentPresenter
+import com.makentoshe.boorupostview.presenter.PostsContentFragmentRxPresenterImpl
+import com.makentoshe.boorupostview.R
+import com.makentoshe.boorupostview.view.PostsContentFragmentUi
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import io.reactivex.disposables.CompositeDisposable
 import org.jetbrains.anko.AnkoContext
@@ -22,7 +24,7 @@ import java.io.Serializable
 class PostsContentFragment : Fragment() {
 
     private val panelLayout: SlidingUpPanelLayout by lazy {
-        val panelLayoutId = com.makentoshe.boorupostview.R.id.slidingPanel
+        val panelLayoutId = R.id.slidingPanel
         return@lazy requireActivity().findViewById<SlidingUpPanelLayout>(panelLayoutId)
     }
 
@@ -51,10 +53,10 @@ class PostsContentFragment : Fragment() {
         val searchbutton = view.findViewById<View>(R.id.search_button)
         presenter.bindSearchButton(searchbutton)
 
-        val edittext = view.findViewById<AutoCompleteTextView>(com.makentoshe.boorupostview.R.id.search_edit_text)
+        val edittext = view.findViewById<AutoCompleteTextView>(R.id.search_edit_text)
         presenter.bindEditText(edittext)
 
-        val chipGroup = view.findViewById<ChipGroup>(com.makentoshe.boorupostview.R.id.search_chip_group)
+        val chipGroup = view.findViewById<ChipGroup>(R.id.search_chip_group)
         presenter.bindChipGroup(chipGroup)
     }
 

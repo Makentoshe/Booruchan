@@ -1,4 +1,4 @@
-package com.makentoshe.boorupostview
+package com.makentoshe.boorupostview.presenter
 
 import android.view.View
 import android.widget.AutoCompleteTextView

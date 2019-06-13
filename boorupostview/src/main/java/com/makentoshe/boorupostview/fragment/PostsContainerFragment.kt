@@ -1,0 +1,3 @@
+package com.makentoshe.boorupostview.fragment
+
+interface PostsContainerFragment

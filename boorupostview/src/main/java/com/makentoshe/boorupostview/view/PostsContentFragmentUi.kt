@@ -1,8 +1,9 @@
-package com.makentoshe.boorupostview
+package com.makentoshe.boorupostview.view
 
 import android.content.Context
 import android.view.inputmethod.EditorInfo
 import android.widget.FrameLayout
+import com.makentoshe.boorupostview.R
 import com.makentoshe.style.chipGroup
 import com.makentoshe.style.materialButton
 import com.makentoshe.style.materialEditText
@@ -26,8 +27,8 @@ class PostsContentFragmentUi : AnkoComponent<Context> {
         val editHeight = height / 3 * 2
         val hintColor = attr(android.R.attr.textColor).data
         materialEditText { editText ->
-            id = com.makentoshe.boorupostview.R.id.search_text_box
-            editText.id = com.makentoshe.boorupostview.R.id.search_edit_text
+            id = R.id.search_text_box
+            editText.id = R.id.search_edit_text
             editText.hint = "blue_sky cloud 1girl"
             editText.singleLine = true
             editText.hintTextColor = hintColor
@@ -44,7 +45,7 @@ class PostsContentFragmentUi : AnkoComponent<Context> {
     private fun _RelativeLayout.createSearchButton() {
         val theme = attr(com.makentoshe.style.R.attr.text_button_style_material).data
         materialButton(theme) {
-            id = com.makentoshe.boorupostview.R.id.search_button
+            id = R.id.search_button
             text = context.getString(R.string.start_search)
             elevation = 0f
             stateListAnimator = null
@@ -58,12 +59,12 @@ class PostsContentFragmentUi : AnkoComponent<Context> {
             setPadding(dip(8), 0, dip(8), 0)
 
             chipGroup {
-                id = com.makentoshe.boorupostview.R.id.search_chip_group
+                id = R.id.search_chip_group
             }
 
         }.lparams(matchParent, matchParent) {
-            below(com.makentoshe.boorupostview.R.id.search_text_box)
-            above(com.makentoshe.boorupostview.R.id.search_button)
+            below(R.id.search_text_box)
+            above(R.id.search_button)
         }
     }
 }
