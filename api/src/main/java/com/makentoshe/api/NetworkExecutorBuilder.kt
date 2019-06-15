@@ -1,24 +1,21 @@
 package com.makentoshe.api
 
+import com.makentoshe.boorulibrary.network.StreamDownloadListener
 import com.makentoshe.boorulibrary.network.executor.DefaultGetNetworkExecutor
 import com.makentoshe.boorulibrary.network.executor.DefaultPostNetworkExecutor
-import com.makentoshe.boorulibrary.network.executor.DefaultStreamGetNetworkExecutor
+import com.makentoshe.boorulibrary.network.executor.StreamGetNetworkExecutor
 
 class NetworkExecutorBuilder {
 
-    private var shouldUseProxy = false
+    companion object {
 
-    fun useProxy(value: Boolean): NetworkExecutorBuilder {
-        shouldUseProxy = value
-        return this
-    }
+        fun buildStreamGet(listener: StreamDownloadListener? = null) = StreamGetNetworkExecutor(listener)
 
-    fun build() = if (shouldUseProxy) {
-        val alt = DefaultPostNetworkExecutor()
-        val def = DefaultGetNetworkExecutor()
-        DefaultProxyNetworkExecutor(alt, def)
-    } else {
-        DefaultStreamGetNetworkExecutor()
+        fun buildProxyGet(proxyDownloadListener: ProxyDownloadListener? = null): ProxyNetworkExecutor {
+            val alt = DefaultPostNetworkExecutor(proxyDownloadListener?.proxyListener)
+            val def = DefaultGetNetworkExecutor(proxyDownloadListener)
+            return DefaultProxyNetworkExecutor(alt, def)
+        }
     }
 
 }

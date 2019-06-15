@@ -1,7 +1,8 @@
 package com.makentoshe.api
 
 import android.accounts.NetworkErrorException
-import com.makentoshe.boorulibrary.network.ErrorResponse
+import com.makentoshe.boorulibrary.network.DefaultResponse
+import com.makentoshe.boorulibrary.network.DownloadListener
 import com.makentoshe.boorulibrary.network.Response
 import com.makentoshe.boorulibrary.network.executor.NetworkExecutor
 import com.makentoshe.boorulibrary.network.request.EmptyRequest
@@ -25,11 +26,16 @@ abstract class ProxyNetworkExecutor(private val defNetworkExecutor: NetworkExecu
         //perform network request to a proxy
         val proxiedRequest = performNetworkRequestToProxy(requestToProxy)
 
-        if (proxiedRequest is EmptyRequest) {
-            return ErrorResponse(NetworkErrorException("Proxy response does not contains redirect url"))
+        if (proxiedRequest.first is EmptyRequest) {
+            val code = proxiedRequest.second.code
+            val headers = proxiedRequest.second.headers
+            val bytes = proxiedRequest.second.bytes
+            return DefaultResponse(
+                code, proxiedRequest.first, bytes, headers,
+                NetworkErrorException("Proxy response does not contains redirect url"))
         }
         //perform default network request using proxy url
-        return defNetworkExecutor.perform(proxiedRequest, *params)
+        return defNetworkExecutor.perform(proxiedRequest.first, *params)
     }
 
     protected open fun buildRequestToProxy(url: String): Request {
@@ -37,7 +43,7 @@ abstract class ProxyNetworkExecutor(private val defNetworkExecutor: NetworkExecu
         return RequestBuilder().body(body.toByteArray()).build(proxyUrl)
     }
 
-    protected abstract suspend fun performNetworkRequestToProxy(request: Request): Request
+    protected abstract suspend fun performNetworkRequestToProxy(request: Request): Pair<Request, Response>
 }
 
 /**
@@ -56,9 +62,21 @@ open class DefaultProxyNetworkExecutor(
     override val proxyUrl = "http://service.bypass123.com/index.php"
 
     /** Makes a POST request to the proxy and returns a proxied url */
-    override suspend fun performNetworkRequestToProxy(request: Request): Request {
+    override suspend fun performNetworkRequestToProxy(request: Request): Pair<Request, Response> {
         val response = altNetworkExecutor.perform(request)
-        val locationUrl = response.headers["Location"]?.getOrNull(0) ?: return EmptyRequest
-        return RequestBuilder().build(locationUrl)
+        val locationUrl = response.headers["Location"]?.getOrNull(0) ?: return EmptyRequest to response
+        return RequestBuilder().build(locationUrl) to response
     }
 }
+
+/**
+ * Interface for proxied download events. This interface used for default listener with proxied address.
+ */
+interface ProxyDownloadListener : DownloadListener {
+
+    /** Listener for proxy events */
+    val proxyListener: DownloadListener?
+}
+
+
+abstract class SimpleProxyDownloadListener(override val proxyListener: DownloadListener): ProxyDownloadListener
