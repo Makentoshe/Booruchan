@@ -20,4 +20,10 @@ class GridScrollViewPagerAdapter(
 
     override fun getCount() = Int.MAX_VALUE
 
+    class Builder(private val fragmentManager: FragmentManager, private val booru: Booru) {
+
+        fun build(tags: Set<Tag>): GridScrollViewPagerAdapter {
+            return GridScrollViewPagerAdapter(booru, tags, fragmentManager)
+        }
+    }
 }
