@@ -10,15 +10,15 @@ import androidx.viewpager.widget.ViewPager
 import com.makentoshe.boorulibrary.booru.entity.Booru
 import com.makentoshe.boorulibrary.entitiy.Tag
 import com.makentoshe.boorupostview.PostsFragmentBroadcastReceiver
-import com.makentoshe.boorupostview.listener.NewSearchStartedListener
+import com.makentoshe.boorupostview.model.GridScrollViewPagerAdapter
+import com.makentoshe.boorupostview.presenter.PostsGridScrollFragmentRxPresenter
 import com.makentoshe.boorupostview.view.PostsGridScrollFragmentUi
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.subjects.BehaviorSubject
-import org.jetbrains.anko.AnkoContext
+import org.jetbrains.anko.*
 import java.io.Serializable
 
 /**
- * Performs posts displaying using viewpager and grid view
+ * Performs posts displaying using viewpager and grid view.
  */
 class PostsGridScrollFragment : Fragment(), PostsContainerFragment {
 
@@ -30,13 +30,15 @@ class PostsGridScrollFragment : Fragment(), PostsContainerFragment {
         set(value) = (arguments ?: Bundle().also { arguments = it }).putSerializable(TAGS, value as Serializable)
         get() = arguments!!.get(TAGS) as Set<Tag>
 
-    /** Broadcast receiver for receiving a new search events */
+    /** Broadcast receiver for receiving a new search events from another fragment */
     private val broadcastReceiver = PostsFragmentBroadcastReceiver()
 
+    /** Contains a disposable which will be released on destroy lifecycle event */
     private val disposables = CompositeDisposable()
 
     private lateinit var presenter: PostsGridScrollFragmentRxPresenter
 
+    /** Register receiver */
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         val filter = IntentFilter(PostsFragmentBroadcastReceiver.START_NEW_SEARCH)
@@ -48,23 +50,29 @@ class PostsGridScrollFragment : Fragment(), PostsContainerFragment {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val tags: Set<Tag> = if (savedInstanceState == null) emptySet() else extractTagsFromState(savedInstanceState)
-        presenter = PostsGridScrollFragmentRxPresenter(disposables, broadcastReceiver, tags)
-
+        // restore tags from the saved state
+        val tags: Set<Tag> = if (savedInstanceState == null) tags else extractTagsFromState(savedInstanceState)
+        // create adapter builder for the presenter
+        val adapterBuilder = GridScrollViewPagerAdapter.Builder(childFragmentManager, booru)
+        // create presenter
+        presenter = PostsGridScrollFragmentRxPresenter(disposables, adapterBuilder, broadcastReceiver, tags)
+        //bind view pager
         val viewpager = view.findViewById<ViewPager>(com.makentoshe.boorupostview.R.id.viewpager)
         presenter.bindViewPager(viewpager)
     }
 
+    /** Extracts a set of the [Tag] from the [Bundle] or return an empty set */
     private fun extractTagsFromState(state: Bundle): Set<Tag> {
         val key = PostsFragmentBroadcastReceiver.START_NEW_SEARCH
-
         return if (state.containsKey(key)) state.get(key) as Set<Tag> else emptySet()
     }
 
+    /** Save a tags to the state */
     override fun onSaveInstanceState(outState: Bundle) {
         outState.putSerializable(PostsFragmentBroadcastReceiver.START_NEW_SEARCH, presenter.tags as Serializable)
     }
 
+    /** Unregister receiver */
     override fun onDetach() {
         super.onDetach()
         requireActivity().unregisterReceiver(broadcastReceiver)
@@ -79,38 +87,5 @@ class PostsGridScrollFragment : Fragment(), PostsContainerFragment {
             fragment.tags = tags
             return fragment
         }
-    }
-}
-
-interface PostsGridScrollFragmentPresenter {
-
-    fun bindViewPager(view: ViewPager)
-}
-
-abstract class RxPresenter {
-    abstract val disposables: CompositeDisposable
-}
-
-class PostsGridScrollFragmentRxPresenter(
-    override val disposables: CompositeDisposable,
-    searchStartedListener: NewSearchStartedListener,
-    initialTags: Set<Tag>
-) : RxPresenter(), PostsGridScrollFragmentPresenter {
-
-    private val searchObservable = BehaviorSubject.create<Set<Tag>>()
-
-    val tags: Set<Tag>
-        get() = searchObservable.value.orEmpty()
-
-    init {
-        searchStartedListener.onNewSearchStarted(searchObservable::onNext)
-
-        searchObservable.onNext(initialTags)
-    }
-
-    override fun bindViewPager(view: ViewPager) {
-        searchObservable.subscribe {
-            println(it)
-        }.let(disposables::add)
     }
 }
