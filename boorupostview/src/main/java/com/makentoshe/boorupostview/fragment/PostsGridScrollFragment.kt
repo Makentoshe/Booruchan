@@ -14,7 +14,7 @@ import com.makentoshe.boorupostview.model.GridScrollViewPagerAdapter
 import com.makentoshe.boorupostview.presenter.PostsGridScrollFragmentRxPresenter
 import com.makentoshe.boorupostview.view.PostsGridScrollFragmentUi
 import io.reactivex.disposables.CompositeDisposable
-import org.jetbrains.anko.*
+import org.jetbrains.anko.AnkoContext
 import java.io.Serializable
 
 /**
@@ -55,7 +55,9 @@ class PostsGridScrollFragment : Fragment(), PostsContainerFragment {
         // create adapter builder for the presenter
         val adapterBuilder = GridScrollViewPagerAdapter.Builder(childFragmentManager, booru)
         // create presenter
-        presenter = PostsGridScrollFragmentRxPresenter(disposables, adapterBuilder, broadcastReceiver, tags)
+        presenter = PostsGridScrollFragmentRxPresenter(
+            disposables, adapterBuilder, broadcastReceiver, tags, requireContext()
+        )
         //bind view pager
         val viewpager = view.findViewById<ViewPager>(com.makentoshe.boorupostview.R.id.viewpager)
         presenter.bindViewPager(viewpager)
