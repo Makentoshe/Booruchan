@@ -14,6 +14,9 @@ import org.jetbrains.anko.AnkoContext
 import org.jetbrains.anko.AnkoLogger
 import java.io.Serializable
 
+/**
+ * Fragment for the panel view. It contains a posts viewer.
+ */
 class PostsPanelFragment : Fragment(), PostsContainerFragment {
 
     private var booru: Booru
@@ -29,11 +32,20 @@ class PostsPanelFragment : Fragment(), PostsContainerFragment {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        //any display variations
-        val fragment = PostsGridScrollFragment.build(booru, tags)
-
         val id = com.makentoshe.boorupostview.R.id.panelview_content
-        childFragmentManager.beginTransaction().add(id, fragment).commit()
+        //check the fragment attached to the container
+        attachFragment(id) {
+            //attach fragment
+            //any display variations here
+            //mb using when?
+            PostsGridScrollFragment.build(booru, tags)
+        }
+    }
+
+    /** If fragment does not attached to the [container] - do it */
+    private fun attachFragment(container: Int, factory: () -> Fragment) {
+        val f = childFragmentManager.findFragmentById(container)
+        if (f != null) return else childFragmentManager.beginTransaction().add(container, factory()).commit()
     }
 
     companion object {
