@@ -16,4 +16,5 @@
     <item name="progressbar" type="id"/>
     <item name="panelview_content" type="id"/>
     <item name="messageview" type="id"/>
+    <item name="gridview_element_image" type="id"/>
 </resources>
