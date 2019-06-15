@@ -8,6 +8,7 @@ import com.makentoshe.boorulibrary.entitiy.Post
 import com.makentoshe.boorulibrary.entitiy.Tag
 import com.makentoshe.boorulibrary.network.executor.NetworkExecutor
 
+
 interface Repository<K, V> {
     fun get(key: K): V?
 }
@@ -35,7 +36,3 @@ class PostsRepository(booru: Booru, networkExecutor: NetworkExecutor) : Reposito
 
     override fun get(key: PostsRequest) = posts.request(key)
 }
-
-data class DefaultPostsRequest(
-    override val count: Int, override val tags: Set<Tag>, override val page: Int
-) : PostsRequest
