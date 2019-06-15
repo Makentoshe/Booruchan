@@ -18,28 +18,32 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.subjects.PublishSubject
 import org.jetbrains.anko.dip
 
-class PostsContentFragmentRxPresenterImpl(
+/**
+ * Reactive presenter component for posts search layout.
+ *
+ * @param autocompleteRepository returns a list of tags by term
+ * @param tagRepository returns a tag instance by title
+ */
+class PostsContentFragmentRxPresenter(
     override val disposables: CompositeDisposable,
-    private val autocompleteRepository: AutocompleteRepository,
+    private val autocompleteRepository: Repository<String, List<Tag>>,
     private val tagRepository: Repository<String, Tag>,
     context: Context, initialTagSet: Set<Tag> = emptySet()
-) : PostsContentFragmentRxPresenter() {
+) : RxPresenter(), PostsContentFragmentPresenter {
 
-    override val tags = HashSet<Tag>().apply { addAll(initialTagSet) }
+    /** Contains a tags */
+    private val tags = HashSet<Tag>().apply { addAll(initialTagSet) }
 
+    /** Observer for a search button click event */
     private val searchbuttonClickObserver = PublishSubject.create<Unit>().apply {
-        //start search using broadcast
-        val disposable = subscribe {
-            PostsFragmentBroadcastReceiver.sendBroadcast(context, tags)
-        }
-        disposables.add(disposable)
+        //start search using broadcast on click event
+        subscribe { PostsFragmentBroadcastReceiver.sendBroadcast(context, tags) }.let(disposables::add)
     }
 
-    private val tagsObservable = PublishSubject.create<Tag>()
+    /** Observer for adding a tag to the view */
+    private val tagObservable = PublishSubject.create<Tag>()
 
-    override fun bindSearchButton(view: View) {
-        view.clicks().safeSubscribe(searchbuttonClickObserver)
-    }
+    override fun bindSearchButton(view: View) = view.clicks().safeSubscribe(searchbuttonClickObserver)
 
     override fun bindEditText(view: AutoCompleteTextView) {
         /* Observable for item click events */
@@ -50,17 +54,19 @@ class PostsContentFragmentRxPresenterImpl(
         val textChangeObservable = setTextChangeObserver(view)
         /* Observable for tags adding into the search list */
         PublishSubject.create<Tag>().mergeWith(itemClickObservable).mergeWith(imeActionObservable)
-            .mergeWith(textChangeObservable).doOnNext { view.setText("") }.safeSubscribe(tagsObservable)
+            .mergeWith(textChangeObservable).doOnNext { view.setText("") }.safeSubscribe(tagObservable)
         /* Set tag title autocomplete adapter */
         view.setAdapter(AutocompleteAdapter(autocompleteRepository))
     }
 
+    /** Add tag event on dropdown list item click */
     private fun setItemClickObservable(view: AutoCompleteTextView): Observable<Tag> {
         return PublishSubject.create<AdapterViewItemClickEvent>().also {
             view.itemClickEvents().safeSubscribe(it)
         }.map { event -> event.view.getItemAtPosition(event.position) as Tag }
     }
 
+    /** Add tag event and start search event on ime action click */
     private fun setEditorActionObservable(view: AutoCompleteTextView): Observable<Tag> {
         return PublishSubject.create<TextViewEditorActionEvent>().also {
             view.editorActionEvents().safeSubscribe(it)
@@ -69,6 +75,7 @@ class PostsContentFragmentRxPresenterImpl(
             .doAfterNext { searchbuttonClickObserver.onNext(Unit) }
     }
 
+    /** Add tag event on space symbol input */
     private fun setTextChangeObserver(view: AutoCompleteTextView): Observable<Tag> {
         return PublishSubject.create<TextViewAfterTextChangeEvent>().also {
             view.afterTextChangeEvents().safeSubscribe(it)
@@ -78,10 +85,11 @@ class PostsContentFragmentRxPresenterImpl(
     }
 
     override fun bindChipGroup(view: ChipGroup) {
-        tagsObservable.subscribe { tag -> view.createChip(tag) }.also { disposables.add(it) }
-        tags.forEach { tag -> tagsObservable.onNext(tag) }
+        tagObservable.subscribe { tag -> view.createChip(tag) }.let(disposables::add)
+        tags.forEach { tag -> tagObservable.onNext(tag) }
     }
 
+    /** Add a chip associated to a tag */
     private fun ChipGroup.createChip(tag: Tag) {
         //add tag to the tag set
         tags.add(tag)
