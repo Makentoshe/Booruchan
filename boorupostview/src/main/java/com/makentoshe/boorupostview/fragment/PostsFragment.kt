@@ -7,6 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
+import com.makentoshe.api.DiskCache
+import com.makentoshe.api.ImageDiskCache
+import com.makentoshe.api.PostDiskCache
 import com.makentoshe.boorulibrary.booru.entity.Booru
 import com.makentoshe.boorulibrary.entitiy.Tag
 import com.makentoshe.boorupostview.PostsFragmentBroadcastReceiver
@@ -16,6 +19,8 @@ import com.makentoshe.boorupostview.view.PostsFragmentUi
 import com.makentoshe.style.OnBackFragment
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import io.reactivex.disposables.CompositeDisposable
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import org.jetbrains.anko.AnkoContext
 import java.io.Serializable
 
@@ -68,11 +73,23 @@ class PostsFragment : Fragment(), OnBackFragment {
         requireActivity().unregisterReceiver(broadcastReceiver)
     }
 
+    /** When fragment is not recreates - clear all cache files */
+    override fun onDestroy() {
+        super.onDestroy()
+        val activity = activity ?: return
+        if (activity.isChangingConfigurations) Unit else clearCaches(activity)
+    }
+
+    /** Clear all cache files and exit from the screen */
+    private fun clearCaches(context: Context) = GlobalScope.launch {
+        PostDiskCache(DiskCache(PostDiskCache.getDir(context))).clear()
+        ImageDiskCache(DiskCache(ImageDiskCache.getPreviewDir(context))).clear()
+    }
+
     override fun onBackPressed(): Boolean {
         val v = view?.findViewById<SlidingUpPanelLayout>(R.id.slidingPanel) ?: return false
         return if (v.panelState == SlidingUpPanelLayout.PanelState.COLLAPSED) {
-            v.panelState = SlidingUpPanelLayout.PanelState.EXPANDED
-            true
+            v.panelState = SlidingUpPanelLayout.PanelState.EXPANDED; true
         } else false
     }
 

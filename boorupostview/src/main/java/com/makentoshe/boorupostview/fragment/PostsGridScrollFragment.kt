@@ -55,9 +55,7 @@ class PostsGridScrollFragment : Fragment(), PostsContainerFragment {
         // create adapter builder for the presenter
         val adapterBuilder = GridScrollViewPagerAdapter.Builder(childFragmentManager, booru)
         // create presenter
-        presenter = PostsGridScrollFragmentRxPresenter(
-            disposables, adapterBuilder, broadcastReceiver, tags, requireContext()
-        )
+        presenter = PostsGridScrollFragmentRxPresenter(disposables, adapterBuilder, broadcastReceiver, tags)
         //bind view pager
         val viewpager = view.findViewById<ViewPager>(com.makentoshe.boorupostview.R.id.viewpager)
         presenter.bindViewPager(viewpager)

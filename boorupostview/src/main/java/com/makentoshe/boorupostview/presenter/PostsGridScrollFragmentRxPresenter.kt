@@ -1,9 +1,6 @@
 package com.makentoshe.boorupostview.presenter
 
-import android.content.Context
 import androidx.viewpager.widget.ViewPager
-import com.makentoshe.api.DiskCache
-import com.makentoshe.api.PostDiskCache
 import com.makentoshe.boorulibrary.entitiy.Tag
 import com.makentoshe.boorupostview.listener.NewSearchStartedListener
 import com.makentoshe.boorupostview.model.GridScrollViewPagerAdapter
@@ -19,7 +16,7 @@ class PostsGridScrollFragmentRxPresenter(
     override val disposables: CompositeDisposable,
     private val adapterBuilder: GridScrollViewPagerAdapter.Builder,
     searchStartedListener: NewSearchStartedListener,
-    initialTags: Set<Tag>, context: Context
+    initialTags: Set<Tag>
 ) : RxPresenter(), PostsGridScrollFragmentPresenter {
 
     /** Uses for search events */
@@ -31,9 +28,6 @@ class PostsGridScrollFragmentRxPresenter(
 
     init {
         // clear caches on new search
-        searchObservable.subscribe {
-            PostDiskCache(DiskCache(PostDiskCache.getDir(context))).clear()
-        }.let(disposables::add)
         // subscribe on new search event from search started listener
         searchStartedListener.onNewSearchStarted(searchObservable::onNext)
         //start new search using initial tags
