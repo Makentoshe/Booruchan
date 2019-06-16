@@ -1,31 +1,24 @@
 package com.makentoshe.boorupostview.presenter
 
 import android.view.View
-import android.widget.GridView
-import android.widget.ProgressBar
-import android.widget.TextView
-import com.makentoshe.api.NetworkExecutorBuilder
-import com.makentoshe.api.PostsRepository
-import com.makentoshe.api.SimpleStreamDownloadListener
-import com.makentoshe.boorulibrary.booru.entity.Booru
+import android.widget.*
+import com.makentoshe.api.*
 import com.makentoshe.boorulibrary.booru.entity.PostsRequest
 import com.makentoshe.boorulibrary.entitiy.Post
-import com.makentoshe.boorulibrary.network.Response
-import com.makentoshe.boorulibrary.network.StreamDownloadListener
-import com.makentoshe.boorulibrary.network.request.Request
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.BehaviorSubject
-import io.reactivex.subjects.PublishSubject
 
 /**
  * Presenter realisation for the grid scroll element using reactive style.
  */
 class GridScrollElementRxPresenter(
     override val disposables: CompositeDisposable,
-    booru: Booru, request: PostsRequest
+    private val postsRepository: Repository<PostsRequest, List<Post>>,
+    request: PostsRequest,
+    private val previewRepositoryBuilder: PreviewImageRepository.Builder
 ) : GridScrollElementPresenter, RxPresenter() {
 
     /** Used for successful network request */
@@ -36,10 +29,7 @@ class GridScrollElementRxPresenter(
 
     init {
         //perform network request and returns a list of the posts or error
-        Single.just(request).observeOn(Schedulers.io()).map {
-            val networkExecutor = NetworkExecutorBuilder.buildStreamGet()
-            return@map PostsRepository(booru, networkExecutor).get(it)
-        }.subscribe { r, e ->
+        Single.just(request).observeOn(Schedulers.io()).map { postsRepository.get(it) }.subscribe { r, e ->
             if (e != null) return@subscribe errorObservable.onNext(e)
             if (r != null) return@subscribe postsObservable.onNext(r)
             errorObservable.onNext(Exception("wtf"))
@@ -54,7 +44,7 @@ class GridScrollElementRxPresenter(
         // show view on error and add new adapter
         postsObservable.observeOn(AndroidSchedulers.mainThread()).subscribe {
             view.visibility = View.VISIBLE
-            //TODO add adapter here
+            view.adapter = GridScrollElementAdapter(it, disposables, previewRepositoryBuilder)
         }.let(disposables::add)
     }
 

@@ -8,8 +8,10 @@ import android.widget.GridView
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import com.makentoshe.api.DefaultPostsRequest
+import com.makentoshe.api.*
 import com.makentoshe.boorulibrary.booru.entity.Booru
+import com.makentoshe.boorulibrary.booru.entity.PostsRequest
+import com.makentoshe.boorulibrary.entitiy.Post
 import com.makentoshe.boorulibrary.entitiy.Tag
 import com.makentoshe.boorupostview.model.ItemsCountCalculator
 import com.makentoshe.boorupostview.presenter.GridScrollElementRxPresenter
@@ -47,10 +49,13 @@ class GridScrollElementFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        val previewRepositoryBuilder = PreviewImageRepository.Builder(booru)
         // get request for receiving a list of posts
         val request = DefaultPostsRequest(countCalc.getItemsCountTotal(requireContext()), tags, position)
         // create a presenter instance
-        val presenter = GridScrollElementRxPresenter(disposables, booru, request)
+        val presenter = GridScrollElementRxPresenter(
+            disposables, buildPostRepository(), request, previewRepositoryBuilder
+        )
         // bind a grid view
         val gridView = view.findViewById<GridView>(com.makentoshe.boorupostview.R.id.gridview)
         presenter.bindGridView(gridView)
@@ -60,6 +65,13 @@ class GridScrollElementFragment : Fragment() {
         //bind a message view
         val messageview = view.findViewById<TextView>(com.makentoshe.boorupostview.R.id.messageview)
         presenter.bindMessageView(messageview)
+    }
+
+    private fun buildPostRepository(): Repository<PostsRequest, List<Post>> {
+        val networkExecutor = NetworkExecutorBuilder.buildStreamGet()
+        val repository = PostsRepository(booru, networkExecutor)
+        val cache = PostDiskCache(DiskCache(PostDiskCache.getDir(requireContext())))
+        return RepositoryCache(cache, repository)
     }
 
     override fun onDestroy() = super.onDestroy().run { disposables.clear() }
