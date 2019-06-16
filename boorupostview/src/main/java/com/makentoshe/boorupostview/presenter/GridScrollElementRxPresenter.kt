@@ -5,6 +5,7 @@ import android.widget.*
 import com.makentoshe.api.*
 import com.makentoshe.boorulibrary.booru.entity.PostsRequest
 import com.makentoshe.boorulibrary.entitiy.Post
+import com.makentoshe.boorupostview.model.GridScrollElementAdapter
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -44,7 +45,8 @@ class GridScrollElementRxPresenter(
         // show view on error and add new adapter
         postsObservable.observeOn(AndroidSchedulers.mainThread()).subscribe {
             view.visibility = View.VISIBLE
-            view.adapter = GridScrollElementAdapter(it, disposables, previewRepositoryBuilder)
+            view.adapter =
+                GridScrollElementAdapter(it, disposables, previewRepositoryBuilder)
         }.let(disposables::add)
     }
 

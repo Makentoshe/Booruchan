@@ -1,4 +1,4 @@
-package com.makentoshe.boorupostview.presenter
+package com.makentoshe.boorupostview.view
 
 import android.content.Context
 import android.view.View

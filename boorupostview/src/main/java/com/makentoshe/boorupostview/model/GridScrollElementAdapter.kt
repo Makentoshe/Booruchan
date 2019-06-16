@@ -1,4 +1,4 @@
-package com.makentoshe.boorupostview.presenter
+package com.makentoshe.boorupostview.model
 
 import android.content.Context
 import android.view.View
@@ -8,6 +8,8 @@ import android.widget.ImageView
 import com.makentoshe.api.*
 import com.makentoshe.boorulibrary.entitiy.Post
 import com.makentoshe.boorulibrary.network.StreamDownloadListener
+import com.makentoshe.boorupostview.presenter.GridElementRxPresenter
+import com.makentoshe.boorupostview.view.GridScrollElementUi
 import io.reactivex.disposables.CompositeDisposable
 import org.jetbrains.anko.AnkoContext
 import org.jetbrains.anko.find
