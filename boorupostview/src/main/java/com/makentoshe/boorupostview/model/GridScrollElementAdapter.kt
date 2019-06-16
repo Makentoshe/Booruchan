@@ -43,6 +43,7 @@ class GridScrollElementAdapter(
         val presenter = GridElementRxPresenter(disposables, repository, getItem(position), listener)
         // create or reuse view
         val view = convertView ?: createView(parent.context)
+        presenter.bindRoot(view)
         // bind a preview image view
         val imageview = view.find<ImageView>(com.makentoshe.boorupostview.R.id.gridview_element_image)
         presenter.bindPreview(imageview)

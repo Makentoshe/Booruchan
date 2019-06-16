@@ -46,4 +46,8 @@ class GridElementRxPresenter(
             view.setImageBitmap(it)
         }.let(disposables::add)
     }
+
+    override fun bindRoot(view: View) = view.setOnClickListener {
+        println("SAS")
+    }
 }
