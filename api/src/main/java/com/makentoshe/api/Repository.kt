@@ -8,7 +8,6 @@ import com.makentoshe.boorulibrary.entitiy.Post
 import com.makentoshe.boorulibrary.entitiy.Tag
 import com.makentoshe.boorulibrary.network.executor.NetworkExecutor
 
-
 interface Repository<K, V> {
     fun get(key: K): V?
 }
@@ -35,4 +34,17 @@ class PostsRepository(booru: Booru, networkExecutor: NetworkExecutor) : Reposito
     private val posts = booru.getPosts(networkExecutor)
 
     override fun get(key: PostsRequest) = posts.request(key)
+}
+
+class PreviewImageRepository(booru: Booru, networkExecutor: NetworkExecutor) : Repository<Post, ByteArray> {
+
+    private val preview = booru.getPreview(networkExecutor)
+
+    override fun get(key: Post) = preview.request(key)
+
+    class Builder(private val booru: Booru) {
+        fun build(networkExecutor: NetworkExecutor): Repository<Post, ByteArray> {
+            return PreviewImageRepository(booru, networkExecutor)
+        }
+    }
 }
