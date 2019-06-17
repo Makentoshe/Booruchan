@@ -30,7 +30,7 @@ class GridScrollElementAdapter(
     private fun buildPreviewRepository(
         listener: StreamDownloadListener, context: Context
     ): Repository<Post, ByteArray> {
-        val networkExecutor = NetworkExecutorBuilder.buildStreamGet(listener)
+        val networkExecutor = NetworkExecutorBuilder.buildSmartGet(null, listener)
         val repository = repositoryBuilder.build(networkExecutor)
         val cache = ImageDiskCache(DiskCache(ImageDiskCache.getPreviewDir(context)))
         return RepositoryCache(cache, repository)

@@ -68,7 +68,7 @@ class GridScrollElementFragment : Fragment() {
     }
 
     private fun buildPostRepository(): Repository<PostsRequest, List<Post>> {
-        val networkExecutor = NetworkExecutorBuilder.buildStreamGet()
+        val networkExecutor = NetworkExecutorBuilder.buildSmartGet()
         val repository = PostsRepository(booru, networkExecutor)
         val cache = PostDiskCache(DiskCache(PostDiskCache.getDir(requireContext())))
         return RepositoryCache(cache, repository)

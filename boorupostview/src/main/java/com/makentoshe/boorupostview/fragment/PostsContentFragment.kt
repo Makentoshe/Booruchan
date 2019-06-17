@@ -55,7 +55,7 @@ class PostsContentFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         // create presenter
-        val networkExecutor = NetworkExecutorBuilder.buildStreamGet()
+        val networkExecutor = NetworkExecutorBuilder.buildSmartGet()
         val autocompleteRepository = AutocompleteRepository(booru, networkExecutor)
         val tagRepository = TagRepository(booru)
         val presenter = PostsContentFragmentRxPresenter(
