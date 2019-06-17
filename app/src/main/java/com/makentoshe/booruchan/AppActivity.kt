@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import com.makentoshe.booruchan.navigation.FragmentNavigator
 import com.makentoshe.booruchan.navigation.Router
 import com.makentoshe.booruchan.screen.BooruFragmentNavigator
+import com.makentoshe.booruchan.screen.PostsFragmentNavigator
 import com.makentoshe.booruchan.screen.StartFragmentNavigator
 import com.makentoshe.booruchan.screen.StartScreen
 import com.makentoshe.style.OnBackFragment
@@ -25,7 +26,8 @@ class AppActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         if (savedInstanceState == null) {
-            val booruFragmentNavigator = BooruFragmentNavigator(Cicerone.create(Router()))
+            val postsFragmentNavigator = PostsFragmentNavigator()
+            val booruFragmentNavigator = BooruFragmentNavigator(Cicerone.create(Router()), postsFragmentNavigator)
             val startFragmentNavigator = StartFragmentNavigator(router, booruFragmentNavigator)
             val startScreen = StartScreen(startFragmentNavigator)
             router.newRootScreen(startScreen)

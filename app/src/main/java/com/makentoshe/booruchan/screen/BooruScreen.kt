@@ -5,6 +5,7 @@ import com.makentoshe.booruchan.navigation.Router
 import com.makentoshe.booruchan.navigation.Screen
 import com.makentoshe.boorulibrary.booru.entity.Booru
 import com.makentoshe.boorulibrary.entitiy.Tag
+import com.makentoshe.boorupostview.PostsFragmentNavigator
 import com.makentoshe.booruview.BooruFragment
 import com.makentoshe.booruview.BooruFragmentNavigator
 import java.io.Serializable
@@ -26,7 +27,10 @@ class BooruScreen(
  * Class performs a local navigation.
  * It replaces a screens by each other and does not contain back command.
  */
-class BooruFragmentNavigator(cicerone: ru.terrakok.cicerone.Cicerone<Router>) : BooruFragmentNavigator, Serializable {
+class BooruFragmentNavigator(
+    cicerone: ru.terrakok.cicerone.Cicerone<Router>,
+    private val navigator: PostsFragmentNavigator
+) : BooruFragmentNavigator, Serializable {
 
     private val holder = cicerone.navigatorHolder
 
@@ -39,7 +43,7 @@ class BooruFragmentNavigator(cicerone: ru.terrakok.cicerone.Cicerone<Router>) : 
     override fun removeNavigator() = holder.removeNavigator()
 
     override fun navigateToPosts(booru: Booru, tags: Set<Tag>) {
-        router.replaceScreen(PostsScreen(booru, tags))
+        router.replaceScreen(PostsScreen(booru, tags, navigator))
     }
 
     override fun navigateToAccount() {

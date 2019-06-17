@@ -14,6 +14,7 @@ import com.makentoshe.api.PostDiskCache
 import com.makentoshe.boorulibrary.booru.entity.Booru
 import com.makentoshe.boorulibrary.entitiy.Tag
 import com.makentoshe.boorupostview.BuildConfig.DEBUG
+import com.makentoshe.boorupostview.PostsFragmentNavigator
 import com.makentoshe.boorupostview.R
 import com.makentoshe.boorupostview.fragment.PostsContentFragment
 import com.makentoshe.boorupostview.fragment.PostsPanelFragment
@@ -33,7 +34,8 @@ class PostsFragmentRxPresenter(
     private val tags: Set<Tag>,
     private val fragmentManager: FragmentManager,
     searchStartedListener: NewSearchStartedListener,
-    context: Context
+    context: Context,
+    private val navigator: PostsFragmentNavigator
 ) : PostsFragmentPresenter, RxPresenter() {
 
     /** Observable for on icon click events */
@@ -47,9 +49,14 @@ class PostsFragmentRxPresenter(
 
     init {
         searchObservable.subscribe {
-            if (DEBUG) Log.i("Caches", "Clear all caches")
-            PostDiskCache(DiskCache(PostDiskCache.getDir(context))).clear()
-            ImageDiskCache(DiskCache(ImageDiskCache.getPreviewDir(context))).clear()
+            try {
+                if (DEBUG) Log.i(context.getString(R.string.app_name), "Clear all caches")
+                PostDiskCache(DiskCache(PostDiskCache.getDir(context))).clear()
+                ImageDiskCache(DiskCache(ImageDiskCache.getPreviewDir(context))).clear()
+                if (DEBUG) Log.i(context.getString(R.string.app_name), "Success")
+            } catch (e: Exception) {
+                if (DEBUG) Log.i(context.getString(R.string.app_name), "Failed: $e")
+            }
         }.let(disposables::add)
     }
 
@@ -79,7 +86,7 @@ class PostsFragmentRxPresenter(
         }.let(disposables::add)
         // attach the panel - posts viewer
         attachFragment(com.makentoshe.boorupostview.R.id.panelview) {
-            PostsPanelFragment.build(booru, tags)
+            PostsPanelFragment.build(booru, tags, navigator)
         }
         // attach the content - search layout
         attachFragment(com.makentoshe.boorupostview.R.id.contentview) {

@@ -9,9 +9,11 @@ import android.widget.FrameLayout
 import androidx.fragment.app.Fragment
 import com.makentoshe.boorulibrary.booru.entity.Booru
 import com.makentoshe.boorulibrary.entitiy.Tag
+import com.makentoshe.boorupostview.PostsFragmentNavigator
 import com.makentoshe.boorupostview.view.PostsPanelFragmentUi
 import org.jetbrains.anko.AnkoContext
 import org.jetbrains.anko.AnkoLogger
+import java.io.PrintStream
 import java.io.Serializable
 
 /**
@@ -19,13 +21,20 @@ import java.io.Serializable
  */
 class PostsPanelFragment : Fragment(), PostsContainerFragment {
 
+    /** Booru API instance */
     private var booru: Booru
         set(value) = (arguments ?: Bundle().also { arguments = it }).putSerializable(BOORU, value)
         get() = arguments!!.get(BOORU) as Booru
 
+    /** Current set of the tags to search */
     private var tags: Set<Tag>
         set(value) = (arguments ?: Bundle().also { arguments = it }).putSerializable(TAGS, value as Serializable)
         get() = arguments!!.get(TAGS) as Set<Tag>
+
+    /** Navigator to another screens */
+    private var navigator: PostsFragmentNavigator
+        set(value) = (arguments ?: Bundle().also { arguments = it }).putSerializable(NAVIGATOR, value)
+        get() = arguments!!.get(NAVIGATOR) as PostsFragmentNavigator
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return PostsPanelFragmentUi().createView(AnkoContext.create(requireContext()))
@@ -38,7 +47,7 @@ class PostsPanelFragment : Fragment(), PostsContainerFragment {
             //attach fragment
             //any display variations here
             //mb using when?
-            PostsGridScrollFragment.build(booru, tags)
+            PostsGridScrollFragment.build(booru, tags, navigator)
         }
     }
 
@@ -51,10 +60,12 @@ class PostsPanelFragment : Fragment(), PostsContainerFragment {
     companion object {
         private const val BOORU = "Booru"
         private const val TAGS = "Tags"
-        fun build(booru: Booru, tags: Set<Tag>): Fragment {
+        private const val NAVIGATOR = "PostsFragmentNavigator"
+        fun build(booru: Booru, tags: Set<Tag>, navigator: PostsFragmentNavigator): Fragment {
             val fragment = PostsPanelFragment()
             fragment.booru = booru
             fragment.tags = tags
+            fragment.navigator = navigator
             return fragment
         }
     }

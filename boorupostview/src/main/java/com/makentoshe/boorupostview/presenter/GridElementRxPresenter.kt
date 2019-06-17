@@ -9,6 +9,7 @@ import android.widget.ImageView
 import com.makentoshe.api.Repository
 import com.makentoshe.api.SimpleStreamDownloadListener
 import com.makentoshe.boorulibrary.entitiy.Post
+import com.makentoshe.boorupostview.PostsFragmentNavigator
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -21,7 +22,8 @@ import io.reactivex.subjects.BehaviorSubject
 class GridElementRxPresenter(
     override val disposables: CompositeDisposable,
     private val repository: Repository<Post, ByteArray>,
-    post: Post, listener: SimpleStreamDownloadListener
+    post: Post, listener: SimpleStreamDownloadListener,
+    private val navigator: PostsFragmentNavigator
 ) : RxPresenter(), GridElementPresenter {
 
     /** On image download success */
@@ -54,6 +56,6 @@ class GridElementRxPresenter(
     }
 
     override fun bindRoot(view: View) = view.setOnClickListener {
-        println("SAS")
+        navigator.navigateToSampleFragment()
     }
 }

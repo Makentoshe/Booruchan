@@ -13,6 +13,7 @@ import com.makentoshe.api.PostDiskCache
 import com.makentoshe.boorulibrary.booru.entity.Booru
 import com.makentoshe.boorulibrary.entitiy.Tag
 import com.makentoshe.boorupostview.PostsFragmentBroadcastReceiver
+import com.makentoshe.boorupostview.PostsFragmentNavigator
 import com.makentoshe.boorupostview.R
 import com.makentoshe.boorupostview.presenter.PostsFragmentRxPresenter
 import com.makentoshe.boorupostview.view.PostsFragmentUi
@@ -29,19 +30,31 @@ import java.io.Serializable
  */
 class PostsFragment : Fragment(), OnBackFragment {
 
-    private var booru: Booru
-        set(value) = (arguments ?: Bundle().also { arguments = it }).putSerializable(BOORU, value)
-        get() = arguments!!.get(BOORU) as Booru
-
-    private var tags: Set<Tag>
-        set(value) = (arguments ?: Bundle().also { arguments = it }).putSerializable(TAGS, value as Serializable)
-        get() = arguments!!.get(TAGS) as Set<Tag>
-
     /** Broadcast receiver for receiving a new search events from another fragment */
     private val broadcastReceiver = PostsFragmentBroadcastReceiver()
 
     /** Contains a disposable which will be released on destroy lifecycle event */
     private val disposables = CompositeDisposable()
+
+    /** Booru API instance */
+    private var booru: Booru
+        set(value) = (arguments ?: Bundle().also { arguments = it }).putSerializable(BOORU, value)
+        get() = arguments!!.get(BOORU) as Booru
+
+    /** Current set of the tags to search */
+    private var tags: Set<Tag>
+        set(value) = (arguments ?: Bundle().also { arguments = it }).putSerializable(TAGS, value as Serializable)
+        get() = arguments!!.get(TAGS) as Set<Tag>
+
+    /** Navigator to another screens */
+    private var navigator: PostsFragmentNavigator
+        set(value) = (arguments ?: Bundle().also { arguments = it }).putSerializable(NAVIGATOR, value)
+        get() = arguments!!.get(NAVIGATOR) as PostsFragmentNavigator
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        PostsFragmentBroadcastReceiver.sendBroadcast(requireContext(), tags)
+    }
 
     /** Register broadcast receiver */
     override fun onAttach(context: Context) {
@@ -56,7 +69,7 @@ class PostsFragment : Fragment(), OnBackFragment {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         // creates a presenter
         val presenter = PostsFragmentRxPresenter(
-            disposables, booru, tags, requireFragmentManager(), broadcastReceiver, requireContext()
+            disposables, booru, tags, requireFragmentManager(), broadcastReceiver, requireContext(), navigator
         )
         //bind a toolbar
         val toolbar = view.findViewById<Toolbar>(com.makentoshe.boorupostview.R.id.toolbar_view)
@@ -85,10 +98,12 @@ class PostsFragment : Fragment(), OnBackFragment {
     companion object {
         private const val BOORU = "Booru"
         private const val TAGS = "Tags"
-        fun build(booru: Booru, tags: Set<Tag>): Fragment {
+        private const val NAVIGATOR = "PostsFragmentNavigator"
+        fun build(booru: Booru, tags: Set<Tag>, navigator: PostsFragmentNavigator): Fragment {
             val fragment = PostsFragment()
             fragment.booru = booru
             fragment.tags = tags
+            fragment.navigator = navigator
             return fragment
         }
     }

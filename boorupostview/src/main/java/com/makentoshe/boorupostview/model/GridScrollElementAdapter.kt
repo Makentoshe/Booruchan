@@ -8,6 +8,7 @@ import android.widget.ImageView
 import com.makentoshe.api.*
 import com.makentoshe.boorulibrary.entitiy.Post
 import com.makentoshe.boorulibrary.network.StreamDownloadListener
+import com.makentoshe.boorupostview.PostsFragmentNavigator
 import com.makentoshe.boorupostview.presenter.GridElementRxPresenter
 import com.makentoshe.boorupostview.view.GridScrollElementUi
 import io.reactivex.disposables.CompositeDisposable
@@ -23,7 +24,8 @@ import org.jetbrains.anko.find
 class GridScrollElementAdapter(
     private val posts: List<Post>,
     private val disposables: CompositeDisposable,
-    private val repositoryBuilder: PreviewImageRepository.Builder
+    private val repositoryBuilder: PreviewImageRepository.Builder,
+    private val navigator: PostsFragmentNavigator
 ) : BaseAdapter() {
 
     /** Build a preview repository and wrap it by cache decorator */
@@ -40,7 +42,9 @@ class GridScrollElementAdapter(
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         val listener = SimpleStreamDownloadListener()
         val repository = buildPreviewRepository(listener, parent.context)
-        val presenter = GridElementRxPresenter(disposables, repository, getItem(position), listener)
+        val presenter = GridElementRxPresenter(
+            disposables, repository, getItem(position), listener, navigator
+        )
         // create or reuse view
         val view = convertView ?: createView(parent.context)
         presenter.bindRoot(view)

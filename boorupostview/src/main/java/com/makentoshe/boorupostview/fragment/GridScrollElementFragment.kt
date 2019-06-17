@@ -13,6 +13,7 @@ import com.makentoshe.boorulibrary.booru.entity.Booru
 import com.makentoshe.boorulibrary.booru.entity.PostsRequest
 import com.makentoshe.boorulibrary.entitiy.Post
 import com.makentoshe.boorulibrary.entitiy.Tag
+import com.makentoshe.boorupostview.PostsFragmentNavigator
 import com.makentoshe.boorupostview.model.ItemsCountCalculator
 import com.makentoshe.boorupostview.presenter.GridScrollElementRxPresenter
 import com.makentoshe.boorupostview.view.PostsGridScrollElementFragmentUi
@@ -44,17 +45,23 @@ class GridScrollElementFragment : Fragment() {
         set(value) = (arguments ?: Bundle().also { arguments = it }).putInt(POSITION, value)
         get() = arguments!!.getInt(POSITION)
 
+    /** Navigator to another screens */
+    private var navigator: PostsFragmentNavigator
+        set(value) = (arguments ?: Bundle().also { arguments = it }).putSerializable(NAVIGATOR, value)
+        get() = arguments!!.get(NAVIGATOR) as PostsFragmentNavigator
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return PostsGridScrollElementFragmentUi(countCalc).createView(AnkoContext.create(requireContext()))
     }
 
+    /** Creates presenter and binds a ui to it */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val previewRepositoryBuilder = PreviewImageRepository.Builder(booru)
         // get request for receiving a list of posts
         val request = DefaultPostsRequest(countCalc.getItemsCountTotal(requireContext()), tags, position)
         // create a presenter instance
         val presenter = GridScrollElementRxPresenter(
-            disposables, buildPostRepository(), request, previewRepositoryBuilder
+            disposables, buildPostRepository(), request, previewRepositoryBuilder, navigator, position
         )
         // bind a grid view
         val gridView = view.findViewById<GridView>(com.makentoshe.boorupostview.R.id.gridview)
@@ -67,6 +74,7 @@ class GridScrollElementFragment : Fragment() {
         presenter.bindMessageView(messageview)
     }
 
+    /** Creates a [PostsRepository] instance with cache support */
     private fun buildPostRepository(): Repository<PostsRequest, List<Post>> {
         val networkExecutor = NetworkExecutorBuilder.buildSmartGet()
         val repository = PostsRepository(booru, networkExecutor)
@@ -74,17 +82,20 @@ class GridScrollElementFragment : Fragment() {
         return RepositoryCache(cache, repository)
     }
 
+    /** Release disposables */
     override fun onDestroy() = super.onDestroy().run { disposables.clear() }
 
     companion object {
         private const val TAGS = "Tags"
         private const val POSITION = "Position"
         private const val BOORU = "Booru"
-        fun build(booru: Booru, tags: Set<Tag>, position: Int): Fragment {
+        private const val NAVIGATOR = "PostsFragmentNavigator"
+        fun build(booru: Booru, tags: Set<Tag>, position: Int, navigator: PostsFragmentNavigator): Fragment {
             val fragment = GridScrollElementFragment()
             fragment.booru = booru
             fragment.tags = tags
             fragment.position = position
+            fragment.navigator = navigator
             return fragment
         }
     }
