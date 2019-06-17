@@ -14,10 +14,19 @@ class NetworkExecutorBuilder {
 
         fun buildStreamGet(listener: StreamDownloadListener? = null) = StreamGetNetworkExecutor(listener)
 
-        fun buildProxyGet(proxyDownloadListener: ProxyDownloadListener? = null): ProxyNetworkExecutor {
-            val alt = DefaultPostNetworkExecutor(proxyDownloadListener?.proxyListener)
-            val def = DefaultGetNetworkExecutor(proxyDownloadListener)
+        fun buildProxyGet(composeDownloadListener: ComposeDownloadListener? = null): ProxyNetworkExecutor {
+            val alt = DefaultPostNetworkExecutor(composeDownloadListener?.proxyListener)
+            val def = DefaultGetNetworkExecutor(composeDownloadListener)
             return DefaultProxyNetworkExecutor(alt, def)
+        }
+
+        fun buildSmartGet(
+            composeDownloadListener: ComposeDownloadListener? = null,
+            streamDownloadListener: StreamDownloadListener? = null
+        ): SmartNetworkExecutor {
+            val proxyExecutor = buildProxyGet(composeDownloadListener)
+            val defaultExecutor = buildStreamGet(streamDownloadListener)
+            return SmartNetworkExecutor(proxyExecutor, defaultExecutor)
         }
     }
 
