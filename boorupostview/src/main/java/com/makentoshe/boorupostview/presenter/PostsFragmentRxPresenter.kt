@@ -1,14 +1,19 @@
 package com.makentoshe.boorupostview.presenter
 
+import android.content.Context
+import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.jakewharton.rxbinding3.view.clicks
+import com.makentoshe.api.DiskCache
+import com.makentoshe.api.ImageDiskCache
+import com.makentoshe.api.PostDiskCache
 import com.makentoshe.boorulibrary.booru.entity.Booru
 import com.makentoshe.boorulibrary.entitiy.Tag
-import com.makentoshe.boorupostview.PostsFragmentBroadcastReceiver
+import com.makentoshe.boorupostview.BuildConfig.DEBUG
 import com.makentoshe.boorupostview.R
 import com.makentoshe.boorupostview.fragment.PostsContentFragment
 import com.makentoshe.boorupostview.fragment.PostsPanelFragment
@@ -27,13 +32,26 @@ class PostsFragmentRxPresenter(
     private val booru: Booru,
     private val tags: Set<Tag>,
     private val fragmentManager: FragmentManager,
-    private val searchStartedListener: NewSearchStartedListener
+    searchStartedListener: NewSearchStartedListener,
+    context: Context
 ) : PostsFragmentPresenter, RxPresenter() {
 
     /** Observable for on icon click events */
     private val iconViewObservable = PublishSubject.create<Unit>()
     /** Observable for panel slide listener */
     private val slidingPanelObservable = PublishSubject.create<Float>()
+    /** Observable for new search event */
+    private val searchObservable = PublishSubject.create<Set<Tag>>().also {
+        searchStartedListener.onNewSearchStarted(it::onNext)
+    }
+
+    init {
+        searchObservable.subscribe {
+            if (DEBUG) Log.i("Caches", "Clear all caches")
+            PostDiskCache(DiskCache(PostDiskCache.getDir(context))).clear()
+            ImageDiskCache(DiskCache(ImageDiskCache.getPreviewDir(context))).clear()
+        }.let(disposables::add)
+    }
 
     override fun bindToolbar(view: Toolbar) {
         view.title = booru.title
@@ -68,9 +86,9 @@ class PostsFragmentRxPresenter(
             PostsContentFragment.build(booru, tags)
         }
         // change panel state on search started
-        searchStartedListener.onNewSearchStarted {
+        searchObservable.subscribe {
             view.panelState = SlidingUpPanelLayout.PanelState.EXPANDED
-        }
+        }.let(disposables::add)
     }
 
     /** Attaches the fragment attached to the [container] */

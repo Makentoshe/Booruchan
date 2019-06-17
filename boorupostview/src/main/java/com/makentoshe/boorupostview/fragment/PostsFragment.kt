@@ -55,7 +55,9 @@ class PostsFragment : Fragment(), OnBackFragment {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         // creates a presenter
-        val presenter = PostsFragmentRxPresenter(disposables, booru, tags, requireFragmentManager(), broadcastReceiver)
+        val presenter = PostsFragmentRxPresenter(
+            disposables, booru, tags, requireFragmentManager(), broadcastReceiver, requireContext()
+        )
         //bind a toolbar
         val toolbar = view.findViewById<Toolbar>(com.makentoshe.boorupostview.R.id.toolbar_view)
         presenter.bindToolbar(toolbar)
@@ -71,19 +73,6 @@ class PostsFragment : Fragment(), OnBackFragment {
     override fun onDetach() {
         super.onDetach()
         requireActivity().unregisterReceiver(broadcastReceiver)
-    }
-
-    /** When fragment is not recreates - clear all cache files */
-    override fun onDestroy() {
-        super.onDestroy()
-        val activity = activity ?: return
-        if (activity.isChangingConfigurations) Unit else clearCaches(activity)
-    }
-
-    /** Clear all cache files and exit from the screen */
-    private fun clearCaches(context: Context) = GlobalScope.launch {
-        PostDiskCache(DiskCache(PostDiskCache.getDir(context))).clear()
-        ImageDiskCache(DiskCache(ImageDiskCache.getPreviewDir(context))).clear()
     }
 
     override fun onBackPressed(): Boolean {

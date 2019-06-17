@@ -41,8 +41,7 @@ class PostsGridScrollFragment : Fragment(), PostsContainerFragment {
     /** Register receiver */
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        val filter = IntentFilter(PostsFragmentBroadcastReceiver.START_NEW_SEARCH)
-        requireActivity().registerReceiver(broadcastReceiver, filter)
+        PostsFragmentBroadcastReceiver.registerReceiver(requireActivity(), broadcastReceiver)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -63,13 +62,12 @@ class PostsGridScrollFragment : Fragment(), PostsContainerFragment {
 
     /** Extracts a set of the [Tag] from the [Bundle] or return an empty set */
     private fun extractTagsFromState(state: Bundle): Set<Tag> {
-        val key = PostsFragmentBroadcastReceiver.START_NEW_SEARCH
-        return if (state.containsKey(key)) state.get(key) as Set<Tag> else emptySet()
+        return if (state.containsKey(TAGS)) state.get(TAGS) as Set<Tag> else emptySet()
     }
 
     /** Save a tags to the state */
     override fun onSaveInstanceState(outState: Bundle) {
-        outState.putSerializable(PostsFragmentBroadcastReceiver.START_NEW_SEARCH, presenter.tags as Serializable)
+        outState.putSerializable(TAGS, presenter.tags as Serializable)
     }
 
     /** Unregister receiver */

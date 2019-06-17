@@ -10,7 +10,6 @@ import com.makentoshe.booruchan.common.SchedulersProvider
 import com.makentoshe.booruchan.model.StreamDownloadController
 import com.makentoshe.booruchan.navigation.Router
 import com.makentoshe.booruchan.repository.stream.StreamRepositoryFactory
-import com.makentoshe.booruchan.screen.booru.BooruModule
 import com.makentoshe.booruchan.screen.posts.container.PostsModule
 import com.makentoshe.booruchan.screen.posts.container.controller.CacheController
 import com.makentoshe.booruchan.screen.posts.container.model.getItemsCountInRequest
@@ -54,7 +53,6 @@ class Booruchan : Application(), KoinComponent {
             modules(
                 appModule,
                 PostsModule.module,
-                BooruModule.module,
                 SampleModule.module,
                 PostsPageModule.module,
                 WebmPlayerModule.module,

@@ -29,6 +29,7 @@ class PostsFragmentBroadcastReceiver : BroadcastReceiver(), NewSearchStartedList
     }
 
     companion object {
+
         internal const val START_NEW_SEARCH = "NewSearchStarted"
 
         fun sendBroadcast(context: Context, tags: Set<Tag>) {
