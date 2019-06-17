@@ -6,11 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.makentoshe.boorulibrary.booru.entity.Booru
-import com.makentoshe.boorulibrary.entitiy.Tag
 import com.makentoshe.navigation.FragmentNavigator
 import org.jetbrains.anko.AnkoContext
-import java.io.Serializable
 
 /**
  * Fragment contains a DrawerLayout.
@@ -19,15 +16,10 @@ import java.io.Serializable
  */
 class BooruFragment : Fragment() {
 
-    /** Booru instance saved in args */
-    private var booru: Booru
-        set(value) = (arguments ?: Bundle().also { arguments = it }).putSerializable(BOORU, value)
-        get() = arguments!!.get(BOORU) as Booru
-
-    /** Current set of the tags saved in args */
-    private var tags: Set<Tag>
-        set(value) = (arguments ?: Bundle().also { arguments = it }).putSerializable(TAGS, value as Serializable)
-        get() = arguments!!.get(TAGS) as Set<Tag>
+    /** Data class contains a main data uses in API requests and utility values */
+    private var booruTransitionData: BooruTransitionData
+        set(value) = (arguments ?: Bundle().also { arguments = it }).putSerializable(DATA, value)
+        get() = arguments!!.get(DATA) as BooruTransitionData
 
     /** Navigator */
     private var navigator: BooruFragmentNavigator
@@ -69,7 +61,7 @@ class BooruFragment : Fragment() {
         super.onStart()
         navigator.setNavigator(fragmentNavigator)
         if (shouldSetScreenOnNavigatorAttach) {
-            navigator.navigateToPosts(booru, tags)
+            navigator.navigateToPosts(booruTransitionData)
             shouldSetScreenOnNavigatorAttach = false
         }
     }
@@ -86,15 +78,13 @@ class BooruFragment : Fragment() {
     }
 
     companion object {
-        private const val BOORU = "Booru"
-        private const val TAGS = "Tags"
+        private const val DATA = "BooruTransitionData"
         private const val NAVIGATOR = "Navigator"
         private const val ATTACH = "ShouldStartScreenOnNavigatorAttach"
-        fun build(booru: Booru, tags: Set<Tag>, navigator: BooruFragmentNavigator): Fragment {
+        fun build(booruTransitionData: BooruTransitionData, navigator: BooruFragmentNavigator): Fragment {
             val fragment = BooruFragment()
+            fragment.booruTransitionData = booruTransitionData
             fragment.navigator = navigator
-            fragment.booru = booru
-            fragment.tags = tags
             return fragment
         }
     }

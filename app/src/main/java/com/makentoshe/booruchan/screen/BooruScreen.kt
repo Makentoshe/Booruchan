@@ -3,9 +3,8 @@ package com.makentoshe.booruchan.screen
 import androidx.fragment.app.Fragment
 import com.makentoshe.booruchan.navigation.Router
 import com.makentoshe.booruchan.navigation.Screen
-import com.makentoshe.boorulibrary.booru.entity.Booru
-import com.makentoshe.boorulibrary.entitiy.Tag
 import com.makentoshe.boorupostview.PostsFragmentNavigator
+import com.makentoshe.booruview.BooruTransitionData
 import com.makentoshe.booruview.BooruFragment
 import com.makentoshe.booruview.BooruFragmentNavigator
 import java.io.Serializable
@@ -13,14 +12,11 @@ import java.io.Serializable
 /**
  * Class describes a a booru screen.
  */
-class BooruScreen(
-    private val booru: Booru, private val tags: Set<Tag>,
-    private val navigator: BooruFragmentNavigator
-) : Screen() {
+class BooruScreen(private val booruTransitionData: BooruTransitionData, private val navigator: BooruFragmentNavigator) : Screen() {
 
     /** Factory property creates */
     override val fragment: Fragment
-        get() = BooruFragment.build(booru, tags, navigator)
+        get() = BooruFragment.build(booruTransitionData, navigator)
 }
 
 /**
@@ -42,8 +38,8 @@ class BooruFragmentNavigator(
 
     override fun removeNavigator() = holder.removeNavigator()
 
-    override fun navigateToPosts(booru: Booru, tags: Set<Tag>) {
-        router.replaceScreen(PostsScreen(booru, tags, navigator))
+    override fun navigateToPosts(booruTransitionData: BooruTransitionData) {
+        router.replaceScreen(PostsScreen(booruTransitionData.booru, booruTransitionData.tags, navigator))
     }
 
     override fun navigateToAccount() {

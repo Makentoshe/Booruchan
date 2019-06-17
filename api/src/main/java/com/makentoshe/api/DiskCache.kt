@@ -1,5 +1,7 @@
 package com.makentoshe.api
 
+import android.util.Log
+import com.makentoshe.api.BuildConfig.DEBUG
 import java.io.File
 
 /**
@@ -24,8 +26,9 @@ class DiskCache(private val directory: File) : Cache<String, ByteArray> {
     override fun get(key: String): ByteArray? = if (hashMap.containsKey(key)) File(hashMap[key]).readBytes() else null
 
     override fun add(key: String, value: ByteArray) = File(directory, key).let {
+        val isCreated = it.createNewFile()
+        if (DEBUG) Log.i("Caches", "key=$key\nisCreated=$isCreated")
         it.writeBytes(value)
-        it.createNewFile()
         hashMap[it.name] = it.path
     }
 }

@@ -4,6 +4,7 @@ import androidx.fragment.app.Fragment
 import com.makentoshe.booruchan.navigation.Router
 import com.makentoshe.booruchan.navigation.Screen
 import com.makentoshe.boorulibrary.booru.entity.Booru
+import com.makentoshe.booruview.BooruTransitionData
 import com.makentoshe.booruview.BooruFragmentNavigator
 import com.makentoshe.startview.StartFragment
 import com.makentoshe.startview.StartFragmentNavigator
@@ -32,7 +33,8 @@ class StartFragmentNavigator(
     }
 
     override fun navigateToBooruScreen(booru: Booru) {
-        val booruScreen = BooruScreen(booru, setOf(), booruFragmentNavigator)
+        val boorudata = BooruTransitionData(booru, setOf())
+        val booruScreen = BooruScreen(boorudata, booruFragmentNavigator)
         router.navigateWithReplace(booruScreen)
     }
 }

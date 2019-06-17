@@ -21,8 +21,7 @@ class GridScrollElementRxPresenter(
     private val postsRepository: Repository<PostsRequest, List<Post>>,
     request: PostsRequest,
     private val previewRepositoryBuilder: PreviewImageRepository.Builder,
-    private val navigator: PostsFragmentNavigator,
-    private val pagePosition: Int
+    private val navigator: PostsFragmentNavigator
 ) : GridScrollElementPresenter, RxPresenter() {
 
     /** Used for successful network request */
@@ -48,7 +47,7 @@ class GridScrollElementRxPresenter(
         // show view on error and add new adapter
         postsObservable.observeOn(AndroidSchedulers.mainThread()).subscribe {
             view.visibility = View.VISIBLE
-            view.adapter = GridScrollElementAdapter(it, disposables, previewRepositoryBuilder, navigator, pagePosition)
+            view.adapter = GridScrollElementAdapter(it, disposables, previewRepositoryBuilder, navigator)
         }.let(disposables::add)
     }
 

@@ -61,7 +61,7 @@ class GridScrollElementFragment : Fragment() {
         val request = DefaultPostsRequest(countCalc.getItemsCountTotal(requireContext()), tags, position)
         // create a presenter instance
         val presenter = GridScrollElementRxPresenter(
-            disposables, buildPostRepository(), request, previewRepositoryBuilder, navigator, position
+            disposables, buildPostRepository(), request, previewRepositoryBuilder, navigator
         )
         // bind a grid view
         val gridView = view.findViewById<GridView>(com.makentoshe.boorupostview.R.id.gridview)
@@ -78,7 +78,7 @@ class GridScrollElementFragment : Fragment() {
     private fun buildPostRepository(): Repository<PostsRequest, List<Post>> {
         val networkExecutor = NetworkExecutorBuilder.buildSmartGet()
         val repository = PostsRepository(booru, networkExecutor)
-        val cache = PostDiskCache(DiskCache(PostDiskCache.getDir(requireContext())))
+        val cache = PostDiskCache.build(requireContext())
         return RepositoryCache(cache, repository)
     }
 

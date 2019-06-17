@@ -1,7 +1,5 @@
 package com.makentoshe.booruview
 
-import com.makentoshe.boorulibrary.booru.entity.Booru
-import com.makentoshe.boorulibrary.entitiy.Tag
 import ru.terrakok.cicerone.NavigatorHolder
 import java.io.Serializable
 
@@ -11,7 +9,7 @@ import java.io.Serializable
 interface BooruFragmentNavigator : Serializable, NavigatorHolder {
 
     /** Replace current screen to the posts */
-    fun navigateToPosts(booru: Booru, tags: Set<Tag>)
+    fun navigateToPosts(booruTransitionData: BooruTransitionData)
 
     /** Replace current screen to the accounts */
     fun navigateToAccount()

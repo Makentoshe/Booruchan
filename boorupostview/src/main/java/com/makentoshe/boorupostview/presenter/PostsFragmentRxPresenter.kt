@@ -51,7 +51,7 @@ class PostsFragmentRxPresenter(
         searchObservable.subscribe {
             try {
                 if (DEBUG) Log.i(context.getString(R.string.app_name), "Clear all caches")
-                PostDiskCache(DiskCache(PostDiskCache.getDir(context))).clear()
+                PostDiskCache.build(context).clear()
                 ImageDiskCache(DiskCache(ImageDiskCache.getPreviewDir(context))).clear()
                 if (DEBUG) Log.i(context.getString(R.string.app_name), "Success")
             } catch (e: Exception) {
