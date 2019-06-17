@@ -1,7 +1,9 @@
 package com.makentoshe.boorupostview.presenter
 
+import android.content.res.ColorStateList
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Color
 import android.view.View
 import android.widget.ImageView
 import com.makentoshe.api.Repository
@@ -42,8 +44,12 @@ class GridElementRxPresenter(
     override fun bindPreview(view: ImageView) {
         // on success
         imageObservable.subscribe {
-            view.visibility = View.VISIBLE
             view.setImageBitmap(it)
+        }.let(disposables::add)
+
+        errorObservable.subscribe {
+            view.setImageResource(com.makentoshe.style.R.drawable.ic_alert_octagon_outline)
+            view.imageTintList = ColorStateList.valueOf(Color.DKGRAY)
         }.let(disposables::add)
     }
 
