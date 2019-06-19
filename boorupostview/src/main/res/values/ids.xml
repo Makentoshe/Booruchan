@@ -17,4 +17,5 @@
     <item name="panelview_content" type="id"/>
     <item name="messageview" type="id"/>
     <item name="gridview_element_image" type="id"/>
+    <item name="gridview_element_progress" type="id"/>
 </resources>
