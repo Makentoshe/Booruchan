@@ -15,27 +15,22 @@ class SmartNetworkExecutor(
 ) : NetworkExecutor {
 
     override suspend fun perform(request: Request, vararg params: Pair<String, String>): Response {
-        val result = getNetworkExecutor.perform(request, *params)
-        return if (result.error == null) onSuccess(request, result) else onError(request, result, *params)
+        val defaultResult = getNetworkExecutor.perform(request, *params)
+        // log default network execution result
+        getNetworkExecutor.logResponse(request, defaultResult)
+        if (defaultResult.error == null) return defaultResult
+        // perform proxied network execution
+        val proxiedResult = proxyNetworkExecutor.perform(request, *params)
+        // log proxy network execution result
+        if (DEBUG) proxyNetworkExecutor.logResponse(request, proxiedResult)
+        return proxiedResult
     }
 
-    /** Default network execution was finished successfully */
-    private fun onSuccess(request: Request, response: Response) = response.also {
-        if (DEBUG && (response.code / 100) != 2) logResponse(request, response)
-    }
-
-    /** Default network execution was finished with some errors */
-    private suspend fun onError(request: Request, response: Response, vararg params: Pair<String, String>): Response {
-        return proxyNetworkExecutor.perform(request, *params).also {
-            if (DEBUG) logResponse(request, it)
-        }
-    }
-
-    private fun logResponse(request: Request, response: Response) {
+    private fun NetworkExecutor.logResponse(request: Request, response: Response) {
         val logmessage = StringBuilder().append("ResultCode=").append(response.code).append("\n")
-            .append("Request=").append(request).append("\n")
+            .append("Request=").append(request.url).append("\n")
             .append("Error=").append(response.error).append("\n")
-            .append("Headers=").append(response.headers).append("\n \n")
+            .append("Headers=").append(response.headers)
         Logger.getLogger(this::class.java.simpleName).warning(logmessage.toString())
     }
 }

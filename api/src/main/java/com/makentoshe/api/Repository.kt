@@ -48,3 +48,10 @@ class PreviewImageRepository(booru: Booru, networkExecutor: NetworkExecutor) : R
         }
     }
 }
+
+class ImageRepositoryBuilder(private val booru: Booru) {
+
+    fun buildPreviewRepository(networkExecutor: NetworkExecutor) : Repository<Post, ByteArray> {
+        return PreviewImageRepository(booru, networkExecutor)
+    }
+}

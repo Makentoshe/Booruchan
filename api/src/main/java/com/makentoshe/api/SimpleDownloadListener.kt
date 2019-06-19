@@ -4,12 +4,10 @@ import com.makentoshe.boorulibrary.network.DownloadListener
 import com.makentoshe.boorulibrary.network.Response
 import com.makentoshe.boorulibrary.network.request.Request
 
-class SimpleComposeDownloadListener<T : DownloadListener>(
-    override val listener: T? = null
-) : ComposeDownloadListener<T> {
+class SimpleDownloadListener: DownloadListener {
 
     private var onError: ((Response) -> Unit)? = null
-    private var onFInish: (() -> Unit)? = null
+    private var onFinish: (() -> Unit)? = null
     private var onStart: ((Request, Array<out Pair<String, String>>) -> Unit)? = null
     private var onSuccess: ((Response) -> Unit)? = null
 
@@ -22,11 +20,11 @@ class SimpleComposeDownloadListener<T : DownloadListener>(
     }
 
     fun onFinish(l: () -> Unit) {
-        onFInish = l
+        onFinish = l
     }
 
     override fun onFinish() {
-        onFInish?.invoke()
+        onFinish?.invoke()
     }
 
     fun onStart(l: (Request, Array<out Pair<String, String>>) -> Unit) {
