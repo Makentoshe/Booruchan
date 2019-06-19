@@ -34,8 +34,7 @@ class PostsFragmentRxPresenter(
     private val tags: Set<Tag>,
     private val fragmentManager: FragmentManager,
     searchStartedListener: NewSearchStartedListener,
-    context: Context,
-    private val navigator: PostsFragmentNavigator
+    context: Context
 ) : PostsFragmentPresenter, RxPresenter() {
 
     /** Observable for on icon click events */
@@ -86,7 +85,7 @@ class PostsFragmentRxPresenter(
         }.let(disposables::add)
         // attach the panel - posts viewer
         attachFragment(com.makentoshe.boorupostview.R.id.panelview) {
-            PostsPanelFragment.build(booru, tags, navigator)
+            PostsPanelFragment.build(booru, tags)
         }
         // attach the content - search layout
         attachFragment(com.makentoshe.boorupostview.R.id.contentview) {

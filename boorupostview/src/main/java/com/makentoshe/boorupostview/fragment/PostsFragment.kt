@@ -7,11 +7,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
-import com.makentoshe.api.DiskCache
-import com.makentoshe.api.ImageDiskCache
-import com.makentoshe.api.PostDiskCache
+import androidx.viewpager.widget.ViewPager
 import com.makentoshe.boorulibrary.booru.entity.Booru
 import com.makentoshe.boorulibrary.entitiy.Tag
+import com.makentoshe.boorupostview.PostSelectBroadcastReceiver
 import com.makentoshe.boorupostview.PostsFragmentBroadcastReceiver
 import com.makentoshe.boorupostview.PostsFragmentNavigator
 import com.makentoshe.boorupostview.R
@@ -20,8 +19,6 @@ import com.makentoshe.boorupostview.view.PostsFragmentUi
 import com.makentoshe.style.OnBackFragment
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import io.reactivex.disposables.CompositeDisposable
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import org.jetbrains.anko.AnkoContext
 import java.io.Serializable
 
@@ -32,6 +29,9 @@ class PostsFragment : Fragment(), OnBackFragment {
 
     /** Broadcast receiver for receiving a new search events from another fragment */
     private val broadcastReceiver = PostsFragmentBroadcastReceiver()
+
+    /** Broadcast receiver handle post select events */
+    private val postSelectBroadcastReceiver = PostSelectBroadcastReceiver()
 
     /** Contains a disposable which will be released on destroy lifecycle event */
     private val disposables = CompositeDisposable()
@@ -60,6 +60,11 @@ class PostsFragment : Fragment(), OnBackFragment {
     override fun onAttach(context: Context) {
         super.onAttach(context)
         PostsFragmentBroadcastReceiver.registerReceiver(requireActivity(), broadcastReceiver)
+        PostSelectBroadcastReceiver
+            .registerReceiver(requireActivity(), postSelectBroadcastReceiver).onSelect {
+            val page = view!!.findViewById<ViewPager>(com.makentoshe.boorupostview.R.id.viewpager).currentItem
+            println("page=$page, position=$it")
+        }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -69,7 +74,7 @@ class PostsFragment : Fragment(), OnBackFragment {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         // creates a presenter
         val presenter = PostsFragmentRxPresenter(
-            disposables, booru, tags, requireFragmentManager(), broadcastReceiver, requireContext(), navigator
+            disposables, booru, tags, requireFragmentManager(), broadcastReceiver, requireContext()
         )
         //bind a toolbar
         val toolbar = view.findViewById<Toolbar>(com.makentoshe.boorupostview.R.id.toolbar_view)
@@ -86,6 +91,7 @@ class PostsFragment : Fragment(), OnBackFragment {
     override fun onDetach() {
         super.onDetach()
         requireActivity().unregisterReceiver(broadcastReceiver)
+        requireActivity().unregisterReceiver(postSelectBroadcastReceiver)
     }
 
     override fun onBackPressed(): Boolean {

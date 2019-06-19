@@ -31,11 +31,6 @@ class PostsPanelFragment : Fragment(), PostsContainerFragment {
         set(value) = (arguments ?: Bundle().also { arguments = it }).putSerializable(TAGS, value as Serializable)
         get() = arguments!!.get(TAGS) as Set<Tag>
 
-    /** Navigator to another screens */
-    private var navigator: PostsFragmentNavigator
-        set(value) = (arguments ?: Bundle().also { arguments = it }).putSerializable(NAVIGATOR, value)
-        get() = arguments!!.get(NAVIGATOR) as PostsFragmentNavigator
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return PostsPanelFragmentUi().createView(AnkoContext.create(requireContext()))
     }
@@ -47,7 +42,7 @@ class PostsPanelFragment : Fragment(), PostsContainerFragment {
             //attach fragment
             //any display variations here
             //mb using when?
-            PostsGridScrollFragment.build(booru, tags, navigator)
+            PostsGridScrollFragment.build(booru, tags)
         }
     }
 
@@ -60,12 +55,10 @@ class PostsPanelFragment : Fragment(), PostsContainerFragment {
     companion object {
         private const val BOORU = "Booru"
         private const val TAGS = "Tags"
-        private const val NAVIGATOR = "PostsFragmentNavigator"
-        fun build(booru: Booru, tags: Set<Tag>, navigator: PostsFragmentNavigator): Fragment {
+        fun build(booru: Booru, tags: Set<Tag>): Fragment {
             val fragment = PostsPanelFragment()
             fragment.booru = booru
             fragment.tags = tags
-            fragment.navigator = navigator
             return fragment
         }
     }

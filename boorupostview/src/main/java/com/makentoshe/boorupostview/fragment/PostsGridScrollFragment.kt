@@ -1,6 +1,5 @@
 package com.makentoshe.boorupostview.fragment
 
-import android.content.IntentFilter
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,7 +9,6 @@ import androidx.viewpager.widget.ViewPager
 import com.makentoshe.boorulibrary.booru.entity.Booru
 import com.makentoshe.boorulibrary.entitiy.Tag
 import com.makentoshe.boorupostview.PostsFragmentBroadcastReceiver
-import com.makentoshe.boorupostview.PostsFragmentNavigator
 import com.makentoshe.boorupostview.model.GridScrollViewPagerAdapter
 import com.makentoshe.boorupostview.presenter.PostsGridScrollFragmentRxPresenter
 import com.makentoshe.boorupostview.view.PostsGridScrollFragmentUi
@@ -39,11 +37,6 @@ class PostsGridScrollFragment : Fragment(), PostsContainerFragment {
         set(value) = (arguments ?: Bundle().also { arguments = it }).putSerializable(TAGS, value as Serializable)
         get() = arguments!!.get(TAGS) as Set<Tag>
 
-    /** Navigator to another screens */
-    private var navigator: PostsFragmentNavigator
-        set(value) = (arguments ?: Bundle().also { arguments = it }).putSerializable(NAVIGATOR, value)
-        get() = arguments!!.get(NAVIGATOR) as PostsFragmentNavigator
-
     /** Presenter component uses for a receiving set of the selected but not searched yet tags */
     private lateinit var presenter: PostsGridScrollFragmentRxPresenter
 
@@ -61,7 +54,7 @@ class PostsGridScrollFragment : Fragment(), PostsContainerFragment {
         // restore tags from the saved state
         val tags: Set<Tag> = if (savedInstanceState == null) tags else extractTagsFromState(savedInstanceState)
         // create adapter builder for the presenter
-        val adapterBuilder = GridScrollViewPagerAdapter.Builder(childFragmentManager, booru, navigator)
+        val adapterBuilder = GridScrollViewPagerAdapter.Builder(childFragmentManager, booru)
         // create presenter
         presenter = PostsGridScrollFragmentRxPresenter(disposables, adapterBuilder, broadcastReceiver, tags)
         //bind view pager
@@ -88,12 +81,10 @@ class PostsGridScrollFragment : Fragment(), PostsContainerFragment {
     companion object {
         private const val BOORU = "Booru"
         private const val TAGS = "Tags"
-        private const val NAVIGATOR = "PostsFragmentNavigator"
-        fun build(booru: Booru, tags: Set<Tag>, navigator: PostsFragmentNavigator): Fragment {
+        fun build(booru: Booru, tags: Set<Tag>): Fragment {
             val fragment = PostsGridScrollFragment()
             fragment.booru = booru
             fragment.tags = tags
-            fragment.navigator = navigator
             return fragment
         }
     }
