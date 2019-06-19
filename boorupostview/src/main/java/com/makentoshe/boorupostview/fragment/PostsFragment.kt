@@ -52,6 +52,7 @@ class PostsFragment : Fragment(), OnBackFragment {
         set(value) = (arguments ?: Bundle().also { arguments = it }).putSerializable(NAVIGATOR, value)
         get() = arguments!!.get(NAVIGATOR) as PostsFragmentNavigator
 
+    /** Sends a new broadcast event (start new search event) */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         PostsFragmentBroadcastReceiver.sendBroadcast(requireContext(), tags)
@@ -61,11 +62,10 @@ class PostsFragment : Fragment(), OnBackFragment {
     override fun onAttach(context: Context) {
         super.onAttach(context)
         PostsFragmentBroadcastReceiver.registerReceiver(requireActivity(), broadcastReceiver)
-        PostSelectBroadcastReceiver
-            .registerReceiver(requireActivity(), postSelectBroadcastReceiver).onSelect {
-                val page = view!!.findViewById<ViewPager>(com.makentoshe.boorupostview.R.id.viewpager).currentItem
-                println("page=$page, position=$it")
-            }
+        PostSelectBroadcastReceiver.registerReceiver(requireActivity(), postSelectBroadcastReceiver).onSelect {
+            val page = view!!.findViewById<ViewPager>(com.makentoshe.boorupostview.R.id.viewpager).currentItem
+            println("page=$page, position=$it")
+        }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -98,6 +98,7 @@ class PostsFragment : Fragment(), OnBackFragment {
         requireActivity().unregisterReceiver(postSelectBroadcastReceiver)
     }
 
+    /** Handle on back pressed event and close panel if it was opened */
     override fun onBackPressed(): Boolean {
         val v = view?.findViewById<SlidingUpPanelLayout>(R.id.slidingPanel) ?: return false
         return if (v.panelState == SlidingUpPanelLayout.PanelState.COLLAPSED) {
