@@ -8,15 +8,16 @@ import android.widget.GridView
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProviders
 import com.makentoshe.api.*
 import com.makentoshe.boorulibrary.booru.entity.Booru
 import com.makentoshe.boorulibrary.booru.entity.PostsRequest
 import com.makentoshe.boorulibrary.entitiy.Post
 import com.makentoshe.boorulibrary.entitiy.Tag
-import com.makentoshe.boorupostview.PostsFragmentNavigator
 import com.makentoshe.boorupostview.model.ItemsCountCalculator
 import com.makentoshe.boorupostview.presenter.GridScrollElementRxPresenter
 import com.makentoshe.boorupostview.view.PostsGridScrollElementFragmentUi
+import com.makentoshe.boorupostview.viewmodel.GridScrollElementFragmentViewModel
 import io.reactivex.disposables.CompositeDisposable
 import org.jetbrains.anko.AnkoContext
 import java.io.Serializable
@@ -45,24 +46,16 @@ class GridScrollElementFragment : Fragment() {
         set(value) = (arguments ?: Bundle().also { arguments = it }).putInt(POSITION, value)
         get() = arguments!!.getInt(POSITION)
 
-    /** Navigator to another screens */
-    private var navigator: PostsFragmentNavigator
-        set(value) = (arguments ?: Bundle().also { arguments = it }).putSerializable(NAVIGATOR, value)
-        get() = arguments!!.get(NAVIGATOR) as PostsFragmentNavigator
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return PostsGridScrollElementFragmentUi(countCalc).createView(AnkoContext.create(requireContext()))
     }
 
     /** Creates presenter and binds a ui to it */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val previewRepositoryBuilder = PreviewImageRepository.Builder(booru)
-        // get request for receiving a list of posts
-        val request = DefaultPostsRequest(countCalc.getItemsCountTotal(requireContext()), tags, position)
+        // get a viewmodel instance
+        val viewmodel = getViewModel(savedInstanceState)
         // create a presenter instance
-        val presenter = GridScrollElementRxPresenter(
-            disposables, buildPostRepository(), request, previewRepositoryBuilder, navigator
-        )
+        val presenter = GridScrollElementRxPresenter(disposables, viewmodel)
         // bind a grid view
         val gridView = view.findViewById<GridView>(com.makentoshe.boorupostview.R.id.gridview)
         presenter.bindGridView(gridView)
@@ -82,21 +75,38 @@ class GridScrollElementFragment : Fragment() {
         return RepositoryCache(cache, repository)
     }
 
+    /** Returns a viewmodel associated with this fragment or creates a new one */
+    private fun getViewModel(savedInstanceState: Bundle?): GridScrollElementFragmentViewModel {
+        if (savedInstanceState != null) {
+            return ViewModelProviders.of(this)[GridScrollElementFragmentViewModel::class.java]
+        } else {
+            // request for receiving a list of posts
+            val request = DefaultPostsRequest(countCalc.getItemsCountTotal(requireContext()), tags, position)
+            // repository for requesting a posts
+            val repository = buildPostRepository()
+
+            val factory = GridScrollElementFragmentViewModel.Factory(request, repository)
+            return ViewModelProviders.of(this, factory)[GridScrollElementFragmentViewModel::class.java]
+        }
+    }
+
     /** Release disposables */
-    override fun onDestroy() = super.onDestroy().run { disposables.clear() }
+    override fun onDestroy() {
+        super.onDestroy()
+        disposables.clear()
+    }
 
     companion object {
         private const val TAGS = "Tags"
         private const val POSITION = "Position"
         private const val BOORU = "Booru"
-        private const val NAVIGATOR = "PostsFragmentNavigator"
-        fun build(booru: Booru, tags: Set<Tag>, position: Int, navigator: PostsFragmentNavigator): Fragment {
+        fun build(booru: Booru, tags: Set<Tag>, position: Int): Fragment {
             val fragment = GridScrollElementFragment()
             fragment.booru = booru
             fragment.tags = tags
             fragment.position = position
-            fragment.navigator = navigator
             return fragment
         }
     }
 }
+
