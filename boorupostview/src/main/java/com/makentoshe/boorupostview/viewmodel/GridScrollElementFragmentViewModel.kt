@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.makentoshe.api.Repository
 import com.makentoshe.boorulibrary.booru.entity.PostsRequest
 import com.makentoshe.boorulibrary.entitiy.Post
+import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -19,11 +20,19 @@ class GridScrollElementFragmentViewModel(
     /** Contains disposables */
     private val disposables = CompositeDisposable()
 
-    /** Successful network request */
-    val postsObservable = BehaviorSubject.create<List<Post>>()
+    /** Emitter for successful network request events */
+    private val postsSubject = BehaviorSubject.create<List<Post>>()
 
-    /** Unsuccessful network request */
-    val errorObservable = BehaviorSubject.create<Throwable>()
+    /** Observable for successful network request events */
+    val postsObservable: Observable<List<Post>>
+        get() = postsSubject
+
+    /** Emitter for unsuccessful network request events */
+    private val errorSubject = BehaviorSubject.create<Throwable>()
+
+    /** Observable for unsuccessful network request events */
+    val errorObservable: Observable<Throwable>
+        get() = errorSubject
 
     init {
         // perform network request and returns a list of the posts or error
@@ -31,10 +40,11 @@ class GridScrollElementFragmentViewModel(
             .subscribe { p, e -> onPostsComplete(p, e) }.let(disposables::add)
     }
 
+    /** Calls when posts was downloaded. Result will be posts, null or null, posts */
     private fun onPostsComplete(posts: List<Post>?, error: Throwable?) {
-        if (error != null) return errorObservable.onNext(error)
-        if (posts != null) return postsObservable.onNext(posts)
-        errorObservable.onNext(Exception("wtf"))
+        if (error != null) return errorSubject.onNext(error)
+        if (posts != null) return postsSubject.onNext(posts)
+        errorSubject.onNext(Exception("wtf"))
     }
 
     override fun onCleared() = disposables.clear()
