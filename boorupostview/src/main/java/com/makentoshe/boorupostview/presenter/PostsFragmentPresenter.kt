@@ -9,9 +9,6 @@ import com.sothree.slidinguppanel.SlidingUpPanelLayout
  */
 interface PostsFragmentPresenter {
 
-    /** Bind a [Toolbar]. Displays a booru title and a subtitle. */
-    fun bindToolbar(view: Toolbar)
-
     /** Bind an option icon. This icon performs a panel open/close action on click. */
     fun bindOptionIcon(view: View)
 

@@ -20,6 +20,7 @@ import com.makentoshe.style.OnBackFragment
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import io.reactivex.disposables.CompositeDisposable
 import org.jetbrains.anko.AnkoContext
+import org.jetbrains.anko.appcompat.v7.subtitleResource
 import java.io.Serializable
 
 /**
@@ -62,9 +63,9 @@ class PostsFragment : Fragment(), OnBackFragment {
         PostsFragmentBroadcastReceiver.registerReceiver(requireActivity(), broadcastReceiver)
         PostSelectBroadcastReceiver
             .registerReceiver(requireActivity(), postSelectBroadcastReceiver).onSelect {
-            val page = view!!.findViewById<ViewPager>(com.makentoshe.boorupostview.R.id.viewpager).currentItem
-            println("page=$page, position=$it")
-        }
+                val page = view!!.findViewById<ViewPager>(com.makentoshe.boorupostview.R.id.viewpager).currentItem
+                println("page=$page, position=$it")
+            }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -72,13 +73,16 @@ class PostsFragment : Fragment(), OnBackFragment {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        // attach a content fragment
+        attachFragment(com.makentoshe.boorupostview.R.id.contentview) { PostsContentFragment.build(booru, tags) }
+        // attach a panel fragment
+        attachFragment(com.makentoshe.boorupostview.R.id.panelview) { PostsPanelFragment.build(booru, tags) }
         // creates a presenter
-        val presenter = PostsFragmentRxPresenter(
-            disposables, booru, tags, requireFragmentManager(), broadcastReceiver, requireContext()
-        )
+        val presenter = PostsFragmentRxPresenter(disposables, broadcastReceiver, requireContext())
         //bind a toolbar
         val toolbar = view.findViewById<Toolbar>(com.makentoshe.boorupostview.R.id.toolbar_view)
-        presenter.bindToolbar(toolbar)
+        toolbar.title = booru.title
+        toolbar.subtitleResource = com.makentoshe.boorupostview.R.string.posts
         //bind an option icon (magnify/close)
         val optionIcon = view.findViewById<View>(R.id.magnify_view)
         presenter.bindOptionIcon(optionIcon)
@@ -99,6 +103,12 @@ class PostsFragment : Fragment(), OnBackFragment {
         return if (v.panelState == SlidingUpPanelLayout.PanelState.COLLAPSED) {
             v.panelState = SlidingUpPanelLayout.PanelState.EXPANDED; true
         } else false
+    }
+
+    /** Attaches the fragment attached to the [container] */
+    private fun attachFragment(container: Int, factory: () -> Fragment) {
+        val f = childFragmentManager.findFragmentById(container)
+        if (f != null) return else childFragmentManager.beginTransaction().add(container, factory()).commit()
     }
 
     companion object {

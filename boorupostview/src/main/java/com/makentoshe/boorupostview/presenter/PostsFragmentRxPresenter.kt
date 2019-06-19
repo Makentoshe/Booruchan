@@ -30,11 +30,7 @@ import org.jetbrains.anko.find
  */
 class PostsFragmentRxPresenter(
     override val disposables: CompositeDisposable,
-    private val booru: Booru,
-    private val tags: Set<Tag>,
-    private val fragmentManager: FragmentManager,
-    searchStartedListener: NewSearchStartedListener,
-    context: Context
+    searchStartedListener: NewSearchStartedListener, context: Context
 ) : PostsFragmentPresenter, RxPresenter() {
 
     /** Observable for on icon click events */
@@ -59,11 +55,6 @@ class PostsFragmentRxPresenter(
         }.let(disposables::add)
     }
 
-    override fun bindToolbar(view: Toolbar) {
-        view.title = booru.title
-        view.subtitle = view.context.getString(R.string.posts)
-    }
-
     override fun bindOptionIcon(view: View) {
         view.clicks().safeSubscribe(iconViewObservable)
         //set magnify icon drawable
@@ -83,23 +74,9 @@ class PostsFragmentRxPresenter(
         iconViewObservable.subscribe {
             view.panelState = SlidingUpPanelLayout.PanelState.COLLAPSED
         }.let(disposables::add)
-        // attach the panel - posts viewer
-        attachFragment(com.makentoshe.boorupostview.R.id.panelview) {
-            PostsPanelFragment.build(booru, tags)
-        }
-        // attach the content - search layout
-        attachFragment(com.makentoshe.boorupostview.R.id.contentview) {
-            PostsContentFragment.build(booru, tags)
-        }
         // change panel state on search started
         searchObservable.subscribe {
             view.panelState = SlidingUpPanelLayout.PanelState.EXPANDED
         }.let(disposables::add)
-    }
-
-    /** Attaches the fragment attached to the [container] */
-    private fun attachFragment(container: Int, factory: () -> Fragment) {
-        val f = fragmentManager.findFragmentById(container)
-        if (f != null) return else fragmentManager.beginTransaction().add(container, factory()).commit()
     }
 }
