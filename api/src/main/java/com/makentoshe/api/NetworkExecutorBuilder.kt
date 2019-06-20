@@ -4,6 +4,7 @@ import com.makentoshe.boorulibrary.network.DownloadListener
 import com.makentoshe.boorulibrary.network.StreamDownloadListener
 import com.makentoshe.boorulibrary.network.executor.DefaultGetNetworkExecutor
 import com.makentoshe.boorulibrary.network.executor.DefaultPostNetworkExecutor
+import com.makentoshe.boorulibrary.network.executor.NetworkExecutor
 import com.makentoshe.boorulibrary.network.executor.StreamGetNetworkExecutor
 
 class NetworkExecutorBuilder {
@@ -26,6 +27,21 @@ class NetworkExecutorBuilder {
         ): SmartNetworkExecutor {
             val proxyExecutor = buildProxyGet(composeDownloadListener)
             val defaultExecutor = buildStreamGet(streamDownloadListener)
+            return buildSmartGet(proxyExecutor, defaultExecutor)
+        }
+
+        fun buildSmartGet(
+            composeDownloadListener: ComposeDownloadListener<*>? = null,
+            defaultExecutor: NetworkExecutor
+        ): SmartNetworkExecutor {
+            val proxyExecutor = buildProxyGet(composeDownloadListener)
+            return buildSmartGet(proxyExecutor, defaultExecutor)
+        }
+
+        fun buildSmartGet(
+            proxyExecutor: ProxyNetworkExecutor,
+            defaultExecutor: NetworkExecutor
+        ): SmartNetworkExecutor {
             return SmartNetworkExecutor(proxyExecutor, defaultExecutor)
         }
     }
