@@ -1,20 +1,28 @@
 package com.makentoshe.boorupostview.presenter
 
+import android.content.res.ColorStateList
+import android.graphics.Color
+import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.ProgressBar
 import com.makentoshe.boorupostview.PostSelectBroadcastReceiver
+import com.makentoshe.boorupostview.model.GridElementViewModel
 import io.reactivex.disposables.CompositeDisposable
 import java.io.Serializable
 
 /**
  * Presenter component for a grid element.
  *
+ * @param disposables contains a disposables must be released on a fragment lifecycle onDestroy event.
  * @param position is a post position.
+ * @param viewmodel a viewmodel component associated with the [position].
  */
 class GridElementPresenter(
-    override val disposables: CompositeDisposable, private val position: Int
-): RxPresenter(), Serializable {
+    override val disposables: CompositeDisposable,
+    private val position: Int,
+    private val viewmodel: GridElementViewModel
+) : RxPresenter(), Serializable {
 
     /** Binds a grid element view */
     fun bindView(view: View) = view.setOnClickListener {
@@ -23,7 +31,14 @@ class GridElementPresenter(
 
     /** Binds a preview image view */
     fun bindImageView(view: ImageView) {
-
+        // setup a preview image on success
+        viewmodel.successObservable.subscribe(view::setImageBitmap).let(disposables::add)
+        // setup a thumbnail image on error
+        viewmodel.errorObservable.subscribe {
+            //todo replace by style color
+            view.imageTintList = ColorStateList.valueOf(Color.DKGRAY)
+            view.setImageResource(com.makentoshe.style.R.drawable.ic_alert_octagon_outline)
+        }.let(disposables::add)
     }
 
     /** Binds a progress bar view*/
