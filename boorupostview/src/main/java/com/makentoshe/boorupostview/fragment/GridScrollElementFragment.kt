@@ -14,8 +14,9 @@ import com.makentoshe.boorulibrary.booru.entity.Booru
 import com.makentoshe.boorulibrary.booru.entity.PostsRequest
 import com.makentoshe.boorulibrary.entitiy.Post
 import com.makentoshe.boorulibrary.entitiy.Tag
+import com.makentoshe.boorupostview.model.GridElementViewModelHolder
 import com.makentoshe.boorupostview.model.ItemsCountCalculator
-import com.makentoshe.boorupostview.presenter.GridScrollElementRxPresenter
+import com.makentoshe.boorupostview.presenter.GridScrollElementPresenter
 import com.makentoshe.boorupostview.view.PostsGridScrollElementFragmentUi
 import com.makentoshe.boorupostview.viewmodel.GridScrollElementFragmentViewModel
 import io.reactivex.disposables.CompositeDisposable
@@ -52,10 +53,13 @@ class GridScrollElementFragment : Fragment() {
 
     /** Creates presenter and binds a ui to it */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        val imageRepositoryBuilder = ImageRepositoryBuilder(booru)
         // get a viewmodel instance
         val viewmodel = getViewModel(savedInstanceState)
+        // get a viewmodels holder for grid view adapter
+        val viewModelHolderBuilder = GridElementViewModelHolder.Builder(this, imageRepositoryBuilder)
         // create a presenter instance
-        val presenter = GridScrollElementRxPresenter(disposables, viewmodel)
+        val presenter = GridScrollElementPresenter(disposables, viewmodel, viewModelHolderBuilder)
         // bind a grid view
         val gridView = view.findViewById<GridView>(com.makentoshe.boorupostview.R.id.gridview)
         presenter.bindGridView(gridView)
