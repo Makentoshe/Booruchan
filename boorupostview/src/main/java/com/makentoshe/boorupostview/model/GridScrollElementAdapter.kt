@@ -16,12 +16,16 @@ import org.jetbrains.anko.AnkoContext
  * Adapter creates and bindings grid's element views and grid's element controllers.
  */
 class GridScrollElementAdapter(
-    private val posts: List<Post>, private val disposables: CompositeDisposable
+    private val posts: List<Post>, private val disposables: CompositeDisposable,
+    private val viewModelHolder: GridElementViewModelHolder
 ) : BaseAdapter() {
 
     /** Create a ui for a grid element and binds a presenter to it */
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-        val presenter = GridElementPresenter(disposables, position)
+        // get a viewmodel
+        val viewmodel = viewModelHolder.viewmodels[position]
+        // create a presenter
+        val presenter = GridElementPresenter(disposables, position, viewmodel)
         // create or reuse view and binds it to the presenter
         val view = convertView ?: createView(parent.context)
         // bind a root view
