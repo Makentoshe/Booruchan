@@ -41,17 +41,33 @@ class PreviewImageRepository(booru: Booru, networkExecutor: NetworkExecutor) : R
     private val preview = booru.getPreview(networkExecutor)
 
     override fun get(key: Post) = preview.request(key)
+}
 
-    class Builder(private val booru: Booru) {
-        fun build(networkExecutor: NetworkExecutor): Repository<Post, ByteArray> {
-            return PreviewImageRepository(booru, networkExecutor)
-        }
-    }
+class SampleImageRepository(booru: Booru, networkExecutor: NetworkExecutor) : Repository<Post, ByteArray> {
+
+    private val sample = booru.getSample(networkExecutor)
+
+    override fun get(key: Post) = sample.request(key)
+}
+
+class FileImageRepository(booru: Booru, networkExecutor: NetworkExecutor) : Repository<Post, ByteArray> {
+
+    private val file = booru.getFile(networkExecutor)
+
+    override fun get(key: Post) = file.request(key)
 }
 
 class ImageRepositoryBuilder(private val booru: Booru) {
 
-    fun buildPreviewRepository(networkExecutor: NetworkExecutor) : Repository<Post, ByteArray> {
+    fun buildPreviewRepository(networkExecutor: NetworkExecutor): Repository<Post, ByteArray> {
         return PreviewImageRepository(booru, networkExecutor)
+    }
+
+    fun buildSampleRepository(networkExecutor: NetworkExecutor): Repository<Post, ByteArray> {
+        return SampleImageRepository(booru, networkExecutor)
+    }
+
+    fun buildFileRepository(networkExecutor: NetworkExecutor): Repository<Post, ByteArray> {
+        return FileImageRepository(booru, networkExecutor)
     }
 }
