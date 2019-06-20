@@ -42,6 +42,13 @@ class GridElementPresenter(
 
     /** Binds a progress bar view*/
     fun bindProgressbar(view: ProgressBar) {
-
+        // when stream downloading starts - display progress bar
+        viewmodel.downloadStartObservable.subscribe {
+            view.visibility = View.VISIBLE
+        }.let(disposables::add)
+        // when stream downloading finishes - hide progress bar
+        viewmodel.downloadFinishObservable.subscribe {
+            view.visibility = View.GONE
+        }.let(disposables::add)
     }
 }

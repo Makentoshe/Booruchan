@@ -13,6 +13,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.BehaviorSubject
+import io.reactivex.subjects.PublishSubject
 import java.io.File
 
 /**
@@ -33,8 +34,15 @@ class GridElementViewModel(
     /** Contains a disposables must be released on cleared lifecycle event */
     private val disposables = CompositeDisposable()
 
+    /** Listener for default connection */
+    private val listener = SimpleDownloadListener()
+
+    /** Listener for proxy connection */
+    private val proxyListener = SimpleComposeDownloadListener(SimpleDownloadListener())
+
     /** Component performs a network executions */
-    private val networkExecutor = NetworkExecutorBuilder.buildSmartGet()
+    private val networkExecutor =
+        NetworkExecutorBuilder.buildSmartGet(proxyListener, NetworkExecutorBuilder.buildGet(listener))
 
     /** Emitter for successful events */
     private val successSubject = BehaviorSubject.create<Bitmap>()
@@ -50,6 +58,20 @@ class GridElementViewModel(
     val errorObservable: Observable<Throwable>
         get() = errorSubject
 
+    /** Emitter for network connection was started event */
+    private val downloadStartSubject = PublishSubject.create<Unit>()
+
+    /** Emitter for network connection was started event */
+    val downloadStartObservable: Observable<Unit>
+        get() = downloadStartSubject.observeOn(AndroidSchedulers.mainThread())
+
+    /** Emitter for network connection was finished event */
+    private val downloadFinishSubject = PublishSubject.create<Unit>()
+
+    /** Observable for network connection was finish event */
+    val downloadFinishObservable: Observable<Unit>
+        get() = downloadFinishSubject.observeOn(AndroidSchedulers.mainThread())
+
     init {
         // preview repository for preview image downloading
         val previewRepository = repositoryBuilder.buildPreviewRepository(networkExecutor)
@@ -64,7 +86,17 @@ class GridElementViewModel(
                 if (bitmap != null) return@subscribe successSubject.onNext(bitmap)
                 errorSubject.onNext(Exception("wtf"))
             }.let(disposables::add)
+
+        // send proxy connection started event
+        proxyListener.onStart { _, _ -> downloadStartSubject.onNext(Unit) }
+        // send proxy connection finished event
+        proxyListener.onFinish { downloadFinishSubject.onNext(Unit) }
+        // send stream connection started event
+        listener.onStart { _, _ -> downloadStartSubject.onNext(Unit) }
+        // send stream connection finished event
+        listener.onFinish { downloadFinishSubject.onNext(Unit) }
     }
+
 
     /** Performs a byte array downloading and tries to decode to the Bitmap instance */
     private fun downloadAndDecode(repository: Repository<Post, ByteArray>): Bitmap {

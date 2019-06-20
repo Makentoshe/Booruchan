@@ -4,11 +4,12 @@ import android.view.View
 import android.widget.GridView
 import android.widget.ProgressBar
 import android.widget.TextView
-import com.makentoshe.boorupostview.viewmodel.GridScrollElementFragmentViewModel
-import com.makentoshe.boorupostview.model.GridScrollElementAdapter
 import com.makentoshe.boorupostview.model.GridElementViewModelHolder
+import com.makentoshe.boorupostview.model.GridScrollElementAdapter
+import com.makentoshe.boorupostview.viewmodel.GridScrollElementFragmentViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.schedulers.Schedulers
 
 /**
  * Presenter component for the grid scroll element.
@@ -23,26 +24,26 @@ class GridScrollElementPresenter(
     /** Bind a [GridView] */
     fun bindGridView(view: GridView) {
         // hide view on error
-        viewModel.errorObservable.observeOn(AndroidSchedulers.mainThread()).subscribe {
+        viewModel.errorObservable.subscribe {
             view.visibility = View.GONE
         }.let(disposables::add)
         // show view on success and add new adapter
-        viewModel.postsObservable.map { posts ->
+        viewModel.postsObservable.observeOn(Schedulers.io()).map { posts ->
             GridScrollElementAdapter(posts, disposables, builder.build(posts))
         }.observeOn(AndroidSchedulers.mainThread()).subscribe { adapter ->
-            view.adapter = adapter
             view.visibility = View.VISIBLE
+            view.adapter = adapter
         }.let(disposables::add)
     }
 
     /** Bind a [ProgressBar] */
     fun bindProgressBar(view: ProgressBar) {
         // hide view on error
-        viewModel.errorObservable.observeOn(AndroidSchedulers.mainThread()).subscribe {
+        viewModel.errorObservable.subscribe {
             view.visibility = View.GONE
         }.let(disposables::add)
         // hide view on success
-        viewModel.postsObservable.observeOn(AndroidSchedulers.mainThread()).subscribe {
+        viewModel.postsObservable.subscribe {
             view.visibility = View.GONE
         }.let(disposables::add)
     }
@@ -50,12 +51,12 @@ class GridScrollElementPresenter(
     /** Bind a [TextView] as a message view */
     fun bindMessageView(view: TextView) {
         // show view on error and display an error message
-        viewModel.errorObservable.observeOn(AndroidSchedulers.mainThread()).subscribe {
+        viewModel.errorObservable.subscribe {
             view.visibility = View.VISIBLE
             view.text = it.toString()
         }.let(disposables::add)
         // hide view on success
-        viewModel.postsObservable.observeOn(AndroidSchedulers.mainThread()).subscribe {
+        viewModel.postsObservable.subscribe {
             view.visibility = View.GONE
         }.let(disposables::add)
     }

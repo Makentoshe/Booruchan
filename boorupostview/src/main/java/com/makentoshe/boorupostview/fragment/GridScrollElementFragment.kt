@@ -1,6 +1,7 @@
 package com.makentoshe.boorupostview.fragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -55,7 +56,7 @@ class GridScrollElementFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val imageRepositoryBuilder = ImageRepositoryBuilder(booru)
         // get a viewmodel instance
-        val viewmodel = getViewModel(savedInstanceState)
+        val viewmodel = getViewModel()
         // get a viewmodels holder for grid view adapter
         val viewModelHolderBuilder = GridElementViewModelHolder.Builder(this, imageRepositoryBuilder)
         // create a presenter instance
@@ -80,18 +81,14 @@ class GridScrollElementFragment : Fragment() {
     }
 
     /** Returns a viewmodel associated with this fragment or creates a new one */
-    private fun getViewModel(savedInstanceState: Bundle?): GridScrollElementFragmentViewModel {
-        if (savedInstanceState != null) {
-            return ViewModelProviders.of(this)[GridScrollElementFragmentViewModel::class.java]
-        } else {
-            // request for receiving a list of posts
-            val request = DefaultPostsRequest(countCalc.getItemsCountTotal(requireContext()), tags, position)
-            // repository for requesting a posts
-            val repository = buildPostRepository()
+    private fun getViewModel(): GridScrollElementFragmentViewModel {
+        // request for receiving a list of posts
+        val request = DefaultPostsRequest(countCalc.getItemsCountTotal(requireContext()), tags, position)
+        // repository for requesting a posts
+        val repository = buildPostRepository()
 
-            val factory = GridScrollElementFragmentViewModel.Factory(request, repository)
-            return ViewModelProviders.of(this, factory)[GridScrollElementFragmentViewModel::class.java]
-        }
+        val factory = GridScrollElementFragmentViewModel.Factory(request, repository)
+        return ViewModelProviders.of(this, factory)[GridScrollElementFragmentViewModel::class.java]
     }
 
     /** Release disposables */
