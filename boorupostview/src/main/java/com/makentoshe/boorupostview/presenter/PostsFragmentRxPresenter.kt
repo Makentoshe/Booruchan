@@ -47,7 +47,7 @@ class PostsFragmentRxPresenter(
             try {
                 if (DEBUG) Log.i(context.getString(R.string.app_name), "Clear all caches")
                 PostDiskCache.build(context).clear()
-                ImageDiskCache(DiskCache(ImageDiskCache.getPreviewDir(context))).clear()
+                ImageDiskCache.getPreviewCache(context).clear()
                 if (DEBUG) Log.i(context.getString(R.string.app_name), "Success")
             } catch (e: Exception) {
                 if (DEBUG) Log.i(context.getString(R.string.app_name), "Failed: $e")
