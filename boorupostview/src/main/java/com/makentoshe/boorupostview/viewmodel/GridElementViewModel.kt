@@ -1,4 +1,4 @@
-package com.makentoshe.boorupostview.model
+package com.makentoshe.boorupostview.viewmodel
 
 import android.graphics.Bitmap
 import androidx.lifecycle.ViewModel
@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.makentoshe.api.*
 import com.makentoshe.boorulibrary.booru.safebooru.SafebooruPost
 import com.makentoshe.boorulibrary.entitiy.Post
+import com.makentoshe.boorupostview.model.ImageDecoder
 import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers

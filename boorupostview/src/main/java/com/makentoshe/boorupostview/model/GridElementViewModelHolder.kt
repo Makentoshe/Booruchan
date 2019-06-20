@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModelProviders
 import com.makentoshe.api.CacheBuilder
 import com.makentoshe.api.ImageRepositoryBuilder
 import com.makentoshe.boorulibrary.entitiy.Post
+import com.makentoshe.boorupostview.viewmodel.GridElementViewModel
 import org.jetbrains.anko.collections.forEachWithIndex
 
 /**

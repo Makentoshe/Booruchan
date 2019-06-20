@@ -2,12 +2,11 @@ package com.makentoshe.boorupostview.presenter
 
 import android.content.res.ColorStateList
 import android.graphics.Color
-import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.ProgressBar
 import com.makentoshe.boorupostview.PostSelectBroadcastReceiver
-import com.makentoshe.boorupostview.model.GridElementViewModel
+import com.makentoshe.boorupostview.viewmodel.GridElementViewModel
 import io.reactivex.disposables.CompositeDisposable
 import java.io.Serializable
 
