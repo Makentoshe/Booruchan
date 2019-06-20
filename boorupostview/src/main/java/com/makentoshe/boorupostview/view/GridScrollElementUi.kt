@@ -29,8 +29,8 @@ class GridScrollElementUi : AnkoComponent<Context> {
 
                 horizontalProgressBar {
                     id = com.makentoshe.boorupostview.R.id.gridview_element_progress
-                    max = 100
                     backgroundColor = Color.TRANSPARENT
+                    isIndeterminate = true
                 }.lparams(width = matchParent) {
                     alignParentBottom()
                     setMargins(dip8, dip8, dip8, 0)
