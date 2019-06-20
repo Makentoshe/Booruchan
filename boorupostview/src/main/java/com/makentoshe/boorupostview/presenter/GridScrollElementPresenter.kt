@@ -11,15 +11,17 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 
 /**
- * Presenter realisation for the grid scroll element using reactive style.
+ * Presenter component for the grid scroll element.
+ * User interface should contains grid view, progress bar and message view.
  */
-class GridScrollElementRxPresenter(
+class GridScrollElementPresenter(
     override val disposables: CompositeDisposable,
     private val viewModel: GridScrollElementFragmentViewModel,
     private val builder: GridElementViewModelHolder.Builder
-) : GridScrollElementPresenter, RxPresenter() {
+) : RxPresenter() {
 
-    override fun bindGridView(view: GridView) {
+    /** Bind a [GridView] */
+    fun bindGridView(view: GridView) {
         // hide view on error
         viewModel.errorObservable.observeOn(AndroidSchedulers.mainThread()).subscribe {
             view.visibility = View.GONE
@@ -33,7 +35,8 @@ class GridScrollElementRxPresenter(
         }.let(disposables::add)
     }
 
-    override fun bindProgressBar(view: ProgressBar) {
+    /** Bind a [ProgressBar] */
+    fun bindProgressBar(view: ProgressBar) {
         // hide view on error
         viewModel.errorObservable.observeOn(AndroidSchedulers.mainThread()).subscribe {
             view.visibility = View.GONE
@@ -44,7 +47,8 @@ class GridScrollElementRxPresenter(
         }.let(disposables::add)
     }
 
-    override fun bindMessageView(view: TextView) {
+    /** Bind a [TextView] as a message view */
+    fun bindMessageView(view: TextView) {
         // show view on error and display an error message
         viewModel.errorObservable.observeOn(AndroidSchedulers.mainThread()).subscribe {
             view.visibility = View.VISIBLE
