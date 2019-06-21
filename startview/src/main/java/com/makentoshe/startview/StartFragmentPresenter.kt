@@ -10,6 +10,7 @@ import android.widget.PopupMenu
 import com.jakewharton.rxbinding3.view.clicks
 import com.jakewharton.rxbinding3.widget.itemClicks
 import com.makentoshe.api.BooruRepository
+import com.makentoshe.settings.SettingsBuilder
 import com.makentoshe.settings.model.SettingController
 import com.makentoshe.settings.screen.controller.NsfwSettingController
 import io.reactivex.Single
@@ -22,7 +23,7 @@ class StartFragmentPresenter(
     override val disposables: CompositeDisposable,
     private val viewModel: StartFragmentViewModel,
     private val repository: BooruRepository,
-    private val nsfwController: SettingController<Boolean>
+    private val settingsBuilder: SettingsBuilder
 ) : RxPresenter() {
 
     /** Binds an overflow icon. Should display popup menu on click. */
@@ -34,7 +35,6 @@ class StartFragmentPresenter(
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe { it.show() }.let(disposables::add)
     }
-
 
     /** Builds a menu item with settings title */
     private fun PopupMenu.buildSettingsMenuItem(context: Context) {
@@ -52,7 +52,7 @@ class StartFragmentPresenter(
     /** Binds a [ListView]. Should contain a list of a booru and navigate to booru screens on click event */
     fun bindListView(view: ListView) {
         // setting for filter by nsfw
-        val setting = NsfwSettingController(nsfwController).get()
+        val setting = settingsBuilder.buildNsfw().get()
         //get list
         val boorus = repository.get(Unit).filter { it.isNsfw or setting }
         // add on click listener

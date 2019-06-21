@@ -7,6 +7,7 @@ import android.widget.ListView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import com.makentoshe.api.BooruRepository
+import com.makentoshe.settings.SettingsBuilder
 import com.makentoshe.settings.model.realm.RealmBooleanSettingController
 import io.reactivex.disposables.CompositeDisposable
 import io.realm.Realm
@@ -42,10 +43,9 @@ class StartFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        // boolean setting controller for nsfw initialization
-        val settingController = RealmBooleanSettingController(Realm.getDefaultConfiguration()!!)
+        val settingsBuilder = SettingsBuilder()
         // creates presenter component
-        val presenter = StartFragmentPresenter(disposables, viewmodel, BooruRepository(), settingController)
+        val presenter = StartFragmentPresenter(disposables, viewmodel, BooruRepository(), settingsBuilder)
         // binds a list view
         val listview = view.find<ListView>(com.makentoshe.startview.R.id.start_content_listview)
         presenter.bindListView(listview)
