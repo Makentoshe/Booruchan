@@ -43,6 +43,10 @@ dependencies {
     implementation "org.jetbrains.anko:anko-appcompat-v7:$anko_version"
     implementation "org.jetbrains.anko:anko-coroutines:$anko_version"
 
+    // ViewModel architecture
+    implementation "androidx.lifecycle:lifecycle-viewmodel:2.0.0"
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0-alpha01'
+
     implementation 'androidx.appcompat:appcompat:1.0.2'
 
     testImplementation 'junit:junit:4.12'

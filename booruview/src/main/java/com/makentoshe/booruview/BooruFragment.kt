@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProviders
 import com.makentoshe.navigation.FragmentNavigator
 import org.jetbrains.anko.AnkoContext
 
@@ -21,10 +22,11 @@ class BooruFragment : Fragment() {
         set(value) = (arguments ?: Bundle().also { arguments = it }).putSerializable(DATA, value)
         get() = arguments!!.get(DATA) as BooruTransitionData
 
-    /** Navigator */
-    private var navigator: BooruFragmentNavigator
-        set(value) = (arguments ?: Bundle().also { arguments = it }).putSerializable(NAVIGATOR, value)
-        get() = arguments!!.get(NAVIGATOR) as BooruFragmentNavigator
+    /** Navigator receives on first time fragment was created. After rotations always will be null */
+    private var navigator: BooruFragmentNavigator? = null
+
+    /** Viewmodel component contains a [navigator] instance */
+    private lateinit var viewmodel: BooruFragmentViewModel
 
     /** Performs transactions */
     private lateinit var fragmentNavigator: FragmentNavigator
@@ -32,17 +34,20 @@ class BooruFragment : Fragment() {
     /** Flag that control an initial screen appearing */
     private var shouldSetScreenOnNavigatorAttach: Boolean = true
 
-    /** Get an initial screen state (is should be attached) */
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        shouldSetScreenOnNavigatorAttach = savedInstanceState?.getBoolean(ATTACH, true) ?: true
-    }
-
     /** Setup a FragmentNavigator */
     override fun onAttach(context: Context) {
         super.onAttach(context)
         val containerId = com.makentoshe.booruview.R.id.content
         fragmentNavigator = FragmentNavigator(requireActivity(), containerId, childFragmentManager)
+
+        val factory = BooruFragmentViewModel.Factory(navigator)
+        viewmodel = ViewModelProviders.of(this, factory)[BooruFragmentViewModel::class.java]
+    }
+
+    /** Get an initial screen state (is should be attached) */
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        shouldSetScreenOnNavigatorAttach = savedInstanceState?.getBoolean(ATTACH, true) ?: true
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -59,9 +64,9 @@ class BooruFragment : Fragment() {
     /** Attaches a navigator and shows an initial screen if should */
     override fun onStart() {
         super.onStart()
-        navigator.setNavigator(fragmentNavigator)
+        viewmodel.navigator.setNavigator(fragmentNavigator)
         if (shouldSetScreenOnNavigatorAttach) {
-            navigator.navigateToPosts(booruTransitionData)
+            viewmodel.navigator.navigateToPosts(booruTransitionData)
             shouldSetScreenOnNavigatorAttach = false
         }
     }
@@ -69,7 +74,7 @@ class BooruFragment : Fragment() {
     /** Detaches a navigator */
     override fun onStop() {
         super.onStop()
-        navigator.removeNavigator()
+        viewmodel.navigator.removeNavigator()
     }
 
     /** Save a current initial screen state */
@@ -79,7 +84,6 @@ class BooruFragment : Fragment() {
 
     companion object {
         private const val DATA = "BooruTransitionData"
-        private const val NAVIGATOR = "Navigator"
         private const val ATTACH = "ShouldStartScreenOnNavigatorAttach"
         fun build(booruTransitionData: BooruTransitionData, navigator: BooruFragmentNavigator): Fragment {
             val fragment = BooruFragment()
@@ -89,4 +93,3 @@ class BooruFragment : Fragment() {
         }
     }
 }
-
