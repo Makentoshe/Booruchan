@@ -2,7 +2,6 @@ package com.makentoshe.boorupostview.fragment
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,7 +13,7 @@ import com.makentoshe.api.NetworkExecutorBuilder
 import com.makentoshe.api.TagRepository
 import com.makentoshe.boorulibrary.booru.entity.Booru
 import com.makentoshe.boorulibrary.entitiy.Tag
-import com.makentoshe.boorupostview.PostsFragmentBroadcastReceiver
+import com.makentoshe.boorupostview.NewSearchBroadcastReceiver
 import com.makentoshe.boorupostview.R
 import com.makentoshe.boorupostview.presenter.PostsContentFragmentRxPresenter
 import com.makentoshe.boorupostview.view.PostsContentFragmentUi
@@ -37,7 +36,7 @@ class PostsContentFragment : Fragment() {
         get() = arguments!!.get(TAGS) as Set<Tag>
 
     /** Broadcast receiver for receiving a new search events from another fragment */
-    private val broadcastReceiver = PostsFragmentBroadcastReceiver()
+    private val broadcastReceiver = NewSearchBroadcastReceiver()
 
     /** Contains a disposable which will be released on destroy lifecycle event */
     private val disposables = CompositeDisposable()
@@ -45,7 +44,7 @@ class PostsContentFragment : Fragment() {
     /** Register receiver */
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        PostsFragmentBroadcastReceiver.registerReceiver(requireActivity(), broadcastReceiver)
+        NewSearchBroadcastReceiver.registerReceiver(requireActivity(), broadcastReceiver)
         // save tags to the args on new search event
         broadcastReceiver.onNewSearchStarted { tags = it }
     }

@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.viewpager.widget.ViewPager
 import com.makentoshe.boorulibrary.booru.entity.Booru
 import com.makentoshe.boorulibrary.entitiy.Tag
-import com.makentoshe.boorupostview.PostsFragmentBroadcastReceiver
+import com.makentoshe.boorupostview.NewSearchBroadcastReceiver
 import com.makentoshe.boorupostview.model.GridScrollViewPagerAdapter
 import com.makentoshe.boorupostview.presenter.PostsGridScrollFragmentRxPresenter
 import com.makentoshe.boorupostview.view.PostsGridScrollFragmentUi
@@ -22,7 +22,7 @@ import java.io.Serializable
 class PostsGridScrollFragment : Fragment(), PostsContainerFragment {
 
     /** Broadcast receiver for receiving a new search events from another fragment */
-    private val broadcastReceiver = PostsFragmentBroadcastReceiver()
+    private val broadcastReceiver = NewSearchBroadcastReceiver()
 
     /** Contains a disposable which will be released on destroy lifecycle event */
     private val disposables = CompositeDisposable()
@@ -43,7 +43,7 @@ class PostsGridScrollFragment : Fragment(), PostsContainerFragment {
     /** Register receiver */
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        PostsFragmentBroadcastReceiver.registerReceiver(requireActivity(), broadcastReceiver)
+        NewSearchBroadcastReceiver.registerReceiver(requireActivity(), broadcastReceiver)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

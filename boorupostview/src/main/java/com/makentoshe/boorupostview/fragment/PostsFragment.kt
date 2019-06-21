@@ -7,11 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProviders
 import androidx.viewpager.widget.ViewPager
 import com.makentoshe.boorulibrary.booru.entity.Booru
 import com.makentoshe.boorulibrary.entitiy.Tag
+import com.makentoshe.boorupostview.NewSearchBroadcastReceiver
 import com.makentoshe.boorupostview.PostSelectBroadcastReceiver
-import com.makentoshe.boorupostview.PostsFragmentBroadcastReceiver
 import com.makentoshe.boorupostview.PostsFragmentNavigator
 import com.makentoshe.boorupostview.R
 import com.makentoshe.boorupostview.presenter.PostsFragmentRxPresenter
@@ -29,7 +30,7 @@ import java.io.Serializable
 class PostsFragment : Fragment(), OnBackFragment {
 
     /** Broadcast receiver for receiving a new search events from another fragment */
-    private val broadcastReceiver = PostsFragmentBroadcastReceiver()
+    private val newSearchBroadcastReceiver = NewSearchBroadcastReceiver()
 
     /** Broadcast receiver handle post select events */
     private val postSelectBroadcastReceiver = PostSelectBroadcastReceiver()
@@ -52,20 +53,26 @@ class PostsFragment : Fragment(), OnBackFragment {
         set(value) = (arguments ?: Bundle().also { arguments = it }).putSerializable(NAVIGATOR, value)
         get() = arguments!!.get(NAVIGATOR) as PostsFragmentNavigator
 
-    /** Sends a new broadcast event (start new search event) */
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        PostsFragmentBroadcastReceiver.sendBroadcast(requireContext(), tags)
-    }
+    /** Viewmodel component performs cache controlling */
+    private lateinit var viewmodel: PostsFragmentViewModel
 
-    /** Register broadcast receiver */
+    /** Register broadcast receivers */
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        PostsFragmentBroadcastReceiver.registerReceiver(requireActivity(), broadcastReceiver)
+        // register a new search event
+        NewSearchBroadcastReceiver.registerReceiver(requireActivity(), newSearchBroadcastReceiver)
+        // register a select event
         PostSelectBroadcastReceiver.registerReceiver(requireActivity(), postSelectBroadcastReceiver).onSelect {
             val page = view!!.findViewById<ViewPager>(com.makentoshe.boorupostview.R.id.viewpager).currentItem
             println("page=$page, position=$it")
         }
+    }
+
+    /** Gets a viewmodel component */
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        val factory = PostsFragmentViewModel.Factory(requireActivity().application, tags, newSearchBroadcastReceiver)
+        viewmodel = ViewModelProviders.of(this, factory)[PostsFragmentViewModel::class.java]
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -78,7 +85,7 @@ class PostsFragment : Fragment(), OnBackFragment {
         // attach a panel fragment
         attachFragment(com.makentoshe.boorupostview.R.id.panelview) { PostsPanelFragment.build(booru, tags) }
         // creates a presenter
-        val presenter = PostsFragmentRxPresenter(disposables, broadcastReceiver, requireContext())
+        val presenter = PostsFragmentRxPresenter(disposables, viewmodel)
         //bind a toolbar
         val toolbar = view.findViewById<Toolbar>(com.makentoshe.boorupostview.R.id.toolbar_view)
         toolbar.title = booru.title
@@ -94,7 +101,7 @@ class PostsFragment : Fragment(), OnBackFragment {
     /** Unregister receiver */
     override fun onDetach() {
         super.onDetach()
-        requireActivity().unregisterReceiver(broadcastReceiver)
+        requireActivity().unregisterReceiver(newSearchBroadcastReceiver)
         requireActivity().unregisterReceiver(postSelectBroadcastReceiver)
     }
 

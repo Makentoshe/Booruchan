@@ -1,25 +1,11 @@
 package com.makentoshe.boorupostview.presenter
 
-import android.content.Context
-import android.util.Log
 import android.view.View
 import android.widget.ImageView
-import androidx.appcompat.widget.Toolbar
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import com.jakewharton.rxbinding3.view.clicks
-import com.makentoshe.api.DiskCache
-import com.makentoshe.api.ImageDiskCache
-import com.makentoshe.api.PostDiskCache
-import com.makentoshe.boorulibrary.booru.entity.Booru
-import com.makentoshe.boorulibrary.entitiy.Tag
-import com.makentoshe.boorupostview.BuildConfig.DEBUG
-import com.makentoshe.boorupostview.PostsFragmentNavigator
 import com.makentoshe.boorupostview.R
-import com.makentoshe.boorupostview.fragment.PostsContentFragment
-import com.makentoshe.boorupostview.fragment.PostsPanelFragment
+import com.makentoshe.boorupostview.fragment.PostsFragmentViewModel
 import com.makentoshe.boorupostview.listener.MagnifyPanelSlideListener
-import com.makentoshe.boorupostview.listener.NewSearchStartedListener
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.subjects.PublishSubject
@@ -30,30 +16,13 @@ import org.jetbrains.anko.find
  */
 class PostsFragmentRxPresenter(
     override val disposables: CompositeDisposable,
-    searchStartedListener: NewSearchStartedListener, context: Context
+    private val viewmodel: PostsFragmentViewModel
 ) : PostsFragmentPresenter, RxPresenter() {
 
     /** Observable for on icon click events */
     private val iconViewObservable = PublishSubject.create<Unit>()
     /** Observable for panel slide listener */
     private val slidingPanelObservable = PublishSubject.create<Float>()
-    /** Observable for new search event */
-    private val searchObservable = PublishSubject.create<Set<Tag>>().also {
-        searchStartedListener.onNewSearchStarted(it::onNext)
-    }
-
-    init {
-        searchObservable.subscribe {
-            try {
-                if (DEBUG) Log.i(context.getString(R.string.app_name), "Clear all caches")
-                PostDiskCache.build(context).clear()
-                ImageDiskCache.getPreviewCache(context).clear()
-                if (DEBUG) Log.i(context.getString(R.string.app_name), "Success")
-            } catch (e: Exception) {
-                if (DEBUG) Log.i(context.getString(R.string.app_name), "Failed: $e")
-            }
-        }.let(disposables::add)
-    }
 
     override fun bindOptionIcon(view: View) {
         view.clicks().safeSubscribe(iconViewObservable)
@@ -75,7 +44,7 @@ class PostsFragmentRxPresenter(
             view.panelState = SlidingUpPanelLayout.PanelState.COLLAPSED
         }.let(disposables::add)
         // change panel state on search started
-        searchObservable.subscribe {
+        viewmodel.searchObservable.subscribe {
             view.panelState = SlidingUpPanelLayout.PanelState.EXPANDED
         }.let(disposables::add)
     }

@@ -7,10 +7,9 @@ import android.widget.AutoCompleteTextView
 import com.google.android.material.chip.ChipGroup
 import com.jakewharton.rxbinding3.view.clicks
 import com.jakewharton.rxbinding3.widget.*
-import com.makentoshe.api.AutocompleteRepository
 import com.makentoshe.api.Repository
 import com.makentoshe.boorulibrary.entitiy.Tag
-import com.makentoshe.boorupostview.PostsFragmentBroadcastReceiver
+import com.makentoshe.boorupostview.NewSearchBroadcastReceiver
 import com.makentoshe.boorupostview.model.AutocompleteAdapter
 import com.makentoshe.style.ChipFactory
 import io.reactivex.Observable
@@ -37,7 +36,7 @@ class PostsContentFragmentRxPresenter(
     /** Observer for a search button click event */
     private val searchbuttonClickObserver = PublishSubject.create<Unit>().apply {
         //start search using broadcast on click event
-        subscribe { PostsFragmentBroadcastReceiver.sendBroadcast(context, tags) }.let(disposables::add)
+        subscribe { NewSearchBroadcastReceiver.sendBroadcast(context, tags) }.let(disposables::add)
     }
 
     /** Observer for adding a tag to the view */

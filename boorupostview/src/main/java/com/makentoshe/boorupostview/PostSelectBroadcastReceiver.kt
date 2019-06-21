@@ -27,11 +27,14 @@ class PostSelectBroadcastReceiver : BroadcastReceiver(), OnPostSelectListener {
 
     companion object {
 
+        /** Intent action for event */
         private val ACTION = PostSelectBroadcastReceiver::class.java.simpleName
 
+        /** Sends broadcast as with selected tags as a new search event */
         fun sendBroadcast(context: Context, position: Int) =
             context.sendBroadcast(Intent(ACTION).putExtra(ACTION, position))
 
+        /** Registers or create and registers a new broadcast receiver */
         fun registerReceiver(
             activity: FragmentActivity, receiver: PostSelectBroadcastReceiver? = null
         ): PostSelectBroadcastReceiver {
