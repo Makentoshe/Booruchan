@@ -17,18 +17,23 @@ import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.BehaviorSubject
 
 /**
- * ViewModel component contains cache controlling on search event
+ * ViewModel component contains a cache controlling on search event and navigator
+ *
+ * @param application is an application context.
+ * @param tags set of selected tags for search
+ * @param listener invokes when new search was started
  */
 class PostsFragmentViewModel(
-    application: Application, tags: Set<Tag>, listener: NewSearchStartedListener
+    application: Application,
+    tags: Set<Tag>,
+    listener: NewSearchStartedListener
 ) : AndroidViewModel(application) {
 
     /** Contains disposables should be released on clear lifecycle event */
     private val disposables = CompositeDisposable()
 
     /** Search event emitter */
-    private val searchSubject =
-        BehaviorSubject.create<Set<Tag>>()
+    private val searchSubject = BehaviorSubject.create<Set<Tag>>()
 
     /** Search event observable */
     val searchObservable: Observable<Set<Tag>>
