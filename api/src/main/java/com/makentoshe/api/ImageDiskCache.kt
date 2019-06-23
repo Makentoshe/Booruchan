@@ -15,7 +15,10 @@ class ImageDiskCache(private val directory: File) : Cache<Post, ByteArray> {
     private val hashMap = LinkedHashMap<String, String>()
 
     init {
-        directory.listFiles().filter { it.isFile }.forEach { hashMap[it.name] = it.path }
+        // create empty directory if it does not exists
+        if (directory.exists().not()) directory.mkdirs()
+        // scan all files in directory
+        directory.listFiles().orEmpty().filter { it.isFile }.forEach { hashMap[it.name] = it.path }
     }
 
     override fun get(key: Post): ByteArray? {
@@ -24,7 +27,9 @@ class ImageDiskCache(private val directory: File) : Cache<Post, ByteArray> {
 
     override fun clear() {
         hashMap.clear()
+        // recreate empty directory
         directory.deleteRecursively()
+        directory.mkdirs()
     }
 
     override fun add(key: Post, value: ByteArray) = File(directory, key.id.toString()).let {
