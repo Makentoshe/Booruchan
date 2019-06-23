@@ -16,9 +16,9 @@ import com.makentoshe.boorulibrary.entitiy.Post
 import com.makentoshe.boorulibrary.entitiy.Tag
 import com.makentoshe.boorupostview.model.GridElementControllerHolder
 import com.makentoshe.boorupostview.model.ItemsCountCalculator
-import com.makentoshe.boorupostview.presenter.GridScrollElementPresenter
-import com.makentoshe.boorupostview.view.PostsGridScrollElementFragmentUi
-import com.makentoshe.boorupostview.viewmodel.GridScrollElementFragmentViewModel
+import com.makentoshe.boorupostview.presenter.PostsViewPagerElementPresenter
+import com.makentoshe.boorupostview.view.PostsViewPagerElementFragmentUi
+import com.makentoshe.boorupostview.viewmodel.ViewPagerElementFragmentViewModel
 import io.reactivex.disposables.CompositeDisposable
 import org.jetbrains.anko.AnkoContext
 import java.io.Serializable
@@ -27,7 +27,7 @@ import java.io.Serializable
  * Fragment for a single view pager element contains a grid view for displaying a posts,
  * progress bar for displaying a progress work and a message view for displaying an error messages.
  */
-class GridScrollElementFragment : Fragment() {
+class PostsViewPagerElementFragment : Fragment() {
 
     /**
      * Will be initialized at once when fragment instance will be created.
@@ -57,7 +57,7 @@ class GridScrollElementFragment : Fragment() {
         get() = arguments!!.getInt(POSITION)
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return PostsGridScrollElementFragmentUi(countCalc).createView(AnkoContext.create(requireContext()))
+        return PostsViewPagerElementFragmentUi(countCalc).createView(AnkoContext.create(requireContext()))
     }
 
     /** Creates presenter and binds a ui to it */
@@ -65,7 +65,7 @@ class GridScrollElementFragment : Fragment() {
         // get a viewmodel instance
         val viewmodel = getViewModel()
         // create a presenter instance
-        val presenter = GridScrollElementPresenter(disposables, viewmodel, countCalc)
+        val presenter = PostsViewPagerElementPresenter(disposables, viewmodel, countCalc)
         // bind a grid view
         val gridView = view.findViewById<GridView>(com.makentoshe.boorupostview.R.id.gridview)
         presenter.bindGridView(gridView)
@@ -86,14 +86,14 @@ class GridScrollElementFragment : Fragment() {
     }
 
     /** Returns a viewmodel associated with this fragment or creates a new one */
-    private fun getViewModel(): GridScrollElementFragmentViewModel {
+    private fun getViewModel(): ViewPagerElementFragmentViewModel {
         // request for receiving a list of posts
         val request = DefaultPostsRequest(countCalc.getItemsCountTotal(requireContext()), tags, position)
         // repository for requesting a posts
         val repository = buildPostRepository()
 
-        val factory = GridScrollElementFragmentViewModel.Factory(request, repository, controllerHolder)
-        return ViewModelProviders.of(this, factory)[GridScrollElementFragmentViewModel::class.java]
+        val factory = ViewPagerElementFragmentViewModel.Factory(request, repository, controllerHolder)
+        return ViewModelProviders.of(this, factory)[ViewPagerElementFragmentViewModel::class.java]
     }
 
     /** Release disposables */
@@ -109,7 +109,7 @@ class GridScrollElementFragment : Fragment() {
         fun build(
             booru: Booru, tags: Set<Tag>, position: Int, controllerHolder: GridElementControllerHolder
         ): Fragment {
-            val fragment = GridScrollElementFragment()
+            val fragment = PostsViewPagerElementFragment()
             fragment.booru = booru
             fragment.tags = tags
             fragment.position = position

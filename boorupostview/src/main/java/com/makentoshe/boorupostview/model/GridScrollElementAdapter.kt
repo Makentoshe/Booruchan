@@ -8,7 +8,7 @@ import android.widget.ImageView
 import android.widget.ProgressBar
 import com.makentoshe.boorulibrary.entitiy.Post
 import com.makentoshe.boorupostview.presenter.GridElementPresenter
-import com.makentoshe.boorupostview.view.GridScrollElementUi
+import com.makentoshe.boorupostview.view.GridElementUi
 import io.reactivex.disposables.CompositeDisposable
 import org.jetbrains.anko.AnkoContext
 
@@ -47,7 +47,7 @@ class GridScrollElementAdapter(
 
     /** Creates a view for a grid element */
     private fun createView(context: Context): View {
-        return GridScrollElementUi().createView(AnkoContext.create(context))
+        return GridElementUi().createView(AnkoContext.create(context))
     }
 
     override fun getItem(position: Int) = posts[position]

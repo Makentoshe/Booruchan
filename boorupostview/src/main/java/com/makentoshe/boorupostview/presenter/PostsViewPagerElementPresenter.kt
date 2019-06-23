@@ -6,22 +6,22 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import com.makentoshe.boorupostview.model.GridScrollElementAdapter
 import com.makentoshe.boorupostview.model.ItemsCountCalculator
-import com.makentoshe.boorupostview.viewmodel.GridScrollElementFragmentViewModel
+import com.makentoshe.boorupostview.viewmodel.ViewPagerElementFragmentViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 
 /**
- * Presenter component for the grid scroll element.
+ * Presenter component for the viewpager element.
  * User interface should contains grid view, progress bar and message view.
  *
  * @param disposables contains a disposable instances.
  * @param viewModel is a component with a network request callbacks.
  * @param calculator used for a total grid view elements count calculation.
  */
-class GridScrollElementPresenter(
+class PostsViewPagerElementPresenter(
     override val disposables: CompositeDisposable,
-    private val viewModel: GridScrollElementFragmentViewModel,
+    private val viewModel: ViewPagerElementFragmentViewModel,
     private val calculator: ItemsCountCalculator
 ) : RxPresenter() {
 

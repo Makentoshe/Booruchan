@@ -3,7 +3,7 @@ package com.makentoshe.boorupostview.presenter
 import androidx.viewpager.widget.ViewPager
 import com.makentoshe.boorulibrary.entitiy.Tag
 import com.makentoshe.boorupostview.listener.NewSearchStartedListener
-import com.makentoshe.boorupostview.model.GridScrollViewPagerAdapter
+import com.makentoshe.boorupostview.model.PostsViewPagerAdapter
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.subjects.BehaviorSubject
 
@@ -12,12 +12,12 @@ import io.reactivex.subjects.BehaviorSubject
  *
  * @param adapterBuilder used for adapter creating.
  */
-class PostsGridScrollFragmentRxPresenter(
+class PostsViewPagerFragmentPresenter(
     override val disposables: CompositeDisposable,
-    private val adapterBuilder: GridScrollViewPagerAdapter.Builder,
+    private val adapterBuilder: PostsViewPagerAdapter.Builder,
     searchStartedListener: NewSearchStartedListener,
     initialTags: Set<Tag>
-) : RxPresenter(), PostsGridScrollFragmentPresenter {
+) : RxPresenter() {
 
     /** Uses for search events */
     private val searchObservable = BehaviorSubject.create<Set<Tag>>()
@@ -34,7 +34,7 @@ class PostsGridScrollFragmentRxPresenter(
         searchObservable.onNext(initialTags)
     }
 
-    override fun bindViewPager(view: ViewPager) {
+    fun bindViewPager(view: ViewPager) {
         //on new search started: add an adapter for the view pager
         searchObservable.subscribe {
             view.adapter = adapterBuilder.build(it)

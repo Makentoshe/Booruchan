@@ -1,19 +1,14 @@
 package com.makentoshe.boorupostview.fragment
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.FrameLayout
 import androidx.fragment.app.Fragment
 import com.makentoshe.boorulibrary.booru.entity.Booru
 import com.makentoshe.boorulibrary.entitiy.Tag
-import com.makentoshe.boorupostview.PostsFragmentNavigator
 import com.makentoshe.boorupostview.view.PostsPanelFragmentUi
 import org.jetbrains.anko.AnkoContext
-import org.jetbrains.anko.AnkoLogger
-import java.io.PrintStream
 import java.io.Serializable
 
 /**
@@ -42,7 +37,7 @@ class PostsPanelFragment : Fragment(), PostsContainerFragment {
             //attach fragment
             //any display variations here
             //mb using when?
-            PostsGridScrollFragment.build(booru, tags)
+            PostsViewPagerFragment.build(booru, tags)
         }
     }
 

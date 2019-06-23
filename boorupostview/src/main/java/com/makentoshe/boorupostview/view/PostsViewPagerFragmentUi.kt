@@ -7,7 +7,7 @@ import org.jetbrains.anko.AnkoContext
 import org.jetbrains.anko.backgroundColor
 import org.jetbrains.anko.support.v4.viewPager
 
-class PostsGridScrollFragmentUi : AnkoComponent<Context> {
+class PostsViewPagerFragmentUi : AnkoComponent<Context> {
 
     override fun createView(ui: AnkoContext<Context>) = with(ui) {
         viewPager {

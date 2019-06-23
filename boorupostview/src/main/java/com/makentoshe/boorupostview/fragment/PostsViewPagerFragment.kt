@@ -13,9 +13,9 @@ import com.makentoshe.boorulibrary.entitiy.Tag
 import com.makentoshe.boorupostview.NewSearchBroadcastReceiver
 import com.makentoshe.boorupostview.model.AndroidImageDecoder
 import com.makentoshe.boorupostview.model.GridElementControllerHolder
-import com.makentoshe.boorupostview.model.GridScrollViewPagerAdapter
-import com.makentoshe.boorupostview.presenter.PostsGridScrollFragmentRxPresenter
-import com.makentoshe.boorupostview.view.PostsGridScrollFragmentUi
+import com.makentoshe.boorupostview.model.PostsViewPagerAdapter
+import com.makentoshe.boorupostview.presenter.PostsViewPagerFragmentPresenter
+import com.makentoshe.boorupostview.view.PostsViewPagerFragmentUi
 import io.reactivex.disposables.CompositeDisposable
 import org.jetbrains.anko.AnkoContext
 import java.io.Serializable
@@ -23,7 +23,7 @@ import java.io.Serializable
 /**
  * Performs posts displaying using viewpager and grid view.
  */
-class PostsGridScrollFragment : Fragment(), PostsContainerFragment {
+class PostsViewPagerFragment : Fragment(), PostsContainerFragment {
 
     /** Broadcast receiver for receiving a new search events from another fragment */
     private val broadcastReceiver = NewSearchBroadcastReceiver()
@@ -42,7 +42,7 @@ class PostsGridScrollFragment : Fragment(), PostsContainerFragment {
         get() = arguments!!.get(TAGS) as Set<Tag>
 
     /** Presenter component uses for a receiving set of the selected but not searched yet tags */
-    private lateinit var presenter: PostsGridScrollFragmentRxPresenter
+    private lateinit var presenter: PostsViewPagerFragmentPresenter
 
     /** Register receiver */
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -51,7 +51,7 @@ class PostsGridScrollFragment : Fragment(), PostsContainerFragment {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return PostsGridScrollFragmentUi().createView(AnkoContext.create(requireContext()))
+        return PostsViewPagerFragmentUi().createView(AnkoContext.create(requireContext()))
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -64,9 +64,9 @@ class PostsGridScrollFragment : Fragment(), PostsContainerFragment {
         val controllerHolder =
             GridElementControllerHolder.Builder(repositoryBuilder, cacheBuilder, imageDecoder).build(this)
         // create adapter builder for the presenter
-        val adapterBuilder = GridScrollViewPagerAdapter.Builder(childFragmentManager, booru, controllerHolder)
+        val adapterBuilder = PostsViewPagerAdapter.Builder(childFragmentManager, booru, controllerHolder)
         // create presenter
-        presenter = PostsGridScrollFragmentRxPresenter(disposables, adapterBuilder, broadcastReceiver, tags)
+        presenter = PostsViewPagerFragmentPresenter(disposables, adapterBuilder, broadcastReceiver, tags)
         //bind view pager
         val viewpager = view.findViewById<ViewPager>(com.makentoshe.boorupostview.R.id.viewpager)
         presenter.bindViewPager(viewpager)
@@ -92,7 +92,7 @@ class PostsGridScrollFragment : Fragment(), PostsContainerFragment {
         private const val BOORU = "Booru"
         private const val TAGS = "Tags"
         fun build(booru: Booru, tags: Set<Tag>): Fragment {
-            val fragment = PostsGridScrollFragment()
+            val fragment = PostsViewPagerFragment()
             fragment.booru = booru
             fragment.tags = tags
             return fragment

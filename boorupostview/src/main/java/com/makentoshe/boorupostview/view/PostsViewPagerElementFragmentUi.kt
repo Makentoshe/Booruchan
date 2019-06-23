@@ -9,7 +9,7 @@ import org.jetbrains.anko.*
 /**
  * @param calculator performs elements count and spacing calculations for a grid view.
  */
-class PostsGridScrollElementFragmentUi(private val calculator: ItemsCountCalculator) : AnkoComponent<Context> {
+class PostsViewPagerElementFragmentUi(private val calculator: ItemsCountCalculator) : AnkoComponent<Context> {
 
     override fun createView(ui: AnkoContext<Context>) = with(ui) {
         relativeLayout {

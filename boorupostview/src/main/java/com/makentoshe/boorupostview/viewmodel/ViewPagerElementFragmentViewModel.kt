@@ -17,7 +17,7 @@ import io.reactivex.subjects.BehaviorSubject
 /**
  *  Viewmodel component performs a network executions
  */
-class GridScrollElementFragmentViewModel(
+class ViewPagerElementFragmentViewModel(
     private val request: PostsRequest,
     private val repository: Repository<PostsRequest, List<Post>>,
     val controllerHolder: GridElementControllerHolder
@@ -76,7 +76,7 @@ class GridScrollElementFragmentViewModel(
     ) : ViewModelProvider.NewInstanceFactory() {
 
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            return GridScrollElementFragmentViewModel(postsRequest, repository, controllerHolder!!) as T
+            return ViewPagerElementFragmentViewModel(postsRequest, repository, controllerHolder!!) as T
         }
     }
 }

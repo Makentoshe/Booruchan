@@ -9,7 +9,7 @@ import org.jetbrains.anko.cardview.v7.cardView
 /**
  * A grid element ui.
  */
-class GridScrollElementUi : AnkoComponent<Context> {
+class GridElementUi : AnkoComponent<Context> {
     override fun createView(ui: AnkoContext<Context>): View = with(ui) {
         val dip4 = dip(4)
         val dip8 = dip(8)
