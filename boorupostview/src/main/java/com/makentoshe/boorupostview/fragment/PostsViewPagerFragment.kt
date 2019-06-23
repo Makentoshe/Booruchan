@@ -70,6 +70,8 @@ class PostsViewPagerFragment : Fragment(), PostsContainerFragment {
         //bind view pager
         val viewpager = view.findViewById<ViewPager>(com.makentoshe.boorupostview.R.id.viewpager)
         presenter.bindViewPager(viewpager)
+        val bottombar = view.findViewById<View>(com.makentoshe.boorupostview.R.id.bottombar)
+        presenter.bindBottomBar(bottombar)
     }
 
     /** Extracts a set of the [Tag] from the [Bundle] or return an empty set */

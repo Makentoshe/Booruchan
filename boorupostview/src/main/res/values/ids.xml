@@ -19,4 +19,8 @@
     <item name="gridview_element_image" type="id"/>
     <item name="gridview_element_progress" type="id"/>
     <item name="cross_icon" type="id"/>
+    <item name="bottombar" type="id"/>
+    <item name="bottombar_left" type="id"/>
+    <item name="bottombar_center" type="id"/>
+    <item name="bottombar_right" type="id"/>
 </resources>
