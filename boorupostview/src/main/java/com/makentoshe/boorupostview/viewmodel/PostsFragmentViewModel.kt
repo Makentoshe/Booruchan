@@ -1,4 +1,4 @@
-package com.makentoshe.boorupostview.fragment
+package com.makentoshe.boorupostview.viewmodel
 
 import android.app.Application
 import android.util.Log

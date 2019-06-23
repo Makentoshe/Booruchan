@@ -4,7 +4,7 @@ import android.view.View
 import android.widget.ImageView
 import com.jakewharton.rxbinding3.view.clicks
 import com.makentoshe.boorupostview.R
-import com.makentoshe.boorupostview.fragment.PostsFragmentViewModel
+import com.makentoshe.boorupostview.viewmodel.PostsFragmentViewModel
 import com.makentoshe.boorupostview.listener.MagnifyPanelSlideListener
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import io.reactivex.disposables.CompositeDisposable

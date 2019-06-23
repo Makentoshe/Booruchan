@@ -17,6 +17,7 @@ import com.makentoshe.boorupostview.PostsFragmentNavigator
 import com.makentoshe.boorupostview.R
 import com.makentoshe.boorupostview.presenter.PostsFragmentRxPresenter
 import com.makentoshe.boorupostview.view.PostsFragmentUi
+import com.makentoshe.boorupostview.viewmodel.PostsFragmentViewModel
 import com.makentoshe.style.OnBackFragment
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import io.reactivex.disposables.CompositeDisposable
@@ -71,7 +72,8 @@ class PostsFragment : Fragment(), OnBackFragment {
     /** Gets a viewmodel component */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val factory = PostsFragmentViewModel.Factory(requireActivity().application, tags, newSearchBroadcastReceiver)
+        val factory = PostsFragmentViewModel
+            .Factory(requireActivity().application, tags, newSearchBroadcastReceiver)
         viewmodel = ViewModelProviders.of(this, factory)[PostsFragmentViewModel::class.java]
     }
 
