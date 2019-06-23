@@ -13,19 +13,22 @@ import io.reactivex.disposables.CompositeDisposable
 import org.jetbrains.anko.AnkoContext
 
 /**
- * Adapter creates and bindings grid's element views and grid's element controllers.
+ * Adapter creates and binds a grid element views and a grid element controllers.
+ *
+ * @param posts is a list of a sources. Grid elements count is equals to the list size.
+ * @param disposables disposable container.
+ * @param controllerHolder holds a [GridElementController] instances which associated with a [Post] instance.
  */
 class GridScrollElementAdapter(
-    private val posts: List<Post>, private val disposables: CompositeDisposable,
-    private val viewModelHolder: GridElementViewModelHolder,
+    private val posts: List<Post>,
+    private val disposables: CompositeDisposable,
     private val controllerHolder: GridElementControllerHolder
 ) : BaseAdapter() {
 
     /** Create a ui for a grid element and binds a presenter to it */
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
+        // get a controller based on post instance. Also pass a disposables instance to avoid a memory leaks.
         val controller = controllerHolder.get(getItem(position) to disposables)!!
-        // get a viewmodel
-        val viewmodel = viewModelHolder.viewmodels[position]
         // create a presenter
         val presenter = GridElementPresenter(disposables, position, controller)
         // create or reuse view and binds it to the presenter

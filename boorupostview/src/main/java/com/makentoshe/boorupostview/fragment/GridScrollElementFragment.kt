@@ -15,7 +15,6 @@ import com.makentoshe.boorulibrary.booru.entity.PostsRequest
 import com.makentoshe.boorulibrary.entitiy.Post
 import com.makentoshe.boorulibrary.entitiy.Tag
 import com.makentoshe.boorupostview.model.GridElementControllerHolder
-import com.makentoshe.boorupostview.model.GridElementViewModelHolder
 import com.makentoshe.boorupostview.model.ItemsCountCalculator
 import com.makentoshe.boorupostview.presenter.GridScrollElementPresenter
 import com.makentoshe.boorupostview.view.PostsGridScrollElementFragmentUi
@@ -30,7 +29,10 @@ import java.io.Serializable
  */
 class GridScrollElementFragment : Fragment() {
 
-    /** Will be initialized at once */
+    /**
+     * Will be initialized at once when fragment instance will be created.
+     * Other times this instance will be stored in a viewmodel component.
+     */
     private var controllerHolder: GridElementControllerHolder? = null
 
     /** Calculator for the grid view elements count and space */
@@ -39,14 +41,17 @@ class GridScrollElementFragment : Fragment() {
     /** Contains disposables which must be released on destroy lifecycle event */
     private val disposables = CompositeDisposable()
 
+    /** Current [Booru] API instance used for requests */
     private var booru: Booru
         set(value) = (arguments ?: Bundle().also { arguments = it }).putSerializable(BOORU, value)
         get() = arguments!!.get(BOORU) as Booru
 
+    /** Set of a tags might used in requests */
     private var tags: Set<Tag>
         set(value) = (arguments ?: Bundle().also { arguments = it }).putSerializable(TAGS, value as Serializable)
         get() = arguments!!.get(TAGS) as Set<Tag>
 
+    /** Current [androidx.viewpager.widget.ViewPager] page index starts from 0 */
     private var position: Int
         set(value) = (arguments ?: Bundle().also { arguments = it }).putInt(POSITION, value)
         get() = arguments!!.getInt(POSITION)
@@ -57,13 +62,10 @@ class GridScrollElementFragment : Fragment() {
 
     /** Creates presenter and binds a ui to it */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val imageRepositoryBuilder = ImageRepositoryBuilder(booru)
         // get a viewmodel instance
         val viewmodel = getViewModel()
-        // get a viewmodels holder for grid view adapter
-        val viewModelHolderBuilder = GridElementViewModelHolder.Builder(this, imageRepositoryBuilder)
         // create a presenter instance
-        val presenter = GridScrollElementPresenter(disposables, viewmodel, viewModelHolderBuilder, countCalc)
+        val presenter = GridScrollElementPresenter(disposables, viewmodel, countCalc)
         // bind a grid view
         val gridView = view.findViewById<GridView>(com.makentoshe.boorupostview.R.id.gridview)
         presenter.bindGridView(gridView)

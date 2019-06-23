@@ -1,11 +1,6 @@
 package com.makentoshe.boorupostview.model
 
 import android.graphics.Bitmap
-import androidx.collection.LongSparseArray
-import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
 import com.makentoshe.api.*
 import com.makentoshe.boorulibrary.booru.safebooru.SafebooruPost
 import com.makentoshe.boorulibrary.entitiy.Post
@@ -17,6 +12,16 @@ import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.BehaviorSubject
 import java.io.File
 
+/**
+ * Controller class for [android.widget.GridView] element. Stores in [GridElementControllerHolder] instance.
+ * Performs an image downloading and sends a result to one of the observables.
+ *
+ * @param post is a source info for request.
+ * @param repositoryBuilder creates a repository for requesting an image
+ * @param cacheBuilder create a cache for caching a requested image
+ * @param imageDecoder decodes a byte array to an android [android.graphics.Bitmap].
+ * @param disposables disposable container.
+ */
 class GridElementController(
     private val post: Post,
     private val repositoryBuilder: ImageRepositoryBuilder,
@@ -77,58 +82,4 @@ class GridElementController(
         val previewUrl = post.previewUrl.replaceRange(post.previewUrl.lastIndexOf("."), post.previewUrl.length, ".jpg")
         return post.makeCopy(previewUrl = previewUrl)
     }
-}
-
-
-interface GridElementControllerHolder : Repository<Pair<Post, CompositeDisposable>, GridElementController> {
-
-    fun remove(key: Post)
-
-    class Builder(
-        private val repositoryBuilder: ImageRepositoryBuilder,
-        private val cacheBuilder: CacheBuilder,
-        private val imageDecoder: ImageDecoder
-    ) {
-        fun build(fragment: Fragment): GridElementControllerHolderImpl {
-            val factory = GridElementControllerHolderImpl.Factory(repositoryBuilder, cacheBuilder, imageDecoder)
-            return ViewModelProviders.of(fragment, factory)[GridElementControllerHolderImpl::class.java]
-        }
-    }
-
-}
-
-/**
- * Viewmodel component stores all [GridElementController] objects used in current time.
- */
-class GridElementControllerHolderImpl(
-    private val repositoryBuilder: ImageRepositoryBuilder,
-    private val cacheBuilder: CacheBuilder,
-    private val imageDecoder: ImageDecoder
-) : ViewModel(), GridElementControllerHolder {
-
-    /** Local storage */
-    private val map = LongSparseArray<GridElementController>()
-
-    /** Returns from local storage. If does not exists - create */
-    override fun get(key: Pair<Post, CompositeDisposable>): GridElementController? {
-        val value = map[key.first.id]
-        if (value != null) return value
-        val controller = GridElementController(key.first, repositoryBuilder, cacheBuilder, imageDecoder, key.second)
-        map.put(key.first.id, controller)
-        return get(key)
-    }
-
-    /** Removes from local storage */
-    override fun remove(key: Post) = map.remove(key.id)
-
-    class Factory(
-        private val repositoryBuilder: ImageRepositoryBuilder,
-        private val cacheBuilder: CacheBuilder,
-        private val imageDecoder: ImageDecoder
-    ) : ViewModelProvider.NewInstanceFactory() {
-        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-            return GridElementControllerHolderImpl(repositoryBuilder, cacheBuilder, imageDecoder) as T
-        }
-    }
-
 }
