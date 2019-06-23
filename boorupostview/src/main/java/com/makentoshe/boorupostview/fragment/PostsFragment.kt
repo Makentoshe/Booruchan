@@ -15,6 +15,7 @@ import com.makentoshe.boorupostview.NewSearchBroadcastReceiver
 import com.makentoshe.boorupostview.PostSelectBroadcastReceiver
 import com.makentoshe.boorupostview.PostsFragmentNavigator
 import com.makentoshe.boorupostview.R
+import com.makentoshe.boorupostview.model.ItemsCountCalculator
 import com.makentoshe.boorupostview.presenter.PostsFragmentRxPresenter
 import com.makentoshe.boorupostview.view.PostsFragmentUi
 import com.makentoshe.boorupostview.viewmodel.PostsFragmentViewModel
@@ -60,20 +61,22 @@ class PostsFragment : Fragment(), OnBackFragment {
     /** Register broadcast receivers */
     override fun onAttach(context: Context) {
         super.onAttach(context)
+        // calculate a total items count per page
+        val calculator = ItemsCountCalculator()
         // register a new search event
         NewSearchBroadcastReceiver.registerReceiver(requireActivity(), newSearchBroadcastReceiver)
         // register a select event
         PostSelectBroadcastReceiver.registerReceiver(requireActivity(), postSelectBroadcastReceiver).onSelect {
             val page = view!!.findViewById<ViewPager>(com.makentoshe.boorupostview.R.id.viewpager).currentItem
-            println("page=$page, position=$it")
+            val total = calculator.getItemsCountTotal(requireContext())
+            navigator.navigateToSampleFragment(page, it, total)
         }
     }
 
     /** Gets a viewmodel component */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val factory = PostsFragmentViewModel
-            .Factory(requireActivity().application, tags, newSearchBroadcastReceiver)
+        val factory = PostsFragmentViewModel.Factory(requireActivity().application, tags, newSearchBroadcastReceiver)
         viewmodel = ViewModelProviders.of(this, factory)[PostsFragmentViewModel::class.java]
     }
 
@@ -93,7 +96,7 @@ class PostsFragment : Fragment(), OnBackFragment {
         toolbar.title = booru.title
         toolbar.subtitleResource = com.makentoshe.boorupostview.R.string.posts
         //bind an option icon (magnify/close)
-        val optionIcon = view.findViewById<View>(R.id.magnify_view)
+        val optionIcon = view.findViewById<View>(R.id.magnify_cross_view)
         presenter.bindOptionIcon(optionIcon)
         //bind a sliding up/down panel
         val slidingPanel = view.findViewById<SlidingUpPanelLayout>(com.makentoshe.boorupostview.R.id.slidingPanel)

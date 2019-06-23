@@ -8,6 +8,6 @@ import java.io.Serializable
 interface PostsFragmentNavigator : Serializable {
 
     /** Navigate to sample screen */
-    fun navigateToSampleFragment()
+    fun navigateToSampleFragment(page: Int, position: Int, total: Int)
 
 }

@@ -3,10 +3,10 @@ package com.makentoshe.boorupostview.view
 import android.content.Context
 import android.graphics.Color
 import android.view.Gravity
+import android.view.View
 import android.view.ViewManager
 import androidx.annotation.StyleRes
 import com.makentoshe.boorupostview.anko.AnkoSlidingUpPanelLayout
-import com.makentoshe.boorupostview.R
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import org.jetbrains.anko.*
 import org.jetbrains.anko.appcompat.v7.toolbar
@@ -19,7 +19,7 @@ class PostsFragmentUi : AnkoComponent<Context> {
             createToolbarView()
 
             slidingUpPanel {
-                id = R.id.slidingPanel
+                id = com.makentoshe.boorupostview.R.id.slidingPanel
                 setGravity(Gravity.BOTTOM)
                 coveredFadeColor = Color.TRANSPARENT
                 shadowHeight = 0
@@ -33,32 +33,43 @@ class PostsFragmentUi : AnkoComponent<Context> {
     }
 
     private fun _LinearLayout.createToolbarView() {
-        val style = attr(R.attr.toolbar_style).data
-        val height = dimen(R.dimen.toolbar_height)
+        val style = attr(com.makentoshe.style.R.attr.toolbar_style).data
+        val height = dimen(com.makentoshe.style.R.dimen.toolbar_height)
 
         themedRelativeLayout(style) {
-            id = R.id.toolbar
+            id = com.makentoshe.boorupostview.R.id.toolbar
             minimumHeight = height
 
             toolbar {
-                id = R.id.toolbar_view
+                id = com.makentoshe.boorupostview.R.id.toolbar_view
             }.lparams(matchParent, wrapContent) {
-                bottomMargin = dimen(R.dimen.toolbar_bottom_margin)
+                bottomMargin = dimen(com.makentoshe.style.R.dimen.toolbar_bottom_margin)
             }
 
-            createMagnifyIcon()
+            createMagnifyCrossIcon()
 
         }.lparams(matchParent, wrapContent)
     }
 
-    private fun _RelativeLayout.createMagnifyIcon() {
-        val height = dimen(R.dimen.toolbar_height)
-        frameLayout {
-            id = R.id.magnify_view
+    private fun _RelativeLayout.createMagnifyCrossIcon() {
+        val height = dimen(com.makentoshe.style.R.dimen.toolbar_height)
+        relativeLayout {
+            id = com.makentoshe.boorupostview.R.id.magnify_cross_view
 
             imageView {
-                id = R.id.magnify_icon
+                id = com.makentoshe.boorupostview.R.id.magnify_icon
                 padding = height / 4
+                imageResource = com.makentoshe.style.R.drawable.avd_cross_magnify
+            }.lparams(matchParent, matchParent) {
+                gravity = Gravity.CENTER
+            }
+
+            imageView {
+                id = com.makentoshe.boorupostview.R.id.cross_icon
+                padding = height / 4
+                imageResource = com.makentoshe.style.R.drawable.avd_magnify_cross
+                alpha = 0f
+                visibility = View.GONE
             }.lparams(matchParent, matchParent) {
                 gravity = Gravity.CENTER
             }
@@ -70,11 +81,11 @@ class PostsFragmentUi : AnkoComponent<Context> {
     }
 
     private fun AnkoSlidingUpPanelLayout.createContentView() = frameLayout {
-        id = R.id.contentview
+        id = com.makentoshe.boorupostview.R.id.contentview
     }.lparams(matchParent, matchParent)
 
     private fun AnkoSlidingUpPanelLayout.createPanelView() = frameLayout {
-        id = R.id.panelview
+        id = com.makentoshe.boorupostview.R.id.panelview
     }.lparams(matchParent, matchParent)
 
     private fun ViewManager.slidingUpPanel(@StyleRes theme: Int = 0, init: AnkoSlidingUpPanelLayout.() -> Unit): SlidingUpPanelLayout {

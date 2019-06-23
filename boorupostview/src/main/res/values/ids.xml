@@ -6,7 +6,7 @@
     <item name="contentview" type="id"/>
     <item name="magnify_icon" type="id"/>
     <item name="search_button" type="id"/>
-    <item name="magnify_view" type="id"/>
+    <item name="magnify_cross_view" type="id"/>
     <item name="slidingPanel" type="id"/>
     <item name="search_edit_text" type="id"/>
     <item name="search_text_box" type="id"/>
@@ -18,4 +18,5 @@
     <item name="messageview" type="id"/>
     <item name="gridview_element_image" type="id"/>
     <item name="gridview_element_progress" type="id"/>
+    <item name="cross_icon" type="id"/>
 </resources>

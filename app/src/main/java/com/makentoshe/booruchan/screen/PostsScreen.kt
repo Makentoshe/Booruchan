@@ -6,6 +6,7 @@ import com.makentoshe.boorulibrary.entitiy.Tag
 import com.makentoshe.boorupostview.PostsFragmentNavigator
 import com.makentoshe.boorupostview.fragment.PostsFragment
 import com.makentoshe.navigation.Screen
+import java.text.FieldPosition
 
 /** Class describes a posts screen */
 class PostsScreen(
@@ -22,8 +23,9 @@ class PostsScreen(
 /**
  * Class performs a navigation from the posts screen.
  */
-class PostsFragmentNavigator: PostsFragmentNavigator {
-    override fun navigateToSampleFragment() {
-        println("SAS")
+class PostsFragmentNavigator : PostsFragmentNavigator {
+    override fun navigateToSampleFragment(page: Int, position: Int, total: Int) {
+        val concretePosition = total * page + position
+        println(concretePosition)
     }
 }
