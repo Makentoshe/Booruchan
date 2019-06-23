@@ -1,7 +1,6 @@
 package com.makentoshe.boorupostview.fragment
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,6 +14,7 @@ import com.makentoshe.boorulibrary.booru.entity.Booru
 import com.makentoshe.boorulibrary.booru.entity.PostsRequest
 import com.makentoshe.boorulibrary.entitiy.Post
 import com.makentoshe.boorulibrary.entitiy.Tag
+import com.makentoshe.boorupostview.model.GridElementControllerHolder
 import com.makentoshe.boorupostview.model.GridElementViewModelHolder
 import com.makentoshe.boorupostview.model.ItemsCountCalculator
 import com.makentoshe.boorupostview.presenter.GridScrollElementPresenter
@@ -29,6 +29,9 @@ import java.io.Serializable
  * progress bar for displaying a progress work and a message view for displaying an error messages.
  */
 class GridScrollElementFragment : Fragment() {
+
+    /** Will be initialized at once */
+    private var controllerHolder: GridElementControllerHolder? = null
 
     /** Calculator for the grid view elements count and space */
     private val countCalc = ItemsCountCalculator()
@@ -60,7 +63,7 @@ class GridScrollElementFragment : Fragment() {
         // get a viewmodels holder for grid view adapter
         val viewModelHolderBuilder = GridElementViewModelHolder.Builder(this, imageRepositoryBuilder)
         // create a presenter instance
-        val presenter = GridScrollElementPresenter(disposables, viewmodel, viewModelHolderBuilder)
+        val presenter = GridScrollElementPresenter(disposables, viewmodel, viewModelHolderBuilder, countCalc)
         // bind a grid view
         val gridView = view.findViewById<GridView>(com.makentoshe.boorupostview.R.id.gridview)
         presenter.bindGridView(gridView)
@@ -87,7 +90,7 @@ class GridScrollElementFragment : Fragment() {
         // repository for requesting a posts
         val repository = buildPostRepository()
 
-        val factory = GridScrollElementFragmentViewModel.Factory(request, repository)
+        val factory = GridScrollElementFragmentViewModel.Factory(request, repository, controllerHolder)
         return ViewModelProviders.of(this, factory)[GridScrollElementFragmentViewModel::class.java]
     }
 
@@ -101,11 +104,14 @@ class GridScrollElementFragment : Fragment() {
         private const val TAGS = "Tags"
         private const val POSITION = "Position"
         private const val BOORU = "Booru"
-        fun build(booru: Booru, tags: Set<Tag>, position: Int): Fragment {
+        fun build(
+            booru: Booru, tags: Set<Tag>, position: Int, controllerHolder: GridElementControllerHolder
+        ): Fragment {
             val fragment = GridScrollElementFragment()
             fragment.booru = booru
             fragment.tags = tags
             fragment.position = position
+            fragment.controllerHolder = controllerHolder
             return fragment
         }
     }

@@ -14,22 +14,24 @@ import com.makentoshe.boorupostview.fragment.GridScrollElementFragment
 class GridScrollViewPagerAdapter(
     private val booru: Booru,
     private val tags: Set<Tag>,
+    private val controllerHolder: GridElementControllerHolder,
     fm: FragmentManager
 ) : FragmentStatePagerAdapter(fm) {
 
     override fun getItem(position: Int): Fragment {
-        return GridScrollElementFragment.build(booru, tags, position)
+        return GridScrollElementFragment.build(booru, tags, position, controllerHolder)
     }
 
     override fun getCount() = Int.MAX_VALUE
 
     class Builder(
         private val fragmentManager: FragmentManager,
-        private val booru: Booru
+        private val booru: Booru,
+        private val controllerHolder: GridElementControllerHolder
     ) {
 
         fun build(tags: Set<Tag>): GridScrollViewPagerAdapter {
-            return GridScrollViewPagerAdapter(booru, tags, fragmentManager)
+            return GridScrollViewPagerAdapter(booru, tags, controllerHolder, fragmentManager)
         }
     }
 }

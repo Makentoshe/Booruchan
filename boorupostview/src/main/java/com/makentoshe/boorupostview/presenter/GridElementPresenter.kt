@@ -6,6 +6,7 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.ProgressBar
 import com.makentoshe.boorupostview.PostSelectBroadcastReceiver
+import com.makentoshe.boorupostview.model.GridElementController
 import com.makentoshe.boorupostview.viewmodel.GridElementViewModel
 import io.reactivex.disposables.CompositeDisposable
 import java.io.Serializable
@@ -20,7 +21,7 @@ import java.io.Serializable
 class GridElementPresenter(
     override val disposables: CompositeDisposable,
     private val position: Int,
-    private val viewmodel: GridElementViewModel
+    private val viewmodel: GridElementController
 ) : RxPresenter(), Serializable {
 
     /** Binds a grid element view */

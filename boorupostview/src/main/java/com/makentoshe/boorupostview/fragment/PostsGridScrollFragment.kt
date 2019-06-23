@@ -6,9 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.viewpager.widget.ViewPager
+import com.makentoshe.api.CacheBuilder
+import com.makentoshe.api.ImageRepositoryBuilder
 import com.makentoshe.boorulibrary.booru.entity.Booru
 import com.makentoshe.boorulibrary.entitiy.Tag
 import com.makentoshe.boorupostview.NewSearchBroadcastReceiver
+import com.makentoshe.boorupostview.model.AndroidImageDecoder
+import com.makentoshe.boorupostview.model.GridElementControllerHolder
 import com.makentoshe.boorupostview.model.GridScrollViewPagerAdapter
 import com.makentoshe.boorupostview.presenter.PostsGridScrollFragmentRxPresenter
 import com.makentoshe.boorupostview.view.PostsGridScrollFragmentUi
@@ -53,8 +57,14 @@ class PostsGridScrollFragment : Fragment(), PostsContainerFragment {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         // restore tags from the saved state
         val tags: Set<Tag> = if (savedInstanceState == null) tags else extractTagsFromState(savedInstanceState)
+
+        val imageDecoder = AndroidImageDecoder()
+        val repositoryBuilder = ImageRepositoryBuilder(booru)
+        val cacheBuilder = CacheBuilder(requireContext())
+        val controllerHolder =
+            GridElementControllerHolder.Builder(repositoryBuilder, cacheBuilder, imageDecoder).build(this)
         // create adapter builder for the presenter
-        val adapterBuilder = GridScrollViewPagerAdapter.Builder(childFragmentManager, booru)
+        val adapterBuilder = GridScrollViewPagerAdapter.Builder(childFragmentManager, booru, controllerHolder)
         // create presenter
         presenter = PostsGridScrollFragmentRxPresenter(disposables, adapterBuilder, broadcastReceiver, tags)
         //bind view pager
