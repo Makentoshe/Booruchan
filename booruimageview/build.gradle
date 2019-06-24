@@ -1,6 +1,4 @@
 apply plugin: 'com.android.library'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
 
 android {
     compileSdkVersion 28
@@ -27,18 +25,24 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation project(":style")
-    implementation project(":api")
-    implementation project(":settings")
 
+    // Kotlin and Kotlin-android
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.2.1'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.1.1'
 
+    // Anko
+    // https://github.com/Kotlin/anko
     implementation "org.jetbrains.anko:anko:$anko_version"
     implementation "org.jetbrains.anko:anko-appcompat-v7-commons:$anko_version"
     implementation "org.jetbrains.anko:anko-appcompat-v7:$anko_version"
     implementation "org.jetbrains.anko:anko-coroutines:$anko_version"
+    // Anko CardView-v7
+    implementation "org.jetbrains.anko:anko-cardview-v7:$anko_version"
+
+    // SlidingUpPanelLayout
+    // https://github.com/umano/AndroidSlidingUpPanel
+    implementation 'com.sothree.slidinguppanel:library:3.4.0'
 
     // RxJava2
     // https://github.com/ReactiveX/RxJava
@@ -53,6 +57,10 @@ dependencies {
     implementation 'com.jakewharton.rxbinding3:rxbinding-core:3.0.0-alpha2'
     implementation 'com.jakewharton.rxbinding3:rxbinding-appcompat:3.0.0-alpha2'
 
+    // Material components
+    // https://github.com/material-components/material-components-android
+    implementation 'com.google.android.material:material:1.1.0-alpha07'
+
     // ViewModel architecture
     implementation "androidx.lifecycle:lifecycle-viewmodel:2.0.0"
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0-alpha01'
@@ -60,13 +68,6 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.0.2'
 
     testImplementation 'junit:junit:4.12'
-
-    // Mockk
-    // https://github.com/mockk/mockk
-    androidTestImplementation "io.mockk:mockk:1.8.13.kotlin13"
-    androidTestImplementation "io.mockk:mockk-android:1.8.13.kotlin13"
-
-    androidTestImplementation 'androidx.test:rules:1.1.1'
-    androidTestImplementation 'androidx.test:runner:1.1.1'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
+    androidTestImplementation 'androidx.test:runner:1.2.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 }

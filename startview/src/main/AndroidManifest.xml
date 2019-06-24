@@ -1,2 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.makentoshe.startview"/>
+          package="com.makentoshe.startview">
+    <application>
+        <activity android:name=".TestActivity"/>
+    </application>
+</manifest>

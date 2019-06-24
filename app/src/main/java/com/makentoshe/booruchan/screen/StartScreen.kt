@@ -1,11 +1,13 @@
 package com.makentoshe.booruchan.screen
 
 import androidx.fragment.app.Fragment
+import com.makentoshe.api.repository.BooruRepository
 import com.makentoshe.booruchan.navigation.Router
 import com.makentoshe.booruchan.navigation.Screen
 import com.makentoshe.boorulibrary.booru.entity.Booru
-import com.makentoshe.booruview.BooruTransitionData
 import com.makentoshe.booruview.BooruFragmentNavigator
+import com.makentoshe.booruview.BooruTransitionData
+import com.makentoshe.settings.SettingsBuilder
 import com.makentoshe.startview.StartFragment
 import com.makentoshe.startview.StartFragmentNavigator
 
@@ -14,11 +16,15 @@ import com.makentoshe.startview.StartFragmentNavigator
  *
  * @param startFragmentNavigator is a navigator interface performs a navigation to another screens.
  */
-class StartScreen(private val startFragmentNavigator: StartFragmentNavigator) : Screen() {
+class StartScreen(
+    private val settingsBuilder: SettingsBuilder,
+    private val startFragmentNavigator: StartFragmentNavigator,
+    private val booruRepository: BooruRepository
+) : Screen() {
 
     /** Factory property creates a new [StartFragment] instance each call */
     override val fragment: Fragment
-        get() = StartFragment.build(startFragmentNavigator)
+        get() = StartFragment.build(settingsBuilder, startFragmentNavigator, booruRepository)
 }
 
 /**

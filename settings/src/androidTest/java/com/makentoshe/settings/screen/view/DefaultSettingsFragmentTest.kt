@@ -11,6 +11,7 @@ import com.makentoshe.settings.TestActivity
 import com.makentoshe.settings.model.realm.RealmBooleanSettingController
 import com.makentoshe.settings.screen.controller.NsfwAlertSettingController
 import com.makentoshe.settings.screen.controller.NsfwSettingController
+import com.makentoshe.settings.screen.controller.NsfwSettingControllerImpl
 import com.makentoshe.settings.screen.fragment.DefaultSettingsFragment
 import io.realm.Realm
 import io.realm.RealmConfiguration
@@ -45,8 +46,8 @@ class DefaultSettingsFragmentTest {
         alertController = NsfwAlertSettingController(RealmBooleanSettingController(configuration))
         alertController.set(true)
 
-        nsfwController = NsfwSettingController(RealmBooleanSettingController(configuration))
-        nsfwController.set(false)
+        nsfwController = NsfwSettingControllerImpl(RealmBooleanSettingController(configuration))
+        nsfwController.value = false
 
         instrumentation.runOnMainSync {
             activity.supportFragmentManager
@@ -63,18 +64,18 @@ class DefaultSettingsFragmentTest {
 
         onView(withId(com.makentoshe.settings.R.id.nsfw_setting_target)).perform(click()).noActivity()
         onView(withId(com.makentoshe.settings.R.id.nsfw_setting_target)).check(matches(isChecked()))
-        assertEquals(true, nsfwController.get())
+        assertEquals(true, nsfwController.value)
 
         onView(withId(com.makentoshe.settings.R.id.nsfw_setting_target)).perform(click())
         onView(withId(com.makentoshe.settings.R.id.nsfw_setting_target)).check(matches(isNotChecked()))
-        assertEquals(false, nsfwController.get())
+        assertEquals(false, nsfwController.value)
     }
 
     @Test
     fun shouldEnableNsfwSettingOnAlertDialogPositiveButtonPressed() {
         onView(withId(com.makentoshe.settings.R.id.nsfw_setting_target)).perform(click())
         onView(withId(android.R.id.button1)).perform(click())
-        assertEquals(true, nsfwController.get())
+        assertEquals(true, nsfwController.value)
         assertEquals(true, alertController.get())
     }
 
@@ -82,7 +83,7 @@ class DefaultSettingsFragmentTest {
     fun shouldDisableNsfwSettingOnAlertDialogNegativeButtonPressed() {
         onView(withId(com.makentoshe.settings.R.id.nsfw_setting_target)).perform(click()).noActivity()
         onView(withId(android.R.id.button2)).perform(click())
-        assertEquals(false, nsfwController.get())
+        assertEquals(false, nsfwController.value)
         assertEquals(true, alertController.get())
     }
 
@@ -90,7 +91,7 @@ class DefaultSettingsFragmentTest {
     fun shouldDisableNsfwSettingOnAlertDialogCancel() {
         onView(withId(com.makentoshe.settings.R.id.nsfw_setting_target)).perform(click())
         pressBack()
-        assertEquals(false, nsfwController.get())
+        assertEquals(false, nsfwController.value)
     }
 
     @After

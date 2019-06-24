@@ -9,8 +9,6 @@ import android.widget.ListView
 import android.widget.PopupMenu
 import com.jakewharton.rxbinding3.view.clicks
 import com.jakewharton.rxbinding3.widget.itemClicks
-import com.makentoshe.api.repository.BooruRepository
-import com.makentoshe.settings.SettingsBuilder
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -19,9 +17,7 @@ import io.reactivex.schedulers.Schedulers
 /** Presenter component for [StartFragment] */
 class StartFragmentPresenter(
     override val disposables: CompositeDisposable,
-    private val viewModel: StartFragmentViewModel,
-    private val repository: BooruRepository,
-    private val settingsBuilder: SettingsBuilder
+    private val viewModel: StartFragmentViewModel
 ) : RxPresenter() {
 
     /** Binds an overflow icon. Should display popup menu on click. */
@@ -36,7 +32,7 @@ class StartFragmentPresenter(
 
     /** Builds a menu item with settings title */
     private fun PopupMenu.buildSettingsMenuItem(context: Context) {
-        val id = R.id.settings
+        val id = com.makentoshe.startview.R.id.settings
         val title = context.getString(R.string.settings)
         menu.add(Menu.NONE, id, 1, title)
     }
@@ -50,9 +46,9 @@ class StartFragmentPresenter(
     /** Binds a [ListView]. Should contain a list of a booru and navigate to booru screens on click event */
     fun bindListView(view: ListView) {
         // setting for filter by nsfw
-        val setting = settingsBuilder.buildNsfw().get()
+        val setting = viewModel.settingsBuilder.buildNsfw().value
         //get list
-        val boorus = repository.get(Unit).filter { it.isNsfw or setting }
+        val boorus = viewModel.booruRepository.get(Unit)!!.filter { it.isNsfw or setting }
         // add on click listener
         view.itemClicks().map(boorus::get).subscribe(viewModel.navigator::navigateToBooruScreen).let(disposables::add)
         // set adapter
