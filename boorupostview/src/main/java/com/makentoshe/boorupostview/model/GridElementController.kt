@@ -3,6 +3,9 @@ package com.makentoshe.boorupostview.model
 import android.graphics.Bitmap
 import com.makentoshe.api.*
 import com.makentoshe.api.cache.CacheBuilder
+import com.makentoshe.api.repository.Repository
+import com.makentoshe.api.repository.RepositoryBuilder
+import com.makentoshe.api.repository.RepositoryCache
 import com.makentoshe.boorulibrary.booru.safebooru.SafebooruPost
 import com.makentoshe.boorulibrary.entitiy.Post
 import io.reactivex.Observable

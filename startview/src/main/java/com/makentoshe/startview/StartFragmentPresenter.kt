@@ -9,10 +9,8 @@ import android.widget.ListView
 import android.widget.PopupMenu
 import com.jakewharton.rxbinding3.view.clicks
 import com.jakewharton.rxbinding3.widget.itemClicks
-import com.makentoshe.api.BooruRepository
+import com.makentoshe.api.repository.BooruRepository
 import com.makentoshe.settings.SettingsBuilder
-import com.makentoshe.settings.model.SettingController
-import com.makentoshe.settings.screen.controller.NsfwSettingController
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable

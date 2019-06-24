@@ -1,4 +1,4 @@
-package com.makentoshe.api
+package com.makentoshe.api.repository
 
 import com.makentoshe.api.cache.Cache
 

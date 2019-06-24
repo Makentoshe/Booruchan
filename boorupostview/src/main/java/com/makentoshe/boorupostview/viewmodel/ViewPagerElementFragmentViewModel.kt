@@ -3,7 +3,7 @@ package com.makentoshe.boorupostview.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.makentoshe.api.DefaultPostsRequest
-import com.makentoshe.api.Repository
+import com.makentoshe.api.repository.Repository
 import com.makentoshe.boorulibrary.booru.entity.PostsRequest
 import com.makentoshe.boorulibrary.entitiy.Post
 import com.makentoshe.boorupostview.model.GridElementControllerHolder

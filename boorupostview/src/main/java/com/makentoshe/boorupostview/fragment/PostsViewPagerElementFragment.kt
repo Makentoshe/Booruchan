@@ -11,6 +11,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import com.makentoshe.api.*
 import com.makentoshe.api.cache.CacheBuilder
+import com.makentoshe.api.repository.Repository
+import com.makentoshe.api.repository.RepositoryBuilder
 import com.makentoshe.boorulibrary.booru.entity.Booru
 import com.makentoshe.boorulibrary.booru.entity.PostsRequest
 import com.makentoshe.boorulibrary.entitiy.Post

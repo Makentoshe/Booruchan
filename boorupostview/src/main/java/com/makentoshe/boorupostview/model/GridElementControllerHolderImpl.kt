@@ -4,7 +4,7 @@ import androidx.collection.LongSparseArray
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.makentoshe.api.cache.CacheBuilder
-import com.makentoshe.api.RepositoryBuilder
+import com.makentoshe.api.repository.RepositoryBuilder
 import com.makentoshe.boorulibrary.entitiy.Post
 import io.reactivex.disposables.CompositeDisposable
 

@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.viewpager.widget.ViewPager
 import com.makentoshe.api.cache.CacheBuilder
-import com.makentoshe.api.RepositoryBuilder
+import com.makentoshe.api.repository.RepositoryBuilder
 import com.makentoshe.boorulibrary.booru.entity.Booru
 import com.makentoshe.boorulibrary.entitiy.Tag
 import com.makentoshe.boorupostview.NewSearchBroadcastReceiver

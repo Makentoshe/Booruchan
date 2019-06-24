@@ -3,15 +3,16 @@ package com.makentoshe.boorupostview.model
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import com.makentoshe.api.cache.CacheBuilder
-import com.makentoshe.api.RepositoryBuilder
-import com.makentoshe.api.Repository
+import com.makentoshe.api.repository.RepositoryBuilder
+import com.makentoshe.api.repository.Repository
 import com.makentoshe.boorulibrary.entitiy.Post
 import io.reactivex.disposables.CompositeDisposable
 
 /**
  * Interface for a container for [GridElementController] objects.
  */
-interface GridElementControllerHolder : Repository<Pair<Post, CompositeDisposable>, GridElementController> {
+interface GridElementControllerHolder :
+    Repository<Pair<Post, CompositeDisposable>, GridElementController> {
 
     /** Removes [GridElementController] instance associated by key */
     fun remove(key: Post)

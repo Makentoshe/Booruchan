@@ -7,7 +7,7 @@ import android.widget.AutoCompleteTextView
 import com.google.android.material.chip.ChipGroup
 import com.jakewharton.rxbinding3.view.clicks
 import com.jakewharton.rxbinding3.widget.*
-import com.makentoshe.api.Repository
+import com.makentoshe.api.repository.Repository
 import com.makentoshe.boorulibrary.entitiy.Tag
 import com.makentoshe.boorupostview.NewSearchBroadcastReceiver
 import com.makentoshe.boorupostview.model.AutocompleteAdapter

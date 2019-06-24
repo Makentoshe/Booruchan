@@ -8,9 +8,9 @@ import android.view.ViewGroup
 import android.widget.AutoCompleteTextView
 import androidx.fragment.app.Fragment
 import com.google.android.material.chip.ChipGroup
-import com.makentoshe.api.AutocompleteRepository
+import com.makentoshe.api.repository.AutocompleteRepository
 import com.makentoshe.api.NetworkExecutorBuilder
-import com.makentoshe.api.TagRepository
+import com.makentoshe.api.repository.TagRepository
 import com.makentoshe.boorulibrary.booru.entity.Booru
 import com.makentoshe.boorulibrary.entitiy.Tag
 import com.makentoshe.boorupostview.NewSearchBroadcastReceiver

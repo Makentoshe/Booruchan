@@ -7,7 +7,7 @@ import android.widget.BaseAdapter
 import android.widget.Filter
 import android.widget.Filterable
 import android.widget.TextView
-import com.makentoshe.api.Repository
+import com.makentoshe.api.repository.Repository
 import com.makentoshe.boorulibrary.entitiy.Tag
 
 /**
