@@ -3,7 +3,7 @@ package com.makentoshe.boorupostview.model
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import com.makentoshe.api.CacheBuilder
-import com.makentoshe.api.ImageRepositoryBuilder
+import com.makentoshe.api.RepositoryBuilder
 import com.makentoshe.api.Repository
 import com.makentoshe.boorulibrary.entitiy.Post
 import io.reactivex.disposables.CompositeDisposable
@@ -24,7 +24,7 @@ interface GridElementControllerHolder : Repository<Pair<Post, CompositeDisposabl
      * @param imageDecoder used for decoding and images from byte array to android [android.graphics.Bitmap].
      */
     class Builder(
-        private val repositoryBuilder: ImageRepositoryBuilder,
+        private val repositoryBuilder: RepositoryBuilder,
         private val cacheBuilder: CacheBuilder,
         private val imageDecoder: ImageDecoder
     ) {

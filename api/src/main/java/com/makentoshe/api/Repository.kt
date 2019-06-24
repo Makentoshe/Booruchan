@@ -62,7 +62,7 @@ class FileImageRepository(booru: Booru, networkExecutor: NetworkExecutor) : Repo
     override fun get(key: Post) = file.request(key)
 }
 
-class ImageRepositoryBuilder(private val booru: Booru) {
+class RepositoryBuilder(private val booru: Booru) {
 
     fun buildPostRepository(networkExecutor: NetworkExecutor): Repository<PostsRequest, List<Post>> {
         return PostsRepository(booru, networkExecutor)

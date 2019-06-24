@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.viewpager.widget.ViewPager
 import com.makentoshe.api.CacheBuilder
-import com.makentoshe.api.ImageRepositoryBuilder
+import com.makentoshe.api.RepositoryBuilder
 import com.makentoshe.boorulibrary.booru.entity.Booru
 import com.makentoshe.boorulibrary.entitiy.Tag
 import com.makentoshe.boorupostview.NewSearchBroadcastReceiver
@@ -59,7 +59,7 @@ class PostsViewPagerFragment : Fragment(), PostsContainerFragment {
         val tags: Set<Tag> = if (savedInstanceState == null) tags else extractTagsFromState(savedInstanceState)
 
         val imageDecoder = AndroidImageDecoder()
-        val repositoryBuilder = ImageRepositoryBuilder(booru)
+        val repositoryBuilder = RepositoryBuilder(booru)
         val cacheBuilder = CacheBuilder(requireContext())
         val controllerHolder =
             GridElementControllerHolder.Builder(repositoryBuilder, cacheBuilder, imageDecoder).build(this)

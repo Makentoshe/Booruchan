@@ -24,7 +24,7 @@ import java.io.File
  */
 class GridElementController(
     private val post: Post,
-    private val repositoryBuilder: ImageRepositoryBuilder,
+    private val repositoryBuilder: RepositoryBuilder,
     private val cacheBuilder: CacheBuilder,
     private val imageDecoder: ImageDecoder,
     private val disposables: CompositeDisposable

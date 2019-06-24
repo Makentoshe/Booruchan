@@ -4,7 +4,7 @@ import androidx.collection.LongSparseArray
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.makentoshe.api.CacheBuilder
-import com.makentoshe.api.ImageRepositoryBuilder
+import com.makentoshe.api.RepositoryBuilder
 import com.makentoshe.boorulibrary.entitiy.Post
 import io.reactivex.disposables.CompositeDisposable
 
@@ -16,7 +16,7 @@ import io.reactivex.disposables.CompositeDisposable
  * @param imageDecoder used for decoding and images from byte array to android [android.graphics.Bitmap].
  */
 class GridElementControllerHolderImpl(
-    private val repositoryBuilder: ImageRepositoryBuilder,
+    private val repositoryBuilder: RepositoryBuilder,
     private val cacheBuilder: CacheBuilder,
     private val imageDecoder: ImageDecoder
 ) : ViewModel(), GridElementControllerHolder {
@@ -49,7 +49,7 @@ class GridElementControllerHolderImpl(
      * Passed to [GridElementControllerHolderImpl] instance as is.
      */
     class Factory(
-        private val repositoryBuilder: ImageRepositoryBuilder,
+        private val repositoryBuilder: RepositoryBuilder,
         private val cacheBuilder: CacheBuilder,
         private val imageDecoder: ImageDecoder
     ) : ViewModelProvider.NewInstanceFactory() {
