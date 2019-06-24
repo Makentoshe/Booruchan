@@ -2,24 +2,18 @@ package com.makentoshe.settings.screen.controller
 
 import com.makentoshe.settings.model.SettingController
 
+interface NsfwSettingController {
+    var value: Boolean
+}
+
 /**
  * Performs controlling NsfwSetting using [settingController].
  */
-class NsfwSettingController(private val settingController: SettingController<Boolean>) {
+class NsfwSettingControllerImpl(private val settingController: SettingController<Boolean>) : NsfwSettingController {
 
-    private val settingTitle = "NsfwSetting"
+    private val settingsTitle = "NsfwSettings"
 
-    fun set(value: Boolean) {
-        settingController.put(settingTitle, value)
-    }
-
-    fun get(): Boolean {
-        return settingController.get(settingTitle, false)
-    }
-
-    class Factory {
-        fun build(settingController: SettingController<Boolean>): NsfwSettingController {
-            return NsfwSettingController(settingController)
-        }
-    }
+    override var value: Boolean
+        get() = settingController.get(settingsTitle, false)
+        set(value) = settingController.put(settingsTitle, value)
 }
