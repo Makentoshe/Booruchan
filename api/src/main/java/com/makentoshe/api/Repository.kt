@@ -9,7 +9,12 @@ import com.makentoshe.boorulibrary.entitiy.Tag
 import com.makentoshe.boorulibrary.network.executor.NetworkExecutor
 
 interface Repository<K, V> {
+
     fun get(key: K): V?
+
+    fun wrapCache(cache: Cache<K, V>): Repository<K, V> {
+        return RepositoryCache(cache, this)
+    }
 }
 
 class BooruRepository : Repository<Any, List<Booru>> {
@@ -58,6 +63,10 @@ class FileImageRepository(booru: Booru, networkExecutor: NetworkExecutor) : Repo
 }
 
 class ImageRepositoryBuilder(private val booru: Booru) {
+
+    fun buildPostRepository(networkExecutor: NetworkExecutor): Repository<PostsRequest, List<Post>> {
+        return PostsRepository(booru, networkExecutor)
+    }
 
     fun buildPreviewRepository(networkExecutor: NetworkExecutor): Repository<Post, ByteArray> {
         return PreviewImageRepository(booru, networkExecutor)
