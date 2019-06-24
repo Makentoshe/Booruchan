@@ -1,4 +1,4 @@
-package com.makentoshe.api
+package com.makentoshe.api.cache
 
 /**
  * Interface describes a simple cache object with Key-Value storage

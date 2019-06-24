@@ -1,4 +1,4 @@
-package com.makentoshe.api
+package com.makentoshe.api.cache
 
 import android.content.Context
 import com.makentoshe.boorulibrary.booru.entity.PostsRequest
@@ -64,6 +64,7 @@ class PostDiskCache(private val directory: File) : Cache<PostsRequest, List<Post
         fun getDir(context: Context): File = context.getDir("Posts", Context.MODE_PRIVATE)
 
         /** Creates a default cache uses an internal storage */
-        fun build(context: Context) = PostDiskCache(getDir(context))
+        fun build(context: Context) =
+            PostDiskCache(getDir(context))
     }
 }

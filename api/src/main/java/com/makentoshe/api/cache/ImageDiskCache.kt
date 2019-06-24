@@ -1,4 +1,4 @@
-package com.makentoshe.api
+package com.makentoshe.api.cache
 
 import android.content.Context
 import android.util.Log
@@ -43,14 +43,19 @@ class ImageDiskCache(private val directory: File) : Cache<Post, ByteArray> {
         /** Returns a cache directory for the preview images */
         fun getPreviewDir(context: Context): File = context.getDir("Preview", Context.MODE_PRIVATE)
         /** Returns a cache instance for the preview images */
-        fun getPreviewCache(context: Context): Cache<Post, ByteArray> = ImageDiskCache(getPreviewDir(context))
+        fun getPreviewCache(context: Context): Cache<Post, ByteArray> =
+            ImageDiskCache(
+                getPreviewDir(context))
         /** Returns a cache directory for the sample images */
         fun getSampleDir(context: Context): File = context.getDir("Sample", Context.MODE_PRIVATE)
         /** Returns a cache instance for the sample images */
-        fun getSampleCache(context: Context): Cache<Post, ByteArray> = ImageDiskCache(getSampleDir(context))
+        fun getSampleCache(context: Context): Cache<Post, ByteArray> =
+            ImageDiskCache(
+                getSampleDir(context))
         /** Returns a cache directory for the full size images */
         fun getFileDir(context: Context): File = context.getDir("File", Context.MODE_PRIVATE)
         /** Returns a cache instance for the fill size images */
-        fun getFileCache(context: Context): Cache<Post, ByteArray> = ImageDiskCache(getFileDir(context))
+        fun getFileCache(context: Context): Cache<Post, ByteArray> =
+            ImageDiskCache(getFileDir(context))
     }
 }

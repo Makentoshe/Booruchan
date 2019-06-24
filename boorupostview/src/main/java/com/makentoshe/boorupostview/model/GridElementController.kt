@@ -2,6 +2,7 @@ package com.makentoshe.boorupostview.model
 
 import android.graphics.Bitmap
 import com.makentoshe.api.*
+import com.makentoshe.api.cache.CacheBuilder
 import com.makentoshe.boorulibrary.booru.safebooru.SafebooruPost
 import com.makentoshe.boorulibrary.entitiy.Post
 import io.reactivex.Observable

@@ -5,8 +5,8 @@ import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.makentoshe.api.ImageDiskCache
-import com.makentoshe.api.PostDiskCache
+import com.makentoshe.api.cache.ImageDiskCache
+import com.makentoshe.api.cache.PostDiskCache
 import com.makentoshe.boorulibrary.entitiy.Tag
 import com.makentoshe.boorupostview.BuildConfig
 import com.makentoshe.boorupostview.NewSearchBroadcastReceiver

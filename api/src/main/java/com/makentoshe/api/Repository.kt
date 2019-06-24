@@ -1,5 +1,6 @@
 package com.makentoshe.api
 
+import com.makentoshe.api.cache.Cache
 import com.makentoshe.boorulibrary.booru.entity.Booru
 import com.makentoshe.boorulibrary.booru.entity.PostsRequest
 import com.makentoshe.boorulibrary.booru.gelbooru.Gelbooru

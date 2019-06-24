@@ -1,4 +1,4 @@
-package com.makentoshe.api
+package com.makentoshe.api.cache
 
 import android.content.Context
 

@@ -2,7 +2,7 @@ package com.makentoshe.boorupostview.model
 
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
-import com.makentoshe.api.CacheBuilder
+import com.makentoshe.api.cache.CacheBuilder
 import com.makentoshe.api.RepositoryBuilder
 import com.makentoshe.api.Repository
 import com.makentoshe.boorulibrary.entitiy.Post

@@ -1,5 +1,7 @@
 package com.makentoshe.api
 
+import com.makentoshe.api.cache.Cache
+
 /**
  * Repository decorator for caching.
  */
