@@ -56,6 +56,11 @@ class PostsViewPagerElementFragment : Fragment() {
         set(value) = (arguments ?: Bundle().also { arguments = it }).putInt(POSITION, value)
         get() = arguments!!.getInt(POSITION)
 
+    /** Creates a [PostsRepository] instance with cache support */
+    private val postsRepository: Repository<PostsRequest, List<Post>>
+    get() = ImageRepositoryBuilder(booru).buildPostRepository(NetworkExecutorBuilder.buildSmartGet())
+        .wrapCache(CacheBuilder(requireContext()).buildPostsCache())
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return PostsViewPagerElementFragmentUi(countCalc).createView(AnkoContext.create(requireContext()))
     }
@@ -77,22 +82,12 @@ class PostsViewPagerElementFragment : Fragment() {
         presenter.bindMessageView(messageview)
     }
 
-    /** Creates a [PostsRepository] instance with cache support */
-    private fun buildPostRepository(): Repository<PostsRequest, List<Post>> {
-        val networkExecutor = NetworkExecutorBuilder.buildSmartGet()
-        val repository = PostsRepository(booru, networkExecutor)
-        val cache = PostDiskCache.build(requireContext())
-        return RepositoryCache(cache, repository)
-    }
-
     /** Returns a viewmodel associated with this fragment or creates a new one */
     private fun getViewModel(): ViewPagerElementFragmentViewModel {
         // request for receiving a list of posts
         val request = DefaultPostsRequest(countCalc.getItemsCountTotal(requireContext()), tags, position)
-        // repository for requesting a posts
-        val repository = buildPostRepository()
 
-        val factory = ViewPagerElementFragmentViewModel.Factory(request, repository, controllerHolder)
+        val factory = ViewPagerElementFragmentViewModel.Factory(request, postsRepository, controllerHolder)
         return ViewModelProviders.of(this, factory)[ViewPagerElementFragmentViewModel::class.java]
     }
 
