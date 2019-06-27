@@ -2,10 +2,9 @@ package com.makentoshe.startview
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.makentoshe.api.repository.BooruRepository
 import com.makentoshe.api.repository.Repository
 import com.makentoshe.boorulibrary.booru.entity.Booru
-import com.makentoshe.settings.SettingsBuilder
+import com.makentoshe.settings.common.SettingsBuilder
 
 /**
  * Viewmodel component for [StartFragment].

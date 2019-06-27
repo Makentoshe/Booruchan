@@ -10,7 +10,7 @@ import com.makentoshe.booruchan.screen.BooruFragmentNavigator
 import com.makentoshe.booruchan.screen.PostsFragmentNavigator
 import com.makentoshe.booruchan.screen.StartFragmentNavigator
 import com.makentoshe.booruchan.screen.StartScreen
-import com.makentoshe.settings.RealmSettingsBuilder
+import com.makentoshe.settings.common.RealmSettingsBuilder
 import com.makentoshe.style.OnBackFragment
 import io.realm.Realm
 import org.koin.android.ext.android.inject
@@ -29,14 +29,13 @@ class AppActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         if (savedInstanceState == null) {
+            val settingsBuilder = RealmSettingsBuilder(Realm.getDefaultConfiguration()!!)
+
             val postsFragmentNavigator = PostsFragmentNavigator()
             val booruFragmentNavigator = BooruFragmentNavigator(Cicerone.create(Router()), postsFragmentNavigator)
-            val startFragmentNavigator = StartFragmentNavigator(router, booruFragmentNavigator)
+            val startFragmentNavigator = StartFragmentNavigator(router, booruFragmentNavigator, settingsBuilder)
 
-            val startScreen = StartScreen(
-                RealmSettingsBuilder(Realm.getDefaultConfiguration()!!),
-                startFragmentNavigator,
-                BooruRepository())
+            val startScreen = StartScreen(settingsBuilder, startFragmentNavigator, BooruRepository())
             router.newRootScreen(startScreen)
         }
     }

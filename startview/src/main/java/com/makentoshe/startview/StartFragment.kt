@@ -8,10 +8,9 @@ import android.view.ViewGroup
 import android.widget.ListView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
-import com.makentoshe.api.repository.BooruRepository
 import com.makentoshe.api.repository.Repository
 import com.makentoshe.boorulibrary.booru.entity.Booru
-import com.makentoshe.settings.SettingsBuilder
+import com.makentoshe.settings.common.SettingsBuilder
 import io.reactivex.disposables.CompositeDisposable
 import org.jetbrains.anko.AnkoContext
 import org.jetbrains.anko.find

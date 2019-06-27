@@ -11,8 +11,8 @@ import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.rule.ActivityTestRule
 import com.makentoshe.api.repository.Repository
 import com.makentoshe.boorulibrary.booru.entity.Booru
-import com.makentoshe.settings.SettingsBuilder
-import com.makentoshe.settings.screen.controller.NsfwSettingController
+import com.makentoshe.settings.common.SettingsBuilder
+import com.makentoshe.settings.common.NsfwSettingController
 import io.mockk.*
 import org.hamcrest.CoreMatchers.anything
 import org.junit.Assert.assertEquals

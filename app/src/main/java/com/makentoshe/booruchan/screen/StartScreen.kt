@@ -7,7 +7,7 @@ import com.makentoshe.booruchan.navigation.Screen
 import com.makentoshe.boorulibrary.booru.entity.Booru
 import com.makentoshe.booruview.BooruFragmentNavigator
 import com.makentoshe.booruview.BooruTransitionData
-import com.makentoshe.settings.SettingsBuilder
+import com.makentoshe.settings.common.SettingsBuilder
 import com.makentoshe.startview.StartFragment
 import com.makentoshe.startview.StartFragmentNavigator
 
@@ -31,11 +31,13 @@ class StartScreen(
  * Class performs a navigation to another screens.
  */
 class StartFragmentNavigator(
-    private val router: Router, private val booruFragmentNavigator: BooruFragmentNavigator
+    private val router: Router,
+    private val booruFragmentNavigator: BooruFragmentNavigator,
+    private val settingsBuilder: SettingsBuilder
 ) : StartFragmentNavigator {
 
     override fun navigateToSettingsScreen() {
-        router.navigateWithReplace(SettingsScreen())
+        router.navigateWithReplace(SettingsScreen(settingsBuilder))
     }
 
     override fun navigateToBooruScreen(booru: Booru) {
