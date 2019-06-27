@@ -1,4 +1,4 @@
-package com.makentoshe.boorupostview.anko
+package com.makentoshe.style
 
 import android.content.Context
 import android.view.View
