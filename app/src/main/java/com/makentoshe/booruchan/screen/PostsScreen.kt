@@ -1,12 +1,12 @@
 package com.makentoshe.booruchan.screen
 
 import androidx.fragment.app.Fragment
+import com.makentoshe.booruchan.navigation.Router
 import com.makentoshe.boorulibrary.booru.entity.Booru
 import com.makentoshe.boorulibrary.entitiy.Tag
 import com.makentoshe.boorupostview.PostsFragmentNavigator
 import com.makentoshe.boorupostview.fragment.PostsFragment
 import com.makentoshe.navigation.Screen
-import java.text.FieldPosition
 
 /** Class describes a posts screen */
 class PostsScreen(
@@ -23,9 +23,12 @@ class PostsScreen(
 /**
  * Class performs a navigation from the posts screen.
  */
-class PostsFragmentNavigator : PostsFragmentNavigator {
-    override fun navigateToSampleFragment(page: Int, position: Int, total: Int) {
-        val concretePosition = total * page + position
-        println(concretePosition)
+class PostsFragmentNavigator(
+    private val router: Router,
+    private val navigator: BooruImageScreenNavigator
+) : PostsFragmentNavigator {
+
+    override fun navigateToImageFragment(position: Int, booru: Booru, tags: Set<Tag>) {
+//        router.navigateTo(ImageScreen(navigator, position, booru, tags))
     }
 }

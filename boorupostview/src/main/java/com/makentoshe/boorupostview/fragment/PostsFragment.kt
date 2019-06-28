@@ -69,7 +69,8 @@ class PostsFragment : Fragment(), OnBackFragment {
         PostSelectBroadcastReceiver.registerReceiver(requireActivity(), postSelectBroadcastReceiver).onSelect {
             val page = view!!.findViewById<ViewPager>(com.makentoshe.boorupostview.R.id.viewpager).currentItem
             val total = calculator.getItemsCountTotal(requireContext())
-            navigator.navigateToSampleFragment(page, it, total)
+            val position = total * page + it
+            navigator.navigateToImageFragment(position, booru, tags)
         }
     }
 
