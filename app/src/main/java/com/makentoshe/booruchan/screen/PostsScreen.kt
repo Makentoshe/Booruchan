@@ -29,6 +29,6 @@ class PostsFragmentNavigator(
 ) : PostsFragmentNavigator {
 
     override fun navigateToImageFragment(position: Int, booru: Booru, tags: Set<Tag>) {
-//        router.navigateTo(ImageScreen(navigator, position, booru, tags))
+        router.navigateTo(ImageScreen(navigator, position, booru, tags))
     }
 }
