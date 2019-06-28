@@ -53,6 +53,11 @@ dependencies {
     // make able to use it from another modules
     api 'com.sothree.slidinguppanel:library:3.4.0'
 
+    // Subsampling Scale Image View
+    // https://github.com/davemorrissey/subsampling-scale-image-view
+    // make able to use it from another modules
+    api 'com.davemorrissey.labs:subsampling-scale-image-view:3.10.0'
+
     implementation 'androidx.appcompat:appcompat:1.0.2'
 
     testImplementation 'junit:junit:4.12'
