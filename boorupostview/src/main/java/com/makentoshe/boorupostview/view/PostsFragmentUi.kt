@@ -4,13 +4,11 @@ import android.content.Context
 import android.graphics.Color
 import android.view.Gravity
 import android.view.View
-import android.view.ViewManager
-import androidx.annotation.StyleRes
-import com.makentoshe.boorupostview.anko.AnkoSlidingUpPanelLayout
+import com.makentoshe.style.AnkoSlidingUpPanelLayout
+import com.makentoshe.style.slidingUpPanel
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import org.jetbrains.anko.*
 import org.jetbrains.anko.appcompat.v7.toolbar
-import org.jetbrains.anko.custom.ankoView
 
 class PostsFragmentUi : AnkoComponent<Context> {
     override fun createView(ui: AnkoContext<Context>) = with(ui) {
@@ -88,7 +86,4 @@ class PostsFragmentUi : AnkoComponent<Context> {
         id = com.makentoshe.boorupostview.R.id.panelview
     }.lparams(matchParent, matchParent)
 
-    private fun ViewManager.slidingUpPanel(@StyleRes theme: Int = 0, init: AnkoSlidingUpPanelLayout.() -> Unit): SlidingUpPanelLayout {
-        return ankoView({ AnkoSlidingUpPanelLayout(it) }, theme, init)
-    }
 }

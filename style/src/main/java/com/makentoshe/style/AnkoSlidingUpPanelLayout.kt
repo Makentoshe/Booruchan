@@ -3,7 +3,19 @@ package com.makentoshe.style
 import android.content.Context
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewManager
+import androidx.annotation.StyleRes
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
+import org.jetbrains.anko.AnkoContext
+import org.jetbrains.anko.custom.ankoView
+
+inline fun ViewManager.slidingUpPanel(@StyleRes theme: Int = 0, init: AnkoSlidingUpPanelLayout.() -> Unit): SlidingUpPanelLayout {
+    return ankoView({ AnkoSlidingUpPanelLayout(it) }, theme, init)
+}
+
+inline fun AnkoContext<*>.slidingUpPanel(@StyleRes theme: Int = 0, init: AnkoSlidingUpPanelLayout.() -> Unit): SlidingUpPanelLayout {
+    return ankoView({ AnkoSlidingUpPanelLayout(it) }, theme, init)
+}
 
 open class AnkoSlidingUpPanelLayout(ctx: Context) : SlidingUpPanelLayout(ctx) {
 
