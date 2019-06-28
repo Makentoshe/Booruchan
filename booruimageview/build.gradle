@@ -27,6 +27,8 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation project(":api")
+    implementation project(":style")
 
     // Kotlin and Kotlin-android
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
