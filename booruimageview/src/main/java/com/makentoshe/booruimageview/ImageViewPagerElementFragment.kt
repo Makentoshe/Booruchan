@@ -4,21 +4,16 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
 import androidx.fragment.app.Fragment
-import androidx.viewpager.widget.ViewPager
 import com.makentoshe.boorulibrary.booru.entity.Booru
 import com.makentoshe.boorulibrary.entitiy.Tag
-import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import io.reactivex.disposables.CompositeDisposable
-import org.jetbrains.anko.AnkoContext
+import org.jetbrains.anko.backgroundColor
 import java.io.Serializable
+import kotlin.random.Random
 
-class ImageFragment : Fragment() {
-
-    /** Navigator instance performs navigation between screens */
-    private var navigator: BooruImageScreenNavigator
-        set(value) = (arguments ?: Bundle().also { arguments = it }).putSerializable(NAVIGATION, value)
-        get() = arguments!!.get(NAVIGATION) as BooruImageScreenNavigator
+class ImageViewPagerElementFragment : Fragment() {
 
     /** Current [Booru] API instance used for requests */
     private var booru: Booru
@@ -39,36 +34,17 @@ class ImageFragment : Fragment() {
     private val disposables = CompositeDisposable()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return ImageFragmentUi().createView(AnkoContext.create(requireContext()))
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        // create presenter and bind root view
-        val presenter = ImageFragmentPresenter(disposables, childFragmentManager, navigator, position)
-        presenter.bindView(view)
-        // bind sliding view
-        val slidingview = view.findViewById<SlidingUpPanelLayout>(com.makentoshe.booruimageview.R.id.slidingPanel)
-        presenter.bindSlidingUpPanel(slidingview)
-        // bind viewpager
-        val viewpager = view.findViewById<ViewPager>(com.makentoshe.booruimageview.R.id.viewpager)
-        presenter.bindViewPager(viewpager)
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        disposables.clear()
+        return FrameLayout(requireContext()).apply { backgroundColor = Random.nextInt() }
     }
 
     companion object {
         private const val BOORU = "Booru"
         private const val TAGS = "Tags"
         private const val POSITION = "Position"
-        private const val NAVIGATION = "Navigation"
-        fun build(navigator: BooruImageScreenNavigator, position: Int, booru: Booru, tags: Set<Tag>): ImageFragment {
-            val fragment = ImageFragment()
-            fragment.navigator = navigator
-            fragment.position = position
+        fun build(position: Int, booru: Booru, tags: Set<Tag>): ImageViewPagerElementFragment {
+            val fragment = ImageViewPagerElementFragment()
             fragment.booru = booru
+            fragment.position = position
             fragment.tags = tags
             return fragment
         }
