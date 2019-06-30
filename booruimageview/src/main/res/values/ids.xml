@@ -2,4 +2,7 @@
 <resources>
     <item name="slidingPanel" type="id"/>
     <item name="viewpager" type="id"/>
+    <item name="imageview" type="id"/>
+    <item name="circularprogress" type="id"/>
+    <item name="indeterminateprogress" type="id"/>
 </resources>

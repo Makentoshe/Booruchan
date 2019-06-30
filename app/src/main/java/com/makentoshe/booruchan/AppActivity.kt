@@ -34,7 +34,8 @@ class AppActivity : AppCompatActivity() {
             val booruFragmentNavigator = BooruFragmentNavigator(Cicerone.create(Router()), postsFragmentNavigator)
             val startFragmentNavigator = StartFragmentNavigator(router, booruFragmentNavigator, settingsBuilder)
 
-            val startScreen = StartScreen(settingsBuilder, startFragmentNavigator, BooruRepository())
+//            val startScreen = StartScreen(settingsBuilder, startFragmentNavigator, BooruRepository())
+            val startScreen = ImageScreen(imageFragmentNavigator, 2, Gelbooru(), setOf())
             router.newRootScreen(startScreen)
         }
     }
