@@ -16,18 +16,8 @@ class PostsDiskCache(private val directory: File) : Cache<PostsRequest, List<Pos
         val startPosition = key.page * key.count
         val posts = mutableListOf<Post>()
         for (i in startPosition until startPosition + key.count) {
-            val file = File(directory, i.toString())
-            // if there is no file in cache
-            if (!file.exists()) return null
-            // if the selected file is a directory
-            if (file.isDirectory) {
-                file.delete()
-                return null
-            }
             try {
-                ObjectInputStream(FileInputStream(file)).use {
-                    posts.add(it.readObject() as Post)
-                }
+                posts.add(getPost(i.toString())?: return null)
             } catch (e: Exception) {
                 e.printStackTrace()
                 return null
@@ -36,19 +26,37 @@ class PostsDiskCache(private val directory: File) : Cache<PostsRequest, List<Pos
         return posts
     }
 
+    private fun getPost(key: String): Post? {
+        val file = File(directory, key)
+        // if there is no file in cache
+        if (!file.exists()) return null
+        // if the selected file is a directory
+        if (file.isDirectory) return file.delete().let { null }
+
+        ObjectInputStream(FileInputStream(file)).use {
+            return it.readObject() as Post
+        }
+    }
+
     /** Put a list of a posts to a cache */
     override fun add(key: PostsRequest, value: List<Post>) {
         val startPosition = key.page * key.count
         for (i in startPosition until startPosition + key.count) {
-            val file = File(directory, i.toString())
-            ObjectOutputStream(FileOutputStream(file)).use {
-                try {
-                    it.writeObject(value[i - startPosition])
-                    it.flush()
-                } catch (e: IndexOutOfBoundsException) {
-                    //its ok - caused when we request 12 items, but receive 8, for example
-                }
+            try {
+                addPost(i.toString(), value[i - startPosition])
+            } catch (e: IndexOutOfBoundsException) {
+                //its ok - caused when we make request for 12 items, but receive only 8, for example
+                return
             }
+        }
+    }
+
+    /** Put a post to a cache */
+    private fun addPost(key: String, value: Post) {
+        val file = File(directory, key)
+        ObjectOutputStream(FileOutputStream(file)).use {
+            it.writeObject(value)
+            it.flush()
         }
     }
 
