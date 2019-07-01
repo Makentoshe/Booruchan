@@ -68,3 +68,4 @@ class PostsDiskCache(private val directory: File) : Cache<PostsRequest, List<Pos
             PostsDiskCache(getDir(context))
     }
 }
+
