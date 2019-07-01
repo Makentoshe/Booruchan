@@ -7,8 +7,12 @@ import com.makentoshe.boorulibrary.network.executor.NetworkExecutor
 
 class RepositoryBuilder(private val booru: Booru) {
 
-    fun buildPostRepository(networkExecutor: NetworkExecutor): Repository<PostsRequest, List<Post>> {
+    fun buildPostsRepository(networkExecutor: NetworkExecutor): Repository<PostsRequest, List<Post>> {
         return PostsRepository(booru, networkExecutor)
+    }
+
+    fun buildPostRepository(networkExecutor: NetworkExecutor): Repository<Long, Post> {
+        return PostRepository(booru, networkExecutor)
     }
 
     fun buildPreviewRepository(networkExecutor: NetworkExecutor): Repository<Post, ByteArray> {

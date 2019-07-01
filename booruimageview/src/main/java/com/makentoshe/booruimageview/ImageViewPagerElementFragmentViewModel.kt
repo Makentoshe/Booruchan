@@ -71,7 +71,7 @@ class ImageViewPagerElementFragmentViewModel(
         // post downloading
         val postNetworkExecutor = NetworkExecutorBuilder.buildProxyGet(null)
         val postCache = cacheBuilder.buildPostsCache()
-        val postRepository = repositoryBuilder.buildPostRepository(postNetworkExecutor).wrapCache(postCache)
+        val postRepository = repositoryBuilder.buildPostsRepository(postNetworkExecutor).wrapCache(postCache)
         // image downloading
         val imageNetworkExecutor = NetworkExecutorBuilder.buildSmartGet(null, streamDownloadListener)
         val imageCache = cacheBuilder.buildSampleCache()

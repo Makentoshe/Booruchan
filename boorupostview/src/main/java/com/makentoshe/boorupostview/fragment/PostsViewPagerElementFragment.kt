@@ -61,7 +61,7 @@ class PostsViewPagerElementFragment : Fragment() {
 
     /** Creates a [PostsRepository] instance with cache support */
     private val postsRepository: Repository<PostsRequest, List<Post>>
-    get() = RepositoryBuilder(booru).buildPostRepository(NetworkExecutorBuilder.buildSmartGet())
+    get() = RepositoryBuilder(booru).buildPostsRepository(NetworkExecutorBuilder.buildSmartGet())
         .wrapCache(CacheBuilder(requireContext()).buildPostsCache())
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
