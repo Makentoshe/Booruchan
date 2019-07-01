@@ -5,6 +5,7 @@ import android.graphics.Color
 import android.view.View
 import android.widget.ImageView
 import android.widget.ProgressBar
+import com.makentoshe.boorulibrary.entitiy.Post
 import com.makentoshe.boorupostview.PostSelectBroadcastReceiver
 import com.makentoshe.boorupostview.model.GridElementController
 import io.reactivex.disposables.CompositeDisposable
@@ -20,12 +21,13 @@ import java.io.Serializable
 class GridElementPresenter(
     override val disposables: CompositeDisposable,
     private val position: Int,
-    private val viewmodel: GridElementController
+    private val viewmodel: GridElementController,
+    private val post: Post
 ) : RxPresenter(), Serializable {
 
     /** Binds a grid element view */
     fun bindView(view: View) = view.setOnClickListener {
-        PostSelectBroadcastReceiver.sendBroadcast(view.context, position)
+        PostSelectBroadcastReceiver.sendBroadcast(view.context, position, post)
     }
 
     /** Binds a preview image view */

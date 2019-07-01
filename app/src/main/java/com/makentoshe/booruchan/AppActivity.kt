@@ -7,7 +7,6 @@ import com.makentoshe.api.repository.BooruRepository
 import com.makentoshe.booruchan.navigation.FragmentNavigator
 import com.makentoshe.booruchan.navigation.Router
 import com.makentoshe.booruchan.screen.*
-import com.makentoshe.boorulibrary.booru.gelbooru.Gelbooru
 import com.makentoshe.settings.common.RealmSettingsBuilder
 import com.makentoshe.style.OnBackFragment
 import io.realm.Realm
@@ -34,8 +33,8 @@ class AppActivity : AppCompatActivity() {
             val booruFragmentNavigator = BooruFragmentNavigator(Cicerone.create(Router()), postsFragmentNavigator)
             val startFragmentNavigator = StartFragmentNavigator(router, booruFragmentNavigator, settingsBuilder)
 
-//            val startScreen = StartScreen(settingsBuilder, startFragmentNavigator, BooruRepository())
-            val startScreen = ImageScreen(imageFragmentNavigator, 2, Gelbooru(), setOf())
+            //            val startScreen = ImageScreen(imageFragmentNavigator, 2, Gelbooru(), setOf())
+            val startScreen = StartScreen(settingsBuilder, startFragmentNavigator, BooruRepository())
             router.newRootScreen(startScreen)
         }
     }

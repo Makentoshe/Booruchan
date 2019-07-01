@@ -6,6 +6,7 @@ import com.makentoshe.booruchan.navigation.Screen
 import com.makentoshe.booruimageview.BooruImageScreenNavigator
 import com.makentoshe.booruimageview.ImageFragment
 import com.makentoshe.boorulibrary.booru.entity.Booru
+import com.makentoshe.boorulibrary.entitiy.Post
 import com.makentoshe.boorulibrary.entitiy.Tag
 import java.io.Serializable
 
@@ -14,10 +15,11 @@ class ImageScreen(
     private val navigator: BooruImageScreenNavigator,
     private val position : Int,
     private val booru: Booru,
-    private val tags: Set<Tag>
+    private val tags: Set<Tag>,
+    private val post: Post
 ) : Screen() {
     override val fragment: Fragment
-        get() = ImageFragment.build(navigator, position, booru, tags)
+        get() = ImageFragment.build(navigator, position, booru, tags, post)
 }
 
 /**

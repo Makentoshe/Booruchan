@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.viewpager.widget.ViewPager
 import com.makentoshe.boorulibrary.booru.entity.Booru
+import com.makentoshe.boorulibrary.entitiy.Post
 import com.makentoshe.boorulibrary.entitiy.Tag
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import io.reactivex.disposables.CompositeDisposable
@@ -38,6 +39,11 @@ class ImageFragment : Fragment() {
         set(value) = (arguments ?: Bundle().also { arguments = it }).putInt("Position", value)
         get() = arguments!!.getInt("Position")
 
+    /** Post instance will be opened at first */
+    private var post: Post
+        set(value) = (arguments ?: Bundle().also { arguments = it }).putSerializable("Post", value)
+        get() = arguments!!.get("Post") as Post
+
     /** Container for [io.reactivex.disposables.Disposable] objects will be released on destroy lifecycle event */
     private val disposables = CompositeDisposable()
 
@@ -47,8 +53,9 @@ class ImageFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        val firstPostId = post.id + position
         // create adapter instance
-        val viewpagerAdapter = ImageViewPagerAdapter(childFragmentManager, booru, tags)
+        val viewpagerAdapter = ImageViewPagerAdapter(childFragmentManager, booru, tags, firstPostId)
         // create presenter and bind root view
         val presenter = ImageFragmentPresenter(disposables, navigator, position, viewpagerAdapter)
         presenter.bindView(view)
@@ -68,12 +75,15 @@ class ImageFragment : Fragment() {
 
     companion object {
         /** Factory method creates a [ImageFragment] instance */
-        fun build(navigator: BooruImageScreenNavigator, position: Int, booru: Booru, tags: Set<Tag>): ImageFragment {
+        fun build(
+            navigator: BooruImageScreenNavigator, position: Int, booru: Booru, tags: Set<Tag>, post: Post
+        ): ImageFragment {
             val fragment = ImageFragment()
             fragment.navigator = navigator
             fragment.position = position
             fragment.booru = booru
             fragment.tags = tags
+            fragment.post = post
             return fragment
         }
     }

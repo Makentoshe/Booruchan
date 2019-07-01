@@ -3,6 +3,7 @@ package com.makentoshe.booruchan.screen
 import androidx.fragment.app.Fragment
 import com.makentoshe.booruchan.navigation.Router
 import com.makentoshe.boorulibrary.booru.entity.Booru
+import com.makentoshe.boorulibrary.entitiy.Post
 import com.makentoshe.boorulibrary.entitiy.Tag
 import com.makentoshe.boorupostview.PostsFragmentNavigator
 import com.makentoshe.boorupostview.fragment.PostsFragment
@@ -28,7 +29,7 @@ class PostsFragmentNavigator(
     private val navigator: BooruImageScreenNavigator
 ) : PostsFragmentNavigator {
 
-    override fun navigateToImageFragment(position: Int, booru: Booru, tags: Set<Tag>) {
-        router.navigateTo(ImageScreen(navigator, position, booru, tags))
+    override fun navigateToImageFragment(position: Int, booru: Booru, tags: Set<Tag>, post: Post) {
+        router.navigateTo(ImageScreen(navigator, position, booru, tags, post))
     }
 }

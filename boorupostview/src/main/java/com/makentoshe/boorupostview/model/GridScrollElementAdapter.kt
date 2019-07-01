@@ -27,10 +27,11 @@ class GridScrollElementAdapter(
 
     /** Create a ui for a grid element and binds a presenter to it */
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
+        val post = getItem(position)
         // get a controller based on post instance. Also pass a disposables instance to avoid a memory leaks.
-        val controller = controllerHolder.get(getItem(position) to disposables)!!
+        val controller = controllerHolder.get(post to disposables)!!
         // create a presenter
-        val presenter = GridElementPresenter(disposables, position, controller)
+        val presenter = GridElementPresenter(disposables, position, controller, post)
         // create or reuse view and binds it to the presenter
         val view = convertView ?: createView(parent.context)
         // bind a root view
