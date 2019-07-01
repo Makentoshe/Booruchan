@@ -31,8 +31,7 @@ class ImageViewPagerElementFragmentViewModel(
     repositoryBuilder: RepositoryBuilder,
     cacheBuilder: CacheBuilder,
     request: DefaultPostsRequest,
-    imageDecoder: ImageDecoder,
-    postId: Long
+    imageDecoder: ImageDecoder
 ) : ViewModel() {
 
     /** Container for [io.reactivex.disposables.Disposable] objects will be released on cleared lifecycle event */
@@ -101,8 +100,7 @@ class ImageViewPagerElementFragmentViewModel(
         private val booru: Booru,
         private val tags: Set<Tag>,
         private val position: Int,
-        private val context: Context,
-        private val postId: Long
+        private val context: Context
     ) : ViewModelProvider.NewInstanceFactory() {
 
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
@@ -110,9 +108,7 @@ class ImageViewPagerElementFragmentViewModel(
             val repositoryBuilder = RepositoryBuilder(booru)
             val request = DefaultPostsRequest(1, tags, position)
             val imageDecoder = AndroidImageDecoder()
-            return ImageViewPagerElementFragmentViewModel(
-                repositoryBuilder, cacheBuilder, request, imageDecoder, postId
-            ) as T
+            return ImageViewPagerElementFragmentViewModel(repositoryBuilder, cacheBuilder, request, imageDecoder) as T
         }
     }
 }

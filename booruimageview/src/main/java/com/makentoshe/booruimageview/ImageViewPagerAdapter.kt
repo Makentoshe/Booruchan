@@ -12,18 +12,16 @@ import com.makentoshe.boorulibrary.entitiy.Tag
  * @param fragmentManager attaches a [Fragment]s to a [androidx.viewpager.widget.ViewPager].
  * @param booru BooruAPI instance used for requests
  * @param tags is a [Tag] container may use for requests
- * @param id first post id
  */
 class ImageViewPagerAdapter(
     fragmentManager: FragmentManager,
     private val booru: Booru,
-    private val tags: Set<Tag>,
-    private val id: Long
+    private val tags: Set<Tag>
 ) : FragmentStatePagerAdapter(fragmentManager) {
 
     /** Returns a [ImageViewPagerElementFragment] instance for current [position] */
     override fun getItem(position: Int): Fragment {
-        return ImageViewPagerElementFragment.build(position, booru, tags, id)
+        return ImageViewPagerElementFragment.build(position, booru, tags)
     }
 
     /** Maximal pages count in adapter. Used [Int.MAX_VALUE] for infinite scroll emulation */

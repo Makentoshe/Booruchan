@@ -35,11 +35,6 @@ class ImageViewPagerElementFragment : Fragment() {
         set(value) = (arguments ?: Bundle().also { arguments = it }).putInt("Position", value)
         get() = arguments!!.getInt("Position")
 
-    /** Post instance will be opened at first */
-    private var postId: Long
-        set(value) = (arguments ?: Bundle().also { arguments = it }).putLong("Id", value)
-        get() = arguments!!.getLong("Id")
-
     /** Container for [io.reactivex.disposables.Disposable] objects will be released on destroy lifecycle event */
     private val disposables = CompositeDisposable()
 
@@ -50,9 +45,8 @@ class ImageViewPagerElementFragment : Fragment() {
 
     /** Setup user interface logic and binds it with the viewmodel */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val currentPostId = postId - position
         // viewmodel factory performs viewmodel creation if needed
-        val factory = ImageViewPagerElementFragmentViewModel.Factory(booru, tags, position, requireContext(), currentPostId)
+        val factory = ImageViewPagerElementFragmentViewModel.Factory(booru, tags, position, requireContext())
         // viewmodel instance performs a data receiving from repository
         val viewmodel = ViewModelProviders.of(this, factory)[ImageViewPagerElementFragmentViewModel::class.java]
         // presenter component binds a viewmodel and view
@@ -76,12 +70,11 @@ class ImageViewPagerElementFragment : Fragment() {
 
     companion object {
         /** Factory method creates an [ImageViewPagerElementFragment] instance */
-        fun build(position: Int, booru: Booru, tags: Set<Tag>, id: Long): ImageViewPagerElementFragment {
+        fun build(position: Int, booru: Booru, tags: Set<Tag>): ImageViewPagerElementFragment {
             val fragment = ImageViewPagerElementFragment()
             fragment.booru = booru
             fragment.position = position
             fragment.tags = tags
-            fragment.postId = id
             return fragment
         }
     }
