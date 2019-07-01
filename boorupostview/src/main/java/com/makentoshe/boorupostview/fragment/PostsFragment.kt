@@ -111,6 +111,12 @@ class PostsFragment : Fragment(), OnBackFragment {
         requireActivity().unregisterReceiver(postSelectBroadcastReceiver)
     }
 
+    /** Release disposables */
+    override fun onDestroy() {
+        super.onDestroy()
+        disposables.clear()
+    }
+
     /** Handle on back pressed event and close panel if it was opened */
     override fun onBackPressed(): Boolean {
         val v = view?.findViewById<SlidingUpPanelLayout>(R.id.slidingPanel) ?: return false
