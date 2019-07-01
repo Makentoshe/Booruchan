@@ -59,7 +59,7 @@ class PostsViewPagerElementFragment : Fragment() {
         set(value) = (arguments ?: Bundle().also { arguments = it }).putInt(POSITION, value)
         get() = arguments!!.getInt(POSITION)
 
-    /** Creates a [PostsRepository] instance with cache support */
+    /** Creates a repository instance with cache support for posts */
     private val postsRepository: Repository<PostsRequest, List<Post>>
     get() = RepositoryBuilder(booru).buildPostsRepository(NetworkExecutorBuilder.buildSmartGet())
         .wrapCache(CacheBuilder(requireContext()).buildPostsCache())
