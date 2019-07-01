@@ -6,7 +6,7 @@ import android.content.Context
 class CacheBuilder(context: Context) {
 
     /** Path for a posts cache directory */
-    private val postsDir = PostDiskCache.getDir(context)
+    private val postsDir = PostsDiskCache.getDir(context)
 
     /** Path for a preview image cache directory */
     private val previewDir = ImageDiskCache.getPreviewDir(context)
@@ -27,5 +27,5 @@ class CacheBuilder(context: Context) {
     fun buildFileCache() = ImageDiskCache(fileDir)
 
     /** Factory method builds and returns an instance of a Cache object for a full size images */
-    fun buildPostsCache() = PostDiskCache(postsDir)
+    fun buildPostsCache() = PostsDiskCache(postsDir)
 }

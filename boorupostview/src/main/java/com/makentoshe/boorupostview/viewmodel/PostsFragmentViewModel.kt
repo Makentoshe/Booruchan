@@ -6,7 +6,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.makentoshe.api.cache.ImageDiskCache
-import com.makentoshe.api.cache.PostDiskCache
+import com.makentoshe.api.cache.PostsDiskCache
 import com.makentoshe.boorulibrary.entitiy.Tag
 import com.makentoshe.boorupostview.BuildConfig
 import com.makentoshe.boorupostview.NewSearchBroadcastReceiver
@@ -48,8 +48,8 @@ class PostsFragmentViewModel(
         searchSubject.observeOn(Schedulers.io()).subscribe {
             try {
                 // clear posts
-                PostDiskCache.build(application).clear()
-                if (BuildConfig.DEBUG) Log.i(PostDiskCache::class.java.simpleName, "Clear cache")
+                PostsDiskCache.build(application).clear()
+                if (BuildConfig.DEBUG) Log.i(PostsDiskCache::class.java.simpleName, "Clear cache")
                 // clear previews
                 ImageDiskCache.getPreviewCache(application).clear()
                 if (BuildConfig.DEBUG) Log.i(ImageDiskCache::class.java.simpleName.plus(".Preview"), "Clear cache")

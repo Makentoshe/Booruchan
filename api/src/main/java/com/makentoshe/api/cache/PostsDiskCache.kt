@@ -9,7 +9,7 @@ import java.io.*
  * DiskCache for caching the list of the posts by [PostsRequest].
  * Each post cached by own file with the global index as a filename.
  */
-class PostDiskCache(private val directory: File) : Cache<PostsRequest, List<Post>> {
+class PostsDiskCache(private val directory: File) : Cache<PostsRequest, List<Post>> {
 
     /** Returns a list of a posts by key. If there is no posts or something else the null will be returned */
     override fun get(key: PostsRequest): List<Post>? {
@@ -65,6 +65,6 @@ class PostDiskCache(private val directory: File) : Cache<PostsRequest, List<Post
 
         /** Creates a default cache uses an internal storage */
         fun build(context: Context) =
-            PostDiskCache(getDir(context))
+            PostsDiskCache(getDir(context))
     }
 }
