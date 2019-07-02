@@ -2,10 +2,11 @@ package com.makentoshe.boorupostview.presenter
 
 import android.view.View
 import android.widget.TextView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import androidx.viewpager.widget.ViewPager
 import com.jakewharton.rxbinding3.view.clicks
-import com.jakewharton.rxbinding3.view.scrollChangeEvents
 import com.makentoshe.boorulibrary.entitiy.Tag
+import com.makentoshe.boorupostview.NewSearchBroadcastReceiver
 import com.makentoshe.boorupostview.listener.NewSearchStartedListener
 import com.makentoshe.boorupostview.model.PostsViewPagerAdapter
 import io.reactivex.Observable
@@ -13,7 +14,6 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
 import org.jetbrains.anko.find
-import java.util.*
 
 /**
  * Reactive presenter component for a grid scroll screen.
@@ -35,6 +35,8 @@ class PostsViewPagerFragmentPresenter(
     private val prevpageObservable = PublishSubject.create<Unit>()
     /** Page number observable */
     private val textpageObservable = PublishSubject.create<String>()
+    /** Viewpager scroll state observable */
+    private val pagestateObservable = PublishSubject.create<Int>()
     /** Returns a current set of the tags. */
     val tags: Set<Tag>
         get() = searchObservable.value.orEmpty()
@@ -58,6 +60,8 @@ class PostsViewPagerFragmentPresenter(
         nextpageObservable.subscribe { view.currentItem = view.currentItem + 1 }.let(disposables::add)
         // should change page number
         view.pageSelectEvents().map { it.toString() }.safeSubscribe(textpageObservable)
+        // pass state change events to the observable
+        view.stateChangeEvents().safeSubscribe(pagestateObservable)
     }
 
     fun bindBottomBar(view: View) {
@@ -72,6 +76,31 @@ class PostsViewPagerFragmentPresenter(
         addOnPageChangeListener(object : ViewPager.SimpleOnPageChangeListener() {
             override fun onPageSelected(position: Int) = observable.onNext(position)
         })
+        return observable
+    }
+
+    private fun ViewPager.stateChangeEvents(): Observable<Int> {
+        val observable = PublishSubject.create<Int>()
+        addOnPageChangeListener(object : ViewPager.SimpleOnPageChangeListener() {
+            override fun onPageScrollStateChanged(state: Int) = observable.onNext(state)
+        })
+        return observable
+    }
+
+    fun bindSwipeRefresh(view: SwipeRefreshLayout) {
+        // start new search on refresh
+        view.refreshEvents().subscribe {
+            NewSearchBroadcastReceiver.sendBroadcast(view.context, tags)
+        }.let(disposables::add)
+        // hide refresh icon after search
+        searchObservable.subscribe { view.isRefreshing = false }.let(disposables::add)
+        // disable swipe gesture on viewpager drag
+        pagestateObservable.subscribe { view.isEnabled = it == ViewPager.SCROLL_STATE_IDLE }.let(disposables::add)
+    }
+
+    private fun SwipeRefreshLayout.refreshEvents(): Observable<Unit> {
+        val observable = PublishSubject.create<Unit>()
+        setOnRefreshListener { observable.onNext(Unit) }
         return observable
     }
 }

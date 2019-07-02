@@ -23,4 +23,5 @@
     <item name="bottombar_left" type="id"/>
     <item name="bottombar_center" type="id"/>
     <item name="bottombar_right" type="id"/>
+    <item name="swiperefresh" type="id"/>
 </resources>

@@ -19,6 +19,7 @@ class PostsFragmentUi : AnkoComponent<Context> {
             slidingUpPanel {
                 id = com.makentoshe.boorupostview.R.id.slidingPanel
                 setGravity(Gravity.BOTTOM)
+                isTouchEnabled = false
                 coveredFadeColor = Color.TRANSPARENT
                 shadowHeight = 0
                 panelHeight = 0

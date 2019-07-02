@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import androidx.viewpager.widget.ViewPager
 import com.makentoshe.api.cache.CacheBuilder
 import com.makentoshe.api.repository.RepositoryBuilder
@@ -72,6 +73,9 @@ class PostsViewPagerFragment : Fragment(), PostsContainerFragment {
         presenter.bindViewPager(viewpager)
         val bottombar = view.findViewById<View>(com.makentoshe.boorupostview.R.id.bottombar)
         presenter.bindBottomBar(bottombar)
+        // bind swipe refresh layout
+        val swiperefresh = view.findViewById<SwipeRefreshLayout>(com.makentoshe.boorupostview.R.id.swiperefresh)
+        presenter.bindSwipeRefresh(swiperefresh)
     }
 
     /** Extracts a set of the [Tag] from the [Bundle] or return an empty set */

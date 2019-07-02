@@ -1,18 +1,21 @@
 package com.makentoshe.boorupostview.view
 
 import android.content.Context
-import android.graphics.Color
 import android.view.Gravity
 import android.view.View
 import org.jetbrains.anko.*
+import org.jetbrains.anko.support.v4.swipeRefreshLayout
 import org.jetbrains.anko.support.v4.viewPager
 
 class PostsViewPagerFragmentUi : AnkoComponent<Context> {
 
     override fun createView(ui: AnkoContext<Context>) = with(ui) {
         relativeLayout {
-            viewPager {
-                id = com.makentoshe.boorupostview.R.id.viewpager
+            swipeRefreshLayout {
+                id = com.makentoshe.boorupostview.R.id.swiperefresh
+                viewPager {
+                    id = com.makentoshe.boorupostview.R.id.viewpager
+                }
             }.lparams(matchParent, matchParent) {
                 above(createBottomBar())
             }
