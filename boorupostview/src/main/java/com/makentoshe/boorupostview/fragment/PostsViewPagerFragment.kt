@@ -15,6 +15,7 @@ import com.makentoshe.boorupostview.NewSearchBroadcastReceiver
 import com.makentoshe.boorupostview.model.AndroidImageDecoder
 import com.makentoshe.boorupostview.model.GridElementControllerHolder
 import com.makentoshe.boorupostview.model.PostsViewPagerAdapter
+import com.makentoshe.boorupostview.model.PostsViewPagerFragmentStateExtractor
 import com.makentoshe.boorupostview.presenter.PostsViewPagerFragmentPresenter
 import com.makentoshe.boorupostview.view.PostsViewPagerFragmentUi
 import io.reactivex.disposables.CompositeDisposable
@@ -45,6 +46,8 @@ class PostsViewPagerFragment : Fragment(), PostsContainerFragment {
     /** Presenter component uses for a receiving set of the selected but not searched yet tags */
     private lateinit var presenter: PostsViewPagerFragmentPresenter
 
+    private val extractor = PostsViewPagerFragmentStateExtractor()
+
     /** Register receiver */
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -57,7 +60,10 @@ class PostsViewPagerFragment : Fragment(), PostsContainerFragment {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         // restore tags from the saved state
-        val tags: Set<Tag> = if (savedInstanceState == null) tags else extractTagsFromState(savedInstanceState)
+        var tags = this.tags
+        if (savedInstanceState != null) {
+            tags = extractor.extractTagsFromState(savedInstanceState)
+        }
 
         val imageDecoder = AndroidImageDecoder()
         val repositoryBuilder = RepositoryBuilder(booru)
@@ -78,14 +84,9 @@ class PostsViewPagerFragment : Fragment(), PostsContainerFragment {
         presenter.bindSwipeRefresh(swiperefresh)
     }
 
-    /** Extracts a set of the [Tag] from the [Bundle] or return an empty set */
-    private fun extractTagsFromState(state: Bundle): Set<Tag> {
-        return if (state.containsKey(TAGS)) state.get(TAGS) as Set<Tag> else emptySet()
-    }
-
     /** Save a tags to the state */
     override fun onSaveInstanceState(outState: Bundle) {
-        outState.putSerializable(TAGS, presenter.tags as Serializable)
+        outState.putAll(extractor.packageState(presenter.tags))
     }
 
     /** Unregister receiver */

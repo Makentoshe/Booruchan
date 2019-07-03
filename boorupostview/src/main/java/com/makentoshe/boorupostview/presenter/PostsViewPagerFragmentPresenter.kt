@@ -34,12 +34,15 @@ class PostsViewPagerFragmentPresenter(
     /** Previous page scroll event observable */
     private val prevpageObservable = PublishSubject.create<Unit>()
     /** Page number observable */
-    private val textpageObservable = PublishSubject.create<String>()
+    private val textpageObservable = BehaviorSubject.create<String>()
     /** Viewpager scroll state observable */
     private val pagestateObservable = PublishSubject.create<Int>()
     /** Returns a current set of the tags. */
     val tags: Set<Tag>
         get() = searchObservable.value.orEmpty()
+    /** Contains flag used for search updating by swipe */
+    @Volatile
+    private var wasSwipe = false
 
     init {
         // clear caches on new search
@@ -53,6 +56,11 @@ class PostsViewPagerFragmentPresenter(
         // on new search started: add an adapter for the view pager
         searchObservable.subscribe {
             view.adapter = adapterBuilder.build(it)
+            //was it a swipe gesture - does not reset page
+            if (wasSwipe) {
+                view.currentItem = textpageObservable.value?.toInt() ?: 0
+                wasSwipe = false
+            } else textpageObservable.onNext("0")
         }.let(disposables::add)
         // should scroll to previous
         prevpageObservable.subscribe { view.currentItem = view.currentItem - 1 }.let(disposables::add)
@@ -90,6 +98,7 @@ class PostsViewPagerFragmentPresenter(
     fun bindSwipeRefresh(view: SwipeRefreshLayout) {
         // start new search on refresh
         view.refreshEvents().subscribe {
+            wasSwipe = true
             NewSearchBroadcastReceiver.sendBroadcast(view.context, tags)
         }.let(disposables::add)
         // hide refresh icon after search
