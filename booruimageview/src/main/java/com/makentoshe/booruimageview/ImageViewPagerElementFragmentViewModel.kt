@@ -5,22 +5,19 @@ import android.graphics.Bitmap
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.makentoshe.api.DefaultPostsRequest
-import com.makentoshe.api.NetworkExecutorBuilder
-import com.makentoshe.api.SimpleStreamDownloadListener
 import com.makentoshe.api.cache.CacheBuilder
 import com.makentoshe.api.repository.RepositoryBuilder
 import com.makentoshe.boorulibrary.booru.entity.Booru
+import com.makentoshe.boorulibrary.entitiy.Post
 import com.makentoshe.boorulibrary.entitiy.Tag
 import io.reactivex.Observable
-import io.reactivex.Single
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
+import java.io.File
 
 /**
- * [ViewModel] component for [ImageViewPagerElementFragment]. Performs an image downloading.
+ * [ViewModel] component for [ImageViewPagerElementFragment]. Performs a downloads.
  *
  * @param repositoryBuilder for building a repositories
  * @param cacheBuilder for building a caches
@@ -28,10 +25,10 @@ import io.reactivex.subjects.PublishSubject
  * @param imageDecoder performs image decoding from [ByteArray] to a [Bitmap].
  */
 class ImageViewPagerElementFragmentViewModel(
-    repositoryBuilder: RepositoryBuilder,
-    cacheBuilder: CacheBuilder,
-    request: DefaultPostsRequest,
-    imageDecoder: ImageDecoder
+    private val repositoryBuilder: RepositoryBuilder,
+    private val cacheBuilder: CacheBuilder,
+    private val request: DefaultPostsRequest,
+    private val imageDecoder: ImageDecoder
 ) : ViewModel() {
 
     /** Container for [io.reactivex.disposables.Disposable] objects will be released on cleared lifecycle event */
@@ -45,10 +42,10 @@ class ImageViewPagerElementFragmentViewModel(
         get() = errorSubject
 
     /** Emitter for [Bitmap] */
-    private val imageSubject = BehaviorSubject.create<Bitmap>()
+    private val imageSubject = BehaviorSubject.create<Pair<Post, Bitmap>>()
 
     /** Observable for [Bitmap] */
-    val imageObservable: Observable<Bitmap>
+    val imageObservable: Observable<Pair<Post, Bitmap>>
         get() = imageSubject
 
     /** Emitter for a progress in range 0..1*/
@@ -59,30 +56,47 @@ class ImageViewPagerElementFragmentViewModel(
         get() = progressSubject
 
     init {
-        // listener for image downloading
-        val streamDownloadListener = SimpleStreamDownloadListener().apply {
-            var count = 0f
-            onDownloading { bytes, total ->
-                count += bytes.size
-                progressSubject.onNext(count / total)
+        onPostDownloaded { post ->
+            when (File(post.sampleUrl).extension.toLowerCase()) {
+                "webm" -> onWebmDownloaded(post) { imageSubject.onNext(post to it) }
+                "gif" -> onGifDownloaded(post) { imageSubject.onNext(post to it) }
+                else -> onImageDownloaded(post) { imageSubject.onNext(post to it) }
             }
         }
-        // post downloading
-        val postNetworkExecutor = NetworkExecutorBuilder.buildProxyGet(null)
-        val postCache = cacheBuilder.buildPostsCache()
-        val postRepository = repositoryBuilder.buildPostsRepository(postNetworkExecutor).wrapCache(postCache)
-        // image downloading
-        val imageNetworkExecutor = NetworkExecutorBuilder.buildSmartGet(null, streamDownloadListener)
-        val imageCache = cacheBuilder.buildSampleCache()
-        val imageRepository = repositoryBuilder.buildSampleRepository(imageNetworkExecutor).wrapCache(imageCache)
-        // perform
-        Single.just(request).observeOn(Schedulers.io()).map(postRepository::get).map { it.first() }
-            .map(imageRepository::get).map(imageDecoder::decode).observeOn(AndroidSchedulers.mainThread())
-            .subscribe { bitmap, throwable ->
-                if (throwable != null) return@subscribe errorSubject.onNext(throwable)
-                if (bitmap != null) return@subscribe imageSubject.onNext(bitmap)
-                errorSubject.onNext(Exception("wtf"))
-            }.let(disposables::add)
+    }
+
+    /** Perform post downloading from the repository */
+    private fun onPostDownloaded(action: (Post) -> Unit) {
+        PostsDownload(repositoryBuilder, cacheBuilder).execute(request) { p, t ->
+            if (t != null || p == null) errorSubject.onNext(t ?: Exception("wtf")) else action(p)
+        }.let(disposables::add)
+    }
+
+    /** Performs an image downloading from the repository */
+    private fun onImageDownloaded(post: Post, action: (Bitmap) -> Unit) {
+        ByteArraySampleDownload(repositoryBuilder, cacheBuilder).also {
+            it.downloadProgressObservable.safeSubscribe(progressSubject)
+        }.execute(post) { b, t ->
+            if (t != null || b == null) errorSubject.onNext(t ?: Exception("wtf")) else action(imageDecoder.decode(b))
+        }.let(disposables::add)
+    }
+
+    /** Performs an gif animation preview image downloading from the repository */
+    private fun onGifDownloaded(post: Post, action: (Bitmap) -> Unit) {
+        ByteArrayPreviewDownload(repositoryBuilder, cacheBuilder).also {
+            it.downloadProgressObservable.safeSubscribe(progressSubject)
+        }.execute(post) { b, t ->
+            if (t != null || b == null) errorSubject.onNext(t ?: Exception("wtf")) else action(imageDecoder.decode(b))
+        }.let(disposables::add)
+    }
+
+    /** Performs a webm preview image downloading from the repository */
+    private fun onWebmDownloaded(post: Post, action: (Bitmap) -> Unit) {
+        ByteArrayPreviewDownload(repositoryBuilder, cacheBuilder).also {
+            it.downloadProgressObservable.safeSubscribe(progressSubject)
+        }.execute(post) { b, t ->
+            if (t != null || b == null) errorSubject.onNext(t ?: Exception("wtf")) else action(imageDecoder.decode(b))
+        }.let(disposables::add)
     }
 
     /** Release disposables */

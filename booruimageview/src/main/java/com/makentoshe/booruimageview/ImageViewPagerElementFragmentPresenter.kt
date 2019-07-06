@@ -21,7 +21,7 @@ class ImageViewPagerElementFragmentPresenter(
 
     /** Binds a [SubsamplingScaleImageView] with a [viewmodel] */
     fun bindImageView(view: SubsamplingScaleImageView) {
-        viewmodel.imageObservable.map(ImageSource::bitmap).subscribe(view::setImage).let(disposables::add)
+        viewmodel.imageObservable.map{ ImageSource.bitmap(it.second) }.subscribe(view::setImage).let(disposables::add)
     }
 
     /** Binds a [ProgressBar] with a [viewmodel] */
