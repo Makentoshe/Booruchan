@@ -1,4 +1,4 @@
-package com.makentoshe.booruimageview
+package com.makentoshe.booruimageview.model
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory

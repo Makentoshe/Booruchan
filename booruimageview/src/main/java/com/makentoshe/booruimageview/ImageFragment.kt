@@ -6,6 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.viewpager.widget.ViewPager
+import com.makentoshe.booruimageview.model.ImageViewPagerAdapter
+import com.makentoshe.booruimageview.presenter.ImageFragmentPresenter
+import com.makentoshe.booruimageview.view.ImageFragmentUi
 import com.makentoshe.boorulibrary.booru.entity.Booru
 import com.makentoshe.boorulibrary.entitiy.Post
 import com.makentoshe.boorulibrary.entitiy.Tag

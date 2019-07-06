@@ -1,10 +1,9 @@
-package com.makentoshe.booruimageview
+package com.makentoshe.booruimageview.presenter
 
 import android.view.View
-import androidx.fragment.app.FragmentManager
 import androidx.viewpager.widget.ViewPager
-import com.makentoshe.boorulibrary.booru.entity.Booru
-import com.makentoshe.boorulibrary.entitiy.Tag
+import com.makentoshe.booruimageview.BooruImageScreenNavigator
+import com.makentoshe.booruimageview.model.ImageViewPagerAdapter
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.subjects.PublishSubject

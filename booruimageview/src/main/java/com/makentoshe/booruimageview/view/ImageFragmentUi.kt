@@ -1,7 +1,8 @@
-package com.makentoshe.booruimageview
+package com.makentoshe.booruimageview.view
 
 import android.content.Context
 import android.view.Gravity
+import com.makentoshe.booruimageview.R
 import com.makentoshe.style.slidingUpPanel
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import org.jetbrains.anko.AnkoComponent

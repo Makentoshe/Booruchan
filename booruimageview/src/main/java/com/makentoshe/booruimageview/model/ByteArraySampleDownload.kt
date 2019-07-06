@@ -1,4 +1,4 @@
-package com.makentoshe.booruimageview
+package com.makentoshe.booruimageview.model
 
 import com.makentoshe.api.NetworkExecutorBuilder
 import com.makentoshe.api.SimpleStreamDownloadListener

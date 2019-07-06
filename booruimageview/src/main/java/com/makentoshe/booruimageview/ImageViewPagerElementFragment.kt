@@ -8,6 +8,9 @@ import android.widget.ProgressBar
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView
+import com.makentoshe.booruimageview.presenter.ImageViewPagerElementFragmentPresenter
+import com.makentoshe.booruimageview.view.ImageViewPagerElementFragmentUi
+import com.makentoshe.booruimageview.viewmodel.ImageViewPagerElementFragmentViewModel
 import com.makentoshe.boorulibrary.booru.entity.Booru
 import com.makentoshe.boorulibrary.entitiy.Tag
 import com.makentoshe.style.CircularProgressBar

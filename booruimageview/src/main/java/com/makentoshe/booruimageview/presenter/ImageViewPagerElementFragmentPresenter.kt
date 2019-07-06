@@ -1,9 +1,10 @@
-package com.makentoshe.booruimageview
+package com.makentoshe.booruimageview.presenter
 
 import android.view.View
 import android.widget.ProgressBar
 import com.davemorrissey.labs.subscaleview.ImageSource
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView
+import com.makentoshe.booruimageview.viewmodel.ImageViewPagerElementFragmentViewModel
 import com.makentoshe.style.CircularProgressBar
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
