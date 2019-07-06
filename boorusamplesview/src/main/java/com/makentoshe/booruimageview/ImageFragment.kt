@@ -10,7 +10,6 @@ import com.makentoshe.booruimageview.model.ImageViewPagerAdapter
 import com.makentoshe.booruimageview.presenter.ImageFragmentPresenter
 import com.makentoshe.booruimageview.view.ImageFragmentUi
 import com.makentoshe.boorulibrary.booru.entity.Booru
-import com.makentoshe.boorulibrary.entitiy.Post
 import com.makentoshe.boorulibrary.entitiy.Tag
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import io.reactivex.disposables.CompositeDisposable
@@ -72,9 +71,7 @@ class ImageFragment : Fragment() {
 
     companion object {
         /** Factory method creates a [ImageFragment] instance */
-        fun build(
-            navigator: BooruImageScreenNavigator, position: Int, booru: Booru, tags: Set<Tag>
-        ): ImageFragment {
+        fun build(navigator: BooruImageScreenNavigator, position: Int, booru: Booru, tags: Set<Tag>): ImageFragment {
             val fragment = ImageFragment()
             fragment.navigator = navigator
             fragment.position = position
