@@ -15,11 +15,10 @@ class ImageScreen(
     private val navigator: BooruImageScreenNavigator,
     private val position : Int,
     private val booru: Booru,
-    private val tags: Set<Tag>,
-    private val post: Post
+    private val tags: Set<Tag>
 ) : Screen() {
     override val fragment: Fragment
-        get() = ImageFragment.build(navigator, position, booru, tags, post)
+        get() = ImageFragment.build(navigator, position, booru, tags)
 }
 
 /**
