@@ -69,8 +69,17 @@ class ImageViewPagerElementFragmentViewModel(
     /** Perform post downloading from the repository */
     private fun onPostDownloaded(action: (Post) -> Unit) {
         PostsDownload(repositoryBuilder, cacheBuilder).execute(request) { p, t ->
-            if (t != null || p == null) errorSubject.onNext(t ?: Exception("wtf")) else action(p)
+            if (t != null || p == null) errorSubject.onNext(t ?: Exception("wtf")) else action(fixPost(p))
         }.let(disposables::add)
+    }
+
+    /** Fix Safebooru preview image url in post */
+    private fun fixPost(post: Post): Post {
+        // Safebooru can send a sample image url with png extension. It is invalid so tries to change it to valid
+        if (File(post.previewUrl).extension != "png") return post
+
+        val previewUrl = post.previewUrl.replaceRange(post.previewUrl.lastIndexOf("."), post.previewUrl.length, ".jpg")
+        return post.makeCopy(previewUrl = previewUrl)
     }
 
     /** Performs an image downloading from the repository */
