@@ -39,6 +39,11 @@ class ImageFragment : Fragment() {
         set(value) = (arguments ?: Bundle().also { arguments = it }).putInt("Position", value)
         get() = arguments!!.getInt("Position")
 
+    /** Initial post */
+    private var post: Post
+        set(value) = (arguments ?: Bundle().also { arguments = it }).putSerializable("Post", value)
+        get() = arguments!!.get("Post") as Post
+
     /** Container for [io.reactivex.disposables.Disposable] objects will be released on destroy lifecycle event */
     private val disposables = CompositeDisposable()
 
@@ -77,6 +82,7 @@ class ImageFragment : Fragment() {
             fragment.position = position
             fragment.booru = booru
             fragment.tags = tags
+            fragment.post = post
             return fragment
         }
     }
