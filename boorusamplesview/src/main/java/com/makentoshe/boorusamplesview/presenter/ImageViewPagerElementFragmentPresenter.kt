@@ -10,7 +10,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 
 /**
- * Presenter component for [ImageViewPagerElementFragment] instance.
+ * Presenter component for [com.makentoshe.boorusamplesview.ImageViewPagerElementFragment] instance.
  *
  * @param disposables [io.reactivex.disposables.Disposable] container.
  * @param viewmodel [androidx.lifecycle.ViewModel] component contains observables for some events.
@@ -22,7 +22,10 @@ class ImageViewPagerElementFragmentPresenter(
 
     /** Binds a [SubsamplingScaleImageView] with a [viewmodel] */
     fun bindImageView(view: SubsamplingScaleImageView) {
-        viewmodel.imageObservable.map{ ImageSource.bitmap(it.second) }.subscribe(view::setImage).let(disposables::add)
+        viewmodel.imageObservable.subscribe {
+            view.setImage(ImageSource.bitmap(it.second).tilingDisabled())
+            view.visibility = View.VISIBLE
+        }.let(disposables::add)
     }
 
     /** Binds a [ProgressBar] with a [viewmodel] */
