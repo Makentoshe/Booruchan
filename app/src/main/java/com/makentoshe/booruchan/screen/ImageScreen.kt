@@ -3,10 +3,9 @@ package com.makentoshe.booruchan.screen
 import androidx.fragment.app.Fragment
 import com.makentoshe.booruchan.navigation.Router
 import com.makentoshe.booruchan.navigation.Screen
-import com.makentoshe.booruimageview.BooruImageScreenNavigator
-import com.makentoshe.booruimageview.ImageFragment
+import com.makentoshe.boorusamplesview.BooruImageScreenNavigator
+import com.makentoshe.boorusamplesview.ImageFragment
 import com.makentoshe.boorulibrary.booru.entity.Booru
-import com.makentoshe.boorulibrary.entitiy.Post
 import com.makentoshe.boorulibrary.entitiy.Tag
 import java.io.Serializable
 

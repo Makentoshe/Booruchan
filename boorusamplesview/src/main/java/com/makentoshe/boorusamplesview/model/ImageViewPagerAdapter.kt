@@ -1,9 +1,9 @@
-package com.makentoshe.booruimageview.model
+package com.makentoshe.boorusamplesview.model
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
-import com.makentoshe.booruimageview.ImageViewPagerElementFragment
+import com.makentoshe.boorusamplesview.ImageViewPagerElementFragment
 import com.makentoshe.boorulibrary.booru.entity.Booru
 import com.makentoshe.boorulibrary.entitiy.Tag
 

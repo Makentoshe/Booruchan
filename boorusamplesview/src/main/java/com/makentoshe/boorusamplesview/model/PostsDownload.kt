@@ -1,4 +1,4 @@
-package com.makentoshe.booruimageview.model
+package com.makentoshe.boorusamplesview.model
 
 import com.makentoshe.api.NetworkExecutorBuilder
 import com.makentoshe.api.cache.CacheBuilder

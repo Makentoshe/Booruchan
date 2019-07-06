@@ -1,4 +1,4 @@
-package com.makentoshe.booruimageview
+package com.makentoshe.boorusamplesview
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,9 +8,9 @@ import android.widget.ProgressBar
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView
-import com.makentoshe.booruimageview.presenter.ImageViewPagerElementFragmentPresenter
-import com.makentoshe.booruimageview.view.ImageViewPagerElementFragmentUi
-import com.makentoshe.booruimageview.viewmodel.ImageViewPagerElementFragmentViewModel
+import com.makentoshe.boorusamplesview.presenter.ImageViewPagerElementFragmentPresenter
+import com.makentoshe.boorusamplesview.view.ImageViewPagerElementFragmentUi
+import com.makentoshe.boorusamplesview.viewmodel.ImageViewPagerElementFragmentViewModel
 import com.makentoshe.boorulibrary.booru.entity.Booru
 import com.makentoshe.boorulibrary.entitiy.Tag
 import com.makentoshe.style.CircularProgressBar
@@ -55,13 +55,13 @@ class ImageViewPagerElementFragment : Fragment() {
         // presenter component binds a viewmodel and view
         val presenter = ImageViewPagerElementFragmentPresenter(disposables, viewmodel)
         // bind image view
-        val imageview = view.findViewById<SubsamplingScaleImageView>(com.makentoshe.booruimageview.R.id.imageview)
+        val imageview = view.findViewById<SubsamplingScaleImageView>(com.makentoshe.boorusamplesview.R.id.imageview)
         presenter.bindImageView(imageview)
         // bind indeterminate bar
-        val indeterminateBar = view.findViewById<ProgressBar>(com.makentoshe.booruimageview.R.id.indeterminateprogress)
+        val indeterminateBar = view.findViewById<ProgressBar>(com.makentoshe.boorusamplesview.R.id.indeterminateprogress)
         presenter.bindIndeterminateBar(indeterminateBar)
         // bind progress bar
-        val progressBar = view.findViewById<CircularProgressBar>(com.makentoshe.booruimageview.R.id.circularprogress)
+        val progressBar = view.findViewById<CircularProgressBar>(com.makentoshe.boorusamplesview.R.id.circularprogress)
         presenter.bindProgressBar(progressBar)
     }
 

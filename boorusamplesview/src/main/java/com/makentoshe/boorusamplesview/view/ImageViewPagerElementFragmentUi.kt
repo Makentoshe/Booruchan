@@ -1,9 +1,9 @@
-package com.makentoshe.booruimageview.view
+package com.makentoshe.boorusamplesview.view
 
 import android.content.Context
 import android.graphics.Color
 import android.view.Gravity
-import com.makentoshe.booruimageview.R
+import com.makentoshe.boorusamplesview.R
 import com.makentoshe.style.circularProgressBar
 import com.makentoshe.style.subsamplingScaleImageView
 import org.jetbrains.anko.*

@@ -1,4 +1,4 @@
-package com.makentoshe.booruimageview;
+package com.makentoshe.boorusamplesview;
 
 import org.junit.Test;
 

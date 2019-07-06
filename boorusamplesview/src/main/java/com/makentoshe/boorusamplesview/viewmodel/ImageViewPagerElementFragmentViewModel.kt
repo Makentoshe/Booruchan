@@ -1,4 +1,4 @@
-package com.makentoshe.booruimageview.viewmodel
+package com.makentoshe.boorusamplesview.viewmodel
 
 import android.content.Context
 import android.graphics.Bitmap
@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.makentoshe.api.DefaultPostsRequest
 import com.makentoshe.api.cache.CacheBuilder
 import com.makentoshe.api.repository.RepositoryBuilder
-import com.makentoshe.booruimageview.model.*
+import com.makentoshe.boorusamplesview.model.*
 import com.makentoshe.boorulibrary.booru.entity.Booru
 import com.makentoshe.boorulibrary.entitiy.Post
 import com.makentoshe.boorulibrary.entitiy.Tag
@@ -18,7 +18,7 @@ import io.reactivex.subjects.PublishSubject
 import java.io.File
 
 /**
- * [ViewModel] component for [com.makentoshe.booruimageview.ImageViewPagerElementFragment]. Performs a downloads.
+ * [ViewModel] component for [com.makentoshe.boorusamplesview.ImageViewPagerElementFragment]. Performs a downloads.
  *
  * @param repositoryBuilder for building a repositories
  * @param cacheBuilder for building a caches

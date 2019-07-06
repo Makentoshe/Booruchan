@@ -1,4 +1,4 @@
-package com.makentoshe.booruimageview
+package com.makentoshe.boorusamplesview
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,9 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.viewpager.widget.ViewPager
-import com.makentoshe.booruimageview.model.ImageViewPagerAdapter
-import com.makentoshe.booruimageview.presenter.ImageFragmentPresenter
-import com.makentoshe.booruimageview.view.ImageFragmentUi
+import com.makentoshe.boorusamplesview.model.ImageViewPagerAdapter
+import com.makentoshe.boorusamplesview.presenter.ImageFragmentPresenter
+import com.makentoshe.boorusamplesview.view.ImageFragmentUi
 import com.makentoshe.boorulibrary.booru.entity.Booru
 import com.makentoshe.boorulibrary.entitiy.Tag
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
@@ -56,10 +56,10 @@ class ImageFragment : Fragment() {
         val presenter = ImageFragmentPresenter(disposables, navigator, position, viewpagerAdapter)
         presenter.bindView(view)
         // bind sliding view
-        val slidingview = view.findViewById<SlidingUpPanelLayout>(com.makentoshe.booruimageview.R.id.slidingPanel)
+        val slidingview = view.findViewById<SlidingUpPanelLayout>(com.makentoshe.boorusamplesview.R.id.slidingPanel)
         presenter.bindSlidingUpPanel(slidingview)
         // bind viewpager
-        val viewpager = view.findViewById<ViewPager>(com.makentoshe.booruimageview.R.id.viewpager)
+        val viewpager = view.findViewById<ViewPager>(com.makentoshe.boorusamplesview.R.id.viewpager)
         presenter.bindViewPager(viewpager)
     }
 

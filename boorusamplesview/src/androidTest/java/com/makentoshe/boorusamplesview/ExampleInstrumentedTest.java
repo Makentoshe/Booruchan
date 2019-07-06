@@ -1,4 +1,4 @@
-package com.makentoshe.booruimageview;
+package com.makentoshe.boorusamplesview;
 
 import android.content.Context;
 import androidx.test.InstrumentationRegistry;
