@@ -26,7 +26,7 @@ class PostsScreen(
  */
 class PostsFragmentNavigator(
     private val router: Router,
-    private val navigator: BooruImageScreenNavigator
+    private val navigator: BooruSampleScreenNavigator
 ) : PostsFragmentNavigator {
 
     override fun navigateToImageFragment(position: Int, booru: Booru, tags: Set<Tag>, post: Post) {

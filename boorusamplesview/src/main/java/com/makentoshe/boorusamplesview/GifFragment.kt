@@ -7,23 +7,22 @@ import android.view.ViewGroup
 import android.widget.ProgressBar
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
-import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView
 import com.makentoshe.api.cache.CacheBuilder
 import com.makentoshe.api.repository.RepositoryBuilder
 import com.makentoshe.boorulibrary.booru.entity.Booru
 import com.makentoshe.boorulibrary.entitiy.Post
-import com.makentoshe.boorusamplesview.model.AndroidImageDecoder
-import com.makentoshe.boorusamplesview.presenter.ImageFragmentPresenter
-import com.makentoshe.boorusamplesview.view.ImageFragmentUi
-import com.makentoshe.boorusamplesview.viewmodel.ImageFragmentViewModel
+import com.makentoshe.boorusamplesview.presenter.GifFragmentPresenter
+import com.makentoshe.boorusamplesview.view.GifFragmentUi
+import com.makentoshe.boorusamplesview.viewmodel.GifFragmentViewModel
 import com.makentoshe.style.CircularProgressBar
 import io.reactivex.disposables.CompositeDisposable
 import org.jetbrains.anko.AnkoContext
+import pl.droidsonroids.gif.GifImageView
 
 /**
- *  Fragments for an image files. Loads and displays an image as a byte array from post instance.
+ * Fragment for gif files. Loads and plays a gif animation as a byte array from post instance.
  */
-class ImageFragment : Fragment() {
+class GifFragment : Fragment() {
 
     /** Current [Booru] API instance used for requests */
     private var booru: Booru
@@ -39,13 +38,15 @@ class ImageFragment : Fragment() {
     private val disposables = CompositeDisposable()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return ImageFragmentUi().createView(AnkoContext.create(requireContext()))
+        return GifFragmentUi().createView(AnkoContext.create(requireContext()))
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val presenter = ImageFragmentPresenter(disposables, createViewModel())
-        val imageview = view.findViewById<SubsamplingScaleImageView>(com.makentoshe.boorusamplesview.R.id.imageview)
-        presenter.bindImageView(imageview)
+        // create a presenter
+        val presenter = GifFragmentPresenter(disposables, createViewModel())
+        // bind gif image view
+        val gifImageView = view.findViewById<GifImageView>(com.makentoshe.boorusamplesview.R.id.gifview)
+        presenter.bindGifImageView(gifImageView)
         // bind indeterminate progress bar
         val indeterminateProgressBar = view.findViewById<ProgressBar>(
             com.makentoshe.boorusamplesview.R.id.indeterminateprogress
@@ -58,27 +59,24 @@ class ImageFragment : Fragment() {
         presenter.bindCircularProgressBar(circularProgressBar)
     }
 
-    /** Creates a viewmodel instance */
-    private fun createViewModel(): ImageFragmentViewModel {
+    /** Returns a [GifFragmentViewModel] instance */
+    private fun createViewModel(): GifFragmentViewModel {
         val repositoryBuilder = RepositoryBuilder(booru)
         val cacheBuilder = CacheBuilder(requireContext())
-        val imageDecoder = AndroidImageDecoder()
-        val factory = ImageFragmentViewModel.Factory(repositoryBuilder, cacheBuilder, imageDecoder) { viewmodel ->
-            viewmodel.execute(post)
-        }
-        return ViewModelProviders.of(this, factory)[ImageFragmentViewModel::class.java]
+        val factory = GifFragmentViewModel.Factory(repositoryBuilder, cacheBuilder) { it.execute(post) }
+        return ViewModelProviders.of(this, factory)[GifFragmentViewModel::class.java]
     }
 
-    /** Releases a disposables */
+    /** Release disposables */
     override fun onDestroy() {
         super.onDestroy()
         disposables.clear()
     }
 
     companion object {
-        /** Builds an [ImageFragment] instance */
-        fun build(booru: Booru, post: Post): ImageFragment {
-            val fragment = ImageFragment()
+        /** Builds an [GifFragment] instance */
+        fun build(booru: Booru, post: Post): GifFragment {
+            val fragment = GifFragment()
             fragment.booru = booru
             fragment.post = post
             return fragment

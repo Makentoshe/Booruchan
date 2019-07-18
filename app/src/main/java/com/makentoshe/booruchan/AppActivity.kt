@@ -28,12 +28,11 @@ class AppActivity : AppCompatActivity() {
         if (savedInstanceState == null) {
             val settingsBuilder = RealmSettingsBuilder(Realm.getDefaultConfiguration()!!)
 
-            val imageFragmentNavigator = BooruImageScreenNavigator(router)
+            val imageFragmentNavigator = BooruSampleScreenNavigator(router)
             val postsFragmentNavigator = PostsFragmentNavigator(router, imageFragmentNavigator)
             val booruFragmentNavigator = BooruFragmentNavigator(Cicerone.create(Router()), postsFragmentNavigator)
             val startFragmentNavigator = StartFragmentNavigator(router, booruFragmentNavigator, settingsBuilder)
 
-            //            val startScreen = ImageScreen(imageFragmentNavigator, 2, Gelbooru(), setOf())
             val startScreen = StartScreen(settingsBuilder, startFragmentNavigator, BooruRepository())
             router.newRootScreen(startScreen)
         }

@@ -5,4 +5,6 @@
     <item name="imageview" type="id"/>
     <item name="circularprogress" type="id"/>
     <item name="indeterminateprogress" type="id"/>
+    <item name="gifview" type="id"/>
+    <item name="playerview" type="id"/>
 </resources>

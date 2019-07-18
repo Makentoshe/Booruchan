@@ -1,62 +1,46 @@
 package com.makentoshe.boorusamplesview.presenter
 
 import android.view.View
-import androidx.viewpager.widget.ViewPager
-import com.makentoshe.boorusamplesview.BooruImageScreenNavigator
-import com.makentoshe.boorusamplesview.model.ImageViewPagerAdapter
-import com.sothree.slidinguppanel.SlidingUpPanelLayout
+import android.widget.ProgressBar
+import com.davemorrissey.labs.subscaleview.ImageSource
+import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView
+import com.makentoshe.boorusamplesview.viewmodel.ImageFragmentViewModel
+import com.makentoshe.style.CircularProgressBar
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.subjects.PublishSubject
 
-/**
- * Presenter component for [ImageFragment]. Performs binding view and a viewmodel.
- *
- * @param disposables [io.reactivex.disposables.Disposable] container for release.
- * @param navigator performs a navigation from current screen to others
- * @param position current page position starts from 0, used for correctly page displaying
- * @param adapter for a viewpager widget where images will be displayed
- */
 class ImageFragmentPresenter(
     private val disposables: CompositeDisposable,
-    private val navigator: BooruImageScreenNavigator,
-    private val position: Int,
-    private val adapter: ImageViewPagerAdapter
+    private val viewmodel: ImageFragmentViewModel
 ) {
 
-    /** Observable for a close events. Invokes for screen closing */
-    private val closeObservable = PublishSubject.create<Unit>()
-
-    /** Observable for sliding events. Each time the sliding offset was changes the observable will be invoked */
-    private val slideObservable = PublishSubject.create<Float>()
-
-    init {
-        // should close screen on invoke
-        closeObservable.subscribe { navigator.close() }.let(disposables::add)
+    fun bindImageView(view: SubsamplingScaleImageView) {
+        // set image and show view on success event
+        viewmodel.successObservable.map(ImageSource::bitmap).subscribe {
+            view.setImage(it)
+            view.visibility = View.VISIBLE
+        }.let(disposables::add)
+        // hide view on error event
+        viewmodel.errorObservable.subscribe {
+            view.visibility = View.VISIBLE
+        }.let(disposables::add)
     }
 
-    /** Binds a [ViewPager] */
-    fun bindViewPager(view: ViewPager) {
-        // set adapter
-        view.adapter = adapter
-        // manages the viewpager position
-        if (view.currentItem == 0) view.currentItem = position
+    fun bindIndeterminateProgressBar(view: ProgressBar) {
+        // hides on any complete event
+        PublishSubject.create<Any>()
+            .mergeWith(viewmodel.successObservable)
+            .mergeWith(viewmodel.errorObservable)
+            .subscribe { view.visibility = View.GONE }
+            .let(disposables::add)
     }
 
-    /** Binds a [SlidingUpPanelLayout] */
-    fun bindSlidingUpPanel(view: SlidingUpPanelLayout) {
-        // listener for invoking a close events and slide events
-        view.addPanelSlideListener(object : SlidingUpPanelLayout.SimplePanelSlideListener() {
-            override fun onPanelSlide(panel: View?, slideOffset: Float) = if (slideOffset == 0f) {
-                closeObservable.onNext(Unit)
-            } else {
-                slideObservable.onNext(slideOffset)
-            }
-        })
-    }
-
-    /** Binds a root view */
-    fun bindView(view: View) {
-        // should change root view transparent on slide offset change
-        slideObservable.subscribe(view::setAlpha).let(disposables::add)
+    fun bindCircularProgressBar(view: CircularProgressBar) {
+        // hides on any complete event
+        PublishSubject.create<Any>()
+            .mergeWith(viewmodel.successObservable)
+            .mergeWith(viewmodel.errorObservable)
+            .subscribe { view.visibility = View.GONE }
+            .let(disposables::add)
     }
 }

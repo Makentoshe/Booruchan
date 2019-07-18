@@ -41,7 +41,8 @@ class StartFragmentNavigator(
     }
 
     override fun navigateToBooruScreen(booru: Booru) {
-        val boorudata = BooruTransitionData(booru, setOf())
+        val tags = setOf(booru.tagFactory.build("webm"))
+        val boorudata = BooruTransitionData(booru, tags)
         val booruScreen = BooruScreen(boorudata, booruFragmentNavigator)
         router.navigateWithReplace(booruScreen)
     }
