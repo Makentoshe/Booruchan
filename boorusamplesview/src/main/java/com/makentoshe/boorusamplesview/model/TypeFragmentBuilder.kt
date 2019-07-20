@@ -7,7 +7,7 @@ import com.makentoshe.boorulibrary.booru.entity.Booru
 import com.makentoshe.boorulibrary.entitiy.Post
 import com.makentoshe.boorusamplesview.GifFragment
 import com.makentoshe.boorusamplesview.ImageFragment
-import com.makentoshe.boorusamplesview.WebmFragment
+import com.makentoshe.webmview.WebmFragment
 import java.io.File
 
 class TypeFragmentBuilder(
@@ -17,7 +17,7 @@ class TypeFragmentBuilder(
 ) {
 
     fun execute(post: Post, view: View) = when (File(post.sampleUrl).extension.toLowerCase()) {
-        "webm" -> attachFragment(view.id) { WebmFragment.build(booru, post, position) }
+        "webm" -> attachFragment(view.id) { WebmFragment.build(post.sampleUrl, position) }
         "gif" -> attachFragment(view.id) { GifFragment.build(booru, post) }
         else -> attachFragment(view.id) { ImageFragment.build(booru, post) }
     }

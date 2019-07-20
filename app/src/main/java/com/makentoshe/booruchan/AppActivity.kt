@@ -33,6 +33,10 @@ class AppActivity : AppCompatActivity() {
             val booruFragmentNavigator = BooruFragmentNavigator(Cicerone.create(Router()), postsFragmentNavigator)
             val startFragmentNavigator = StartFragmentNavigator(router, booruFragmentNavigator, settingsBuilder)
 
+            //            val startScreen = object : Screen() {
+            //                override val fragment: Fragment
+            //                    get() = WebmFragment.build("https://img2.gelbooru.com//images/53/51/5351356251c2c3a6c432074326d36e78.webm", 1)
+            //            }
             val startScreen = StartScreen(settingsBuilder, startFragmentNavigator, BooruRepository())
             router.newRootScreen(startScreen)
         }
