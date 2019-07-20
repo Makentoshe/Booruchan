@@ -7,7 +7,7 @@ buildscript {
     repositories {
         google()
         jcenter()
-        
+
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.4.2'
@@ -31,4 +31,19 @@ allprojects {
 
 task clean(type: Delete) {
     delete rootProject.buildDir
+}
+
+// Android JUnit test for startview module
+task startviewcat {
+    dependsOn ':startview:connectedAndroidTest'
+}
+
+// Android JUnit test for settings module
+task settingscat {
+    dependsOn ":settings:connectedAndroidTest"
+}
+
+// Android JUnit test for settingsview module
+task settingsviewcat {
+    dependsOn ":settingsview:connectedAndroidTest"
 }
