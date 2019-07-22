@@ -5,6 +5,7 @@ import com.makentoshe.api.repository.BooruRepository
 import com.makentoshe.booruchan.navigation.Router
 import com.makentoshe.booruchan.navigation.Screen
 import com.makentoshe.boorulibrary.booru.entity.Booru
+import com.makentoshe.boorulibrary.entitiy.Tag
 import com.makentoshe.booruview.BooruFragmentNavigator
 import com.makentoshe.booruview.BooruTransitionData
 import com.makentoshe.settings.common.SettingsBuilder
@@ -41,7 +42,7 @@ class StartFragmentNavigator(
     }
 
     override fun navigateToBooruScreen(booru: Booru) {
-        val tags = setOf(booru.tagFactory.build("webm"))
+        val tags: Set<Tag> = setOf()
         val boorudata = BooruTransitionData(booru, tags)
         val booruScreen = BooruScreen(boorudata, booruFragmentNavigator)
         router.navigateWithReplace(booruScreen)

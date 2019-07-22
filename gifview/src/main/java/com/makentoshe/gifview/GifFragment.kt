@@ -1,4 +1,4 @@
-package com.makentoshe.boorusamplesview
+package com.makentoshe.gifview
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,9 +11,6 @@ import com.makentoshe.api.cache.CacheBuilder
 import com.makentoshe.api.repository.RepositoryBuilder
 import com.makentoshe.boorulibrary.booru.entity.Booru
 import com.makentoshe.boorulibrary.entitiy.Post
-import com.makentoshe.boorusamplesview.presenter.GifFragmentPresenter
-import com.makentoshe.boorusamplesview.view.GifFragmentUi
-import com.makentoshe.boorusamplesview.viewmodel.GifFragmentViewModel
 import com.makentoshe.style.CircularProgressBar
 import io.reactivex.disposables.CompositeDisposable
 import org.jetbrains.anko.AnkoContext
@@ -45,17 +42,13 @@ class GifFragment : Fragment() {
         // create a presenter
         val presenter = GifFragmentPresenter(disposables, createViewModel())
         // bind gif image view
-        val gifImageView = view.findViewById<GifImageView>(com.makentoshe.boorusamplesview.R.id.gifview)
+        val gifImageView = view.findViewById<GifImageView>(com.makentoshe.gifview.R.id.gifview)
         presenter.bindGifImageView(gifImageView)
         // bind indeterminate progress bar
-        val indeterminateProgressBar = view.findViewById<ProgressBar>(
-            com.makentoshe.boorusamplesview.R.id.indeterminateprogress
-        )
+        val indeterminateProgressBar = view.findViewById<ProgressBar>(com.makentoshe.style.R.id.indeterminateprogress)
         presenter.bindIndeterminateProgressBar(indeterminateProgressBar)
         // bind circular progress bar
-        val circularProgressBar = view.findViewById<CircularProgressBar>(
-            com.makentoshe.boorusamplesview.R.id.circularprogress
-        )
+        val circularProgressBar = view.findViewById<CircularProgressBar>(com.makentoshe.style.R.id.circularprogress)
         presenter.bindCircularProgressBar(circularProgressBar)
     }
 

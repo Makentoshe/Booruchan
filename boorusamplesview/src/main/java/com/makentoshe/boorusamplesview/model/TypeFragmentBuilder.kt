@@ -5,8 +5,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.makentoshe.boorulibrary.booru.entity.Booru
 import com.makentoshe.boorulibrary.entitiy.Post
-import com.makentoshe.boorusamplesview.GifFragment
 import com.makentoshe.boorusamplesview.ImageFragment
+import com.makentoshe.gifview.GifFragment
 import com.makentoshe.webmview.WebmFragment
 import java.io.File
 

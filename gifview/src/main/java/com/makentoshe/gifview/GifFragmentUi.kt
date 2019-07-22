@@ -1,9 +1,9 @@
-package com.makentoshe.boorusamplesview.view
+package com.makentoshe.gifview
 
 import android.content.Context
 import android.view.View
 import android.view.ViewManager
-import com.makentoshe.boorusamplesview.R
+import com.makentoshe.style.CompositeProgressBar
 import org.jetbrains.anko.AnkoComponent
 import org.jetbrains.anko.AnkoContext
 import org.jetbrains.anko.custom.ankoView
@@ -12,9 +12,11 @@ import org.jetbrains.anko.relativeLayout
 import pl.droidsonroids.gif.GifImageView
 
 class GifFragmentUi : AnkoComponent<Context> {
+
     override fun createView(ui: AnkoContext<Context>) = ui.relativeLayout {
         // progress bar
-        CompositeProgressBar().createView(AnkoContext.createDelegate(this))
+        CompositeProgressBar()
+            .createView(AnkoContext.createDelegate(this))
         // content
         gifImageView {
             id = R.id.gifview
