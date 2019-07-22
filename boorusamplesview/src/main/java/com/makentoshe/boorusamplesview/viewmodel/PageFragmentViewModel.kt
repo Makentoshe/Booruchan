@@ -1,7 +1,6 @@
 package com.makentoshe.boorusamplesview.viewmodel
 
 import android.content.Context
-import android.graphics.Bitmap
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.makentoshe.api.cache.CacheBuilder
@@ -9,8 +8,6 @@ import com.makentoshe.api.repository.RepositoryBuilder
 import com.makentoshe.boorulibrary.booru.entity.Booru
 import com.makentoshe.boorulibrary.booru.entity.PostsRequest
 import com.makentoshe.boorulibrary.entitiy.Post
-import com.makentoshe.boorusamplesview.model.AndroidImageDecoder
-import com.makentoshe.boorusamplesview.model.ImageDecoder
 import com.makentoshe.boorusamplesview.model.PostsDownload
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
@@ -20,12 +17,8 @@ import java.io.File
 /**
  * [ViewModel] component for [com.makentoshe.boorusamplesview.PageFragment]. Performs a downloads.
  *
- * @param imageDecoder performs image decoding from [ByteArray] to a [Bitmap].
  */
-class PageFragmentViewModel(
-    private val imageDecoder: ImageDecoder,
-    private val postsDownload: PostsDownload
-) : ViewModel() {
+class PageFragmentViewModel(private val postsDownload: PostsDownload) : ViewModel() {
 
     /** Container for [io.reactivex.disposables.Disposable] objects will be released on cleared lifecycle event */
     private val disposables = CompositeDisposable()
@@ -74,9 +67,8 @@ class PageFragmentViewModel(
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
             val cacheBuilder = CacheBuilder(context)
             val repositoryBuilder = RepositoryBuilder(booru)
-            val imageDecoder = AndroidImageDecoder()
             val postDownload = PostsDownload(repositoryBuilder, cacheBuilder)
-            return PageFragmentViewModel(imageDecoder, postDownload) as T
+            return PageFragmentViewModel(postDownload) as T
         }
     }
 }

@@ -1,6 +1,7 @@
 package com.makentoshe.boorusamplesview.view
 
 import android.content.Context
+import com.makentoshe.style.CompositeProgressBar
 import org.jetbrains.anko.*
 
 class PageFragmentUi : AnkoComponent<Context> {

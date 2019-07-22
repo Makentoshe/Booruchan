@@ -2,11 +2,9 @@ package com.makentoshe.boorusamplesview.presenter
 
 import android.view.View
 import androidx.viewpager.widget.ViewPager
-import com.makentoshe.boorusamplesview.ActualPageBroadcastReceiver
 import com.makentoshe.boorusamplesview.BooruSampleScreenNavigator
 import com.makentoshe.boorusamplesview.model.ViewPagerAdapter
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
-import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.subjects.PublishSubject
 
@@ -42,17 +40,6 @@ class BaseFragmentPresenter(
         view.adapter = adapter
         // manages the viewpager position
         if (view.currentItem == 0) view.currentItem = position
-        view.pageSelectEvents().subscribe {
-            ActualPageBroadcastReceiver.sendBroadcast(view.context, it)
-        }.let(disposables::add)
-    }
-
-    private fun ViewPager.pageSelectEvents(): Observable<Int> {
-        val observable = PublishSubject.create<Int>()
-        addOnPageChangeListener(object : ViewPager.SimpleOnPageChangeListener() {
-            override fun onPageSelected(position: Int) = observable.onNext(position)
-        })
-        return observable
     }
 
     /** Binds a [SlidingUpPanelLayout] */
