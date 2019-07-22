@@ -1,4 +1,4 @@
-package com.makentoshe.boorusamplesview.viewmodel
+package com.makentoshe.imageview
 
 import android.graphics.Bitmap
 import androidx.lifecycle.ViewModel
@@ -8,7 +8,6 @@ import com.makentoshe.api.cache.CacheBuilder
 import com.makentoshe.api.repository.Repository
 import com.makentoshe.api.repository.RepositoryBuilder
 import com.makentoshe.boorulibrary.entitiy.Post
-import com.makentoshe.boorusamplesview.model.ImageDecoder
 import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers

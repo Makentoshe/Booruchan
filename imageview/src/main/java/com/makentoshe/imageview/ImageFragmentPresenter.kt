@@ -1,17 +1,15 @@
-package com.makentoshe.boorusamplesview.presenter
+package com.makentoshe.imageview
 
 import android.view.View
 import android.widget.ProgressBar
 import com.davemorrissey.labs.subscaleview.ImageSource
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView
-import com.makentoshe.boorusamplesview.viewmodel.ImageFragmentViewModel
 import com.makentoshe.style.CircularProgressBar
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.subjects.PublishSubject
 
 class ImageFragmentPresenter(
-    private val disposables: CompositeDisposable,
-    private val viewmodel: ImageFragmentViewModel
+    private val disposables: CompositeDisposable, private val viewmodel: ImageFragmentViewModel
 ) {
 
     fun bindImageView(view: SubsamplingScaleImageView) {

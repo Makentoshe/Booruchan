@@ -1,1 +1,1 @@
-include ':app', ':settings', ':style', ':api', ':startview', ':booruview', ':boorupostview', ':navigation', ':boorusamplesview', ':settingsview', ':webmview', ':gifview'
+include ':app', ':settings', ':style', ':api', ':startview', ':booruview', ':boorupostview', ':navigation', ':boorusamplesview', ':settingsview', ':webmview', ':gifview', ':imageview'

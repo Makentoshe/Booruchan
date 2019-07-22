@@ -1,4 +1,4 @@
-package com.makentoshe.boorusamplesview
+package com.makentoshe.imageview
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,10 +12,6 @@ import com.makentoshe.api.cache.CacheBuilder
 import com.makentoshe.api.repository.RepositoryBuilder
 import com.makentoshe.boorulibrary.booru.entity.Booru
 import com.makentoshe.boorulibrary.entitiy.Post
-import com.makentoshe.boorusamplesview.model.AndroidImageDecoder
-import com.makentoshe.boorusamplesview.presenter.ImageFragmentPresenter
-import com.makentoshe.boorusamplesview.view.ImageFragmentUi
-import com.makentoshe.boorusamplesview.viewmodel.ImageFragmentViewModel
 import com.makentoshe.style.CircularProgressBar
 import io.reactivex.disposables.CompositeDisposable
 import org.jetbrains.anko.AnkoContext
@@ -44,17 +40,13 @@ class ImageFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val presenter = ImageFragmentPresenter(disposables, createViewModel())
-        val imageview = view.findViewById<SubsamplingScaleImageView>(com.makentoshe.boorusamplesview.R.id.imageview)
+        val imageview = view.findViewById<SubsamplingScaleImageView>(com.makentoshe.imageview.R.id.imageview)
         presenter.bindImageView(imageview)
         // bind indeterminate progress bar
-        val indeterminateProgressBar = view.findViewById<ProgressBar>(
-            com.makentoshe.boorusamplesview.R.id.indeterminateprogress
-        )
+        val indeterminateProgressBar = view.findViewById<ProgressBar>(com.makentoshe.style.R.id.indeterminateprogress)
         presenter.bindIndeterminateProgressBar(indeterminateProgressBar)
         // bind circular progress bar
-        val circularProgressBar = view.findViewById<CircularProgressBar>(
-            com.makentoshe.boorusamplesview.R.id.circularprogress
-        )
+        val circularProgressBar = view.findViewById<CircularProgressBar>(com.makentoshe.style.R.id.circularprogress)
         presenter.bindCircularProgressBar(circularProgressBar)
     }
 

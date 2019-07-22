@@ -1,8 +1,8 @@
-package com.makentoshe.boorusamplesview.view
+package com.makentoshe.imageview
 
 import android.content.Context
 import android.view.View
-import com.makentoshe.boorusamplesview.R
+import com.makentoshe.style.CompositeProgressBar
 import com.makentoshe.style.subsamplingScaleImageView
 import org.jetbrains.anko.AnkoComponent
 import org.jetbrains.anko.AnkoContext
