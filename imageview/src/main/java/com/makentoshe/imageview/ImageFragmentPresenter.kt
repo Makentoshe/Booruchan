@@ -7,6 +7,7 @@ import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView
 import com.makentoshe.style.CircularProgressBar
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.subjects.PublishSubject
+import kotlin.math.roundToInt
 
 class ImageFragmentPresenter(
     private val disposables: CompositeDisposable, private val viewmodel: ImageFragmentViewModel
@@ -40,5 +41,9 @@ class ImageFragmentPresenter(
             .mergeWith(viewmodel.errorObservable)
             .subscribe { view.visibility = View.GONE }
             .let(disposables::add)
+        // update progress
+        viewmodel.progressObservable.subscribe { progress ->
+            view.setProgress((progress * 100).roundToInt())
+        }.let(disposables::add)
     }
 }

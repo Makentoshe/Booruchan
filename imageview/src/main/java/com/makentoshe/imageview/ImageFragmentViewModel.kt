@@ -4,6 +4,7 @@ import android.graphics.Bitmap
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.makentoshe.api.NetworkExecutorBuilder
+import com.makentoshe.api.SimpleStreamDownloadListener
 import com.makentoshe.api.cache.CacheBuilder
 import com.makentoshe.api.repository.Repository
 import com.makentoshe.api.repository.RepositoryBuilder
@@ -16,7 +17,9 @@ import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.BehaviorSubject
 
 class ImageFragmentViewModel(
-    private val repository: Repository<Post, ByteArray>, private val imageDecoder: ImageDecoder
+    private val repository: Repository<Post, ByteArray>,
+    private val imageDecoder: ImageDecoder,
+    private val simpleStreamDownloadListener: SimpleStreamDownloadListener
 ) : ViewModel() {
 
     /** Container for [io.reactivex.disposables.Disposable] objects will be released on destroy lifecycle event */
@@ -35,6 +38,21 @@ class ImageFragmentViewModel(
     /** Observable for [Bitmap] */
     val successObservable: Observable<Bitmap>
         get() = successSubject
+
+    /** Emitter for progress events in range 0..1 */
+    private val progressSubject = BehaviorSubject.create<Float>()
+
+    /** Observable for progress events in range 0..1 */
+    val progressObservable: Observable<Float>
+        get() = progressSubject.observeOn(AndroidSchedulers.mainThread())
+
+    init {
+        var count = 0f
+        simpleStreamDownloadListener.onDownloading { bytes, total ->
+            count += bytes.size
+            progressSubject.onNext(count / total)
+        }
+    }
 
     /** Starts a fetching request using a [post] param */
     fun execute(post: Post) {
@@ -68,10 +86,11 @@ class ImageFragmentViewModel(
         private val onCreated: (ImageFragmentViewModel) -> Unit
     ) : ViewModelProvider.NewInstanceFactory() {
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-            val networkExecutor = NetworkExecutorBuilder.buildSmartGet()
+            val listener = SimpleStreamDownloadListener()
+            val networkExecutor = NetworkExecutorBuilder.buildSmartGet(null, listener)
             val cache = cacheBuilder.buildSampleCache()
             val repository = repositoryBuilder.buildSampleRepository(networkExecutor).wrapCache(cache)
-            return ImageFragmentViewModel(repository, imageDecoder).apply(onCreated) as T
+            return ImageFragmentViewModel(repository, imageDecoder, listener).apply(onCreated) as T
         }
     }
 }
