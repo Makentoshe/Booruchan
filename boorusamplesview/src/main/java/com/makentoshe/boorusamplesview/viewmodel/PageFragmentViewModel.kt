@@ -44,10 +44,10 @@ class PageFragmentViewModel(private val postsDownload: PostsDownload) : ViewMode
     /** Fix Safebooru preview image url in post */
     private fun fixPost(post: Post): Post {
         // Safebooru can send a sample image url with png extension. It is invalid so tries to change it to valid
-        if (File(post.previewUrl).extension != "png") return post
+        if (File(post.sampleUrl).extension != "png") return post
 
-        val previewUrl = post.previewUrl.replaceRange(post.previewUrl.lastIndexOf("."), post.previewUrl.length, ".jpg")
-        return post.makeCopy(previewUrl = previewUrl)
+        val sampleUrl = post.sampleUrl.replaceRange(post.sampleUrl.lastIndexOf("."), post.sampleUrl.length, ".jpg")
+        return post.makeCopy(sampleUrl = sampleUrl)
     }
 
     /** Release disposables */
