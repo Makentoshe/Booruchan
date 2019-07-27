@@ -28,6 +28,7 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(":api")
+
     implementation project(":style")
 
     // Kotlin and Kotlin-android
@@ -51,6 +52,10 @@ dependencies {
     // https://github.com/JakeWharton/RxBinding
     implementation 'com.jakewharton.rxbinding3:rxbinding-core:3.0.0-alpha2'
     implementation 'com.jakewharton.rxbinding3:rxbinding-appcompat:3.0.0-alpha2'
+
+    // RxPermissions
+    // https://github.com/tbruyelle/RxPermissions
+    implementation 'com.github.tbruyelle:rxpermissions:0.10.2'
 
     // Material components
     // https://github.com/material-components/material-components-android

@@ -12,6 +12,7 @@ import com.makentoshe.api.cache.CacheBuilder
 import com.makentoshe.api.repository.RepositoryBuilder
 import com.makentoshe.boorulibrary.booru.entity.Booru
 import com.makentoshe.boorulibrary.entitiy.Post
+import com.makentoshe.imageview.download.SampleItemContextMenuBuilder
 import com.makentoshe.style.CircularProgressBar
 import io.reactivex.disposables.CompositeDisposable
 import org.jetbrains.anko.AnkoContext
@@ -39,7 +40,10 @@ class ImageFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val presenter = ImageFragmentPresenter(disposables, createViewModel())
+        val menubuilder =
+            SampleItemContextMenuBuilder(childFragmentManager, booru, post)
+        val presenter = ImageFragmentPresenter(disposables, createViewModel(), menubuilder)
+        // bind image view
         val imageview = view.findViewById<SubsamplingScaleImageView>(com.makentoshe.imageview.R.id.imageview)
         presenter.bindImageView(imageview)
         // bind indeterminate progress bar

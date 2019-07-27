@@ -4,13 +4,17 @@ import android.view.View
 import android.widget.ProgressBar
 import com.davemorrissey.labs.subscaleview.ImageSource
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView
+import com.jakewharton.rxbinding3.view.longClicks
+import com.makentoshe.imageview.download.ContextMenuBuilder
 import com.makentoshe.style.CircularProgressBar
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.subjects.PublishSubject
 import kotlin.math.roundToInt
 
 class ImageFragmentPresenter(
-    private val disposables: CompositeDisposable, private val viewmodel: ImageFragmentViewModel
+    private val disposables: CompositeDisposable,
+    private val viewmodel: ImageFragmentViewModel,
+    private val popupmenuBuilder: ContextMenuBuilder
 ) {
 
     fun bindImageView(view: SubsamplingScaleImageView) {
@@ -23,6 +27,8 @@ class ImageFragmentPresenter(
         viewmodel.errorObservable.subscribe {
             view.visibility = View.VISIBLE
         }.let(disposables::add)
+        // show context menu on long click
+        view.longClicks().subscribe { popupmenuBuilder.show() }.let(disposables::add)
     }
 
     fun bindIndeterminateProgressBar(view: ProgressBar) {

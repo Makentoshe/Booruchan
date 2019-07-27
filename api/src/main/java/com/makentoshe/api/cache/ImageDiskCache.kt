@@ -8,8 +8,14 @@ import java.io.File
 
 /**
  * Class for caching image as a [ByteArray] using a [Post] as a key.
+ *
+ * @param directory where files will be stored
+ * @param titleStrategy used for a files naming
  */
-class ImageDiskCache(private val directory: File) : Cache<Post, ByteArray> {
+class ImageDiskCache(
+    private val directory: File,
+    private val titleStrategy: (Post) -> String = { it.id.toString() }
+) : Cache<Post, ByteArray> {
 
     /** Key, Path */
     private val hashMap = LinkedHashMap<String, String>()
@@ -22,7 +28,7 @@ class ImageDiskCache(private val directory: File) : Cache<Post, ByteArray> {
     }
 
     override fun get(key: Post): ByteArray? {
-        return key.id.toString().let { key -> if (hashMap.containsKey(key)) File(hashMap[key]).readBytes() else null }
+        return titleStrategy(key).let { key -> if (hashMap.containsKey(key)) File(hashMap[key]).readBytes() else null }
     }
 
     override fun clear() {
@@ -32,7 +38,7 @@ class ImageDiskCache(private val directory: File) : Cache<Post, ByteArray> {
         directory.mkdirs()
     }
 
-    override fun add(key: Post, value: ByteArray) = File(directory, key.id.toString()).let {
+    override fun add(key: Post, value: ByteArray) = File(directory, titleStrategy(key)).let {
         val isCreated = it.createNewFile()
         if (DEBUG) Log.i("Caches", "key=$key\nisCreated=$isCreated")
         it.writeBytes(value)
@@ -42,20 +48,20 @@ class ImageDiskCache(private val directory: File) : Cache<Post, ByteArray> {
     companion object {
         /** Returns a cache directory for the preview images */
         fun getPreviewDir(context: Context): File = context.getDir("Preview", Context.MODE_PRIVATE)
+
         /** Returns a cache instance for the preview images */
-        fun getPreviewCache(context: Context): Cache<Post, ByteArray> =
-            ImageDiskCache(
-                getPreviewDir(context))
+        fun getPreviewCache(context: Context): Cache<Post, ByteArray> = ImageDiskCache(getPreviewDir(context))
+
         /** Returns a cache directory for the sample images */
         fun getSampleDir(context: Context): File = context.getDir("Sample", Context.MODE_PRIVATE)
+
         /** Returns a cache instance for the sample images */
-        fun getSampleCache(context: Context): Cache<Post, ByteArray> =
-            ImageDiskCache(
-                getSampleDir(context))
+        fun getSampleCache(context: Context): Cache<Post, ByteArray> = ImageDiskCache(getSampleDir(context))
+
         /** Returns a cache directory for the full size images */
         fun getFileDir(context: Context): File = context.getDir("File", Context.MODE_PRIVATE)
+
         /** Returns a cache instance for the fill size images */
-        fun getFileCache(context: Context): Cache<Post, ByteArray> =
-            ImageDiskCache(getFileDir(context))
+        fun getFileCache(context: Context): Cache<Post, ByteArray> = ImageDiskCache(getFileDir(context))
     }
 }
