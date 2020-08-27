@@ -4,6 +4,6 @@ package post
 interface Image {
     val extension: String
     val url: String
-    val height: Int
-    val width: Int
+    val height: Int?
+    val width: Int?
 }

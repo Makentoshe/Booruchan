@@ -1,6 +1,6 @@
 import java.time.ZonedDateTime
 
-interface CreationTime {
+interface Time {
     val raw: String
     val time: ZonedDateTime
 }

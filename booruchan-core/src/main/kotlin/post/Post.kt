@@ -1,14 +1,14 @@
 package post
 
-import CreationTime
-import Md5
+import Time
+import Hash
 import Score
 
-interface Post: PostId, Rating, Source, Md5, Score {
+interface Post : PostId, Hash, Rating, Score, Source, HasComments, HasChildren {
     val raw: Map<String, String>
     val previewImage: PreviewImage
     val sampleImage: SampleImage
     val fullImage: FullImage
-    val creationTime: CreationTime
+    val creationTime: Time
     val tags: Tags
 }
