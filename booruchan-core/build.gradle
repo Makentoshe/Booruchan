@@ -2,7 +2,7 @@ plugins {
     id 'org.jetbrains.kotlin.jvm'
 }
 
-group 'org.example'
+group 'com.makentoshe.booruchan.core'
 version '1.0-SNAPSHOT'
 
 repositories {
