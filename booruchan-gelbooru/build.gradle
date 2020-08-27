@@ -10,6 +10,6 @@ repositories {
 }
 
 dependencies {
-    implementation ":booruchan-core"
+    compile project(':booruchan-core')
     implementation "org.jetbrains.kotlin:kotlin-stdlib"
 }
