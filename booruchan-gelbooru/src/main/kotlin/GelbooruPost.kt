@@ -10,7 +10,7 @@ data class GelbooruPost(
     override val source: String,
     override val hasComments: Boolean,
     override val hasChildren: Boolean,
-    override val creationTime: CreationTime,
+    override val creationTime: Time,
     override val fullImage: FullImage,
     override val previewImage: PreviewImage,
     override val sampleImage: SampleImage,
