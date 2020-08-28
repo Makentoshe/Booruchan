@@ -2,6 +2,9 @@
 .gradle/
 build/
 
+# TeamCity files
+.teamcity/target
+
 # IntelliJ IDEA files
 .idea/
 *.iml
