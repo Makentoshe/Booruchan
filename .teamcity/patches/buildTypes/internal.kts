@@ -36,5 +36,8 @@ changeBuildType(RelativeId("internal")) {
         add {
             matches("teamcity.agent.os.family", "Linux")
         }
+        add {
+            contains("teamcity.agent.name", "Linux-small")
+        }
     }
 }
