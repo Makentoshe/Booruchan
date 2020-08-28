@@ -34,7 +34,7 @@ changeBuildType(RelativeId("internal")) {
 
     requirements {
         add {
-            matches("teamcity.agent.jvm.os.family", "Linux")
+            matches("teamcity.agent.os.family", "Linux")
         }
     }
 }
