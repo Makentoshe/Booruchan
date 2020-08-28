@@ -26,22 +26,17 @@ To debug in IntelliJ Idea, open the 'Maven Projects' tool window (View
 version = "2020.1"
 
 project {
+
     buildType(Test)
 }
 
 object Test : BuildType({
     name = "Test"
-    id("sasasaanuspsa")
-    type = Type.REGULAR
+
     steps {
         script {
-            scriptContent = "echo Booruchan cicd was started here"
-        }
-        step {
-            name = "Test step 1"
-            enabled = true
-            executionMode = BuildStep.ExecutionMode.ALWAYS
-            this.type
+            name = "Teamcity Ui step"
+            scriptContent = "echo Hello from Ui"
         }
     }
 })
