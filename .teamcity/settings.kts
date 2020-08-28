@@ -3,6 +3,7 @@ import jetbrains.buildServer.configs.kotlin.v2019_2.BuildType
 import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.gradle
 import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.script
 import jetbrains.buildServer.configs.kotlin.v2019_2.project
+import jetbrains.buildServer.configs.kotlin.v2019_2.vcs.GitVcsRoot
 import jetbrains.buildServer.configs.kotlin.v2019_2.version
 
 /*
@@ -30,6 +31,7 @@ To debug in IntelliJ Idea, open the 'Maven Projects' tool window (View
 version = "2020.1"
 
 project {
+    vcsRoot(BooruchanVcsRoot)
     buildType(InternalBuild)
 }
 
@@ -42,9 +44,6 @@ object InternalBuild : BuildType({
             name = "Default build"
             tasks = "clean build --info --debug"
             buildFile = "build.gradle"
-            jdkHome = "%env.JDK_18_x64%"
-            useGradleWrapper = true
-            gradleWrapperPath = "gradle/wrapper/gradle-wrapper.jar"
         }
         script {
             name = "Clean before install"
@@ -55,3 +54,6 @@ object InternalBuild : BuildType({
 
 })
 
+object BooruchanVcsRoot : GitVcsRoot({
+    authMethod = uploadedKey { uploadedKey = "id_rsa" }
+})
