@@ -40,7 +40,7 @@ object InternalBuild : BuildType({
         script {
             name = "Clean before install"
             executionMode = BuildStep.ExecutionMode.ALWAYS
-            scriptContent = "echo Hello from Ui"
+            scriptContent = "ls"
         }
     }
 
