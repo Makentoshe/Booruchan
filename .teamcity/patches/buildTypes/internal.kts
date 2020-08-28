@@ -31,10 +31,4 @@ changeBuildType(RelativeId("internal")) {
             param("teamcity.coverage.runner", "")
         }
     }
-
-    requirements {
-        add {
-            matches("teamcity.agent.jvm.os.family", "Linux")
-        }
-    }
 }
