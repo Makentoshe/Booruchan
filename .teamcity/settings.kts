@@ -1,8 +1,5 @@
-import jetbrains.buildServer.configs.kotlin.v2019_2.BuildStep
-import jetbrains.buildServer.configs.kotlin.v2019_2.BuildType
+import jetbrains.buildServer.configs.kotlin.v2019_2.*
 import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.script
-import jetbrains.buildServer.configs.kotlin.v2019_2.project
-import jetbrains.buildServer.configs.kotlin.v2019_2.version
 
 /*
 The settings script is an entry point for defining a TeamCity
@@ -35,6 +32,7 @@ project {
 object Test : BuildType({
     name = "Test"
     id("sasasaanuspsa")
+    type = Type.REGULAR
     steps {
         script {
             scriptContent = "echo Booruchan cicd was started here"
