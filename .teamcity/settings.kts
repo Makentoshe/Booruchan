@@ -1,5 +1,9 @@
-import jetbrains.buildServer.configs.kotlin.v2019_2.*
+import jetbrains.buildServer.configs.kotlin.v2019_2.BuildType
+import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.GradleBuildStep
+import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.gradle
 import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.script
+import jetbrains.buildServer.configs.kotlin.v2019_2.project
+import jetbrains.buildServer.configs.kotlin.v2019_2.version
 
 /*
 The settings script is an entry point for defining a TeamCity
@@ -26,17 +30,23 @@ To debug in IntelliJ Idea, open the 'Maven Projects' tool window (View
 version = "2020.1"
 
 project {
-
     buildType(Test)
 }
 
 object Test : BuildType({
     name = "Test"
-
+    id("internal")
+    type = Type.REGULAR
     steps {
         script {
             name = "Teamcity Ui step"
             scriptContent = "echo Hello from Ui"
+        }
+        gradle {
+            name = "Gradle whole build"
+            buildFile = "build.gradle"
+            tasks = "build"
+            coverageEngine = GradleBuildStep.CoverageEngine.Idea()
         }
     }
 })
