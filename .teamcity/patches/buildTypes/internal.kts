@@ -1,6 +1,9 @@
 package patches.buildTypes
 
 import jetbrains.buildServer.configs.kotlin.v2019_2.*
+import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.GradleBuildStep
+import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.gradle
+import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.script
 import jetbrains.buildServer.configs.kotlin.v2019_2.ui.*
 
 /*
@@ -9,6 +12,26 @@ To apply the patch, change the buildType with id = 'internal'
 accordingly, and delete the patch script.
 */
 changeBuildType(RelativeId("internal")) {
+    expectSteps {
+        script {
+            name = "Teamcity Ui step"
+            scriptContent = "echo Hello from Ui"
+        }
+        gradle {
+            name = "Gradle whole build"
+            tasks = "build"
+            buildFile = "build.gradle"
+            coverageEngine = idea {
+            }
+        }
+    }
+    steps {
+        update<GradleBuildStep>(1) {
+            clearConditions()
+            param("teamcity.coverage.runner", "")
+        }
+    }
+
     requirements {
         add {
             matches("teamcity.agent.jvm.os.family", "Linux")
