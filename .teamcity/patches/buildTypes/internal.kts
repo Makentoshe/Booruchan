@@ -11,7 +11,7 @@ accordingly, and delete the patch script.
 changeBuildType(RelativeId("internal")) {
     requirements {
         add {
-            equals("teamcity.agent.jvm.os.family", "Linux")
+            equals("teamcity.agent.jvm.os.name", "Linux")
         }
     }
 }
