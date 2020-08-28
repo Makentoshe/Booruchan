@@ -1,6 +1,5 @@
+import jetbrains.buildServer.configs.kotlin.v2019_2.BuildStep
 import jetbrains.buildServer.configs.kotlin.v2019_2.BuildType
-import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.GradleBuildStep
-import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.gradle
 import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.script
 import jetbrains.buildServer.configs.kotlin.v2019_2.project
 import jetbrains.buildServer.configs.kotlin.v2019_2.version
@@ -30,23 +29,20 @@ To debug in IntelliJ Idea, open the 'Maven Projects' tool window (View
 version = "2020.1"
 
 project {
-    buildType(Test)
+    buildType(InternalBuild)
 }
 
-object Test : BuildType({
-    name = "Test"
+object InternalBuild : BuildType({
+    name = "Internal"
     id("internal")
-    type = Type.REGULAR
+
     steps {
         script {
-            name = "Teamcity Ui step"
+            name = "Clean before install"
+            executionMode = BuildStep.ExecutionMode.ALWAYS
             scriptContent = "echo Hello from Ui"
         }
-        gradle {
-            name = "Gradle whole build"
-            buildFile = "build.gradle"
-            tasks = "build"
-            coverageEngine = GradleBuildStep.CoverageEngine.Idea()
-        }
     }
+
 })
+
