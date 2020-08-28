@@ -1,5 +1,6 @@
 import jetbrains.buildServer.configs.kotlin.v2019_2.BuildStep
 import jetbrains.buildServer.configs.kotlin.v2019_2.BuildType
+import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.gradle
 import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.script
 import jetbrains.buildServer.configs.kotlin.v2019_2.project
 import jetbrains.buildServer.configs.kotlin.v2019_2.version
@@ -37,6 +38,12 @@ object InternalBuild : BuildType({
     id("internal")
 
     steps {
+        gradle {
+            name = "Default build"
+            tasks = "clean build --info --debug"
+            buildFile = "build.gradle"
+            useGradleWrapper = true
+        }
         script {
             name = "Clean before install"
             executionMode = BuildStep.ExecutionMode.ALWAYS
