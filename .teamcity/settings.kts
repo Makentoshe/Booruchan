@@ -42,7 +42,9 @@ object InternalBuild : BuildType({
             name = "Default build"
             tasks = "clean build --info --debug"
             buildFile = "build.gradle"
+            jdkHome = "%env.JDK_18_x64%"
             useGradleWrapper = true
+            gradleWrapperPath = "gradle/wrapper/gradle-wrapper.jar"
         }
         script {
             name = "Clean before install"
