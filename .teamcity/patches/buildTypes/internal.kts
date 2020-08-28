@@ -36,11 +36,5 @@ changeBuildType(RelativeId("internal")) {
         add {
             matches("teamcity.agent.jvm.os.family", "Linux")
         }
-        add {
-            equals("teamcity.agent.jvm.os.name", "Linux", "RQ_5")
-        }
     }
-
-    expectDisabledSettings()
-    updateDisabledSettings("RQ_5")
 }
