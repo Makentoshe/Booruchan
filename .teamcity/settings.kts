@@ -1,10 +1,7 @@
-import jetbrains.buildServer.configs.kotlin.v2019_2.BuildStep
-import jetbrains.buildServer.configs.kotlin.v2019_2.BuildType
+import jetbrains.buildServer.configs.kotlin.v2019_2.*
 import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.gradle
 import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.script
-import jetbrains.buildServer.configs.kotlin.v2019_2.project
 import jetbrains.buildServer.configs.kotlin.v2019_2.vcs.GitVcsRoot
-import jetbrains.buildServer.configs.kotlin.v2019_2.version
 
 /*
 The settings script is an entry point for defining a TeamCity
@@ -31,19 +28,20 @@ To debug in IntelliJ Idea, open the 'Maven Projects' tool window (View
 version = "2020.1"
 
 project {
-    vcsRoot(BooruchanVcsRoot)
-    buildType(InternalBuild)
+
+    vcsRoot(Booruchan)
+
+    buildType(internal_1)
 }
 
-object InternalBuild : BuildType({
-    name = "Internal"
+object internal_1 : BuildType({
     id("internal")
+    name = "Internal"
 
     steps {
         gradle {
             name = "Default build"
             tasks = "clean build --info --debug"
-            buildFile = "build.gradle"
         }
         script {
             name = "Clean before install"
@@ -51,11 +49,12 @@ object InternalBuild : BuildType({
             scriptContent = "ls"
         }
     }
-
 })
 
-object BooruchanVcsRoot : GitVcsRoot({
-    name = "Github"
+object Booruchan : GitVcsRoot({
+    name = "Booruchan"
     url = "git@github.com:Makentoshe/Booruchan2.git"
-    authMethod = uploadedKey { uploadedKey = "id_rsa" }
+    authMethod = uploadedKey {
+        uploadedKey = "id_rsa"
+    }
 })
