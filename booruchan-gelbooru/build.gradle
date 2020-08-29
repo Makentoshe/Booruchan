@@ -10,7 +10,12 @@ repositories {
 }
 
 dependencies {
-    println(args.toList())
-    compile project(':booruchan-core')
+    // check should we request jar dependencies
+    if (project.hasProperty('modular')) {
+        implementation fileTree(dir: 'libs', include: ['*.jar'])
+    } else {
+        implementation project(':booruchan-core')
+    }
+
     implementation "org.jetbrains.kotlin:kotlin-stdlib"
 }
