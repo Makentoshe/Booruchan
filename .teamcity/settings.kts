@@ -69,7 +69,7 @@ object InternalBuild : BuildType({
         }
         gradle {
             name = "Gelbooru module build"
-            tasks = "clean :booruchan-gelbooru:build"
+            tasks = ":booruchan-gelbooru:build"
             gradleParams = "-Pmodular"
         }
         script {
