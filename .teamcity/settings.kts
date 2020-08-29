@@ -30,40 +30,48 @@ To debug in IntelliJ Idea, open the 'Maven Projects' tool window (View
 version = "2020.1"
 
 project {
+    vcsRoot(BooruchanVcsRoot)
     buildType(InternalBuild)
 }
 
 object InternalBuild : BuildType({
     name = "Internal"
+    id("internal")
 
     vcs {
-        root(GithubVcsRoot)
+        root(BooruchanVcsRoot)
     }
 
     steps {
-//        script {
-//            name = "Clean before install"
-//            executionMode = BuildStep.ExecutionMode.ALWAYS
-//            scriptContent = "ls"
-//        }
+        val coreJarDirectory = "./booruchan-core/build/libs"
+        val gelbooruLibDirectory = "./booruchan-gelbooru/libs"
+
         gradle {
             name = "Core module build"
-            tasks = ":booruchan-core:build"
+            tasks = "booruchan-core:build"
             buildFile = "build.gradle"
         }
         script {
-            name = "Deliver core binary to dependent modules"
-            scriptContent = "ls"
+            name = "Delivery core artifacts to dependent modules"
+            scriptContent = """
+                rm -rf $gelbooruLibDirectory
+                mkdir $gelbooruLibDirectory
+                cp -R $coreJarDirectory/* $gelbooruLibDirectory
+            """.trimIndent()
         }
-//        gradle {
-//            name = "Gelbooru module build"
-//            tasks = ":booruchan-gelbooru:build"
-//            gradleParams = "-Pmodular"
+//        script {
+//            name = "Debug check"
+//            scriptContent = "ls -R ./booruchan-gelbooru"
 //        }
+        gradle {
+            name = "Gelbooru module build"
+            tasks = "clean :booruchan-gelbooru:build"
+            gradleParams = "-Pmodular"
+        }
     }
 })
 
-object GithubVcsRoot : GitVcsRoot({
+object BooruchanVcsRoot : GitVcsRoot({
     name = "Github"
     url = "git@github.com:Makentoshe/Booruchan2.git"
     authMethod = uploadedKey { uploadedKey = "id_rsa" }
