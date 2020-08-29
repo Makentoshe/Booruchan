@@ -53,7 +53,7 @@ object InternalBuild : BuildType({
         gradle {
             name = "Core module build"
             tasks = "booruchan-core:build"
-            buildFile = "build.gradle"
+            buildFile = "build.gradle.kts"
         }
         script {
             name = "Debug check"
@@ -71,6 +71,7 @@ object InternalBuild : BuildType({
             name = "Gelbooru module build"
             tasks = ":booruchan-gelbooru:build"
             gradleParams = "-Pmodular"
+            buildFile = "build.gradle.kts"
         }
         script {
             name = "Debug check"
