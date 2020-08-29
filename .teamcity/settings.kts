@@ -1,7 +1,6 @@
 import jetbrains.buildServer.configs.kotlin.v2019_2.*
 import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.gradle
 import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.script
-import jetbrains.buildServer.configs.kotlin.v2019_2.vcs.GitVcsRoot
 
 /*
 The settings script is an entry point for defining a TeamCity
@@ -29,8 +28,6 @@ version = "2020.1"
 
 project {
 
-    vcsRoot(Booruchan)
-
     buildType(internal_1)
 }
 
@@ -48,13 +45,5 @@ object internal_1 : BuildType({
             executionMode = BuildStep.ExecutionMode.ALWAYS
             scriptContent = "ls"
         }
-    }
-})
-
-object Booruchan : GitVcsRoot({
-    name = "Booruchan"
-    url = "git@github.com:Makentoshe/Booruchan2.git"
-    authMethod = uploadedKey {
-        uploadedKey = "id_rsa"
     }
 })
