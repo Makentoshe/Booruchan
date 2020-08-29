@@ -1,4 +1,5 @@
 import jetbrains.buildServer.configs.kotlin.v2019_2.BuildType
+import jetbrains.buildServer.configs.kotlin.v2019_2.PublishMode
 import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.gradle
 import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.script
 import jetbrains.buildServer.configs.kotlin.v2019_2.project
@@ -38,6 +39,9 @@ object InternalBuild : BuildType({
     name = "Internal"
     id("internal")
 
+    publishArtifacts = PublishMode.ALWAYS
+    artifactRules = "./booruchan-core/build/libs/* => jars"
+
     vcs {
         root(BooruchanVcsRoot)
     }
@@ -52,21 +56,25 @@ object InternalBuild : BuildType({
             buildFile = "build.gradle"
         }
         script {
+            name = "Debug check"
+            scriptContent = "ls -R $coreJarDirectory"
+        }
+        script {
             name = "Delivery core artifacts to dependent modules"
             scriptContent = """
                 rm -rf $gelbooruLibDirectory
                 mkdir $gelbooruLibDirectory
-                cp -R $coreJarDirectory/* $gelbooruLibDirectory
+                cp -a $coreJarDirectory/. $gelbooruLibDirectory
             """.trimIndent()
         }
-//        script {
-//            name = "Debug check"
-//            scriptContent = "ls -R ./booruchan-gelbooru"
-//        }
         gradle {
             name = "Gelbooru module build"
             tasks = "clean :booruchan-gelbooru:build"
             gradleParams = "-Pmodular"
+        }
+        script {
+            name = "Debug check"
+            scriptContent = "ls -R $coreJarDirectory"
         }
     }
 })
