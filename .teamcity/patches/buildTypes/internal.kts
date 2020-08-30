@@ -3,6 +3,7 @@ package patches.buildTypes
 import jetbrains.buildServer.configs.kotlin.v2019_2.*
 import jetbrains.buildServer.configs.kotlin.v2019_2.buildFeatures.PullRequests
 import jetbrains.buildServer.configs.kotlin.v2019_2.buildFeatures.pullRequests
+import jetbrains.buildServer.configs.kotlin.v2019_2.triggers.vcs
 import jetbrains.buildServer.configs.kotlin.v2019_2.ui.*
 
 /*
@@ -11,6 +12,13 @@ To apply the patch, change the buildType with id = 'internal'
 accordingly, and delete the patch script.
 */
 changeBuildType(RelativeId("internal")) {
+    triggers {
+        add {
+            vcs {
+            }
+        }
+    }
+
     features {
         add {
             pullRequests {
