@@ -1,7 +1,7 @@
 package tag
 
-interface Type {
-    // todo make enum
-    val type: Any
+// todo should be implemented
+enum class Type {
+    UNDEFINED
 }
 
