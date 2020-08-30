@@ -4,6 +4,7 @@ build/
 
 # TeamCity files
 .teamcity/target
+!.teamcity/build/
 
 # IntelliJ IDEA files
 .idea/
