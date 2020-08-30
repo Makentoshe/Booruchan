@@ -1,10 +1,10 @@
-import jetbrains.buildServer.configs.kotlin.v2019_2.BuildType
-import jetbrains.buildServer.configs.kotlin.v2019_2.PublishMode
+import jetbrains.buildServer.configs.kotlin.v2019_2.*
+import jetbrains.buildServer.configs.kotlin.v2019_2.buildFeatures.PullRequests
+import jetbrains.buildServer.configs.kotlin.v2019_2.buildFeatures.pullRequests
 import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.gradle
 import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.script
-import jetbrains.buildServer.configs.kotlin.v2019_2.project
+import jetbrains.buildServer.configs.kotlin.v2019_2.triggers.vcs
 import jetbrains.buildServer.configs.kotlin.v2019_2.vcs.GitVcsRoot
-import jetbrains.buildServer.configs.kotlin.v2019_2.version
 
 /*
 The settings script is an entry point for defining a TeamCity
@@ -46,6 +46,10 @@ object InternalBuild : BuildType({
         root(BooruchanVcsRoot)
     }
 
+    triggers {
+        vcs { }
+    }
+
     steps {
         val coreJarDirectory = "./booruchan-core/build/libs"
         val gelbooruLibDirectory = "./booruchan-gelbooru/libs"
@@ -76,6 +80,20 @@ object InternalBuild : BuildType({
         script {
             name = "Debug check"
             scriptContent = "ls -R $coreJarDirectory"
+        }
+    }
+
+
+
+    features {
+        pullRequests {
+            vcsRootExtId = "${DslContext.settingsRoot.id}"
+            provider = github {
+                authType = token {
+                    token = "credentialsJSON:48aba3a6-9f18-45d4-9d8d-ec3744e9f450"
+                }
+                filterAuthorRole = PullRequests.GitHubRoleFilter.MEMBER
+            }
         }
     }
 })
