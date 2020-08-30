@@ -22,4 +22,11 @@ dependencies {
     }
 
     implementation("org.jetbrains.kotlin:kotlin-stdlib")
+
+    // Jsoup (xml parsing)
+    // https://jsoup.org/download
+    implementation("org.jsoup:jsoup:1.13.1")
+
+    // Junit 4 (testing framework)
+    implementation("junit:junit:4.12")
 }
