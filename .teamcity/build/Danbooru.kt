@@ -7,14 +7,14 @@ object Danbooru : PipelineBuild("Danbooru", {
     dependencies {
         snapshot(Core) {}
         artifacts(Core) {
-            artifactRules = "core/* => ./booruchan-danbooru/libs"
+            artifactRules = "core/* => ./danbooru/libs"
         }
     }
 
     steps {
         gradle {
             name = "$name module build"
-            tasks = ":booruchan-danbooru:build"
+            tasks = ":danbooru:build"
             gradleParams = "-Pmodular"
             buildFile = "build.gradle.kts"
         }

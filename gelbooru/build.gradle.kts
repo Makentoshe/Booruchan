@@ -3,7 +3,7 @@ plugins {
 }
 
 group = "com.makentoshe.booruchan.gelbooru"
-version = "1.0-SNAPSHOT"
+version = "1.0"
 
 repositories {
     mavenCentral()
@@ -18,7 +18,7 @@ dependencies {
         implementation(fileTree(mapOf("dir" to "libs", "include" to arrayOf("*.jar"))))
     } else {
         // for gradle/ide build
-        implementation(project(":booruchan-core"))
+        implementation(project(":core"))
     }
 
     implementation("org.jetbrains.kotlin:kotlin-stdlib")
