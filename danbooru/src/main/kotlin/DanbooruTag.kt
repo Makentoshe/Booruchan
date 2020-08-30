@@ -2,7 +2,8 @@ import tag.Tag
 import tag.Type
 
 data class DanbooruTag(
-    override val raw: Map<String, String>,
+    override val rawString: String,
+    override val rawMap: Map<String, String>,
     override val tagId: Int,
     override val text: String,
     override val type: Type,
