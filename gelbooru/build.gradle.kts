@@ -1,5 +1,6 @@
 plugins {
     id("org.jetbrains.kotlin.jvm")
+    kotlin("plugin.serialization") version "1.4.0"
 }
 
 group = "com.makentoshe.booruchan.gelbooru"
@@ -26,6 +27,11 @@ dependencies {
     // Jsoup (xml parsing)
     // https://jsoup.org/download
     implementation("org.jsoup:jsoup:1.13.1")
+
+    // Kotlinx Serialization (serialization plugin)
+    // https://github.com/Kotlin/kotlinx.serialization
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-core:1.0.0-RC")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-properties:1.0.0-RC")
 
     // Junit 4 (testing framework)
     implementation("junit:junit:4.12")

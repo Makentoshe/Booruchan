@@ -1,0 +1,702 @@
+[
+  {
+    "id": "960923",
+    "tag": "masaru_(pokemon)",
+    "count": "415",
+    "type": "character",
+    "ambiguous": "0"
+  },
+  {
+    "id": "912901",
+    "tag": "pokemon_swsh",
+    "count": "11647",
+    "type": "copyright",
+    "ambiguous": "0"
+  },
+  {
+    "id": "875834",
+    "tag": "creatures_(company)",
+    "count": "96842",
+    "type": "copyright",
+    "ambiguous": "0"
+  },
+  {
+    "id": "637877",
+    "tag": "mary_(pokemon)",
+    "count": "2767",
+    "type": "character",
+    "ambiguous": "0"
+  },
+  {
+    "id": "572631",
+    "tag": "artist_signature",
+    "count": "6",
+    "type": "tag",
+    "ambiguous": "0"
+  },
+  {
+    "id": "489378",
+    "tag": "twitter_username",
+    "count": "77547",
+    "type": "tag",
+    "ambiguous": "0"
+  },
+  {
+    "id": "309665",
+    "tag": "looking_at_another",
+    "count": "79414",
+    "type": "tag",
+    "ambiguous": "0"
+  },
+  {
+    "id": "306228",
+    "tag": "game_freak",
+    "count": "96953",
+    "type": "copyright",
+    "ambiguous": "0"
+  },
+  {
+    "id": "152532",
+    "tag": "1girl",
+    "count": "3520578",
+    "type": "tag",
+    "ambiguous": "0"
+  },
+  {
+    "id": "149999",
+    "tag": "pokemon_(game)",
+    "count": "83373",
+    "type": "copyright",
+    "ambiguous": "0"
+  },
+  {
+    "id": "138893",
+    "tag": "1boy",
+    "count": "730155",
+    "type": "tag",
+    "ambiguous": "1"
+  },
+  {
+    "id": "103570",
+    "tag": "black_jacket",
+    "count": "35741",
+    "type": "tag",
+    "ambiguous": "0"
+  },
+  {
+    "id": "73312",
+    "tag": "collared_shirt",
+    "count": "77535",
+    "type": "tag",
+    "ambiguous": "0"
+  },
+  {
+    "id": "66881",
+    "tag": "closed_eyes",
+    "count": "380091",
+    "type": "tag",
+    "ambiguous": "0"
+  },
+  {
+    "id": "49806",
+    "tag": "red_shirt",
+    "count": "16111",
+    "type": "tag",
+    "ambiguous": "0"
+  },
+  {
+    "id": "44106",
+    "tag": "nintendo",
+    "count": "221908",
+    "type": "copyright",
+    "ambiguous": "0"
+  },
+  {
+    "id": "43567",
+    "tag": "pokemon",
+    "count": "143277",
+    "type": "copyright",
+    "ambiguous": "1"
+  },
+  {
+    "id": "17158",
+    "tag": "beanie",
+    "count": "8834",
+    "type": "tag",
+    "ambiguous": "0"
+  },
+  {
+    "id": "5748",
+    "tag": "pink_dress",
+    "count": "21918",
+    "type": "tag",
+    "ambiguous": "0"
+  },
+  {
+    "id": "2563",
+    "tag": "nail_polish",
+    "count": "112863",
+    "type": "tag",
+    "ambiguous": "0"
+  },
+  {
+    "id": "2537",
+    "tag": "teeth",
+    "count": "148020",
+    "type": "tag",
+    "ambiguous": "0"
+  },
+  {
+    "id": "1999",
+    "tag": "shirt",
+    "count": "529963",
+    "type": "tag",
+    "ambiguous": "0"
+  },
+  {
+    "id": "1664",
+    "tag": "hug",
+    "count": "71383",
+    "type": "tag",
+    "ambiguous": "0"
+  },
+  {
+    "id": "1498",
+    "tag": "jacket",
+    "count": "244643",
+    "type": "tag",
+    "ambiguous": "0"
+  },
+  {
+    "id": "796",
+    "tag": "smile",
+    "count": "1427932",
+    "type": "tag",
+    "ambiguous": "0"
+  },
+  {
+    "id": "466",
+    "tag": "choker",
+    "count": "153624",
+    "type": "tag",
+    "ambiguous": "0"
+  },
+  {
+    "id": "337",
+    "tag": "brown_hair",
+    "count": "951679",
+    "type": "tag",
+    "ambiguous": "0"
+  },
+  {
+    "id": "123",
+    "tag": "dress",
+    "count": "596375",
+    "type": "tag",
+    "ambiguous": "1"
+  },
+  {
+    "id": "109",
+    "tag": "twintails",
+    "count": "554406",
+    "type": "tag",
+    "ambiguous": "0"
+  },
+  {
+    "id": "85",
+    "tag": "hat",
+    "count": "676066",
+    "type": "tag",
+    "ambiguous": "0"
+  },
+  {
+    "id": "67",
+    "tag": "blue_eyes",
+    "count": "1043501",
+    "type": "tag",
+    "ambiguous": "0"
+  },
+  {
+    "id": "66",
+    "tag": "black_hair",
+    "count": "826086",
+    "type": "tag",
+    "ambiguous": "1"
+  },
+  {
+    "id": "52",
+    "tag": "short_hair",
+    "count": "1316330",
+    "type": "tag",
+    "ambiguous": "1"
+  },
+  {
+    "id": "1020784",
+    "tag": "boyshort_panties",
+    "count": "299",
+    "type": "tag",
+    "ambiguous": "0"
+  },
+  {
+    "id": "499859",
+    "tag": "mystical",
+    "count": "194",
+    "type": "artist",
+    "ambiguous": "0"
+  },
+  {
+    "id": "354865",
+    "tag": "eevee_(cosplay)",
+    "count": "247",
+    "type": "tag",
+    "ambiguous": "0"
+  },
+  {
+    "id": "52372",
+    "tag": "tagme",
+    "count": "201415",
+    "type": "metadata",
+    "ambiguous": "0"
+  },
+  {
+    "id": "42924",
+    "tag": "purple_panties",
+    "count": "8914",
+    "type": "tag",
+    "ambiguous": "0"
+  },
+  {
+    "id": "960617",
+    "tag": "littorio_(the_glory_of_naples)_(azur_lane)",
+    "count": "9",
+    "type": "character",
+    "ambiguous": "0"
+  },
+  {
+    "id": "672943",
+    "tag": "jmg",
+    "count": "327",
+    "type": "artist",
+    "ambiguous": "0"
+  },
+  {
+    "id": "959145",
+    "tag": "giulio_cesare_(fitness_master)_(azur_lane)",
+    "count": "8",
+    "type": "character",
+    "ambiguous": "0"
+  },
+  {
+    "id": "880918",
+    "tag": "aioi_u",
+    "count": "45",
+    "type": "artist",
+    "ambiguous": "0"
+  },
+  {
+    "id": "416",
+    "tag": "open_clothes",
+    "count": "192850",
+    "type": "tag",
+    "ambiguous": "1"
+  },
+  {
+    "id": "240556",
+    "tag": "brown_shirt",
+    "count": "3277",
+    "type": "tag",
+    "ambiguous": "0"
+  },
+  {
+    "id": "42763",
+    "tag": "alternate_hairstyle",
+    "count": "50911",
+    "type": "tag",
+    "ambiguous": "0"
+  },
+  {
+    "id": "20101",
+    "tag": "sleeveless",
+    "count": "140262",
+    "type": "tag",
+    "ambiguous": "0"
+  },
+  {
+    "id": "5249",
+    "tag": "lips",
+    "count": "95257",
+    "type": "tag",
+    "ambiguous": "1"
+  },
+  {
+    "id": "264",
+    "tag": "brown_eyes",
+    "count": "568477",
+    "type": "tag",
+    "ambiguous": "0"
+  },
+  {
+    "id": "244",
+    "tag": "green_eyes",
+    "count": "495870",
+    "type": "tag",
+    "ambiguous": "1"
+  },
+  {
+    "id": "144",
+    "tag": "open_shirt",
+    "count": "81462",
+    "type": "tag",
+    "ambiguous": "0"
+  },
+  {
+    "id": "43898",
+    "tag": "alternate_costume",
+    "count": "155171",
+    "type": "tag",
+    "ambiguous": "1"
+  },
+  {
+    "id": "33975",
+    "tag": "looking_at_viewer",
+    "count": "1368257",
+    "type": "tag",
+    "ambiguous": "0"
+  },
+  {
+    "id": "265",
+    "tag": "long_hair",
+    "count": "2323345",
+    "type": "tag",
+    "ambiguous": "0"
+  },
+  {
+    "id": "913031",
+    "tag": "gujianshaonv",
+    "count": "5",
+    "type": "artist",
+    "ambiguous": "0"
+  },
+  {
+    "id": "1864",
+    "tag": "hair_ornament",
+    "count": "641412",
+    "type": "tag",
+    "ambiguous": "0"
+  },
+  {
+    "id": "1199",
+    "tag": "hairclip",
+    "count": "151450",
+    "type": "tag",
+    "ambiguous": "0"
+  },
+  {
+    "id": "1042074",
+    "tag": "cheshire_(summery_date!)_(azur_lane)",
+    "count": "37",
+    "type": "character",
+    "ambiguous": "0"
+  },
+  {
+    "id": "1031675",
+    "tag": "yyy_(zelda10010)",
+    "count": "6",
+    "type": "artist",
+    "ambiguous": "0"
+  },
+  {
+    "id": "380097",
+    "tag": "matsunaga_kouyou",
+    "count": "2352",
+    "type": "artist",
+    "ambiguous": "0"
+  },
+  {
+    "id": "24",
+    "tag": "tongue",
+    "count": "227917",
+    "type": "tag",
+    "ambiguous": "0"
+  },
+  {
+    "id": "151031",
+    "tag": "bed_sheet",
+    "count": "51202",
+    "type": "tag",
+    "ambiguous": "0"
+  },
+  {
+    "id": "97170",
+    "tag": "hair_clip",
+    "count": "13",
+    "type": "deprecated",
+    "ambiguous": "0"
+  },
+  {
+    "id": "38504",
+    "tag": "tongue_out",
+    "count": "149085",
+    "type": "tag",
+    "ambiguous": "0"
+  },
+  {
+    "id": "21585",
+    "tag": "ear",
+    "count": "446",
+    "type": "tag",
+    "ambiguous": "0"
+  },
+  {
+    "id": "14562",
+    "tag": "no_bra",
+    "count": "98169",
+    "type": "tag",
+    "ambiguous": "0"
+  },
+  {
+    "id": "6585",
+    "tag": "hand",
+    "count": "92",
+    "type": "tag",
+    "ambiguous": "0"
+  },
+  {
+    "id": "5496",
+    "tag": "saliva",
+    "count": "119541",
+    "type": "tag",
+    "ambiguous": "0"
+  },
+  {
+    "id": "1135",
+    "tag": "anus",
+    "count": "133443",
+    "type": "tag",
+    "ambiguous": "0"
+  },
+  {
+    "id": "1104",
+    "tag": "pussy_juice",
+    "count": "117556",
+    "type": "tag",
+    "ambiguous": "0"
+  },
+  {
+    "id": "1098",
+    "tag": "spread_anus",
+    "count": "7201",
+    "type": "tag",
+    "ambiguous": "0"
+  },
+  {
+    "id": "745",
+    "tag": "sweat",
+    "count": "352452",
+    "type": "tag",
+    "ambiguous": "0"
+  },
+  {
+    "id": "531",
+    "tag": "doggystyle",
+    "count": "36239",
+    "type": "tag",
+    "ambiguous": "1"
+  },
+  {
+    "id": "355",
+    "tag": "photoshop",
+    "count": "45373",
+    "type": "metadata",
+    "ambiguous": "0"
+  },
+  {
+    "id": "293",
+    "tag": "uncensored",
+    "count": "258453",
+    "type": "metadata",
+    "ambiguous": "0"
+  },
+  {
+    "id": "282",
+    "tag": "shirt_lift",
+    "count": "63467",
+    "type": "tag",
+    "ambiguous": "0"
+  },
+  {
+    "id": "272",
+    "tag": "bottomless",
+    "count": "113243",
+    "type": "tag",
+    "ambiguous": "0"
+  },
+  {
+    "id": "258",
+    "tag": "penis",
+    "count": "473775",
+    "type": "tag",
+    "ambiguous": "1"
+  },
+  {
+    "id": "251",
+    "tag": "vaginal",
+    "count": "234402",
+    "type": "tag",
+    "ambiguous": "0"
+  },
+  {
+    "id": "250",
+    "tag": "sex",
+    "count": "342374",
+    "type": "tag",
+    "ambiguous": "0"
+  },
+  {
+    "id": "248",
+    "tag": "pussy",
+    "count": "442765",
+    "type": "tag",
+    "ambiguous": "0"
+  },
+  {
+    "id": "163",
+    "tag": "tears",
+    "count": "226442",
+    "type": "tag",
+    "ambiguous": "0"
+  },
+  {
+    "id": "118",
+    "tag": "original",
+    "count": "600883",
+    "type": "copyright",
+    "ambiguous": "1"
+  },
+  {
+    "id": "92",
+    "tag": "blush",
+    "count": "1874572",
+    "type": "tag",
+    "ambiguous": "0"
+  },
+  {
+    "id": "166461",
+    "tag": "cum_in_pussy",
+    "count": "120358",
+    "type": "tag",
+    "ambiguous": "0"
+  },
+  {
+    "id": "33146",
+    "tag": "cum_on_back",
+    "count": "123",
+    "type": "tag",
+    "ambiguous": "0"
+  },
+  {
+    "id": "28",
+    "tag": "cum",
+    "count": "329179",
+    "type": "tag",
+    "ambiguous": "1"
+  },
+  {
+    "id": "1045643",
+    "tag": "nalai",
+    "count": "4",
+    "type": "tag",
+    "ambiguous": "0"
+  },
+  {
+    "id": "1027082",
+    "tag": "don-chan_(hololive)",
+    "count": "228",
+    "type": "character",
+    "ambiguous": "0"
+  },
+  {
+    "id": "947403",
+    "tag": "usada_pekora",
+    "count": "1003",
+    "type": "character",
+    "ambiguous": "0"
+  },
+  {
+    "id": "865663",
+    "tag": "hololive",
+    "count": "11359",
+    "type": "copyright",
+    "ambiguous": "0"
+  },
+  {
+    "id": "707037",
+    "tag": "death_stranding",
+    "count": "134",
+    "type": "copyright",
+    "ambiguous": "0"
+  },
+  {
+    "id": "671200",
+    "tag": "food_themed_hair_ornament",
+    "count": "4627",
+    "type": "tag",
+    "ambiguous": "0"
+  },
+  {
+    "id": "47252",
+    "tag": "character_request",
+    "count": "61824",
+    "type": "metadata",
+    "ambiguous": "0"
+  },
+  {
+    "id": "3592",
+    "tag": "orange_eyes",
+    "count": "66473",
+    "type": "tag",
+    "ambiguous": "0"
+  },
+  {
+    "id": "2831",
+    "tag": "braid",
+    "count": "273807",
+    "type": "tag",
+    "ambiguous": "0"
+  },
+  {
+    "id": "2473",
+    "tag": "thumbs_up",
+    "count": "5525",
+    "type": "tag",
+    "ambiguous": "0"
+  },
+  {
+    "id": "368",
+    "tag": "bunny_ears",
+    "count": "98114",
+    "type": "tag",
+    "ambiguous": "0"
+  },
+  {
+    "id": "262",
+    "tag": "highres",
+    "count": "2144087",
+    "type": "metadata",
+    "ambiguous": "0"
+  },
+  {
+    "id": "153",
+    "tag": "animal_ears",
+    "count": "462313",
+    "type": "tag",
+    "ambiguous": "0"
+  },
+  {
+    "id": "47",
+    "tag": "blue_hair",
+    "count": "469025",
+    "type": "tag",
+    "ambiguous": "1"
+  }
+]
