@@ -1,4 +1,6 @@
-import post.*
+package post
+
+import Time
 
 // should be checked later again
 // todo was not completed
@@ -46,10 +48,10 @@ data class DanbooruPost(
     val tagStringCopyright: String,
     val tagStringArtist: String,
     val tagStringMeta: String,
-    override val rating: String,
+    val hasChildren: Boolean,
+    override val rating: Rating,
     override val source: String,
     override val hasComments: Boolean,
-    override val hasChildren: Boolean,
     override val previewImage: PreviewImage,
     override val sampleImage: SampleImage
 ) : Post
