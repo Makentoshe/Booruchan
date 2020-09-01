@@ -33,6 +33,10 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-core:1.0.0-RC")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-properties:1.0.0-RC")
 
+    val ktorVersion = "1.4.0"
+    implementation("io.ktor:ktor-client-core:$ktorVersion")
+    implementation("io.ktor:ktor-client-okhttp:$ktorVersion")
+
     // Junit 4 (testing framework)
     implementation("junit:junit:4.12")
 }
