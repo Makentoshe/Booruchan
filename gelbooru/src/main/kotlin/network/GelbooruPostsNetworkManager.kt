@@ -14,14 +14,14 @@ abstract class GelbooruPostsNetworkManager<in Request : GelbooruPostsRequest, ou
         return client.get(ktorRequestBuilder)
     }
 
-    abstract suspend fun posts(request: Request): Response
+    abstract suspend fun getPosts(request: Request): Response
 }
 
 class XmlGelbooruPostsNetworkManager(
     client: HttpClient
 ) : GelbooruPostsNetworkManager<GelbooruPostsRequest.Xml, XmlGelbooruPostsResponse>(client) {
 
-    override suspend fun posts(request: GelbooruPostsRequest.Xml): XmlGelbooruPostsResponse = try {
+    override suspend fun getPosts(request: GelbooruPostsRequest.Xml): XmlGelbooruPostsResponse = try {
         XmlGelbooruPostsResponse.Success(internalPosts(request).receive())
     } catch (e: Exception) {
         XmlGelbooruPostsResponse.Failure(e)
@@ -31,7 +31,7 @@ class XmlGelbooruPostsNetworkManager(
 class JsonGelbooruPostsNetworkManager(
     client: HttpClient
 ) : GelbooruPostsNetworkManager<GelbooruPostsRequest.Json, JsonGelbooruPostsResponse>(client) {
-    override suspend fun posts(request: GelbooruPostsRequest.Json): JsonGelbooruPostsResponse = try {
+    override suspend fun getPosts(request: GelbooruPostsRequest.Json): JsonGelbooruPostsResponse = try {
         JsonGelbooruPostsResponse.Success(internalPosts(request).receive())
     } catch (e: Exception) {
         JsonGelbooruPostsResponse.Failure(e)
