@@ -1,6 +1,5 @@
 package post
 
-interface Rating {
-    // todo make enum
-    val rating: String
+enum class Rating {
+    SAFE, EXPLICIT, QUESTIONABLE;
 }
