@@ -1,4 +1,4 @@
-package network
+package post.network
 
 import io.ktor.client.*
 import io.ktor.client.call.*

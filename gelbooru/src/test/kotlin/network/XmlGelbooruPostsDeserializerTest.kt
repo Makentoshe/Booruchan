@@ -1,7 +1,9 @@
 package network
 
-import org.junit.Assert
+import org.junit.Assert.assertEquals
 import org.junit.Test
+import post.XmlGelbooruPostsDeserializer
+import post.network.XmlGelbooruPostsResponse
 
 class XmlGelbooruPostsDeserializerTest {
 
@@ -10,8 +12,8 @@ class XmlGelbooruPostsDeserializerTest {
         val xml = javaClass.classLoader.getResource("posts.xml")!!.readText()
         val posts = XmlGelbooruPostsDeserializer().deserializePosts(XmlGelbooruPostsResponse.Success(xml))
 
-        Assert.assertEquals(5171560, posts.count)
-        Assert.assertEquals(0, posts.offset)
-        Assert.assertEquals(10, posts.posts.size)
+        assertEquals(5171560, posts.count)
+        assertEquals(0, posts.offset)
+        assertEquals(10, posts.posts.size)
     }
 }

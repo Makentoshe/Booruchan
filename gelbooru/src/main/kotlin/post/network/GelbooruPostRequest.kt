@@ -1,4 +1,4 @@
-package network
+package post.network
 
 import post.PostId
 

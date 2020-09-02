@@ -1,4 +1,4 @@
-package network
+package post.network
 
 interface GelbooruPostsResponse {
     interface Success : GelbooruPostsResponse {

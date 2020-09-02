@@ -6,25 +6,14 @@ import org.junit.Ignore
 import org.junit.Test
 import post.network.GelbooruPostsRequest
 import post.network.JsonGelbooruPostsNetworkManager
-import post.network.XmlGelbooruPostsNetworkManager
 
-class XmlGelbooruPostsNetworkManagerTest {
-
-    @Test
-    @Ignore("real api")
-    fun xml() = runBlocking {
-        val request = GelbooruPostsRequest.Xml(10)
-        val response = XmlGelbooruPostsNetworkManager(HttpClient()).getPosts(request)
-
-        println(response)
-    }
+class JsonGelbooruPostsNetworkManagerTest {
 
     @Test
     @Ignore("real api")
-    fun json() = runBlocking {
+    fun `should request json posts`() = runBlocking {
         val request = GelbooruPostsRequest.Json()
         val response = JsonGelbooruPostsNetworkManager(HttpClient()).getPosts(request)
         println(response)
     }
 }
-
