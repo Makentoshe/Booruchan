@@ -6,7 +6,7 @@ class JsonGelbooruTagDeserializerTest {
 
     @Test
     fun `should deserialize single tag`() {
-        val json = javaClass.classLoader.getResource("single_tag.json")!!.readText()
+        val json = javaClass.classLoader.getResource("tag.json")!!.readText()
         val tag = JsonGelbooruTagDeserializer().deserialize(json)
 
         assertEquals(1, tag.tagId)
