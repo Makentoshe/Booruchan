@@ -26,13 +26,16 @@ dependencies {
 
     // Jsoup (xml parsing)
     // https://jsoup.org/download
-    implementation("org.jsoup:jsoup:1.13.1")
+    val jsoupVersion = "1.13.1"
+    implementation("org.jsoup:jsoup:$jsoupVersion")
 
     // Kotlinx Serialization (serialization plugin)
     // https://github.com/Kotlin/kotlinx.serialization
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-core:1.0.0-RC")
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-properties:1.0.0-RC")
+    val kotlinxSerializationVersion = "1.0.0-RC"
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-core:$kotlinxSerializationVersion")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-properties:$kotlinxSerializationVersion")
 
+    // Ktor (http client)
     val ktorVersion = "1.4.0"
     implementation("io.ktor:ktor-client-core:$ktorVersion")
     implementation("io.ktor:ktor-client-okhttp:$ktorVersion")
