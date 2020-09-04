@@ -35,4 +35,5 @@ project {
     buildType(Core)
     buildType(Gelbooru)
     buildType(Danbooru)
+    buildType(DanbooruApiCheck)
 }

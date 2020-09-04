@@ -2,7 +2,7 @@ plugins {
     id("org.jetbrains.kotlin.jvm")
 }
 
-group = "com.makentoshe.booruchan"
+group = "com.makentoshe.booruchan.danbooru.apicheck"
 version = "1.0"
 
 repositories {
