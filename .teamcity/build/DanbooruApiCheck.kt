@@ -1,5 +1,7 @@
 package build
 
+import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.gradle
+
 /**
  * Checks Danbooru's real api to be sure, that is all works properly
  * */
