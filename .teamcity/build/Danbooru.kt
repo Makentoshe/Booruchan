@@ -4,6 +4,9 @@ import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.gradle
 
 object Danbooru : PipelineBuild("Danbooru", {
 
+    publishArtifacts = PublishMode.SUCCESSFUL
+    artifactRules = "./danbooru/build/libs/* => danbooru"
+
     dependencies {
         snapshot(Core) {}
         artifacts(Core) {

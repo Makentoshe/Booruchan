@@ -31,7 +31,6 @@ version = "2020.1"
 
 project {
     vcsRoot(BooruchanVcsRoot)
-//    buildType(InternalBuild)
 
     buildType(Core)
     buildType(Gelbooru)
