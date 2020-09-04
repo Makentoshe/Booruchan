@@ -18,4 +18,9 @@ class JsonDanbooruPostNetworkManagerTest {
         println(response)
     }
 
+    @Test
+    fun test() {
+        println("---------------------------------------------------------------------------- lol")
+    }
+
 }
