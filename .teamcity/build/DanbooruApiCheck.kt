@@ -18,7 +18,7 @@ object DanbooruApiCheck: PipelineBuild("Danbooru api check", {
     steps {
         gradle {
             name = "$name module api check"
-            tasks = ":danbooru-test-api:build"
+            tasks = ":danbooru-api-check:build"
             gradleParams = "-Pmodular"
             buildFile = "build.gradle.kts"
         }
