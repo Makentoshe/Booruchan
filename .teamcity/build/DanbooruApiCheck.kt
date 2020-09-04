@@ -10,7 +10,7 @@ object DanbooruApiCheck : PipelineBuild("Danbooru api check", {
     dependencies {
         snapshot(Core) {}
         artifacts(Core) {
-            artifactRules = "core/* => ./danbooru/libs"
+            artifactRules = "core/* => ./danbooru-test-api/libs"
         }
         snapshot(Danbooru) {}
         artifacts(Danbooru) {
