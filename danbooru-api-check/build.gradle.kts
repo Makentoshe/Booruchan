@@ -39,5 +39,5 @@ tasks.test.configure {
     // for ci/cd: this should be managed by build system.
     // we should disable tests by default (ide), because the REAL api will invoked each build
     // and may cause accident DDoS
-    enabled = !project.hasProperty("modular")
+    enabled = project.hasProperty("modular")
 }
