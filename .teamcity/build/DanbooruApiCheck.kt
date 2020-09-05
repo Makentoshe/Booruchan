@@ -5,7 +5,7 @@ import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.gradle
 /**
  * Checks Danbooru's real api to be sure, that is all works properly
  * */
-object DanbooruApiCheck : PipelineBuild("Danbooru api check", {
+object DanbooruApiCheck : PipelineBuildDaily("Danbooru api check", 0, 0, {
 
     dependencies {
         snapshot(Core) {}
