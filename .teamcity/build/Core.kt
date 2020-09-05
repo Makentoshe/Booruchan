@@ -3,7 +3,7 @@ package build
 import jetbrains.buildServer.configs.kotlin.v2019_2.PublishMode
 import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.gradle
 
-object Core : PipelineBuild("Core", {
+object Core : PipelineBuildVcs("Core", {
 
     publishArtifacts = PublishMode.SUCCESSFUL
     artifactRules = "./core/build/libs/* => core"

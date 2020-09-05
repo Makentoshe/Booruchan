@@ -1,7 +1,6 @@
 package build
 
 import jetbrains.buildServer.configs.kotlin.v2019_2.BuildType
-import jetbrains.buildServer.configs.kotlin.v2019_2.triggers.vcs
 import vcs.BooruchanVcsRoot
 
 abstract class PipelineBuild(name: String, init: BuildType.() -> Unit) : BuildType({
@@ -10,10 +9,6 @@ abstract class PipelineBuild(name: String, init: BuildType.() -> Unit) : BuildTy
     // A VCS Root is a set of settings defining how TeamCity communicates with a version control system to
     // monitor changes and get sources of a build
     vcs { root(BooruchanVcsRoot) }
-
-    // Triggers are used to add builds to the queue either when an event occurs (like a VCS check-in)
-    // or periodically with some configurable interval
-    triggers { vcs { } }
 
     init()
 })

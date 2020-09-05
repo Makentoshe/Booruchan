@@ -10,18 +10,18 @@ object DanbooruApiCheck : PipelineBuild("Danbooru api check", {
     dependencies {
         snapshot(Core) {}
         artifacts(Core) {
-            artifactRules = "core/* => ./danbooru-test-api/libs"
+            artifactRules = "core/* => ./danbooru-api-check/libs"
         }
         snapshot(Danbooru) {}
         artifacts(Danbooru) {
-            artifactRules = "danbooru/* => ./danbooru-test-api/libs"
+            artifactRules = "danbooru/* => ./danbooru-api-check/libs"
         }
     }
 
     steps {
         gradle {
             name = "$name module api check"
-            tasks = ":danbooru-api-check:build"
+            tasks = ":danbooru-api-check:build --info"
             gradleParams = "-Pmodular"
             buildFile = "build.gradle.kts"
         }

@@ -3,7 +3,7 @@ package build
 import jetbrains.buildServer.configs.kotlin.v2019_2.PublishMode
 import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.gradle
 
-object Gelbooru : PipelineBuild("Gelbooru", {
+object Gelbooru : PipelineBuildVcs("Gelbooru", {
 
     publishArtifacts = PublishMode.SUCCESSFUL
     artifactRules = "./gelbooru/build/libs/* => gelbooru"

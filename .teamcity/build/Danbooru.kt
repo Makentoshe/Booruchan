@@ -6,7 +6,7 @@ import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.gradle
 /**
  * Builds and unit tests api tools for Danbooru
  * */
-object Danbooru : PipelineBuild("Danbooru", {
+object Danbooru : PipelineBuildVcs("Danbooru", {
 
     publishArtifacts = PublishMode.SUCCESSFUL
     artifactRules = "./danbooru/build/libs/* => danbooru"
