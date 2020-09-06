@@ -1,6 +1,6 @@
 plugins {
     id("org.jetbrains.kotlin.jvm")
-    kotlin("plugin.serialization") version "1.4.0"
+    kotlin("plugin.serialization") version "1.3.72"
 }
 
 group = "com.makentoshe.booruchan.danbooru"
@@ -29,6 +29,12 @@ dependencies {
     // https://jsoup.org/download
     val jsoupVersion = "1.13.1"
     implementation("org.jsoup:jsoup:$jsoupVersion")
+
+    // Jackson (xml parsing)
+    // https://github.com/FasterXML/jackson
+    val jacksonVersion = "2.11.2"
+    implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-xml:$jacksonVersion")
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonVersion")
 
     // Kotlinx Serialization (serialization plugin)
     // https://github.com/Kotlin/kotlinx.serialization
