@@ -2,6 +2,7 @@ package post
 
 import Time
 import com.fasterxml.jackson.annotation.JsonIgnore
+import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement
 import text
@@ -51,43 +52,125 @@ interface DanbooruPost : PostId {
 }
 
 data class JsonDanbooruPost(
+    @JsonProperty("id")
+    override val postId: Int,
+    @JsonProperty("score")
     override val score: Int,
+    @JsonProperty("down_score")
     override val downScore: Int,
+    @JsonProperty("up_score")
     override val upScore: Int,
-    override val creationTime: Time,
-    override val updationTime: Time?,
-    override val fullImage: FullImage,
-    override val sampleImage: SampleImage,
-    override val previewImage: PreviewImage,
+    @JsonProperty("created_at")
+    val rawCreationTime: String,
+    @JsonProperty("updated_at")
+    val rawUpdationTime: String?,
+    @JsonProperty("last_comment_bumped_at")
+    val rawLastCommentBumpTime: String?,
+    @JsonProperty("last_commented_at")
+    val rawLastCommentTime: String?,
+    @JsonProperty("last_noted_at")
+    val rawLastNoteTime: String?,
+    @JsonProperty("uploader_id")
     override val uploaderId: Int,
+    @JsonProperty("approver_id")
     override val approverId: Int?,
+    @JsonProperty("bit_flags")
     override val bitFlags: Int,
+    @JsonProperty("fav_count")
     override val favCount: Int,
+    @JsonProperty("file_size")
     override val fileSize: Int,
-    override val lastCommentBumpTime: Time?,
-    override val lastCommentTime: Time?,
-    override val lastNoteTime: Time?,
-    override val parentId: Int,
-    override val pixivId: Int,
-    override val poolString: String,
+    @JsonProperty("file_ext")
+    val fileExtension: String,
+    @JsonProperty("parent_id")
+    override val parentId: Int?,
+    @JsonProperty("pixiv_id")
+    override val pixivId: Int?,
+    @JsonProperty("pool_string")
+    override val poolString: String?,
+    @JsonProperty("md5")
     override val md5: String,
-    override val rating: Rating,
-    override val source: String,
-    override val tags: Tags,
+    @JsonProperty("rating")
+    val rawRating: String,
+    @JsonProperty("source")
+    override val source: String?,
+    @JsonProperty("is_banned")
     override val isBanned: Boolean,
+    @JsonProperty("is_deleted")
     override val isDeleted: Boolean,
+    @JsonProperty("is_favorited")
     override val isFavorited: Boolean,
+    @JsonProperty("is_flagged")
     override val isFlagged: Boolean,
+    @JsonProperty("is_note_locked")
     override val isNoteLocked: Boolean,
+    @JsonProperty("is_pending")
     override val isPending: Boolean,
+    @JsonProperty("is_rating_locked")
     override val isRatingLocked: Boolean,
+    @JsonProperty("is_status_locked")
     override val isStatusLocked: Boolean,
+    @JsonProperty("has_large")
     override val hasLarge: Boolean,
+    @JsonProperty("has_children")
     override val hasChildren: Boolean,
+    @JsonProperty("has_active_children")
     override val hasActiveChildren: Boolean,
+    @JsonProperty("has_visible_children")
     override val hasVisibleChildren: Boolean,
-    override val postId: Int
-) : DanbooruPost
+    @JsonProperty("tag_string")
+    val tagString: String,
+    @JsonProperty("tag_count_general")
+    val tagCountGeneral: Int,
+    @JsonProperty("tag_count_artist")
+    val tagCountArtist: Int,
+    @JsonProperty("tag_count_character")
+    val tagCountCharacter: Int,
+    @JsonProperty("tag_count_copyright")
+    val tagCountCopyright: Int,
+    @JsonProperty("tag_count_meta")
+    val tagCountMeta: Int,
+    @JsonProperty("tag_count")
+    val tagCount: Int,
+    @JsonProperty("tag_string_general")
+    val tagStringGeneral: String?,
+    @JsonProperty("tag_string_character")
+    val tagStringCharacter: String?,
+    @JsonProperty("tag_string_copyright")
+    val tagStringCopyright: String?,
+    @JsonProperty("tag_string_artist")
+    val tagStringArtist: String?,
+    @JsonProperty("tag_string_meta")
+    val tagStringMeta: String?,
+    @JsonProperty("image_width")
+    val imageWidth: Int,
+    @JsonProperty("image_height")
+    val imageHeight: Int,
+    @JsonProperty("large_file_url")
+    val fileUrl: String,
+    @JsonProperty("file_url")
+    val sampleUrl: String,
+    @JsonProperty("preview_file_url")
+    val previewUrl: String
+) : DanbooruPost {
+    override val creationTime = time(rawCreationTime)
+    override val updationTime = rawUpdationTime?.let(::time)
+    override val lastNoteTime = rawLastNoteTime?.let(::time)
+    override val lastCommentTime = rawLastCommentTime?.let(::time)
+    override val lastCommentBumpTime = rawLastCommentBumpTime?.let(::time)
+    override val tags = tags(tagString.split(" ").map(::text).toSet())
+    override val previewImage = previewImage(previewUrl)
+    override val sampleImage = sampleImage(sampleUrl)
+    override val fullImage = fullImage(fileUrl, imageHeight, imageWidth)
+
+    @JsonIgnore
+    override val rating = when (rawRating) {
+        "q" -> Rating.QUESTIONABLE
+        "e" -> Rating.EXPLICIT
+        "s" -> Rating.SAFE
+        else -> error("Could not define $rawRating rating")
+    }
+}
 
 @JacksonXmlRootElement(localName = "post")
 data class XmlDanbooruPost(
