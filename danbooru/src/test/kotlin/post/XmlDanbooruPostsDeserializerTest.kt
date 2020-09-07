@@ -1,6 +1,6 @@
 package post
 
-import org.junit.Assert
+import org.junit.Assert.assertEquals
 import org.junit.Test
 import post.network.XmlDanbooruPostsResponse
 
@@ -11,6 +11,6 @@ class XmlDanbooruPostsDeserializerTest {
         val xml = javaClass.classLoader.getResource("posts.xml")!!.readText()
         val posts = XmlDanbooruPostsDeserializer().deserializePosts(XmlDanbooruPostsResponse.Success(xml))
 
-        Assert.assertEquals(20, posts.posts.size)
+        assertEquals(20, posts.posts.size)
     }
 }
