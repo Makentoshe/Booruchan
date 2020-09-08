@@ -8,7 +8,9 @@ import io.ktor.client.*
 import kotlinx.coroutines.runBlocking
 import org.codehaus.stax2.XMLInputFactory2
 import org.codehaus.stax2.XMLOutputFactory2
+import org.junit.Rule
 import org.junit.Test
+import org.junit.rules.Timeout
 import tag.entity.tagId
 import tag.network.DanbooruTagFilter
 import tag.network.DanbooruTagRequest
@@ -16,6 +18,9 @@ import tag.network.DanbooruTagResponse
 import tag.network.XmlDanbooruTagNetworkManager
 
 class XmlDanbooruTagNetworkManagerTest {
+
+    @get:Rule
+    val globalTimeout: Timeout = Timeout.seconds(30)
 
     @Test
     fun `should request xml tag`() = runBlocking {
