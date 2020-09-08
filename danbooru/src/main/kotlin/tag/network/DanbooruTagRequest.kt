@@ -1,16 +1,22 @@
 package tag.network
 
-import tag.entity.TagId
-
 sealed class DanbooruTagRequest {
+
+    protected val host = "https://danbooru.donmai.us"
 
     abstract val url: String
 
-    data class Xml(val tagId: TagId) : DanbooruTagRequest() {
-        override val url = "https://danbooru.donmai.us/tag/${tagId.tagId}.xml"
+    data class Xml(private val filter: DanbooruTagFilter) : DanbooruTagRequest() {
+        override val url = when (filter) {
+            is DanbooruTagFilter.ById -> "$host/tag/${filter.id}.xml"
+            is DanbooruTagFilter.ByName -> "$host/tags.xml?search[name]=${filter.name}"
+        }
     }
 
-    data class Json(val tagId: TagId) : DanbooruTagRequest() {
-        override val url = "https://danbooru.donmai.us/tag/${tagId.tagId}.json"
+    data class Json(private val filter: DanbooruTagFilter) : DanbooruTagRequest() {
+        override val url = when (filter) {
+            is DanbooruTagFilter.ById -> "$host/tag/${filter.id}.json"
+            is DanbooruTagFilter.ByName -> "$host/tags.json?search[name]=${filter.name}"
+        }
     }
 }
