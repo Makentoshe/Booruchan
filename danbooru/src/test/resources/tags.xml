@@ -1,0 +1,182 @@
+<tags type="array">
+    <tag>
+        <id type="integer">1593450</id>
+        <name>tagawa_katsuya</name>
+        <post-count type="integer">7</post-count>
+        <category type="integer">4</category>
+        <created-at type="dateTime">2020-09-08T11:51:56-04:00</created-at>
+        <updated-at type="dateTime">2020-09-08T11:51:56-04:00</updated-at>
+        <is-locked type="boolean">false</is-locked>
+    </tag>
+    <tag>
+        <id type="integer">1593449</id>
+        <name>venoir</name>
+        <post-count type="integer">1</post-count>
+        <category type="integer">1</category>
+        <created-at type="dateTime">2020-09-08T11:48:17-04:00</created-at>
+        <updated-at type="dateTime">2020-09-08T11:48:17-04:00</updated-at>
+        <is-locked type="boolean">false</is-locked>
+    </tag>
+    <tag>
+        <id type="integer">1593448</id>
+        <name>tartini_(sid_story)</name>
+        <post-count type="integer">3</post-count>
+        <category type="integer">4</category>
+        <created-at type="dateTime">2020-09-08T11:42:55-04:00</created-at>
+        <updated-at type="dateTime">2020-09-08T11:42:55-04:00</updated-at>
+        <is-locked type="boolean">false</is-locked>
+    </tag>
+    <tag>
+        <id type="integer">1593447</id>
+        <name>psycho_(psycho12412087)</name>
+        <post-count type="integer">1</post-count>
+        <category type="integer">1</category>
+        <created-at type="dateTime">2020-09-08T11:38:43-04:00</created-at>
+        <updated-at type="dateTime">2020-09-08T11:38:43-04:00</updated-at>
+        <is-locked type="boolean">false</is-locked>
+    </tag>
+    <tag>
+        <id type="integer">1593446</id>
+        <name>aashindo_(doubutsu_no_mori)</name>
+        <post-count type="integer">1</post-count>
+        <category type="integer">4</category>
+        <created-at type="dateTime">2020-09-08T11:29:44-04:00</created-at>
+        <updated-at type="dateTime">2020-09-08T11:29:52-04:00</updated-at>
+        <is-locked type="boolean">false</is-locked>
+    </tag>
+    <tag>
+        <id type="integer">1593445</id>
+        <name>togata_maki</name>
+        <post-count type="integer">1</post-count>
+        <category type="integer">1</category>
+        <created-at type="dateTime">2020-09-08T11:22:54-04:00</created-at>
+        <updated-at type="dateTime">2020-09-08T11:22:54-04:00</updated-at>
+        <is-locked type="boolean">false</is-locked>
+    </tag>
+    <tag>
+        <id type="integer">1593444</id>
+        <name>tooizumi_manatsu</name>
+        <post-count type="integer">1</post-count>
+        <category type="integer">4</category>
+        <created-at type="dateTime">2020-09-08T11:22:54-04:00</created-at>
+        <updated-at type="dateTime">2020-09-08T11:22:54-04:00</updated-at>
+        <is-locked type="boolean">false</is-locked>
+    </tag>
+    <tag>
+        <id type="integer">1593443</id>
+        <name>aizawa_fumiki</name>
+        <post-count type="integer">1</post-count>
+        <category type="integer">4</category>
+        <created-at type="dateTime">2020-09-08T11:22:54-04:00</created-at>
+        <updated-at type="dateTime">2020-09-08T11:22:54-04:00</updated-at>
+        <is-locked type="boolean">false</is-locked>
+    </tag>
+    <tag>
+        <id type="integer">1593442</id>
+        <name>ame_no_hi_mo_kami-sama_to_sumou_wo</name>
+        <post-count type="integer">1</post-count>
+        <category type="integer">3</category>
+        <created-at type="dateTime">2020-09-08T11:22:54-04:00</created-at>
+        <updated-at type="dateTime">2020-09-08T11:22:54-04:00</updated-at>
+        <is-locked type="boolean">false</is-locked>
+    </tag>
+    <tag>
+        <id type="integer">1593440</id>
+        <name>komugikokonko</name>
+        <post-count type="integer">1</post-count>
+        <category type="integer">1</category>
+        <created-at type="dateTime">2020-09-08T11:01:34-04:00</created-at>
+        <updated-at type="dateTime">2020-09-08T11:01:34-04:00</updated-at>
+        <is-locked type="boolean">false</is-locked>
+    </tag>
+    <tag>
+        <id type="integer">1593439</id>
+        <name>mandu</name>
+        <post-count type="integer">1</post-count>
+        <category type="integer">1</category>
+        <created-at type="dateTime">2020-09-08T10:52:59-04:00</created-at>
+        <updated-at type="dateTime">2020-09-08T10:52:59-04:00</updated-at>
+        <is-locked type="boolean">false</is-locked>
+    </tag>
+    <tag>
+        <id type="integer">1593438</id>
+        <name>radeon_vii</name>
+        <post-count type="integer">2</post-count>
+        <category type="integer">0</category>
+        <created-at type="dateTime">2020-09-08T10:51:08-04:00</created-at>
+        <updated-at type="dateTime">2020-09-08T10:51:08-04:00</updated-at>
+        <is-locked type="boolean">false</is-locked>
+    </tag>
+    <tag>
+        <id type="integer">1593436</id>
+        <name>obakekowatarou</name>
+        <post-count type="integer">1</post-count>
+        <category type="integer">1</category>
+        <created-at type="dateTime">2020-09-08T10:38:11-04:00</created-at>
+        <updated-at type="dateTime">2020-09-08T10:38:11-04:00</updated-at>
+        <is-locked type="boolean">false</is-locked>
+    </tag>
+    <tag>
+        <id type="integer">1593435</id>
+        <name>fairy_godmother_(grimms_echoes)</name>
+        <post-count type="integer">1</post-count>
+        <category type="integer">4</category>
+        <created-at type="dateTime">2020-09-08T10:28:30-04:00</created-at>
+        <updated-at type="dateTime">2020-09-08T10:28:30-04:00</updated-at>
+        <is-locked type="boolean">false</is-locked>
+    </tag>
+    <tag>
+        <id type="integer">1593434</id>
+        <name>sunflower_earrings</name>
+        <post-count type="integer">1</post-count>
+        <category type="integer">0</category>
+        <created-at type="dateTime">2020-09-08T10:23:18-04:00</created-at>
+        <updated-at type="dateTime">2020-09-08T10:23:18-04:00</updated-at>
+        <is-locked type="boolean">false</is-locked>
+    </tag>
+    <tag>
+        <id type="integer">1593433</id>
+        <name>ninochi</name>
+        <post-count type="integer">1</post-count>
+        <category type="integer">1</category>
+        <created-at type="dateTime">2020-09-08T10:04:54-04:00</created-at>
+        <updated-at type="dateTime">2020-09-08T10:04:54-04:00</updated-at>
+        <is-locked type="boolean">false</is-locked>
+    </tag>
+    <tag>
+        <id type="integer">1593432</id>
+        <name>genbu_ravine</name>
+        <post-count type="integer">5</post-count>
+        <category type="integer">0</category>
+        <created-at type="dateTime">2020-09-08T09:59:43-04:00</created-at>
+        <updated-at type="dateTime">2020-09-08T09:59:43-04:00</updated-at>
+        <is-locked type="boolean">false</is-locked>
+    </tag>
+    <tag>
+        <id type="integer">1593431</id>
+        <name>sucharaka_hatsune_(module)</name>
+        <post-count type="integer">2</post-count>
+        <category type="integer">0</category>
+        <created-at type="dateTime">2020-09-08T09:56:31-04:00</created-at>
+        <updated-at type="dateTime">2020-09-08T09:56:31-04:00</updated-at>
+        <is-locked type="boolean">false</is-locked>
+    </tag>
+    <tag>
+        <id type="integer">1593430</id>
+        <name>geforce_gtx_480</name>
+        <post-count type="integer">1</post-count>
+        <category type="integer">0</category>
+        <created-at type="dateTime">2020-09-08T09:47:32-04:00</created-at>
+        <updated-at type="dateTime">2020-09-08T09:47:32-04:00</updated-at>
+        <is-locked type="boolean">false</is-locked>
+    </tag>
+    <tag>
+        <id type="integer">1593429</id>
+        <name>geforce_gtx_690</name>
+        <post-count type="integer">1</post-count>
+        <category type="integer">0</category>
+        <created-at type="dateTime">2020-09-08T09:47:19-04:00</created-at>
+        <updated-at type="dateTime">2020-09-08T09:47:19-04:00</updated-at>
+        <is-locked type="boolean">false</is-locked>
+    </tag>
+</tags>

@@ -32,7 +32,6 @@ class XmlDanbooruPostsDeserializer : DanbooruPostsDeserializer<XmlDanbooruPosts>
 
 class JsonDanbooruPostsDeserializer : DanbooruPostsDeserializer<JsonDanbooruPosts> {
 
-
     override fun deserializePosts(response: DanbooruPostsResponse.Success): JsonDanbooruPosts {
         return JsonDanbooruPosts(JsonMapper().readValue<JsonNode>(response.string).mapNotNull(::deserializePost))
     }

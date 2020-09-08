@@ -6,9 +6,9 @@ import org.junit.Test
 class JsonDanbooruTagsDeserializerTest {
 
     @Test
-    fun `should deserialize list of tags`() {
-        val json = javaClass.classLoader.getResource("list_tags.json")!!.readText()
-        val tags = JsonDanbooruTagsDeserializer().deserialize(json)
+    fun `should deserialize tags json`() {
+        val json = javaClass.classLoader.getResource("tags.json")!!.readText()
+        val tags = JsonDanbooruTagsDeserializer().deserializeTags(json)
 
         assertEquals(tags.tags.size, 20)
     }
