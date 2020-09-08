@@ -4,9 +4,11 @@ import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
 import io.ktor.client.*
 import kotlinx.coroutines.runBlocking
+import org.junit.Assert.assertEquals
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.Timeout
+import tag.JsonDanbooruTagDeserializer
 import tag.entity.tagId
 import tag.network.DanbooruTagFilter
 import tag.network.DanbooruTagRequest
@@ -25,9 +27,12 @@ class JsonDanbooruTagNetworkManagerTest {
 
         // throws JsonProcessingException on duplicate key or other error
         ObjectMapper().apply {
+            // enable for single tag to be sure response is ok (it is not very well check but ok)
             enable(DeserializationFeature.FAIL_ON_READING_DUP_TREE_KEY)
         }.readTree(response.string)
 
-        return@runBlocking
+        // deserialize json and check: was the filter condition satisfied?
+        val tag = JsonDanbooruTagDeserializer().deserializeTag(response)
+        assertEquals(385430, tag.tagId)
     }
 }

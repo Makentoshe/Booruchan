@@ -8,9 +8,11 @@ import io.ktor.client.*
 import kotlinx.coroutines.runBlocking
 import org.codehaus.stax2.XMLInputFactory2
 import org.codehaus.stax2.XMLOutputFactory2
+import org.junit.Assert.assertEquals
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.Timeout
+import tag.XmlDanbooruTagDeserializer
 import tag.entity.tagId
 import tag.network.DanbooruTagFilter
 import tag.network.DanbooruTagRequest
@@ -30,9 +32,12 @@ class XmlDanbooruTagNetworkManagerTest {
         // throws JsonProcessingException on duplicate key or other error
         XmlMapper(XMLInputFactory2.newFactory(), XMLOutputFactory2.newFactory()).apply {
             registerModules(KotlinModule(), JacksonXmlModule())
+            // enable for single tag to be sure response is ok (it is not very well check but ok)
             enable(DeserializationFeature.FAIL_ON_READING_DUP_TREE_KEY)
         }.readTree(response.string)
 
-        return@runBlocking
+        // deserialize json and check: was the filter condition satisfied?
+        val tag = XmlDanbooruTagDeserializer().deserializeTag(response)
+        assertEquals(385430, tag.tagId)
     }
 }
