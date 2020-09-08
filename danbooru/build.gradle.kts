@@ -36,12 +36,6 @@ dependencies {
     implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-xml:$jacksonVersion")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonVersion")
 
-    // Kotlinx Serialization (serialization plugin)
-    // https://github.com/Kotlin/kotlinx.serialization
-    val kotlinxSerializationVersion = "1.0.0-RC"
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-core:$kotlinxSerializationVersion")
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-properties:$kotlinxSerializationVersion")
-
     // Ktor (http client)
     val ktorVersion = "1.4.0"
     implementation("io.ktor:ktor-client-core:$ktorVersion")
