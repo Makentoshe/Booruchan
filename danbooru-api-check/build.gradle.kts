@@ -30,6 +30,12 @@ dependencies {
     implementation("io.ktor:ktor-client-core:$ktorVersion")
     implementation("io.ktor:ktor-client-okhttp:$ktorVersion")
 
+    // Jackson (xml parsing)
+    // https://github.com/FasterXML/jackson
+    val jacksonVersion = "2.11.2"
+    implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-xml:$jacksonVersion")
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonVersion")
+
     implementation("junit:junit:4.12")
 }
 
