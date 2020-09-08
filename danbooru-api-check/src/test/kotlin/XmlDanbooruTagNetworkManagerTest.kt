@@ -23,7 +23,7 @@ class XmlDanbooruTagNetworkManagerTest {
     val globalTimeout: Timeout = Timeout.seconds(30)
 
     @Test
-    fun `should request xml tag`() = runBlocking {
+    fun `should request xml tag by id`() = runBlocking {
         val request = DanbooruTagRequest.Xml(DanbooruTagFilter.ById(tagId(385430)))
         val response = XmlDanbooruTagNetworkManager(HttpClient()).getTag(request) as DanbooruTagResponse.Success
 

@@ -19,7 +19,7 @@ class JsonDanbooruTagNetworkManagerTest {
     val globalTimeout: Timeout = Timeout.seconds(30)
 
     @Test
-    fun `should request json tag`() = runBlocking {
+    fun `should request json tag by id`() = runBlocking {
         val request = DanbooruTagRequest.Json(DanbooruTagFilter.ById(tagId(385430)))
         val response = JsonDanbooruTagNetworkManager(HttpClient()).getTag(request) as DanbooruTagResponse.Success
 
