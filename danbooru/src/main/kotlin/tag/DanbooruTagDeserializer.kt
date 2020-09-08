@@ -10,9 +10,10 @@ import org.codehaus.stax2.XMLInputFactory2
 import org.codehaus.stax2.XMLOutputFactory2
 import org.jsoup.Jsoup
 import org.jsoup.parser.Parser
+import tag.network.DanbooruTagResponse
 
 interface DanbooruTagDeserializer<out Tag : DanbooruTag> {
-    fun deserializeTag(response: String): Tag
+    fun deserializeTag(response: DanbooruTagResponse.Success): Tag
 }
 
 class XmlDanbooruTagDeserializer : DanbooruTagDeserializer<XmlDanbooruTag> {
@@ -24,8 +25,8 @@ class XmlDanbooruTagDeserializer : DanbooruTagDeserializer<XmlDanbooruTag> {
         mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
     }
 
-    override fun deserializeTag(response: String): XmlDanbooruTag {
-        val jsoup = Jsoup.parse(response, "", Parser.xmlParser())
+    override fun deserializeTag(response: DanbooruTagResponse.Success): XmlDanbooruTag {
+        val jsoup = Jsoup.parse(response.string, "", Parser.xmlParser())
         jsoup.allElements.forEach { element -> element.clearAttributes() }
         return mapper.readValue(jsoup.children().toString().replace("\\s".toRegex(), ""))
     }
@@ -35,7 +36,7 @@ class JsonDanbooruTagDeserializer : DanbooruTagDeserializer<JsonDanbooruTag> {
 
     private val mapper = JsonMapper()
 
-    override fun deserializeTag(response: String): JsonDanbooruTag {
-        return mapper.readValue(response)
+    override fun deserializeTag(response: DanbooruTagResponse.Success): JsonDanbooruTag {
+        return mapper.readValue(response.string)
     }
 }
