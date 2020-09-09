@@ -1,7 +1,5 @@
 package network
 
-import com.fasterxml.jackson.databind.DeserializationFeature
-import com.fasterxml.jackson.databind.ObjectMapper
 import io.ktor.client.*
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
@@ -24,12 +22,6 @@ class JsonDanbooruTagNetworkManagerTest {
     fun `should request json tag by id`() = runBlocking {
         val request = DanbooruTagRequest.Json(DanbooruTagFilter.ById(tagId(385430)))
         val response = JsonDanbooruTagNetworkManager(HttpClient()).getTag(request) as DanbooruTagResponse.Success
-
-        // throws JsonProcessingException on duplicate key or other error
-        ObjectMapper().apply {
-            // enable for single tag to be sure response is ok (it is not very well check but ok)
-            enable(DeserializationFeature.FAIL_ON_READING_DUP_TREE_KEY)
-        }.readTree(response.string)
 
         // deserialize json and check: was the filter condition satisfied?
         val tag = JsonDanbooruTagDeserializer().deserializeTag(response)
