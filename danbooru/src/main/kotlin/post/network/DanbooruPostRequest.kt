@@ -1,18 +1,21 @@
 package post.network
 
-import post.PostId
-
 sealed class DanbooruPostRequest {
+
+    protected val host = "https://danbooru.donmai.us"
 
     abstract val url: String
 
-    data class Xml(val postId: PostId) : DanbooruPostRequest() {
-        override val url = "https://danbooru.donmai.us/posts/${postId.postId}.xml"
+    data class Xml(private val filter: DanbooruPostFilter) : DanbooruPostRequest() {
+        override val url = when (filter) {
+            is DanbooruPostFilter.ById -> "$host/posts/${filter.postId.postId}.xml"
+        }
     }
 
-    data class Json(val postId: PostId) : DanbooruPostRequest() {
-        override val url = "https://danbooru.donmai.us/posts/${postId.postId}.json"
+    data class Json(private val filter: DanbooruPostFilter) : DanbooruPostRequest() {
+        override val url = when (filter) {
+            is DanbooruPostFilter.ById -> "$host/posts/${filter.postId.postId}.xml"
+        }
     }
 }
-
 
