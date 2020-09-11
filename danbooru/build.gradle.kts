@@ -1,6 +1,6 @@
 plugins {
     id("org.jetbrains.kotlin.jvm")
-    kotlin("plugin.serialization") version "1.3.72"
+    id("com.github.johnrengelman.shadow") version "6.0.0"
 }
 
 group = "com.makentoshe.booruchan.danbooru"
@@ -42,4 +42,19 @@ dependencies {
     implementation("io.ktor:ktor-client-okhttp:$ktorVersion")
 
     implementation("junit:junit:4.12")
+}
+
+// disable jar for default build because it does not provides any dependencies
+tasks.jar {
+    enabled = false
+}
+
+// executes "shadowJar" task straight after "build"
+tasks.build {
+    finalizedBy(tasks.shadowJar)
+}
+
+// "shadowJar" task configurations
+tasks.shadowJar {
+    archiveBaseName.set("danbooru-shadow")
 }
