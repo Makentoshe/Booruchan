@@ -14,7 +14,7 @@ sealed class DanbooruPostRequest {
 
     data class Json(private val filter: DanbooruPostFilter) : DanbooruPostRequest() {
         override val url = when (filter) {
-            is DanbooruPostFilter.ById -> "$host/posts/${filter.postId.postId}.xml"
+            is DanbooruPostFilter.ById -> "$host/posts/${filter.postId.postId}.json"
         }
     }
 }
