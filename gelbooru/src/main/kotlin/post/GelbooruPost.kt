@@ -1,7 +1,6 @@
 package post
 
 import Time
-import kotlinx.serialization.Serializable
 
 interface GelbooruPost : PostId {
     val score: Int
@@ -30,7 +29,6 @@ data class XmlGelbooruPost(
     val change: String
 ) : GelbooruPost
 
-@Serializable
 data class JsonGelbooruPost(
     override val postId: Int,
     override val score: Int,
@@ -44,5 +42,5 @@ data class JsonGelbooruPost(
     override val tags: Tags,
     val owner: String,
     val parentId: Int?,
-    val change: Int,
+    val change: Int
 ) : GelbooruPost

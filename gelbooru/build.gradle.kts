@@ -1,6 +1,6 @@
 plugins {
     id("org.jetbrains.kotlin.jvm")
-    kotlin("plugin.serialization") version "1.4.0"
+//    kotlin("plugin.serialization") version "1.3.72"
 }
 
 group = "com.makentoshe.booruchan.gelbooru"
@@ -29,14 +29,14 @@ dependencies {
     val jsoupVersion = "1.13.1"
     implementation("org.jsoup:jsoup:$jsoupVersion")
 
-    // Kotlinx Serialization (serialization plugin)
-    // https://github.com/Kotlin/kotlinx.serialization
-    val kotlinxSerializationVersion = "1.0.0-RC"
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-core:$kotlinxSerializationVersion")
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-properties:$kotlinxSerializationVersion")
+//    // Kotlinx Serialization (serialization plugin)
+//    // https://github.com/Kotlin/kotlinx.serialization
+//    val kotlinxSerializationVersion = "1.0.0-RC"
+//    implementation("org.jetbrains.kotlinx:kotlinx-serialization-core:$kotlinxSerializationVersion")
+//    implementation("org.jetbrains.kotlinx:kotlinx-serialization-properties:$kotlinxSerializationVersion")
 
     // Ktor (http client)
-    val ktorVersion = "1.4.0"
+    val ktorVersion = "1.3.1"
     implementation("io.ktor:ktor-client-core:$ktorVersion")
     implementation("io.ktor:ktor-client-okhttp:$ktorVersion")
 

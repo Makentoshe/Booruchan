@@ -33,7 +33,7 @@ data class XmlDanbooruTag(
     @JacksonXmlProperty(localName = "is-locked")
     override val isLocked: Boolean,
     @JacksonXmlProperty(localName = "post-count")
-    override val count: Int,
+    override val count: Int
 ) : DanbooruTag {
     override val creationTime = rawCreationTime.let(::time)
     override val updationTime = rawUpdationTime?.let(::time)
