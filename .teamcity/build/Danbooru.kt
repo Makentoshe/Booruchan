@@ -9,7 +9,7 @@ import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.gradle
 object Danbooru : PipelineBuildVcs("Danbooru", {
 
     publishArtifacts = PublishMode.SUCCESSFUL
-    artifactRules = "./danbooru/build/libs/* => danbooru"
+    artifactRules = "./danbooru/build/libs/danbooru-shadow-* => danbooru"
 
     dependencies {
         snapshot(Core) {}
