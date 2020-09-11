@@ -30,22 +30,8 @@ dependencies {
     implementation("io.ktor:ktor-client-core:$ktorVersion")
     implementation("io.ktor:ktor-client-okhttp:$ktorVersion")
 
-    // todo remove later
-    // Jsoup (xml parsing)
-    // https://jsoup.org/download
-    val jsoupVersion = "1.13.1"
-    implementation("org.jsoup:jsoup:$jsoupVersion")
-
-    // todo remove later
-    // Jackson (xml parsing)
-    // https://github.com/FasterXML/jackson
-    val jacksonVersion = "2.11.2"
-    implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-xml:$jacksonVersion")
-    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonVersion")
-
     implementation("junit:junit:4.12")
 }
-
 
 // idkw, but "onlyIf" does not disables/skips this task, so this is a workaround
 tasks.test.configure {
