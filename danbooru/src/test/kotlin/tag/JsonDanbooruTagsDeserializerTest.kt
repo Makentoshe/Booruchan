@@ -2,6 +2,7 @@ package tag
 
 import org.junit.Assert.assertEquals
 import org.junit.Test
+import tag.deserialize.JsonDanbooruTagsDeserializer
 import tag.network.JsonDanbooruTagsResponse
 
 class JsonDanbooruTagsDeserializerTest {

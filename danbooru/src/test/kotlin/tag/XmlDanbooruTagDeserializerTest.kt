@@ -2,6 +2,8 @@ package tag
 
 import org.junit.Assert.assertEquals
 import org.junit.Test
+import tag.deserialize.XmlDanbooruTagDeserialize
+import tag.deserialize.XmlDanbooruTagDeserializer
 import tag.network.XmlDanbooruTagResponse
 
 class XmlDanbooruTagDeserializerTest {
@@ -9,8 +11,10 @@ class XmlDanbooruTagDeserializerTest {
     @Test
     fun `should deserialize single tag xml`() {
         val xml = javaClass.classLoader.getResource("tag.xml")!!.readText()
-        val tag = XmlDanbooruTagDeserializer().deserializeTag(XmlDanbooruTagResponse.Success(xml))
+        val deserialize = XmlDanbooruTagDeserializer().deserializeTag(XmlDanbooruTagResponse.Success(xml))
 
-        assertEquals(1593445, tag.tagId)
+        // todo add asserts for all fields
+        deserialize as XmlDanbooruTagDeserialize.Success
+        assertEquals(1593445, deserialize.tag.tagId)
     }
 }

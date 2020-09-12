@@ -2,6 +2,7 @@ package tag
 
 import org.junit.Assert
 import org.junit.Test
+import tag.deserialize.XmlDanbooruTagsDeserializer
 import tag.network.XmlDanbooruTagsResponse
 
 class XmlDanbooruTagsDeserializerTest {

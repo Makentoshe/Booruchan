@@ -1,4 +1,4 @@
-package tag
+package tag.deserialize
 
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.exc.ValueInstantiationException
@@ -7,39 +7,41 @@ import com.fasterxml.jackson.module.kotlin.readValue
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Element
 import org.jsoup.parser.Parser
+import post.deserialize.XmlDanbooruPostDeserialize
+import tag.*
 import tag.network.DanbooruTagsResponse
 import tag.network.JsonDanbooruTagResponse
 import tag.network.XmlDanbooruTagResponse
 
-interface DanbooruTagsDeserializer<out Tags : DanbooruTags<*>> {
-    fun deserializeTags(response: DanbooruTagsResponse.Success): Tags
+interface DanbooruTagsDeserializer {
+    fun deserializeTags(response: DanbooruTagsResponse.Success): DanbooruTagsDeserialize<*>
 }
 
-class XmlDanbooruTagsDeserializer : DanbooruTagsDeserializer<XmlDanbooruTags> {
+class XmlDanbooruTagsDeserializer : DanbooruTagsDeserializer {
 
-    override fun deserializeTags(response: DanbooruTagsResponse.Success): XmlDanbooruTags {
+    override fun deserializeTags(response: DanbooruTagsResponse.Success): XmlDanbooruTagsDeserialize {
         val jsoup = Jsoup.parse(response.string, "", Parser.xmlParser())
-        return XmlDanbooruTags(jsoup.getElementsByTag("tag").mapNotNull(::deserializeTag))
+        return XmlDanbooruTagsDeserialize(jsoup.getElementsByTag("tag").map(::deserializeTag))
     }
 
     private val xmlTagDeserializer = XmlDanbooruTagDeserializer()
-    private fun deserializeTag(element: Element): XmlDanbooruTag? = try {
+    private fun deserializeTag(element: Element): XmlDanbooruTagDeserialize = try {
         xmlTagDeserializer.deserializeTag(XmlDanbooruTagResponse.Success(element.toString()))
     } catch (vie: ValueInstantiationException) { // could not find one or more values in json
-        null // skip
+        XmlDanbooruTagDeserialize.Failure(emptyMap()) //todo
     }
 }
 
-class JsonDanbooruTagsDeserializer : DanbooruTagsDeserializer<JsonDanbooruTags> {
+class JsonDanbooruTagsDeserializer : DanbooruTagsDeserializer {
 
-    override fun deserializeTags(response: DanbooruTagsResponse.Success): JsonDanbooruTags {
-        return JsonDanbooruTags(JsonMapper().readValue<JsonNode>(response.string).mapNotNull(::deserializeTag))
+    override fun deserializeTags(response: DanbooruTagsResponse.Success): JsonDanbooruTagsDeserialize {
+        return JsonDanbooruTagsDeserialize(JsonMapper().readValue<JsonNode>(response.string).map(::deserializeTag))
     }
 
     private val jsonTagDeserializer = JsonDanbooruTagDeserializer()
-    private fun deserializeTag(element: JsonNode): JsonDanbooruTag? = try {
+    private fun deserializeTag(element: JsonNode): JsonDanbooruTagDeserialize = try {
         jsonTagDeserializer.deserializeTag(JsonDanbooruTagResponse.Success(element.toString()))
     } catch (vie: ValueInstantiationException) { // could not find one or more values in json
-        null // skip
+        JsonDanbooruTagDeserialize.Failure(emptyMap()) //todo
     }
 }
