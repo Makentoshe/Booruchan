@@ -1,4 +1,4 @@
-package post
+package post.deserialize
 
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.json.JsonMapper
@@ -10,10 +10,13 @@ import org.codehaus.stax2.XMLInputFactory2
 import org.codehaus.stax2.XMLOutputFactory2
 import org.jsoup.Jsoup
 import org.jsoup.parser.Parser
+import post.DanbooruPost
+import post.JsonDanbooruPost
+import post.XmlDanbooruPost
 import post.network.DanbooruPostResponse
 
 interface DanbooruPostDeserializer<out Post : DanbooruPost> {
-    fun deserializePost(response: DanbooruPostResponse.Success): Post
+    fun deserializePost(response: DanbooruPostResponse.Success): DanbooruPostDeserialize
 }
 
 class XmlDanbooruPostDeserializer : DanbooruPostDeserializer<XmlDanbooruPost> {
@@ -25,10 +28,11 @@ class XmlDanbooruPostDeserializer : DanbooruPostDeserializer<XmlDanbooruPost> {
         mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
     }
 
-    override fun deserializePost(response: DanbooruPostResponse.Success): XmlDanbooruPost {
+    override fun deserializePost(response: DanbooruPostResponse.Success): XmlDanbooruPostDeserialize {
         val jsoup = Jsoup.parse(response.string, "", Parser.xmlParser())
         jsoup.allElements.forEach { element -> element.clearAttributes() }
-        return mapper.readValue(jsoup.children().toString().replace("\\s".toRegex(), ""))
+        val post = mapper.readValue<XmlDanbooruPost>(jsoup.children().toString().replace("\\s".toRegex(), ""))
+        return XmlDanbooruPostDeserialize.Success(post)
     }
 }
 
@@ -36,7 +40,7 @@ class JsonDanbooruPostDeserializer : DanbooruPostDeserializer<JsonDanbooruPost> 
 
     private val mapper = JsonMapper()
 
-    override fun deserializePost(response: DanbooruPostResponse.Success): JsonDanbooruPost {
-        return mapper.readValue(response.string)
+    override fun deserializePost(response: DanbooruPostResponse.Success): JsonDanbooruPostDeserialize {
+        return JsonDanbooruPostDeserialize.Success(mapper.readValue(response.string))
     }
 }

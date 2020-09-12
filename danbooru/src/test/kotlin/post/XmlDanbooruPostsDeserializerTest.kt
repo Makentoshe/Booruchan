@@ -2,6 +2,7 @@ package post
 
 import org.junit.Assert.assertEquals
 import org.junit.Test
+import post.deserialize.XmlDanbooruPostsDeserializer
 import post.network.XmlDanbooruPostsResponse
 
 class XmlDanbooruPostsDeserializerTest {

@@ -6,7 +6,8 @@ import org.junit.Assert.assertEquals
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.Timeout
-import post.XmlDanbooruPostDeserializer
+import post.deserialize.XmlDanbooruPostDeserialize
+import post.deserialize.XmlDanbooruPostDeserializer
 import post.network.DanbooruPostFilter
 import post.network.DanbooruPostRequest
 import post.network.XmlDanbooruPostNetworkManager
@@ -24,8 +25,9 @@ class XmlDanbooruPostNetworkManagerTest {
         val response = XmlDanbooruPostNetworkManager(HttpClient()).getPost(request)
 
         // deserialize xml and check: was the filter condition satisfied?
-        val post = XmlDanbooruPostDeserializer().deserializePost(response as XmlDanbooruPostResponse.Success)
-        assertEquals(1, post.postId)
+        val deserialize = XmlDanbooruPostDeserializer().deserializePost(response as XmlDanbooruPostResponse.Success)
+        val successDeserialize = deserialize as XmlDanbooruPostDeserialize.Success
+        assertEquals(1, successDeserialize.post.postId)
     }
 }
 

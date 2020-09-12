@@ -6,7 +6,7 @@ import org.junit.Assert.assertEquals
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.Timeout
-import post.XmlDanbooruPostsDeserializer
+import post.deserialize.XmlDanbooruPostsDeserializer
 import post.network.DanbooruPostsFilter
 import post.network.DanbooruPostsRequest
 import post.network.XmlDanbooruPostsNetworkManager

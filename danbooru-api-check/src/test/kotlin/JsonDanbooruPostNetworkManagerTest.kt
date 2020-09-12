@@ -6,7 +6,8 @@ import org.junit.Assert.assertEquals
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.Timeout
-import post.JsonDanbooruPostDeserializer
+import post.deserialize.JsonDanbooruPostDeserialize
+import post.deserialize.JsonDanbooruPostDeserializer
 import post.network.DanbooruPostFilter
 import post.network.DanbooruPostRequest
 import post.network.JsonDanbooruPostNetworkManager
@@ -24,8 +25,9 @@ class JsonDanbooruPostNetworkManagerTest {
         val response = JsonDanbooruPostNetworkManager(HttpClient()).getPost(request)
 
         // deserialize json and check: was the filter condition satisfied?
-        val post = JsonDanbooruPostDeserializer().deserializePost(response as JsonDanbooruPostResponse.Success)
-        assertEquals(1, post.postId)
+        val deserialize = JsonDanbooruPostDeserializer().deserializePost(response as JsonDanbooruPostResponse.Success)
+        val successDeserialize = deserialize as JsonDanbooruPostDeserialize.Success
+        assertEquals(1, successDeserialize.post.postId)
     }
 
     // todo add tests for id 2
