@@ -1,3 +1,9 @@
+import java.io.File
+import java.io.BufferedOutputStream
+import java.io.FileOutputStream
+import java.util.zip.ZipEntry
+import java.util.zip.ZipOutputStream
+
 plugins {
     id("org.jetbrains.kotlin.jvm")
     kotlin("plugin.serialization") version "1.3.72"
@@ -67,10 +73,18 @@ tasks.test {
     finalizedBy(tasks.jacocoTestReport)
 }
 
+// "jacocoTestReport" task configurations
 tasks.jacocoTestReport {
     reports {
         xml.isEnabled = false
         csv.isEnabled = false
         html.isEnabled = true
     }
+    finalizedBy(tasks.getByName("jacocoHtmlZip"))
+}
+
+tasks.register<Zip>("jacocoHtmlZip") {
+    archiveFileName.set("jacocoHtml.zip")
+    destinationDirectory.set(file("$buildDir/reports/jacoco/test/html-zip"))
+    from("$buildDir/reports/jacoco/test/html")
 }
