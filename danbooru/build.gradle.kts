@@ -2,6 +2,7 @@ plugins {
     id("org.jetbrains.kotlin.jvm")
     kotlin("plugin.serialization") version "1.3.72"
     id("com.github.johnrengelman.shadow") version "6.0.0"
+    jacoco // enable JaCoco plugin
 }
 
 group = "com.makentoshe.booruchan.danbooru"
@@ -55,4 +56,21 @@ tasks.shadowJar {
     archiveBaseName.set("${project.name}-shadow")
     archiveClassifier.set("")
     archiveVersion.set(project.version.toString())
+}
+
+jacoco {
+    toolVersion = "0.8.5"
+}
+
+// executes "jacocoTestReport" task straight after "test"
+tasks.test {
+    finalizedBy(tasks.jacocoTestReport)
+}
+
+tasks.jacocoTestReport {
+    reports {
+        xml.isEnabled = false
+        csv.isEnabled = false
+        html.isEnabled = true
+    }
 }
