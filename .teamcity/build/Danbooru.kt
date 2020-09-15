@@ -11,7 +11,7 @@ object Danbooru : PipelineBuildVcs("Danbooru", {
     publishArtifacts = PublishMode.SUCCESSFUL
     artifactRules = """
         ./danbooru/build/libs/danbooru-shadow-* => danbooru
-        ./danbooru/build/reports/jacoco/test/html-zip/* => danbooru-jacocoHtmlReport
+        ./danbooru/build/reports/jacoco/test/html-zip/* => jacocoHtmlReport
     """.trimIndent()
 
     dependencies {
