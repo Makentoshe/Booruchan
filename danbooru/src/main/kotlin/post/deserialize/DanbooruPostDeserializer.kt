@@ -30,6 +30,7 @@ class XmlDanbooruPostDeserializer : DanbooruPostDeserializer<XmlDanbooruPostResp
         mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
     }
 
+    // todo add mismatch input exception catching for @JsonProperty(required = true)
     override fun deserializePost(response: XmlDanbooruPostResponse.Success): XmlDanbooruPostDeserialize {
         val jsoup = Jsoup.parse(response.string, "", Parser.xmlParser())
         jsoup.allElements.forEach { element -> element.clearAttributes() }
@@ -47,6 +48,7 @@ class JsonDanbooruPostDeserializer : DanbooruPostDeserializer<JsonDanbooruPostRe
 
     private val mapper = JsonMapper()
 
+    // todo add mismatch input exception catching for @JsonProperty(required = true)
     override fun deserializePost(response: JsonDanbooruPostResponse.Success): JsonDanbooruPostDeserialize {
         return try {
             JsonDanbooruPostDeserialize.Success(mapper.readValue(response.string))

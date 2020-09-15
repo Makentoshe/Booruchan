@@ -11,8 +11,8 @@ import tag.deserialize.XmlDanbooruTagDeserializer
 import tag.entity.tagId
 import tag.network.DanbooruTagFilter
 import tag.network.DanbooruTagRequest
-import tag.network.DanbooruTagResponse
 import tag.network.XmlDanbooruTagNetworkManager
+import tag.network.XmlDanbooruTagResponse
 
 class XmlDanbooruTagNetworkManagerTest {
 
@@ -22,7 +22,7 @@ class XmlDanbooruTagNetworkManagerTest {
     @Test
     fun `should request xml tag by id`() = runBlocking {
         val request = DanbooruTagRequest.Xml(DanbooruTagFilter.ById(tagId(385430)))
-        val response = XmlDanbooruTagNetworkManager(HttpClient()).getTag(request) as DanbooruTagResponse.Success
+        val response = XmlDanbooruTagNetworkManager(HttpClient()).getTag(request) as XmlDanbooruTagResponse.Success
 
         // deserialize json and check: was the filter condition satisfied?
         val deserialize = XmlDanbooruTagDeserializer().deserializeTag(response)

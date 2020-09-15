@@ -20,6 +20,7 @@ interface DanbooruTag : TagId {
 
 @JacksonXmlRootElement(localName = "tags")
 data class XmlDanbooruTag(
+    @JsonProperty("id", required = true)
     @JacksonXmlProperty(localName = "id")
     override val tagId: Int,
     @JacksonXmlProperty(localName = "name")
@@ -45,7 +46,7 @@ data class XmlDanbooruTag(
 }
 
 data class JsonDanbooruTag(
-    @JsonProperty("id")
+    @JsonProperty("id", required = true)
     override val tagId: Int,
     @JsonProperty("name")
     override val text: String,

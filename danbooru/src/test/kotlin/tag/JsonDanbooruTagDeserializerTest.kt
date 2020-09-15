@@ -12,9 +12,18 @@ class JsonDanbooruTagDeserializerTest {
     fun `should deserialize single tag json`() {
         val json = javaClass.classLoader.getResource("tag.json")!!.readText()
         val deserialize = JsonDanbooruTagDeserializer().deserializeTag(JsonDanbooruTagResponse.Success(json))
+        val successDeserialize = deserialize as JsonDanbooruTagDeserialize.Success
 
         // todo add asserts for all fields
-        deserialize as JsonDanbooruTagDeserialize.Success
-        assertEquals(1591223, deserialize.tag.tagId)
+        assertEquals(1591223, successDeserialize.tag.tagId)
+    }
+
+    @Test
+    fun `should deserialize corrupted tag json`() {
+        val json = javaClass.classLoader.getResource("tag-corrupted.json")!!.readText()
+        val deserialize = JsonDanbooruTagDeserializer().deserializeTag(JsonDanbooruTagResponse.Success(json))
+        val failureDeserialize = deserialize as JsonDanbooruTagDeserialize.Failure
+
+        assertEquals(7, failureDeserialize.raw.size)
     }
 }

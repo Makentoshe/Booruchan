@@ -1,0 +1,9 @@
+<tag>
+    <corrupted-id type="integer">1593445</corrupted-id>
+    <name>togata_maki</name>
+    <post-count type="integer">1</post-count>
+    <category type="integer">1</category>
+    <created-at type="dateTime">2020-09-08T11:22:54-04:00</created-at>
+    <updated-at type="dateTime">2020-09-08T11:22:54-04:00</updated-at>
+    <is-locked type="boolean">false</is-locked>
+</tag>
