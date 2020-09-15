@@ -8,12 +8,12 @@ import org.jsoup.nodes.Element
 import org.jsoup.parser.Parser
 import post.network.*
 
-interface DanbooruPostsDeserializer<out Posts : DanbooruPostsDeserialize, in Response : DanbooruPostsResponse.Success> {
-    fun deserializePosts(response: Response): Posts
+interface DanbooruPostsDeserializer<in Response : DanbooruPostsResponse.Success> {
+    fun deserializePosts(response: Response): DanbooruPostsDeserialize
 }
 
 class XmlDanbooruPostsDeserializer :
-    DanbooruPostsDeserializer<XmlDanbooruPostsDeserialize, XmlDanbooruPostsResponse.Success> {
+    DanbooruPostsDeserializer<XmlDanbooruPostsResponse.Success> {
 
     override fun deserializePosts(response: XmlDanbooruPostsResponse.Success): XmlDanbooruPostsDeserialize {
         val jsoup = Jsoup.parse(response.string, "", Parser.xmlParser())
@@ -26,7 +26,7 @@ class XmlDanbooruPostsDeserializer :
 }
 
 class JsonDanbooruPostsDeserializer :
-    DanbooruPostsDeserializer<JsonDanbooruPostsDeserialize, JsonDanbooruPostsResponse.Success> {
+    DanbooruPostsDeserializer<JsonDanbooruPostsResponse.Success> {
 
     override fun deserializePosts(response: JsonDanbooruPostsResponse.Success): JsonDanbooruPostsDeserialize {
         return JsonDanbooruPostsDeserialize(JsonMapper().readValue<JsonNode>(response.string).map(::deserializePost))

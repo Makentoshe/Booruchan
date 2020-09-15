@@ -12,18 +12,16 @@ import org.codehaus.stax2.XMLInputFactory2
 import org.codehaus.stax2.XMLOutputFactory2
 import org.jsoup.Jsoup
 import org.jsoup.parser.Parser
-import post.DanbooruPost
-import post.JsonDanbooruPost
 import post.XmlDanbooruPost
 import post.network.DanbooruPostResponse
 import post.network.JsonDanbooruPostResponse
 import post.network.XmlDanbooruPostResponse
 
-interface DanbooruPostDeserializer<out Post : DanbooruPost, in Response : DanbooruPostResponse.Success> {
+interface DanbooruPostDeserializer<in Response : DanbooruPostResponse.Success> {
     fun deserializePost(response: Response): DanbooruPostDeserialize
 }
 
-class XmlDanbooruPostDeserializer : DanbooruPostDeserializer<XmlDanbooruPost, XmlDanbooruPostResponse.Success> {
+class XmlDanbooruPostDeserializer : DanbooruPostDeserializer<XmlDanbooruPostResponse.Success> {
 
     private val mapper = XmlMapper(XMLInputFactory2.newFactory(), XMLOutputFactory2.newFactory())
 
@@ -45,7 +43,7 @@ class XmlDanbooruPostDeserializer : DanbooruPostDeserializer<XmlDanbooruPost, Xm
     }
 }
 
-class JsonDanbooruPostDeserializer : DanbooruPostDeserializer<JsonDanbooruPost, JsonDanbooruPostResponse.Success> {
+class JsonDanbooruPostDeserializer : DanbooruPostDeserializer<JsonDanbooruPostResponse.Success> {
 
     private val mapper = JsonMapper()
 
