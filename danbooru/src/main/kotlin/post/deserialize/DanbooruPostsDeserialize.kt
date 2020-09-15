@@ -10,6 +10,7 @@ abstract class DanbooruPostsDeserialize<out P : DanbooruPost> {
      * Contains posts and failures in one structure.
      * Here we can understand not only "success" or "failure", but position as well
      */
+    // todo mb replace by list of deserializes
     abstract val rawPosts: List<Any>
 
     abstract val posts: List<P>
@@ -19,7 +20,7 @@ abstract class DanbooruPostsDeserialize<out P : DanbooruPost> {
 }
 
 class XmlDanbooruPostsDeserialize(
-    deserializes: List<XmlDanbooruPostDeserialize>
+    val deserializes: List<XmlDanbooruPostDeserialize>
 ) : DanbooruPostsDeserialize<XmlDanbooruPost>() {
 
     @Suppress("IMPLICIT_CAST_TO_ANY")
@@ -37,7 +38,7 @@ class XmlDanbooruPostsDeserialize(
 }
 
 class JsonDanbooruPostsDeserialize(
-    deserializes: List<JsonDanbooruPostDeserialize>
+    val deserializes: List<JsonDanbooruPostDeserialize>
 ) : DanbooruPostsDeserialize<JsonDanbooruPost>() {
 
     @Suppress("IMPLICIT_CAST_TO_ANY")

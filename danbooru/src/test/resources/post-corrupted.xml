@@ -1,0 +1,61 @@
+<post>
+    <created-at type="dateTime">2005-05-23T23:37:30-04:00</created-at>
+    <uploader-id type="integer">1</uploader-id>
+    <score type="integer">4</score>
+    <source>http://page.freett.com/tyuyan/leafkey_014658.png</source>
+    <last-comment-bumped-at type="dateTime">2020-05-25T19:52:43-04:00</last-comment-bumped-at>
+    <rating>s</rating>
+    <image-width type="integer">450</image-width>
+    <image-height type="integer">450</image-height>
+    <tag-string>
+        2boys 2girls ass blue_hair blush brown_eyes brown_hair card_master_peach cardcaptor_sakura comic_party
+        company_connection cosplay crossdressing glasses green_hair haga_reiko hair_between_eyes hat holding
+        kuhonbutsu_taishi leaf_(studio) looking_back lowres multiple_boys multiple_girls nakamura_hisashi o_o oekaki
+        otoko_no_ko pink_sailor_collar red_hair sailor_collar sendou_kazuki short_shorts shorts smile sweatdrop
+        takase_mizuki to_heart_2 trigun twintails wand yoshio_(leaf) yuzuhara_konomi yuzuhara_konomi_(cosplay)
+    </tag-string>
+    <is-note-locked type="boolean">false</is-note-locked>
+    <fav-count type="integer">12</fav-count>
+    <last-noted-at type="dateTime" nil="true"/>
+    <is-rating-locked type="boolean">false</is-rating-locked>
+    <parent-id type="integer" nil="true"/>
+    <has-children type="boolean">false</has-children>
+    <approver-id type="integer">13392</approver-id>
+    <tag-count-general type="integer">31</tag-count-general>
+    <tag-count-artist type="integer">1</tag-count-artist>
+    <tag-count-character type="integer">7</tag-count-character>
+    <tag-count-copyright type="integer">5</tag-count-copyright>
+    <file-size type="integer">232601</file-size>
+    <is-status-locked type="boolean">false</is-status-locked>
+    <pool-string>pool:2265 pool:collection</pool-string>
+    <up-score type="integer">7</up-score>
+    <down-score type="integer">-2</down-score>
+    <is-pending type="boolean">false</is-pending>
+    <is-flagged type="boolean">false</is-flagged>
+    <is-deleted type="boolean">false</is-deleted>
+    <tag-count type="integer">45</tag-count>
+    <updated-at type="dateTime">2020-06-23T09:44:09-04:00</updated-at>
+    <is-banned type="boolean">true</is-banned>
+    <pixiv-id type="integer" nil="true"/>
+    <last-commented-at type="dateTime">2020-05-25T19:52:43-04:00</last-commented-at>
+    <has-active-children type="boolean">false</has-active-children>
+    <bit-flags type="integer">2</bit-flags>
+    <tag-count-meta type="integer">1</tag-count-meta>
+    <has-large type="boolean">false</has-large>
+    <has-visible-children type="boolean">false</has-visible-children>
+    <is-favorited type="boolean">false</is-favorited>
+    <tag-string-general>
+        2boys 2girls ass blue_hair blush brown_eyes brown_hair company_connection cosplay crossdressing glasses
+        green_hair hair_between_eyes hat holding looking_back multiple_boys multiple_girls o_o oekaki otoko_no_ko
+        pink_sailor_collar red_hair sailor_collar short_shorts shorts smile sweatdrop twintails wand
+        yuzuhara_konomi_(cosplay)
+    </tag-string-general>
+    <tag-string-character>
+        card_master_peach haga_reiko kuhonbutsu_taishi sendou_kazuki takase_mizuki yoshio_(leaf) yuzuhara_konomi
+    </tag-string-character>
+    <tag-string-copyright>
+        cardcaptor_sakura comic_party leaf_(studio) to_heart_2 trigun
+    </tag-string-copyright>
+    <tag-string-artist>nakamura_hisashi</tag-string-artist>
+    <tag-string-meta>lowres</tag-string-meta>
+</post>

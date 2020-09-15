@@ -6,14 +6,14 @@ import org.junit.Test
 import post.deserialize.DanbooruPostDeserialize
 import post.deserialize.JsonDanbooruPostDeserialize
 import post.deserialize.JsonDanbooruPostDeserializer
-import post.network.XmlDanbooruPostResponse
+import post.network.JsonDanbooruPostResponse
 
 class JsonDanbooruPostDeserializerTest {
 
     @Test
     fun `should parse json post`() {
         val json = javaClass.classLoader.getResource("post.json")!!.readText()
-        val deserialize = JsonDanbooruPostDeserializer().deserializePost(XmlDanbooruPostResponse.Success(json))
+        val deserialize = JsonDanbooruPostDeserializer().deserializePost(JsonDanbooruPostResponse.Success(json))
         val successDeserialize = deserialize as DanbooruPostDeserialize.Success<*>
 
         // TODO add asserts for all fields (feelsbadman)
@@ -21,11 +21,12 @@ class JsonDanbooruPostDeserializerTest {
     }
 
     @Test
-    @Ignore
     fun `should parse json corrupted post`() {
         val json = javaClass.classLoader.getResource("post-corrupted.json")!!.readText()
-        val post = JsonDanbooruPostDeserializer().deserializePost(XmlDanbooruPostResponse.Success(json))
+        val deserialize = JsonDanbooruPostDeserializer().deserializePost(JsonDanbooruPostResponse.Success(json))
+        val failureDeserialize = deserialize as JsonDanbooruPostDeserialize.Failure
 
-        println(post)
+        // TODO mb add asserts for all fields?
+        assertEquals(44, failureDeserialize.raw.size)
     }
 }

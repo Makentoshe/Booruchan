@@ -4,7 +4,7 @@ import org.junit.Assert.assertEquals
 import org.junit.Ignore
 import org.junit.Test
 import post.deserialize.DanbooruPostDeserialize
-import post.deserialize.JsonDanbooruPostDeserializer
+import post.deserialize.XmlDanbooruPostDeserialize
 import post.deserialize.XmlDanbooruPostDeserializer
 import post.network.XmlDanbooruPostResponse
 
@@ -21,11 +21,12 @@ class XmlDanbooruPostDeserializerTest {
     }
 
     @Test
-    @Ignore
     fun `should parse xml corrupted post`() {
-        val json = javaClass.classLoader.getResource("post-corrupted.xml")!!.readText()
-        val post = JsonDanbooruPostDeserializer().deserializePost(XmlDanbooruPostResponse.Success(json))
+        val xml = javaClass.classLoader.getResource("post-corrupted.xml")!!.readText()
+        val deserialize = XmlDanbooruPostDeserializer().deserializePost(XmlDanbooruPostResponse.Success(xml))
+        val failureDeserialize = deserialize as XmlDanbooruPostDeserialize.Failure
 
-        println(post)
+        // TODO mb add asserts for all fields?
+        assertEquals(44, failureDeserialize.raw.size)
     }
 }

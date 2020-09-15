@@ -10,8 +10,18 @@ class XmlDanbooruPostsDeserializerTest {
     @Test
     fun `should parse xml posts`() {
         val xml = javaClass.classLoader.getResource("posts.xml")!!.readText()
-        val posts = XmlDanbooruPostsDeserializer().deserializePosts(XmlDanbooruPostsResponse.Success(xml))
+        val deserialize = XmlDanbooruPostsDeserializer().deserializePosts(XmlDanbooruPostsResponse.Success(xml))
 
-        assertEquals(20, posts.posts.size)
+        assertEquals(20, deserialize.posts.size)
+    }
+
+    @Test
+    fun `should parse xml corrupted posts`() {
+        val xml = javaClass.classLoader.getResource("posts-corrupted.xml")!!.readText()
+        val deserialize = XmlDanbooruPostsDeserializer().deserializePosts(XmlDanbooruPostsResponse.Success(xml))
+
+        assertEquals(20, deserialize.deserializes.size)
+        assertEquals(1, deserialize.failures.size)
+        assertEquals(19, deserialize.posts.size)
     }
 }
