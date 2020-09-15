@@ -1,5 +1,8 @@
 import build.*
+import jetbrains.buildServer.configs.kotlin.v2019_2.ProjectFeatures
 import jetbrains.buildServer.configs.kotlin.v2019_2.project
+import jetbrains.buildServer.configs.kotlin.v2019_2.projectFeatures.buildReportTab
+import jetbrains.buildServer.configs.kotlin.v2019_2.ui.add
 import jetbrains.buildServer.configs.kotlin.v2019_2.version
 import vcs.BooruchanVcsRoot
 
@@ -28,10 +31,19 @@ To debug in IntelliJ Idea, open the 'Maven Projects' tool window (View
 version = "2020.1"
 
 project {
-    vcsRoot(BooruchanVcsRoot)
-
     buildType(Core)
     buildType(Gelbooru)
     buildType(Danbooru)
     buildType(DanbooruApiCheck)
+
+    vcsRoot(BooruchanVcsRoot)
+
+    features {
+        add {
+            buildReportTab {
+                title = "JaCoco Coverage"
+                startPage = "jacocoHtmlReport/jacocoHtml.zip!index.html"
+            }
+        }
+    }
 }
