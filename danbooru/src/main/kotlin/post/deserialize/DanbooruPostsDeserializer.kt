@@ -8,7 +8,7 @@ import org.jsoup.nodes.Element
 import org.jsoup.parser.Parser
 import post.network.*
 
-interface DanbooruPostsDeserializer<out Posts : DanbooruPostsDeserialize<*>, in Response : DanbooruPostsResponse.Success> {
+interface DanbooruPostsDeserializer<out Posts : DanbooruPostsDeserialize, in Response : DanbooruPostsResponse.Success> {
     fun deserializePosts(response: Response): Posts
 }
 
