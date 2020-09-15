@@ -1,55 +1,27 @@
 package tag.deserialize
 
 import tag.DanbooruTag
-import tag.JsonDanbooruTag
-import tag.XmlDanbooruTag
 
-abstract class DanbooruTagsDeserialize<out P : DanbooruTag> {
+interface DanbooruTagsDeserialize {
 
-    /**
-     * Contains tags and failures in one structure.
-     * Here we can understand not only "success" or "failure", but position as well
-     */
-    abstract val rawTags: List<Any>
+    val deserializes: List<DanbooruTagDeserialize>
 
-    abstract val tags: List<P>
+    val tags: List<DanbooruTagDeserialize.Success<DanbooruTag>>
 
-    abstract val failures: List<Map<String, Any?>>
-
+    val failures: List<DanbooruTagDeserialize.Failure>
 }
 
 class XmlDanbooruTagsDeserialize(
-    deserializes: List<XmlDanbooruTagDeserialize>
-) : DanbooruTagsDeserialize<XmlDanbooruTag>() {
-
-    @Suppress("IMPLICIT_CAST_TO_ANY")
-    override val rawTags = deserializes.map {
-        when (it) {
-            is XmlDanbooruTagDeserialize.Success -> it.tag
-            is XmlDanbooruTagDeserialize.Failure -> it.raw
-        }
-    }
-
-    override val tags = rawTags.filterIsInstance<XmlDanbooruTag>()
-
-    override val failures = rawTags.filterIsInstance<Map<String, Any?>>()
-
+    override val deserializes: List<XmlDanbooruTagDeserialize>
+) : DanbooruTagsDeserialize {
+    override val tags = deserializes.filterIsInstance<XmlDanbooruTagDeserialize.Success>()
+    override val failures = deserializes.filterIsInstance<XmlDanbooruTagDeserialize.Failure>()
 }
 
 class JsonDanbooruTagsDeserialize(
-    deserializes: List<JsonDanbooruTagDeserialize>
-) : DanbooruTagsDeserialize<JsonDanbooruTag>() {
-
-    @Suppress("IMPLICIT_CAST_TO_ANY")
-    override val rawTags = deserializes.map {
-        when (it) {
-            is JsonDanbooruTagDeserialize.Success -> it.tag
-            is JsonDanbooruTagDeserialize.Failure -> it.raw
-        }
-    }
-
-    override val tags = rawTags.filterIsInstance<JsonDanbooruTag>()
-
-    override val failures = rawTags.filterIsInstance<Map<String, Any?>>()
+    override val deserializes: List<JsonDanbooruTagDeserialize>
+) : DanbooruTagsDeserialize {
+    override val tags = deserializes.filterIsInstance<JsonDanbooruTagDeserialize.Success>()
+    override val failures = deserializes.filterIsInstance<JsonDanbooruTagDeserialize.Failure>()
 }
 

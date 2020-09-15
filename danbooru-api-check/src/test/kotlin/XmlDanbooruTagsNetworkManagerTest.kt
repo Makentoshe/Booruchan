@@ -9,8 +9,8 @@ import org.junit.rules.Timeout
 import tag.deserialize.XmlDanbooruTagsDeserializer
 import tag.network.DanbooruTagsFilter
 import tag.network.DanbooruTagsRequest
-import tag.network.DanbooruTagsResponse
 import tag.network.XmlDanbooruTagsNetworkManager
+import tag.network.XmlDanbooruTagsResponse
 
 class XmlDanbooruTagsNetworkManagerTest {
 
@@ -20,7 +20,7 @@ class XmlDanbooruTagsNetworkManagerTest {
     @Test
     fun `should request xml tags with count param`() = runBlocking {
         val request = DanbooruTagsRequest.Xml(DanbooruTagsFilter(count = 20))
-        val response = XmlDanbooruTagsNetworkManager(HttpClient()).getTags(request) as DanbooruTagsResponse.Success
+        val response = XmlDanbooruTagsNetworkManager(HttpClient()).getTags(request) as XmlDanbooruTagsResponse.Success
 
         // deserialize json and check: was the filter condition satisfied?
         val tags = XmlDanbooruTagsDeserializer().deserializeTags(response)
