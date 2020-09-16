@@ -1,0 +1,13 @@
+<comment>
+    <corrupted-id type="integer">1</corrupted-id>
+    <created-at type="dateTime">2005-05-25T16:31:50-04:00</created-at>
+    <post-id type="integer">162</post-id>
+    <creator-id type="integer">13</creator-id>
+    <body>Yoshiharu Makita - Radical Temptation [巻田佳春] RADICAL☆てんぷて～しょん</body>
+    <score type="integer">3</score>
+    <updated-at type="dateTime">2005-05-25T16:31:50-04:00</updated-at>
+    <updater-id type="integer">13</updater-id>
+    <do-not-bump-post type="boolean">false</do-not-bump-post>
+    <is-deleted type="boolean">false</is-deleted>
+    <is-sticky type="boolean">false</is-sticky>
+</comment>
