@@ -1,4 +1,4 @@
-package network
+package post
 
 import io.ktor.client.*
 import kotlinx.coroutines.runBlocking
@@ -11,8 +11,11 @@ import post.network.DanbooruPostsFilter
 import post.network.DanbooruPostsRequest
 import post.network.XmlDanbooruPostsNetworkManager
 import post.network.XmlDanbooruPostsResponse
+import java.util.logging.Logger
 
 class XmlDanbooruPostsNetworkManagerTest {
+
+    private val logger = Logger.getLogger(this.javaClass.simpleName)
 
     @get:Rule
     val globalTimeout: Timeout = Timeout.seconds(30)
@@ -20,11 +23,17 @@ class XmlDanbooruPostsNetworkManagerTest {
     @Test
     fun `should request xml posts`() = runBlocking {
         val request = DanbooruPostsRequest.Xml(DanbooruPostsFilter(count = 10))
+        logger.info { "Xml url request: ${request.url}" }
+        assertEquals("https://danbooru.donmai.us/posts.xml?limit=10", request.url)
         val response = XmlDanbooruPostsNetworkManager(HttpClient()).getPosts(request)
+        logger.info { "Response: $response" }
+        val successResponse = response as XmlDanbooruPostsResponse.Success
 
         // deserialize xml and check: was the filter condition satisfied?
-        val posts = XmlDanbooruPostsDeserializer().deserializePosts(response as XmlDanbooruPostsResponse.Success)
-        assertEquals(10, posts.posts.size)
+        val deserialize = XmlDanbooruPostsDeserializer().deserializePosts(successResponse)
+        assertEquals(10, deserialize.deserializes.size)
+        logger.info { "Success: ${deserialize.posts.size}" }
+        logger.info { "Failure: ${deserialize.failures.size}" }
     }
 }
 
