@@ -1,6 +1,5 @@
 plugins {
     id("org.jetbrains.kotlin.jvm")
-//    kotlin("plugin.serialization") version "1.3.72"
 }
 
 group = "com.makentoshe.booruchan.gelbooru"
@@ -29,11 +28,11 @@ dependencies {
     val jsoupVersion = "1.13.1"
     implementation("org.jsoup:jsoup:$jsoupVersion")
 
-//    // Kotlinx Serialization (serialization plugin)
-//    // https://github.com/Kotlin/kotlinx.serialization
-//    val kotlinxSerializationVersion = "1.0.0-RC"
-//    implementation("org.jetbrains.kotlinx:kotlinx-serialization-core:$kotlinxSerializationVersion")
-//    implementation("org.jetbrains.kotlinx:kotlinx-serialization-properties:$kotlinxSerializationVersion")
+    // Jackson (xml parsing)
+    // https://github.com/FasterXML/jackson
+    val jacksonVersion = "2.11.2"
+    implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-xml:$jacksonVersion")
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonVersion")
 
     // Ktor (http client)
     val ktorVersion = "1.3.1"
