@@ -11,14 +11,14 @@ interface GelbooruPostResponse {
 
 sealed class XmlGelbooruPostResponse: GelbooruPostResponse {
 
-    data class Success(override val string: String) : XmlGelbooruPostResponse(), GelbooruPostsResponse.Success
+    data class Success(override val string: String) : XmlGelbooruPostResponse(), GelbooruPostResponse.Success
 
-    data class Failure(override val exception: Exception) : XmlGelbooruPostResponse(), GelbooruPostsResponse.Failure
+    data class Failure(override val exception: Exception) : XmlGelbooruPostResponse(), GelbooruPostResponse.Failure
 }
 
 sealed class JsonGelbooruPostResponse: GelbooruPostResponse {
 
-    data class Success(override val string: String) : JsonGelbooruPostResponse(), GelbooruPostsResponse.Success
+    data class Success(override val string: String) : JsonGelbooruPostResponse(), GelbooruPostResponse.Success
 
-    data class Failure(override val exception: Exception) : JsonGelbooruPostResponse(), GelbooruPostsResponse.Failure
+    data class Failure(override val exception: Exception) : JsonGelbooruPostResponse(), GelbooruPostResponse.Failure
 }
