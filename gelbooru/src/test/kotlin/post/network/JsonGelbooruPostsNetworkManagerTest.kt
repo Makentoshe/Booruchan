@@ -1,12 +1,9 @@
-package network
+package post.network
 
 import io.ktor.client.*
 import kotlinx.coroutines.runBlocking
 import org.junit.Ignore
 import org.junit.Test
-import post.network.GelbooruPostsFilter
-import post.network.GelbooruPostsRequest
-import post.network.JsonGelbooruPostsNetworkManager
 
 class JsonGelbooruPostsNetworkManagerTest {
 
