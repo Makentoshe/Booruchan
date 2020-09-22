@@ -29,15 +29,16 @@ class XmlGelbooruCommentDeserializer : GelbooruCommentDeserializer<XmlGelbooruCo
     override fun deserializeComment(response: XmlGelbooruCommentResponse.Success): XmlGelbooruCommentDeserialize {
         val jsoup = Jsoup.parse(response.string, "", Parser.xmlParser())
         val xml = jsoup.getElementsByTag("comment").map { element ->
-            // escapes "<" and ">" characters
-            val oldBody = element.attr("body")
-            val newBody = oldBody.replace("<", "&lt").replace(">", "&gt")
-            element.attr("body", newBody)
+            element.attr("body", escapeValue(element.attr("body")))
         }.let(::Elements).toString()
         return try {
             XmlGelbooruCommentDeserialize.Success(mapper.readValue(xml))
         } catch (e: Exception) {
             XmlGelbooruCommentDeserialize.Failure(e, mapper.readValue(xml))
         }
+    }
+
+    private fun escapeValue(value: String): String {
+        return value.replace("<", "&lt").replace(">", "&gt")
     }
 }
