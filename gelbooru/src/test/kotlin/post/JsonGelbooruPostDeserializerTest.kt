@@ -9,7 +9,7 @@ import post.network.JsonGelbooruPostResponse
 class JsonGelbooruPostDeserializerTest {
 
     @Test
-    fun `should parse json post`() {
+    fun `should parse json`() {
         val json = javaClass.classLoader.getResource("post.json")!!.readText()
         val deserialize = JsonGelbooruPostDeserializer().deserializePost(JsonGelbooruPostResponse.Success(json))
         val successDeserialize = deserialize as JsonGelbooruPostDeserialize.Success
@@ -19,7 +19,7 @@ class JsonGelbooruPostDeserializerTest {
     }
 
     @Test
-    fun `should parse json corrupted post`() {
+    fun `should parse corrupted json`() {
         val json = javaClass.classLoader.getResource("post-corrupted.json")!!.readText()
         val deserialize = JsonGelbooruPostDeserializer().deserializePost(JsonGelbooruPostResponse.Success(json))
         val failureDeserialize = deserialize as JsonGelbooruPostDeserialize.Failure

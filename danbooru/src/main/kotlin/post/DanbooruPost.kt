@@ -8,17 +8,8 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement
 import text
 import time
 
-interface DanbooruPost : PostId {
-    val score: Int
-    val downScore: Int
-    val upScore: Int
-
-    val creationTime: Time
+interface DanbooruPost : Post {
     val updationTime: Time?
-
-    val fullImage: FullImage
-    val sampleImage: SampleImage
-    val previewImage: PreviewImage
 
     val uploaderId: Int
 
@@ -34,9 +25,6 @@ interface DanbooruPost : PostId {
     val pixivId: Int?
     val poolString: String?
     val md5: String
-    val rating: Rating
-    val source: String?
-    val tags: Tags
     val isBanned: Boolean
     val isDeleted: Boolean
     val isFavorited: Boolean
@@ -55,11 +43,11 @@ data class JsonDanbooruPost(
     @JsonProperty("id")
     override val postId: Int,
     @JsonProperty("score")
-    override val score: Int,
+    val rawScore: Int,
     @JsonProperty("down_score")
-    override val downScore: Int,
+    val rawDownScore: Int,
     @JsonProperty("up_score")
-    override val upScore: Int,
+    val rawUpScore: Int,
     @JsonProperty("created_at")
     val rawCreationTime: String,
     @JsonProperty("updated_at")
@@ -164,6 +152,9 @@ data class JsonDanbooruPost(
     override val fullImage = fullImage(fileUrl, imageHeight, imageWidth)
 
     @JsonIgnore
+    override val score = score(rawUpScore, rawDownScore)
+
+    @JsonIgnore
     override val rating = when (rawRating) {
         "q" -> Rating.QUESTIONABLE
         "e" -> Rating.EXPLICIT
@@ -177,11 +168,11 @@ data class XmlDanbooruPost(
     @JacksonXmlProperty(localName = "id")
     override val postId: Int,
     @JacksonXmlProperty(localName = "score")
-    override val score: Int,
+    val rawScore: Int,
     @JacksonXmlProperty(localName = "down-score")
-    override val downScore: Int,
+    val rawDownScore: Int,
     @JacksonXmlProperty(localName = "up-score")
-    override val upScore: Int,
+    val rawUpScore: Int,
     @JacksonXmlProperty(localName = "created-at")
     val rawCreationTime: String,
     @JacksonXmlProperty(localName = "updated-at")
@@ -284,6 +275,9 @@ data class XmlDanbooruPost(
     override val previewImage = previewImage(previewUrl)
     override val sampleImage = sampleImage(sampleUrl)
     override val fullImage = fullImage(fileUrl, imageHeight, imageWidth)
+
+    @JsonIgnore
+    override val score = score(rawUpScore, rawDownScore)
 
     @JsonIgnore
     override val rating = when (rawRating) {

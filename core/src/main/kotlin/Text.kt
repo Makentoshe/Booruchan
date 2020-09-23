@@ -1,4 +1,4 @@
-/** Describes entity title. */
+/** Describes entity title or body */
 interface Text {
     val text: String
 }

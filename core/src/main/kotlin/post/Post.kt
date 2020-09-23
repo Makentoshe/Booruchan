@@ -1,19 +1,18 @@
 package post
 
 import Time
-import Hash
-import Score
 
 interface Post : PostId {
-    val raw: Map<String, String>
-    val previewImage: PreviewImage
-    val sampleImage: SampleImage
-    val fullImage: FullImage
     val creationTime: Time
-    val tags: Tags
-    val md5: String
-    val source: String
-    val score: Int
+
+    val score: Score
     val rating: Rating
-    val hasComments: Boolean
+    val tags: Tags
+
+    val fullImage: FullImage
+    val sampleImage: SampleImage
+    val previewImage: PreviewImage
+
+    /** Nullable because if source can be not defined by default */
+    val source: String?
 }

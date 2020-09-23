@@ -9,7 +9,7 @@ import post.network.XmlGelbooruPostResponse
 class XmlGelbooruPostDeserializerTest {
 
     @Test
-    fun `should parse xml to the success`() {
+    fun `should parse xml`() {
         val xml = javaClass.classLoader.getResource("post.xml")!!.readText()
         val deserialize = XmlGelbooruPostDeserializer().deserializePost(XmlGelbooruPostResponse.Success(xml))
         val successDeserialize = deserialize as XmlGelbooruPostDeserialize.Success

@@ -1,6 +1,5 @@
 package post
 
-import Time
 import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty
@@ -9,19 +8,8 @@ import text
 import time
 import java.io.File
 
-interface GelbooruPost : PostId {
-    val score: Int
-
-    val creationTime: Time
-
-    val fullImage: FullImage
-    val sampleImage: SampleImage
-    val previewImage: PreviewImage
-
+interface GelbooruPost : Post {
     val md5: String
-    val rating: Rating
-    val source: String?
-    val tags: Tags
     val change: String
 }
 
@@ -31,7 +19,7 @@ data class XmlGelbooruPost(
     @JacksonXmlProperty(localName = "id", isAttribute = true)
     override val postId: Int,
     @JacksonXmlProperty(localName = "score", isAttribute = true)
-    override val score: Int,
+    val rawScore: Int,
     @JacksonXmlProperty(localName = "md5", isAttribute = true)
     override val md5: String,
     @JacksonXmlProperty(localName = "rating", isAttribute = true)
@@ -80,6 +68,9 @@ data class XmlGelbooruPost(
     override val tags = tags(tagsString.split(" ").map(::text).toSet())
 
     @JsonIgnore
+    override val score = score(rawScore)
+
+    @JsonIgnore
     override val rating = when (rawRating) {
         "q" -> Rating.QUESTIONABLE
         "e" -> Rating.EXPLICIT
@@ -92,7 +83,7 @@ data class JsonGelbooruPost(
     @JsonProperty("id", required = true)
     override val postId: Int,
     @JsonProperty("score")
-    override val score: Int,
+    val rawScore: Int,
     @JsonProperty("hash")
     override val md5: String,
     @JsonProperty("rating")
@@ -132,7 +123,10 @@ data class JsonGelbooruPost(
     override val previewImage = internalPreviewImage()
     override val tags = tags(tagString.split(" ").map(::text).toSet())
 
-    private fun internalSampleImage() : SampleImage {
+    @JsonIgnore
+    override val score = score(rawScore)
+
+    private fun internalSampleImage(): SampleImage {
         val imageFile = File(image)
         val extension = when (imageFile.extension) {
             "png" -> "jpg"
