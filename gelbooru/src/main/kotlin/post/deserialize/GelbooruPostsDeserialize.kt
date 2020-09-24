@@ -18,7 +18,6 @@ class XmlGelbooruPostsDeserialize(
     override val failures = deserializes.filterIsInstance<XmlGelbooruPostDeserialize.Failure>()
 }
 
-
 class JsonGelbooruPostsDeserialize(
     override val deserializes: List<JsonGelbooruPostDeserialize>
 ) : GelbooruPostsDeserialize {

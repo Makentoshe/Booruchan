@@ -11,7 +11,7 @@ class JsonGelbooruPostNetworkManagerTest {
     @Test
     @Ignore("real api")
     fun `should request json post`() = runBlocking {
-        val request = GelbooruPostRequest.Json(GelbooruPostFilter.ById(postId(2)))
+        val request = JsonGelbooruPostRequest(GelbooruPostFilter.ById(postId(2)))
         val response = JsonGelbooruPostNetworkManager(HttpClient()).getPost(request)
         println(response)
     }

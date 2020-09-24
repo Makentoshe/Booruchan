@@ -5,7 +5,7 @@ import io.ktor.client.call.*
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
 
-abstract class GelbooruPostsNetworkManager<in Request : GelbooruPostsRequest, out Response : GelbooruPostsResponse>(
+abstract class GelbooruPostsNetworkManager<in Request : GelbooruPostsRequest>(
     private val client: HttpClient
 ) {
     protected suspend fun internalPosts(request: Request): HttpResponse {
@@ -14,14 +14,14 @@ abstract class GelbooruPostsNetworkManager<in Request : GelbooruPostsRequest, ou
         return client.get(ktorRequestBuilder)
     }
 
-    abstract suspend fun getPosts(request: Request): Response
+    abstract suspend fun getPosts(request: Request): GelbooruPostsResponse
 }
 
 class XmlGelbooruPostsNetworkManager(
     client: HttpClient
-) : GelbooruPostsNetworkManager<GelbooruPostsRequest.Xml, XmlGelbooruPostsResponse>(client) {
+) : GelbooruPostsNetworkManager<XmlGelbooruPostsRequest>(client) {
 
-    override suspend fun getPosts(request: GelbooruPostsRequest.Xml): XmlGelbooruPostsResponse = try {
+    override suspend fun getPosts(request: XmlGelbooruPostsRequest): XmlGelbooruPostsResponse = try {
         XmlGelbooruPostsResponse.Success(internalPosts(request).receive())
     } catch (e: Exception) {
         XmlGelbooruPostsResponse.Failure(e)
@@ -30,8 +30,8 @@ class XmlGelbooruPostsNetworkManager(
 
 class JsonGelbooruPostsNetworkManager(
     client: HttpClient
-) : GelbooruPostsNetworkManager<GelbooruPostsRequest.Json, JsonGelbooruPostsResponse>(client) {
-    override suspend fun getPosts(request: GelbooruPostsRequest.Json): JsonGelbooruPostsResponse = try {
+) : GelbooruPostsNetworkManager<JsonGelbooruPostsRequest>(client) {
+    override suspend fun getPosts(request: JsonGelbooruPostsRequest): JsonGelbooruPostsResponse = try {
         JsonGelbooruPostsResponse.Success(internalPosts(request).receive())
     } catch (e: Exception) {
         JsonGelbooruPostsResponse.Failure(e)

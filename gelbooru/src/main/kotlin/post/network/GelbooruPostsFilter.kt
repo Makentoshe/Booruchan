@@ -20,6 +20,13 @@ data class GelbooruPostsFilter(
     }
 
     companion object {
+
         private const val COUNT = "limit"
+
+        fun fromProperties(map: Map<String, String>): GelbooruPostsFilter {
+            val count = map[COUNT]?.toIntOrNull()
+
+            return GelbooruPostsFilter(count)
+        }
     }
 }
