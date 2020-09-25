@@ -5,7 +5,7 @@ import io.ktor.client.call.*
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
 
-abstract class DanbooruPostsNetworkManager<in Request : DanbooruPostsRequest, out Response : DanbooruPostsResponse>(
+abstract class DanbooruPostsNetworkManager<in Request : DanbooruPostsRequest>(
     private val client: HttpClient
 ) {
     protected suspend fun internalPosts(request: Request): HttpResponse {
@@ -14,14 +14,14 @@ abstract class DanbooruPostsNetworkManager<in Request : DanbooruPostsRequest, ou
         return client.get(ktorRequestBuilder)
     }
 
-    abstract suspend fun getPosts(request: Request): Response
+    abstract suspend fun getPosts(request: Request): DanbooruPostsResponse
 }
 
 class XmlDanbooruPostsNetworkManager(
     client: HttpClient
-) : DanbooruPostsNetworkManager<DanbooruPostsRequest.Xml, XmlDanbooruPostsResponse>(client) {
+) : DanbooruPostsNetworkManager<XmlDanbooruPostsRequest>(client) {
 
-    override suspend fun getPosts(request: DanbooruPostsRequest.Xml): XmlDanbooruPostsResponse = try {
+    override suspend fun getPosts(request: XmlDanbooruPostsRequest): XmlDanbooruPostsResponse = try {
         XmlDanbooruPostsResponse.Success(internalPosts(request).receive())
     } catch (e: Exception) {
         XmlDanbooruPostsResponse.Failure(e)
@@ -30,8 +30,8 @@ class XmlDanbooruPostsNetworkManager(
 
 class JsonDanbooruPostsNetworkManager(
     client: HttpClient
-) : DanbooruPostsNetworkManager<DanbooruPostsRequest.Json, JsonDanbooruPostsResponse>(client) {
-    override suspend fun getPosts(request: DanbooruPostsRequest.Json): JsonDanbooruPostsResponse = try {
+) : DanbooruPostsNetworkManager<JsonDanbooruPostsRequest>(client) {
+    override suspend fun getPosts(request: JsonDanbooruPostsRequest): JsonDanbooruPostsResponse = try {
         JsonDanbooruPostsResponse.Success(internalPosts(request).receive())
     } catch (e: Exception) {
         JsonDanbooruPostsResponse.Failure(e)

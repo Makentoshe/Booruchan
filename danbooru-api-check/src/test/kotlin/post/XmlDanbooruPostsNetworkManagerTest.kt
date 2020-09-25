@@ -8,8 +8,8 @@ import org.junit.Test
 import org.junit.rules.Timeout
 import post.deserialize.XmlDanbooruPostsDeserializer
 import post.network.DanbooruPostsFilter
-import post.network.DanbooruPostsRequest
 import post.network.XmlDanbooruPostsNetworkManager
+import post.network.XmlDanbooruPostsRequest
 import post.network.XmlDanbooruPostsResponse
 import java.util.logging.Logger
 
@@ -22,7 +22,7 @@ class XmlDanbooruPostsNetworkManagerTest {
 
     @Test
     fun `should request xml posts`() = runBlocking {
-        val request = DanbooruPostsRequest.Xml(DanbooruPostsFilter(count = 10))
+        val request = XmlDanbooruPostsRequest(DanbooruPostsFilter(count = 10))
         logger.info { "Xml url request: ${request.url}" }
         assertEquals("https://danbooru.donmai.us/posts.xml?limit=10", request.url)
         val response = XmlDanbooruPostsNetworkManager(HttpClient()).getPosts(request)
