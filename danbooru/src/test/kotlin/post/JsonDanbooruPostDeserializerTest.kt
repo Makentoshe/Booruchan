@@ -1,19 +1,17 @@
 package post
 
 import org.junit.Assert.assertEquals
-import org.junit.Ignore
 import org.junit.Test
 import post.deserialize.DanbooruPostDeserialize
 import post.deserialize.JsonDanbooruPostDeserialize
 import post.deserialize.JsonDanbooruPostDeserializer
-import post.network.JsonDanbooruPostResponse
 
 class JsonDanbooruPostDeserializerTest {
 
     @Test
     fun `should parse json post`() {
         val json = javaClass.classLoader.getResource("post.json")!!.readText()
-        val deserialize = JsonDanbooruPostDeserializer().deserializePost(JsonDanbooruPostResponse.Success(json))
+        val deserialize = JsonDanbooruPostDeserializer().deserializePost(json)
         val successDeserialize = deserialize as DanbooruPostDeserialize.Success<*>
 
         // TODO add asserts for all fields (feelsbadman)
@@ -23,7 +21,7 @@ class JsonDanbooruPostDeserializerTest {
     @Test
     fun `should parse json corrupted post`() {
         val json = javaClass.classLoader.getResource("post-corrupted.json")!!.readText()
-        val deserialize = JsonDanbooruPostDeserializer().deserializePost(JsonDanbooruPostResponse.Success(json))
+        val deserialize = JsonDanbooruPostDeserializer().deserializePost(json)
         val failureDeserialize = deserialize as JsonDanbooruPostDeserialize.Failure
 
         // TODO mb add asserts for all fields?
