@@ -3,14 +3,13 @@ package post
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import post.deserialize.XmlDanbooruPostsDeserializer
-import post.network.XmlDanbooruPostsResponse
 
 class XmlDanbooruPostsDeserializerTest {
 
     @Test
     fun `should parse xml posts`() {
         val xml = javaClass.classLoader.getResource("posts.xml")!!.readText()
-        val deserialize = XmlDanbooruPostsDeserializer().deserializePosts(XmlDanbooruPostsResponse.Success(xml))
+        val deserialize = XmlDanbooruPostsDeserializer().deserializePosts(xml)
 
         assertEquals(20, deserialize.posts.size)
     }
@@ -18,7 +17,7 @@ class XmlDanbooruPostsDeserializerTest {
     @Test
     fun `should parse xml corrupted posts`() {
         val xml = javaClass.classLoader.getResource("posts-corrupted.xml")!!.readText()
-        val deserialize = XmlDanbooruPostsDeserializer().deserializePosts(XmlDanbooruPostsResponse.Success(xml))
+        val deserialize = XmlDanbooruPostsDeserializer().deserializePosts(xml)
 
         assertEquals(20, deserialize.deserializes.size)
         assertEquals(1, deserialize.failures.size)

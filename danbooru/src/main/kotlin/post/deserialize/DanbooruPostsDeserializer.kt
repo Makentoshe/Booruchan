@@ -6,33 +6,30 @@ import com.fasterxml.jackson.module.kotlin.readValue
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Element
 import org.jsoup.parser.Parser
-import post.network.*
 
-interface DanbooruPostsDeserializer<in Response : DanbooruPostsResponse.Success> {
-    fun deserializePosts(response: Response): DanbooruPostsDeserialize
+interface DanbooruPostsDeserializer {
+    fun deserializePosts(string: String): DanbooruPostsDeserialize
 }
 
-class XmlDanbooruPostsDeserializer :
-    DanbooruPostsDeserializer<XmlDanbooruPostsResponse.Success> {
+class XmlDanbooruPostsDeserializer : DanbooruPostsDeserializer {
 
-    override fun deserializePosts(response: XmlDanbooruPostsResponse.Success): XmlDanbooruPostsDeserialize {
-        val jsoup = Jsoup.parse(response.string, "", Parser.xmlParser())
+    override fun deserializePosts(string: String): XmlDanbooruPostsDeserialize {
+        val jsoup = Jsoup.parse(string, "", Parser.xmlParser())
         return XmlDanbooruPostsDeserialize(jsoup.getElementsByTag("post").map(::deserializePost))
     }
 
     private val xmlPostDeserializer = XmlDanbooruPostDeserializer()
     private fun deserializePost(element: Element): XmlDanbooruPostDeserialize =
-        xmlPostDeserializer.deserializePost(XmlDanbooruPostResponse.Success(element.toString()))
+        xmlPostDeserializer.deserializePost(element.toString())
 }
 
-class JsonDanbooruPostsDeserializer :
-    DanbooruPostsDeserializer<JsonDanbooruPostsResponse.Success> {
+class JsonDanbooruPostsDeserializer : DanbooruPostsDeserializer {
 
-    override fun deserializePosts(response: JsonDanbooruPostsResponse.Success): JsonDanbooruPostsDeserialize {
-        return JsonDanbooruPostsDeserialize(JsonMapper().readValue<JsonNode>(response.string).map(::deserializePost))
+    override fun deserializePosts(string: String): JsonDanbooruPostsDeserialize {
+        return JsonDanbooruPostsDeserialize(JsonMapper().readValue<JsonNode>(string).map(::deserializePost))
     }
 
     private val jsonPostDeserializer = JsonDanbooruPostDeserializer()
     private fun deserializePost(element: JsonNode): JsonDanbooruPostDeserialize =
-        jsonPostDeserializer.deserializePost(JsonDanbooruPostResponse.Success(element.toString()))
+        jsonPostDeserializer.deserializePost(element.toString())
 }

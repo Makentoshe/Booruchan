@@ -1,10 +1,7 @@
 package post.network
 
-sealed class DanbooruPostRequest {
-
+sealed class DanbooruPostRequest: PostRequest {
     protected val host = "https://danbooru.donmai.us"
-
-    abstract val url: String
 }
 
 data class XmlDanbooruPostRequest(private val filter: DanbooruPostFilter) : DanbooruPostRequest() {
