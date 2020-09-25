@@ -9,8 +9,8 @@ import org.junit.rules.Timeout
 import post.deserialize.JsonDanbooruPostDeserialize
 import post.deserialize.JsonDanbooruPostDeserializer
 import post.network.DanbooruPostFilter
-import post.network.DanbooruPostRequest
 import post.network.JsonDanbooruPostNetworkManager
+import post.network.JsonDanbooruPostRequest
 import post.network.JsonDanbooruPostResponse
 import java.util.logging.Logger
 
@@ -23,7 +23,7 @@ class JsonDanbooruPostNetworkManagerTest {
 
     @Test
     fun `should request json post`() = runBlocking {
-        val request = DanbooruPostRequest.Json(DanbooruPostFilter.ById(postId(1)))
+        val request = JsonDanbooruPostRequest(DanbooruPostFilter.ById(postId(1)))
         logger.info { "Json url request: ${request.url}" }
         assertEquals("https://danbooru.donmai.us/posts/1.json", request.url)
         val response = JsonDanbooruPostNetworkManager(HttpClient()).getPost(request)

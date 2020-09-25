@@ -19,9 +19,9 @@ abstract class DanbooruPostNetworkManager<in Request : DanbooruPostRequest, out 
 
 class XmlDanbooruPostNetworkManager(
     client: HttpClient
-) : DanbooruPostNetworkManager<DanbooruPostRequest.Xml, XmlDanbooruPostResponse>(client) {
+) : DanbooruPostNetworkManager<XmlDanbooruPostRequest, XmlDanbooruPostResponse>(client) {
 
-    override suspend fun getPost(request: DanbooruPostRequest.Xml): XmlDanbooruPostResponse = try {
+    override suspend fun getPost(request: XmlDanbooruPostRequest): XmlDanbooruPostResponse = try {
         XmlDanbooruPostResponse.Success(internalPost(request).receive())
     } catch (e: Exception) {
         XmlDanbooruPostResponse.Failure(e)
@@ -30,9 +30,9 @@ class XmlDanbooruPostNetworkManager(
 
 class JsonDanbooruPostNetworkManager(
     client: HttpClient
-) : DanbooruPostNetworkManager<DanbooruPostRequest.Json, JsonDanbooruPostResponse>(client) {
+) : DanbooruPostNetworkManager<JsonDanbooruPostRequest, JsonDanbooruPostResponse>(client) {
 
-    override suspend fun getPost(request: DanbooruPostRequest.Json): JsonDanbooruPostResponse = try {
+    override suspend fun getPost(request: JsonDanbooruPostRequest): JsonDanbooruPostResponse = try {
         JsonDanbooruPostResponse.Success(internalPost(request).receive())
     } catch (e: Exception) {
         JsonDanbooruPostResponse.Failure(e)
