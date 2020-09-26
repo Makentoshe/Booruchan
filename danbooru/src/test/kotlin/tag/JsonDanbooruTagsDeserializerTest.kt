@@ -3,14 +3,13 @@ package tag
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import tag.deserialize.JsonDanbooruTagsDeserializer
-import tag.network.JsonDanbooruTagsResponse
 
 class JsonDanbooruTagsDeserializerTest {
 
     @Test
     fun `should deserialize tags json`() {
         val json = javaClass.classLoader.getResource("tags.json")!!.readText()
-        val deserialize = JsonDanbooruTagsDeserializer().deserializeTags(JsonDanbooruTagsResponse.Success(json))
+        val deserialize = JsonDanbooruTagsDeserializer().deserializeTags(json)
 
         assertEquals(20, deserialize.deserializes.size)
         assertEquals(20, deserialize.tags.size)
@@ -20,7 +19,7 @@ class JsonDanbooruTagsDeserializerTest {
     @Test
     fun `should deserialize corrupted tags json`() {
         val json = javaClass.classLoader.getResource("tags-corrupted.json")!!.readText()
-        val deserialize = JsonDanbooruTagsDeserializer().deserializeTags(JsonDanbooruTagsResponse.Success(json))
+        val deserialize = JsonDanbooruTagsDeserializer().deserializeTags(json)
 
         assertEquals(20, deserialize.deserializes.size)
         assertEquals(18, deserialize.tags.size)

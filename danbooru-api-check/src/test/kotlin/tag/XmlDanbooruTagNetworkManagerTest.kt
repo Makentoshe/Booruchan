@@ -10,9 +10,8 @@ import tag.deserialize.XmlDanbooruTagDeserialize
 import tag.deserialize.XmlDanbooruTagDeserializer
 import tag.entity.tagId
 import tag.network.DanbooruTagFilter
-import tag.network.DanbooruTagRequest
-import tag.network.XmlDanbooruTagNetworkManager
-import tag.network.XmlDanbooruTagResponse
+import tag.network.DanbooruTagNetworkManager
+import tag.network.XmlDanbooruTagRequest
 import java.util.logging.Logger
 
 class XmlDanbooruTagNetworkManagerTest {
@@ -24,15 +23,14 @@ class XmlDanbooruTagNetworkManagerTest {
 
     @Test
     fun `should request xml tag by id`() = runBlocking {
-        val request = DanbooruTagRequest.Xml(DanbooruTagFilter.ById(tagId(385430)))
+        val request = XmlDanbooruTagRequest(DanbooruTagFilter.ById(tagId(385430)))
         logger.info { "Xml url request: ${request.url}" }
         assertEquals("https://danbooru.donmai.us/tags/385430.xml", request.url)
-        val response = XmlDanbooruTagNetworkManager(HttpClient()).getTag(request)
+        val response = DanbooruTagNetworkManager(HttpClient()).getTag(request)
         logger.info { "Response: $response" }
-        val successResponse = response as XmlDanbooruTagResponse.Success
 
         // deserialize xml and check: was the filter condition satisfied?
-        val deserialize = XmlDanbooruTagDeserializer().deserializeTag(successResponse)
+        val deserialize = XmlDanbooruTagDeserializer().deserializeTag(response.getOrNull()!!)
         logger.info { "Deserialize: $deserialize" }
         deserialize as XmlDanbooruTagDeserialize.Success
         assertEquals(385430, deserialize.tag.tagId)
