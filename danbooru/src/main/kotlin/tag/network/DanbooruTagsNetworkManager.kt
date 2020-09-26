@@ -5,36 +5,19 @@ import io.ktor.client.call.*
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
 
-abstract class DanbooruTagsNetworkManager<in Request : DanbooruTagsRequest, out Response : DanbooruTagsResponse>(
+class DanbooruTagsNetworkManager(
     private val client: HttpClient
-) {
-    protected suspend fun internalTags(request: Request): HttpResponse {
+): TagsNetworkManager<DanbooruTagsRequest> {
+
+    private suspend fun internalTags(request: DanbooruTagsRequest): HttpResponse {
         val ktorRequestBuilder = HttpRequestBuilder()
         ktorRequestBuilder.url(request.url)
         return client.get(ktorRequestBuilder)
     }
 
-    abstract suspend fun getTags(request: Request): Response
-}
-
-class XmlDanbooruTagsNetworkManager(
-    client: HttpClient
-) : DanbooruTagsNetworkManager<DanbooruTagsRequest.Xml, XmlDanbooruTagsResponse>(client) {
-
-    override suspend fun getTags(request: DanbooruTagsRequest.Xml): XmlDanbooruTagsResponse = try {
-        XmlDanbooruTagsResponse.Success(internalTags(request).receive())
-    } catch (e: Exception) {
-        XmlDanbooruTagsResponse.Failure(e)
-    }
-}
-
-class JsonDanbooruTagsNetworkManager(
-    client: HttpClient
-) : DanbooruTagsNetworkManager<DanbooruTagsRequest.Json, JsonDanbooruTagsResponse>(client) {
-
-    override suspend fun getTags(request: DanbooruTagsRequest.Json): JsonDanbooruTagsResponse = try {
-        JsonDanbooruTagsResponse.Success(internalTags(request).receive())
-    } catch (e: Exception) {
-        JsonDanbooruTagsResponse.Failure(e)
+    override suspend fun getTags(request: DanbooruTagsRequest): Result<String> = try {
+        Result.success(internalTags(request).receive())
+    } catch (exception: Exception) {
+        Result.failure(exception)
     }
 }
