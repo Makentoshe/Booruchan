@@ -9,18 +9,18 @@ class JsonDanbooruPostsDeserializerTest {
     @Test
     fun `should parse json posts`() {
         val json = javaClass.classLoader.getResource("posts.json")!!.readText()
-        val deserialize = JsonDanbooruPostsDeserializer().deserializePosts(json)
+        val result = JsonDanbooruPostsDeserializer().deserializePosts(json)
 
-        assertEquals(20, deserialize.posts.size)
+        assertEquals(20, result.getOrNull()!!.deserializes.size)
     }
 
     @Test
     fun `should parse corrupted json posts`() {
         val json = javaClass.classLoader.getResource("posts-corrupted.json")!!.readText()
-        val deserialize = JsonDanbooruPostsDeserializer().deserializePosts(json)
+        val result = JsonDanbooruPostsDeserializer().deserializePosts(json).getOrNull()!!
 
-        assertEquals(20, deserialize.deserializes.size)
-        assertEquals(2, deserialize.failures.size)
-        assertEquals(18, deserialize.posts.size)
+        assertEquals(20, result.deserializes.size)
+        assertEquals(2, result.failures.size)
+        assertEquals(18, result.posts.size)
     }
 }
