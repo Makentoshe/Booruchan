@@ -1,4 +1,4 @@
-package tag.entity
+package tag
 
 interface TagId {
     /** Mandatory param: tag id */

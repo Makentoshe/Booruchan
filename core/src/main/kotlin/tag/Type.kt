@@ -1,4 +1,4 @@
-package tag.entity
+package tag
 
 // todo should be implemented
 enum class Type {

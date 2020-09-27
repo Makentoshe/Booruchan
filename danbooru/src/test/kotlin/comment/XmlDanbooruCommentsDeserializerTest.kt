@@ -1,7 +1,6 @@
 package comment
 
 import comment.deserialize.XmlDanbooruCommentsDeserializer
-import comment.network.XmlDanbooruCommentsResponse
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
@@ -10,7 +9,7 @@ class XmlDanbooruCommentsDeserializerTest {
     @Test
     fun `should deserialize xml`() {
         val xml = javaClass.classLoader.getResource("comments.xml")!!.readText()
-        val deserialize = XmlDanbooruCommentsDeserializer().deserializeComments(XmlDanbooruCommentsResponse.Success(xml))
+        val deserialize = XmlDanbooruCommentsDeserializer().deserializeComments(xml)
 
         assertEquals(20, deserialize.deserializes.size)
         assertEquals(20, deserialize.comments.size)
@@ -20,7 +19,7 @@ class XmlDanbooruCommentsDeserializerTest {
     @Test
     fun `should deserialize corrupted xml`() {
         val xml = javaClass.classLoader.getResource("comments-corrupted.xml")!!.readText()
-        val deserialize = XmlDanbooruCommentsDeserializer().deserializeComments(XmlDanbooruCommentsResponse.Success(xml))
+        val deserialize = XmlDanbooruCommentsDeserializer().deserializeComments(xml)
 
         assertEquals(20, deserialize.deserializes.size)
         assertEquals(18, deserialize.comments.size)

@@ -5,13 +5,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement
-import tag.entity.TagId
-import tag.entity.Type
 import time
 
-interface DanbooruTag : TagId {
-    val text: String
-    val type: Type
+interface DanbooruTag : Tag {
     val creationTime: Time
     val updationTime: Time?
     val isLocked: Boolean

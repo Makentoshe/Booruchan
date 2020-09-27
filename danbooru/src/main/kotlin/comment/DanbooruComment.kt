@@ -3,15 +3,11 @@ package comment
 import Time
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty
-import post.PostId
 import time
 
-interface DanbooruComment : CommentId, PostId {
-    val body: String
+interface DanbooruComment : Comment {
     val score: Int
-    val creatorId: Int
     val updaterId: Int?
-    val creationTime: Time
     val updationTime: Time?
     val isBumped: Boolean
     val isDeleted: Boolean
@@ -27,7 +23,7 @@ data class XmlDanbooruComment(
     override val postId: Int, // 162
     @JsonProperty("body", required = true)
     @JacksonXmlProperty(localName = "body")
-    override val body: String, // Yoshiharu Makita - Radical Temptation[巻田佳春] RADICAL☆てんぷて～しょん
+    override val text: String, // Yoshiharu Makita - Radical Temptation[巻田佳春] RADICAL☆てんぷて～しょん
     @JsonProperty("created-at", required = true)
     @JacksonXmlProperty(localName = "created-at")
     private val rawCreationTime: String, // 2005-05-25T16:31:50.000-04:00
@@ -58,7 +54,7 @@ data class JsonDanbooruComment(
     @JsonProperty("post_id", required = true)
     override val postId: Int, // 162
     @JsonProperty("body", required = true)
-    override val body: String, // Yoshiharu Makita - Radical Temptation[巻田佳春] RADICAL☆てんぷて～しょん
+    override val text: String, // Yoshiharu Makita - Radical Temptation[巻田佳春] RADICAL☆てんぷて～しょん
     @JsonProperty("created_at", required = true)
     private val rawCreationTime: String, // 2005-05-25T16:31:50.000-04:00
     @JsonProperty("creator_id", required = true)
