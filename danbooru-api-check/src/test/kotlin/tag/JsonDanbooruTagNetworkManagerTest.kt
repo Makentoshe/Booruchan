@@ -8,7 +8,6 @@ import org.junit.Test
 import org.junit.rules.Timeout
 import tag.deserialize.JsonDanbooruTagDeserialize
 import tag.deserialize.JsonDanbooruTagDeserializer
-import tag.entity.tagId
 import tag.network.DanbooruTagFilter
 import tag.network.DanbooruTagNetworkManager
 import tag.network.JsonDanbooruTagRequest

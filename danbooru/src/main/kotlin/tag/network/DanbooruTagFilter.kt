@@ -1,6 +1,6 @@
 package tag.network
 
-import tag.entity.TagId
+import tag.TagId
 
 sealed class DanbooruTagFilter {
 

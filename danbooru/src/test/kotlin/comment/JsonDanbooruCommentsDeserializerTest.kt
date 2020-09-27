@@ -1,7 +1,6 @@
 package comment
 
 import comment.deserialize.JsonDanbooruCommentsDeserializer
-import comment.network.JsonDanbooruCommentsResponse
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
@@ -11,7 +10,7 @@ class JsonDanbooruCommentsDeserializerTest {
     fun `should deserialize json`() {
         val json = javaClass.classLoader.getResource("comments.json")!!.readText()
         val deserialize =
-            JsonDanbooruCommentsDeserializer().deserializeComments(JsonDanbooruCommentsResponse.Success(json))
+            JsonDanbooruCommentsDeserializer().deserializeComments(json)
 
         assertEquals(20, deserialize.deserializes.size)
         assertEquals(20, deserialize.comments.size)
@@ -22,7 +21,7 @@ class JsonDanbooruCommentsDeserializerTest {
     fun `should deserialize corrupted json`() {
         val json = javaClass.classLoader.getResource("comments-corrupted.json")!!.readText()
         val deserialize =
-            JsonDanbooruCommentsDeserializer().deserializeComments(JsonDanbooruCommentsResponse.Success(json))
+            JsonDanbooruCommentsDeserializer().deserializeComments(json)
 
         assertEquals(20, deserialize.deserializes.size)
         assertEquals(18, deserialize.comments.size)

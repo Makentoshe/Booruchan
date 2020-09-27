@@ -9,7 +9,7 @@ import org.junit.Test
 import org.junit.rules.Timeout
 import tag.deserialize.XmlGelbooruTagDeserialize
 import tag.deserialize.XmlGelbooruTagDeserializer
-import tag.entity.tagId
+import tag.tagId
 import java.util.logging.Logger
 
 class XmlGelbooruTagNetworkManagerTest {
