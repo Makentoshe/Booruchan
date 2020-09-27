@@ -30,10 +30,11 @@ class DanbooruPostsNetworkManagerTest {
         logger.info { "Response: $response" }
 
         // deserialize json and check: was the filter condition satisfied?
-        val deserialize = JsonDanbooruPostsDeserializer().deserializePosts(response.getOrNull()!!)
-        assertEquals(10, deserialize.deserializes.size)
-        logger.info { "Success: ${deserialize.posts.size}" }
-        logger.info { "Failure: ${deserialize.failures.size}" }
+        val deserializeResult = JsonDanbooruPostsDeserializer().deserializePosts(response.getOrNull()!!)
+        val deserializeSuccess = deserializeResult.getOrNull()!!
+        assertEquals(10, deserializeSuccess.deserializes.size)
+        logger.info { "Success: ${deserializeSuccess.posts.size}" }
+        logger.info { "Failure: ${deserializeSuccess.failures.size}" }
     }
 
     @Test
@@ -45,9 +46,10 @@ class DanbooruPostsNetworkManagerTest {
         logger.info { "Response: $response" }
 
         // deserialize xml and check: was the filter condition satisfied?
-        val deserialize = XmlDanbooruPostsDeserializer().deserializePosts(response.getOrNull()!!)
-        assertEquals(10, deserialize.deserializes.size)
-        logger.info { "Success: ${deserialize.posts.size}" }
-        logger.info { "Failure: ${deserialize.failures.size}" }
+        val deserializeResult = XmlDanbooruPostsDeserializer().deserializePosts(response.getOrNull()!!)
+        val deserializeSuccess = deserializeResult.getOrNull()!!
+        assertEquals(10, deserializeSuccess.deserializes.size)
+        logger.info { "Success: ${deserializeSuccess.posts.size}" }
+        logger.info { "Failure: ${deserializeSuccess.failures.size}" }
     }
 }

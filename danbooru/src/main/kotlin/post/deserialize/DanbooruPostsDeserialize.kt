@@ -1,28 +1,12 @@
 package post.deserialize
 
+import deserialize.DeserializeException
 import post.DanbooruPost
 
-interface DanbooruPostsDeserialize {
+data class DanbooruPostsDeserialize<out Post : DanbooruPost>(
+    val deserializes: List<Result<DanbooruPostDeserialize<Post>>>
+) {
+    val failures = deserializes.mapNotNull { it.exceptionOrNull() as? DeserializeException }
 
-    val deserializes: List<DanbooruPostDeserialize>
-
-    val posts: List<DanbooruPostDeserialize.Success<DanbooruPost>>
-
-    val failures: List<DanbooruPostDeserialize.Failure>
+    val posts = deserializes.mapNotNull { it.getOrNull()?.post }
 }
-
-class XmlDanbooruPostsDeserialize(
-    override val deserializes: List<XmlDanbooruPostDeserialize>
-) : DanbooruPostsDeserialize {
-    override val posts = deserializes.filterIsInstance<XmlDanbooruPostDeserialize.Success>()
-    override val failures = deserializes.filterIsInstance<XmlDanbooruPostDeserialize.Failure>()
-}
-
-
-class JsonDanbooruPostsDeserialize(
-    override val deserializes: List<JsonDanbooruPostDeserialize>
-) : DanbooruPostsDeserialize {
-    override val posts = deserializes.filterIsInstance<JsonDanbooruPostDeserialize.Success>()
-    override val failures = deserializes.filterIsInstance<JsonDanbooruPostDeserialize.Failure>()
-}
-

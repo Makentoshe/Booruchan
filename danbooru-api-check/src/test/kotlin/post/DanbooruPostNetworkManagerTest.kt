@@ -6,9 +6,7 @@ import org.junit.Assert.assertEquals
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.Timeout
-import post.deserialize.JsonDanbooruPostDeserialize
 import post.deserialize.JsonDanbooruPostDeserializer
-import post.deserialize.XmlDanbooruPostDeserialize
 import post.deserialize.XmlDanbooruPostDeserializer
 import post.network.DanbooruPostFilter
 import post.network.DanbooruPostNetworkManager
@@ -32,10 +30,10 @@ class DanbooruPostNetworkManagerTest {
         logger.info { "Response: $response" }
 
         // deserialize json and check: was the filter condition satisfied?
-        val deserialize = JsonDanbooruPostDeserializer().deserializePost(response.getOrNull()!!)
-        val successDeserialize = deserialize as JsonDanbooruPostDeserialize.Success
-        assertEquals(1, successDeserialize.post.postId)
-        logger.info { "Post: ${deserialize.post}" }
+        val deserializeResult = JsonDanbooruPostDeserializer().deserializePost(response.getOrNull()!!)
+        val deserializeSuccess = deserializeResult.getOrNull()!!
+        assertEquals(1, deserializeSuccess.post.postId)
+        logger.info { "Post: ${deserializeSuccess.post}" }
     }
 
     @Test
@@ -47,10 +45,10 @@ class DanbooruPostNetworkManagerTest {
         logger.info { "Response: $response" }
 
         // deserialize xml and check: was the filter condition satisfied?
-        val deserialize = XmlDanbooruPostDeserializer().deserializePost(response.getOrNull()!!)
-        val successDeserialize = deserialize as XmlDanbooruPostDeserialize.Success
-        assertEquals(1, successDeserialize.post.postId)
-        logger.info { "Post: ${successDeserialize.post}" }
+        val deserializeResult = XmlDanbooruPostDeserializer().deserializePost(response.getOrNull()!!)
+        val deserializeSuccess = deserializeResult.getOrNull()!!
+        assertEquals(1, deserializeSuccess.post.postId)
+        logger.info { "Post: ${deserializeSuccess.post}" }
     }
 
     // todo add tests for id 2
