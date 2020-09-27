@@ -6,7 +6,7 @@ import com.fasterxml.jackson.dataformat.xml.JacksonXmlModule
 import com.fasterxml.jackson.dataformat.xml.XmlMapper
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import com.fasterxml.jackson.module.kotlin.readValue
-import deserialize.DeserializeException
+import deserialize.EntityDeserializeException
 import org.codehaus.stax2.XMLInputFactory2
 import org.codehaus.stax2.XMLOutputFactory2
 import org.jsoup.Jsoup
@@ -35,7 +35,7 @@ class XmlDanbooruPostDeserializer : DanbooruPostDeserializer {
             Result.success(DanbooruPostDeserialize(post))
         } catch (exception: Exception) {
             val map = mapper.readValue<Map<String, Any?>>(jsoup.children().toString().replace("\\s".toRegex(), ""))
-            Result.failure(DeserializeException(map, exception))
+            Result.failure(EntityDeserializeException(map, exception))
         }
     }
 }
@@ -48,7 +48,7 @@ class JsonDanbooruPostDeserializer : DanbooruPostDeserializer {
         return try {
             Result.success(DanbooruPostDeserialize(mapper.readValue(string)))
         } catch (exception: Exception) {
-            Result.failure(DeserializeException(mapper.readValue(string), exception))
+            Result.failure(EntityDeserializeException(mapper.readValue(string), exception))
         }
     }
 }

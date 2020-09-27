@@ -6,13 +6,16 @@ import com.fasterxml.jackson.dataformat.xml.JacksonXmlModule
 import com.fasterxml.jackson.dataformat.xml.XmlMapper
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import com.fasterxml.jackson.module.kotlin.readValue
+import comment.JsonDanbooruComment
+import comment.XmlDanbooruComment
+import deserialize.EntityDeserializeException
 import org.codehaus.stax2.XMLInputFactory2
 import org.codehaus.stax2.XMLOutputFactory2
 import org.jsoup.Jsoup
 import org.jsoup.parser.Parser
 
 interface DanbooruCommentDeserializer {
-    fun deserializeComment(string: String): DanbooruCommentDeserialize
+    fun deserializeComment(string: String): Result<DanbooruCommentDeserialize<*>>
 }
 
 class XmlDanbooruCommentDeserializer : DanbooruCommentDeserializer {
@@ -24,14 +27,14 @@ class XmlDanbooruCommentDeserializer : DanbooruCommentDeserializer {
         mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
     }
 
-    override fun deserializeComment(string: String): XmlDanbooruCommentDeserialize {
+    override fun deserializeComment(string: String): Result<DanbooruCommentDeserialize<XmlDanbooruComment>> {
         val jsoup = Jsoup.parse(string, "", Parser.xmlParser())
         jsoup.allElements.forEach { element -> element.clearAttributes() }
         val xml = jsoup.children().toString().replace("\\s".toRegex(), "")
         return try {
-            XmlDanbooruCommentDeserialize.Success(mapper.readValue(xml))
+            Result.success(DanbooruCommentDeserialize(mapper.readValue(xml)))
         } catch (exception: Exception) {
-            XmlDanbooruCommentDeserialize.Failure(mapper.readValue(string))
+            Result.failure(EntityDeserializeException(mapper.readValue(string), exception))
         }
     }
 }
@@ -40,11 +43,11 @@ class JsonDanbooruCommentDeserializer : DanbooruCommentDeserializer {
 
     private val mapper = JsonMapper()
 
-    override fun deserializeComment(string: String): JsonDanbooruCommentDeserialize {
+    override fun deserializeComment(string: String): Result<DanbooruCommentDeserialize<JsonDanbooruComment>> {
         return try {
-            JsonDanbooruCommentDeserialize.Success(mapper.readValue(string))
+            Result.success(DanbooruCommentDeserialize(mapper.readValue(string)))
         } catch (exception: Exception) {
-            JsonDanbooruCommentDeserialize.Failure(mapper.readValue(string))
+            Result.failure(EntityDeserializeException(mapper.readValue(string), exception))
         }
     }
 }
