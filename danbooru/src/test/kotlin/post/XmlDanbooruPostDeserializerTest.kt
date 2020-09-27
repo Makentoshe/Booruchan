@@ -1,6 +1,6 @@
 package post
 
-import deserialize.DeserializeException
+import deserialize.EntityDeserializeException
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import post.deserialize.XmlDanbooruPostDeserializer
@@ -20,7 +20,7 @@ class XmlDanbooruPostDeserializerTest {
     fun `should parse xml corrupted post`() {
         val xml = javaClass.classLoader.getResource("post-corrupted.xml")!!.readText()
         val deserializeResult = XmlDanbooruPostDeserializer().deserializePost(xml)
-        val failedDeserialize = deserializeResult.exceptionOrNull() as DeserializeException
+        val failedDeserialize = deserializeResult.exceptionOrNull() as EntityDeserializeException
         // TODO mb add asserts for all fields?
         assertEquals(44, failedDeserialize.raw.size)
     }

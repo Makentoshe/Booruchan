@@ -1,6 +1,6 @@
 package post
 
-import deserialize.DeserializeException
+import deserialize.EntityDeserializeException
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import post.deserialize.JsonDanbooruPostDeserializer
@@ -22,6 +22,6 @@ class JsonDanbooruPostDeserializerTest {
         val result = JsonDanbooruPostDeserializer().deserializePost(json)
 
         // TODO mb add asserts for all fields?
-        assertEquals(44, (result.exceptionOrNull() as DeserializeException).raw.size)
+        assertEquals(44, (result.exceptionOrNull() as EntityDeserializeException).raw.size)
     }
 }

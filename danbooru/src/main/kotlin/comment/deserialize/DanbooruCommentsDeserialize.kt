@@ -1,26 +1,12 @@
 package comment.deserialize
 
 import comment.DanbooruComment
+import deserialize.EntityDeserializeException
 
-interface DanbooruCommentsDeserialize {
+data class DanbooruCommentsDeserialize<out Comment: DanbooruComment>(
+    val deserializes: List<Result<DanbooruCommentDeserialize<Comment>>>
+) {
+    val failures = deserializes.mapNotNull { it.exceptionOrNull() as? EntityDeserializeException }
 
-    val deserializes: List<DanbooruCommentDeserialize>
-
-    val comments: List<DanbooruCommentDeserialize.Success<DanbooruComment>>
-
-    val failures: List<DanbooruCommentDeserialize.Failure>
-}
-
-class XmlDanbooruCommentsDeserialize(
-    override val deserializes: List<XmlDanbooruCommentDeserialize>
-) : DanbooruCommentsDeserialize {
-    override val comments = deserializes.filterIsInstance<XmlDanbooruCommentDeserialize.Success>()
-    override val failures = deserializes.filterIsInstance<XmlDanbooruCommentDeserialize.Failure>()
-}
-
-class JsonDanbooruCommentsDeserialize(
-    override val deserializes: List<JsonDanbooruCommentDeserialize>
-) : DanbooruCommentsDeserialize {
-    override val comments = deserializes.filterIsInstance<JsonDanbooruCommentDeserialize.Success>()
-    override val failures = deserializes.filterIsInstance<JsonDanbooruCommentDeserialize.Failure>()
+    val comments = deserializes.mapNotNull { it.getOrNull()?.comment }
 }

@@ -7,22 +7,24 @@ import org.junit.Test
 class XmlDanbooruCommentsDeserializerTest {
 
     @Test
-    fun `should deserialize xml`() {
+    fun `should deserialize xml with success result`() {
         val xml = javaClass.classLoader.getResource("comments.xml")!!.readText()
-        val deserialize = XmlDanbooruCommentsDeserializer().deserializeComments(xml)
+        val deserializeResult = XmlDanbooruCommentsDeserializer().deserializeComments(xml)
+        val deserializeSuccess = deserializeResult.getOrNull()!!
 
-        assertEquals(20, deserialize.deserializes.size)
-        assertEquals(20, deserialize.comments.size)
-        assertEquals(0, deserialize.failures.size)
+        assertEquals(20, deserializeSuccess.deserializes.size)
+        assertEquals(20, deserializeSuccess.comments.size)
+        assertEquals(0, deserializeSuccess.failures.size)
     }
 
     @Test
-    fun `should deserialize corrupted xml`() {
+    fun `should deserialize corrupted xml with success result`() {
         val xml = javaClass.classLoader.getResource("comments-corrupted.xml")!!.readText()
-        val deserialize = XmlDanbooruCommentsDeserializer().deserializeComments(xml)
+        val deserializeResult = XmlDanbooruCommentsDeserializer().deserializeComments(xml)
+        val deserializeSuccess = deserializeResult.getOrNull()!!
 
-        assertEquals(20, deserialize.deserializes.size)
-        assertEquals(18, deserialize.comments.size)
-        assertEquals(2, deserialize.failures.size)
+        assertEquals(20, deserializeSuccess.deserializes.size)
+        assertEquals(18, deserializeSuccess.comments.size)
+        assertEquals(2, deserializeSuccess.failures.size)
     }
 }

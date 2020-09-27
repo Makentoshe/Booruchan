@@ -26,14 +26,19 @@ class DanbooruCommentsNetworkManagerTest {
         val request = JsonDanbooruCommentsRequest(DanbooruCommentsFilter(count = 20))
         logger.info { "Json url request: ${request.url}" }
         assertEquals("https://danbooru.donmai.us/comments.json?limit=20&group_by=comment", request.url)
-        val result = DanbooruCommentsNetworkManager(HttpClient()).getComments(request)
-        logger.info { "Response: $result" }
+
+        val networkResult = DanbooruCommentsNetworkManager(HttpClient()).getComments(request)
+        logger.info { "Network result: $networkResult" }
+        val networkSuccess = networkResult.getOrNull()!!
 
         // deserialize json and check: was the filter condition satisfied?
-        val comments = JsonDanbooruCommentsDeserializer().deserializeComments(result.getOrNull()!!)
-        assertEquals(20, comments.deserializes.size)
-        logger.info { "Success: ${comments.comments.size}" }
-        logger.info { "Failure: ${comments.failures.size}" }
+        val deserializeResult = JsonDanbooruCommentsDeserializer().deserializeComments(networkSuccess)
+        logger.info { "Deserialize result: $deserializeResult" }
+        val deserializeSuccess = deserializeResult.getOrNull()!!
+
+        assertEquals(20, deserializeSuccess.deserializes.size)
+        logger.info { "Success: ${deserializeSuccess.comments.size}" }
+        logger.info { "Failure: ${deserializeSuccess.failures.size}" }
     }
 
     @Test
@@ -41,13 +46,18 @@ class DanbooruCommentsNetworkManagerTest {
         val request = XmlDanbooruCommentsRequest(DanbooruCommentsFilter(count = 20))
         logger.info { "Xml url request: ${request.url}" }
         assertEquals("https://danbooru.donmai.us/comments.xml?limit=20&group_by=comment", request.url)
-        val result = DanbooruCommentsNetworkManager(HttpClient()).getComments(request)
-        logger.info { "Response: $result" }
+
+        val networkResult = DanbooruCommentsNetworkManager(HttpClient()).getComments(request)
+        logger.info { "Network result: $networkResult" }
+        val networkSuccess = networkResult.getOrNull()!!
 
         // deserialize json and check: was the filter condition satisfied?
-        val comments = XmlDanbooruCommentsDeserializer().deserializeComments(result.getOrNull()!!)
-        assertEquals(20, comments.comments.size)
-        logger.info { "Success: ${comments.comments.size}" }
-        logger.info { "Failure: ${comments.failures.size}" }
+        val deserializeResult = XmlDanbooruCommentsDeserializer().deserializeComments(networkSuccess)
+        logger.info { "Deserialize result: $deserializeResult" }
+        val deserializeSuccess = deserializeResult.getOrNull()!!
+
+        assertEquals(20, deserializeSuccess.comments.size)
+        logger.info { "Success: ${deserializeSuccess.comments.size}" }
+        logger.info { "Failure: ${deserializeSuccess.failures.size}" }
     }
 }
