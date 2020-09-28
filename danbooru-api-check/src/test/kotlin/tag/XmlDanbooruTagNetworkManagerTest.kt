@@ -6,7 +6,6 @@ import org.junit.Assert.assertEquals
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.Timeout
-import tag.deserialize.XmlDanbooruTagDeserialize
 import tag.deserialize.XmlDanbooruTagDeserializer
 import tag.network.DanbooruTagFilter
 import tag.network.DanbooruTagNetworkManager
@@ -29,9 +28,10 @@ class XmlDanbooruTagNetworkManagerTest {
         logger.info { "Response: $response" }
 
         // deserialize xml and check: was the filter condition satisfied?
-        val deserialize = XmlDanbooruTagDeserializer().deserializeTag(response.getOrNull()!!)
-        logger.info { "Deserialize: $deserialize" }
-        deserialize as XmlDanbooruTagDeserialize.Success
-        assertEquals(385430, deserialize.tag.tagId)
+        val deserializeResult = XmlDanbooruTagDeserializer().deserializeTag(response.getOrNull()!!)
+        logger.info { "Deserialize: $deserializeResult" }
+        val deserializeSuccess = deserializeResult.getOrNull()!!
+
+        assertEquals(385430, deserializeSuccess.tag.tagId)
     }
 }

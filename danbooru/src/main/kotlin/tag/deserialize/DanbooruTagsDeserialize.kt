@@ -1,27 +1,16 @@
 package tag.deserialize
 
+import deserialize.EntityDeserializeException
 import tag.DanbooruTag
+import tag.JsonDanbooruTag
+import tag.XmlDanbooruTag
 
-interface DanbooruTagsDeserialize {
+typealias XmlDanbooruTagsDeserialize = DanbooruTagsDeserialize<XmlDanbooruTag>
+typealias JsonDanbooruTagsDeserialize = DanbooruTagsDeserialize<JsonDanbooruTag>
 
-    val deserializes: List<DanbooruTagDeserialize>
-
-    val tags: List<DanbooruTagDeserialize.Success<DanbooruTag>>
-
-    val failures: List<DanbooruTagDeserialize.Failure>
+data class DanbooruTagsDeserialize<out Tag : DanbooruTag>(
+    override val deserializes: List<Result<DanbooruTagDeserialize<Tag>>>
+) : TagsDeserialize<Tag> {
+    override val failures = deserializes.mapNotNull { it.exceptionOrNull() as? EntityDeserializeException }
+    override val tags = deserializes.mapNotNull { it.getOrNull()?.tag }
 }
-
-class XmlDanbooruTagsDeserialize(
-    override val deserializes: List<XmlDanbooruTagDeserialize>
-) : DanbooruTagsDeserialize {
-    override val tags = deserializes.filterIsInstance<XmlDanbooruTagDeserialize.Success>()
-    override val failures = deserializes.filterIsInstance<XmlDanbooruTagDeserialize.Failure>()
-}
-
-class JsonDanbooruTagsDeserialize(
-    override val deserializes: List<JsonDanbooruTagDeserialize>
-) : DanbooruTagsDeserialize {
-    override val tags = deserializes.filterIsInstance<JsonDanbooruTagDeserialize.Success>()
-    override val failures = deserializes.filterIsInstance<JsonDanbooruTagDeserialize.Failure>()
-}
-

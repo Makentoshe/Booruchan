@@ -1,8 +1,8 @@
 package tag
 
+import deserialize.EntityDeserializeException
 import org.junit.Assert.assertEquals
 import org.junit.Test
-import tag.deserialize.XmlDanbooruTagDeserialize
 import tag.deserialize.XmlDanbooruTagDeserializer
 
 class XmlDanbooruTagDeserializerTest {
@@ -10,19 +10,19 @@ class XmlDanbooruTagDeserializerTest {
     @Test
     fun `should deserialize tag xml`() {
         val xml = javaClass.classLoader.getResource("tag.xml")!!.readText()
-        val deserialize = XmlDanbooruTagDeserializer().deserializeTag(xml)
-        val successDeserialize = deserialize as XmlDanbooruTagDeserialize.Success
+        val deserializeResult = XmlDanbooruTagDeserializer().deserializeTag(xml)
+        val deserializeSuccess = deserializeResult.getOrNull()!!
 
         // todo add asserts for all fields
-        assertEquals(1593445, successDeserialize.tag.tagId)
+        assertEquals(1593445, deserializeSuccess.tag.tagId)
     }
 
     @Test
     fun `should deserialize corrupted tag xml`() {
         val xml = javaClass.classLoader.getResource("tag-corrupted.xml")!!.readText()
-        val deserialize = XmlDanbooruTagDeserializer().deserializeTag(xml)
-        val failureDeserialize = deserialize as XmlDanbooruTagDeserialize.Failure
+        val deserializeResult = XmlDanbooruTagDeserializer().deserializeTag(xml)
+        val deserializeFailure = deserializeResult.exceptionOrNull() as EntityDeserializeException
 
-        assertEquals(7, failureDeserialize.raw.size)
+        assertEquals(7, deserializeFailure.raw.size)
     }
 }

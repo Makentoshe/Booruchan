@@ -2,7 +2,7 @@ package tag
 
 import io.ktor.client.*
 import kotlinx.coroutines.runBlocking
-import org.junit.Assert
+import org.junit.Assert.assertEquals
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.Timeout
@@ -23,14 +23,17 @@ class XmlDanbooruTagsNetworkManagerTest {
     fun `should request xml tags with count param`() = runBlocking {
         val request = DanbooruTagsRequest.Xml(DanbooruTagsFilter(count = 20))
         logger.info { "Xml url request: ${request.url}" }
-        Assert.assertEquals("https://danbooru.donmai.us/tags.xml?limit=20", request.url)
+        assertEquals("https://danbooru.donmai.us/tags.xml?limit=20", request.url)
+
         val response = DanbooruTagsNetworkManager(HttpClient()).getTags(request)
         logger.info { "Response: $response" }
 
         // deserialize xml and check: was the filter condition satisfied?
-        val deserialize = XmlDanbooruTagsDeserializer().deserializeTags(response.getOrNull()!!)
-        Assert.assertEquals(20, deserialize.deserializes.size)
-        logger.info { "Success: ${deserialize.tags.size}" }
-        logger.info { "Failure: ${deserialize.failures.size}" }
+        val deserializeResult = XmlDanbooruTagsDeserializer().deserializeTags(response.getOrNull()!!)
+        val deserializeSuccess = deserializeResult.getOrNull()!!
+        assertEquals(20, deserializeSuccess.deserializes.size)
+
+        logger.info { "Success: ${deserializeSuccess.tags.size}" }
+        logger.info { "Failure: ${deserializeSuccess.failures.size}" }
     }
 }
