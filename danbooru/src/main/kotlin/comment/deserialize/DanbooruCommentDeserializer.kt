@@ -6,8 +6,6 @@ import com.fasterxml.jackson.dataformat.xml.JacksonXmlModule
 import com.fasterxml.jackson.dataformat.xml.XmlMapper
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import com.fasterxml.jackson.module.kotlin.readValue
-import comment.JsonDanbooruComment
-import comment.XmlDanbooruComment
 import deserialize.EntityDeserializeException
 import org.codehaus.stax2.XMLInputFactory2
 import org.codehaus.stax2.XMLOutputFactory2
@@ -27,7 +25,7 @@ class XmlDanbooruCommentDeserializer : DanbooruCommentDeserializer {
         mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
     }
 
-    override fun deserializeComment(string: String): Result<DanbooruCommentDeserialize<XmlDanbooruComment>> {
+    override fun deserializeComment(string: String): Result<XmlDanbooruCommentDeserialize> {
         val jsoup = Jsoup.parse(string, "", Parser.xmlParser())
         jsoup.allElements.forEach { element -> element.clearAttributes() }
         val xml = jsoup.children().toString().replace("\\s".toRegex(), "")
@@ -43,7 +41,7 @@ class JsonDanbooruCommentDeserializer : DanbooruCommentDeserializer {
 
     private val mapper = JsonMapper()
 
-    override fun deserializeComment(string: String): Result<DanbooruCommentDeserialize<JsonDanbooruComment>> {
+    override fun deserializeComment(string: String): Result<JsonDanbooruCommentDeserialize> {
         return try {
             Result.success(DanbooruCommentDeserialize(mapper.readValue(string)))
         } catch (exception: Exception) {

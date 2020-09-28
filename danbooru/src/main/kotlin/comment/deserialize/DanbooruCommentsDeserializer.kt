@@ -16,7 +16,7 @@ interface DanbooruCommentsDeserializer {
 
 class XmlDanbooruCommentsDeserializer : DanbooruCommentsDeserializer {
 
-    override fun deserializeComments(string: String): Result<DanbooruCommentsDeserialize<XmlDanbooruComment>> = try {
+    override fun deserializeComments(string: String): Result<XmlDanbooruCommentsDeserialize> = try {
         val jsoup = Jsoup.parse(string, "", Parser.xmlParser())
         Result.success(DanbooruCommentsDeserialize(jsoup.getElementsByTag("comment").map(::deserializeComment)))
     } catch (exception: Exception) {
@@ -30,7 +30,7 @@ class XmlDanbooruCommentsDeserializer : DanbooruCommentsDeserializer {
 
 class JsonDanbooruCommentsDeserializer : DanbooruCommentsDeserializer {
 
-    override fun deserializeComments(string: String): Result<DanbooruCommentsDeserialize<JsonDanbooruComment>> = try {
+    override fun deserializeComments(string: String): Result<JsonDanbooruCommentsDeserialize> = try {
         Result.success(DanbooruCommentsDeserialize(JsonMapper().readValue<JsonNode>(string).map(::deserializeComment)))
     } catch (exception: Exception) {
         Result.failure(CollectionDeserializeException(exception))
