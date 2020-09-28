@@ -24,13 +24,16 @@ class JsonDanbooruTagsNetworkManagerTest {
         val request = DanbooruTagsRequest.Json(DanbooruTagsFilter(count = 20))
         logger.info { "Json url request: ${request.url}" }
         assertEquals("https://danbooru.donmai.us/tags.json?limit=20", request.url)
+
         val response = DanbooruTagsNetworkManager(HttpClient()).getTags(request)
         logger.info { "Response: $response" }
 
         // deserialize json and check: was the filter condition satisfied?
-        val deserialize = JsonDanbooruTagsDeserializer().deserializeTags(response.getOrNull()!!)
-        assertEquals(20, deserialize.deserializes.size)
-        logger.info { "Success: ${deserialize.tags.size}" }
-        logger.info { "Failure: ${deserialize.failures.size}" }
+        val deserializeResult = JsonDanbooruTagsDeserializer().deserializeTags(response.getOrNull()!!)
+        val deserializeSuccess = deserializeResult.getOrNull()!!
+        assertEquals(20, deserializeSuccess.deserializes.size)
+
+        logger.info { "Success: ${deserializeSuccess.tags.size}" }
+        logger.info { "Failure: ${deserializeSuccess.failures.size}" }
     }
 }
