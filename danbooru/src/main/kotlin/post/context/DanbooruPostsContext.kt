@@ -1,18 +1,17 @@
 package post.context
 
-import io.ktor.client.*
-import kotlinx.coroutines.runBlocking
 import post.deserialize.DanbooruPostsDeserialize
 import post.deserialize.JsonDanbooruPostsDeserializer
 import post.deserialize.XmlDanbooruPostsDeserializer
-import post.network.*
+import post.network.DanbooruPostsFilter
+import post.network.DanbooruPostsRequest
+import post.network.JsonDanbooruPostsRequest
+import post.network.XmlDanbooruPostsRequest
 
 abstract class DanbooruPostsContext<Request : DanbooruPostsRequest>(
     network: suspend (Request) -> Result<String>,
     deserialize: (String) -> Result<DanbooruPostsDeserialize<*>>
-) : PostsContext<Request>(network, deserialize) {
-    abstract fun buildRequest(filter: DanbooruPostsFilter): Request
-}
+) : PostsContext<Request, DanbooruPostsFilter>(network, deserialize)
 
 open class JsonDanbooruPostsContext(
     network: suspend (JsonDanbooruPostsRequest) -> Result<String>
@@ -28,12 +27,4 @@ open class XmlDanbooruPostsContext(
     network, { json -> XmlDanbooruPostsDeserializer().deserializePosts(json) }
 ) {
     override fun buildRequest(filter: DanbooruPostsFilter) = XmlDanbooruPostsRequest(filter)
-}
-
-fun main() = runBlocking {
-    val postContext = JsonDanbooruPostsContext { DanbooruPostsNetworkManager(HttpClient()).getPosts(it) }
-    val filter = DanbooruPostsFilter(count = 13)
-    val request = postContext.buildRequest(filter)
-    val result = postContext.get(request)
-    println(result)
 }

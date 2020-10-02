@@ -6,9 +6,9 @@ sealed class DanbooruPostsRequest : PostsRequest{
 }
 
 data class XmlDanbooruPostsRequest(private val filter: DanbooruPostsFilter) : DanbooruPostsRequest() {
-    override val url = "${internalUrl}/posts.xml$filter"
+    override val url = "${internalUrl}/posts.xml${filter.toUrl()}"
 }
 
 data class JsonDanbooruPostsRequest(private val filter: DanbooruPostsFilter) : DanbooruPostsRequest() {
-    override val url = "$internalUrl/posts.json$filter"
+    override val url = "$internalUrl/posts.json${filter.toUrl()}"
 }
