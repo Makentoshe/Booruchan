@@ -7,7 +7,7 @@ import comment.network.DanbooruCommentRequest
 import comment.network.JsonDanbooruCommentRequest
 import comment.network.XmlDanbooruCommentRequest
 
-open class DanbooruCommentContext<in Request: DanbooruCommentRequest>(
+open class DanbooruCommentContext<Request: DanbooruCommentRequest>(
     network: suspend (Request) -> Result<String>,
     deserialize: (String) -> Result<DanbooruCommentDeserialize<*>>
 ) : CommentContext<Request>(network, deserialize)

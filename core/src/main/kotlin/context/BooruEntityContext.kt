@@ -2,7 +2,7 @@ package context
 
 import network.Request
 
-abstract class BooruEntityContext<in Req: Request, Res>(
+abstract class BooruEntityContext<Req: Request, Res>(
     private val network: suspend (Req) -> Result<String>,
     private val deserialize: (String) -> Result<Res>
 ) {

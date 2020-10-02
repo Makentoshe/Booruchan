@@ -7,7 +7,7 @@ import tag.network.DanbooruTagRequest
 import tag.network.JsonDanbooruTagRequest
 import tag.network.XmlDanbooruTagRequest
 
-open class DanbooruTagContext<in Request: DanbooruTagRequest>(
+open class DanbooruTagContext<Request: DanbooruTagRequest>(
     network: suspend (Request) -> Result<String>,
     deserialize: (String) -> Result<DanbooruTagDeserialize<*>>
 ) : TagContext<Request>(network, deserialize)

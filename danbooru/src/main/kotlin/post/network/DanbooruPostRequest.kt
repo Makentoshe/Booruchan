@@ -6,13 +6,13 @@ sealed class DanbooruPostRequest: PostRequest {
 
 data class XmlDanbooruPostRequest(private val filter: DanbooruPostFilter) : DanbooruPostRequest() {
     override val url = when (filter) {
-        is DanbooruPostFilter.ById -> "$host/posts/${filter.postId.postId}.xml"
+        is DanbooruPostFilter.ById -> "$host/posts/${filter.toUrl()}.xml"
     }
 }
 
 data class JsonDanbooruPostRequest(private val filter: DanbooruPostFilter) : DanbooruPostRequest() {
     override val url = when (filter) {
-        is DanbooruPostFilter.ById -> "$host/posts/${filter.postId.postId}.json"
+        is DanbooruPostFilter.ById -> "$host/posts/${filter.toUrl()}.json"
     }
 }
 
