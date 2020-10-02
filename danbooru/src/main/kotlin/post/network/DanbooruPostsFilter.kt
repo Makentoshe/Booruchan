@@ -2,7 +2,7 @@ package post.network
 
 data class DanbooruPostsFilter(
     val count: Int? = null
-) {
+): PostsFilter {
 
     private val params = HashMap<String, Any>()
 
@@ -10,7 +10,7 @@ data class DanbooruPostsFilter(
         if (count != null) params[COUNT] = count
     }
 
-    override fun toString(): String {
+    override fun toUrl(): String {
         if (params.isEmpty()) return ""
         return params.entries.mapIndexed { index, entry ->
             val builder = StringBuilder()
