@@ -1,6 +1,6 @@
 package comment.network
 
-abstract class DanbooruCommentRequest : CommentRequest{
+abstract class DanbooruCommentRequest : CommentRequest {
     protected val host = "https://danbooru.donmai.us"
 }
 

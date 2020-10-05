@@ -6,17 +6,11 @@ import comment.network.XmlDanbooruCommentsRequest
 import io.ktor.client.*
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
-import org.junit.Rule
 import org.junit.Test
-import org.junit.rules.Timeout
-import java.util.logging.Logger
 
-class XmlDanbooruCommentsContextTest {
+class XmlDanbooruCommentsContextTest : DanbooruCommentsContextTest() {
 
-    private val logger = Logger.getLogger(this.javaClass.simpleName)
-
-    @get:Rule
-    val globalTimeout: Timeout = Timeout.seconds(30)
+    override val context = JsonDanbooruCommentsContext { DanbooruCommentsNetworkManager(HttpClient()).getComments(it) }
 
     @Test
     fun `should request xml comments`() = runBlocking {

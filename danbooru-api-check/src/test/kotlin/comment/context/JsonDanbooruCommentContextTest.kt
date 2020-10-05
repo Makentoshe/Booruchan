@@ -7,22 +7,14 @@ import comment.network.JsonDanbooruCommentRequest
 import io.ktor.client.*
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
-import org.junit.Rule
 import org.junit.Test
-import org.junit.rules.Timeout
-import java.util.logging.Logger
 
-class JsonDanbooruCommentContextTest {
+class JsonDanbooruCommentContextTest : DanbooruCommentContextTest() {
 
-    private val logger = Logger.getLogger(this.javaClass.simpleName)
-
-    @get:Rule
-    val globalTimeout: Timeout = Timeout.seconds(30)
+    override val context = JsonDanbooruCommentContext { DanbooruCommentNetworkManager(HttpClient()).getComment(it) }
 
     @Test
     fun `should request json comment`() = runBlocking {
-        val context = JsonDanbooruCommentContext { DanbooruCommentNetworkManager(HttpClient()).getComment(it) }
-
         val request = JsonDanbooruCommentRequest(DanbooruCommentFilter.ById(commentId(1)))
         logger.info { "Json url request: ${request.url}" }
         assertEquals("https://danbooru.donmai.us/comments/1.json", request.url)

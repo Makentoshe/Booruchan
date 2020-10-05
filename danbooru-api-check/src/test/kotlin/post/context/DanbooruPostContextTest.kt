@@ -20,6 +20,9 @@ abstract class DanbooruPostContextTest {
         val filter = DanbooruPostFilter.ById(postId(1))
         val request = context.buildRequest(filter)
 
-        assert(request.url.startsWith("https://danbooru.donmai.us/post/1"))
+        // Regex should fit at lease these cases:
+        // https://danbooru.donmai.us/posts/1.json
+        // https://danbooru.donmai.us/posts/1.xml
+        assert(request.url.matches("https://danbooru\\.donmai\\.us/posts/1\\..*".toRegex()))
     }
 }

@@ -19,7 +19,9 @@ abstract class DanbooruPostsContextTest {
         val filter = DanbooruPostsFilter(mapOf("a" to "b", "c" to 13))
         val request = context.buildRequest(filter)
 
-        assert(request.url.endsWith("?a=b&c=13"))
+        // Regex should fit at lease these cases:
+        // https://danbooru.donmai.us/posts.json
+        // https://danbooru.donmai.us/posts.xml
+        assert(request.url.matches("https://danbooru\\.donmai\\.us/posts\\..*\\?a=b&c=13".toRegex()))
     }
 }
-
