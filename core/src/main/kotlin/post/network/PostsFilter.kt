@@ -10,6 +10,6 @@ abstract class PostsFilter(protected val params: Map<String, Any>) : Filter {
             val builder = StringBuilder()
             if (index == 0) builder.append("?") else builder.append("&")
             builder.append(entry.key).append("=").append(entry.value)
-        }.joinToString { it.toString() }
+        }.joinToString("") { it.toString() }
     }
 }
