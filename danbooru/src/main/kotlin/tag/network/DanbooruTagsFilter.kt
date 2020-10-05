@@ -1,8 +1,6 @@
 package tag.network
 
-class DanbooruTagsFilter(
-    params: Map<String, Any>
-) : TagsFilter(params) {
+class DanbooruTagsFilter(params: Map<String, Any>) : TagsFilter(params) {
 
     constructor(count: Int?) : this(buildMap(count))
 

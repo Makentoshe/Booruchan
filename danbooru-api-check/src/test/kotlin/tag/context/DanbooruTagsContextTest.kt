@@ -20,6 +20,9 @@ abstract class DanbooruTagsContextTest {
         val filter = DanbooruTagsFilter(mapOf("a" to "b", "c" to 13))
         val request = context.buildRequest(filter)
 
-        assert(request.url.endsWith("?a=b&c=13"))
+        // Regex should fit at lease these cases:
+        // https://danbooru.donmai.us/tags.json
+        // https://danbooru.donmai.us/tags.xml
+        assert(request.url.matches("https://danbooru\\.donmai\\.us/tags\\..*\\?a=b&c=13".toRegex()))
     }
 }
