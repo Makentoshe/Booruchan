@@ -1,25 +1,18 @@
 package post.network
 
-data class DanbooruPostsFilter(
-    val count: Int? = null
-): PostsFilter {
+class DanbooruPostsFilter(
+    params: Map<String, Any>
+) : PostsFilter(params) {
 
-    private val params = HashMap<String, Any>()
-
-    init {
-        if (count != null) params[COUNT] = count
-    }
-
-    override fun toUrl(): String {
-        if (params.isEmpty()) return ""
-        return params.entries.mapIndexed { index, entry ->
-            val builder = StringBuilder()
-            if (index == 0) builder.append("?") else builder.append("&")
-            builder.append(entry.key).append("=").append(entry.value)
-        }.joinToString { it.toString() }
-    }
+    constructor(count: Int?) : this(buildMap(count))
 
     companion object {
         private const val COUNT = "limit"
+
+        private fun buildMap(count: Int?): Map<String, Any> {
+            val params = HashMap<String, Any>()
+            if (count != null) params[COUNT] = count
+            return params
+        }
     }
 }
