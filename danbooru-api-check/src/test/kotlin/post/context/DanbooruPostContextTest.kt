@@ -1,6 +1,5 @@
 package post.context
 
-import org.junit.Assert
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.Timeout
@@ -21,6 +20,6 @@ abstract class DanbooruPostContextTest {
         val filter = DanbooruPostFilter.ById(postId(1))
         val request = context.buildRequest(filter)
 
-        Assert.assertEquals("https://danbooru.donmai.us/post/1.json", request.url)
+        assert(request.url.startsWith("https://danbooru.donmai.us/post/1"))
     }
 }

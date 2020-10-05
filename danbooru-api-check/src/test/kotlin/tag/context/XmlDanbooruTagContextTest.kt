@@ -3,25 +3,18 @@ package tag.context
 import io.ktor.client.*
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
-import org.junit.Rule
 import org.junit.Test
-import org.junit.rules.Timeout
 import tag.network.DanbooruTagFilter
 import tag.network.DanbooruTagNetworkManager
 import tag.network.XmlDanbooruTagRequest
 import tag.tagId
-import java.util.logging.Logger
 
-class XmlDanbooruTagContextTest {
+class XmlDanbooruTagContextTest : DanbooruTagContextTest() {
 
-    private val logger = Logger.getLogger(this.javaClass.simpleName)
-
-    @get:Rule
-    val globalTimeout: Timeout = Timeout.seconds(30)
+    override val context = XmlDanbooruTagContext { DanbooruTagNetworkManager(HttpClient()).getTag(it) }
 
     @Test
     fun `should request xml tag`() = runBlocking {
-        val context = XmlDanbooruTagContext { DanbooruTagNetworkManager(HttpClient()).getTag(it) }
 
         val request = XmlDanbooruTagRequest(DanbooruTagFilter.ById(tagId(1598277)))
         logger.info { "Xml url request: ${request.url}" }
