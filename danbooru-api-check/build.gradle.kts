@@ -16,7 +16,7 @@ dependencies {
     // check should we request jar dependencies
     // building from jar allows us to avoid rebuilding 'core' module each time
     // and reuse the same artifacts if they were not modified
-    if (project.hasProperty("modular")) {
+    if (project.hasProperty("jarable")) {
         // for ci/cd build
         implementation(fileTree(mapOf("dir" to "libs", "include" to arrayOf("*.jar"))))
     } else {
@@ -40,7 +40,7 @@ tasks.test.configure {
     // for ci/cd: this should be managed by build system.
     // we should disable tests by default (ide), because the REAL api will invoked each build
     // and may cause accident DDoS
-    enabled = project.hasProperty("modular")
+    enabled = project.hasProperty("netable")
 }
 
 jacoco {
@@ -54,6 +54,9 @@ tasks.test {
 
 // "jacocoTestReport" task configurations
 tasks.jacocoTestReport {
+    // apply source set from danbooru module
+    sourceSets(project(":danbooru").sourceSets.main.get())
+
     reports {
         xml.isEnabled = false
         csv.isEnabled = false

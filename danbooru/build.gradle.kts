@@ -17,7 +17,7 @@ dependencies {
     // check should we request jar dependencies
     // building from jar allows us to avoid rebuilding 'core' module each time
     // and reuse the same artifacts if they were not modified
-    if (project.hasProperty("modular")) {
+    if (project.hasProperty("jarable")) {
         // for ci/cd build
         implementation(fileTree(mapOf("dir" to "libs", "include" to arrayOf("*.jar"))))
     } else {
