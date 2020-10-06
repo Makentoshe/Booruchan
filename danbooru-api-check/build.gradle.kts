@@ -1,5 +1,7 @@
 plugins {
     id("org.jetbrains.kotlin.jvm")
+    // enable JaCoco plugin
+    jacoco
 }
 
 group = "com.makentoshe.booruchan.danbooru.apicheck"
@@ -39,4 +41,29 @@ tasks.test.configure {
     // we should disable tests by default (ide), because the REAL api will invoked each build
     // and may cause accident DDoS
     enabled = project.hasProperty("modular")
+}
+
+jacoco {
+    toolVersion = "0.8.5"
+}
+
+// executes "jacocoTestReport" task straight after "test"
+tasks.test {
+    finalizedBy(tasks.jacocoTestReport)
+}
+
+// "jacocoTestReport" task configurations
+tasks.jacocoTestReport {
+    reports {
+        xml.isEnabled = false
+        csv.isEnabled = false
+        html.isEnabled = true
+    }
+    finalizedBy(tasks.getByName("jacocoHtmlZip"))
+}
+
+tasks.register<Zip>("jacocoHtmlZip") {
+    archiveFileName.set("jacocoHtml.zip")
+    destinationDirectory.set(file("$buildDir/reports/jacoco/test/html-zip"))
+    from("$buildDir/reports/jacoco/test/html")
 }
