@@ -25,7 +25,7 @@ object Danbooru : PipelineBuildVcs("Danbooru", {
         gradle {
             name = "$name module build"
             tasks = ":danbooru:build"
-            gradleParams = "-Pmodular"
+            gradleParams = "-Pjarable"
             buildFile = "build.gradle.kts"
         }
     }
