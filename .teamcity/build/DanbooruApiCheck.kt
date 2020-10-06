@@ -28,7 +28,7 @@ object DanbooruApiCheck : PipelineBuildDaily("Danbooru api check", 0, 0, {
     steps {
         script {
             scriptContent = """
-                tree .
+                ls -R
             """.trimIndent()
         }
         gradle {
