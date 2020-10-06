@@ -10,8 +10,7 @@ object DanbooruApiCheck : PipelineBuildDaily("Danbooru api check", 0, 0, {
 
     publishArtifacts = PublishMode.SUCCESSFUL
     artifactRules = """
-        ./danbooru/build/libs/danbooru-shadow-* => danbooru
-        ./danbooru/build/reports/jacoco/test/html-zip/* => jacocoHtmlReport
+        ./danbooru-api-check/build/reports/jacoco/test/html-zip/* => jacocoHtmlReport
     """.trimIndent()
 
     dependencies {
