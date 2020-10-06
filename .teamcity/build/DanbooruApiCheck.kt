@@ -2,6 +2,7 @@ package build
 
 import jetbrains.buildServer.configs.kotlin.v2019_2.PublishMode
 import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.gradle
+import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.script
 
 /**
  * Checks Danbooru's real api to be sure, that is all works properly
@@ -25,6 +26,11 @@ object DanbooruApiCheck : PipelineBuildDaily("Danbooru api check", 0, 0, {
     }
 
     steps {
+        script {
+            scriptContent = """
+                tree .
+            """.trimIndent()
+        }
         gradle {
             name = "$name module api check"
             tasks = ":danbooru-api-check:build --info"
