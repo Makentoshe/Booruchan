@@ -19,5 +19,12 @@ create(DslContext.projectId, BuildType({
     vcs {
         showDependenciesChanges = true
     }
+
+    dependencies {
+        snapshot(RelativeId("Danbooru")) {
+        }
+        snapshot(RelativeId("DanbooruApiCheck")) {
+        }
+    }
 }))
 
