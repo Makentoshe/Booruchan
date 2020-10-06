@@ -1,5 +1,4 @@
 import build.*
-import jetbrains.buildServer.configs.kotlin.v2019_2.ProjectFeatures
 import jetbrains.buildServer.configs.kotlin.v2019_2.project
 import jetbrains.buildServer.configs.kotlin.v2019_2.projectFeatures.buildReportTab
 import jetbrains.buildServer.configs.kotlin.v2019_2.ui.add
@@ -35,6 +34,7 @@ project {
     buildType(Gelbooru)
     buildType(Danbooru)
     buildType(DanbooruApiCheck)
+    buildType(DanbooruComposite)
 
     vcsRoot(BooruchanVcsRoot)
 
