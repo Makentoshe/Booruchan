@@ -19,7 +19,7 @@ object Gelbooru : PipelineBuildVcs("Gelbooru", {
         gradle {
             name = "$name module build"
             tasks = ":gelbooru:build"
-            gradleParams = "-Pmodular"
+            gradleParams = "-Pjarable"
             buildFile = "build.gradle.kts"
         }
     }
