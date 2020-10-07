@@ -27,7 +27,7 @@ object DanbooruApiCheck : PipelineBuildDaily("Danbooru api check", 0, 0, {
     steps {
         gradle {
             name = "$name module api check"
-            tasks = ":danbooru-api-check:build --info"
+            tasks = ":danbooru-api-check:clean :danbooru-api-check:build --info"
             gradleParams = "-Pjarable -Pnetable"
             buildFile = "build.gradle.kts"
         }

@@ -24,7 +24,7 @@ object Danbooru : PipelineBuildVcs("Danbooru", {
     steps {
         gradle {
             name = "$name module build"
-            tasks = ":danbooru:build"
+            tasks = ":danbooru:clean :danbooru:build --info"
             gradleParams = "-Pjarable"
             buildFile = "build.gradle.kts"
         }
