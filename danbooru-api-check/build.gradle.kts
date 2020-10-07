@@ -55,6 +55,11 @@ tasks.test {
 // "jacocoTestReport" task configurations
 tasks.jacocoTestReport {
     // apply source set from danbooru module
+    val project = project(":danbooru")
+    println("Project ${project.projectDir}")
+    println("Source sets: ${project.sourceSets.asMap}")
+    println("Compile classpath: ${project.sourceSets.main.get().compileClasspath.firstOrNull()}")
+    println("Runtime classpath: ${project.sourceSets.main.get().runtimeClasspath.firstOrNull()}")
     sourceSets(project(":danbooru").sourceSets.main.get())
 
     reports {
