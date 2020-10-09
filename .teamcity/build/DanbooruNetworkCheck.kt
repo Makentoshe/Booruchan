@@ -6,7 +6,8 @@ import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.gradle
 /**
  * Checks Danbooru's real api to be sure, that is all works properly
  * */
-object DanbooruApiCheck : PipelineBuildDaily("Danbooru api check", 0, 0, {
+object DanbooruNetworkCheck : PipelineBuildDaily("Danbooru network check", 0, 0, {
+    description = "Checks Danbooru's real api to be sure, that it is works properly"
 
     publishArtifacts = PublishMode.NORMALLY_FINISHED
     artifactRules = """

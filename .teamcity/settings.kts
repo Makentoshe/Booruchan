@@ -1,4 +1,7 @@
-import build.*
+import build.Core
+import build.Danbooru
+import build.DanbooruNetworkCheck
+import build.Gelbooru
 import jetbrains.buildServer.configs.kotlin.v2019_2.project
 import jetbrains.buildServer.configs.kotlin.v2019_2.projectFeatures.buildReportTab
 import jetbrains.buildServer.configs.kotlin.v2019_2.ui.add
@@ -33,8 +36,7 @@ project {
     buildType(Core)
     buildType(Gelbooru)
     buildType(Danbooru)
-    buildType(DanbooruApiCheck)
-    buildType(DanbooruComposite)
+    buildType(DanbooruNetworkCheck)
 
     vcsRoot(BooruchanVcsRoot)
 
