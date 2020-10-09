@@ -8,7 +8,7 @@ import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.gradle
  * */
 object DanbooruApiCheck : PipelineBuildDaily("Danbooru api check", 0, 0, {
 
-    publishArtifacts = PublishMode.SUCCESSFUL
+    publishArtifacts = PublishMode.NORMALLY_FINISHED
     artifactRules = """
         ./danbooru-api-check/build/reports/jacoco/test/html-zip/* => jacocoHtmlReport
     """.trimIndent()
@@ -27,7 +27,7 @@ object DanbooruApiCheck : PipelineBuildDaily("Danbooru api check", 0, 0, {
     steps {
         gradle {
             name = "$name module api check"
-            tasks = ":danbooru-api-check:build --info"
+            tasks = ":danbooru-api-check:clean :danbooru-api-check:build --info"
             gradleParams = "-Pjarable -Pnetable"
             buildFile = "build.gradle.kts"
         }

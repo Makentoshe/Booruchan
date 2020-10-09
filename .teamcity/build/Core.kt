@@ -11,7 +11,7 @@ object Core : PipelineBuildVcs("Core", {
     steps {
         gradle {
             name = "$name module build"
-            tasks = "core:build"
+            tasks = ":core:clean :core:build --info"
             buildFile = "build.gradle.kts"
         }
     }
