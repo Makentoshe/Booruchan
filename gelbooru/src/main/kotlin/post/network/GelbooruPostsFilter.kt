@@ -6,6 +6,14 @@ class GelbooruPostsFilter(
 
     constructor(count: Int? = null) : this(buildMap(count))
 
+    override fun toUrl(): String {
+        if (params.isEmpty()) return ""
+        return params.entries.map { entry ->
+            val builder = StringBuilder().append("&")
+            builder.append(entry.key).append("=").append(entry.value)
+        }.joinToString("") { it.toString() }
+    }
+
     companion object {
         private const val COUNT = "limit"
 

@@ -8,12 +8,12 @@ sealed class GelbooruPostRequest: GelbooruRequest(), PostRequest {
 
 data class XmlGelbooruPostRequest(private val filter: GelbooruPostFilter) : GelbooruPostRequest() {
     override val url = when (filter) {
-        is GelbooruPostFilter.ById -> "$internalUrl&id=${filter.postId}"
+        is GelbooruPostFilter.ById -> "$internalUrl&id=${filter.postId.postId}"
     }
 }
 
 data class JsonGelbooruPostRequest(private val filter: GelbooruPostFilter) : GelbooruPostRequest() {
     override val url = when (filter) {
-        is GelbooruPostFilter.ById -> "$internalUrl&json=1&id=${filter.postId}"
+        is GelbooruPostFilter.ById -> "$internalUrl&id=${filter.postId.postId}&json=1"
     }
 }

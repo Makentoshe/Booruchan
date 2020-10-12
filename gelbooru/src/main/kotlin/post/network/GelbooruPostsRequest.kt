@@ -7,10 +7,10 @@ sealed class GelbooruPostsRequest: GelbooruRequest(), PostsRequest {
 }
 
 data class XmlGelbooruPostsRequest(val filter: GelbooruPostsFilter) : GelbooruPostsRequest() {
-    override val url = "$internalUrl$filter"
+    override val url = "$internalUrl${filter.toUrl()}"
 }
 
 data class JsonGelbooruPostsRequest(val filter: GelbooruPostsFilter) : GelbooruPostsRequest() {
-    override val url = "$internalUrl$filter"
+    override val url = "$internalUrl${filter.toUrl()}&json=1"
 }
 

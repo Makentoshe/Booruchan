@@ -1,6 +1,7 @@
 package post.deserialize
 
 import com.fasterxml.jackson.databind.DeserializationFeature
+import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.json.JsonMapper
 import com.fasterxml.jackson.dataformat.xml.JacksonXmlModule
 import com.fasterxml.jackson.dataformat.xml.XmlMapper
@@ -25,12 +26,12 @@ class XmlGelbooruPostDeserializer : GelbooruPostDeserializer {
     }
 
     override fun deserializePost(string: String): Result<XmlGelbooruPostDeserialize> {
-        val jsoup = Jsoup.parse(string, "", Parser.xmlParser())
+        val jsoup = Jsoup.parse(string, "", Parser.xmlParser()).select("post")
         return try {
-            val post = mapper.readValue<XmlGelbooruPost>(jsoup.children().toString())
+            val post = mapper.readValue<XmlGelbooruPost>(jsoup.toString())
             Result.success(GelbooruPostDeserialize(post))
         } catch (exception: Exception) {
-            val map = mapper.readValue<Map<String, Any?>>(jsoup.children().toString())
+            val map = mapper.readValue<Map<String, Any?>>(jsoup.toString())
             Result.failure(EntityDeserializeException(map, exception))
         }
     }
@@ -42,7 +43,9 @@ class JsonGelbooruPostDeserializer : GelbooruPostDeserializer {
 
     override fun deserializePost(string: String): Result<JsonGelbooruPostDeserialize> {
         return try {
-            Result.success(GelbooruPostDeserialize(mapper.readValue(string)))
+            val jsonNode = mapper.readValue<JsonNode>(string)
+            val json = if (jsonNode.isArray) jsonNode.first().toString() else jsonNode.toString()
+            Result.success(GelbooruPostDeserialize(mapper.readValue(json)))
         } catch (exception: Exception) {
             Result.failure(EntityDeserializeException(mapper.readValue(string), exception))
         }
