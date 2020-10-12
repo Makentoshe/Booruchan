@@ -48,4 +48,12 @@ tasks.register<JacocoReport>("testJacocoCoverageReport") {
     reports {
         html.isEnabled = true
     }
+
+    finalizedBy(tasks.getByName("jacocoHtmlZip"))
+}
+
+tasks.register<Zip>("jacocoHtmlZip") {
+    archiveFileName.set("jacocoHtml.zip")
+    destinationDirectory.set(file("$buildDir/reports/jacoco/testJacocoCoverageReport/html-zip"))
+    from("$buildDir/reports/jacoco/testJacocoCoverageReport/html")
 }
