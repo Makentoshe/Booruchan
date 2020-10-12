@@ -3,34 +3,40 @@ package post.deserialize
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.json.JsonMapper
 import com.fasterxml.jackson.module.kotlin.readValue
+import deserialize.CollectionDeserializeException
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Element
 import org.jsoup.parser.Parser
-import post.network.*
 
-interface GelbooruPostsDeserializer<in Response : GelbooruPostsResponse.Success> {
-    fun deserializePosts(response: Response): GelbooruPostsDeserialize
+interface GelbooruPostsDeserializer {
+    fun deserializePosts(string: String): Result<GelbooruPostsDeserialize<*>>
 }
 
-class XmlGelbooruPostsDeserializer : GelbooruPostsDeserializer<XmlGelbooruPostsResponse.Success> {
+class XmlGelbooruPostsDeserializer : GelbooruPostsDeserializer {
 
-    override fun deserializePosts(response: XmlGelbooruPostsResponse.Success): XmlGelbooruPostsDeserialize {
-        val jsoup = Jsoup.parse(response.string, "", Parser.xmlParser())
-        return XmlGelbooruPostsDeserialize(jsoup.getElementsByTag("post").map(::deserializePost))
+    override fun deserializePosts(string: String): Result<XmlGelbooruPostsDeserialize> = try {
+        val jsoup = Jsoup.parse(string, "", Parser.xmlParser())
+        val results = jsoup.getElementsByTag("post").map(::deserializePost)
+        Result.success(GelbooruPostsDeserialize(results))
+    } catch (exception: Exception) {
+        Result.failure(CollectionDeserializeException(exception))
     }
 
     private val xmlPostDeserializer = XmlGelbooruPostDeserializer()
-    private fun deserializePost(element: Element): XmlGelbooruPostDeserialize =
-        xmlPostDeserializer.deserializePost(XmlGelbooruPostResponse.Success(element.toString()))
+    private fun deserializePost(element: Element): Result<XmlGelbooruPostDeserialize> =
+        xmlPostDeserializer.deserializePost(element.toString())
 }
 
-class JsonGelbooruPostsDeserializer : GelbooruPostsDeserializer<JsonGelbooruPostsResponse.Success> {
+class JsonGelbooruPostsDeserializer : GelbooruPostsDeserializer {
 
-    override fun deserializePosts(response: JsonGelbooruPostsResponse.Success): JsonGelbooruPostsDeserialize {
-        return JsonGelbooruPostsDeserialize(JsonMapper().readValue<JsonNode>(response.string).map(::deserializePost))
+    override fun deserializePosts(string: String): Result<JsonGelbooruPostsDeserialize> = try {
+        val results = JsonMapper().readValue<JsonNode>(string).map(::deserializePost)
+        Result.success(JsonGelbooruPostsDeserialize(results))
+    } catch (exception: Exception) {
+        Result.failure(CollectionDeserializeException(exception))
     }
 
     private val jsonPostDeserializer = JsonGelbooruPostDeserializer()
-    private fun deserializePost(element: JsonNode): JsonGelbooruPostDeserialize =
-        jsonPostDeserializer.deserializePost(JsonGelbooruPostResponse.Success(element.toString()))
+    private fun deserializePost(element: JsonNode): Result<JsonGelbooruPostDeserialize> =
+        jsonPostDeserializer.deserializePost(element.toString())
 }

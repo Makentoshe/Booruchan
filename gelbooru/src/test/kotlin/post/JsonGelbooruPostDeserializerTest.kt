@@ -1,30 +1,29 @@
 package post
 
+import deserialize.EntityDeserializeException
 import org.junit.Assert.assertEquals
 import org.junit.Test
-import post.deserialize.JsonGelbooruPostDeserialize
 import post.deserialize.JsonGelbooruPostDeserializer
-import post.network.JsonGelbooruPostResponse
 
 class JsonGelbooruPostDeserializerTest {
 
     @Test
     fun `should parse json`() {
         val json = javaClass.classLoader.getResource("post.json")!!.readText()
-        val deserialize = JsonGelbooruPostDeserializer().deserializePost(JsonGelbooruPostResponse.Success(json))
-        val successDeserialize = deserialize as JsonGelbooruPostDeserialize.Success
+        val result = JsonGelbooruPostDeserializer().deserializePost(json)
+        val successResult = result.getOrNull()!!
 
         // TODO add asserts for all fields (feelsbadman)
-        assertEquals(1, successDeserialize.post.postId)
+        assertEquals(1, successResult.post.postId)
     }
 
     @Test
     fun `should parse corrupted json`() {
         val json = javaClass.classLoader.getResource("post-corrupted.json")!!.readText()
-        val deserialize = JsonGelbooruPostDeserializer().deserializePost(JsonGelbooruPostResponse.Success(json))
-        val failureDeserialize = deserialize as JsonGelbooruPostDeserialize.Failure
+        val result = JsonGelbooruPostDeserializer().deserializePost(json)
+        val failureResult = result.exceptionOrNull() as EntityDeserializeException
 
         // TODO mb add asserts for all fields?
-        assertEquals(18, failureDeserialize.raw.size)
+        assertEquals(18, failureResult.raw.size)
     }
 }

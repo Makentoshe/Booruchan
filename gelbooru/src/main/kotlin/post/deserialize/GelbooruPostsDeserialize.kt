@@ -1,27 +1,16 @@
 package post.deserialize
 
+import deserialize.EntityDeserializeException
 import post.GelbooruPost
+import post.JsonGelbooruPost
+import post.XmlGelbooruPost
 
-interface GelbooruPostsDeserialize {
+typealias XmlGelbooruPostsDeserialize = GelbooruPostsDeserialize<XmlGelbooruPost>
+typealias JsonGelbooruPostsDeserialize = GelbooruPostsDeserialize<JsonGelbooruPost>
 
-    val deserializes: List<GelbooruPostDeserialize>
-
-    val posts: List<GelbooruPostDeserialize.Success<GelbooruPost>>
-
-    val failures: List<GelbooruPostDeserialize.Failure>
+data class GelbooruPostsDeserialize<out Post : GelbooruPost>(
+    override val deserializes: List<Result<GelbooruPostDeserialize<Post>>>
+) : PostsDeserialize<Post> {
+    override val failures = deserializes.mapNotNull { it.exceptionOrNull() as? EntityDeserializeException }
+    override val posts = deserializes.mapNotNull { it.getOrNull()?.post }
 }
-
-class XmlGelbooruPostsDeserialize(
-    override val deserializes: List<XmlGelbooruPostDeserialize>
-) : GelbooruPostsDeserialize {
-    override val posts = deserializes.filterIsInstance<XmlGelbooruPostDeserialize.Success>()
-    override val failures = deserializes.filterIsInstance<XmlGelbooruPostDeserialize.Failure>()
-}
-
-class JsonGelbooruPostsDeserialize(
-    override val deserializes: List<JsonGelbooruPostDeserialize>
-) : GelbooruPostsDeserialize {
-    override val posts = deserializes.filterIsInstance<JsonGelbooruPostDeserialize.Success>()
-    override val failures = deserializes.filterIsInstance<JsonGelbooruPostDeserialize.Failure>()
-}
-
