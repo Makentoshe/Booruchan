@@ -40,9 +40,9 @@ tasks.register<JacocoReport>("testJacocoCoverageReport") {
             // you may want to set up a task dependency between them as shown below.
             // Note that this requires the `test` tasks to be resolved eagerly (see `forEach`) which
             // may have a negative effect on the configuration time of your build.
-            subproject.tasks.matching { it.extensions.findByType<JacocoTaskExtension>() != null }.forEach {
-                rootProject.tasks["testJacocoCoverageReport"].dependsOn(it)
-            }
+//            subproject.tasks.matching { it.extensions.findByType<JacocoTaskExtension>() != null }.forEach {
+//                rootProject.tasks["testJacocoCoverageReport"].dependsOn(it)
+//            }
         }
     }
 
