@@ -8,27 +8,29 @@ import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.gradle
  * */
 object DanbooruNetworkCheck : PipelineBuildDaily("Danbooru network check", 0, 0, {
     description = "Checks Danbooru's real api to be sure, that it is works properly"
+    val modulePath = "./danbooru/network-check"
+    val gradlePath = ":danbooru:network-check"
 
     publishArtifacts = PublishMode.NORMALLY_FINISHED
     artifactRules = """
-        ./danbooru-api-check/build/reports/jacoco/test/html-zip/* => jacocoHtmlReport
+        $modulePath/build/reports/jacoco/test/html-zip/* => jacocoHtmlReport
     """.trimIndent()
 
     dependencies {
         snapshot(Core) {}
         artifacts(Core) {
-            artifactRules = "core/* => ./danbooru-api-check/libs"
+            artifactRules = "core/* => $modulePath/libs"
         }
         snapshot(Danbooru) {}
         artifacts(Danbooru) {
-            artifactRules = "danbooru/* => ./danbooru-api-check/libs"
+            artifactRules = "danbooru/* => $modulePath/libs"
         }
     }
 
     steps {
         gradle {
             name = "$name module api check"
-            tasks = ":danbooru-api-check:clean :danbooru-api-check:build --info"
+            tasks = "$gradlePath:clean $gradlePath:build --info"
             gradleParams = "-Pjarable -Pnetable"
             buildFile = "build.gradle.kts"
         }
