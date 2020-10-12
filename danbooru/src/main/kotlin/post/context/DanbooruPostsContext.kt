@@ -22,7 +22,7 @@ open class JsonDanbooruPostsContext(
 }
 
 open class XmlDanbooruPostsContext(
-    network: suspend (DanbooruPostsRequest) -> Result<String>
+    network: suspend (XmlDanbooruPostsRequest) -> Result<String>
 ) : DanbooruPostsContext<XmlDanbooruPostsRequest>(
     network, { json -> XmlDanbooruPostsDeserializer().deserializePosts(json) }
 ) {
