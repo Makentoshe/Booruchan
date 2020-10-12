@@ -12,7 +12,7 @@ class XmlGelbooruPostNetworkManagerTest {
     @Ignore("real api")
     fun `should request xml post`() = runBlocking {
         val request = XmlGelbooruPostRequest(GelbooruPostFilter.ById(postId(1)))
-        val response = XmlGelbooruPostNetworkManager(HttpClient()).getPost(request)
+        val response = GelbooruPostNetworkManager(HttpClient()).getPost(request)
         println(response)
     }
 }

@@ -1,32 +1,18 @@
 package post.network
 
-data class GelbooruPostsFilter(
-    val count: Int? = null
-) {
+class GelbooruPostsFilter(
+    params: Map<String, Any>
+) : PostsFilter(params) {
 
-    private val params = HashMap<String, Any>()
-
-    init {
-        if (count != null) params[COUNT] = count
-    }
-
-    override fun toString(): String {
-        if (params.isEmpty()) return ""
-        return params.entries.mapIndexed { index, entry ->
-            val builder = StringBuilder()
-            if (index == 0) builder.append("?") else builder.append("&")
-            builder.append(entry.key).append("=").append(entry.value)
-        }.joinToString { it.toString() }
-    }
+    constructor(count: Int? = null) : this(buildMap(count))
 
     companion object {
-
         private const val COUNT = "limit"
 
-        fun fromProperties(map: Map<String, String>): GelbooruPostsFilter {
-            val count = map[COUNT]?.toIntOrNull()
-
-            return GelbooruPostsFilter(count)
+        private fun buildMap(count: Int?): Map<String, Any> {
+            val params = HashMap<String, Any>()
+            if (count != null) params[COUNT] = count
+            return params
         }
     }
 }

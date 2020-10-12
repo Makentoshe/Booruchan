@@ -12,7 +12,7 @@ class JsonGelbooruPostNetworkManagerTest {
     @Ignore("real api")
     fun `should request json post`() = runBlocking {
         val request = JsonGelbooruPostRequest(GelbooruPostFilter.ById(postId(2)))
-        val response = JsonGelbooruPostNetworkManager(HttpClient()).getPost(request)
+        val response = GelbooruPostNetworkManager(HttpClient()).getPost(request)
         println(response)
     }
 

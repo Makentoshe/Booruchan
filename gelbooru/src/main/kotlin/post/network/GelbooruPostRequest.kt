@@ -2,7 +2,7 @@ package post.network
 
 import network.GelbooruRequest
 
-sealed class GelbooruPostRequest: GelbooruRequest() {
+sealed class GelbooruPostRequest: GelbooruRequest(), PostRequest {
     protected val internalUrl = "$host/index.php?page=dapi&s=post&q=index"
 }
 

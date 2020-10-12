@@ -4,7 +4,7 @@ class DanbooruPostsFilter(
     params: Map<String, Any>
 ) : PostsFilter(params) {
 
-    constructor(count: Int?) : this(buildMap(count))
+    constructor(count: Int? = null) : this(buildMap(count))
 
     companion object {
         private const val COUNT = "limit"
