@@ -3,7 +3,7 @@ plugins {
     jacoco // enable JaCoco plugin
 }
 
-group = "com.makentoshe.booruchan.danbooru.network-check"
+group = "com.makentoshe.booruchan.gelbooru.network-check"
 version = "1.0"
 
 repositories {
@@ -21,7 +21,7 @@ dependencies {
     } else {
         // for gradle/ide build
         implementation(project(":core"))
-        implementation(project(":danbooru"))
+        implementation(project(":gelbooru"))
     }
 
     implementation(kotlin("stdlib"))

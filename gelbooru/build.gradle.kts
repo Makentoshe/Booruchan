@@ -1,5 +1,7 @@
 plugins {
     id("org.jetbrains.kotlin.jvm")
+    id("com.github.johnrengelman.shadow") version "6.0.0"
+    jacoco // enable JaCoco plugin
 }
 
 group = "com.makentoshe.booruchan.gelbooru"
@@ -50,3 +52,40 @@ compileKotlin.kotlinOptions.freeCompilerArgs = listOf("-Xallow-result-return-typ
 // Allows to use kotlin.Result type as a return
 val compileTestKotlin: org.jetbrains.kotlin.gradle.tasks.KotlinCompile by tasks
 compileTestKotlin.kotlinOptions.freeCompilerArgs = listOf("-Xallow-result-return-type")
+
+// executes "shadowJar" task straight after "build"
+tasks.build {
+    finalizedBy(tasks.shadowJar)
+}
+
+// "shadowJar" task configurations
+tasks.shadowJar {
+    archiveBaseName.set("${project.name}-shadow")
+    archiveClassifier.set("")
+    archiveVersion.set(project.version.toString())
+}
+
+jacoco {
+    toolVersion = "0.8.5"
+}
+
+// executes "jacocoTestReport" task straight after "test"
+tasks.test {
+    finalizedBy(tasks.jacocoTestReport)
+}
+
+// "jacocoTestReport" task configurations
+tasks.jacocoTestReport {
+    reports {
+        xml.isEnabled = false
+        csv.isEnabled = false
+        html.isEnabled = true
+    }
+    finalizedBy(tasks.getByName("jacocoHtmlZip"))
+}
+
+tasks.register<Zip>("jacocoHtmlZip") {
+    archiveFileName.set("jacocoHtml.zip")
+    destinationDirectory.set(file("$buildDir/reports/jacoco/test/html-zip"))
+    from("$buildDir/reports/jacoco/test/html")
+}
