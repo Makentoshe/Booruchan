@@ -1,27 +1,16 @@
 package tag.deserialize
 
+import deserialize.EntityDeserializeException
 import tag.GelbooruTag
+import tag.JsonGelbooruTag
+import tag.XmlGelbooruTag
 
-interface GelbooruTagsDeserialize {
+typealias XmlGelbooruTagsDeserialize = GelbooruTagsDeserialize<XmlGelbooruTag>
+typealias JsonGelbooruTagsDeserialize = GelbooruTagsDeserialize<JsonGelbooruTag>
 
-    val deserializes: List<GelbooruTagDeserialize>
-
-    val tags: List<GelbooruTagDeserialize.Success<GelbooruTag>>
-
-    val failures: List<GelbooruTagDeserialize.Failure>
+data class GelbooruTagsDeserialize<out Tag : GelbooruTag>(
+    override val deserializes: List<Result<GelbooruTagDeserialize<Tag>>>
+) : TagsDeserialize<Tag> {
+    override val failures = deserializes.mapNotNull { it.exceptionOrNull() as? EntityDeserializeException }
+    override val tags = deserializes.mapNotNull { it.getOrNull()?.tag }
 }
-
-class XmlGelbooruTagsDeserialize(
-    override val deserializes: List<XmlGelbooruTagDeserialize>
-) : GelbooruTagsDeserialize {
-    override val tags = deserializes.filterIsInstance<XmlGelbooruTagDeserialize.Success>()
-    override val failures = deserializes.filterIsInstance<XmlGelbooruTagDeserialize.Failure>()
-}
-
-class JsonGelbooruTagsDeserialize(
-    override val deserializes: List<JsonGelbooruTagDeserialize>
-) : GelbooruTagsDeserialize {
-    override val tags = deserializes.filterIsInstance<JsonGelbooruTagDeserialize.Success>()
-    override val failures = deserializes.filterIsInstance<JsonGelbooruTagDeserialize.Failure>()
-}
-

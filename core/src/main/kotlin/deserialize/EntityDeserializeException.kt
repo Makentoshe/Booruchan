@@ -1,6 +1,6 @@
 package deserialize
 
-data class EntityDeserializeException(
+class EntityDeserializeException(
     val raw: Map<String, Any?>,
     override val cause: Throwable
-): Throwable()
+) : DeserializeException(cause, "Could not deserialize entity")

@@ -28,9 +28,10 @@ class JsonGelbooruTagsNetworkManagerTest {
         val successResponse = response as JsonGelbooruTagsResponse.Success
 
         // deserialize json and check: was the filter condition satisfied?
-        val deserialize = JsonGelbooruTagsDeserializer().deserializeTags(successResponse)
-        assertEquals(20, deserialize.deserializes.size)
-        logger.info { "Success: ${deserialize.tags.size}" }
-        logger.info { "Failure: ${deserialize.failures.size}" }
+        val deserialize = JsonGelbooruTagsDeserializer().deserializeTags(successResponse.string)
+        val successDeserialize = deserialize.getOrNull()!!
+        assertEquals(20, successDeserialize.deserializes.size)
+        logger.info { "Success: ${successDeserialize.tags.size}" }
+        logger.info { "Failure: ${successDeserialize.failures.size}" }
     }
 }

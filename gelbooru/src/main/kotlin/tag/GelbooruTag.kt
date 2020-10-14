@@ -5,9 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement
 
-interface GelbooruTag : TagId {
-    val text: String
-    val type: Type
+interface GelbooruTag : Tag {
     val count: Int
     val ambiguous: Boolean
 }

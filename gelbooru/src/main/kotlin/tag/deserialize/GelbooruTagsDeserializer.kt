@@ -3,34 +3,42 @@ package tag.deserialize
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.json.JsonMapper
 import com.fasterxml.jackson.module.kotlin.readValue
+import deserialize.collectionDeserializeException
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Element
 import org.jsoup.parser.Parser
-import tag.network.*
+import java.util.regex.Pattern
 
-interface GelbooruTagsDeserializer<in Response : GelbooruTagsResponse.Success> {
-    fun deserializeTags(response: Response): GelbooruTagsDeserialize
+interface GelbooruTagsDeserializer {
+    fun deserializeTags(string: String): Result<GelbooruTagsDeserialize<*>>
 }
 
-class XmlGelbooruTagsDeserializer : GelbooruTagsDeserializer<XmlGelbooruTagsResponse.Success> {
+class XmlGelbooruTagsDeserializer : GelbooruTagsDeserializer {
 
-    override fun deserializeTags(response: XmlGelbooruTagsResponse.Success): XmlGelbooruTagsDeserialize {
-        val jsoup = Jsoup.parse(response.string, "", Parser.xmlParser())
-        return XmlGelbooruTagsDeserialize(jsoup.getElementsByTag("tag").map(::deserializeTag))
+    override fun deserializeTags(string: String): Result<XmlGelbooruTagsDeserialize> = try {
+        val htmlPattern: Pattern = Pattern.compile(".*<[^>]+>.*", Pattern.DOTALL)
+        if (!htmlPattern.matcher(string).matches()) throw Exception("Input string is not the valid xml")
+
+        val jsoup = Jsoup.parse(string, "", Parser.xmlParser())
+        Result.success(XmlGelbooruTagsDeserialize(jsoup.getElementsByTag("tag").map(::deserializeTag)))
+    } catch (exception: Exception) {
+        Result.failure(collectionDeserializeException(exception, "xml"))
     }
 
     private val xmlTagDeserializer = XmlGelbooruTagDeserializer()
-    private fun deserializeTag(element: Element): XmlGelbooruTagDeserialize =
-        xmlTagDeserializer.deserializeTag(XmlGelbooruTagResponse.Success(element.toString()))
+    private fun deserializeTag(element: Element): Result<XmlGelbooruTagDeserialize> =
+        xmlTagDeserializer.deserializeTag(element.toString())
 }
 
-class JsonGelbooruTagsDeserializer : GelbooruTagsDeserializer<JsonGelbooruTagsResponse.Success> {
+class JsonGelbooruTagsDeserializer : GelbooruTagsDeserializer {
 
-    override fun deserializeTags(response: JsonGelbooruTagsResponse.Success): JsonGelbooruTagsDeserialize {
-        return JsonGelbooruTagsDeserialize(JsonMapper().readValue<JsonNode>(response.string).map(::deserializeTag))
+    override fun deserializeTags(string: String): Result<JsonGelbooruTagsDeserialize> = try {
+        Result.success(JsonGelbooruTagsDeserialize(JsonMapper().readValue<JsonNode>(string).map(::deserializeTag)))
+    } catch (exception: Exception) {
+        Result.failure(collectionDeserializeException(exception, "json"))
     }
 
     private val jsonTagDeserializer = JsonGelbooruTagDeserializer()
-    private fun deserializeTag(element: JsonNode): JsonGelbooruTagDeserialize =
-        jsonTagDeserializer.deserializeTag(JsonGelbooruTagResponse.Success(element.toString()))
+    private fun deserializeTag(element: JsonNode): Result<JsonGelbooruTagDeserialize> =
+        jsonTagDeserializer.deserializeTag(element.toString())
 }

@@ -7,7 +7,6 @@ import org.junit.Ignore
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.Timeout
-import tag.deserialize.XmlGelbooruTagDeserialize
 import tag.deserialize.XmlGelbooruTagDeserializer
 import tag.tagId
 import java.util.logging.Logger
@@ -30,9 +29,8 @@ class XmlGelbooruTagNetworkManagerTest {
         val successResponse = response as XmlGelbooruTagResponse.Success
 
         // deserialize xml and check: was the filter condition satisfied?
-        val deserialize = XmlGelbooruTagDeserializer().deserializeTag(successResponse)
+        val deserialize = XmlGelbooruTagDeserializer().deserializeTag(successResponse.string)
         logger.info { "Deserialize: $deserialize" }
-        deserialize as XmlGelbooruTagDeserialize.Success
-        assertEquals(3854, deserialize.tag.tagId)
+        assertEquals(3854, deserialize.getOrNull()!!.tag.tagId)
     }
 }

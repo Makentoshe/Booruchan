@@ -28,9 +28,10 @@ class XmlGelbooruTagsNetworkManagerTest {
         val successResponse = response as XmlGelbooruTagsResponse.Success
 
         // deserialize xml and check: was the filter condition satisfied?
-        val deserialize = XmlGelbooruTagsDeserializer().deserializeTags(successResponse)
-        Assert.assertEquals(20, deserialize.deserializes.size)
-        logger.info { "Success: ${deserialize.tags.size}" }
-        logger.info { "Failure: ${deserialize.failures.size}" }
+        val deserialize = XmlGelbooruTagsDeserializer().deserializeTags(successResponse.string)
+        val successDeserialize = deserialize.getOrNull()!!
+        Assert.assertEquals(20, successDeserialize.deserializes.size)
+        logger.info { "Success: ${successDeserialize.tags.size}" }
+        logger.info { "Failure: ${successDeserialize.failures.size}" }
     }
 }

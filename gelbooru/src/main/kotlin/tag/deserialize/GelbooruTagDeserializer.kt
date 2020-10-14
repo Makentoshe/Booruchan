@@ -7,19 +7,18 @@ import com.fasterxml.jackson.dataformat.xml.JacksonXmlModule
 import com.fasterxml.jackson.dataformat.xml.XmlMapper
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import com.fasterxml.jackson.module.kotlin.readValue
+import deserialize.DeserializeException
+import deserialize.EntityDeserializeException
 import org.codehaus.stax2.XMLInputFactory2
 import org.codehaus.stax2.XMLOutputFactory2
 import org.jsoup.Jsoup
 import org.jsoup.parser.Parser
-import tag.network.GelbooruTagResponse
-import tag.network.JsonGelbooruTagResponse
-import tag.network.XmlGelbooruTagResponse
 
-interface GelbooruTagDeserializer<in Response : GelbooruTagResponse.Success> {
-    fun deserializeTag(response: Response): GelbooruTagDeserialize
+interface GelbooruTagDeserializer {
+    fun deserializeTag(string: String): Result<GelbooruTagDeserialize<*>>
 }
 
-class XmlGelbooruTagDeserializer : GelbooruTagDeserializer<XmlGelbooruTagResponse.Success> {
+class XmlGelbooruTagDeserializer : GelbooruTagDeserializer {
 
     private val mapper = XmlMapper(XMLInputFactory2.newFactory(), XMLOutputFactory2.newFactory())
 
@@ -28,28 +27,32 @@ class XmlGelbooruTagDeserializer : GelbooruTagDeserializer<XmlGelbooruTagRespons
         mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
     }
 
-    override fun deserializeTag(response: XmlGelbooruTagResponse.Success): XmlGelbooruTagDeserialize {
-        val jsoup = Jsoup.parse(response.string, "", Parser.xmlParser())
+    override fun deserializeTag(string: String): Result<XmlGelbooruTagDeserialize> = try {
+        val jsoup = Jsoup.parse(string, "", Parser.xmlParser())
         val xml = jsoup.getElementsByTag("tag").toString()
-        return try {
-            XmlGelbooruTagDeserialize.Success(mapper.readValue(xml))
-        } catch (e: Exception) {
-            XmlGelbooruTagDeserialize.Failure(e, mapper.readValue(xml))
+        try {
+            Result.success(XmlGelbooruTagDeserialize(mapper.readValue(xml)))
+        } catch (exception: Exception) {
+            Result.failure(EntityDeserializeException(mapper.readValue(xml), exception))
         }
+    } catch (exception: Exception) {
+        Result.failure(DeserializeException(exception, exception.localizedMessage))
     }
 }
 
-class JsonGelbooruTagDeserializer : GelbooruTagDeserializer<JsonGelbooruTagResponse.Success> {
+class JsonGelbooruTagDeserializer : GelbooruTagDeserializer {
 
     private val mapper = JsonMapper()
 
-    override fun deserializeTag(response: JsonGelbooruTagResponse.Success): JsonGelbooruTagDeserialize {
-        val node = JsonMapper().readValue<JsonNode>(response.string)
-        val json = if (node.isObject) node.toString() else node.first().toString()
-        return try {
-            JsonGelbooruTagDeserialize.Success(mapper.readValue(json))
-        } catch (e: Exception) {
-            JsonGelbooruTagDeserialize.Failure(e, mapper.readValue(json))
+    override fun deserializeTag(string: String): Result<JsonGelbooruTagDeserialize> = try {
+        val jsonNode = mapper.readValue<JsonNode>(string)
+        val json = if (jsonNode.isArray) jsonNode.first().toString() else jsonNode.toString()
+        try {
+            Result.success(JsonGelbooruTagDeserialize(mapper.readValue(json)))
+        } catch (exception: Exception) {
+            Result.failure(EntityDeserializeException(mapper.readValue(string), exception))
         }
+    } catch (exception: Exception) {
+        Result.failure(DeserializeException(exception, exception.localizedMessage))
     }
 }
