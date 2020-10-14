@@ -5,8 +5,11 @@ import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.gradle
 
 object Gelbooru : PipelineBuildVcs("Gelbooru", {
 
-    publishArtifacts = PublishMode.SUCCESSFUL
-    artifactRules = "./gelbooru/build/libs/* => gelbooru"
+    publishArtifacts = PublishMode.NORMALLY_FINISHED
+    artifactRules = """
+        ./gelbooru/build/libs/gelbooru-shadow-* => gelbooru
+        ./gelbooru/build/reports/jacoco/test/html-zip/* => jacocoHtmlReport
+    """.trimIndent()
 
     dependencies {
         snapshot(Core) {}
@@ -24,3 +27,4 @@ object Gelbooru : PipelineBuildVcs("Gelbooru", {
         }
     }
 })
+
