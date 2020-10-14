@@ -1,19 +1,21 @@
 package tag.network
 
-data class GelbooruTagsFilter(val count: Int?) {
+class GelbooruTagsFilter(params: Map<String, Any>) : TagsFilter(params) {
 
-    private val params = HashMap<String, Any>()
+    constructor(count: Int?) : this(buildMap(count))
 
-    init {
-        if (count != null) params[COUNT] = count
-    }
-
-    fun toUrl(): String {
+    override fun toUrl(): String {
         if (params.isEmpty()) return ""
-        return params.entries.joinToString("") { entry -> "&${entry.key}=${entry.value}" }
+        return params.entries.map { entry -> "&${entry.key}=${entry.value}" }.joinToString("") { it }
     }
 
     companion object {
         private const val COUNT = "limit"
+
+        private fun buildMap(count: Int?): Map<String, Any> {
+            val params = HashMap<String, Any>()
+            if (count != null) params[COUNT] = count
+            return params
+        }
     }
 }

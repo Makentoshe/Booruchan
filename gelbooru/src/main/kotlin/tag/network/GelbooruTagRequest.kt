@@ -2,7 +2,7 @@ package tag.network
 
 import network.GelbooruRequest
 
-sealed class GelbooruTagRequest : GelbooruRequest() {
+sealed class GelbooruTagRequest : GelbooruRequest(), TagRequest {
     protected val internalUrl = "$host/index.php?page=dapi&s=tag&q=index"
 }
 

@@ -5,36 +5,19 @@ import io.ktor.client.call.*
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
 
-abstract class GelbooruTagsNetworkManager<in Request : GelbooruTagsRequest>(
+class GelbooruTagsNetworkManager(
     private val client: HttpClient
-) {
-    protected suspend fun internalTags(request: Request): HttpResponse {
+): TagsNetworkManager<GelbooruTagsRequest> {
+
+    private suspend fun internalTags(request: GelbooruTagsRequest): HttpResponse {
         val ktorRequestBuilder = HttpRequestBuilder()
         ktorRequestBuilder.url(request.url)
         return client.get(ktorRequestBuilder)
     }
 
-    abstract suspend fun getTags(request: Request): GelbooruTagsResponse
-}
-
-class XmlGelbooruTagsNetworkManager(
-    client: HttpClient
-) : GelbooruTagsNetworkManager<XmlGelbooruTagsRequest>(client) {
-
-    override suspend fun getTags(request: XmlGelbooruTagsRequest): XmlGelbooruTagsResponse = try {
-        XmlGelbooruTagsResponse.Success(internalTags(request).receive())
-    } catch (e: Exception) {
-        XmlGelbooruTagsResponse.Failure(e)
-    }
-}
-
-class JsonGelbooruTagsNetworkManager(
-    client: HttpClient
-) : GelbooruTagsNetworkManager<JsonGelbooruTagsRequest>(client) {
-
-    override suspend fun getTags(request: JsonGelbooruTagsRequest): JsonGelbooruTagsResponse = try {
-        JsonGelbooruTagsResponse.Success(internalTags(request).receive())
-    } catch (e: Exception) {
-        JsonGelbooruTagsResponse.Failure(e)
+    override suspend fun getTags(request: GelbooruTagsRequest): Result<String> = try {
+        Result.success(internalTags(request).receive())
+    } catch (exception: Exception) {
+        Result.failure(exception)
     }
 }
