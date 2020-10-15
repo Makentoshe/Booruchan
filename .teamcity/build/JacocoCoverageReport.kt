@@ -18,11 +18,9 @@ object JacocoCoverageReport: PipelineBuildVcs("Test coverage report", {
         ./build/reports/jacoco/testJacocoCoverageReport/html-zip/* => jacocoHtmlReport
     """.trimIndent()
 
-    // Build depends on all other builds and collects their reports to merge
     dependencies {
-        snapshot(Core) {}
-        snapshot(Danbooru) {}
-        snapshot(Gelbooru) {}
+        snapshot(DanbooruNetworkCheck) {}
+        snapshot(GelbooruNetworkCheck) {}
     }
 
     steps {
