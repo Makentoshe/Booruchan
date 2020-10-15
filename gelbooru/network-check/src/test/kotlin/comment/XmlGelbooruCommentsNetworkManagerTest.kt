@@ -1,10 +1,12 @@
-package comment.network
+package comment
 
 import comment.deserialize.XmlGelbooruCommentsDeserializer
+import comment.network.GelbooruCommentsFilter
+import comment.network.GelbooruCommentsNetworkManager
+import comment.network.XmlGelbooruCommentsRequest
 import io.ktor.client.*
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
-import org.junit.Ignore
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.Timeout
@@ -19,7 +21,6 @@ class XmlGelbooruCommentsNetworkManagerTest {
     val globalTimeout: Timeout = Timeout.seconds(30)
 
     @Test
-    @Ignore
     fun `should request xml with post_id param`() = runBlocking {
         val request = XmlGelbooruCommentsRequest(GelbooruCommentsFilter(postId = postId(1)))
         logger.info { "Xml url request: ${request.url}" }

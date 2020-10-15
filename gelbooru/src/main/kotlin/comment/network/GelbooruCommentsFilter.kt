@@ -16,7 +16,7 @@ class GelbooruCommentsFilter(params: Map<String, Any>) : CommentsFilter(params){
 
         private fun buildMap(postId: PostId?): Map<String, Any> {
             val params = HashMap<String, Any>()
-            if (postId != null) params[POST_ID] = postId
+            if (postId != null) params[POST_ID] = postId.postId
             return params
         }
     }
