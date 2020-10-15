@@ -1,19 +1,17 @@
 package comment.deserialize
 
 import comment.GelbooruComment
+import comment.XmlGelbooruComment
+import deserialize.EntityDeserializeException
 
-interface GelbooruCommentsDeserialize {
+/** Json not supported. 15.10.20 */
+//typealias JsonGelbooruCommentsDeserialize = GelbooruCommentsDeserialize<JsonGelbooruComment>
 
-    val deserializes: List<GelbooruCommentDeserialize>
+typealias XmlGelbooruCommentsDeserialize = GelbooruCommentsDeserialize<XmlGelbooruComment>
 
-    val comments: List<GelbooruCommentDeserialize.Success<GelbooruComment>>
-
-    val failures: List<GelbooruCommentDeserialize.Failure>
-}
-
-class XmlGelbooruCommentsDeserialize(
-    override val deserializes: List<XmlGelbooruCommentDeserialize>
-) : GelbooruCommentsDeserialize {
-    override val comments = deserializes.filterIsInstance<XmlGelbooruCommentDeserialize.Success>()
-    override val failures = deserializes.filterIsInstance<XmlGelbooruCommentDeserialize.Failure>()
+data class GelbooruCommentsDeserialize<out Comment : GelbooruComment>(
+    override val deserializes: List<Result<GelbooruCommentDeserialize<Comment>>>
+) : CommentsDeserialize<Comment> {
+    override val comments = deserializes.mapNotNull { it.getOrNull()?.comment }
+    override val failures = deserializes.mapNotNull { it.exceptionOrNull() as? EntityDeserializeException }
 }

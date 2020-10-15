@@ -29,10 +29,11 @@ class XmlGelbooruCommentsNetworkManagerTest {
         val successResponse = response as XmlGelbooruCommentsResponse.Success
 
         // deserialize xml and check: was the filter condition satisfied?
-        val deserialize = XmlGelbooruCommentsDeserializer().deserializeComments(successResponse)
-        deserialize.comments.forEach { assertEquals(1, it.comment.postId) }
-        assert(deserialize.deserializes.size >= 111)
-        logger.info { "Success: ${deserialize.comments.size}" }
-        logger.info { "Failure: ${deserialize.failures.size}" }
+        val deserialize = XmlGelbooruCommentsDeserializer().deserializeComments(successResponse.string)
+        val successDeserialize = deserialize.getOrNull()!!
+        successDeserialize.comments.forEach { assertEquals(1, it.postId) }
+        assert(successDeserialize.deserializes.size >= 111)
+        logger.info { "Success: ${successDeserialize.comments.size}" }
+        logger.info { "Failure: ${successDeserialize.failures.size}" }
     }
 }

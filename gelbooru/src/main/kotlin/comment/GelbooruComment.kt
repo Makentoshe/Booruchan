@@ -1,16 +1,11 @@
 package comment
 
-import Time
 import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty
-import post.PostId
 import time
 
-interface GelbooruComment : CommentId, PostId {
-    val creatorId: Int
-    val text: String
-    val creationTime: Time
+interface GelbooruComment : Comment {
     val creator: String
 }
 
@@ -33,7 +28,7 @@ data class XmlGelbooruComment(
     @JsonProperty("creator")
     @JacksonXmlProperty(localName = "creator")
     override val creator: String
-): GelbooruComment {
+) : GelbooruComment {
 
     @JsonIgnore
     override val creationTime = time(rawCreationTime)

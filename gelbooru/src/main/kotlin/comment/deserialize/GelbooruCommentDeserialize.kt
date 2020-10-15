@@ -3,27 +3,11 @@ package comment.deserialize
 import comment.GelbooruComment
 import comment.XmlGelbooruComment
 
-interface GelbooruCommentDeserialize {
+/** Json does not supported. 15.10.20 */
+//typealias JsonGelbooruCommentDeserialize = GelbooruCommentDeserialize<JsonGelbooruComment>
 
-    interface Success<out Comment : GelbooruComment> : GelbooruCommentDeserialize {
-        val comment: Comment
-    }
+typealias XmlGelbooruCommentDeserialize = GelbooruCommentDeserialize<XmlGelbooruComment>
 
-    interface Failure : GelbooruCommentDeserialize {
-        val raw: Map<String, Any?>
-        val exception: Exception
-    }
-}
-
-sealed class XmlGelbooruCommentDeserialize : GelbooruCommentDeserialize {
-
-    data class Success(
-        override val comment: XmlGelbooruComment
-    ) : XmlGelbooruCommentDeserialize(), GelbooruCommentDeserialize.Success<XmlGelbooruComment>
-
-    data class Failure(
-        override val exception: Exception,
-        override val raw: Map<String, Any?>
-    ) : XmlGelbooruCommentDeserialize(), GelbooruCommentDeserialize.Failure
-
-}
+data class GelbooruCommentDeserialize<out Comment: GelbooruComment>(
+    override val comment: Comment
+): CommentDeserialize<Comment>
