@@ -5,25 +5,19 @@ import io.ktor.client.call.*
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
 
-abstract class GelbooruCommentsNetworkManager<in Request : GelbooruCommentsRequest>(
+class GelbooruCommentsNetworkManager(
     private val client: HttpClient
-) {
-    protected suspend fun internalComments(request: Request): HttpResponse {
+) : CommentsNetworkManager<GelbooruCommentsRequest> {
+
+    private suspend fun internalComments(request: GelbooruCommentsRequest): HttpResponse {
         val ktorRequestBuilder = HttpRequestBuilder()
         ktorRequestBuilder.url(request.url)
         return client.get(ktorRequestBuilder)
     }
 
-    abstract suspend fun getComments(request: Request): GelbooruCommentsResponse
-}
-
-class XmlGelbooruCommentsNetworkManager(
-    client: HttpClient
-) : GelbooruCommentsNetworkManager<XmlGelbooruCommentsRequest>(client) {
-
-    override suspend fun getComments(request: XmlGelbooruCommentsRequest): XmlGelbooruCommentsResponse = try {
-        XmlGelbooruCommentsResponse.Success(internalComments(request).receive())
-    } catch (e: Exception) {
-        XmlGelbooruCommentsResponse.Failure(e)
+    override suspend fun getComments(request: GelbooruCommentsRequest): Result<String> = try {
+        Result.success(internalComments(request).receive())
+    } catch (exception: Exception) {
+        Result.failure(exception)
     }
 }

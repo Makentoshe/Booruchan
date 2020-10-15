@@ -2,21 +2,22 @@ package comment.network
 
 import post.PostId
 
-data class GelbooruCommentsFilter(
-    val postId: PostId? = null
-) {
-    private val params = HashMap<String, Any>()
+class GelbooruCommentsFilter(params: Map<String, Any>) : CommentsFilter(params){
 
-    init {
-        if (postId != null) params[POST_ID] = postId.postId
-    }
+    constructor(postId: PostId?) : this(buildMap(postId))
 
-    fun toUrl(): String {
+    override fun toUrl(): String {
         if (params.isEmpty()) return ""
-        return params.entries.joinToString("") { "&${it.key}=${it.value}" }
+        return params.entries.joinToString("") { entry -> "&${entry.key}=${entry.value}" }
     }
 
     companion object {
         private const val POST_ID = "post_id"
+
+        private fun buildMap(postId: PostId?): Map<String, Any> {
+            val params = HashMap<String, Any>()
+            if (postId != null) params[POST_ID] = postId
+            return params
+        }
     }
 }

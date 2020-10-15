@@ -2,7 +2,7 @@ package comment.network
 
 import network.GelbooruRequest
 
-sealed class GelbooruCommentsRequest: GelbooruRequest() {
+sealed class GelbooruCommentsRequest: GelbooruRequest(), CommentsRequest {
     protected val internalUrl = "$host/index.php?page=dapi&s=comment&q=index"
 }
 

@@ -24,12 +24,12 @@ class XmlGelbooruCommentsNetworkManagerTest {
         val request = XmlGelbooruCommentsRequest(GelbooruCommentsFilter(postId = postId(1)))
         logger.info { "Xml url request: ${request.url}" }
         assertEquals("https://gelbooru.com/index.php?page=dapi&s=comment&q=index&post_id=1", request.url)
-        val response = XmlGelbooruCommentsNetworkManager(HttpClient()).getComments(request)
+        val response = GelbooruCommentsNetworkManager(HttpClient()).getComments(request)
         logger.info { "Response: $response" }
-        val successResponse = response as XmlGelbooruCommentsResponse.Success
+        val successResponse = response.getOrNull()!!
 
         // deserialize xml and check: was the filter condition satisfied?
-        val deserialize = XmlGelbooruCommentsDeserializer().deserializeComments(successResponse.string)
+        val deserialize = XmlGelbooruCommentsDeserializer().deserializeComments(successResponse)
         val successDeserialize = deserialize.getOrNull()!!
         successDeserialize.comments.forEach { assertEquals(1, it.postId) }
         assert(successDeserialize.deserializes.size >= 111)
