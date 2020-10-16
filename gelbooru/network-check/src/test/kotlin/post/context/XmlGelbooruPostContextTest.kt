@@ -15,15 +15,15 @@ class XmlGelbooruPostContextTest : GelbooruPostContextTest() {
 
     @Test
     fun `should request xml post`() = runBlocking {
-        val request = XmlGelbooruPostRequest(GelbooruPostFilter.ById(postId(1)))
+        val request = XmlGelbooruPostRequest(GelbooruPostFilter.ById(postId(5612477)))
         logger.info { "Xml url request: ${request.url}" }
-        assertEquals("https://gelbooru.com/index.php?page=dapi&s=post&q=index&id=1", request.url)
+        assertEquals("https://gelbooru.com/index.php?page=dapi&s=post&q=index&id=5612477", request.url)
 
         val result = context.get(request)
         logger.info { "Result: $result" }
         val successResult = context.get(request).getOrNull()!!
 
-        assertEquals(1, successResult.post.postId)
+        assertEquals(5612477, successResult.post.postId)
     }
 
 }

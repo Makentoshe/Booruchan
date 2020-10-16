@@ -9,16 +9,18 @@ import com.fasterxml.jackson.module.kotlin.KotlinModule
 import com.fasterxml.jackson.module.kotlin.readValue
 import deserialize.DeserializeException
 import deserialize.EntityDeserializeException
+import deserialize.XmlGelbooruDeserializer
 import org.codehaus.stax2.XMLInputFactory2
 import org.codehaus.stax2.XMLOutputFactory2
 import org.jsoup.Jsoup
 import org.jsoup.parser.Parser
+import org.jsoup.select.Elements
 
 interface GelbooruTagDeserializer {
     fun deserializeTag(string: String): Result<GelbooruTagDeserialize<*>>
 }
 
-class XmlGelbooruTagDeserializer : GelbooruTagDeserializer {
+class XmlGelbooruTagDeserializer : XmlGelbooruDeserializer(), GelbooruTagDeserializer {
 
     private val mapper = XmlMapper(XMLInputFactory2.newFactory(), XMLOutputFactory2.newFactory())
 
@@ -28,8 +30,10 @@ class XmlGelbooruTagDeserializer : GelbooruTagDeserializer {
     }
 
     override fun deserializeTag(string: String): Result<XmlGelbooruTagDeserialize> = try {
+        if (!isValidXml(string)) throw Exception("Not valid xml")
+
         val jsoup = Jsoup.parse(string, "", Parser.xmlParser())
-        val xml = jsoup.getElementsByTag("tag").toString()
+        val xml = jsoup.getElementsByTag("tag").map(::normalize).let(::Elements).toString()
         try {
             Result.success(XmlGelbooruTagDeserialize(mapper.readValue(xml)))
         } catch (exception: Exception) {

@@ -24,7 +24,7 @@ class XmlGelbooruTagDeserializerTest {
         val successDeserialize = deserialize.getOrNull()!!
 
         // todo add asserts for all fields
-        assertEquals(651094, successDeserialize.tag.tagId)
+        assertEquals(45162, successDeserialize.tag.tagId)
     }
 
     @Test
