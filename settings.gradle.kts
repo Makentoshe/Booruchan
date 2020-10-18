@@ -11,3 +11,4 @@ include("gelbooru:network-check")
 findProject(":gelbooru:network-check")?.name = "network-check"
 
 include("application")
+include(":application:android")
