@@ -8,8 +8,12 @@ plugins {
 group = "com.makentoshe.booruchan"
 version = "1.0"
 
-repositories {
-    mavenCentral()
+allprojects {
+    repositories {
+        google()
+        jcenter()
+        mavenCentral()
+    }
 }
 
 dependencies {
@@ -52,12 +56,27 @@ tasks.register<JacocoReport>("testJacocoCoverageReport") {
     finalizedBy(tasks.getByName("jacocoHtmlZip"))
 }
 
+// Task allows to archive jacoco html reports for future using in the ci/cd tools
 tasks.register<Zip>("jacocoHtmlZip") {
     archiveFileName.set("jacocoHtml.zip")
     destinationDirectory.set(file("$buildDir/reports/jacoco/testJacocoCoverageReport/html-zip"))
     from("$buildDir/reports/jacoco/testJacocoCoverageReport/html")
 }
 
+// A "one way" task allows to upgrade android module to a standalone project
+// that can be opened and edited separately.
+// NOTE: From this point the whole project build will be always failed
+// because the android module will be unconfigured properly
+tasks.register<Copy>("android-standalone") {
+    val buildGradleKts = "$projectDir${File.separator}build.gradle.kts"
+    val gradlewBat = "$projectDir${File.separator}gradlew.bat"
+    val gradlew = "$projectDir${File.separator}gradlew"
+    val gradleProperties = "$projectDir${File.separator}gradle.properties"
+    val localProperties = "$projectDir${File.separator}local.properties"
+
+    from(buildGradleKts, gradlewBat, gradlew, gradleProperties, localProperties)
+    into(project(":application:android").projectDir)
+}
 
 // Android section
 buildscript {
@@ -71,12 +90,5 @@ buildscript {
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle.kts files
-    }
-}
-
-allprojects {
-    repositories {
-        google()
-        jcenter()
     }
 }

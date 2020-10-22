@@ -19,7 +19,6 @@ out/
 
 # We can invoke gradlew command that will modify gradle module files
 # Ignoring these files allows configure this module as a standalone project
-gradle/
 build.gradle.kts
 gradle.properties
 gradlew
