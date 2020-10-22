@@ -30,7 +30,7 @@ object DanbooruNetworkCheck : PipelineBuildDaily("Danbooru network check", 0, 0,
     steps {
         gradle {
             name = "$name module api check"
-            tasks = "$gradlePath:clean $gradlePath:build --info"
+            tasks = "$gradlePath:build --info"
             gradleParams = "-Pjarable -Pnetable"
             buildFile = "build.gradle.kts"
         }
