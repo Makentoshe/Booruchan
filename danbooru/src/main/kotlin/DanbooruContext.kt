@@ -5,6 +5,7 @@ import comment.context.XmlDanbooruCommentsContext
 import comment.network.CommentRequest
 import comment.network.CommentsRequest
 import context.BooruContext
+import network.DanbooruRequest
 import post.context.JsonDanbooruPostContext
 import post.context.JsonDanbooruPostsContext
 import post.context.XmlDanbooruPostContext
@@ -20,6 +21,10 @@ import tag.network.TagsRequest
 
 abstract class DanbooruContext : BooruContext {
     override val title: String = "Danbooru"
+
+    override val url: String = object : DanbooruRequest() {
+        override val url: String = ""
+    }.host
 }
 
 class XmlDanbooruContext : DanbooruContext() {

@@ -1,8 +1,8 @@
 package tag.network
 
-sealed class DanbooruTagsRequest: TagsRequest {
-    protected val host = "https://danbooru.donmai.us"
-}
+import network.DanbooruRequest
+
+sealed class DanbooruTagsRequest: DanbooruRequest(), TagsRequest
 
 data class XmlDanbooruTagsRequest(private val filter: DanbooruTagsFilter) : DanbooruTagsRequest() {
     override val url = "$host/tags.xml${filter.toUrl()}"

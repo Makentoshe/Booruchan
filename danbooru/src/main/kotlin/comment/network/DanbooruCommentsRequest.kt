@@ -1,8 +1,9 @@
 package comment.network
 
-sealed class DanbooruCommentsRequest: CommentsRequest {
-    protected val host = "https://danbooru.donmai.us"
-}
+import network.DanbooruRequest
+
+sealed class DanbooruCommentsRequest : DanbooruRequest(), CommentsRequest
+
 data class XmlDanbooruCommentsRequest(private val filter: DanbooruCommentsFilter) : DanbooruCommentsRequest() {
     override val url = "$host/comments.xml${filter.toUrl()}"
 }

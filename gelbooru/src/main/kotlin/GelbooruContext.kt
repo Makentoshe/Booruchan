@@ -4,6 +4,7 @@ import comment.context.XmlGelbooruCommentsContext
 import comment.network.CommentRequest
 import comment.network.CommentsRequest
 import context.BooruContext
+import network.GelbooruRequest
 import post.context.JsonGelbooruPostContext
 import post.context.JsonGelbooruPostsContext
 import post.context.XmlGelbooruPostContext
@@ -18,7 +19,12 @@ import tag.network.TagRequest
 import tag.network.TagsRequest
 
 abstract class GelbooruContext : BooruContext {
+
     override val title: String = "Gelbooru"
+
+    override val url: String = object: GelbooruRequest() {
+        override val url: String = ""
+    }.url
 }
 
 class XmlGelbooruContext : GelbooruContext() {
