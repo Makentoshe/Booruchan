@@ -26,7 +26,6 @@
         android:id="@+id/fragment_start_item_secondary"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="https://sasasaanus.psa"
         app:layout_constraintTop_toBottomOf="@id/fragment_start_item_primary"
         app:layout_constraintStart_toStartOf="@id/fragment_start_item_guideline" />
 

@@ -17,6 +17,7 @@ class StartRecyclerAdapter(private val list: List<BooruContext>) : RecyclerView.
     override fun onBindViewHolder(holder: StartRecyclerViewHolder, position: Int) {
         val booruContext = list[position]
         holder.primary.text = booruContext.title
+        holder.secondary.text = booruContext.url
     }
 
     override fun getItemCount(): Int {
