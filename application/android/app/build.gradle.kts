@@ -6,6 +6,12 @@ plugins {
 }
 
 android {
+    packagingOptions {
+        exclude("META-INF/DEPENDENCIES")
+        exclude("META-INF/LICENSE*")
+        exclude("META-INF/NOTICE*")
+        exclude("META-INF/*.kotlin_module")
+    }
     compileSdkVersion(29)
     defaultConfig {
         applicationId = "com.makentoshe.booruchan.application.android"
@@ -28,6 +34,9 @@ android {
 }
 
 dependencies {
+    implementation(project(":gelbooru"))
+    implementation(project(":danbooru"))
+
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
 
     implementation(kotlin("stdlib-jdk8"))
