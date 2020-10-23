@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.appcompat.widget.Toolbar
+        style="?attr/booruchanToolbar"
+        android:id="@+id/fragment_start_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/toolbar_height"
+        app:title="@string/app_name"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        style="@style/Default.Separator"
+        android:id="@+id/fragment_start_toolbar_separator"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/separator_height"
+        app:layout_constraintTop_toBottomOf="@id/fragment_start_toolbar" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -4,14 +4,15 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.makentoshe.booruchan.application.android.start.StartScreen
 import ru.terrakok.cicerone.NavigatorHolder
 import ru.terrakok.cicerone.Router
-import ru.terrakok.cicerone.android.pure.AppNavigator
+import ru.terrakok.cicerone.android.support.SupportAppNavigator
 import toothpick.ktp.delegate.inject
 
 class AppActivity : AppCompatActivity() {
 
-    private val navigator = AppNavigator(this, R.id.app_activity_container)
+    private val navigator = SupportAppNavigator(this, R.id.app_activity_container)
     private val navigatorHolder by inject<NavigatorHolder>()
     private val router by inject<Router>()
 
@@ -21,13 +22,15 @@ class AppActivity : AppCompatActivity() {
 
         if (savedInstanceState != null) return
 
-        when(intent.action) {
+        when (intent.action) {
             Intent.ACTION_MAIN -> intentMainAction()
         }
     }
 
     private fun intentMainAction() {
         Toast.makeText(this, "SAS", Toast.LENGTH_LONG).show()
+        val screen = StartScreen()
+        router.newRootScreen(screen)
     }
 
     override fun onResumeFragments() {
