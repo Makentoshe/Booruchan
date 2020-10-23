@@ -24,7 +24,7 @@ abstract class GelbooruContext : BooruContext {
 
     override val url: String = object: GelbooruRequest() {
         override val url: String = ""
-    }.url
+    }.host
 }
 
 class XmlGelbooruContext : GelbooruContext() {
