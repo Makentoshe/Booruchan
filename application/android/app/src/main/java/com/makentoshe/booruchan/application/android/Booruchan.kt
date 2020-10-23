@@ -3,7 +3,6 @@ package com.makentoshe.booruchan.application.android
 import android.app.Application
 import com.makentoshe.booruchan.application.android.di.ApplicationModule
 import com.makentoshe.booruchan.application.android.di.ApplicationScope
-import com.makentoshe.booruchan.application.android.di.InjectingFragmentLifecycleCallback
 import com.makentoshe.booruchan.application.android.di.InjectionActivityLifecycleCallback
 import ru.terrakok.cicerone.Cicerone
 import ru.terrakok.cicerone.Router
@@ -14,8 +13,7 @@ class Booruchan : Application() {
 
     private val cicerone = Cicerone.create(Router())
 
-    private val injectFragmentLifecycleCallback = InjectingFragmentLifecycleCallback()
-    private val injectActivityLifecycleCallback = InjectionActivityLifecycleCallback(injectFragmentLifecycleCallback)
+    private val injectActivityLifecycleCallback = InjectionActivityLifecycleCallback()
 
     override fun onCreate() {
         super.onCreate()
