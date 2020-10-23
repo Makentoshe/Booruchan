@@ -70,14 +70,18 @@ tasks.register<Zip>("jacocoHtmlZip") {
 // NOTE: From this point the whole project build will be always failed
 // because the android module will be unconfigured properly
 tasks.register<Copy>("android-standalone") {
-    val buildGradleKts = "$projectDir${File.separator}build.gradle.kts"
-    val gradlewBat = "$projectDir${File.separator}gradlew.bat"
-    val gradlew = "$projectDir${File.separator}gradlew"
-    val gradleProperties = "$projectDir${File.separator}gradle.properties"
-    val localProperties = "$projectDir${File.separator}local.properties"
+    try {
+        val buildGradleKts = "$projectDir${File.separator}build.gradle.kts"
+        val gradlewBat = "$projectDir${File.separator}gradlew.bat"
+        val gradlew = "$projectDir${File.separator}gradlew"
+        val gradleProperties = "$projectDir${File.separator}gradle.properties"
+        val localProperties = "$projectDir${File.separator}local.properties"
 
-    from(buildGradleKts, gradlewBat, gradlew, gradleProperties, localProperties)
-    into(project(":application:android").projectDir)
+        from(buildGradleKts, gradlewBat, gradlew, gradleProperties, localProperties)
+        into(project(":application:android").projectDir)
+    } catch (upe: UnknownProjectException) {
+        // cause after upgrading module
+    }
 }
 
 // Android section
