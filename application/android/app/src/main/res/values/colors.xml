@@ -7,4 +7,5 @@
     <color name="background">#FFFFFF</color>
     <color name="separator">#E0E0E0</color>
     <color name="text">#0C0C0D</color>
+    <color name="dimmed">#99000000</color>
 </resources>

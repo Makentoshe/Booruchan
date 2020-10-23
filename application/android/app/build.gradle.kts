@@ -46,6 +46,16 @@ dependencies {
     implementation("com.github.stephanenicolas.toothpick:smoothie-lifecycle-ktp:$toothpick")
     testImplementation("com.github.stephanenicolas.toothpick:toothpick-testing-junit5:$toothpick")
 
+    // Material components
+    // https://github.com/material-components/material-components-android
+    val material = "1.3.0-alpha01"
+    implementation("com.google.android.material:material:$material")
+
+    // Architecture components
+    // https://developer.android.com/topic/libraries/architecture
+    val arch = "1.1.1"
+    implementation("android.arch.lifecycle:extensions:$arch")
+    implementation("android.arch.lifecycle:viewmodel:$arch")
 
     val core = "1.3.0"
     implementation("androidx.core:core-ktx:$core")
