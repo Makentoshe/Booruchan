@@ -34,6 +34,7 @@ android {
 }
 
 dependencies {
+    implementation(project(":core"))
     implementation(project(":gelbooru"))
     implementation(project(":danbooru"))
 
