@@ -11,7 +11,7 @@ class InjectionActivityLifecycleCallback: Application.ActivityLifecycleCallbacks
 
     override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
         if (activity !is AppActivity) return
-        Toothpick.openScopes(ApplicationScope::class.java).inject(activity)
+        Toothpick.openScopes(ApplicationScope::class).inject(activity)
 
         startInjectionFragmentLifecycleCallback(activity)
     }

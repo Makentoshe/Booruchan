@@ -19,7 +19,7 @@ class StartInjectingFragmentLifecycleCallback : FragmentManager.FragmentLifecycl
 
     private fun injectStartFragment(fragment: StartFragment) {
         val module = StartModule()
-        val scope = Toothpick.openScopes(ApplicationScope::class.java, StartScope::class.java)
+        val scope = Toothpick.openScopes(ApplicationScope::class, StartScope::class)
         scope.installModules(module).closeOnDestroy(fragment).inject(fragment)
     }
 

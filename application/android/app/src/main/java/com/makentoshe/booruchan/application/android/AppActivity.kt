@@ -2,9 +2,8 @@ package com.makentoshe.booruchan.application.android
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.makentoshe.booruchan.application.android.start.StartScreen
+import com.makentoshe.booruchan.application.android.start.navigation.StartScreen
 import ru.terrakok.cicerone.NavigatorHolder
 import ru.terrakok.cicerone.Router
 import ru.terrakok.cicerone.android.support.SupportAppNavigator
@@ -28,9 +27,7 @@ class AppActivity : AppCompatActivity() {
     }
 
     private fun intentMainAction() {
-        Toast.makeText(this, "SAS", Toast.LENGTH_LONG).show()
-        val screen = StartScreen()
-        router.newRootScreen(screen)
+        router.newRootScreen(StartScreen())
     }
 
     override fun onResumeFragments() {

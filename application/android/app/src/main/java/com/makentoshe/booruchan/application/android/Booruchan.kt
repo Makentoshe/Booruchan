@@ -19,7 +19,7 @@ class Booruchan : Application() {
         super.onCreate()
         Toothpick.setConfiguration(getToothpickConfiguration())
 
-        val scopes = Toothpick.openScopes(ApplicationScope::class.java)
+        val scopes = Toothpick.openScopes(ApplicationScope::class)
         scopes.installModules(ApplicationModule(applicationContext, cicerone))
         scopes.inject(this)
 
