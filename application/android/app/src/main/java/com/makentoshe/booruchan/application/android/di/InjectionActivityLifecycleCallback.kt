@@ -4,6 +4,7 @@ import android.app.Activity
 import android.app.Application
 import android.os.Bundle
 import com.makentoshe.booruchan.application.android.AppActivity
+import com.makentoshe.booruchan.application.android.screen.booru.di.BooruInjectingFragmentLifecycleCallback
 import com.makentoshe.booruchan.application.android.screen.start.di.StartInjectingFragmentLifecycleCallback
 import toothpick.Toothpick
 
@@ -14,10 +15,16 @@ class InjectionActivityLifecycleCallback: Application.ActivityLifecycleCallbacks
         Toothpick.openScopes(ApplicationScope::class).inject(activity)
 
         startInjectionFragmentLifecycleCallback(activity)
+        booruInjectionFragmentLifecycleCallback(activity)
     }
 
     private fun startInjectionFragmentLifecycleCallback(activity: AppActivity) {
         val callback = StartInjectingFragmentLifecycleCallback()
+        activity.supportFragmentManager.registerFragmentLifecycleCallbacks(callback, true)
+    }
+
+    private fun booruInjectionFragmentLifecycleCallback(activity: AppActivity) {
+        val callback = BooruInjectingFragmentLifecycleCallback()
         activity.supportFragmentManager.registerFragmentLifecycleCallbacks(callback, true)
     }
 

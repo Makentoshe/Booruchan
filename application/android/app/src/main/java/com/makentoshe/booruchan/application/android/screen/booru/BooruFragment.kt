@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import context.BooruContext
+import toothpick.ktp.delegate.inject
 
 class BooruFragment : Fragment() {
 
@@ -23,10 +24,12 @@ class BooruFragment : Fragment() {
         }
     }
 
-    private val arguments = Arguments(this)
+    val arguments = Arguments(this)
+
+    private val booruContext by inject<BooruContext>()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return TextView(context).apply { text = arguments.booruContextTitle }
+        return TextView(context).apply { text = booruContext.title }
     }
 
     class Arguments(private val booruFragment: BooruFragment) {
