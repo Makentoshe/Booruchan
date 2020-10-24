@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Toolbar Night differences -->
+    <dimen name="toolbar_elevation">0px</dimen>
+    <dimen name="toolbar_separator_height">1dp</dimen>
+</resources>

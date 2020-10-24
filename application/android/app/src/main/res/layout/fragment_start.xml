@@ -11,19 +11,21 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/toolbar_height"
         app:title="@string/app_name"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:elevation="@dimen/toolbar_elevation" />
 
     <View
         style="@style/Default.Separator"
         android:id="@+id/fragment_start_toolbar_separator"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/separator_height"
-        app:layout_constraintTop_toBottomOf="@id/fragment_start_toolbar" />
+        android:layout_height="@dimen/toolbar_separator_height"
+        app:layout_constraintBottom_toBottomOf="@id/fragment_start_toolbar" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/fragment_start_recycler"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:overScrollMode="never"
         android:paddingEnd="24dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintTop_toBottomOf="@id/fragment_start_toolbar_separator"
