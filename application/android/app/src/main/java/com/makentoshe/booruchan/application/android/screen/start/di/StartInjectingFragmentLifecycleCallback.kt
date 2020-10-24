@@ -1,10 +1,10 @@
-package com.makentoshe.booruchan.application.android.start.di
+package com.makentoshe.booruchan.application.android.screen.start.di
 
 import android.content.Context
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.makentoshe.booruchan.application.android.di.ApplicationScope
-import com.makentoshe.booruchan.application.android.start.view.StartFragment
+import com.makentoshe.booruchan.application.android.screen.start.view.StartFragment
 import toothpick.Toothpick
 import toothpick.smoothie.lifecycle.closeOnDestroy
 

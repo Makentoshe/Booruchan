@@ -4,7 +4,7 @@ import android.app.Activity
 import android.app.Application
 import android.os.Bundle
 import com.makentoshe.booruchan.application.android.AppActivity
-import com.makentoshe.booruchan.application.android.start.di.StartInjectingFragmentLifecycleCallback
+import com.makentoshe.booruchan.application.android.screen.start.di.StartInjectingFragmentLifecycleCallback
 import toothpick.Toothpick
 
 class InjectionActivityLifecycleCallback: Application.ActivityLifecycleCallbacks {

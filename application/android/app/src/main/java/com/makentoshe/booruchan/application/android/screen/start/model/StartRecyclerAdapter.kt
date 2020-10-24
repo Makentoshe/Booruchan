@@ -1,11 +1,11 @@
-package com.makentoshe.booruchan.application.android.start.model
+package com.makentoshe.booruchan.application.android.screen.start.model
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.makentoshe.booruchan.application.android.R
-import com.makentoshe.booruchan.application.android.start.navigation.StartNavigation
-import com.makentoshe.booruchan.application.android.start.view.StartRecyclerViewHolder
+import com.makentoshe.booruchan.application.android.screen.start.navigation.StartNavigation
+import com.makentoshe.booruchan.application.android.screen.start.view.StartRecyclerViewHolder
 import context.BooruContext
 
 class StartRecyclerAdapter(
