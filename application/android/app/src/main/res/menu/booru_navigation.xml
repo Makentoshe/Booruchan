@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/action_account"
+        android:enabled="true"
+        android:title="Account" />
+
+    <item
+        android:id="@+id/action_posts"
+        android:enabled="true"
+        android:title="Posts" />
+
+    <item
+        android:id="@+id/action_menu"
+        android:enabled="true"
+        android:title="Menu" />
+</menu>

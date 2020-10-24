@@ -6,7 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import com.makentoshe.booruchan.application.android.R
 import context.BooruContext
+import kotlinx.android.synthetic.main.fragment_booru.*
 import toothpick.ktp.delegate.inject
 
 class BooruFragment : Fragment() {
@@ -29,7 +31,11 @@ class BooruFragment : Fragment() {
     private val booruContext by inject<BooruContext>()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return TextView(context).apply { text = booruContext.title }
+        return inflater.inflate(R.layout.fragment_booru, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+//        fragment_booru_toolbar.title = booruContext.title
     }
 
     class Arguments(private val booruFragment: BooruFragment) {
