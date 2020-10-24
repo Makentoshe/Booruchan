@@ -1,4 +1,4 @@
-package com.makentoshe.booruchan.application.android.start
+package com.makentoshe.booruchan.application.android.start.view
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
 import com.makentoshe.booruchan.application.android.R
+import com.makentoshe.booruchan.application.android.start.model.StartRecyclerAdapter
 import com.makentoshe.booruchan.application.android.start.navigation.StartNavigation
 import context.BooruContext
 import kotlinx.android.synthetic.main.fragment_start.*

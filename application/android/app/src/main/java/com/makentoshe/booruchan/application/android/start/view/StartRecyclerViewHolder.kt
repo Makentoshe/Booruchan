@@ -1,4 +1,4 @@
-package com.makentoshe.booruchan.application.android.start
+package com.makentoshe.booruchan.application.android.start.view
 
 import android.view.View
 import android.widget.TextView

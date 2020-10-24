@@ -1,7 +1,7 @@
 package com.makentoshe.booruchan.application.android.start.navigation
 
 import androidx.fragment.app.Fragment
-import com.makentoshe.booruchan.application.android.start.StartFragment
+import com.makentoshe.booruchan.application.android.start.view.StartFragment
 import ru.terrakok.cicerone.android.support.SupportAppScreen
 
 class StartScreen : SupportAppScreen() {
