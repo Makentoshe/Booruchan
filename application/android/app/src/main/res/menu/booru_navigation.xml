@@ -2,17 +2,20 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/action_account"
+        android:id="@+id/booru_navigation_account"
         android:enabled="true"
-        android:title="Account" />
+        android:icon="@drawable/ic_account_circle"
+        android:title="@string/booru_navigation_account" />
 
     <item
-        android:id="@+id/action_posts"
+        android:id="@+id/booru_navigation_posts"
         android:enabled="true"
-        android:title="Posts" />
+        android:icon="@drawable/ic_view_dashboard"
+        android:title="@string/booru_navigation_posts" />
 
     <item
-        android:id="@+id/action_menu"
+        android:id="@+id/booru_navigation_menu"
         android:enabled="true"
-        android:title="Menu" />
+        android:icon="@drawable/ic_menu"
+        android:title="@string/booru_navigation_menu" />
 </menu>

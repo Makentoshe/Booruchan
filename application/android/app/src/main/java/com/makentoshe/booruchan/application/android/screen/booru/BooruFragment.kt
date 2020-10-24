@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.makentoshe.booruchan.application.android.R
 import context.BooruContext
@@ -35,7 +34,7 @@ class BooruFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-//        fragment_booru_toolbar.title = booruContext.title
+        fragment_booru_navigation.selectedItemId = R.id.booru_navigation_posts
     }
 
     class Arguments(private val booruFragment: BooruFragment) {

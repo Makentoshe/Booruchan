@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Booruchan</string>
+
+    <!-- Booru screen -->
+    <string name="booru_navigation_account">Account</string>
+    <string name="booru_navigation_posts">Posts</string>
+    <string name="booru_navigation_menu">Menu</string>
 </resources>
