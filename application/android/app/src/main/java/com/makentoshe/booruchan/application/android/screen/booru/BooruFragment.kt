@@ -2,10 +2,12 @@ package com.makentoshe.booruchan.application.android.screen.booru
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.makentoshe.booruchan.application.android.R
+import com.makentoshe.booruchan.application.android.screen.booru.navigation.BooruNavigation
 import context.BooruContext
 import kotlinx.android.synthetic.main.fragment_booru.*
 import toothpick.ktp.delegate.inject
@@ -26,15 +28,25 @@ class BooruFragment : Fragment() {
     }
 
     val arguments = Arguments(this)
-
-    private val booruContext by inject<BooruContext>()
+    private val navigation by inject<BooruNavigation>()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_booru, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        fragment_booru_navigation.setOnNavigationItemSelectedListener(::onBottomNavigationListener)
         fragment_booru_navigation.selectedItemId = R.id.booru_navigation_posts
+    }
+
+    private fun onBottomNavigationListener(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.booru_navigation_account -> navigation.navigateToAccountScreen()
+            R.id.booru_navigation_posts -> navigation.navigateToPostsScreen()
+            R.id.booru_navigation_menu -> navigation.navigateToMenuScreen()
+            else -> throw NoSuchElementException(item.toString())
+        }
+        return true
     }
 
     class Arguments(private val booruFragment: BooruFragment) {

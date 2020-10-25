@@ -4,18 +4,25 @@ import android.app.Activity
 import android.app.Application
 import android.os.Bundle
 import com.makentoshe.booruchan.application.android.AppActivity
+import com.makentoshe.booruchan.application.android.analytic.AnalyticFragmentLifecycleCallbacks
 import com.makentoshe.booruchan.application.android.screen.booru.di.BooruInjectingFragmentLifecycleCallback
 import com.makentoshe.booruchan.application.android.screen.start.di.StartInjectingFragmentLifecycleCallback
 import toothpick.Toothpick
 
-class InjectionActivityLifecycleCallback: Application.ActivityLifecycleCallbacks {
+class InjectionActivityLifecycleCallback : Application.ActivityLifecycleCallbacks {
 
     override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
         if (activity !is AppActivity) return
         Toothpick.openScopes(ApplicationScope::class).inject(activity)
 
+        analyticFragmentLifecycleCallback(activity)
         startInjectionFragmentLifecycleCallback(activity)
         booruInjectionFragmentLifecycleCallback(activity)
+    }
+
+    private fun analyticFragmentLifecycleCallback(activity: AppActivity) {
+        val callback = AnalyticFragmentLifecycleCallbacks()
+        activity.supportFragmentManager.registerFragmentLifecycleCallbacks(callback, true)
     }
 
     private fun startInjectionFragmentLifecycleCallback(activity: AppActivity) {

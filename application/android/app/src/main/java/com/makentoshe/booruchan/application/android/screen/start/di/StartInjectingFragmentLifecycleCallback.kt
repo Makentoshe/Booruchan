@@ -11,7 +11,6 @@ import toothpick.smoothie.lifecycle.closeOnDestroy
 class StartInjectingFragmentLifecycleCallback : FragmentManager.FragmentLifecycleCallbacks() {
 
     override fun onFragmentAttached(fm: FragmentManager, f: Fragment, context: Context) {
-        println("Attached: $f")
         when (f) {
             is StartFragment -> injectStartFragment(f)
         }
@@ -21,10 +20,5 @@ class StartInjectingFragmentLifecycleCallback : FragmentManager.FragmentLifecycl
         val module = StartModule()
         val scope = Toothpick.openScopes(ApplicationScope::class, StartScope::class)
         scope.installModules(module).closeOnDestroy(fragment).inject(fragment)
-    }
-
-
-    override fun onFragmentDestroyed(fm: FragmentManager, f: Fragment) {
-        println("Destroyed: $f")
     }
 }

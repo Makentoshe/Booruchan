@@ -11,7 +11,6 @@ import toothpick.smoothie.lifecycle.closeOnDestroy
 class BooruInjectingFragmentLifecycleCallback(): FragmentManager.FragmentLifecycleCallbacks() {
 
     override fun onFragmentAttached(fm: FragmentManager, f: Fragment, context: Context) {
-        println("Attached: $f")
         when (f) {
             is BooruFragment -> injectBooruFragment(f)
         }
@@ -21,10 +20,5 @@ class BooruInjectingFragmentLifecycleCallback(): FragmentManager.FragmentLifecyc
         val module = BooruModule(fragment)
         val scope = Toothpick.openScopes(ApplicationScope::class, BooruScope::class)
         scope.installModules(module).closeOnDestroy(fragment).inject(fragment)
-    }
-
-
-    override fun onFragmentDestroyed(fm: FragmentManager, f: Fragment) {
-        println("Destroyed: $f")
     }
 }
