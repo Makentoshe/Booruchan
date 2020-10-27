@@ -44,12 +44,12 @@ dependencies {
 
     // Cicerone
     // https://github.com/terrakok/Cicerone
-    val cicerone = "5.1.1"
+    val cicerone = properties["version.cicerone"]
     implementation("ru.terrakok.cicerone:cicerone:$cicerone")
 
     // Toothpick
     // https://github.com/stephanenicolas/toothpick
-    val toothpick = "3.1.0"
+    val toothpick = properties["version.toothpick"]
     implementation("com.github.stephanenicolas.toothpick:ktp:$toothpick")
     kapt("com.github.stephanenicolas.toothpick:toothpick-compiler:$toothpick")
     implementation("com.github.stephanenicolas.toothpick:smoothie:$toothpick")
@@ -58,24 +58,30 @@ dependencies {
 
     // Material components
     // https://github.com/material-components/material-components-android
-    val material = "1.3.0-alpha01"
+    val material = properties["version.androidx.material"]
     implementation("com.google.android.material:material:$material")
 
     // Architecture components
     // https://developer.android.com/topic/libraries/architecture
-    val arch = "1.1.1"
+    val arch = properties["version.androidx.arch"]
     implementation("android.arch.lifecycle:extensions:$arch")
     implementation("android.arch.lifecycle:viewmodel:$arch")
 
-    val core = "1.3.0"
+    val core = properties["version.androidx.core"]
     implementation("androidx.core:core-ktx:$core")
 
-    implementation("androidx.appcompat:appcompat:1.2.0")
-    implementation("androidx.constraintlayout:constraintlayout:2.0.2")
-    testImplementation("junit:junit:4.12")
+    val appcompat = properties["version.androidx.appcompat"]
+    implementation("androidx.appcompat:appcompat:$appcompat")
+
+    val constraint = properties["version.androidx.constraint"]
+    implementation("androidx.constraintlayout:constraintlayout:$constraint")
 
     testImplementation("junit:junit:4.12")
-    androidTestImplementation("androidx.test:runner:1.3.0")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.3.0")
+
+    val runner = properties["version.androidx.test.runner"]
+    androidTestImplementation("androidx.test:runner:$runner")
+
+    val espresso = properties["version.androidx.test.espresso"]
+    androidTestImplementation("androidx.test.espresso:espresso-core:$espresso")
 }
 
