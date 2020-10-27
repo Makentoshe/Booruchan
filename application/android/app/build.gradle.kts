@@ -42,12 +42,12 @@ dependencies {
 
     implementation(kotlin("stdlib-jdk8"))
 
-    // Cicerone
+    // Cicerone (navigation)
     // https://github.com/terrakok/Cicerone
     val cicerone = properties["version.cicerone"]
     implementation("ru.terrakok.cicerone:cicerone:$cicerone")
 
-    // Toothpick
+    // Toothpick (dependency injection)
     // https://github.com/stephanenicolas/toothpick
     val toothpick = properties["version.toothpick"]
     implementation("com.github.stephanenicolas.toothpick:ktp:$toothpick")
@@ -55,6 +55,12 @@ dependencies {
     implementation("com.github.stephanenicolas.toothpick:smoothie:$toothpick")
     implementation("com.github.stephanenicolas.toothpick:smoothie-lifecycle-ktp:$toothpick")
     testImplementation("com.github.stephanenicolas.toothpick:toothpick-testing-junit5:$toothpick")
+
+    // Ktor (http client)
+    // https://github.com/ktorio/ktor
+    val ktorVersion = properties["version.ktor"]
+    implementation("io.ktor:ktor-client-core:$ktorVersion")
+    implementation("io.ktor:ktor-client-okhttp:$ktorVersion")
 
     // Material components
     // https://github.com/material-components/material-components-android

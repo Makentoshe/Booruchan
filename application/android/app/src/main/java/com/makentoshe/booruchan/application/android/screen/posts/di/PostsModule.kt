@@ -6,6 +6,7 @@ import com.makentoshe.booruchan.application.android.screen.booru.navigation.Boor
 import com.makentoshe.booruchan.application.android.screen.posts.view.PostsFragment
 import com.makentoshe.booruchan.application.android.screen.posts.viewmodel.PostsFragmentViewModel
 import context.BooruContext
+import io.ktor.client.*
 import toothpick.Toothpick
 import toothpick.config.Module
 import toothpick.ktp.binding.bind
@@ -14,12 +15,13 @@ import toothpick.ktp.delegate.inject
 class PostsModule(fragment: PostsFragment) : Module() {
 
     private val booruContexts by inject<List<BooruContext>>()
+    private val client by inject<HttpClient>()
 
     init {
         Toothpick.openScope(ApplicationScope::class).inject(this)
 
         val booruContext = booruContexts.first { it.title == fragment.arguments.booruContextTitle }
-        val postsFragmentViewModelFactory = PostsFragmentViewModel.Factory(booruContext)
+        val postsFragmentViewModelFactory = PostsFragmentViewModel.Factory(booruContext, client)
         val postsFragmentViewModelProvider = ViewModelProviders.of(fragment, postsFragmentViewModelFactory)
         val postsFragmentViewModel = postsFragmentViewModelProvider[PostsFragmentViewModel::class.java]
         bind<PostsFragmentViewModel>().toInstance(postsFragmentViewModel)

@@ -4,6 +4,7 @@ import JsonDanbooruContext
 import XmlGelbooruContext
 import android.content.Context
 import context.BooruContext
+import io.ktor.client.*
 import ru.terrakok.cicerone.Cicerone
 import ru.terrakok.cicerone.NavigatorHolder
 import ru.terrakok.cicerone.Router
@@ -18,5 +19,7 @@ class ApplicationModule(applicationContext: Context, cicerone: Cicerone<Router>)
 
         val booruContexts = listOf<BooruContext>(XmlGelbooruContext(), JsonDanbooruContext())
         bind<List<BooruContext>>().toInstance(booruContexts)
+
+        bind<HttpClient>().toInstance(HttpClient())
     }
 }
