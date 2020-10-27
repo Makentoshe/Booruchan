@@ -38,11 +38,6 @@ dependencies {
     implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-xml:$jacksonVersion")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonVersion")
 
-    // Ktor (http client)
-    val ktorVersion = "1.3.1"
-    implementation("io.ktor:ktor-client-core:$ktorVersion")
-    implementation("io.ktor:ktor-client-okhttp:$ktorVersion")
-
     implementation("junit:junit:4.12")
 }
 

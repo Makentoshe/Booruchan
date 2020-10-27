@@ -1,9 +1,9 @@
-package post.network
-
 import io.ktor.client.*
 import io.ktor.client.call.*
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
+import post.network.GelbooruPostsRequest
+import post.network.PostsNetworkManager
 
 class GelbooruPostsNetworkManager(
     private val client: HttpClient

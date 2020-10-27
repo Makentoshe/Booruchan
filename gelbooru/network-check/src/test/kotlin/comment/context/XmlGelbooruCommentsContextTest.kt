@@ -1,7 +1,7 @@
 package comment.context
 
 import comment.network.GelbooruCommentsFilter
-import comment.network.GelbooruCommentsNetworkManager
+import GelbooruCommentsNetworkManager
 import comment.network.XmlGelbooruCommentsRequest
 import io.ktor.client.*
 import kotlinx.coroutines.runBlocking

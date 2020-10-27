@@ -1,21 +1,21 @@
-package comment.network
-
+import comment.network.CommentsNetworkManager
+import comment.network.DanbooruCommentsRequest
 import io.ktor.client.*
 import io.ktor.client.call.*
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
 
-class GelbooruCommentsNetworkManager(
+class DanbooruCommentsNetworkManager(
     private val client: HttpClient
-) : CommentsNetworkManager<GelbooruCommentsRequest> {
+) : CommentsNetworkManager<DanbooruCommentsRequest> {
 
-    private suspend fun internalComments(request: GelbooruCommentsRequest): HttpResponse {
+    private suspend fun internalComments(request: DanbooruCommentsRequest): HttpResponse {
         val ktorRequestBuilder = HttpRequestBuilder()
         ktorRequestBuilder.url(request.url)
         return client.get(ktorRequestBuilder)
     }
 
-    override suspend fun getComments(request: GelbooruCommentsRequest): Result<String> = try {
+    override suspend fun getComments(request: DanbooruCommentsRequest): Result<String> = try {
         Result.success(internalComments(request).receive())
     } catch (exception: Exception) {
         Result.failure(exception)

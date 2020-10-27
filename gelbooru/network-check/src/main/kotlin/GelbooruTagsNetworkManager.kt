@@ -1,22 +1,22 @@
-package tag.network
-
 import io.ktor.client.*
 import io.ktor.client.call.*
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
+import tag.network.GelbooruTagsRequest
+import tag.network.TagsNetworkManager
 
-class DanbooruTagNetworkManager(
+class GelbooruTagsNetworkManager(
     private val client: HttpClient
-) : TagNetworkManager<DanbooruTagRequest>{
+): TagsNetworkManager<GelbooruTagsRequest> {
 
-    private suspend fun internalTag(request: DanbooruTagRequest): HttpResponse {
+    private suspend fun internalTags(request: GelbooruTagsRequest): HttpResponse {
         val ktorRequestBuilder = HttpRequestBuilder()
         ktorRequestBuilder.url(request.url)
         return client.get(ktorRequestBuilder)
     }
 
-    override suspend fun getTag(request: DanbooruTagRequest): Result<String> = try {
-        Result.success(internalTag(request).receive())
+    override suspend fun getTags(request: GelbooruTagsRequest): Result<String> = try {
+        Result.success(internalTags(request).receive())
     } catch (exception: Exception) {
         Result.failure(exception)
     }

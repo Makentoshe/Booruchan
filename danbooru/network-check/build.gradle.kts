@@ -27,12 +27,21 @@ dependencies {
     implementation(kotlin("stdlib"))
 
     // Ktor (http client)
-    val ktorVersion = "1.3.1"
+    // https://github.com/ktorio/ktor
+    val ktorVersion = properties["version.ktor"]
     implementation("io.ktor:ktor-client-core:$ktorVersion")
     implementation("io.ktor:ktor-client-okhttp:$ktorVersion")
 
     implementation("junit:junit:4.12")
 }
+
+// Allows to use kotlin.Result type as a return
+val compileKotlin: org.jetbrains.kotlin.gradle.tasks.KotlinCompile by tasks
+compileKotlin.kotlinOptions.freeCompilerArgs = listOf("-Xallow-result-return-type")
+
+// Allows to use kotlin.Result type as a return
+val compileTestKotlin: org.jetbrains.kotlin.gradle.tasks.KotlinCompile by tasks
+compileTestKotlin.kotlinOptions.freeCompilerArgs = listOf("-Xallow-result-return-type")
 
 // idkw, but "onlyIf" does not disables/skips this task, so this is a workaround
 tasks.test.configure {

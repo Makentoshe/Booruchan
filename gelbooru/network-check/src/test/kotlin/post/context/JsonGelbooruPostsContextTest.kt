@@ -5,7 +5,7 @@ import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import post.network.GelbooruPostsFilter
-import post.network.GelbooruPostsNetworkManager
+import GelbooruPostsNetworkManager
 import post.network.JsonGelbooruPostsRequest
 
 class JsonGelbooruPostsContextTest: GelbooruPostsContextTest() {

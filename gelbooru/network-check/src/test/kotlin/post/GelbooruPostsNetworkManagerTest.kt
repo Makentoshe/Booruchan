@@ -9,7 +9,7 @@ import org.junit.rules.Timeout
 import post.deserialize.JsonGelbooruPostsDeserializer
 import post.deserialize.XmlGelbooruPostsDeserializer
 import post.network.GelbooruPostsFilter
-import post.network.GelbooruPostsNetworkManager
+import GelbooruPostsNetworkManager
 import post.network.JsonGelbooruPostsRequest
 import post.network.XmlGelbooruPostsRequest
 import java.util.logging.Logger

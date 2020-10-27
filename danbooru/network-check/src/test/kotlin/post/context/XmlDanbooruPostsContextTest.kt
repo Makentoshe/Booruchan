@@ -5,7 +5,7 @@ import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import post.network.DanbooruPostsFilter
-import post.network.DanbooruPostsNetworkManager
+import DanbooruPostsNetworkManager
 import post.network.XmlDanbooruPostsRequest
 
 class XmlDanbooruPostsContextTest: DanbooruPostsContextTest() {

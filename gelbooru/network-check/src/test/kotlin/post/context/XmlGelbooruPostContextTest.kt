@@ -5,7 +5,7 @@ import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import post.network.GelbooruPostFilter
-import post.network.GelbooruPostNetworkManager
+import GelbooruPostNetworkManager
 import post.network.XmlGelbooruPostRequest
 import post.postId
 

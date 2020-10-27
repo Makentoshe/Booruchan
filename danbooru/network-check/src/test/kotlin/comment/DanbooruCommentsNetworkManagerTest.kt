@@ -3,7 +3,7 @@ package comment
 import comment.deserialize.JsonDanbooruCommentsDeserializer
 import comment.deserialize.XmlDanbooruCommentsDeserializer
 import comment.network.DanbooruCommentsFilter
-import comment.network.DanbooruCommentsNetworkManager
+import DanbooruCommentsNetworkManager
 import comment.network.JsonDanbooruCommentsRequest
 import comment.network.XmlDanbooruCommentsRequest
 import io.ktor.client.*

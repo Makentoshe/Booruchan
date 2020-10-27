@@ -9,7 +9,7 @@ import org.junit.rules.Timeout
 import tag.deserialize.JsonGelbooruTagDeserializer
 import tag.deserialize.XmlGelbooruTagDeserializer
 import tag.network.GelbooruTagFilter
-import tag.network.GelbooruTagNetworkManager
+import GelbooruTagNetworkManager
 import tag.network.JsonGelbooruTagRequest
 import tag.network.XmlGelbooruTagRequest
 import java.util.logging.Logger

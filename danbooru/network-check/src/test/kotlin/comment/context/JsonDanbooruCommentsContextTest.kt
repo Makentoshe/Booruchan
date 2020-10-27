@@ -1,7 +1,7 @@
 package comment.context
 
 import comment.network.DanbooruCommentsFilter
-import comment.network.DanbooruCommentsNetworkManager
+import DanbooruCommentsNetworkManager
 import comment.network.JsonDanbooruCommentsRequest
 import io.ktor.client.*
 import kotlinx.coroutines.runBlocking

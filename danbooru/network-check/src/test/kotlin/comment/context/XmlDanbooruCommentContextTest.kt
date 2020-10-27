@@ -2,7 +2,7 @@ package comment.context
 
 import comment.commentId
 import comment.network.DanbooruCommentFilter
-import comment.network.DanbooruCommentNetworkManager
+import DanbooruCommentNetworkManager
 import comment.network.XmlDanbooruCommentRequest
 import io.ktor.client.*
 import kotlinx.coroutines.runBlocking

@@ -5,7 +5,7 @@ import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import tag.network.DanbooruTagsFilter
-import tag.network.DanbooruTagsNetworkManager
+import DanbooruTagsNetworkManager
 import tag.network.XmlDanbooruTagsRequest
 
 class XmlDanbooruTagsContextTest : DanbooruTagsContextTest() {

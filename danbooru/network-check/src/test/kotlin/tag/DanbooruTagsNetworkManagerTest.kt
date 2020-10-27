@@ -9,7 +9,7 @@ import org.junit.rules.Timeout
 import tag.deserialize.JsonDanbooruTagsDeserializer
 import tag.deserialize.XmlDanbooruTagsDeserializer
 import tag.network.DanbooruTagsFilter
-import tag.network.DanbooruTagsNetworkManager
+import DanbooruTagsNetworkManager
 import tag.network.JsonDanbooruTagsRequest
 import tag.network.XmlDanbooruTagsRequest
 import java.util.logging.Logger

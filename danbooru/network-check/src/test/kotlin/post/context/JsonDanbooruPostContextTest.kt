@@ -5,7 +5,7 @@ import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import post.network.DanbooruPostFilter
-import post.network.DanbooruPostNetworkManager
+import DanbooruPostNetworkManager
 import post.network.JsonDanbooruPostRequest
 import post.postId
 

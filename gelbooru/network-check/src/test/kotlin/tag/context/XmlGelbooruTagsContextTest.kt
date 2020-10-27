@@ -5,7 +5,7 @@ import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import tag.network.GelbooruTagsFilter
-import tag.network.GelbooruTagsNetworkManager
+import GelbooruTagsNetworkManager
 import tag.network.XmlGelbooruTagsRequest
 
 class XmlGelbooruTagsContextTest : GelbooruTagsContextTest() {
