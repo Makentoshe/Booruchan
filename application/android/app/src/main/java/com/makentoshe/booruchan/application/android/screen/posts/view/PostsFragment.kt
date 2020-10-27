@@ -24,7 +24,7 @@ class PostsFragment : Fragment() {
     val arguments = Arguments(this)
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return TextView(requireContext()).apply { text = "Posts screen not implemented\n${arguments.booruContextTitle}\n$viewModel" }
+        return TextView(requireContext()).apply { text = "Posts screen not implemented for ${viewModel.title}" }
     }
 
     class Arguments(private val postsFragment: PostsFragment) {

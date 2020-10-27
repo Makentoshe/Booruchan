@@ -19,15 +19,12 @@ class PostsModule(fragment: PostsFragment) : Module() {
         Toothpick.openScope(ApplicationScope::class).inject(this)
 
         val booruContext = booruContexts.first { it.title == fragment.arguments.booruContextTitle }
-        bind<BooruContext>().toInstance(booruContext)
-
-        val navigation = BooruNavigation(fragment.childFragmentManager, booruContext)
-        bind<BooruNavigation>().toInstance(navigation)
-
-        val postsFragmentViewModelFactory = PostsFragmentViewModel.Factory()
+        val postsFragmentViewModelFactory = PostsFragmentViewModel.Factory(booruContext)
         val postsFragmentViewModelProvider = ViewModelProviders.of(fragment, postsFragmentViewModelFactory)
         val postsFragmentViewModel = postsFragmentViewModelProvider[PostsFragmentViewModel::class.java]
         bind<PostsFragmentViewModel>().toInstance(postsFragmentViewModel)
 
+        val navigation = BooruNavigation(fragment.childFragmentManager, booruContext)
+        bind<BooruNavigation>().toInstance(navigation)
     }
 }
