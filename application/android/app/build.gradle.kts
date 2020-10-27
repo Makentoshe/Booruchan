@@ -30,6 +30,9 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
+
+        // Allows to use kotlin.Result type as a return
+        kotlinOptions.freeCompilerArgs = listOf("-Xallow-result-return-type")
     }
 }
 
@@ -90,4 +93,3 @@ dependencies {
     val espresso = properties["version.androidx.test.espresso"]
     androidTestImplementation("androidx.test.espresso:espresso-core:$espresso")
 }
-

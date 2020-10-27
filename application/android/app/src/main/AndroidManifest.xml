@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="com.makentoshe.booruchan.application.android">
 
+    <uses-permission android:name="android.permission.INTERNET"/>
+
     <application
             android:name=".Booruchan"
             android:allowBackup="true"
