@@ -2,7 +2,7 @@ package com.makentoshe.booruchan.application.android.screen.posts.navigation
 
 import androidx.fragment.app.Fragment
 import com.makentoshe.booruchan.application.android.screen.posts.view.PostsFragment
-import context.BooruContext
+import com.makentoshe.booruchan.core.context.BooruContext
 import ru.terrakok.cicerone.android.support.SupportAppScreen
 
 class PostsScreen(private val booruContext: BooruContext) : SupportAppScreen() {

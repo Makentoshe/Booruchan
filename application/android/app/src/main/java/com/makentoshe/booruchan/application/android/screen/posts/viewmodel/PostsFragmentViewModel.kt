@@ -2,17 +2,13 @@ package com.makentoshe.booruchan.application.android.screen.posts.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import context.BooruContext
-import io.ktor.client.*
-import io.ktor.client.call.*
-import io.ktor.client.request.*
-import io.ktor.client.statement.*
+import com.makentoshe.booruchan.core.context.BooruContext
+import com.makentoshe.booruchan.core.post.context.PostsContext
+import com.makentoshe.booruchan.core.post.network.PostsFilter
+import com.makentoshe.booruchan.core.post.network.PostsRequest
+import com.makentoshe.booruchan.gelbooru.post.network.GelbooruPostsFilter
+import com.makentoshe.booruchan.core.post.network.PostsNetworkManager
 import kotlinx.coroutines.runBlocking
-import post.context.PostsContext
-import post.network.GelbooruPostsFilter
-import post.network.PostsFilter
-import post.network.PostsNetworkManager
-import post.network.PostsRequest
 import kotlin.concurrent.thread
 
 class PostsFragmentViewModel(
@@ -47,19 +43,3 @@ class PostsFragmentViewModel(
     }
 }
 
-class PostsNetworkManager(
-    private val client: HttpClient
-) : PostsNetworkManager<PostsRequest> {
-
-    private suspend fun internalPosts(request: PostsRequest): HttpResponse {
-        val ktorRequestBuilder = HttpRequestBuilder()
-        ktorRequestBuilder.url(request.url)
-        return client.get(ktorRequestBuilder)
-    }
-
-    override suspend fun getPosts(request: PostsRequest): Result<String> = try {
-        Result.success(internalPosts(request).receive())
-    } catch (e: Exception) {
-        Result.failure(e)
-    }
-}

@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.makentoshe.booruchan.application.android.R
 import com.makentoshe.booruchan.application.android.screen.start.navigation.StartNavigation
 import com.makentoshe.booruchan.application.android.screen.start.view.StartRecyclerViewHolder
-import context.BooruContext
+import com.makentoshe.booruchan.core.context.BooruContext
 
 class StartRecyclerAdapter(
     private val list: List<BooruContext>,

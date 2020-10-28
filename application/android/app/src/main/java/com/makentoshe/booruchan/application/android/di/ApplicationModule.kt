@@ -1,9 +1,9 @@
 package com.makentoshe.booruchan.application.android.di
 
-import JsonDanbooruContext
-import XmlGelbooruContext
 import android.content.Context
-import context.BooruContext
+import com.makentoshe.booruchan.core.context.BooruContext
+import com.makentoshe.booruchan.danbooru.JsonDanbooruContext
+import com.makentoshe.booruchan.gelbooru.XmlGelbooruContext
 import io.ktor.client.*
 import ru.terrakok.cicerone.Cicerone
 import ru.terrakok.cicerone.NavigatorHolder

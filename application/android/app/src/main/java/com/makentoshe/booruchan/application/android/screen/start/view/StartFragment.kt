@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.makentoshe.booruchan.application.android.R
 import com.makentoshe.booruchan.application.android.screen.start.model.StartRecyclerAdapter
 import com.makentoshe.booruchan.application.android.screen.start.navigation.StartNavigation
-import context.BooruContext
+import com.makentoshe.booruchan.core.context.BooruContext
 import kotlinx.android.synthetic.main.fragment_start.*
 import toothpick.ktp.delegate.inject
 

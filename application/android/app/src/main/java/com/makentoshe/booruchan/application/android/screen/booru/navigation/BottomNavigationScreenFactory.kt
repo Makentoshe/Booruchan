@@ -5,7 +5,7 @@ import com.makentoshe.booruchan.application.android.R
 import com.makentoshe.booruchan.application.android.screen.account.navigation.AccountScreen
 import com.makentoshe.booruchan.application.android.screen.menu.navigation.MenuScreen
 import com.makentoshe.booruchan.application.android.screen.posts.navigation.PostsScreen
-import context.BooruContext
+import com.makentoshe.booruchan.core.context.BooruContext
 import ru.terrakok.cicerone.android.support.SupportAppScreen
 
 class BottomNavigationScreenFactory(private val booruContext: BooruContext) {

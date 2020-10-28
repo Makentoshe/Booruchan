@@ -3,7 +3,7 @@ package com.makentoshe.booruchan.application.android.screen.booru.di
 import com.makentoshe.booruchan.application.android.di.ApplicationScope
 import com.makentoshe.booruchan.application.android.screen.booru.BooruFragment
 import com.makentoshe.booruchan.application.android.screen.booru.navigation.BooruNavigation
-import context.BooruContext
+import com.makentoshe.booruchan.core.context.BooruContext
 import toothpick.Toothpick
 import toothpick.config.Module
 import toothpick.ktp.binding.bind

@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.makentoshe.booruchan.application.android.R
 import com.makentoshe.booruchan.application.android.screen.booru.navigation.BooruNavigation
-import context.BooruContext
+import com.makentoshe.booruchan.core.context.BooruContext
 import kotlinx.android.synthetic.main.fragment_booru.*
 import toothpick.ktp.delegate.inject
 

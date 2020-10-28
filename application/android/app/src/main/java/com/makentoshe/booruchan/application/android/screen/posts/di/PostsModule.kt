@@ -6,7 +6,7 @@ import com.makentoshe.booruchan.application.android.screen.booru.navigation.Boor
 import com.makentoshe.booruchan.application.android.screen.posts.view.PostsFragment
 import com.makentoshe.booruchan.application.android.screen.posts.viewmodel.PostsFragmentViewModel
 import com.makentoshe.booruchan.application.android.screen.posts.viewmodel.PostsNetworkManager
-import context.BooruContext
+import com.makentoshe.booruchan.core.context.BooruContext
 import io.ktor.client.*
 import toothpick.Toothpick
 import toothpick.config.Module
