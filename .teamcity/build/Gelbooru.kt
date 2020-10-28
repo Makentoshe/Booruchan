@@ -7,7 +7,7 @@ object Gelbooru : PipelineBuildVcs("Gelbooru", {
 
     publishArtifacts = PublishMode.NORMALLY_FINISHED
     artifactRules = """
-        ./gelbooru/build/libs/gelbooru-shadow-* => gelbooru
+        ./gelbooru/build/libs/gelbooru-*.jar => gelbooru
         ./gelbooru/build/reports/jacoco/test/html-zip/* => jacocoHtmlReport
     """.trimIndent()
 

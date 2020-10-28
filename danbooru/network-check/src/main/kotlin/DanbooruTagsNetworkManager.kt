@@ -1,9 +1,9 @@
+import com.makentoshe.booruchan.core.tag.network.TagsNetworkManager
+import com.makentoshe.booruchan.danbooru.tag.network.DanbooruTagsRequest
 import io.ktor.client.*
 import io.ktor.client.call.*
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
-import tag.network.DanbooruTagsRequest
-import tag.network.TagsNetworkManager
 
 class DanbooruTagsNetworkManager(
     private val client: HttpClient

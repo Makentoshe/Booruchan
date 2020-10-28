@@ -1,9 +1,9 @@
+import com.makentoshe.booruchan.core.post.network.PostNetworkManager
+import com.makentoshe.booruchan.danbooru.post.network.DanbooruPostRequest
 import io.ktor.client.*
 import io.ktor.client.call.*
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
-import post.network.DanbooruPostRequest
-import post.network.PostNetworkManager
 
 class DanbooruPostNetworkManager(
     private val client: HttpClient

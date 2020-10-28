@@ -1,7 +1,5 @@
 plugins {
     id("org.jetbrains.kotlin.jvm")
-    kotlin("plugin.serialization") version "1.3.72"
-    id("com.github.johnrengelman.shadow") version "6.0.0"
     jacoco // enable JaCoco plugin
 }
 
@@ -38,7 +36,7 @@ dependencies {
     implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-xml:$jacksonVersion")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonVersion")
 
-    implementation("junit:junit:4.12")
+    testImplementation("junit:junit:4.12")
 }
 
 // Allows to use kotlin.Result type as a return
@@ -49,16 +47,13 @@ compileKotlin.kotlinOptions.freeCompilerArgs = listOf("-Xallow-result-return-typ
 val compileTestKotlin: org.jetbrains.kotlin.gradle.tasks.KotlinCompile by tasks
 compileTestKotlin.kotlinOptions.freeCompilerArgs = listOf("-Xallow-result-return-type")
 
-// executes "shadowJar" task straight after "build"
-tasks.build {
-    finalizedBy(tasks.shadowJar)
-}
-
-// "shadowJar" task configurations
-tasks.shadowJar {
-    archiveBaseName.set("${project.name}-shadow")
-    archiveClassifier.set("")
-    archiveVersion.set(project.version.toString())
+tasks.jar {
+    val classpath = configurations.runtimeClasspath.get().filterNot {
+        it.absolutePath.contains("kotlin-stdlib") || it.absolutePath.contains("Booruchan", true)
+    }.map {
+        if (it.isDirectory) it else zipTree(it)
+    }
+    from(classpath)
 }
 
 jacoco {

@@ -1,6 +1,5 @@
 plugins {
     id("org.jetbrains.kotlin.jvm")
-    id("com.github.johnrengelman.shadow") version "6.0.0"
     jacoco // enable JaCoco plugin
 }
 
@@ -53,16 +52,13 @@ compileKotlin.kotlinOptions.freeCompilerArgs = listOf("-Xallow-result-return-typ
 val compileTestKotlin: org.jetbrains.kotlin.gradle.tasks.KotlinCompile by tasks
 compileTestKotlin.kotlinOptions.freeCompilerArgs = listOf("-Xallow-result-return-type")
 
-// executes "shadowJar" task straight after "build"
-tasks.build {
-    finalizedBy(tasks.shadowJar)
-}
-
-// "shadowJar" task configurations
-tasks.shadowJar {
-    archiveBaseName.set("${project.name}-shadow")
-    archiveClassifier.set("")
-    archiveVersion.set(project.version.toString())
+tasks.jar {
+    val classpath = configurations.runtimeClasspath.get().filterNot {
+        it.absolutePath.contains("kotlin-stdlib") || it.absolutePath.contains("Booruchan", true)
+    }.map {
+        if (it.isDirectory) it else zipTree(it)
+    }
+    from(classpath)
 }
 
 jacoco {

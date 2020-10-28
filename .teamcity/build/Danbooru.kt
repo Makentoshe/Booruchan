@@ -10,7 +10,7 @@ object Danbooru : PipelineBuildVcs("Danbooru", {
 
     publishArtifacts = PublishMode.SUCCESSFUL
     artifactRules = """
-        ./danbooru/build/libs/danbooru-shadow-* => danbooru
+        ./danbooru/build/libs/danbooru-*.jar => danbooru
         ./danbooru/build/reports/jacoco/test/html-zip/* => jacocoHtmlReport
     """.trimIndent()
 
