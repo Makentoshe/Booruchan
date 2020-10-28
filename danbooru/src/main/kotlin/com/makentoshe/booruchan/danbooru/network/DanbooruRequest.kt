@@ -1,4 +1,4 @@
-package network
+package com.makentoshe.booruchan.danbooru.network
 
 abstract class DanbooruRequest {
 

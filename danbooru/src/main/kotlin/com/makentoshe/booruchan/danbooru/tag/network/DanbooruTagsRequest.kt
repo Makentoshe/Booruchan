@@ -2,7 +2,7 @@ package com.makentoshe.booruchan.danbooru.tag.network
 
 import com.makentoshe.booruchan.core.tag.network.TagsRequest
 
-import network.DanbooruRequest
+import com.makentoshe.booruchan.danbooru.network.DanbooruRequest
 
 sealed class DanbooruTagsRequest: DanbooruRequest(), TagsRequest
 

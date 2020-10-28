@@ -22,6 +22,10 @@ import com.makentoshe.booruchan.core.tag.network.TagsRequest
 
 abstract class DanbooruContext : BooruContext {
     override val title: String = "Danbooru"
+
+    override val url: String = object: com.makentoshe.booruchan.danbooru.network.DanbooruRequest() {
+        override val url = ""
+    }.host
 }
 
 class XmlDanbooruContext : DanbooruContext() {

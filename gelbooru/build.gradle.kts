@@ -52,7 +52,7 @@ compileKotlin.kotlinOptions.freeCompilerArgs = listOf("-Xallow-result-return-typ
 val compileTestKotlin: org.jetbrains.kotlin.gradle.tasks.KotlinCompile by tasks
 compileTestKotlin.kotlinOptions.freeCompilerArgs = listOf("-Xallow-result-return-type")
 
-tasks.jar {
+tasks.register<Jar>("shadowJar") {
     val classpath = configurations.runtimeClasspath.get().filterNot {
         it.absolutePath.contains("kotlin-stdlib") || it.absolutePath.contains("Booruchan", true)
     }.map {

@@ -2,7 +2,7 @@ package com.makentoshe.booruchan.danbooru.comment.network
 
 import com.makentoshe.booruchan.core.comment.network.CommentsRequest
 
-import network.DanbooruRequest
+import com.makentoshe.booruchan.danbooru.network.DanbooruRequest
 
 sealed class DanbooruCommentsRequest : DanbooruRequest(), CommentsRequest
 

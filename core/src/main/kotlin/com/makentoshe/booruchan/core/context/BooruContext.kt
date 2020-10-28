@@ -17,6 +17,8 @@ interface BooruContext {
 
     val title: String
 
+    val url: String
+
     fun post(networkLambda: suspend (PostRequest) -> Result<String>): PostContext<*, *>?
 
     fun posts(networkLambda: suspend (PostsRequest) -> Result<String>): PostsContext<*, *>?

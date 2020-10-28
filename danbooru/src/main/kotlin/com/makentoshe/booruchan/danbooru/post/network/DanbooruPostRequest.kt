@@ -2,7 +2,7 @@ package com.makentoshe.booruchan.danbooru.post.network
 
 import com.makentoshe.booruchan.core.post.network.PostRequest
 
-import network.DanbooruRequest
+import com.makentoshe.booruchan.danbooru.network.DanbooruRequest
 
 sealed class DanbooruPostRequest: DanbooruRequest(), PostRequest
 
