@@ -49,7 +49,7 @@ compileTestKotlin.kotlinOptions.freeCompilerArgs = listOf("-Xallow-result-return
 
 tasks.jar {
     val classpath = configurations.runtimeClasspath.get().filterNot {
-        it.absolutePath.contains("org.jetbrains.kotlin") || it.absolutePath.contains("Booruchan", true)
+        it.absolutePath.contains("kotlin-stdlib") || it.absolutePath.contains("Booruchan", true)
     }.map {
         if (it.isDirectory) it else zipTree(it)
     }
