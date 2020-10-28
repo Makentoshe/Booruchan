@@ -1,17 +1,17 @@
 package com.makentoshe.booruchan.danbooru.post
 
+import DanbooruPostsNetworkManager
+import com.makentoshe.booruchan.danbooru.post.deserialize.JsonDanbooruPostsDeserializer
+import com.makentoshe.booruchan.danbooru.post.deserialize.XmlDanbooruPostsDeserializer
+import com.makentoshe.booruchan.danbooru.post.network.DanbooruPostsFilter
+import com.makentoshe.booruchan.danbooru.post.network.JsonDanbooruPostsRequest
+import com.makentoshe.booruchan.danbooru.post.network.XmlDanbooruPostsRequest
 import io.ktor.client.*
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.Timeout
-import com.makentoshe.booruchan.danbooru.post.deserialize.JsonDanbooruPostsDeserializer
-import com.makentoshe.booruchan.danbooru.post.deserialize.XmlDanbooruPostsDeserializer
-import com.makentoshe.booruchan.danbooru.post.network.DanbooruPostsFilter
-import com.makentoshe.booruchan.danbooru.post.network.DanbooruPostsNetworkManager
-import com.makentoshe.booruchan.danbooru.post.network.JsonDanbooruPostsRequest
-import com.makentoshe.booruchan.danbooru.post.network.XmlDanbooruPostsRequest
 import java.util.logging.Logger
 
 class DanbooruPostsNetworkManagerTest {

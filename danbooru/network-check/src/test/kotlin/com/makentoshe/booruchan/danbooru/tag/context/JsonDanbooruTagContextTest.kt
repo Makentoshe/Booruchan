@@ -1,15 +1,13 @@
 package com.makentoshe.booruchan.danbooru.tag.context
 
+import DanbooruTagNetworkManager
+import com.makentoshe.booruchan.core.tag.tagId
+import com.makentoshe.booruchan.danbooru.tag.network.DanbooruTagFilter
+import com.makentoshe.booruchan.danbooru.tag.network.JsonDanbooruTagRequest
 import io.ktor.client.*
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Test
-import com.makentoshe.booruchan.danbooru.tag.network.DanbooruTagFilter
-import com.makentoshe.booruchan.danbooru.tag.network.DanbooruTagNetworkManager
-import com.makentoshe.booruchan.danbooru.tag.network.JsonDanbooruTagRequest
-import com.makentoshe.booruchan.core.tag.tagId
-import com.makentoshe.booruchan.danbooru.tag.context.DanbooruTagContextTest
-import com.makentoshe.booruchan.danbooru.tag.context.JsonDanbooruTagContext
 
 class JsonDanbooruTagContextTest : DanbooruTagContextTest() {
 

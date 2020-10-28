@@ -1,6 +1,5 @@
-package com.makentoshe.booruchan.danbooru.comment.network
-
 import com.makentoshe.booruchan.core.comment.network.CommentNetworkManager
+import com.makentoshe.booruchan.danbooru.comment.network.DanbooruCommentRequest
 import io.ktor.client.*
 import io.ktor.client.call.*
 import io.ktor.client.request.*

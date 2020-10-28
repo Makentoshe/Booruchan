@@ -1,9 +1,7 @@
 package com.makentoshe.booruchan.danbooru.comment.context
 
-import com.makentoshe.booruchan.danbooru.comment.context.DanbooruCommentsContextTest
-import com.makentoshe.booruchan.danbooru.comment.context.JsonDanbooruCommentsContext
+import DanbooruCommentsNetworkManager
 import com.makentoshe.booruchan.danbooru.comment.network.DanbooruCommentsFilter
-import com.makentoshe.booruchan.danbooru.comment.network.DanbooruCommentsNetworkManager
 import com.makentoshe.booruchan.danbooru.comment.network.JsonDanbooruCommentsRequest
 import io.ktor.client.*
 import kotlinx.coroutines.runBlocking

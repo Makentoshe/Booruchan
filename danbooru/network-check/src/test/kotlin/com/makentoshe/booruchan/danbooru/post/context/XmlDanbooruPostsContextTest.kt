@@ -1,14 +1,12 @@
 package com.makentoshe.booruchan.danbooru.post.context
 
-import com.makentoshe.booruchan.danbooru.post.context.DanbooruPostsContextTest
-import com.makentoshe.booruchan.danbooru.post.context.XmlDanbooruPostsContext
+import DanbooruPostsNetworkManager
+import com.makentoshe.booruchan.danbooru.post.network.DanbooruPostsFilter
+import com.makentoshe.booruchan.danbooru.post.network.XmlDanbooruPostsRequest
 import io.ktor.client.*
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Test
-import com.makentoshe.booruchan.danbooru.post.network.DanbooruPostsFilter
-import com.makentoshe.booruchan.danbooru.post.network.DanbooruPostsNetworkManager
-import com.makentoshe.booruchan.danbooru.post.network.XmlDanbooruPostsRequest
 
 class XmlDanbooruPostsContextTest: DanbooruPostsContextTest() {
 

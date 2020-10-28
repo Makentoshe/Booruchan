@@ -1,10 +1,8 @@
 package com.makentoshe.booruchan.danbooru.comment.context
 
+import DanbooruCommentNetworkManager
 import com.makentoshe.booruchan.core.comment.commentId
-import com.makentoshe.booruchan.danbooru.comment.context.DanbooruCommentContextTest
-import com.makentoshe.booruchan.danbooru.comment.context.XmlDanbooruCommentContext
 import com.makentoshe.booruchan.danbooru.comment.network.DanbooruCommentFilter
-import com.makentoshe.booruchan.danbooru.comment.network.DanbooruCommentNetworkManager
 import com.makentoshe.booruchan.danbooru.comment.network.XmlDanbooruCommentRequest
 import io.ktor.client.*
 import kotlinx.coroutines.runBlocking

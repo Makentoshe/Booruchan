@@ -1,18 +1,18 @@
 package com.makentoshe.booruchan.danbooru.tag
 
+import DanbooruTagNetworkManager
 import com.makentoshe.booruchan.core.tag.tagId
+import com.makentoshe.booruchan.danbooru.tag.deserialize.JsonDanbooruTagDeserializer
+import com.makentoshe.booruchan.danbooru.tag.deserialize.XmlDanbooruTagDeserializer
+import com.makentoshe.booruchan.danbooru.tag.network.DanbooruTagFilter
+import com.makentoshe.booruchan.danbooru.tag.network.JsonDanbooruTagRequest
+import com.makentoshe.booruchan.danbooru.tag.network.XmlDanbooruTagRequest
 import io.ktor.client.*
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.Timeout
-import com.makentoshe.booruchan.danbooru.tag.deserialize.JsonDanbooruTagDeserializer
-import com.makentoshe.booruchan.danbooru.tag.deserialize.XmlDanbooruTagDeserializer
-import com.makentoshe.booruchan.danbooru.tag.network.DanbooruTagFilter
-import com.makentoshe.booruchan.danbooru.tag.network.DanbooruTagNetworkManager
-import com.makentoshe.booruchan.danbooru.tag.network.JsonDanbooruTagRequest
-import com.makentoshe.booruchan.danbooru.tag.network.XmlDanbooruTagRequest
 import java.util.logging.Logger
 
 class DanbooruTagNetworkManagerTest {

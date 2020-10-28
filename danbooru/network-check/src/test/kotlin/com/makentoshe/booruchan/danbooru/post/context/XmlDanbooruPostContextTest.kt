@@ -1,15 +1,13 @@
 package com.makentoshe.booruchan.danbooru.post.context
 
+import DanbooruPostNetworkManager
+import com.makentoshe.booruchan.core.post.postId
+import com.makentoshe.booruchan.danbooru.post.network.DanbooruPostFilter
+import com.makentoshe.booruchan.danbooru.post.network.XmlDanbooruPostRequest
 import io.ktor.client.*
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Test
-import com.makentoshe.booruchan.danbooru.post.network.DanbooruPostFilter
-import com.makentoshe.booruchan.danbooru.post.network.DanbooruPostNetworkManager
-import com.makentoshe.booruchan.danbooru.post.network.XmlDanbooruPostRequest
-import com.makentoshe.booruchan.core.post.postId
-import com.makentoshe.booruchan.danbooru.post.context.DanbooruPostContextTest
-import com.makentoshe.booruchan.danbooru.post.context.XmlDanbooruPostContext
 
 // todo add request post with id 2
 class XmlDanbooruPostContextTest : DanbooruPostContextTest() {

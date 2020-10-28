@@ -1,10 +1,10 @@
 package com.makentoshe.booruchan.danbooru.comment
 
+import DanbooruCommentNetworkManager
 import com.makentoshe.booruchan.core.comment.commentId
 import com.makentoshe.booruchan.danbooru.comment.deserialize.JsonDanbooruCommentDeserializer
 import com.makentoshe.booruchan.danbooru.comment.deserialize.XmlDanbooruCommentDeserializer
 import com.makentoshe.booruchan.danbooru.comment.network.DanbooruCommentFilter
-import com.makentoshe.booruchan.danbooru.comment.network.DanbooruCommentNetworkManager
 import com.makentoshe.booruchan.danbooru.comment.network.JsonDanbooruCommentRequest
 import com.makentoshe.booruchan.danbooru.comment.network.XmlDanbooruCommentRequest
 import io.ktor.client.*
