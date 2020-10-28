@@ -1,7 +1,5 @@
 plugins {
     id("org.jetbrains.kotlin.jvm")
-    kotlin("plugin.serialization") version "1.3.72"
-    id("com.github.johnrengelman.shadow") version "6.0.0"
     jacoco // enable JaCoco plugin
 }
 
@@ -56,14 +54,20 @@ compileTestKotlin.kotlinOptions.freeCompilerArgs = listOf("-Xallow-result-return
 
 // executes "shadowJar" task straight after "build"
 tasks.build {
-    finalizedBy(tasks.shadowJar)
+    finalizedBy(tasks.getByName("shadowJar"))
 }
 
-// "shadowJar" task configurations
-tasks.shadowJar {
-    archiveBaseName.set("${project.name}-shadow")
-    archiveClassifier.set("")
-    archiveVersion.set(project.version.toString())
+task<Jar>("shadowJar") {
+    manifest {
+        attributes["Implementation-Title"] = "Booruchan Danbooru"
+    }
+    val classpath = configurations.runtimeClasspath.get().filter {
+        !it.absolutePath.contains("org.jetbrains.kotlin")
+    }.map {
+        if (it.isDirectory) it else zipTree(it)
+    }
+    from(classpath)
+    with(tasks.jar.get() as CopySpec)
 }
 
 jacoco {
