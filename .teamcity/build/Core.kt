@@ -6,7 +6,7 @@ import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.gradle
 object Core : PipelineBuildVcs("Core", {
 
     publishArtifacts = PublishMode.SUCCESSFUL
-    artifactRules = "./core/build/libs/core-shadow-* => core"
+    artifactRules = "./core/build/libs/core-*.jar => core"
 
     steps {
         gradle {
