@@ -36,12 +36,7 @@ dependencies {
     implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-xml:$jacksonVersion")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonVersion")
 
-    // Ktor (http client)
-    val ktorVersion = "1.3.1"
-    implementation("io.ktor:ktor-client-core:$ktorVersion")
-    implementation("io.ktor:ktor-client-okhttp:$ktorVersion")
-
-    implementation("junit:junit:4.12")
+    testImplementation("junit:junit:4.12")
 }
 
 // Allows to use kotlin.Result type as a return
@@ -52,22 +47,13 @@ compileKotlin.kotlinOptions.freeCompilerArgs = listOf("-Xallow-result-return-typ
 val compileTestKotlin: org.jetbrains.kotlin.gradle.tasks.KotlinCompile by tasks
 compileTestKotlin.kotlinOptions.freeCompilerArgs = listOf("-Xallow-result-return-type")
 
-// executes "shadowJar" task straight after "build"
-tasks.build {
-    finalizedBy(tasks.getByName("shadowJar"))
-}
-
-task<Jar>("shadowJar") {
-    manifest {
-        attributes["Implementation-Title"] = "Booruchan Danbooru"
-    }
-    val classpath = configurations.runtimeClasspath.get().filter {
-        !it.absolutePath.contains("org.jetbrains.kotlin")
+tasks.jar {
+    val classpath = configurations.runtimeClasspath.get().filterNot {
+        it.absolutePath.contains("org.jetbrains.kotlin") || it.absolutePath.contains("Booruchan", true)
     }.map {
         if (it.isDirectory) it else zipTree(it)
     }
     from(classpath)
-    with(tasks.jar.get() as CopySpec)
 }
 
 jacoco {
