@@ -4,7 +4,7 @@ plugins {
 }
 
 group = "com.makentoshe.booruchan"
-version = "1.0"
+version = "0.0.0"
 
 repositories {
     mavenCentral()
