@@ -1,6 +1,5 @@
-package com.makentoshe.booruchan.gelbooru.post.network
-
 import com.makentoshe.booruchan.core.post.network.PostsNetworkManager
+import com.makentoshe.booruchan.gelbooru.post.network.GelbooruPostsRequest
 import io.ktor.client.*
 import io.ktor.client.call.*
 import io.ktor.client.request.*

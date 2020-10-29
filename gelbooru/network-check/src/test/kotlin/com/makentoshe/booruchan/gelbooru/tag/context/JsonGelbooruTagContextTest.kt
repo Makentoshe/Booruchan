@@ -5,11 +5,9 @@ import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import com.makentoshe.booruchan.gelbooru.tag.network.GelbooruTagFilter
-import com.makentoshe.booruchan.gelbooru.tag.network.GelbooruTagNetworkManager
+import GelbooruTagNetworkManager
 import com.makentoshe.booruchan.gelbooru.tag.network.JsonGelbooruTagRequest
 import com.makentoshe.booruchan.core.tag.tagId
-import com.makentoshe.booruchan.gelbooru.tag.context.GelbooruTagContextTest
-import com.makentoshe.booruchan.gelbooru.tag.context.JsonGelbooruTagContext
 
 class JsonGelbooruTagContextTest : GelbooruTagContextTest() {
 

@@ -35,11 +35,6 @@ dependencies {
     implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-xml:$jacksonVersion")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonVersion")
 
-    // Ktor (http client)
-    val ktorVersion = "1.3.1"
-    implementation("io.ktor:ktor-client-core:$ktorVersion")
-    implementation("io.ktor:ktor-client-okhttp:$ktorVersion")
-
     // Junit 4 (testing framework)
     implementation("junit:junit:4.12")
 }
@@ -51,15 +46,6 @@ compileKotlin.kotlinOptions.freeCompilerArgs = listOf("-Xallow-result-return-typ
 // Allows to use kotlin.Result type as a return
 val compileTestKotlin: org.jetbrains.kotlin.gradle.tasks.KotlinCompile by tasks
 compileTestKotlin.kotlinOptions.freeCompilerArgs = listOf("-Xallow-result-return-type")
-
-tasks.jar {
-    val classpath = configurations.runtimeClasspath.get().filterNot {
-        it.absolutePath.contains("kotlin-stdlib") || it.absolutePath.contains("Booruchan", true)
-    }.map {
-        if (it.isDirectory) it else zipTree(it)
-    }
-    from(classpath)
-}
 
 jacoco {
     toolVersion = "0.8.5"

@@ -1,13 +1,11 @@
 package com.makentoshe.booruchan.gelbooru.tag.context
 
-import com.makentoshe.booruchan.gelbooru.tag.context.GelbooruTagsContextTest
-import com.makentoshe.booruchan.gelbooru.tag.context.XmlGelbooruTagsContext
 import io.ktor.client.*
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import com.makentoshe.booruchan.gelbooru.tag.network.GelbooruTagsFilter
-import com.makentoshe.booruchan.gelbooru.tag.network.GelbooruTagsNetworkManager
+import GelbooruTagsNetworkManager
 import com.makentoshe.booruchan.gelbooru.tag.network.XmlGelbooruTagsRequest
 
 class XmlGelbooruTagsContextTest : GelbooruTagsContextTest() {
