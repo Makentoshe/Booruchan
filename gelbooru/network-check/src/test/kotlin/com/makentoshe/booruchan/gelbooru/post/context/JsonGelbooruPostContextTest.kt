@@ -5,11 +5,9 @@ import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import com.makentoshe.booruchan.gelbooru.post.network.GelbooruPostFilter
-import com.makentoshe.booruchan.gelbooru.post.network.GelbooruPostNetworkManager
+import GelbooruPostNetworkManager
 import com.makentoshe.booruchan.gelbooru.post.network.JsonGelbooruPostRequest
 import com.makentoshe.booruchan.core.post.postId
-import com.makentoshe.booruchan.gelbooru.post.context.GelbooruPostContextTest
-import com.makentoshe.booruchan.gelbooru.post.context.JsonGelbooruPostContext
 
 class JsonGelbooruPostContextTest: GelbooruPostContextTest() {
 

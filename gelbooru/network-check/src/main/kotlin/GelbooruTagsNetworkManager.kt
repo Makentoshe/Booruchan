@@ -1,6 +1,5 @@
-package com.makentoshe.booruchan.gelbooru.tag.network
-
 import com.makentoshe.booruchan.core.tag.network.TagsNetworkManager
+import com.makentoshe.booruchan.gelbooru.tag.network.GelbooruTagsRequest
 import io.ktor.client.*
 import io.ktor.client.call.*
 import io.ktor.client.request.*

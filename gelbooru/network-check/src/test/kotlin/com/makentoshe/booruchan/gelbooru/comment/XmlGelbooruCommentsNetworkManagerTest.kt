@@ -2,7 +2,7 @@ package com.makentoshe.booruchan.gelbooru.comment
 
 import com.makentoshe.booruchan.gelbooru.comment.deserialize.XmlGelbooruCommentsDeserializer
 import com.makentoshe.booruchan.gelbooru.comment.network.GelbooruCommentsFilter
-import com.makentoshe.booruchan.gelbooru.comment.network.GelbooruCommentsNetworkManager
+import GelbooruCommentsNetworkManager
 import com.makentoshe.booruchan.gelbooru.comment.network.XmlGelbooruCommentsRequest
 import io.ktor.client.*
 import kotlinx.coroutines.runBlocking

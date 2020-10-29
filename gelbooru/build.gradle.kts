@@ -1,10 +1,11 @@
 plugins {
     id("org.jetbrains.kotlin.jvm")
     jacoco // enable JaCoco plugin
+    `maven-publish` // for publishing artifacts
 }
 
-group = "com.makentoshe.booruchan.gelbooru"
-version = "1.0"
+group = "com.makentoshe.booruchan"
+version = "0.0.0"
 
 repositories {
     mavenCentral()
@@ -35,11 +36,6 @@ dependencies {
     implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-xml:$jacksonVersion")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonVersion")
 
-    // Ktor (http client)
-    val ktorVersion = "1.3.1"
-    implementation("io.ktor:ktor-client-core:$ktorVersion")
-    implementation("io.ktor:ktor-client-okhttp:$ktorVersion")
-
     // Junit 4 (testing framework)
     implementation("junit:junit:4.12")
 }
@@ -51,15 +47,6 @@ compileKotlin.kotlinOptions.freeCompilerArgs = listOf("-Xallow-result-return-typ
 // Allows to use kotlin.Result type as a return
 val compileTestKotlin: org.jetbrains.kotlin.gradle.tasks.KotlinCompile by tasks
 compileTestKotlin.kotlinOptions.freeCompilerArgs = listOf("-Xallow-result-return-type")
-
-tasks.register<Jar>("shadowJar") {
-    val classpath = configurations.runtimeClasspath.get().filterNot {
-        it.absolutePath.contains("kotlin-stdlib") || it.absolutePath.contains("Booruchan", true)
-    }.map {
-        if (it.isDirectory) it else zipTree(it)
-    }
-    from(classpath)
-}
 
 jacoco {
     toolVersion = "0.8.5"
@@ -84,4 +71,16 @@ tasks.register<Zip>("jacocoHtmlZip") {
     archiveFileName.set("jacocoHtml.zip")
     destinationDirectory.set(file("$buildDir/reports/jacoco/test/html-zip"))
     from("$buildDir/reports/jacoco/test/html")
+}
+
+// configure publish
+publishing {
+    publications {
+        // default jar publication info with transitive dependencies
+        create<MavenPublication>(project.name) { from(components["java"]) }
+    }
+    repositories {
+        // local repository
+        maven { url = uri("file://${rootProject.buildDir}/repository") }
+    }
 }

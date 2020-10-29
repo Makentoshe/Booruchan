@@ -1,6 +1,5 @@
-package com.makentoshe.booruchan.gelbooru.comment.network
-
 import com.makentoshe.booruchan.core.comment.network.CommentsNetworkManager
+import com.makentoshe.booruchan.gelbooru.comment.network.GelbooruCommentsRequest
 import io.ktor.client.*
 import io.ktor.client.call.*
 import io.ktor.client.request.*

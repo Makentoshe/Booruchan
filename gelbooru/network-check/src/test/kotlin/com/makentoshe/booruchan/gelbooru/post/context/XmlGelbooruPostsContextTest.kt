@@ -1,13 +1,11 @@
 package com.makentoshe.booruchan.gelbooru.post.context
 
-import com.makentoshe.booruchan.gelbooru.post.context.GelbooruPostsContextTest
-import com.makentoshe.booruchan.gelbooru.post.context.XmlGelbooruPostsContext
 import io.ktor.client.*
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import com.makentoshe.booruchan.gelbooru.post.network.GelbooruPostsFilter
-import com.makentoshe.booruchan.gelbooru.post.network.GelbooruPostsNetworkManager
+import GelbooruPostsNetworkManager
 import com.makentoshe.booruchan.gelbooru.post.network.XmlGelbooruPostsRequest
 
 class XmlGelbooruPostsContextTest: GelbooruPostsContextTest() {

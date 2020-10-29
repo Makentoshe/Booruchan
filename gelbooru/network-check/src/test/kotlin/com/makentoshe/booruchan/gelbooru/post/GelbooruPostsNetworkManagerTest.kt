@@ -9,7 +9,7 @@ import org.junit.rules.Timeout
 import com.makentoshe.booruchan.gelbooru.post.deserialize.JsonGelbooruPostsDeserializer
 import com.makentoshe.booruchan.gelbooru.post.deserialize.XmlGelbooruPostsDeserializer
 import com.makentoshe.booruchan.gelbooru.post.network.GelbooruPostsFilter
-import com.makentoshe.booruchan.gelbooru.post.network.GelbooruPostsNetworkManager
+import GelbooruPostsNetworkManager
 import com.makentoshe.booruchan.gelbooru.post.network.JsonGelbooruPostsRequest
 import com.makentoshe.booruchan.gelbooru.post.network.XmlGelbooruPostsRequest
 import java.util.logging.Logger
