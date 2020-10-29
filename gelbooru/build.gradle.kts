@@ -1,9 +1,10 @@
 plugins {
     id("org.jetbrains.kotlin.jvm")
     jacoco // enable JaCoco plugin
+    `maven-publish` // for publishing artifacts
 }
 
-group = "com.makentoshe.booruchan.gelbooru"
+group = "com.makentoshe.booruchan"
 version = "1.0"
 
 repositories {
@@ -70,4 +71,16 @@ tasks.register<Zip>("jacocoHtmlZip") {
     archiveFileName.set("jacocoHtml.zip")
     destinationDirectory.set(file("$buildDir/reports/jacoco/test/html-zip"))
     from("$buildDir/reports/jacoco/test/html")
+}
+
+// configure publish
+publishing {
+    publications {
+        // default jar publication info with transitive dependencies
+        create<MavenPublication>(project.name) { from(components["java"]) }
+    }
+    repositories {
+        // local repository
+        maven { url = uri("file://${rootProject.buildDir}/repository") }
+    }
 }
