@@ -11,7 +11,11 @@ import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.gradle
  * and coverage tasks. After all this reports aggregates in one
  * for better coverage understanding.
  */
-object JacocoCoverageReport: PipelineBuildVcs("Test coverage report", {
+object JacocoCoverageReport : PipelineBuildDaily("Test coverage report", 0, 0, {
+
+    description = """
+        Reruns tests for whole project and aggregates jacoco reports. 
+    """.trimIndent()
 
     publishArtifacts = PublishMode.NORMALLY_FINISHED
     artifactRules = """
@@ -26,7 +30,7 @@ object JacocoCoverageReport: PipelineBuildVcs("Test coverage report", {
     steps {
         gradle {
             name = "Generate coverage report for whole project"
-            tasks = "testJacocoCoverageReport --info"
+            tasks = "testJacocoCoverageReport --info -Pnetable"
             buildFile = "build.gradle.kts"
         }
     }
