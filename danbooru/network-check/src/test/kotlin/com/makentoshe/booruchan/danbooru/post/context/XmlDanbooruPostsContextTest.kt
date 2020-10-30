@@ -14,7 +14,7 @@ class XmlDanbooruPostsContextTest: DanbooruPostsContextTest() {
 
     @Test
     fun `should request xml posts`() = runBlocking {
-        val request = XmlDanbooruPostsRequest(DanbooruPostsFilter(count = 5))
+        val request = XmlDanbooruPostsRequest(DanbooruPostsFilter.Builder().build(count = 5))
         logger.info { "Xml url request: ${request.url}" }
         assertEquals("https://danbooru.donmai.us/posts.xml?limit=5", request.url)
 

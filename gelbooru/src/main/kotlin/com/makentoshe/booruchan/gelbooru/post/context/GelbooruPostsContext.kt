@@ -12,7 +12,9 @@ import com.makentoshe.booruchan.gelbooru.post.network.XmlGelbooruPostsRequest
 abstract class GelbooruPostsContext<Request : GelbooruPostsRequest>(
     network: suspend (Request) -> Result<String>,
     deserialize: (String) -> Result<GelbooruPostsDeserialize<*>>
-) : PostsContext<Request, GelbooruPostsFilter>(network, deserialize)
+) : PostsContext<Request, GelbooruPostsFilter>(network, deserialize) {
+    override fun filterBuilder() = GelbooruPostsFilter.Builder()
+}
 
 open class JsonGelbooruPostsContext(
     network: suspend (JsonGelbooruPostsRequest) -> Result<String>

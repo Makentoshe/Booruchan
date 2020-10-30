@@ -1,17 +1,17 @@
 package com.makentoshe.booruchan.gelbooru.post
 
+import GelbooruPostsNetworkManager
+import com.makentoshe.booruchan.gelbooru.post.deserialize.JsonGelbooruPostsDeserializer
+import com.makentoshe.booruchan.gelbooru.post.deserialize.XmlGelbooruPostsDeserializer
+import com.makentoshe.booruchan.gelbooru.post.network.GelbooruPostsFilter
+import com.makentoshe.booruchan.gelbooru.post.network.JsonGelbooruPostsRequest
+import com.makentoshe.booruchan.gelbooru.post.network.XmlGelbooruPostsRequest
 import io.ktor.client.*
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.Timeout
-import com.makentoshe.booruchan.gelbooru.post.deserialize.JsonGelbooruPostsDeserializer
-import com.makentoshe.booruchan.gelbooru.post.deserialize.XmlGelbooruPostsDeserializer
-import com.makentoshe.booruchan.gelbooru.post.network.GelbooruPostsFilter
-import GelbooruPostsNetworkManager
-import com.makentoshe.booruchan.gelbooru.post.network.JsonGelbooruPostsRequest
-import com.makentoshe.booruchan.gelbooru.post.network.XmlGelbooruPostsRequest
 import java.util.logging.Logger
 
 class GelbooruPostsNetworkManagerTest {
@@ -23,7 +23,7 @@ class GelbooruPostsNetworkManagerTest {
 
     @Test
     fun `should request json posts`() = runBlocking {
-        val request = JsonGelbooruPostsRequest(GelbooruPostsFilter(count = 10))
+        val request = JsonGelbooruPostsRequest(GelbooruPostsFilter.Builder().build(count = 10))
         logger.info { "Json url request: ${request.url}" }
         assertEquals("https://gelbooru.com/index.php?page=dapi&s=post&q=index&limit=10&json=1", request.url)
         val response = GelbooruPostsNetworkManager(HttpClient()).getPosts(request)
@@ -39,7 +39,7 @@ class GelbooruPostsNetworkManagerTest {
 
     @Test
     fun `should request xml posts`() = runBlocking {
-        val request = XmlGelbooruPostsRequest(GelbooruPostsFilter(count = 10))
+        val request = XmlGelbooruPostsRequest(GelbooruPostsFilter.Builder().build(count = 10))
         logger.info { "Xml url request: ${request.url}" }
         assertEquals("https://gelbooru.com/index.php?page=dapi&s=post&q=index&limit=10", request.url)
         val response = GelbooruPostsNetworkManager(HttpClient()).getPosts(request)

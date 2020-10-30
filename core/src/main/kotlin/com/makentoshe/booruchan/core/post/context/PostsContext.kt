@@ -11,4 +11,6 @@ abstract class PostsContext<Request: PostsRequest, Filter: PostsFilter>(
 ) : BooruEntityContext<Request, PostsDeserialize<*>>(network, deserialize) {
 
     abstract fun buildRequest(filter: Filter): Request
+
+    abstract fun filterBuilder(): PostsFilter.Builder
 }

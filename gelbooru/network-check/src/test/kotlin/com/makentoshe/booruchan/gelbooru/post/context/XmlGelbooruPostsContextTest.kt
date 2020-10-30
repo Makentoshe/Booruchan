@@ -1,12 +1,11 @@
 package com.makentoshe.booruchan.gelbooru.post.context
 
+import GelbooruPostsNetworkManager
+import com.makentoshe.booruchan.gelbooru.post.network.XmlGelbooruPostsRequest
 import io.ktor.client.*
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Test
-import com.makentoshe.booruchan.gelbooru.post.network.GelbooruPostsFilter
-import GelbooruPostsNetworkManager
-import com.makentoshe.booruchan.gelbooru.post.network.XmlGelbooruPostsRequest
 
 class XmlGelbooruPostsContextTest: GelbooruPostsContextTest() {
 
@@ -14,7 +13,7 @@ class XmlGelbooruPostsContextTest: GelbooruPostsContextTest() {
 
     @Test
     fun `should request xml posts`() = runBlocking {
-        val request = XmlGelbooruPostsRequest(GelbooruPostsFilter(count = 5))
+        val request = XmlGelbooruPostsRequest(context.filterBuilder().build(count = 5))
         logger.info { "Xml url request: ${request.url}" }
         assertEquals("https://gelbooru.com/index.php?page=dapi&s=post&q=index&limit=5", request.url)
 
