@@ -10,7 +10,7 @@ class DanbooruPostsFilterTest {
 
     @Test
     fun `should properly process filter to the query part of the url`() {
-        val filter = DanbooruPostsFilter(count = 10, page = 2, tags = tagsFromString(setOf("1girl", "sky", "sea")))
+        val filter = DanbooruPostsFilter.Builder().build(count = 10, page = 2, tags = tagsFromString(setOf("1girl", "sky", "sea")))
         val url = JsonDanbooruPostsRequest(filter).url
         assertEquals("https://danbooru.donmai.us/posts.json?limit=10&page=2&tags=1girl%20sky%20sea", url)
     }

@@ -12,7 +12,9 @@ import com.makentoshe.booruchan.danbooru.post.network.XmlDanbooruPostsRequest
 abstract class DanbooruPostsContext<Request : DanbooruPostsRequest>(
     network: suspend (Request) -> Result<String>,
     deserialize: (String) -> Result<DanbooruPostsDeserialize<*>>
-) : PostsContext<Request, DanbooruPostsFilter>(network, deserialize)
+) : PostsContext<Request, DanbooruPostsFilter>(network, deserialize) {
+    override fun filterBuilder() = DanbooruPostsFilter.Builder()
+}
 
 open class JsonDanbooruPostsContext(
     network: suspend (JsonDanbooruPostsRequest) -> Result<String>
