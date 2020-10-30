@@ -65,6 +65,14 @@ dependencies {
     implementation("io.ktor:ktor-client-core:$ktorVersion")
     implementation("io.ktor:ktor-client-okhttp:$ktorVersion")
 
+    // Coroutines
+    val coroutines = properties["version.coroutines"]
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines")
+
+    val coroutinesViewModel = properties["version.coroutines.viewmodel"]
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$coroutinesViewModel")
+
     // Material components
     // https://github.com/material-components/material-components-android
     val material = properties["version.androidx.material"]

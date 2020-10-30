@@ -2,14 +2,13 @@ package com.makentoshe.booruchan.application.android.screen.posts.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewModelScope
 import com.makentoshe.booruchan.core.context.BooruContext
 import com.makentoshe.booruchan.core.post.context.PostsContext
 import com.makentoshe.booruchan.core.post.network.PostsFilter
-import com.makentoshe.booruchan.core.post.network.PostsRequest
-import com.makentoshe.booruchan.gelbooru.post.network.GelbooruPostsFilter
 import com.makentoshe.booruchan.core.post.network.PostsNetworkManager
-import kotlinx.coroutines.runBlocking
-import kotlin.concurrent.thread
+import com.makentoshe.booruchan.core.post.network.PostsRequest
+import kotlinx.coroutines.launch
 
 class PostsFragmentViewModel(
     private val booruContext: BooruContext,
@@ -20,17 +19,9 @@ class PostsFragmentViewModel(
 
     init {
         val postsContext = booruContext.posts { networkManager.getPosts(it) } as PostsContext<PostsRequest, PostsFilter>
-        val postsRequest = postsContext.buildRequest(GelbooruPostsFilter())
+        val postsRequest = postsContext.buildRequest(postsContext.filterBuilder().build(count = 10))
 
-        println(postsContext)
-        println(postsRequest)
-
-        thread {
-            runBlocking {
-                val result = postsContext.get(postsRequest)
-                println(result)
-            }
-        }
+        viewModelScope.launch { println(postsContext.get(postsRequest)) }
     }
 
     class Factory(
