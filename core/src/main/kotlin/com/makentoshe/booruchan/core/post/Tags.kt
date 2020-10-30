@@ -13,8 +13,9 @@ interface Tags {
     }
 }
 
+/** This field used only for encoding to the url format and should not be used as default toString() output */
 val Tags.string: String
-    get() = tags.joinToString(" ") { it.text }
+    get() = tags.joinToString("%20") { it.text }
 
 fun tagsFromText(set: Set<Text>) = object : Tags {
     override val tags = set
