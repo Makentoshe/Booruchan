@@ -1,10 +1,10 @@
 package com.makentoshe.booruchan.danbooru.post
 
-import com.makentoshe.booruchan.core.Time
 import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement
+import com.makentoshe.booruchan.core.Time
 import com.makentoshe.booruchan.core.post.*
 import com.makentoshe.booruchan.core.text
 import com.makentoshe.booruchan.core.time
@@ -147,7 +147,7 @@ data class JsonDanbooruPost(
     override val lastNoteTime = rawLastNoteTime?.let(::time)
     override val lastCommentTime = rawLastCommentTime?.let(::time)
     override val lastCommentBumpTime = rawLastCommentBumpTime?.let(::time)
-    override val tags = tags(tagString.split(" ").map(::text).toSet())
+    override val tags = tagsFromText(tagString.split(" ").map(::text).toSet())
     override val previewImage = previewImage(previewUrl)
     override val sampleImage = sampleImage(sampleUrl)
     override val fullImage = fullImage(fileUrl, imageHeight, imageWidth)
@@ -272,7 +272,7 @@ data class XmlDanbooruPost(
     override val lastNoteTime = rawLastNoteTime?.let(::time)
     override val lastCommentTime = rawLastCommentTime?.let(::time)
     override val lastCommentBumpTime = rawLastCommentBumpTime?.let(::time)
-    override val tags = tags(tagString.split(" ").map(::text).toSet())
+    override val tags = tagsFromText(tagString.split(" ").map(::text).toSet())
     override val previewImage = previewImage(previewUrl)
     override val sampleImage = sampleImage(sampleUrl)
     override val fullImage = fullImage(fileUrl, imageHeight, imageWidth)
