@@ -22,11 +22,6 @@ object JacocoCoverageReport : PipelineBuildDaily("Test coverage report", 0, 0, {
         ./build/reports/jacoco/testJacocoCoverageReport/html-zip/* => jacocoHtmlReport
     """.trimIndent()
 
-    dependencies {
-        snapshot(DanbooruNetworkCheck) {}
-        snapshot(GelbooruNetworkCheck) {}
-    }
-
     steps {
         gradle {
             name = "Generate coverage report for whole project"
