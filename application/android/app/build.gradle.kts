@@ -92,4 +92,8 @@ dependencies {
 
     val espresso = properties["version.androidx.test.espresso"]
     androidTestImplementation("androidx.test.espresso:espresso-core:$espresso")
+
+    // Additional dependency for Jackson
+    // Todo should be added as a transitive dependency for the library in the future
+    implementation("javax.xml.stream:stax-api:1.0-2")
 }
