@@ -2,19 +2,11 @@ package com.makentoshe.booruchan.gelbooru.post.network
 
 import com.makentoshe.booruchan.core.post.network.PostsFilter
 
-class GelbooruPostsFilter(
-    params: Map<String, Any>
-) : PostsFilter(params) {
+class GelbooruPostsFilter(params: Map<String, Any>) : PostsFilter(params) {
 
     constructor(count: Int? = null) : this(buildMap(count))
 
-    override fun toUrl(): String {
-        if (params.isEmpty()) return ""
-        return params.entries.map { entry ->
-            val builder = StringBuilder().append("&")
-            builder.append(entry.key).append("=").append(entry.value)
-        }.joinToString("") { it.toString() }
-    }
+    override val firstChar: String = "&"
 
     companion object {
         private const val COUNT = "limit"
