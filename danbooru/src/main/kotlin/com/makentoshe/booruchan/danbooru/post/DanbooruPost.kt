@@ -8,6 +8,7 @@ import com.makentoshe.booruchan.core.Time
 import com.makentoshe.booruchan.core.post.*
 import com.makentoshe.booruchan.core.text
 import com.makentoshe.booruchan.core.time
+import java.io.File
 
 interface DanbooruPost : Post {
     val updationTime: Time?
@@ -19,6 +20,7 @@ interface DanbooruPost : Post {
     val favCount: Int
     val fileSize: Int
 
+    val fileExtension: String
     val lastCommentBumpTime: Time?
     val lastCommentTime: Time?
     val lastNoteTime: Time?
@@ -70,7 +72,7 @@ data class JsonDanbooruPost(
     @JsonProperty("file_size")
     override val fileSize: Int,
     @JsonProperty("file_ext")
-    val fileExtension: String,
+    val rawFileExtension: String?,
     @JsonProperty("parent_id")
     override val parentId: Int?,
     @JsonProperty("pixiv_id")
@@ -156,6 +158,9 @@ data class JsonDanbooruPost(
     override val score = score(rawUpScore, rawDownScore)
 
     @JsonIgnore
+    override val fileExtension = rawFileExtension ?: File(fileUrl).extension
+
+    @JsonIgnore
     override val rating = when (rawRating) {
         "q" -> Rating.QUESTIONABLE
         "e" -> Rating.EXPLICIT
@@ -195,7 +200,7 @@ data class XmlDanbooruPost(
     @JacksonXmlProperty(localName = "file-size")
     override val fileSize: Int,
     @JacksonXmlProperty(localName = "file-ext")
-    val fileExtension: String,
+    val rawFileExtension: String,
     @JacksonXmlProperty(localName = "parent-id")
     override val parentId: Int?,
     @JacksonXmlProperty(localName = "pixiv-id")
@@ -279,6 +284,9 @@ data class XmlDanbooruPost(
 
     @JsonIgnore
     override val score = score(rawUpScore, rawDownScore)
+
+    @JsonIgnore
+    override val fileExtension = rawFileExtension ?: File(fileUrl).extension
 
     @JsonIgnore
     override val rating = when (rawRating) {
