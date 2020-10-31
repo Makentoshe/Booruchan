@@ -7,6 +7,7 @@ import androidx.paging.PagedList
 import com.makentoshe.booruchan.application.android.FetchExecutor
 import com.makentoshe.booruchan.application.android.MainExecutor
 import com.makentoshe.booruchan.application.android.screen.posts.model.PostsArena
+import com.makentoshe.booruchan.application.android.screen.posts.model.PostsArenaStorage
 import com.makentoshe.booruchan.application.android.screen.posts.model.PostsDataSource
 import com.makentoshe.booruchan.core.context.BooruContext
 import com.makentoshe.booruchan.core.post.context.PostsContext
@@ -23,7 +24,8 @@ class PostsFragmentViewModel(
 
     val postsAdapter by lazy {
         val postsContext = booruContext.posts { networkManager.getPosts(it) } as PostsContext<PostsRequest, PostsFilter>
-        val dataSource = PostsDataSource(PostsArena(postsContext), postsContext.filterBuilder(), viewModelScope)
+        val postsArena = PostsArena(postsContext, PostsArenaStorage())
+        val dataSource = PostsDataSource(postsArena, postsContext.filterBuilder(), viewModelScope)
         val config = PagedList.Config.Builder().setEnablePlaceholders(false).setPageSize(30).build()
         val pagedListBuilder = PagedList.Builder(dataSource, config)
         pagedListBuilder.setNotifyExecutor(MainExecutor())
