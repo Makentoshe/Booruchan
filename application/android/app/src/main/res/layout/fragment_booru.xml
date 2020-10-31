@@ -4,15 +4,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <!--    <androidx.appcompat.widget.Toolbar-->
-    <!--        style="@style/Default.Toolbar"-->
-    <!--        android:id="@+id/fragment_booru_toolbar"-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="@dimen/toolbar_height"-->
-    <!--        app:layout_constraintTop_toTopOf="parent" />-->
-
     <FrameLayout
-        android:background="@color/colorAccent"
         android:id="@+id/fragment_booru_content"
         android:layout_width="match_parent"
         android:layout_height="0dp"
