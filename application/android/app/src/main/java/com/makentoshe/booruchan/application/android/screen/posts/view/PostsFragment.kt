@@ -4,9 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
+import com.makentoshe.booruchan.application.android.R
 import com.makentoshe.booruchan.application.android.screen.posts.viewmodel.PostsFragmentViewModel
+import kotlinx.android.synthetic.main.fragment_posts.*
 import toothpick.ktp.delegate.inject
 
 class PostsFragment : Fragment() {
@@ -24,7 +25,11 @@ class PostsFragment : Fragment() {
     val arguments = Arguments(this)
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return TextView(requireContext()).apply { text = "Posts screen not implemented for ${viewModel.title}" }
+        return inflater.inflate(R.layout.fragment_posts, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        fragment_posts_recycler.adapter = viewModel.postsAdapter
     }
 
     class Arguments(private val postsFragment: PostsFragment) {

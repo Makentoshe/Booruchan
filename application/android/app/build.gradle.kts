@@ -70,8 +70,14 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines")
 
+    // Coroutines for android ViewModel
     val coroutinesViewModel = properties["version.coroutines.viewmodel"]
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$coroutinesViewModel")
+
+    // Paging
+    // https://developer.android.com/jetpack/androidx/releases/paging
+    val paging = properties["version.androidx.paging"]
+    implementation("androidx.paging:paging-runtime:$paging")
 
     // Material components
     // https://github.com/material-components/material-components-android
