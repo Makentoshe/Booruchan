@@ -9,6 +9,7 @@ include("gelbooru")
 include("gelbooru:network-check")
 
 include("application")
+include("application:core")
 
 include("application:android")
-include(":application:android:app")
+include("application:android:app")

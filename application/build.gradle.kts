@@ -2,7 +2,7 @@ plugins {
     id("org.jetbrains.kotlin.jvm")
 }
 
-group = "com.makentoshe.booruchan.application"
+group = "com.makentoshe.booruchan"
 version = "1.0"
 
 repositories {
