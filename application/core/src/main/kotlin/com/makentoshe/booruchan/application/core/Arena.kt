@@ -14,7 +14,7 @@ import com.makentoshe.booruchan.core.network.Filter
  * but the next calls will be with the repeated items, you know,
  * when new posts were added to the head.
  * */
-abstract class Arena<F : Filter, T>(private val arenaStorage: ArenaStorage<F, T>) {
+abstract class Arena<in F : Filter, T>(private val arenaStorage: ArenaStorage<F, T>) {
 
     /** Performs main network operation */
     internal abstract suspend fun internalSuspendFetch(filter: F): Result<T>

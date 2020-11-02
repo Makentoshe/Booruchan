@@ -2,4 +2,12 @@
 <resources>
     <attr name="booruchanToolbar" format="reference" />
     <attr name="booruchanSeparator" format="reference" />
+
+    <!-- Attributes for the SpannedGridLayoutManager -->
+    <declare-styleable name="SpannedGridLayoutManager">
+        <attr name="android:orientation" />
+        <attr name="spanCount" />
+        <attr name="aspectRatio" format="string" />
+    </declare-styleable>
+
 </resources>

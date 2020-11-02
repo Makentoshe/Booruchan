@@ -40,6 +40,7 @@ dependencies {
     implementation(project(":core"))
     implementation(project(":gelbooru"))
     implementation(project(":danbooru"))
+    implementation(project(":application:core"))
 
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
 

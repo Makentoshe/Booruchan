@@ -21,7 +21,6 @@ class PostsFragment : Fragment() {
     }
 
     private val viewModel by inject<PostsFragmentViewModel>()
-
     val arguments = Arguments(this)
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -29,6 +28,9 @@ class PostsFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        val spannedGridLayoutManagerLookup = SpannedGridLayoutManagerLookup(viewModel.postsAdapter)
+        fragment_posts_recycler.layoutManager = SpannedGridLayoutManager(spannedGridLayoutManagerLookup, 3, 1f)
+        fragment_posts_recycler.addItemDecoration(SpacesItemDecoration(16))
         fragment_posts_recycler.adapter = viewModel.postsAdapter
     }
 

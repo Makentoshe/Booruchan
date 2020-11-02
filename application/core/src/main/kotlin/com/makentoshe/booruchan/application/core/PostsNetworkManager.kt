@@ -11,7 +11,7 @@ import io.ktor.client.statement.*
  * Performs a posts networking operations - for the PostsRequest returns
  * the parcelable string or exception wrapped by [Result]
  */
-internal class PostsNetworkManager(private val client: HttpClient): PostsNetworkManager<PostsRequest> {
+class PostsNetworkManager(private val client: HttpClient): PostsNetworkManager<PostsRequest> {
 
     private suspend fun internalPosts(request: PostsRequest): HttpResponse {
         val ktorRequestBuilder = HttpRequestBuilder()

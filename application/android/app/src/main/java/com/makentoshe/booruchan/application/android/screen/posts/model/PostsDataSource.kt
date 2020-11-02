@@ -1,6 +1,7 @@
 package com.makentoshe.booruchan.application.android.screen.posts.model
 
 import androidx.paging.PageKeyedDataSource
+import com.makentoshe.booruchan.application.core.Arena
 import com.makentoshe.booruchan.core.post.Post
 import com.makentoshe.booruchan.core.post.deserialize.PostDeserialize
 import com.makentoshe.booruchan.core.post.deserialize.PostsDeserialize

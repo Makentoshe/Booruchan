@@ -6,39 +6,36 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.PagedList
 import com.makentoshe.booruchan.application.android.FetchExecutor
 import com.makentoshe.booruchan.application.android.MainExecutor
-import com.makentoshe.booruchan.application.android.screen.posts.model.PostsArena
-import com.makentoshe.booruchan.application.android.screen.posts.model.PostsArenaStorage
 import com.makentoshe.booruchan.application.android.screen.posts.model.PostsDataSource
-import com.makentoshe.booruchan.core.context.BooruContext
-import com.makentoshe.booruchan.core.post.context.PostsContext
+import com.makentoshe.booruchan.application.android.screen.posts.model.PostsPagedAdapter
+import com.makentoshe.booruchan.application.core.Arena
+import com.makentoshe.booruchan.core.post.Post
+import com.makentoshe.booruchan.core.post.deserialize.PostDeserialize
+import com.makentoshe.booruchan.core.post.deserialize.PostsDeserialize
 import com.makentoshe.booruchan.core.post.network.PostsFilter
-import com.makentoshe.booruchan.core.post.network.PostsNetworkManager
-import com.makentoshe.booruchan.core.post.network.PostsRequest
 
 class PostsFragmentViewModel(
-    private val booruContext: BooruContext,
-    private val networkManager: PostsNetworkManager<PostsRequest>
+    private val postsArena: Arena<PostsFilter, PostsDeserialize<Post>>,
+    private val filterBuilder: PostsFilter.Builder
 ) : ViewModel() {
 
-    val title = booruContext.title
+    val postsAdapter by lazy { PostsPagedAdapter().apply { submitList(getPagedList()) } }
 
-    val postsAdapter by lazy {
-        val postsContext = booruContext.posts { networkManager.getPosts(it) } as PostsContext<PostsRequest, PostsFilter>
-        val postsArena = PostsArena(postsContext, PostsArenaStorage())
-        val dataSource = PostsDataSource(postsArena, postsContext.filterBuilder(), viewModelScope)
+    private fun getPagedList(): PagedList<Result<PostDeserialize<Post>>> {
+        val dataSource = PostsDataSource(postsArena, filterBuilder, viewModelScope)
         val config = PagedList.Config.Builder().setEnablePlaceholders(false).setPageSize(30).build()
         val pagedListBuilder = PagedList.Builder(dataSource, config)
         pagedListBuilder.setNotifyExecutor(MainExecutor())
         pagedListBuilder.setFetchExecutor(FetchExecutor(viewModelScope))
-        return@lazy PostsPagedAdapter().apply { submitList(pagedListBuilder.build()) }
+        return pagedListBuilder.build()
     }
 
     class Factory(
-        private val booruContext: BooruContext,
-        private val networkManager: PostsNetworkManager<PostsRequest>
+        private val postsArena: Arena<PostsFilter, PostsDeserialize<Post>>,
+        private val postsFilterBuilder: PostsFilter.Builder
     ) : ViewModelProvider.NewInstanceFactory() {
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-            return PostsFragmentViewModel(booruContext, networkManager) as T
+            return PostsFragmentViewModel(postsArena, postsFilterBuilder) as T
         }
     }
 }
