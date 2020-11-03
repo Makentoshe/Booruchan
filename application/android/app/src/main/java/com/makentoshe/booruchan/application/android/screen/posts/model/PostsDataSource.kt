@@ -7,6 +7,8 @@ import com.makentoshe.booruchan.core.post.deserialize.PostDeserialize
 import com.makentoshe.booruchan.core.post.deserialize.PostsDeserialize
 import com.makentoshe.booruchan.core.post.network.PostsFilter
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 
 /** Fetches posts from [postsArena] with query based on [filterBuilder] in the [coroutineScope] context */
@@ -17,8 +19,8 @@ class PostsDataSource(
 ) : PageKeyedDataSource<Int, Result<PostDeserialize<Post>>>() {
 
     override fun loadBefore(params: LoadParams<Int>, callback: LoadCallback<Int, Result<PostDeserialize<Post>>>) {
-        coroutineScope.launch {
-            println("Before ${this.coroutineContext} key=${params.key} size${params.requestedLoadSize}")
+        coroutineScope.launch(Dispatchers.IO) {
+            println("Before isActive=${isActive} ${Thread.currentThread()} key=${params.key} size${params.requestedLoadSize}")
             val result = postsArena.suspendFetch(filterBuilder.build(params.requestedLoadSize, params.key))
             val success = result.getOrNull() ?: throw result.exceptionOrNull()!!
             callback.onResult(success.deserializes, params.key - 1)
@@ -26,8 +28,8 @@ class PostsDataSource(
     }
 
     override fun loadInitial(params: LoadInitialParams<Int>, callback: LoadInitialCallback<Int, Result<PostDeserialize<Post>>>) {
-        coroutineScope.launch {
-            println("Initial ${this.coroutineContext} ${params.requestedLoadSize}")
+        coroutineScope.launch(Dispatchers.IO) {
+            println("Initial isActive=${isActive} ${Thread.currentThread()} ${params.requestedLoadSize}")
             val result = postsArena.suspendFetch(filterBuilder.build(params.requestedLoadSize, 0))
             val success = result.getOrNull() ?: throw result.exceptionOrNull()!!
             callback.onResult(success.deserializes, null, 1)
@@ -35,8 +37,8 @@ class PostsDataSource(
     }
 
     override fun loadAfter(params: LoadParams<Int>, callback: LoadCallback<Int, Result<PostDeserialize<Post>>>) {
-        coroutineScope.launch {
-            println("After ${this.coroutineContext} key=${params.key} size${params.requestedLoadSize}")
+        coroutineScope.launch(Dispatchers.IO) {
+            println("After isActive=$isActive ${Thread.currentThread()} key=${params.key} size${params.requestedLoadSize}")
             val result = postsArena.suspendFetch(filterBuilder.build(params.requestedLoadSize, params.key))
             val success = result.getOrNull() ?: throw result.exceptionOrNull()!!
             callback.onResult(success.deserializes, params.key + 1)
