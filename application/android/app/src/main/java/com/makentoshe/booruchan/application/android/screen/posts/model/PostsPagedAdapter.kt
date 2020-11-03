@@ -16,7 +16,7 @@ class PostsPagedAdapter : PagedListAdapter<Result<PostDeserialize<Post>>, PostsV
     }
 
     @Suppress("IfThenToElvis") //Main cause is the unstable Result class
-    override fun getItem(position: Int): Result<PostDeserialize<Post>> {
+    public override fun getItem(position: Int): Result<PostDeserialize<Post>> {
         val result = super.getItem(position)
         return if (result != null) result else Result.failure(Exception("${this.javaClass}: Null Result in getItem method"))
     }

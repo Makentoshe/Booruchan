@@ -30,7 +30,7 @@ class PostsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val spannedGridLayoutManager = SpannedGridLayoutManager(SpannedGridLayoutManager.Orientation.VERTICAL, 3)
-        spannedGridLayoutManager.spanSizeLookup = SpannedGridLayoutManagerLookup()
+        spannedGridLayoutManager.spanSizeLookup = SpannedGridLayoutManagerLookup(viewModel.postsAdapter)
         fragment_posts_recycler.layoutManager = spannedGridLayoutManager
         fragment_posts_recycler.addItemDecoration(SpacesItemDecoration(16))
         fragment_posts_recycler.adapter = viewModel.postsAdapter
