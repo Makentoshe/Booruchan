@@ -67,6 +67,7 @@ data class XmlGelbooruPost(
     override val sampleImage = sampleImage(sampleUrl, sampleHeight, sampleWidth)
     override val previewImage = previewImage(previewUrl, previewHeight, previewWidth)
     override val tags = tagsFromText(tagsString.split(" ").map(::text).toSet())
+    override val htwRatio: Float = fileHeight.toFloat() / fileWidth.toFloat()
 
     @JsonIgnore
     override val score = score(rawScore)
@@ -123,6 +124,7 @@ data class JsonGelbooruPost(
     override val sampleImage = internalSampleImage()
     override val previewImage = internalPreviewImage()
     override val tags = tagsFromText(tagString.split(" ").map(::text).toSet())
+    override val htwRatio: Float = fileHeight.toFloat() / fileWidth.toFloat()
 
     @JsonIgnore
     override val score = score(rawScore)
