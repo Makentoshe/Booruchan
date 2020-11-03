@@ -2,7 +2,6 @@ package com.makentoshe.booruchan.application.android.screen.posts.model
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.paging.PagedListAdapter
 import com.makentoshe.booruchan.application.android.R
 import com.makentoshe.booruchan.application.android.screen.posts.view.PostsViewHolder
@@ -35,7 +34,7 @@ class PostsPagedAdapter : PagedListAdapter<Result<PostDeserialize<Post>>, PostsV
     }
 
     private fun onBindViewHolderException(holder: PostsViewHolder, position: Int, throwable: Throwable? = null) {
-        (holder.itemView as TextView).text = throwable?.toString()
+        holder.textView.text = throwable?.toString()
 
         println(throwable)
         println(throwable?.cause)
