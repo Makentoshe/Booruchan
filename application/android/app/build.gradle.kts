@@ -91,6 +91,11 @@ dependencies {
     implementation("android.arch.lifecycle:extensions:$arch")
     implementation("android.arch.lifecycle:viewmodel:$arch")
 
+    // SpannedGridLayoutManager for the RecyclerView
+    // https://github.com/Arasthel/SpannedGridLayoutManager
+    val spannedGridLayoutManager = "3.0.2"
+    implementation("com.arasthel:spannedgridlayoutmanager:$spannedGridLayoutManager")
+
     val core = properties["version.androidx.core"]
     implementation("androidx.core:core-ktx:$core")
 

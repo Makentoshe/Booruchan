@@ -1,14 +1,9 @@
 package com.makentoshe.booruchan.application.android.screen.posts.view
 
-import com.makentoshe.booruchan.application.android.screen.posts.model.PostsPagedAdapter
+import com.arasthel.spannedgridlayoutmanager.SpanSize
+import com.arasthel.spannedgridlayoutmanager.SpannedGridLayoutManager
 
-internal class SpannedGridLayoutManagerLookup(private val adapter: PostsPagedAdapter) : SpannedGridLayoutManager.GridSpanLookup {
-    override fun getSpanInfo(position: Int): SpannedGridLayoutManager.SpanInfo {
-//        println("$position - ${adapter.currentList?.get(position)}")
-//        return if (position == 0) {
-//            SpannedGridLayoutManager.SpanInfo(2, 2)
-//        } else {
-           return SpannedGridLayoutManager.SpanInfo(1, 1)
-//        }
-    }
-}
+/** Performs grid cell dimensions calculation */
+internal class SpannedGridLayoutManagerLookup : SpannedGridLayoutManager.SpanSizeLookup({ position ->
+    if (position == 0) SpanSize(2, 2) else SpanSize(1, 1)
+})

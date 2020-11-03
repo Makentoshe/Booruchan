@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.arasthel.spannedgridlayoutmanager.SpannedGridLayoutManager
 import com.makentoshe.booruchan.application.android.R
 import com.makentoshe.booruchan.application.android.screen.posts.viewmodel.PostsFragmentViewModel
 import kotlinx.android.synthetic.main.fragment_posts.*
@@ -28,8 +29,9 @@ class PostsFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val spannedGridLayoutManagerLookup = SpannedGridLayoutManagerLookup(viewModel.postsAdapter)
-        fragment_posts_recycler.layoutManager = SpannedGridLayoutManager(spannedGridLayoutManagerLookup, 3, 1f)
+        val spannedGridLayoutManager = SpannedGridLayoutManager(SpannedGridLayoutManager.Orientation.VERTICAL, 3)
+        spannedGridLayoutManager.spanSizeLookup = SpannedGridLayoutManagerLookup()
+        fragment_posts_recycler.layoutManager = spannedGridLayoutManager
         fragment_posts_recycler.addItemDecoration(SpacesItemDecoration(16))
         fragment_posts_recycler.adapter = viewModel.postsAdapter
     }
