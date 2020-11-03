@@ -153,6 +153,7 @@ data class JsonDanbooruPost(
     override val previewImage = previewImage(previewUrl)
     override val sampleImage = sampleImage(sampleUrl)
     override val fullImage = fullImage(fileUrl, imageHeight, imageWidth)
+    override val htwRatio: Float = imageHeight.toFloat() / imageWidth.toFloat()
 
     @JsonIgnore
     override val score = score(rawUpScore, rawDownScore)
@@ -281,6 +282,7 @@ data class XmlDanbooruPost(
     override val previewImage = previewImage(previewUrl)
     override val sampleImage = sampleImage(sampleUrl)
     override val fullImage = fullImage(fileUrl, imageHeight, imageWidth)
+    override val htwRatio: Float = imageHeight.toFloat() / imageWidth.toFloat()
 
     @JsonIgnore
     override val score = score(rawUpScore, rawDownScore)

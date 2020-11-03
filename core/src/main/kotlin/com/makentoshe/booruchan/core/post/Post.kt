@@ -15,4 +15,7 @@ interface Post : PostId {
 
     /** Nullable because if source can be not defined by default */
     val source: String?
+
+    /** Ratio of height to width */
+    val htwRatio: Float
 }
