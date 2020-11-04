@@ -16,6 +16,7 @@ import com.makentoshe.booruchan.core.post.deserialize.PostsDeserialize
 import com.makentoshe.booruchan.core.post.network.PostsFilter
 import com.makentoshe.booruchan.core.post.network.PostsRequest
 import io.ktor.client.*
+import io.reactivex.rxjava3.disposables.CompositeDisposable
 import toothpick.Toothpick
 import toothpick.config.Module
 import toothpick.ktp.binding.bind
@@ -34,6 +35,9 @@ class PostsModule(fragment: PostsFragment) : Module() {
 
         val navigation = BooruNavigation(fragment.childFragmentManager, booruContext)
         bind<BooruNavigation>().toInstance(navigation)
+
+        val fragmentDisposable = CompositeDisposable()
+        bind<CompositeDisposable>().toInstance(fragmentDisposable)
     }
 
     private fun bindPostsFragmentViewModel(fragment: PostsFragment, booruContext: BooruContext) {

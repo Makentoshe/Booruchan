@@ -13,18 +13,23 @@ import com.makentoshe.booruchan.core.post.Post
 import com.makentoshe.booruchan.core.post.deserialize.PostDeserialize
 import com.makentoshe.booruchan.core.post.deserialize.PostsDeserialize
 import com.makentoshe.booruchan.core.post.network.PostsFilter
+import io.reactivex.rxjava3.core.Observable
 
 class PostsFragmentViewModel(
     private val postsArena: Arena<PostsFilter, PostsDeserialize<Post>>,
     private val filterBuilder: PostsFilter.Builder
 ) : ViewModel() {
 
+    private val postsDataSource = PostsDataSource(postsArena, filterBuilder, viewModelScope)
+
     val postsAdapter by lazy { PostsPagedAdapter().apply { submitList(getPagedList()) } }
 
+    // Indicates that the initial bath of data was already loaded
+    val initialSignal: Observable<Unit> = postsDataSource.initialSignal
+
     private fun getPagedList(): PagedList<Result<PostDeserialize<Post>>> {
-        val dataSource = PostsDataSource(postsArena, filterBuilder, viewModelScope)
         val config = PagedList.Config.Builder().setEnablePlaceholders(false).setPageSize(30).build()
-        val pagedListBuilder = PagedList.Builder(dataSource, config)
+        val pagedListBuilder = PagedList.Builder(postsDataSource, config)
         pagedListBuilder.setNotifyExecutor(MainExecutor())
         pagedListBuilder.setFetchExecutor(FetchExecutor(viewModelScope))
         return pagedListBuilder.build()
