@@ -7,7 +7,9 @@
         <item name="colorAccent">@android:color/black</item>
         <item name="android:statusBarColor">@android:color/black</item>
 
+        <item name="booruchanSeparator">@style/Default.Separator</item>
         <item name="booruchanToolbar">@style/Default.Toolbar</item>
+        <item name="booruchanProgress">@style/Default.Progress</item>
     </style>
 
     <style name="Default.Toolbar">
@@ -31,6 +33,10 @@
     <style name="Default.Text.Support">
         <item name="android:textSize">14sp</item>
         <item name="android:textColor">@color/dimmed</item>
+    </style>
+
+    <style name="Default.Progress">
+        <item name="android:indeterminateTint">@color/dimmed</item>
     </style>
 
 </resources>

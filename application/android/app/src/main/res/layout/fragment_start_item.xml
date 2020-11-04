@@ -9,7 +9,7 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        app:layout_constraintGuide_begin="@dimen/dimenM"
+        app:layout_constraintGuide_begin="@dimen/dimenL"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
@@ -17,7 +17,7 @@
         android:id="@+id/fragment_start_item_primary"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dimenM"
+        android:layout_marginTop="@dimen/dimenL"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="@id/fragment_start_item_guideline" />
 

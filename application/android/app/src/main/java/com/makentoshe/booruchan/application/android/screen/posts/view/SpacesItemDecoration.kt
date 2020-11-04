@@ -1,17 +1,17 @@
 package com.makentoshe.booruchan.application.android.screen.posts.view
 
 import android.graphics.Rect
+import android.util.TypedValue
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 
-class SpacesItemDecoration(private val mSpace: Int) : RecyclerView.ItemDecoration() {
+class SpacesItemDecoration(private val mSpaceDp: Float) : RecyclerView.ItemDecoration() {
 
     override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
-        outRect.left = mSpace
-        outRect.right = mSpace
-        outRect.bottom = mSpace
+        val px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, mSpaceDp, view.resources.displayMetrics)
 
-        // Add top margin only for the first item to avoid double space between items
-        if (parent.getChildAdapterPosition(view) == 0) outRect.top = mSpace
+        outRect.left = (px / 2).toInt()
+        outRect.right = (px / 2).toInt()
+        outRect.bottom = px.toInt()
     }
 }

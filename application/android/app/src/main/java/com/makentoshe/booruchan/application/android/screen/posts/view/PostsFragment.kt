@@ -35,7 +35,7 @@ class PostsFragment : Fragment() {
         val spannedGridLayoutManager = SpannedGridLayoutManager(SpannedGridLayoutManager.Orientation.VERTICAL, 3)
         spannedGridLayoutManager.spanSizeLookup = SpannedGridLayoutManagerLookup(viewModel.postsAdapter)
         fragment_posts_recycler.layoutManager = spannedGridLayoutManager
-        fragment_posts_recycler.addItemDecoration(SpacesItemDecoration(16))
+        fragment_posts_recycler.addItemDecoration(SpacesItemDecoration(8f))
         fragment_posts_recycler.adapter = viewModel.postsAdapter
 
         viewModel.initialSignal.observeOn(AndroidSchedulers.mainThread()).subscribe {
