@@ -16,7 +16,7 @@ class PostsPagedAdapter : PagedListAdapter<Result<PostDeserialize<Post>>, PostsV
     }
 
     @Suppress("IfThenToElvis") //Main cause is the unstable Result class
-    public override fun getItem(position: Int): Result<PostDeserialize<Post>> {
+    override fun getItem(position: Int): Result<PostDeserialize<Post>> {
         val result = super.getItem(position)
         return if (result != null) result else Result.failure(Exception("${this.javaClass}: Null Result in getItem method"))
     }
@@ -30,7 +30,7 @@ class PostsPagedAdapter : PagedListAdapter<Result<PostDeserialize<Post>>, PostsV
     }
 
     private fun onBindViewHolderSuccess(holder: PostsViewHolder, position: Int, success: PostDeserialize<Post>) {
-        holder.textView.text = success.post.postId.toString()
+        holder.textView.text = "${success.post.htwRatio}\n${success.post.postId}"
     }
 
     private fun onBindViewHolderException(holder: PostsViewHolder, position: Int, throwable: Throwable? = null) {
