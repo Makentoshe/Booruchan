@@ -75,6 +75,16 @@ dependencies {
     val coroutinesViewModel = properties["version.coroutines.viewmodel"]
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$coroutinesViewModel")
 
+    // RxJava 3
+    // https://github.com/ReactiveX/RxJava/
+    val rxjava = "3.0.0"
+    implementation("io.reactivex.rxjava3:rxjava:$rxjava")
+
+    // RxAndroid
+    // https://github.com/ReactiveX/RxAndroid
+    val rxandroid = "3.0.0"
+    implementation("io.reactivex.rxjava3:rxandroid:$rxandroid")
+
     // Paging
     // https://developer.android.com/jetpack/androidx/releases/paging
     val paging = properties["version.androidx.paging"]
