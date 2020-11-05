@@ -38,10 +38,10 @@ class XmlGelbooruPostDeserializer : XmlGelbooruDeserializer(), GelbooruPostDeser
             Result.success(GelbooruPostDeserialize(post, string))
         } catch (exception: Exception) {
             val map = mapper.readValue<Map<String, Any?>>(xml)
-            Result.failure(EntityDeserializeException(map, exception))
+            Result.failure(EntityDeserializeException(string, map, exception))
         }
     } catch (exception: Exception) {
-        Result.failure(DeserializeException(exception, string))
+        Result.failure(DeserializeException(string, exception, string))
     }
 }
 
@@ -54,6 +54,6 @@ class JsonGelbooruPostDeserializer : GelbooruPostDeserializer {
         val json = if (jsonNode.isArray) jsonNode.first().toString() else jsonNode.toString()
         Result.success(GelbooruPostDeserialize(mapper.readValue(json), string))
     } catch (exception: Exception) {
-        Result.failure(EntityDeserializeException(mapper.readValue(string), exception))
+        Result.failure(EntityDeserializeException(string, mapper.readValue(string), exception))
     }
 }

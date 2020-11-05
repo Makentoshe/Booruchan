@@ -35,9 +35,9 @@ class XmlGelbooruCommentDeserializer : XmlGelbooruDeserializer(), GelbooruCommen
         try {
             Result.success(GelbooruCommentDeserialize(mapper.readValue(xml)))
         } catch (exception: Exception) {
-            Result.failure(EntityDeserializeException(mapper.readValue(string), exception))
+            Result.failure(EntityDeserializeException(string, mapper.readValue(string), exception))
         }
     } catch (exception: Exception) {
-        Result.failure(DeserializeException(exception, string))
+        Result.failure(DeserializeException(string, exception, string))
     }
 }

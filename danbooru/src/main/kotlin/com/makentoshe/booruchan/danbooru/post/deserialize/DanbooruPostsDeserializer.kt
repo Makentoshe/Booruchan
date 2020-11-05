@@ -3,7 +3,7 @@ package com.makentoshe.booruchan.danbooru.post.deserialize
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.json.JsonMapper
 import com.fasterxml.jackson.module.kotlin.readValue
-import com.makentoshe.booruchan.core.deserialize.CollectionDeserializeException
+import com.makentoshe.booruchan.core.deserialize.collectionDeserializeException
 import com.makentoshe.booruchan.danbooru.post.JsonDanbooruPost
 import com.makentoshe.booruchan.danbooru.post.XmlDanbooruPost
 import org.jsoup.Jsoup
@@ -21,7 +21,7 @@ class XmlDanbooruPostsDeserializer : DanbooruPostsDeserializer {
         val results = jsoup.getElementsByTag("post").map(::deserializePost)
         Result.success(DanbooruPostsDeserialize(results, string))
     } catch (exception: Exception) {
-        Result.failure(CollectionDeserializeException(exception))
+        Result.failure(collectionDeserializeException(string, exception))
     }
 
     private val xmlPostDeserializer = XmlDanbooruPostDeserializer()
@@ -35,7 +35,7 @@ class JsonDanbooruPostsDeserializer : DanbooruPostsDeserializer {
         val results = JsonMapper().readValue<JsonNode>(string).map(::deserializePost)
         Result.success(DanbooruPostsDeserialize(results, string))
     } catch (exception: Exception) {
-        Result.failure(CollectionDeserializeException(exception))
+        Result.failure(collectionDeserializeException(string, exception))
     }
 
     private val jsonPostDeserializer = JsonDanbooruPostDeserializer()

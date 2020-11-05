@@ -32,7 +32,7 @@ class XmlDanbooruCommentDeserializer : DanbooruCommentDeserializer {
         return try {
             Result.success(DanbooruCommentDeserialize(mapper.readValue(xml)))
         } catch (exception: Exception) {
-            Result.failure(EntityDeserializeException(mapper.readValue(string), exception))
+            Result.failure(EntityDeserializeException(string, mapper.readValue(string), exception))
         }
     }
 }
@@ -45,7 +45,7 @@ class JsonDanbooruCommentDeserializer : DanbooruCommentDeserializer {
         return try {
             Result.success(DanbooruCommentDeserialize(mapper.readValue(string)))
         } catch (exception: Exception) {
-            Result.failure(EntityDeserializeException(mapper.readValue(string), exception))
+            Result.failure(EntityDeserializeException(string, mapper.readValue(string), exception))
         }
     }
 }

@@ -22,7 +22,7 @@ class XmlGelbooruTagsDeserializer : GelbooruTagsDeserializer {
         val jsoup = Jsoup.parse(string, "", Parser.xmlParser())
         Result.success(XmlGelbooruTagsDeserialize(jsoup.getElementsByTag("tag").map(::deserializeTag)))
     } catch (exception: Exception) {
-        Result.failure(collectionDeserializeException(exception, "xml"))
+        Result.failure(collectionDeserializeException(string, exception, "xml"))
     }
 
     private val xmlTagDeserializer = XmlGelbooruTagDeserializer()
@@ -35,7 +35,7 @@ class JsonGelbooruTagsDeserializer : GelbooruTagsDeserializer {
     override fun deserializeTags(string: String): Result<JsonGelbooruTagsDeserialize> = try {
         Result.success(JsonGelbooruTagsDeserialize(JsonMapper().readValue<JsonNode>(string).map(::deserializeTag)))
     } catch (exception: Exception) {
-        Result.failure(collectionDeserializeException(exception, "json"))
+        Result.failure(collectionDeserializeException(string, exception, "json"))
     }
 
     private val jsonTagDeserializer = JsonGelbooruTagDeserializer()

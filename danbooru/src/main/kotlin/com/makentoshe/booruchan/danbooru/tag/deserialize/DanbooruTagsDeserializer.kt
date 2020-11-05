@@ -3,7 +3,7 @@ package com.makentoshe.booruchan.danbooru.tag.deserialize
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.json.JsonMapper
 import com.fasterxml.jackson.module.kotlin.readValue
-import com.makentoshe.booruchan.core.deserialize.CollectionDeserializeException
+import com.makentoshe.booruchan.core.deserialize.collectionDeserializeException
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Element
 import org.jsoup.parser.Parser
@@ -18,7 +18,7 @@ class XmlDanbooruTagsDeserializer : DanbooruTagsDeserializer {
         val jsoup = Jsoup.parse(string, "", Parser.xmlParser())
         Result.success(XmlDanbooruTagsDeserialize(jsoup.getElementsByTag("tag").map(::deserializeTag)))
     } catch (exception: Exception) {
-        Result.failure(CollectionDeserializeException(exception))
+        Result.failure(collectionDeserializeException(string, exception))
     }
 
     private val xmlTagDeserializer = XmlDanbooruTagDeserializer()
@@ -31,7 +31,7 @@ class JsonDanbooruTagsDeserializer : DanbooruTagsDeserializer {
     override fun deserializeTags(string: String): Result<JsonDanbooruTagsDeserialize> = try {
         Result.success(JsonDanbooruTagsDeserialize(JsonMapper().readValue<JsonNode>(string).map(::deserializeTag)))
     } catch (exception: Exception) {
-        Result.failure(exception)
+        Result.failure(collectionDeserializeException(string, exception))
     }
 
     private val jsonTagDeserializer = JsonDanbooruTagDeserializer()

@@ -3,9 +3,9 @@ package com.makentoshe.booruchan.danbooru.comment.deserialize
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.json.JsonMapper
 import com.fasterxml.jackson.module.kotlin.readValue
+import com.makentoshe.booruchan.core.deserialize.collectionDeserializeException
 import com.makentoshe.booruchan.danbooru.comment.JsonDanbooruComment
 import com.makentoshe.booruchan.danbooru.comment.XmlDanbooruComment
-import com.makentoshe.booruchan.core.deserialize.CollectionDeserializeException
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Element
 import org.jsoup.parser.Parser
@@ -20,7 +20,7 @@ class XmlDanbooruCommentsDeserializer : DanbooruCommentsDeserializer {
         val jsoup = Jsoup.parse(string, "", Parser.xmlParser())
         Result.success(DanbooruCommentsDeserialize(jsoup.getElementsByTag("comment").map(::deserializeComment)))
     } catch (exception: Exception) {
-        Result.failure(CollectionDeserializeException(exception))
+        Result.failure(collectionDeserializeException(string, exception))
     }
 
     private val xmlCommentDeserializer = XmlDanbooruCommentDeserializer()
@@ -33,7 +33,7 @@ class JsonDanbooruCommentsDeserializer : DanbooruCommentsDeserializer {
     override fun deserializeComments(string: String): Result<JsonDanbooruCommentsDeserialize> = try {
         Result.success(DanbooruCommentsDeserialize(JsonMapper().readValue<JsonNode>(string).map(::deserializeComment)))
     } catch (exception: Exception) {
-        Result.failure(CollectionDeserializeException(exception))
+        Result.failure(collectionDeserializeException(string, exception))
     }
 
     private val jsonCommentDeserializer = JsonDanbooruCommentDeserializer()

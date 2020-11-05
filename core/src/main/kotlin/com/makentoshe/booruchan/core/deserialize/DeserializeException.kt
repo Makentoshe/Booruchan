@@ -1,3 +1,7 @@
 package com.makentoshe.booruchan.core.deserialize
 
-open class DeserializeException(override val cause: Throwable, override val message: String? = null): Throwable()
+open class DeserializeException(
+    open val rawValue: String,
+    override val cause: Throwable,
+    override val message: String? = null
+): Throwable()

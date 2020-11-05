@@ -19,7 +19,7 @@ class XmlGelbooruCommentsDeserializer : GelbooruCommentsDeserializer {
         val jsoup = Jsoup.parse(string, "", Parser.xmlParser())
         Result.success(GelbooruCommentsDeserialize(jsoup.getElementsByTag("comment").map(::deserializeComment)))
     } catch (exception: Exception) {
-        Result.failure(collectionDeserializeException(exception, "xml"))
+        Result.failure(collectionDeserializeException(string, exception, "xml"))
     }
 
     private val xmlCommentDeserializer = XmlGelbooruCommentDeserializer()

@@ -32,7 +32,7 @@ class XmlDanbooruTagDeserializer : DanbooruTagDeserializer {
         try {
             Result.success(XmlDanbooruTagDeserialize(mapper.readValue(xml)))
         } catch (exception: Exception) {
-            Result.failure(EntityDeserializeException(mapper.readValue(xml), exception))
+            Result.failure(EntityDeserializeException(string, mapper.readValue(xml), exception))
         }
     } catch (exception: Exception) {
         Result.failure(exception)
@@ -47,7 +47,7 @@ class JsonDanbooruTagDeserializer : DanbooruTagDeserializer {
         try {
             Result.success(JsonDanbooruTagDeserialize(mapper.readValue(string)))
         } catch (exception: Exception) {
-            Result.failure(EntityDeserializeException(mapper.readValue(string), exception))
+            Result.failure(EntityDeserializeException(string, mapper.readValue(string), exception))
         }
     } catch (exception: Exception) {
         Result.failure(exception)
