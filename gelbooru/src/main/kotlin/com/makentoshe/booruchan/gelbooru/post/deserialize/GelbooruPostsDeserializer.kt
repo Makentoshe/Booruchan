@@ -17,7 +17,7 @@ class XmlGelbooruPostsDeserializer : GelbooruPostsDeserializer {
     override fun deserializePosts(string: String): Result<XmlGelbooruPostsDeserialize> = try {
         val jsoup = Jsoup.parse(string, "", Parser.xmlParser())
         val results = jsoup.getElementsByTag("post").map(::deserializePost)
-        Result.success(GelbooruPostsDeserialize(results))
+        Result.success(GelbooruPostsDeserialize(results, string))
     } catch (exception: Exception) {
         Result.failure(CollectionDeserializeException(exception))
     }
@@ -31,7 +31,7 @@ class JsonGelbooruPostsDeserializer : GelbooruPostsDeserializer {
 
     override fun deserializePosts(string: String): Result<JsonGelbooruPostsDeserialize> = try {
         val results = JsonMapper().readValue<JsonNode>(string).map(::deserializePost)
-        Result.success(JsonGelbooruPostsDeserialize(results))
+        Result.success(JsonGelbooruPostsDeserialize(results, string))
     } catch (exception: Exception) {
         Result.failure(CollectionDeserializeException(exception))
     }

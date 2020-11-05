@@ -12,6 +12,7 @@ class XmlDanbooruPostsDeserializerTest {
         val deserializeResult = XmlDanbooruPostsDeserializer().deserializePosts(xml)
         val deserializeSuccess = deserializeResult.getOrNull()!!
 
+        assertEquals(xml, deserializeSuccess.rawValue)
         assertEquals(20, deserializeSuccess.posts.size)
     }
 
@@ -21,6 +22,7 @@ class XmlDanbooruPostsDeserializerTest {
         val deserializeResult = XmlDanbooruPostsDeserializer().deserializePosts(xml)
         val deserializeSuccess = deserializeResult.getOrNull()!!
 
+        assertEquals(xml, deserializeSuccess.rawValue)
         assertEquals(20, deserializeSuccess.deserializes.size)
         assertEquals(1, deserializeSuccess.failures.size)
         assertEquals(19, deserializeSuccess.posts.size)

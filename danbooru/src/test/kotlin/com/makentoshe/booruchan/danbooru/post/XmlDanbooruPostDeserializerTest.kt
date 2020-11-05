@@ -10,10 +10,12 @@ class XmlDanbooruPostDeserializerTest {
     @Test
     fun `should parse xml post`() {
         val xml = javaClass.classLoader.getResource("post.xml")!!.readText()
-        val deserializeResult = XmlDanbooruPostDeserializer().deserializePost(xml)
+        val result = XmlDanbooruPostDeserializer().deserializePost(xml)
+        val successResult = result.getOrNull()!!
 
         // TODO add asserts for all fields (feelsbadman)
-        assertEquals(4086764, deserializeResult.getOrNull()!!.post.postId)
+        assertEquals(xml, successResult.rawValue)
+        assertEquals(4086764, successResult.post.postId)
     }
 
     @Test

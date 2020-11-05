@@ -32,7 +32,7 @@ class XmlDanbooruPostDeserializer : DanbooruPostDeserializer {
         jsoup.allElements.forEach { element -> element.clearAttributes() }
         return try {
             val post = mapper.readValue<XmlDanbooruPost>(jsoup.children().toString().replace("\\s".toRegex(), ""))
-            Result.success(DanbooruPostDeserialize(post))
+            Result.success(DanbooruPostDeserialize(post, string))
         } catch (exception: Exception) {
             val map = mapper.readValue<Map<String, Any?>>(jsoup.children().toString().replace("\\s".toRegex(), ""))
             Result.failure(EntityDeserializeException(map, exception))
@@ -46,7 +46,7 @@ class JsonDanbooruPostDeserializer : DanbooruPostDeserializer {
 
     override fun deserializePost(string: String): Result<DanbooruPostDeserialize<JsonDanbooruPost>> {
         return try {
-            Result.success(DanbooruPostDeserialize(mapper.readValue(string)))
+            Result.success(DanbooruPostDeserialize(mapper.readValue(string), string))
         } catch (exception: Exception) {
             Result.failure(EntityDeserializeException(mapper.readValue(string), exception))
         }

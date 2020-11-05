@@ -14,6 +14,7 @@ class JsonGelbooruPostDeserializerTest {
         val successResult = result.getOrNull()!!
 
         // TODO add asserts for all fields (feelsbadman)
+        assertEquals(json, successResult.rawValue)
         assertEquals(1, successResult.post.postId)
     }
 

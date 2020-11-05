@@ -5,7 +5,7 @@ import com.makentoshe.booruchan.core.deserialize.EntityDeserializeException
 import com.makentoshe.booruchan.danbooru.post.DanbooruPost
 
 data class DanbooruPostsDeserialize<out Post : DanbooruPost>(
-    override val deserializes: List<Result<DanbooruPostDeserialize<Post>>>
+    override val deserializes: List<Result<DanbooruPostDeserialize<Post>>>, override val rawValue: String
 ) : PostsDeserialize<Post> {
     override val failures = deserializes.mapNotNull { it.exceptionOrNull() as? EntityDeserializeException }
     override val posts = deserializes.mapNotNull { it.getOrNull()?.post }

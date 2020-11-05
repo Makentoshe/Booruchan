@@ -12,6 +12,7 @@ class XmlGelbooruPostsDeserializerTest {
         val result = XmlGelbooruPostsDeserializer().deserializePosts(xml)
         val successResult = result.getOrNull()!!
 
+        assertEquals(xml, successResult.rawValue)
         assertEquals(20, successResult.posts.size)
     }
 

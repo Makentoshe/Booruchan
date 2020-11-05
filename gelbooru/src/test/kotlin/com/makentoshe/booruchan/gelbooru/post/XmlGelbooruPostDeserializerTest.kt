@@ -14,6 +14,7 @@ class XmlGelbooruPostDeserializerTest {
         val successResult = result.getOrNull()!!
 
         // TODO add asserts for all fields (feelsbadman)
+        assertEquals(xml, successResult.rawValue)
         assertEquals(1, successResult.post.postId)
     }
 
@@ -24,6 +25,7 @@ class XmlGelbooruPostDeserializerTest {
         val successResult = result.getOrNull()!!
 
         // TODO add asserts for all fields (feelsbadman)
+        assertEquals(xml, successResult.rawValue)
         assertEquals(5612477, successResult.post.postId)
     }
 
