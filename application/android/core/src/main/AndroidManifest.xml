@@ -1,4 +1,1 @@
-<manifest
-        package="com.makentoshe.booruchan.application.android">
-
-</manifest>
+<manifest package="com.makentoshe.booruchan.application.android.core"/>

@@ -1,5 +1,5 @@
 plugins {
-    id("com.android.application")
+    id("com.android.library")
     kotlin("android")
     kotlin("android.extensions")
     kotlin("kapt")
@@ -14,7 +14,6 @@ android {
     }
     compileSdkVersion(29)
     defaultConfig {
-        applicationId = "com.makentoshe.booruchan.application.android"
         minSdkVersion(21)
         targetSdkVersion(29)
         versionCode = 1
