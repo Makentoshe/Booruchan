@@ -13,29 +13,32 @@ interface Image {
 /** Typing for [Image] class for full sized images */
 interface FullImage : Image
 
-fun fullImage(url: String, height: Int? = null, width: Int? = null) = object : FullImage {
-    override val url = url
-    override val height = height
-    override val width = width
-    override val extension = File(url).extension
-}
+fun fullImage(url: String, height: Int? = null, width: Int? = null, extension: String = File(url).extension) =
+    object : FullImage {
+        override val url = url
+        override val height = height
+        override val width = width
+        override val extension = extension
+    }
 
 /** Typing for [Image] class for preview images */
 interface PreviewImage : Image
 
-fun previewImage(url: String, height: Int? = null, width: Int? = null) = object : PreviewImage {
-    override val url = url
-    override val height = height
-    override val width = width
-    override val extension = File(url).extension
-}
+fun previewImage(url: String, height: Int? = null, width: Int? = null, extension: String = File(url).extension) =
+    object : PreviewImage {
+        override val url = url
+        override val height = height
+        override val width = width
+        override val extension = extension
+    }
 
 /** Typing for [Image] class for images with sample size*/
 interface SampleImage : Image
 
-fun sampleImage(url: String, height: Int? = null, width: Int? = null) = object : SampleImage {
-    override val url = url
-    override val height = height
-    override val width = width
-    override val extension = File(url).extension
-}
+fun sampleImage(url: String, height: Int? = null, width: Int? = null, extension: String = File(url).extension) =
+    object : SampleImage {
+        override val url = url
+        override val height = height
+        override val width = width
+        override val extension = extension
+    }
