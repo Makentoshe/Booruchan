@@ -4,7 +4,6 @@ import com.makentoshe.booruchan.core.deserialize.EntityDeserializeException
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import com.makentoshe.booruchan.gelbooru.post.deserialize.XmlGelbooruPostDeserializer
-import com.makentoshe.booruchan.gelbooru.post.deserialize.XmlGelbooruPostSerializer
 
 class XmlGelbooruPostDeserializerTest {
 

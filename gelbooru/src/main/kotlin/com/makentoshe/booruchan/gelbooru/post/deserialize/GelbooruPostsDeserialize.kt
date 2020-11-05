@@ -10,7 +10,7 @@ typealias XmlGelbooruPostsDeserialize = GelbooruPostsDeserialize<XmlGelbooruPost
 typealias JsonGelbooruPostsDeserialize = GelbooruPostsDeserialize<JsonGelbooruPost>
 
 data class GelbooruPostsDeserialize<out Post : GelbooruPost>(
-    override val deserializes: List<Result<GelbooruPostDeserialize<Post>>>
+    override val deserializes: List<Result<GelbooruPostDeserialize<Post>>>, override val rawValue: String
 ) : PostsDeserialize<Post> {
     override val failures = deserializes.mapNotNull { it.exceptionOrNull() as? EntityDeserializeException }
     override val posts = deserializes.mapNotNull { it.getOrNull()?.post }
