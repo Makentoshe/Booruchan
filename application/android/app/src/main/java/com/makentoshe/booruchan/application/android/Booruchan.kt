@@ -24,6 +24,11 @@ class Booruchan : Application() {
         scopes.inject(this)
 
         registerActivityLifecycleCallbacks(injectActivityLifecycleCallback)
+
+        Thread.setDefaultUncaughtExceptionHandler { paramThread, paramThrowable -> //Catch your exception
+            println(paramThrowable.printStackTrace())
+            throw paramThrowable
+        }
     }
 
     private fun getToothpickConfiguration() = if (BuildConfig.DEBUG) {
