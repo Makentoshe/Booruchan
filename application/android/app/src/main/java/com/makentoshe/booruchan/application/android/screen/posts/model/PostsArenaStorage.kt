@@ -13,6 +13,9 @@ class PostsArenaStorage : ArenaStorage<PostsFilter, PostsDeserialize<Post>> {
 
     /** Save result to the storage */
     override fun carry(key: PostsFilter, value: Result<PostsDeserialize<Post>>) {
-
+//        val posts = value.getOrNull()?.posts ?: return println(value)
+//        posts.forEach { post ->
+//            postDao.insert(PostWrapper(booruContext.title, post.postId))
+//        }
     }
 }

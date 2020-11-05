@@ -1,3 +1,4 @@
+include(":application:android:core")
 rootProject.name = "Booruchan"
 
 include("core")

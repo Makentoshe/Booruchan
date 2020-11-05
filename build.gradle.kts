@@ -86,6 +86,7 @@ tasks.register<Copy>("android-standalone") {
 
 // Android section
 buildscript {
+    val kotlin_version by extra("1.4.10")
     repositories {
         google()
         jcenter()

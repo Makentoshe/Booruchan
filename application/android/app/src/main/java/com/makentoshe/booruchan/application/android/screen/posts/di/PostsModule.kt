@@ -1,6 +1,7 @@
 package com.makentoshe.booruchan.application.android.screen.posts.di
 
 import androidx.lifecycle.ViewModelProviders
+import com.makentoshe.booruchan.application.android.BooruchanDatabase
 import com.makentoshe.booruchan.application.android.di.ApplicationScope
 import com.makentoshe.booruchan.application.android.screen.booru.navigation.BooruNavigation
 import com.makentoshe.booruchan.application.android.screen.posts.model.PostsArenaStorage
@@ -26,6 +27,7 @@ class PostsModule(fragment: PostsFragment) : Module() {
 
     private val booruContexts by inject<List<BooruContext>>()
     private val client by inject<HttpClient>()
+    private val database by inject<BooruchanDatabase>(fragment.arguments.booruContextTitle)
 
     init {
         Toothpick.openScope(ApplicationScope::class).inject(this)
@@ -57,6 +59,9 @@ class PostsModule(fragment: PostsFragment) : Module() {
     }
 
     private fun getPostsArena(booruContext: BooruContext): Arena<PostsFilter, PostsDeserialize<Post>> {
-        return PostsArena.Builder(booruContext).apply { arenaStorage = PostsArenaStorage() }.build(client)
+        println(database)
+        return PostsArena.Builder(booruContext).apply {
+            arenaStorage = PostsArenaStorage()
+        }.build(client)
     }
 }

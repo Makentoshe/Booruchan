@@ -10,9 +10,9 @@ repositories {
 }
 
 dependencies {
-    implementation(project(":core"))
-    implementation(project(":gelbooru"))
-    implementation(project(":danbooru"))
+    api(project(":core"))
+    api(project(":gelbooru"))
+    api(project(":danbooru"))
 
     implementation(kotlin("stdlib"))
 

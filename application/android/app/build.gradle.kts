@@ -37,10 +37,8 @@ android {
 }
 
 dependencies {
-    implementation(project(":core"))
-    implementation(project(":gelbooru"))
-    implementation(project(":danbooru"))
-    implementation(project(":application:core"))
+    // core module for android application
+    implementation(project(":application:android:core"))
 
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
 
@@ -89,11 +87,6 @@ dependencies {
     // https://developer.android.com/jetpack/androidx/releases/paging
     val paging = properties["version.androidx.paging"]
     implementation("androidx.paging:paging-runtime:$paging")
-
-    // Material components
-    // https://github.com/material-components/material-components-android
-    val material = properties["version.androidx.material"]
-    implementation("com.google.android.material:material:$material")
 
     // Architecture components
     // https://developer.android.com/topic/libraries/architecture
