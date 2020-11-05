@@ -59,9 +59,6 @@ class PostsModule(fragment: PostsFragment) : Module() {
     }
 
     private fun getPostsArena(booruContext: BooruContext): Arena<PostsFilter, PostsDeserialize<Post>> {
-        println(database)
-        return PostsArena.Builder(booruContext).apply {
-            arenaStorage = PostsArenaStorage()
-        }.build(client)
+        return PostsArena.Builder(booruContext).apply { arenaStorage = PostsArenaStorage(database) }.build(client)
     }
 }
