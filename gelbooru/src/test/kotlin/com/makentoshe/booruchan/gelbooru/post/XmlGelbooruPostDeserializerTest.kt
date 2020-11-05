@@ -4,6 +4,7 @@ import com.makentoshe.booruchan.core.deserialize.EntityDeserializeException
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import com.makentoshe.booruchan.gelbooru.post.deserialize.XmlGelbooruPostDeserializer
+import com.makentoshe.booruchan.gelbooru.post.deserialize.XmlGelbooruPostSerializer
 
 class XmlGelbooruPostDeserializerTest {
 
@@ -14,6 +15,7 @@ class XmlGelbooruPostDeserializerTest {
         val successResult = result.getOrNull()!!
 
         // TODO add asserts for all fields (feelsbadman)
+        assertEquals(xml, successResult.rawValue)
         assertEquals(1, successResult.post.postId)
     }
 
@@ -24,6 +26,7 @@ class XmlGelbooruPostDeserializerTest {
         val successResult = result.getOrNull()!!
 
         // TODO add asserts for all fields (feelsbadman)
+        assertEquals(xml, successResult.rawValue)
         assertEquals(5612477, successResult.post.postId)
     }
 

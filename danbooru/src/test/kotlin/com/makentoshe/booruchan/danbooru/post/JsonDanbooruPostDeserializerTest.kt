@@ -11,9 +11,11 @@ class JsonDanbooruPostDeserializerTest {
     fun `should parse json post`() {
         val json = javaClass.classLoader.getResource("post.json")!!.readText()
         val result = JsonDanbooruPostDeserializer().deserializePost(json)
+        val successResult = result.getOrNull()!!
 
         // TODO add asserts for all fields (feelsbadman)
-        assertEquals(4086764, result.getOrNull()!!.post.postId)
+        assertEquals(json, successResult.rawValue)
+        assertEquals(4086764, successResult.post.postId)
     }
 
     @Test

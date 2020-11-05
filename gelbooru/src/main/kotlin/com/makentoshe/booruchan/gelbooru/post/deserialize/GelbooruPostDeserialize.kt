@@ -9,5 +9,5 @@ typealias XmlGelbooruPostDeserialize = GelbooruPostDeserialize<XmlGelbooruPost>
 typealias JsonGelbooruPostDeserialize = GelbooruPostDeserialize<JsonGelbooruPost>
 
 data class GelbooruPostDeserialize<out Post: GelbooruPost>(
-    override val post: Post
+    override val post: Post, override val rawValue: String
 ): PostDeserialize<Post>

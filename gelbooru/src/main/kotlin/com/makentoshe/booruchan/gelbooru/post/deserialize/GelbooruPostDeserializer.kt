@@ -10,10 +10,10 @@ import com.fasterxml.jackson.module.kotlin.readValue
 import com.makentoshe.booruchan.core.deserialize.DeserializeException
 import com.makentoshe.booruchan.core.deserialize.EntityDeserializeException
 import com.makentoshe.booruchan.gelbooru.deserialize.XmlGelbooruDeserializer
+import com.makentoshe.booruchan.gelbooru.post.XmlGelbooruPost
 import org.jsoup.Jsoup
 import org.jsoup.parser.Parser
 import org.jsoup.select.Elements
-import com.makentoshe.booruchan.gelbooru.post.XmlGelbooruPost
 
 interface GelbooruPostDeserializer {
     fun deserializePost(string: String): Result<GelbooruPostDeserialize<*>>
@@ -35,7 +35,7 @@ class XmlGelbooruPostDeserializer : XmlGelbooruDeserializer(), GelbooruPostDeser
         val xml = jsoup.getElementsByTag("post").map(::normalize).let(::Elements).toString()
         try {
             val post = mapper.readValue<XmlGelbooruPost>(xml)
-            Result.success(GelbooruPostDeserialize(post))
+            Result.success(GelbooruPostDeserialize(post, string))
         } catch (exception: Exception) {
             val map = mapper.readValue<Map<String, Any?>>(xml)
             Result.failure(EntityDeserializeException(map, exception))
@@ -52,7 +52,7 @@ class JsonGelbooruPostDeserializer : GelbooruPostDeserializer {
     override fun deserializePost(string: String): Result<JsonGelbooruPostDeserialize> = try {
         val jsonNode = mapper.readValue<JsonNode>(string)
         val json = if (jsonNode.isArray) jsonNode.first().toString() else jsonNode.toString()
-        Result.success(GelbooruPostDeserialize(mapper.readValue(json)))
+        Result.success(GelbooruPostDeserialize(mapper.readValue(json), string))
     } catch (exception: Exception) {
         Result.failure(EntityDeserializeException(mapper.readValue(string), exception))
     }
