@@ -3,7 +3,7 @@ package com.makentoshe.booruchan.gelbooru.post.deserialize
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.json.JsonMapper
 import com.fasterxml.jackson.module.kotlin.readValue
-import com.makentoshe.booruchan.core.deserialize.CollectionDeserializeException
+import com.makentoshe.booruchan.core.deserialize.collectionDeserializeException
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Element
 import org.jsoup.parser.Parser
@@ -19,7 +19,7 @@ class XmlGelbooruPostsDeserializer : GelbooruPostsDeserializer {
         val results = jsoup.getElementsByTag("post").map(::deserializePost)
         Result.success(GelbooruPostsDeserialize(results, string))
     } catch (exception: Exception) {
-        Result.failure(CollectionDeserializeException(exception))
+        Result.failure(collectionDeserializeException(string, exception))
     }
 
     private val xmlPostDeserializer = XmlGelbooruPostDeserializer()
@@ -33,7 +33,7 @@ class JsonGelbooruPostsDeserializer : GelbooruPostsDeserializer {
         val results = JsonMapper().readValue<JsonNode>(string).map(::deserializePost)
         Result.success(JsonGelbooruPostsDeserialize(results, string))
     } catch (exception: Exception) {
-        Result.failure(CollectionDeserializeException(exception))
+        Result.failure(collectionDeserializeException(string, exception))
     }
 
     private val jsonPostDeserializer = JsonGelbooruPostDeserializer()

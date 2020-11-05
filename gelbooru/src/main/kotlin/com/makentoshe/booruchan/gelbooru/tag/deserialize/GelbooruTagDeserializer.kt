@@ -37,10 +37,10 @@ class XmlGelbooruTagDeserializer : XmlGelbooruDeserializer(), GelbooruTagDeseria
         try {
             Result.success(XmlGelbooruTagDeserialize(mapper.readValue(xml)))
         } catch (exception: Exception) {
-            Result.failure(EntityDeserializeException(mapper.readValue(xml), exception))
+            Result.failure(EntityDeserializeException(string, mapper.readValue(xml), exception))
         }
     } catch (exception: Exception) {
-        Result.failure(DeserializeException(exception, exception.localizedMessage))
+        Result.failure(DeserializeException(string, exception, exception.localizedMessage))
     }
 }
 
@@ -54,9 +54,9 @@ class JsonGelbooruTagDeserializer : GelbooruTagDeserializer {
         try {
             Result.success(JsonGelbooruTagDeserialize(mapper.readValue(json)))
         } catch (exception: Exception) {
-            Result.failure(EntityDeserializeException(mapper.readValue(string), exception))
+            Result.failure(EntityDeserializeException(string, mapper.readValue(string), exception))
         }
     } catch (exception: Exception) {
-        Result.failure(DeserializeException(exception, exception.localizedMessage))
+        Result.failure(DeserializeException(string, exception, exception.localizedMessage))
     }
 }
