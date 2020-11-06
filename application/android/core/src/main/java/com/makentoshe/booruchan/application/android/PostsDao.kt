@@ -15,7 +15,7 @@ interface PostsDao {
     fun getAll(): List<PostsDeserializeWrapper>
 
     @Query("SELECT * FROM PostsDeserializes WHERE filterUrl = :filterUrl")
-    fun getByFilterUrl(filterUrl: String): PostsDeserializeWrapper
+    fun getByFilterUrl(filterUrl: String): PostsDeserializeWrapper?
 
     @Query("DELETE FROM PostsDeserializes")
     fun clear()
