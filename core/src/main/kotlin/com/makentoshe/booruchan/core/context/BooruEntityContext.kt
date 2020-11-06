@@ -4,7 +4,7 @@ import com.makentoshe.booruchan.core.network.Request
 
 abstract class BooruEntityContext<Req: Request, Res>(
     private val network: suspend (Req) -> Result<String>,
-    private val deserialize: (String) -> Result<Res>
+    val deserialize: (String) -> Result<Res>
 ) {
 
     suspend fun get(request: Req): Result<Res> {
