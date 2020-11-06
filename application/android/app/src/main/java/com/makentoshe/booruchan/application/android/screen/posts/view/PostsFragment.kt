@@ -8,10 +8,12 @@ import androidx.fragment.app.Fragment
 import com.arasthel.spannedgridlayoutmanager.SpannedGridLayoutManager
 import com.makentoshe.booruchan.application.android.R
 import com.makentoshe.booruchan.application.android.screen.posts.viewmodel.PostsFragmentViewModel
+import com.makentoshe.booruchan.application.core.ArenaStorageException
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.fragment_posts.*
 import toothpick.ktp.delegate.inject
+import javax.net.ssl.SSLPeerUnverifiedException
 
 class PostsFragment : Fragment() {
 
@@ -39,12 +41,26 @@ class PostsFragment : Fragment() {
         fragment_posts_recycler.adapter = viewModel.postsAdapter
 
         viewModel.initialSignal.observeOn(AndroidSchedulers.mainThread()).subscribe {
+            fragment_posts_progress.visibility = View.GONE
             if (it.isSuccess) {
                 fragment_posts_recycler.visibility = View.VISIBLE
-                fragment_posts_progress.visibility = View.GONE
             } else {
-                // TODO add displaying initial error
-                println(it)
+                when (val exception = it.exceptionOrNull()){
+                    is ArenaStorageException -> {
+                        when(val cause = exception.cause) {
+                            is SSLPeerUnverifiedException -> {
+                                fragment_posts_title.text = "There is a network error"
+                                fragment_posts_message.text = cause.toString()
+                            }
+                        }
+                    }
+                    else -> {
+                        fragment_posts_title.text = "There is an unknown error"
+                        fragment_posts_message.text = exception.toString()
+                    }
+                }
+                fragment_posts_title.visibility = View.VISIBLE
+                fragment_posts_message.visibility = View.VISIBLE
             }
         }.let(disposables::add)
     }
