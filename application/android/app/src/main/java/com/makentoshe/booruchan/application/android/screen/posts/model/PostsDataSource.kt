@@ -7,6 +7,7 @@ import com.makentoshe.booruchan.core.post.deserialize.PostDeserialize
 import com.makentoshe.booruchan.core.post.deserialize.PostsDeserialize
 import com.makentoshe.booruchan.core.post.network.PostsFilter
 import io.reactivex.rxjava3.subjects.BehaviorSubject
+import io.reactivex.rxjava3.subjects.Subject
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.isActive
@@ -28,17 +29,33 @@ class PostsDataSource(
         }
     }
 
-    // Indicates that the initial bath of data was already loaded
-    val initialSignal = BehaviorSubject.create<Unit>()
+    // Indicates that the initial load was finished
+    val initialSignal: Subject<Result<*>> = BehaviorSubject.create()
+    // Stores last [loadInitial] arguments for retrying
+    private lateinit var lastInitialSnapshot: LastInitialSnapshot
 
-    override fun loadInitial(params: LoadInitialParams<Int>, callback: LoadInitialCallback<Int, Result<PostDeserialize<Post>>>) {
+    fun retryLoadInitial() {
+        loadInitial(lastInitialSnapshot.params, lastInitialSnapshot.callback)
+    }
+
+    override fun loadInitial(
+        params: LoadInitialParams<Int>, callback: LoadInitialCallback<Int, Result<PostDeserialize<Post>>>
+    ) {
+        lastInitialSnapshot = LastInitialSnapshot(params, callback)
         coroutineScope.launch(Dispatchers.IO) {
             println("Initial isActive=${isActive} ${Thread.currentThread()} ${params.requestedLoadSize}")
-            val result = postsArena.suspendFetch(filterBuilder.build(params.requestedLoadSize, 0))
-            val success = result.getOrNull() ?: throw result.exceptionOrNull()!!
-            callback.onResult(success.deserializes, null, 1)
-            initialSignal.onNext(Unit)
+            suspendLoadInitial(params, callback)
         }
+    }
+
+    private suspend fun suspendLoadInitial(
+        params: LoadInitialParams<Int>, callback: LoadInitialCallback<Int, Result<PostDeserialize<Post>>>
+    ) {
+        val result = postsArena.suspendFetch(filterBuilder.build(params.requestedLoadSize, 0))
+        // if null - call signal with exception result and finish execution
+        val success = result.getOrNull() ?: return initialSignal.onNext(result)
+        callback.onResult(success.deserializes, null, 1)
+        initialSignal.onNext(result)
     }
 
     override fun loadAfter(params: LoadParams<Int>, callback: LoadCallback<Int, Result<PostDeserialize<Post>>>) {
@@ -49,5 +66,10 @@ class PostsDataSource(
             callback.onResult(success.deserializes, params.key + 1)
         }
     }
+
+    internal data class LastInitialSnapshot(
+        val params: LoadInitialParams<Int>,
+        val callback: LoadInitialCallback<Int, Result<PostDeserialize<Post>>>
+    )
 }
 

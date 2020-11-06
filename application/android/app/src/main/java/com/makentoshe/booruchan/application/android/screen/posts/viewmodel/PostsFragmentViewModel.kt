@@ -25,7 +25,9 @@ class PostsFragmentViewModel(
     val postsAdapter by lazy { PostsPagedAdapter().apply { submitList(getPagedList()) } }
 
     // Indicates that the initial bath of data was already loaded
-    val initialSignal: Observable<Unit> = postsDataSource.initialSignal
+    val initialSignal: Observable<Result<*>> = postsDataSource.initialSignal
+
+    fun retryLoadInitial() = postsDataSource.retryLoadInitial()
 
     private fun getPagedList(): PagedList<Result<PostDeserialize<Post>>> {
         val config = PagedList.Config.Builder().setEnablePlaceholders(false).setPageSize(30).build()

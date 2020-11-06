@@ -39,8 +39,13 @@ class PostsFragment : Fragment() {
         fragment_posts_recycler.adapter = viewModel.postsAdapter
 
         viewModel.initialSignal.observeOn(AndroidSchedulers.mainThread()).subscribe {
-            fragment_posts_recycler.visibility = View.VISIBLE
-            fragment_posts_progress.visibility = View.GONE
+            if (it.isSuccess) {
+                fragment_posts_recycler.visibility = View.VISIBLE
+                fragment_posts_progress.visibility = View.GONE
+            } else {
+                // TODO add displaying initial error
+                println(it)
+            }
         }.let(disposables::add)
     }
 
