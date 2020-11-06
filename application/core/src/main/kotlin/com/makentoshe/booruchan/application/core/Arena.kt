@@ -19,9 +19,18 @@ abstract class Arena<in F : Filter, T>(private val arenaStorage: ArenaStorage<F,
     /** Performs main network operation */
     internal abstract suspend fun internalSuspendFetch(filter: F): Result<T>
 
-    suspend fun suspendFetch(filter: F): Result<T> = try {
-        this.internalSuspendFetch(filter).apply { arenaStorage.carry(filter, this) }
-    } catch (exception: Exception) {
-        arenaStorage.fetch(filter)
+    suspend fun suspendFetch(filter: F): Result<T> {
+        try {
+            val networkFetch = this.internalSuspendFetch(filter)//.apply { arenaStorage.carry(filter, this) }
+            if (networkFetch.isSuccess) return networkFetch
+
+            throw networkFetch.exceptionOrNull()!!
+        } catch (exception: Exception) {
+            val fetchedResult = arenaStorage.fetch(filter)
+            if (fetchedResult.isSuccess) return fetchedResult
+
+            val fetchedException = fetchedResult.exceptionOrNull() as ArenaStorageException
+            return Result.failure(fetchedException.initCause(exception))
+        }
     }
 }
