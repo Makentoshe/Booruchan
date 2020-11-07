@@ -34,6 +34,7 @@ class PostsDataSource(
     // Stores last [loadInitial] arguments for retrying
     private lateinit var lastInitialSnapshot: LastInitialSnapshot
 
+    /** Reruns last [loadInitial] */
     fun retryLoadInitial() {
         loadInitial(lastInitialSnapshot.params, lastInitialSnapshot.callback)
     }
@@ -58,18 +59,41 @@ class PostsDataSource(
         initialSignal.onNext(result)
     }
 
+    // Indicates that the after load was finished
+    val afterSignal: Subject<Result<*>> = BehaviorSubject.create()
+    // Stores last [loadAfter] arguments for retrying
+    private lateinit var lastAfterSnapshot: LastAfterSnapshot
+
+    /** Reruns last [loadAfter] */
+    fun retryLoadAfter() {
+        loadAfter(lastAfterSnapshot.params, lastAfterSnapshot.callback)
+    }
+
     override fun loadAfter(params: LoadParams<Int>, callback: LoadCallback<Int, Result<PostDeserialize<Post>>>) {
+        lastAfterSnapshot = LastAfterSnapshot(params, callback)
         coroutineScope.launch(Dispatchers.IO) {
             println("After isActive=$isActive ${Thread.currentThread()} key=${params.key} size${params.requestedLoadSize}")
-            val result = postsArena.suspendFetch(filterBuilder.build(params.requestedLoadSize, params.key))
-            val success = result.getOrNull() ?: throw result.exceptionOrNull()!!
-            callback.onResult(success.deserializes, params.key + 1)
+            suspendLoadAfter(params, callback)
         }
+    }
+
+    private suspend fun suspendLoadAfter(
+        params: LoadParams<Int>, callback: LoadCallback<Int, Result<PostDeserialize<Post>>>
+    ) {
+        val result = postsArena.suspendFetch(filterBuilder.build(params.requestedLoadSize, params.key))
+        val success = result.getOrNull() ?: return afterSignal.onNext(result)
+        callback.onResult(success.deserializes, params.key + 1)
+        afterSignal.onNext(result)
     }
 
     internal data class LastInitialSnapshot(
         val params: LoadInitialParams<Int>,
         val callback: LoadInitialCallback<Int, Result<PostDeserialize<Post>>>
+    )
+
+    internal data class LastAfterSnapshot(
+        val params: LoadParams<Int>,
+        val callback: LoadCallback<Int, Result<PostDeserialize<Post>>>
     )
 }
 
