@@ -54,7 +54,7 @@ class PostsDataSource(
         val result = postsArena.suspendFetch(filterBuilder.build(params.requestedLoadSize, 0))
         // if null - call signal with exception result and finish execution
         val success = result.getOrNull() ?: return initialSignal.onNext(result)
-        callback.onResult(success.deserializes, null, 1)
+        callback.onResult(success.deserializes, null, 3)
         initialSignal.onNext(result)
     }
 
