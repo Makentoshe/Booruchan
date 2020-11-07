@@ -31,6 +31,7 @@ class PostsPagedAdapter : PagedListAdapter<Result<PostDeserialize<Post>>, PostsV
 
     private fun onBindViewHolderSuccess(holder: PostsViewHolder, position: Int, success: PostDeserialize<Post>) {
         holder.textView.text = "${success.post.htwRatio}\n${success.post.postId}"
+        val url = success.post.previewImage.url
     }
 
     private fun onBindViewHolderException(holder: PostsViewHolder, position: Int, throwable: Throwable? = null) {
@@ -41,4 +42,5 @@ class PostsPagedAdapter : PagedListAdapter<Result<PostDeserialize<Post>>, PostsV
     }
 
 }
+
 
