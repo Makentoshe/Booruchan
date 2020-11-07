@@ -4,11 +4,13 @@ import androidx.lifecycle.ViewModelProviders
 import com.makentoshe.booruchan.application.android.BooruchanDatabase
 import com.makentoshe.booruchan.application.android.di.ApplicationScope
 import com.makentoshe.booruchan.application.android.screen.booru.navigation.BooruNavigation
+import com.makentoshe.booruchan.application.android.screen.posts.model.PostPreviewArenaStorage
 import com.makentoshe.booruchan.application.android.screen.posts.model.PostsArenaStorage
 import com.makentoshe.booruchan.application.android.screen.posts.view.PostsFragment
 import com.makentoshe.booruchan.application.android.screen.posts.viewmodel.PostsFragmentViewModel
+import com.makentoshe.booruchan.application.core.PostImageArena
+import com.makentoshe.booruchan.application.core.PostsArena
 import com.makentoshe.booruchan.application.core.PostsNetworkManager
-import com.makentoshe.booruchan.application.core.arena.PostsArena
 import com.makentoshe.booruchan.core.context.BooruContext
 import com.makentoshe.booruchan.core.post.context.PostsContext
 import com.makentoshe.booruchan.core.post.network.PostsFilter
@@ -19,6 +21,7 @@ import toothpick.Toothpick
 import toothpick.config.Module
 import toothpick.ktp.binding.bind
 import toothpick.ktp.delegate.inject
+import java.io.File
 
 class PostsModule(fragment: PostsFragment) : Module() {
 
@@ -42,7 +45,9 @@ class PostsModule(fragment: PostsFragment) : Module() {
     private fun bindPostsFragmentViewModel(fragment: PostsFragment, booruContext: BooruContext) {
         val postsContext = getPostsBooruContext(booruContext)
         val postsArena = getPostsArena(booruContext, postsContext)
-        val postsFragmentViewModelFactory = PostsFragmentViewModel.Factory(postsArena, postsContext.filterBuilder())
+        val previewArena = getPreviewArena(booruContext, fragment)
+        val postsFragmentViewModelFactory =
+            PostsFragmentViewModel.Factory(postsArena, previewArena, postsContext.filterBuilder())
         val postsFragmentViewModelProvider = ViewModelProviders.of(fragment, postsFragmentViewModelFactory)
         val postsFragmentViewModel = postsFragmentViewModelProvider[PostsFragmentViewModel::class.java]
         bind<PostsFragmentViewModel>().toInstance(postsFragmentViewModel)
@@ -50,7 +55,7 @@ class PostsModule(fragment: PostsFragment) : Module() {
 
     private fun getPostsBooruContext(booruContext: BooruContext): PostsContext<PostsRequest, PostsFilter> {
         val postsNetworkManager = PostsNetworkManager(client)
-        return booruContext.posts{ postsNetworkManager.getPosts(it) } as PostsContext<PostsRequest, PostsFilter>
+        return booruContext.posts { postsNetworkManager.getPosts(it) } as PostsContext<PostsRequest, PostsFilter>
     }
 
     private fun getPostsArena(
@@ -58,4 +63,9 @@ class PostsModule(fragment: PostsFragment) : Module() {
     ) = PostsArena.Builder(booruContext).apply {
         arenaStorage = PostsArenaStorage(database, postsContext)
     }.build(client)
+
+    private fun getPreviewArena(booruContext: BooruContext, fragment: PostsFragment): PostImageArena {
+        val cacheDir = File(fragment.requireContext().cacheDir, booruContext.title)
+        return PostImageArena(client, PostPreviewArenaStorage(cacheDir))
+    }
 }

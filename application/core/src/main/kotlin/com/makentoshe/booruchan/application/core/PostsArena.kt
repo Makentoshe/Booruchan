@@ -1,6 +1,7 @@
-package com.makentoshe.booruchan.application.core.arena
+package com.makentoshe.booruchan.application.core
 
-import com.makentoshe.booruchan.application.core.PostsNetworkManager
+import com.makentoshe.booruchan.application.core.arena.ArenaStorage
+import com.makentoshe.booruchan.application.core.arena.SourceFirstArena
 import com.makentoshe.booruchan.core.context.BooruContext
 import com.makentoshe.booruchan.core.post.Post
 import com.makentoshe.booruchan.core.post.context.PostsContext
