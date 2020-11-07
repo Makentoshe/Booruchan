@@ -7,7 +7,7 @@ import com.makentoshe.booruchan.core.network.Filter
  * cache will be overwritten by the new result. If the network connection interrupted
  * and data exists in the cache it will be loaded.
  */
-abstract class SourceFirstArena<in F: Filter, T>(private val arenaStorage: ArenaStorage<F, T>): Arena<F, T>() {
+abstract class SourceFirstArena<in F : Filter, T>(private val arenaStorage: ArenaStorage<F, T>) : Arena<F, T>() {
 
     override suspend fun suspendFetch(filter: F): Result<T> {
         try {
