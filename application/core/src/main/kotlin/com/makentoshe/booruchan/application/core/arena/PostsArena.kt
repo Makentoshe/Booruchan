@@ -15,8 +15,8 @@ class PostsArena(
     postsArenaStorage: ArenaStorage<PostsFilter, PostsDeserialize<Post>>
 ) : SourceFirstArena<PostsFilter, PostsDeserialize<Post>>(postsArenaStorage) {
 
-    override suspend fun internalSuspendFetch(filter: PostsFilter): Result<PostsDeserialize<Post>> {
-        return postsContext.get(postsContext.buildRequest(filter))
+    override suspend fun internalSuspendFetch(key: PostsFilter): Result<PostsDeserialize<Post>> {
+        return postsContext.get(postsContext.buildRequest(key))
     }
 
     /** Performs easily [PostsArena] object constructing */
