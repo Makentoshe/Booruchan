@@ -10,7 +10,7 @@ import androidx.fragment.app.Fragment
 import com.arasthel.spannedgridlayoutmanager.SpannedGridLayoutManager
 import com.makentoshe.booruchan.application.android.R
 import com.makentoshe.booruchan.application.android.screen.posts.viewmodel.PostsFragmentViewModel
-import com.makentoshe.booruchan.application.core.ArenaStorageException
+import com.makentoshe.booruchan.application.core.arena.ArenaStorageException
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.fragment_posts.*

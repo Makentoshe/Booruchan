@@ -8,7 +8,7 @@ import com.makentoshe.booruchan.application.android.FetchExecutor
 import com.makentoshe.booruchan.application.android.MainExecutor
 import com.makentoshe.booruchan.application.android.screen.posts.model.PostsDataSource
 import com.makentoshe.booruchan.application.android.screen.posts.model.PostsPagedAdapter
-import com.makentoshe.booruchan.application.core.Arena
+import com.makentoshe.booruchan.application.core.arena.Arena
 import com.makentoshe.booruchan.core.post.Post
 import com.makentoshe.booruchan.core.post.deserialize.PostDeserialize
 import com.makentoshe.booruchan.core.post.deserialize.PostsDeserialize

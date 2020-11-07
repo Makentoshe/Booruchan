@@ -7,8 +7,8 @@ import com.makentoshe.booruchan.application.android.screen.booru.navigation.Boor
 import com.makentoshe.booruchan.application.android.screen.posts.model.PostsArenaStorage
 import com.makentoshe.booruchan.application.android.screen.posts.view.PostsFragment
 import com.makentoshe.booruchan.application.android.screen.posts.viewmodel.PostsFragmentViewModel
-import com.makentoshe.booruchan.application.core.PostsArena
 import com.makentoshe.booruchan.application.core.PostsNetworkManager
+import com.makentoshe.booruchan.application.core.arena.PostsArena
 import com.makentoshe.booruchan.core.context.BooruContext
 import com.makentoshe.booruchan.core.post.context.PostsContext
 import com.makentoshe.booruchan.core.post.network.PostsFilter

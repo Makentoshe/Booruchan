@@ -1,4 +1,4 @@
-package com.makentoshe.booruchan.application.core
+package com.makentoshe.booruchan.application.core.arena
 
 /**
  * Performs main storage operation for the arenas

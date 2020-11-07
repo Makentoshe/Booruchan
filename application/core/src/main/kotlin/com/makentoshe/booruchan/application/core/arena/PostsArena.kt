@@ -1,5 +1,6 @@
-package com.makentoshe.booruchan.application.core
+package com.makentoshe.booruchan.application.core.arena
 
+import com.makentoshe.booruchan.application.core.PostsNetworkManager
 import com.makentoshe.booruchan.core.context.BooruContext
 import com.makentoshe.booruchan.core.post.Post
 import com.makentoshe.booruchan.core.post.context.PostsContext
@@ -12,7 +13,7 @@ import io.ktor.client.*
 class PostsArena(
     private val postsContext: PostsContext<PostsRequest, PostsFilter>,
     postsArenaStorage: ArenaStorage<PostsFilter, PostsDeserialize<Post>>
-) : Arena<PostsFilter, PostsDeserialize<Post>>(postsArenaStorage) {
+) : SourceFirstArena<PostsFilter, PostsDeserialize<Post>>(postsArenaStorage) {
 
     override suspend fun internalSuspendFetch(filter: PostsFilter): Result<PostsDeserialize<Post>> {
         return postsContext.get(postsContext.buildRequest(filter))
