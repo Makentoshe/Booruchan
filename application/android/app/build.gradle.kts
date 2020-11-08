@@ -99,6 +99,11 @@ dependencies {
     val spannedGridLayoutManager = "3.0.2"
     implementation("com.arasthel:spannedgridlayoutmanager:$spannedGridLayoutManager")
 
+    // Shimmer effect
+    // https://github.com/facebook/shimmer-android
+    val shimmer = properties["version.facebook.shimmer"]
+    implementation("com.facebook.shimmer:shimmer:$shimmer")
+
     val core = properties["version.androidx.core"]
     implementation("androidx.core:core-ktx:$core")
 

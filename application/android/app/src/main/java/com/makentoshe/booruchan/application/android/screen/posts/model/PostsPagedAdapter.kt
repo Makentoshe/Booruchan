@@ -33,7 +33,8 @@ class PostsPagedAdapter(
     }
 
     override fun onBindViewHolder(holder: PostsViewHolder, position: Int) {
-        holder.preview.setImageDrawable(null)
+        holder.preview.setImageResource(R.color.dimmed)
+        holder.shimmer.showShimmer(true)
 
         getItem(position).fold({ success ->
             onBindViewHolderSuccess(holder, position, success)
@@ -50,7 +51,10 @@ class PostsPagedAdapter(
             Log.d(javaClass.simpleName, "$position Finish preview: $result")
             if (result.isSuccess) {
                 val bitmap = BitmapFactory.decodeStream(ByteArrayInputStream(result.getOrNull()!!))
-                coroutineScope.launch(Dispatchers.Main) { holder.preview.setImageBitmap(bitmap) }
+                coroutineScope.launch(Dispatchers.Main) {
+                    holder.preview.setImageBitmap(bitmap)
+                    holder.shimmer.hideShimmer()
+                }
             } else {
                 onBindViewHolderException(holder, position, result.exceptionOrNull())
             }

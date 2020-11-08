@@ -11,11 +11,20 @@
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent" />
 
-    <ImageView
-        android:id="@+id/fragment_posts_item_preview"
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/fragment_posts_item_shimmer"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scaleType="centerCrop"
-        tools:ignore="ContentDescription" />
+        app:shimmer_duration="2000"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/fragment_posts_item_preview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@color/dimmed"
+            tools:ignore="ContentDescription" />
+
+    </com.facebook.shimmer.ShimmerFrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
