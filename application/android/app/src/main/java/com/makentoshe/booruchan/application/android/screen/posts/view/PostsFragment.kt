@@ -47,6 +47,17 @@ class PostsFragment : Fragment() {
 
         viewModel.initialSignal.observeOn(AndroidSchedulers.mainThread())
             .subscribe(::onInitialLoad).let(disposables::add)
+
+        fragment_posts_retry.setOnClickListener { onInitialLoadRetry() }
+    }
+
+    private fun onInitialLoadRetry() {
+        viewModel.retryLoadInitial()
+
+        fragment_posts_progress.visibility = View.VISIBLE
+        fragment_posts_retry.visibility = View.GONE
+        fragment_posts_title.visibility = View.GONE
+        fragment_posts_message.visibility = View.GONE
     }
 
     private fun onInitialLoad(result: Result<*>) {
@@ -54,12 +65,17 @@ class PostsFragment : Fragment() {
         if (result.isSuccess) {
             fragment_posts_recycler.visibility = View.VISIBLE
         } else {
-            val entry = fragmentExceptionHandler.handleException(result.exceptionOrNull())
-            fragment_posts_title.text = entry.title
-            fragment_posts_title.visibility = View.VISIBLE
-            fragment_posts_message.text = entry.message
-            fragment_posts_message.visibility = View.VISIBLE
+            onInitialLoadFailure(result.exceptionOrNull())
         }
+    }
+
+    private fun onInitialLoadFailure(exception: Throwable?) {
+        val entry = fragmentExceptionHandler.handleException(exception)
+        fragment_posts_title.text = entry.title
+        fragment_posts_title.visibility = View.VISIBLE
+        fragment_posts_message.text = entry.message
+        fragment_posts_message.visibility = View.VISIBLE
+        fragment_posts_retry.visibility = View.VISIBLE
     }
 
     override fun onDestroy() {
@@ -99,14 +115,15 @@ class PostsFragment : Fragment() {
             return Entry("There is an unknown error", exception?.message.toString())
         }
 
-        private fun handleArenaStorageException(exception: ArenaStorageException): Entry = when (val cause = exception.cause) {
-            // provider blocks   the host
-            is SSLPeerUnverifiedException -> Entry("There is a network error", cause.toString())
-            // internet connection disabled
-            is UnknownHostException -> Entry("There is a network error", cause.toString())
+        private fun handleArenaStorageException(exception: ArenaStorageException): Entry =
+            when (val cause = exception.cause) {
+                // provider blocks the host
+                is SSLPeerUnverifiedException -> Entry("There is a network error", cause.toString())
+                // internet connection disabled
+                is UnknownHostException -> Entry("There is a network error", cause.toString())
 
-            else -> Entry("There is a cache error", cause.toString())
-        }
+                else -> Entry("There is an unknown cache error", exception.toString())
+            }
 
         data class Entry(val title: String, val message: String, val image: Drawable? = null)
     }

@@ -15,6 +15,7 @@ class PostsArenaStorage(
 ) : ArenaStorage<PostsFilter, PostsDeserialize<Post>> {
 
     override fun fetch(key: PostsFilter): Result<PostsDeserialize<Post>> {
+        database.postsDao().clear()
         val postsDeserializeWrapper = database.postsDao().getByFilterUrl(key.toUrl())
             ?: return Result.failure(ArenaStorageException("Could not receive record by key: ${key.toUrl()}"))
         return postsContext.deserialize.invoke(postsDeserializeWrapper.rawValue)

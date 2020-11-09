@@ -17,17 +17,15 @@ class PostPreviewArenaStorage(
     override fun fetch(key: Image): Result<ByteArray> = try {
         val cacheDirectory = File(cacheRootDirectory, previewCacheDirectoryTitle)
         val file = File(cacheDirectory, key.name)
-        println("Load: ${file.absolutePath}")
         if (!file.exists()) throw Exception()
         Result.success(FileInputStream(file).use { it.readBytes() })
     } catch (exception: Exception) {
-        Result.failure(ArenaStorageException("Could not receive a record by key: ${key.name}", exception))
+        Result.failure(ArenaStorageException("Could not receive a record by key: ${key.name}").initCause(exception))
     }
 
     override fun carry(key: Image, value: ByteArray) {
         val cacheDirectory = File(cacheRootDirectory, previewCacheDirectoryTitle)
         val file = File(cacheDirectory, key.name)
-        println("Save: ${file.absolutePath}")
         if (file.parentFile?.exists() == false) file.parentFile?.mkdirs()
         file.writeBytes(value)
     }

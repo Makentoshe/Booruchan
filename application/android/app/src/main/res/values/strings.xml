@@ -5,4 +5,8 @@
     <string name="booru_navigation_account">Account</string>
     <string name="booru_navigation_posts">Posts</string>
     <string name="booru_navigation_menu">Menu</string>
+
+    <!-- Posts screen -->
+    <string name="posts_button_retry">Retry</string>
+
 </resources>
