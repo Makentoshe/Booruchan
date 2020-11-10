@@ -1,11 +1,14 @@
 package com.makentoshe.booruchan.application.android.screen.posts.view
 
 import android.content.Context
+import android.content.res.ColorStateList
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.core.view.forEach
 import androidx.fragment.app.Fragment
 import com.arasthel.spannedgridlayoutmanager.SpannedGridLayoutManager
 import com.makentoshe.booruchan.application.android.R
@@ -39,6 +42,15 @@ class PostsFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        fragment_posts_toolbar.title = arguments.booruContextTitle
+        fragment_posts_toolbar.menu.forEach { item ->
+            item.iconTintList = ColorStateList.valueOf(resources.getColor(R.color.dimmed, requireContext().theme))
+        }
+        fragment_posts_toolbar.setOnMenuItemClickListener {
+            Toast.makeText(requireContext(), "Search", Toast.LENGTH_LONG).show()
+            return@setOnMenuItemClickListener true
+        }
+
         val spannedGridLayoutManager = SpannedGridLayoutManager(SpannedGridLayoutManager.Orientation.VERTICAL, 3)
         spannedGridLayoutManager.spanSizeLookup = SpannedGridLayoutManagerLookup(viewModel.postsAdapter)
         fragment_posts_recycler.layoutManager = spannedGridLayoutManager

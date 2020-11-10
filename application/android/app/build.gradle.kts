@@ -34,6 +34,10 @@ android {
         // Allows to use kotlin.Result type as a return
         kotlinOptions.freeCompilerArgs = listOf("-Xallow-result-return-type")
     }
+    kotlinOptions {
+        // for inlining bytecode for some methods
+        jvmTarget = JavaVersion.VERSION_1_8.toString()
+    }
 }
 
 dependencies {

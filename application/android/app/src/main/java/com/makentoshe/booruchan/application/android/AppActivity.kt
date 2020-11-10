@@ -18,7 +18,7 @@ class AppActivity : AppCompatActivity() {
     private val router by inject<Router>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
-//        AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_NO)
+        AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_NO)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_app)
 

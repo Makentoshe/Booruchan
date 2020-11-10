@@ -16,8 +16,13 @@
         <item name="android:background">@color/background</item>
         <item name="android:textSize">@dimen/toolbar_text_size</item>
         <item name="android:textColor">@color/text</item>
+        <item name="android:actionOverflowButtonStyle">@style/ActionOverflowButtonStyle</item>
     </style>
     
+    <style name="ActionOverflowButtonStyle" parent="Widget.AppCompat.ActionButton.Overflow">
+        <item name="android:tint">@color/dimmed</item>
+    </style>
+
     <style name="Default.Separator">
         <item name="android:background">@color/separator</item>
     </style>
