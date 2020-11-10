@@ -18,7 +18,7 @@ class PostsDataSource(
     private val postsArena: Arena<PostsFilter, PostsDeserialize<Post>>,
     private val filterBuilder: PostsFilter.Builder,
     private val coroutineScope: CoroutineScope
-) : PageKeyedDataSource<Int, Result<PostDeserialize<Post>>>() {
+) : PageKeyedDataSource<Int, Result<PostDeserialize<Post>>>(), PostsDataSourceAfter {
 
     override fun loadBefore(params: LoadParams<Int>, callback: LoadCallback<Int, Result<PostDeserialize<Post>>>) {
         coroutineScope.launch(Dispatchers.IO) {
@@ -31,6 +31,7 @@ class PostsDataSource(
 
     // Indicates that the initial load was finished
     val initialSignal: Subject<Result<*>> = BehaviorSubject.create()
+
     // Stores last [loadInitial] arguments for retrying
     private lateinit var lastInitialSnapshot: LastInitialSnapshot
 
@@ -60,12 +61,13 @@ class PostsDataSource(
     }
 
     // Indicates that the after load was finished
-    val afterSignal: Subject<Result<*>> = BehaviorSubject.create()
+    override val afterSignal: BehaviorSubject<Result<*>> = BehaviorSubject.create()
+
     // Stores last [loadAfter] arguments for retrying
     private lateinit var lastAfterSnapshot: LastAfterSnapshot
 
     /** Reruns last [loadAfter] */
-    fun retryLoadAfter() {
+    override fun retryLoadAfter() {
         loadAfter(lastAfterSnapshot.params, lastAfterSnapshot.callback)
     }
 

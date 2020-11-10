@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <View
+        style="@style/Default.Separator"
+        android:id="@+id/fragment_posts_footer_separator"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/separator_height"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ProgressBar
+        style="@style/Default.Progress"
+        android:id="@+id/fragment_posts_footer_progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dimenS"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/fragment_posts_footer_separator"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:visibility="invisible"
+        style="@style/Default.Text.Support"
+        android:id="@+id/fragment_posts_footer_message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/holo_purple"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="@dimen/dimenS"
+        app:layout_constraintTop_toBottomOf="@id/fragment_posts_footer_separator" />
+
+    <com.google.android.material.button.MaterialButton
+        android:visibility="invisible"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        android:id="@+id/fragment_posts_footer_retry"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/posts_button_retry"
+        android:layout_marginTop="@dimen/dimenS"
+        app:layout_constraintTop_toBottomOf="@id/fragment_posts_footer_message"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

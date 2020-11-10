@@ -16,15 +16,20 @@ private const val HORIZONTAL_RATIO_BORDER = 0.7
 internal class SpannedGridLayoutManagerLookup(
     private val postsAdapter: PostsPagedAdapter
 ) : SpannedGridLayoutManager.SpanSizeLookup({ position ->
-    val post = getPostFromResult(postsAdapter.currentList?.get(position))?.post
-    if (post == null) {
-        // return default span for displaying error while loading/parsing a post
-        SpanSize(1, 1)
+    if (postsAdapter.currentList?.size == position) {
+        // Footer
+        SpanSize(3, 1)
     } else {
-        when {
-            post.htwRatio > VERTICAL_RATIO_BORDER -> SpanSize(1, 2)
-            post.htwRatio < HORIZONTAL_RATIO_BORDER -> SpanSize(2, 1)
-            else -> SpanSize(1, 1)
+        val post = getPostFromResult(postsAdapter.currentList?.get(position))?.post
+        if (post == null) {
+            // return default span for displaying error while loading/parsing a post
+            SpanSize(1, 1)
+        } else {
+            when {
+                post.htwRatio > VERTICAL_RATIO_BORDER -> SpanSize(1, 2)
+                post.htwRatio < HORIZONTAL_RATIO_BORDER -> SpanSize(2, 1)
+                else -> SpanSize(1, 1)
+            }
         }
     }
 })

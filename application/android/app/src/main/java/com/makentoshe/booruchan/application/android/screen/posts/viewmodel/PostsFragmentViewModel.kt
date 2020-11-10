@@ -30,7 +30,7 @@ class PostsFragmentViewModel(
     fun retryLoadInitial() = postsDataSource.retryLoadInitial()
 
     val postsAdapter by lazy {
-        PostsPagedAdapter(previewArena, viewModelScope).apply { submitList(getPagedList()) }
+        PostsPagedAdapter(previewArena, viewModelScope, postsDataSource).apply { submitList(getPagedList()) }
     }
 
     private fun getPagedList(): PagedList<Result<PostDeserialize<Post>>> {
