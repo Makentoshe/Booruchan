@@ -5,15 +5,16 @@ import android.content.res.ColorStateList
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.view.forEach
 import androidx.fragment.app.Fragment
 import com.arasthel.spannedgridlayoutmanager.SpannedGridLayoutManager
 import com.makentoshe.booruchan.application.android.R
 import com.makentoshe.booruchan.application.android.screen.posts.viewmodel.PostsFragmentViewModel
 import com.makentoshe.booruchan.application.core.arena.ArenaStorageException
+import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.fragment_posts.*
@@ -42,25 +43,47 @@ class PostsFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        fragment_posts_toolbar.title = arguments.booruContextTitle
-        fragment_posts_toolbar.menu.forEach { item ->
-            item.iconTintList = ColorStateList.valueOf(resources.getColor(R.color.dimmed, requireContext().theme))
-        }
-        fragment_posts_toolbar.setOnMenuItemClickListener {
-            Toast.makeText(requireContext(), "Search", Toast.LENGTH_LONG).show()
-            return@setOnMenuItemClickListener true
-        }
+        fragment_posts_panel.isTouchEnabled = false
 
-        val spannedGridLayoutManager = SpannedGridLayoutManager(SpannedGridLayoutManager.Orientation.VERTICAL, 3)
-        spannedGridLayoutManager.spanSizeLookup = SpannedGridLayoutManagerLookup(viewModel.postsAdapter)
-        fragment_posts_recycler.layoutManager = spannedGridLayoutManager
-        fragment_posts_recycler.addItemDecoration(SpacesItemDecoration(8f))
-        fragment_posts_recycler.adapter = viewModel.postsAdapter
+        onViewCreatedToolbar(view, savedInstanceState)
+        onViewCreatedRecycler(view, savedInstanceState)
 
         viewModel.initialSignal.observeOn(AndroidSchedulers.mainThread())
             .subscribe(::onInitialLoad).let(disposables::add)
 
         fragment_posts_retry.setOnClickListener { onInitialLoadRetry() }
+    }
+
+    private fun onViewCreatedToolbar(view: View, savedInstanceState: Bundle?) {
+        fragment_posts_toolbar.title = arguments.booruContextTitle
+        fragment_posts_toolbar.menu.forEach { item -> // change menu icons color to dimmed
+            item.iconTintList = ColorStateList.valueOf(resources.getColor(R.color.dimmed, requireContext().theme))
+        }
+        fragment_posts_toolbar.setOnMenuItemClickListener(::onToolbarMenuClick)
+    }
+
+    private fun onToolbarMenuClick(item: MenuItem): Boolean {
+        when(item.groupId) {
+            R.id.posts_toolbar_search_open -> {
+                fragment_posts_panel.panelState = SlidingUpPanelLayout.PanelState.EXPANDED
+                fragment_posts_toolbar.menu.setGroupVisible(R.id.posts_toolbar_search_open, false)
+                fragment_posts_toolbar.menu.setGroupVisible(R.id.posts_toolbar_search_close, true)
+            }
+            R.id.posts_toolbar_search_close -> {
+                fragment_posts_panel.panelState = SlidingUpPanelLayout.PanelState.COLLAPSED
+                fragment_posts_toolbar.menu.setGroupVisible(R.id.posts_toolbar_search_open, true)
+                fragment_posts_toolbar.menu.setGroupVisible(R.id.posts_toolbar_search_close, false)
+            }
+        }
+        return true
+    }
+
+    private fun onViewCreatedRecycler(view: View, savedInstanceState: Bundle?) {
+        val spannedGridLayoutManager = SpannedGridLayoutManager(SpannedGridLayoutManager.Orientation.VERTICAL, 3)
+        spannedGridLayoutManager.spanSizeLookup = SpannedGridLayoutManagerLookup(viewModel.postsAdapter)
+        fragment_posts_recycler.layoutManager = spannedGridLayoutManager
+        fragment_posts_recycler.addItemDecoration(SpacesItemDecoration(8f))
+        fragment_posts_recycler.adapter = viewModel.postsAdapter
     }
 
     private fun onInitialLoadRetry() {
@@ -72,6 +95,7 @@ class PostsFragment : Fragment() {
         fragment_posts_message.visibility = View.GONE
     }
 
+    /** On [viewModel.inisialSignal] receive in ui thread */
     private fun onInitialLoad(result: Result<*>) {
         fragment_posts_progress.visibility = View.GONE
         if (result.isSuccess) {

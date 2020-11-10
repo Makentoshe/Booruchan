@@ -1,9 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <item
-        android:id="@+id/booru_navigation_account"
-        app:showAsAction="always"
-        android:icon="@drawable/ic_magnify"
-        android:title="@string/posts_toolbar_search" />
+
+    <group
+        android:id="@+id/posts_toolbar_search_open"
+        android:visible="true">
+        <item
+            app:showAsAction="ifRoom"
+            android:icon="@drawable/ic_magnify"
+            android:title="@string/posts_toolbar_search" />
+    </group>
+
+    <group
+        android:id="@+id/posts_toolbar_search_close"
+        android:visible="false">
+        <item
+            app:showAsAction="ifRoom"
+            android:icon="@drawable/ic_account_circle"
+            android:title="@string/posts_toolbar_search" />
+    </group>
 </menu>

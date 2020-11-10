@@ -108,6 +108,16 @@ dependencies {
     val shimmer = properties["version.facebook.shimmer"]
     implementation("com.facebook.shimmer:shimmer:$shimmer")
 
+    // Sliding Up Panel Layout
+    // https://github.com/umano/AndroidSlidingUpPanel
+    val slidinguppanel = properties["version.slidinguppanel"]
+    implementation("com.sothree.slidinguppanel:library:$slidinguppanel")
+
+    // Extensions for Fragments (e.g. FragmentContainerView)
+    // https://medium.com/@pavan.careers5208/fragmentcontainerview-c39d8ac376d1
+    val fragment = properties["version.androidx.fragment"]
+    implementation("androidx.fragment:fragment-ktx:$fragment")
+
     val core = properties["version.androidx.core"]
     implementation("androidx.core:core-ktx:$core")
 

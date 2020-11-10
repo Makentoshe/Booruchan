@@ -1,79 +1,99 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:orientation="vertical">
 
     <com.google.android.material.appbar.MaterialToolbar
         style="@style/Default.Toolbar"
         android:id="@+id/fragment_posts_toolbar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/toolbar_height"
-        app:menu="@menu/posts_toolbar"
-        app:layout_constraintTop_toTopOf="parent"
-        android:elevation="@dimen/toolbar_elevation" />
+        android:elevation="@dimen/toolbar_elevation"
+        app:menu="@menu/posts_toolbar" />
 
     <View
         style="@style/Default.Separator"
         android:id="@+id/fragment_posts_separator"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/toolbar_separator_height"
-        app:layout_constraintBottom_toBottomOf="@id/fragment_posts_toolbar" />
+        android:layout_height="@dimen/toolbar_separator_height" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/fragment_posts_recycler"
-        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+    <com.sothree.slidinguppanel.SlidingUpPanelLayout
+        android:id="@+id/fragment_posts_panel"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:paddingTop="@dimen/dimenS"
-        android:clipToPadding="false"
-        android:layout_marginHorizontal="@dimen/dimenXS"
-        app:layout_constraintTop_toBottomOf="@id/fragment_posts_separator"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        android:layout_height="match_parent"
+        app:umanoPanelHeight="0dp"
+        android:gravity="top">
 
-    <ProgressBar
-        style="?attr/booruchanProgress"
-        android:id="@+id/fragment_posts_progress"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/fragment_posts_separator"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-    <TextView
-        android:visibility="gone"
-        style="@style/Default.Text.Main"
-        android:id="@+id/fragment_posts_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/fragment_posts_separator" />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/fragment_posts_recycler"
+                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:paddingTop="@dimen/dimenS"
+                android:clipToPadding="false"
+                android:layout_marginHorizontal="@dimen/dimenXS"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent" />
 
-    <TextView
-        android:visibility="gone"
-        style="@style/Default.Text.Support"
-        android:id="@+id/fragment_posts_message"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:paddingHorizontal="@dimen/dimenL"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/fragment_posts_separator" />
+            <ProgressBar
+                style="?attr/booruchanProgress"
+                android:id="@+id/fragment_posts_progress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent" />
 
-    <com.google.android.material.button.MaterialButton
-        android:visibility="gone"
-        style="@style/Widget.MaterialComponents.Button.TextButton"
-        android:id="@+id/fragment_posts_retry"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/posts_button_retry"
-        android:layout_marginTop="@dimen/dimenL"
-        app:layout_constraintTop_toBottomOf="@id/fragment_posts_message"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+            <TextView
+                android:visibility="gone"
+                style="@style/Default.Text.Main"
+                android:id="@+id/fragment_posts_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+            <TextView
+                android:visibility="gone"
+                style="@style/Default.Text.Support"
+                android:id="@+id/fragment_posts_message"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:paddingHorizontal="@dimen/dimenL"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.google.android.material.button.MaterialButton
+                android:visibility="gone"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:id="@+id/fragment_posts_retry"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/posts_button_retry"
+                android:layout_marginTop="@dimen/dimenL"
+                app:layout_constraintTop_toBottomOf="@id/fragment_posts_message"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/fragment_posts_search"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/holo_purple" />
+
+    </com.sothree.slidinguppanel.SlidingUpPanelLayout>
+
+</LinearLayout>

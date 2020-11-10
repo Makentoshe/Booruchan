@@ -3,8 +3,6 @@ package com.makentoshe.booruchan.application.android
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.app.AppCompatDelegate
-import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_NO
 import com.makentoshe.booruchan.application.android.screen.start.navigation.StartScreen
 import ru.terrakok.cicerone.NavigatorHolder
 import ru.terrakok.cicerone.Router
@@ -18,7 +16,7 @@ class AppActivity : AppCompatActivity() {
     private val router by inject<Router>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_NO)
+//        AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_NO)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_app)
 
