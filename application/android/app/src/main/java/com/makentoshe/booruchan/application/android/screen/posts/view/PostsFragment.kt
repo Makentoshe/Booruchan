@@ -20,6 +20,7 @@ import io.reactivex.rxjava3.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.fragment_posts.*
 import toothpick.ktp.delegate.inject
 import java.net.UnknownHostException
+import javax.net.ssl.SSLHandshakeException
 import javax.net.ssl.SSLPeerUnverifiedException
 
 class PostsFragment : Fragment() {
@@ -157,6 +158,8 @@ class PostsFragment : Fragment() {
                 is SSLPeerUnverifiedException -> Entry("There is a network error", cause.toString())
                 // internet connection disabled
                 is UnknownHostException -> Entry("There is a network error", cause.toString())
+
+                is SSLHandshakeException -> Entry("There is a network error", cause.toString())
 
                 else -> Entry("There is an unknown cache error", exception.toString())
             }
