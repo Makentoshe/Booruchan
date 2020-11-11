@@ -3,5 +3,6 @@
     <attr name="booruchanToolbar" format="reference" />
     <attr name="booruchanSeparator" format="reference" />
     <attr name="booruchanProgress" format="reference" />
+    <attr name="booruchanAutocomplete" format="reference" />
 
 </resources>

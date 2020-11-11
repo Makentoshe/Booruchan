@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.google.android.material.textfield.TextInputLayout
+        style="?attr/booruchanAutocomplete"
+        android:id="@+id/fragment_search_posts_input"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/toolbar_height"
+        app:endIconMode="clear_text"
+        android:hint="@string/posts_search_hint"
+        android:layout_marginTop="@dimen/dimenM"
+        android:layout_marginHorizontal="@dimen/dimenS"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.textfield.MaterialAutoCompleteTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:inputType="textAutoComplete" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -10,6 +10,7 @@
         <item name="booruchanSeparator">@style/Default.Separator</item>
         <item name="booruchanToolbar">@style/Default.Toolbar</item>
         <item name="booruchanProgress">@style/Default.Progress</item>
+        <item name="booruchanAutocomplete">@style/Default.Autocomplete</item>
     </style>
 
     <style name="Default.Toolbar">
@@ -18,7 +19,7 @@
         <item name="android:textColor">@color/text</item>
         <item name="android:actionOverflowButtonStyle">@style/ActionOverflowButtonStyle</item>
     </style>
-    
+
     <style name="ActionOverflowButtonStyle" parent="Widget.AppCompat.ActionButton.Overflow">
         <item name="android:tint">@color/dimmed</item>
     </style>
@@ -42,6 +43,12 @@
 
     <style name="Default.Progress">
         <item name="android:indeterminateTint">@color/dimmed</item>
+    </style>
+
+    <style name="Default.Autocomplete" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
+        <item name="boxStrokeColor">@color/text_outline_states</item>
+        <item name="colorPrimary">@color/text</item>
+        <item name="hintTextColor">@color/text</item>
     </style>
 
 </resources>

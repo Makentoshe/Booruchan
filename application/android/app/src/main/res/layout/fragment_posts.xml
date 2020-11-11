@@ -93,7 +93,8 @@
             android:id="@+id/fragment_posts_search"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@android:color/holo_purple" />
+            android:background="@color/background"
+            android:name="com.makentoshe.booruchan.application.android.screen.search.PostsSearchFragment" />
 
     </com.sothree.slidinguppanel.SlidingUpPanelLayout>
 
