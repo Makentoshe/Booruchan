@@ -12,5 +12,6 @@
     <string name="posts_footer_content_error">A some troubles occurs while networking</string>
     <string name="posts_toolbar_search">Searching preferences</string>
     <string name="posts_search_hint">Ex: blue_sky cloud 1girl</string>
+    <string name="posts_search_rating">Rating</string>
 
 </resources>

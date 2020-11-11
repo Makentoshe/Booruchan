@@ -1,26 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/fragment_search_posts_guideline_start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="@dimen/dimenS" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/fragment_search_posts_guideline_end"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_end="@dimen/dimenS" />
 
     <com.google.android.material.textfield.TextInputLayout
-        style="?attr/booruchanAutocomplete"
         android:id="@+id/fragment_search_posts_input"
-        android:layout_width="match_parent"
+        style="?attr/booruchanAutocomplete"
+        android:layout_width="0dp"
         android:layout_height="@dimen/toolbar_height"
-        app:endIconMode="clear_text"
         android:hint="@string/posts_search_hint"
+        app:endIconMode="clear_text"
         android:layout_marginTop="@dimen/dimenM"
-        android:layout_marginHorizontal="@dimen/dimenS"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="@id/fragment_search_posts_guideline_start"
+        app:layout_constraintEnd_toEndOf="@id/fragment_search_posts_guideline_end">
 
         <com.google.android.material.textfield.MaterialAutoCompleteTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:maxLines="1"
-            android:inputType="textAutoComplete" />
+            android:inputType="textAutoComplete"
+            android:maxLines="1" />
 
     </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        style="@style/Default.Text.Support"
+        android:id="@+id/fragment_search_posts_rating_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/posts_search_rating"
+        android:layout_marginTop="@dimen/dimenS"
+        app:layout_constraintTop_toBottomOf="@id/fragment_search_posts_input"
+        app:layout_constraintStart_toStartOf="@id/fragment_search_posts_guideline_start" />
+
+    <com.google.android.material.button.MaterialButtonToggleGroup
+        android:id="@+id/fragment_search_posts_rating_toggle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:singleSelection="true"
+        app:selectionRequired="false"
+        app:layout_constraintTop_toBottomOf="@id/fragment_search_posts_rating_text"
+        app:layout_constraintStart_toStartOf="@id/fragment_search_posts_guideline_start"
+        app:layout_constraintEnd_toEndOf="@id/fragment_search_posts_guideline_end">
+
+        <Button
+            style="?attr/booruchanButtonToggle"
+            android:id="@+id/fragment_search_posts_rating_toggle_safe"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Safe" />
+
+        <Button
+            style="?attr/booruchanButtonToggle"
+            android:id="@+id/fragment_search_posts_rating_toggle_questionable"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Questionable" />
+
+        <Button
+            style="?attr/booruchanButtonToggle"
+            android:id="@+id/fragment_search_posts_rating_toggle_explicit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Explicit" />
+
+    </com.google.android.material.button.MaterialButtonToggleGroup>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
