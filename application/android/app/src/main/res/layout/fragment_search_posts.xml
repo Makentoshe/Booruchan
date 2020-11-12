@@ -38,13 +38,15 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
+
+
     <TextView
         style="@style/Default.Text.Support"
-        android:id="@+id/fragment_search_posts_rating_text"
+        android:id="@+id/fragment_search_posts_rating_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/posts_search_rating"
-        android:layout_marginTop="@dimen/dimenS"
+        android:layout_marginTop="@dimen/dimenM"
         app:layout_constraintTop_toBottomOf="@id/fragment_search_posts_input"
         app:layout_constraintStart_toStartOf="@id/fragment_search_posts_guideline_start" />
 
@@ -54,7 +56,7 @@
         android:layout_height="wrap_content"
         app:singleSelection="true"
         app:selectionRequired="false"
-        app:layout_constraintTop_toBottomOf="@id/fragment_search_posts_rating_text"
+        app:layout_constraintTop_toBottomOf="@id/fragment_search_posts_rating_title"
         app:layout_constraintStart_toStartOf="@id/fragment_search_posts_guideline_start"
         app:layout_constraintEnd_toEndOf="@id/fragment_search_posts_guideline_end">
 
@@ -63,22 +65,92 @@
             android:id="@+id/fragment_search_posts_rating_toggle_safe"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Safe" />
+            android:text="@string/rating_type_safe" />
 
         <Button
             style="?attr/booruchanButtonToggle"
             android:id="@+id/fragment_search_posts_rating_toggle_questionable"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Questionable" />
+            android:text="@string/rating_type_questionable" />
 
         <Button
             style="?attr/booruchanButtonToggle"
             android:id="@+id/fragment_search_posts_rating_toggle_explicit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Explicit" />
+            android:text="@string/rating_type_explicit" />
 
     </com.google.android.material.button.MaterialButtonToggleGroup>
+
+
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/fragment_search_posts_tags_artist"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="fragment_search_posts_tags_artist_title, fragment_search_posts_tags_artist_scroll" />
+
+    <TextView
+        style="@style/Default.Text.Support"
+        android:id="@+id/fragment_search_posts_tags_artist_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/posts_search_tags_artist"
+        android:textColor="@color/tags_artist"
+        android:layout_marginTop="@dimen/dimenS"
+        app:layout_constraintTop_toBottomOf="@id/fragment_search_posts_rating_toggle"
+        app:layout_constraintStart_toStartOf="@id/fragment_search_posts_guideline_start" />
+
+    <HorizontalScrollView
+        android:id="@+id/fragment_search_posts_tags_artist_scroll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/fragment_search_posts_tags_artist_title"
+        app:layout_constraintStart_toStartOf="@id/fragment_search_posts_guideline_start"
+        app:layout_constraintEnd_toEndOf="@id/fragment_search_posts_guideline_end">
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/fragment_search_posts_tags_artist_chips"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:singleLine="true" />
+
+    </HorizontalScrollView>
+
+
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/fragment_search_posts_tags_general"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="fragment_search_posts_tags_general_title, fragment_search_posts_tags_general_scroll" />
+
+    <TextView
+        style="@style/Default.Text.Support"
+        android:id="@+id/fragment_search_posts_tags_general_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/posts_search_tags_general"
+        android:textColor="@color/tags_general"
+        android:layout_marginTop="@dimen/dimenS"
+        app:layout_constraintTop_toBottomOf="@id/fragment_search_posts_tags_artist_scroll"
+        app:layout_constraintStart_toStartOf="@id/fragment_search_posts_guideline_start" />
+
+    <HorizontalScrollView
+        android:id="@+id/fragment_search_posts_tags_general_scroll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/fragment_search_posts_tags_general_title"
+        app:layout_constraintStart_toStartOf="@id/fragment_search_posts_guideline_start"
+        app:layout_constraintEnd_toEndOf="@id/fragment_search_posts_guideline_end">
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/fragment_search_posts_tags_general_chips"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:singleLine="true" />
+
+    </HorizontalScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

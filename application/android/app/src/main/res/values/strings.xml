@@ -13,5 +13,11 @@
     <string name="posts_toolbar_search">Searching preferences</string>
     <string name="posts_search_hint">Ex: blue_sky cloud 1girl</string>
     <string name="posts_search_rating">Rating</string>
+    <string name="posts_search_tags_artist">Artist</string>
+    <string name="posts_search_tags_general">General</string>
+
+    <string name="rating_type_safe">Safe</string>
+    <string name="rating_type_questionable">Questionable</string>
+    <string name="rating_type_explicit">Explicit</string>
 
 </resources>
