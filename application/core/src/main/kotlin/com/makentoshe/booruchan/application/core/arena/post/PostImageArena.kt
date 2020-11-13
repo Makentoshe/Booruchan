@@ -1,4 +1,4 @@
-package com.makentoshe.booruchan.application.core
+package com.makentoshe.booruchan.application.core.arena.post
 
 import com.makentoshe.booruchan.application.core.arena.ArenaStorage
 import com.makentoshe.booruchan.application.core.arena.StorageFirstArena

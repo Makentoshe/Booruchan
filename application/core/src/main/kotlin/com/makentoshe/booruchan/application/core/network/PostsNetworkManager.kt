@@ -1,4 +1,4 @@
-package com.makentoshe.booruchan.application.core
+package com.makentoshe.booruchan.application.core.network
 
 import com.makentoshe.booruchan.core.post.network.PostsNetworkManager
 import com.makentoshe.booruchan.core.post.network.PostsRequest
@@ -25,3 +25,4 @@ class PostsNetworkManager(private val client: HttpClient): PostsNetworkManager<P
         Result.failure(e)
     }
 }
+
