@@ -3,6 +3,7 @@ package com.makentoshe.booruchan.application.android.screen.posts.view
 import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.drawable.Drawable
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.MenuItem
@@ -10,9 +11,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.forEach
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentFactory
 import com.arasthel.spannedgridlayoutmanager.SpannedGridLayoutManager
 import com.makentoshe.booruchan.application.android.R
 import com.makentoshe.booruchan.application.android.screen.posts.viewmodel.PostsFragmentViewModel
+import com.makentoshe.booruchan.application.android.screen.search.PostsSearchFragment
 import com.makentoshe.booruchan.application.core.arena.ArenaStorageException
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
@@ -22,6 +25,14 @@ import toothpick.ktp.delegate.inject
 import java.net.UnknownHostException
 import javax.net.ssl.SSLHandshakeException
 import javax.net.ssl.SSLPeerUnverifiedException
+
+/** Fragment factory for [PostsFragment] allows to delivery arguments to the inner fragments */
+class PostsFragmentFactory(private val booruContextTitle: String) : FragmentFactory() {
+    override fun instantiate(classLoader: ClassLoader, className: String) = when (className) {
+        PostsSearchFragment::class.java.name -> PostsSearchFragment.build(booruContextTitle)
+        else -> super.instantiate(classLoader, className)
+    }
+}
 
 class PostsFragment : Fragment() {
 
@@ -38,6 +49,11 @@ class PostsFragment : Fragment() {
     val arguments = Arguments(this)
 
     private val fragmentExceptionHandler by lazy { FragmentExceptionHandler(requireContext()) }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        childFragmentManager.fragmentFactory = PostsFragmentFactory(arguments.booruContextTitle)
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_posts, container, false)
@@ -58,13 +74,17 @@ class PostsFragment : Fragment() {
     private fun onViewCreatedToolbar(view: View, savedInstanceState: Bundle?) {
         fragment_posts_toolbar.title = arguments.booruContextTitle
         fragment_posts_toolbar.menu.forEach { item -> // change menu icons color to dimmed
-            item.iconTintList = ColorStateList.valueOf(resources.getColor(R.color.dimmed, requireContext().theme))
+            item.iconTintList = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                ColorStateList.valueOf(resources.getColor(R.color.dimmed, requireContext().theme))
+            } else {
+                ColorStateList.valueOf(resources.getColor(R.color.dimmed))
+            }
         }
         fragment_posts_toolbar.setOnMenuItemClickListener(::onToolbarMenuClick)
     }
 
     private fun onToolbarMenuClick(item: MenuItem): Boolean {
-        when(item.groupId) {
+        when (item.groupId) {
             R.id.posts_toolbar_search_open -> {
                 fragment_posts_panel.panelState = SlidingUpPanelLayout.PanelState.EXPANDED
                 fragment_posts_toolbar.menu.setGroupVisible(R.id.posts_toolbar_search_open, false)
