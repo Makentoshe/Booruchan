@@ -1,23 +1,33 @@
 package com.makentoshe.booruchan.gelbooru.tag.network
 
+import com.makentoshe.booruchan.core.network.filter.ContainsFilterEntry
+import com.makentoshe.booruchan.core.network.filter.CountFilterEntry
+import com.makentoshe.booruchan.core.network.filter.FilterEntry
+import com.makentoshe.booruchan.core.network.filter.StartsFilterEntry
 import com.makentoshe.booruchan.core.tag.network.TagsFilter
 
-class GelbooruTagsFilter(params: Map<String, Any>) : TagsFilter(params) {
+class GelbooruTagsFilter(params: List<FilterEntry>) : TagsFilter(params) {
 
-    constructor(count: Int?) : this(buildMap(count))
+    override val firstChar = "&"
 
-    override fun toUrl(): String {
-        if (params.isEmpty()) return ""
-        return params.entries.map { entry -> "&${entry.key}=${entry.value}" }.joinToString("") { it }
-    }
+    class Builder : TagsFilter.Builder() {
 
-    companion object {
-        private const val COUNT = "limit"
+        override val count: CountFilterEntry.Builder
+            get() = CountFilterEntry.Builder("limit")
 
-        private fun buildMap(count: Int?): Map<String, Any> {
-            val params = HashMap<String, Any>()
-            if (count != null) params[COUNT] = count
-            return params
+        override val contains: ContainsFilterEntry.Builder
+            get() = ContainsFilterEntry.Builder("name_pattern", "%25", "%25")
+
+        override val starts: StartsFilterEntry.Builder
+            get() = StartsFilterEntry.Builder("name_pattern", "%25")
+
+        override val availableEntryBuilders: List<FilterEntry.Builder>
+            get() = listOf(count, contains, starts)
+
+        override fun build(entries: List<FilterEntry>) = GelbooruTagsFilter(entries)
+
+        override fun build(vararg entries: FilterEntry): GelbooruTagsFilter {
+            return build(entries.toList())
         }
     }
 }

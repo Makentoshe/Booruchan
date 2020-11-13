@@ -23,7 +23,9 @@ class DanbooruTagsNetworkManagerTest {
 
     @Test
     fun `should request json tags with count param`() = runBlocking {
-        val request = JsonDanbooruTagsRequest(DanbooruTagsFilter(count = 20))
+        val countFilterEntry = DanbooruTagsFilter.Builder().count
+        val filter = DanbooruTagsFilter(listOf(countFilterEntry.build("20")))
+        val request = JsonDanbooruTagsRequest(filter)
         logger.info { "Json url request: ${request.url}" }
         assertEquals("https://danbooru.donmai.us/tags.json?limit=20", request.url)
 
@@ -41,7 +43,9 @@ class DanbooruTagsNetworkManagerTest {
 
     @Test
     fun `should request xml tags with count param`() = runBlocking {
-        val request = XmlDanbooruTagsRequest(DanbooruTagsFilter(count = 20))
+        val countFilterEntry = DanbooruTagsFilter.Builder().count
+        val filter = DanbooruTagsFilter(listOf(countFilterEntry.build("20")))
+        val request = XmlDanbooruTagsRequest(filter)
         logger.info { "Xml url request: ${request.url}" }
         assertEquals("https://danbooru.donmai.us/tags.xml?limit=20", request.url)
 

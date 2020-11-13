@@ -1,12 +1,12 @@
 package com.makentoshe.booruchan.gelbooru.tag.context
 
+import GelbooruTagsNetworkManager
+import com.makentoshe.booruchan.gelbooru.tag.network.GelbooruTagsFilter
+import com.makentoshe.booruchan.gelbooru.tag.network.XmlGelbooruTagsRequest
 import io.ktor.client.*
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Test
-import com.makentoshe.booruchan.gelbooru.tag.network.GelbooruTagsFilter
-import GelbooruTagsNetworkManager
-import com.makentoshe.booruchan.gelbooru.tag.network.XmlGelbooruTagsRequest
 
 class XmlGelbooruTagsContextTest : GelbooruTagsContextTest() {
 
@@ -14,7 +14,8 @@ class XmlGelbooruTagsContextTest : GelbooruTagsContextTest() {
 
     @Test
     fun `should request xml tags`() = runBlocking {
-        val request = XmlGelbooruTagsRequest(GelbooruTagsFilter(count = 5))
+        val filterEntry = GelbooruTagsFilter.Builder().count.build("5")
+        val request = XmlGelbooruTagsRequest(GelbooruTagsFilter(listOf(filterEntry)))
         logger.info { "Xml url request: ${request.url}" }
         assertEquals("https://gelbooru.com/index.php?page=dapi&s=tag&q=index&limit=5", request.url)
 

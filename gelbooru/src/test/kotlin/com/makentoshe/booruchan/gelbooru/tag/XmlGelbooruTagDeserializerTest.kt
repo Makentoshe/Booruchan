@@ -1,4 +1,4 @@
-package com.makentoshe.booruchan.gelbooru.tag.deserialize
+package com.makentoshe.booruchan.gelbooru.tag
 
 import com.makentoshe.booruchan.core.deserialize.DeserializeException
 import com.makentoshe.booruchan.core.deserialize.EntityDeserializeException

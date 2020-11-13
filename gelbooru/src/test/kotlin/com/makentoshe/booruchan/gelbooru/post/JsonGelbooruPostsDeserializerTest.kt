@@ -1,9 +1,8 @@
 package com.makentoshe.booruchan.gelbooru.post
 
-import junit.framework.Assert.assertEquals
-import org.junit.Test
 import com.makentoshe.booruchan.gelbooru.post.deserialize.JsonGelbooruPostsDeserializer
-import org.junit.Assert
+import org.junit.Assert.assertEquals
+import org.junit.Test
 
 class JsonGelbooruPostsDeserializerTest {
 

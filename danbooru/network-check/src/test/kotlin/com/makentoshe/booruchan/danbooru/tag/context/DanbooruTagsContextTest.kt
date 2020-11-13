@@ -1,9 +1,10 @@
 package com.makentoshe.booruchan.danbooru.tag.context
 
+import com.makentoshe.booruchan.core.network.filter.FilterEntry
+import com.makentoshe.booruchan.danbooru.tag.network.DanbooruTagsFilter
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.Timeout
-import com.makentoshe.booruchan.danbooru.tag.network.DanbooruTagsFilter
 import java.util.logging.Logger
 
 abstract class DanbooruTagsContextTest {
@@ -17,7 +18,15 @@ abstract class DanbooruTagsContextTest {
 
     @Test
     fun `should build request with filter`() {
-        val filter = DanbooruTagsFilter(mapOf("a" to "b", "c" to 13))
+        val filterEntry1 = object: FilterEntry {
+            override val key = "a"
+            override val value = "b"
+        }
+        val filterEntry2 = object: FilterEntry {
+            override val key = "c"
+            override val value = "13"
+        }
+        val filter = DanbooruTagsFilter(listOf(filterEntry1, filterEntry2))
         val request = context.buildRequest(filter)
 
         // Regex should fit at lease these cases:

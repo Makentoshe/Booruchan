@@ -11,4 +11,6 @@ abstract class TagsContext<Request : TagsRequest, Filter : TagsFilter>(
 ) : BooruEntityContext<Request, TagsDeserialize<*>>(network, deserialize) {
 
     abstract fun buildRequest(filter: Filter): Request
+
+    abstract fun filterBuilder(): TagsFilter.Builder
 }

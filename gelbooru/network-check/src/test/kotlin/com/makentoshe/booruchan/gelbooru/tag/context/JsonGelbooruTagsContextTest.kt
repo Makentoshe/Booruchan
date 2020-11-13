@@ -1,12 +1,12 @@
 package com.makentoshe.booruchan.gelbooru.tag.context
 
+import GelbooruTagsNetworkManager
+import com.makentoshe.booruchan.gelbooru.tag.network.GelbooruTagsFilter
+import com.makentoshe.booruchan.gelbooru.tag.network.JsonGelbooruTagsRequest
 import io.ktor.client.*
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Test
-import com.makentoshe.booruchan.gelbooru.tag.network.GelbooruTagsFilter
-import GelbooruTagsNetworkManager
-import com.makentoshe.booruchan.gelbooru.tag.network.JsonGelbooruTagsRequest
 
 class JsonGelbooruTagsContextTest: GelbooruTagsContextTest() {
 
@@ -14,7 +14,8 @@ class JsonGelbooruTagsContextTest: GelbooruTagsContextTest() {
 
     @Test
     fun `should request json tags`() = runBlocking {
-        val request = JsonGelbooruTagsRequest(GelbooruTagsFilter(count = 5))
+        val filterEntry = GelbooruTagsFilter.Builder().count.build("5")
+        val request = JsonGelbooruTagsRequest(GelbooruTagsFilter(listOf(filterEntry)))
         logger.info { "Json url request: ${request.url}" }
         assertEquals("https://gelbooru.com/index.php?page=dapi&s=tag&q=index&json=1&limit=5", request.url)
 

@@ -12,7 +12,9 @@ import com.makentoshe.booruchan.danbooru.tag.network.XmlDanbooruTagsRequest
 abstract class DanbooruTagsContext<Request : DanbooruTagsRequest>(
     network: suspend (Request) -> Result<String>,
     deserialize: (String) -> Result<DanbooruTagsDeserialize<*>>
-) : TagsContext<Request, DanbooruTagsFilter>(network, deserialize)
+) : TagsContext<Request, DanbooruTagsFilter>(network, deserialize) {
+    override fun filterBuilder() = DanbooruTagsFilter.Builder()
+}
 
 open class JsonDanbooruTagsContext(
     network: suspend (JsonDanbooruTagsRequest) -> Result<String>

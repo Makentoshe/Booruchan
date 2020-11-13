@@ -1,18 +1,33 @@
 package com.makentoshe.booruchan.danbooru.tag.network
 
+import com.makentoshe.booruchan.core.network.filter.ContainsFilterEntry
+import com.makentoshe.booruchan.core.network.filter.CountFilterEntry
+import com.makentoshe.booruchan.core.network.filter.FilterEntry
+import com.makentoshe.booruchan.core.network.filter.StartsFilterEntry
 import com.makentoshe.booruchan.core.tag.network.TagsFilter
 
-class DanbooruTagsFilter(params: Map<String, Any>) : TagsFilter(params) {
+class DanbooruTagsFilter(params: List<FilterEntry>) : TagsFilter(params) {
 
-    constructor(count: Int?) : this(buildMap(count))
+    override val firstChar = "?"
 
-    companion object {
-        private const val COUNT = "limit"
+    class Builder : TagsFilter.Builder() {
 
-        private fun buildMap(count: Int?): Map<String, Any> {
-            val params = HashMap<String, Any>()
-            if (count != null) params[COUNT] = count
-            return params
+        override val count: CountFilterEntry.Builder
+            get() = CountFilterEntry.Builder("limit")
+
+        override val contains: ContainsFilterEntry.Builder
+            get() = ContainsFilterEntry.Builder("search[name_matches]", "*", "*")
+
+        override val starts: StartsFilterEntry.Builder
+            get() = StartsFilterEntry.Builder("search[name_matches]", "*")
+
+        override val availableEntryBuilders: List<FilterEntry.Builder>
+            get() = listOf(count, contains, starts)
+
+        override fun build(entries: List<FilterEntry>) = DanbooruTagsFilter(entries)
+
+        override fun build(vararg entries: FilterEntry): DanbooruTagsFilter {
+            return build(entries.toList())
         }
     }
 }

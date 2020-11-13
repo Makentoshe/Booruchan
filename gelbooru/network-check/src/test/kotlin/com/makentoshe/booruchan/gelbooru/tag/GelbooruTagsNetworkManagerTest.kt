@@ -1,17 +1,15 @@
 package com.makentoshe.booruchan.gelbooru.tag
 
+import GelbooruTagsNetworkManager
+import com.makentoshe.booruchan.gelbooru.tag.network.GelbooruTagsFilter
+import com.makentoshe.booruchan.gelbooru.tag.network.JsonGelbooruTagsRequest
+import com.makentoshe.booruchan.gelbooru.tag.network.XmlGelbooruTagsRequest
 import io.ktor.client.*
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.Timeout
-import com.makentoshe.booruchan.gelbooru.tag.deserialize.JsonGelbooruTagsDeserializer
-import com.makentoshe.booruchan.gelbooru.tag.deserialize.XmlGelbooruTagsDeserializer
-import com.makentoshe.booruchan.gelbooru.tag.network.GelbooruTagsFilter
-import GelbooruTagsNetworkManager
-import com.makentoshe.booruchan.gelbooru.tag.network.JsonGelbooruTagsRequest
-import com.makentoshe.booruchan.gelbooru.tag.network.XmlGelbooruTagsRequest
 import java.util.logging.Logger
 
 class GelbooruTagsNetworkManagerTest {
@@ -23,7 +21,8 @@ class GelbooruTagsNetworkManagerTest {
 
     @Test
     fun `should request tags with count param`() = runBlocking {
-        val request = XmlGelbooruTagsRequest(GelbooruTagsFilter(count = 20))
+        val filterEntry = GelbooruTagsFilter.Builder().count.build("20")
+        val request = XmlGelbooruTagsRequest(GelbooruTagsFilter(listOf(filterEntry)))
         logger.info { "Xml url request: ${request.url}" }
         Assert.assertEquals("https://gelbooru.com/index.php?page=dapi&s=tag&q=index&limit=20", request.url)
         val response = GelbooruTagsNetworkManager(HttpClient()).getTags(request)
@@ -40,7 +39,8 @@ class GelbooruTagsNetworkManagerTest {
 
     @Test
     fun `should request json tags with count param`() = runBlocking {
-        val request = JsonGelbooruTagsRequest(GelbooruTagsFilter(count = 20))
+        val filterEntry = GelbooruTagsFilter.Builder().count.build("20")
+        val request = JsonGelbooruTagsRequest(GelbooruTagsFilter(listOf(filterEntry)))
         logger.info { "Json url request: ${request.url}" }
         Assert.assertEquals("https://gelbooru.com/index.php?page=dapi&s=tag&q=index&json=1&limit=20", request.url)
         val response = GelbooruTagsNetworkManager(HttpClient()).getTags(request)

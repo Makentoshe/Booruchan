@@ -1,18 +1,16 @@
 package com.makentoshe.booruchan.gelbooru.tag
 
+import GelbooruTagNetworkManager
 import com.makentoshe.booruchan.core.tag.tagId
+import com.makentoshe.booruchan.gelbooru.tag.network.GelbooruTagFilter
+import com.makentoshe.booruchan.gelbooru.tag.network.JsonGelbooruTagRequest
+import com.makentoshe.booruchan.gelbooru.tag.network.XmlGelbooruTagRequest
 import io.ktor.client.*
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.Timeout
-import com.makentoshe.booruchan.gelbooru.tag.deserialize.JsonGelbooruTagDeserializer
-import com.makentoshe.booruchan.gelbooru.tag.deserialize.XmlGelbooruTagDeserializer
-import com.makentoshe.booruchan.gelbooru.tag.network.GelbooruTagFilter
-import GelbooruTagNetworkManager
-import com.makentoshe.booruchan.gelbooru.tag.network.JsonGelbooruTagRequest
-import com.makentoshe.booruchan.gelbooru.tag.network.XmlGelbooruTagRequest
 import java.util.logging.Logger
 
 class GelbooruTagNetworkManagerTest {

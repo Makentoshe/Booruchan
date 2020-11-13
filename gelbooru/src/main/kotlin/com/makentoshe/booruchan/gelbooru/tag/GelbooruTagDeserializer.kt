@@ -1,4 +1,4 @@
-package com.makentoshe.booruchan.gelbooru.tag.deserialize
+package com.makentoshe.booruchan.gelbooru.tag
 
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.JsonNode
