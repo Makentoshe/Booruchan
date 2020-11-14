@@ -135,14 +135,15 @@ data class JsonGelbooruPost(
             "png" -> "jpg"
             else -> imageFile.extension
         }
-        val sampleUrlPart = File("sample_${imageFile.name.dropLast(extension.length.inc())}.$extension")
-        return sampleImage(File("https://img2.gelbooru.com/samples/$directory", "$sampleUrlPart").toString())
+        val sampleUrlPart = File("sample_${imageFile.nameWithoutExtension}.$extension")
+        val url = "https://img2.gelbooru.com/samples/$directory/$sampleUrlPart"
+        return sampleImage(url)
     }
 
     private fun internalPreviewImage(): PreviewImage {
         val imageFile = File("thumbnail_$image")
-        val url = File("https://img1.gelbooru.com/thumbnails/$directory", "${imageFile.nameWithoutExtension}.jpg")
-        return previewImage(url.toString())
+        val url = "https://img1.gelbooru.com/thumbnails/$directory/${imageFile.nameWithoutExtension}.jpg"
+        return previewImage(url)
     }
 
     @JsonIgnore
