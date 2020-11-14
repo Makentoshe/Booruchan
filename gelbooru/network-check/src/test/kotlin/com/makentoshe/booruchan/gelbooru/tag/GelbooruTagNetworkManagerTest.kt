@@ -2,6 +2,8 @@ package com.makentoshe.booruchan.gelbooru.tag
 
 import GelbooruTagNetworkManager
 import com.makentoshe.booruchan.core.tag.tagId
+import com.makentoshe.booruchan.gelbooru.tag.deserialize.JsonGelbooruTagDeserializer
+import com.makentoshe.booruchan.gelbooru.tag.deserialize.XmlGelbooruTagDeserializer
 import com.makentoshe.booruchan.gelbooru.tag.network.GelbooruTagFilter
 import com.makentoshe.booruchan.gelbooru.tag.network.JsonGelbooruTagRequest
 import com.makentoshe.booruchan.gelbooru.tag.network.XmlGelbooruTagRequest

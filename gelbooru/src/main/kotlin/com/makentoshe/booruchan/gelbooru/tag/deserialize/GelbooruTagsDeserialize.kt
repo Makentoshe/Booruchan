@@ -1,7 +1,10 @@
-package com.makentoshe.booruchan.gelbooru.tag
+package com.makentoshe.booruchan.gelbooru.tag.deserialize
 
 import com.makentoshe.booruchan.core.deserialize.EntityDeserializeException
 import com.makentoshe.booruchan.core.tag.deserialize.TagsDeserialize
+import com.makentoshe.booruchan.gelbooru.tag.GelbooruTag
+import com.makentoshe.booruchan.gelbooru.tag.JsonGelbooruTag
+import com.makentoshe.booruchan.gelbooru.tag.XmlGelbooruTag
 
 typealias XmlGelbooruTagsDeserialize = GelbooruTagsDeserialize<XmlGelbooruTag>
 typealias JsonGelbooruTagsDeserialize = GelbooruTagsDeserialize<JsonGelbooruTag>

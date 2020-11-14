@@ -1,6 +1,7 @@
 package com.makentoshe.booruchan.gelbooru.tag
 
 import com.makentoshe.booruchan.core.deserialize.DeserializeException
+import com.makentoshe.booruchan.gelbooru.tag.deserialize.JsonGelbooruTagsDeserializer
 import org.junit.Assert.assertEquals
 import org.junit.Test
 

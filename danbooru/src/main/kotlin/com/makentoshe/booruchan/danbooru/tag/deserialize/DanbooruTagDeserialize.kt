@@ -9,5 +9,5 @@ typealias XmlDanbooruTagDeserialize = DanbooruTagDeserialize<XmlDanbooruTag>
 typealias JsonDanbooruTagDeserialize = DanbooruTagDeserialize<JsonDanbooruTag>
 
 data class DanbooruTagDeserialize<out Tag : DanbooruTag>(
-    override val tag: Tag
+    override val tag: Tag, override val raw: String
 ) : TagDeserialize<Tag>
