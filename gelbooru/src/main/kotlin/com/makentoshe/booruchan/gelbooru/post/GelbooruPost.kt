@@ -141,7 +141,7 @@ data class JsonGelbooruPost(
 
     private fun internalPreviewImage(): PreviewImage {
         val imageFile = File("thumbnail_$image")
-        val url = File("https://img1.gelbooru.com/thumbnails/$directory", "${imageFile.name}.jpg")
+        val url = File("https://img1.gelbooru.com/thumbnails/$directory", "${imageFile.nameWithoutExtension}.jpg")
         return previewImage(url.toString())
     }
 
