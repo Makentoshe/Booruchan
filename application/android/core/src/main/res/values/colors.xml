@@ -9,4 +9,10 @@
     <color name="text">#0C0C0D</color>
     <color name="dimmed">#99000000</color>
     <color name="opaque">#4D000000</color>
+
+    <color name="tag_general">#000000</color>
+    <color name="tag_artist">#AA0000</color>
+    <color name="tag_metadata">#FDC023</color>
+    <color name="tag_copyright">#AA00AA</color>
+    <color name="tag_character">#00AA00</color>
 </resources>

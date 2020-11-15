@@ -8,6 +8,7 @@ import android.widget.BaseAdapter
 import android.widget.Filter
 import android.widget.Filterable
 import android.widget.TextView
+import com.makentoshe.booruchan.application.android.common.getColor
 import com.makentoshe.booruchan.application.core.arena.tag.TagsArena
 import com.makentoshe.booruchan.core.tag.Tag
 import com.makentoshe.booruchan.core.tag.context.TagsContext
@@ -31,7 +32,11 @@ class PostsSearchTagsAutocompleteAdapter(
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
         val view = convertView ?: LayoutInflater.from(context)
             .inflate(android.R.layout.simple_dropdown_item_1line, parent, false)
-        (view as TextView).text = getItem(position).text
+
+        val textView = view as TextView
+        textView.text = getItem(position).text
+        textView.setTextColor(getItem(position).getColor(context))
+
         return view
     }
 
