@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.constraintlayout.widget.Group
 import androidx.fragment.app.Fragment
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
@@ -15,6 +14,7 @@ import com.makentoshe.booruchan.application.android.screen.search.viewmodel.Post
 import com.makentoshe.booruchan.core.tag.Tag
 import com.makentoshe.booruchan.core.tag.Type
 import kotlinx.android.synthetic.main.fragment_search_posts.*
+import kotlinx.android.synthetic.main.layout_tags.*
 import toothpick.ktp.delegate.inject
 
 /**
@@ -57,12 +57,14 @@ class PostsSearchFragment : Fragment() {
         autocompleteTextView.setText("")
         when (tag.type) {
             Type.ARTIST -> onArtistTagDisplay(tag)
+            Type.CHARACTER -> onCharacterTagDisplay(tag)
+            Type.METADATA -> onMetadataTagDisplay(tag)
+            Type.COPYRIGHT -> onCopyrightTagDisplay(tag)
             Type.GENERAL -> onGeneralTagDisplay(tag)
         }
-        // TODO store and display chip under the type category
     }
 
-    private fun onCustomTagDisplay(tag: Tag, group: Group, chipGroup: ChipGroup) {
+    private fun onCustomTagDisplay(tag: Tag, group: View, chipGroup: ChipGroup) {
         group.visibility = View.VISIBLE
         val chip = createChip(tag, chipGroup)
         chipGroup.addView(chip)
@@ -76,6 +78,15 @@ class PostsSearchFragment : Fragment() {
 
     private fun onArtistTagDisplay(tag: Tag) =
         onCustomTagDisplay(tag, fragment_search_posts_tags_artist, fragment_search_posts_tags_artist_chips)
+
+    private fun onCharacterTagDisplay(tag: Tag) =
+        onCustomTagDisplay(tag, fragment_search_posts_tags_character, fragment_search_posts_tags_character_chips)
+
+    private fun onMetadataTagDisplay(tag: Tag) =
+        onCustomTagDisplay(tag, fragment_search_posts_tags_metadata, fragment_search_posts_tags_metadata_chips)
+
+    private fun onCopyrightTagDisplay(tag: Tag) =
+        onCustomTagDisplay(tag, fragment_search_posts_tags_copyright, fragment_search_posts_tags_copyright_chips)
 
     private fun onGeneralTagDisplay(tag: Tag) =
         onCustomTagDisplay(tag, fragment_search_posts_tags_general, fragment_search_posts_tags_general_chips)

@@ -10,7 +10,6 @@
         android:id="@+id/fragment_posts_toolbar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/toolbar_height"
-        android:elevation="@dimen/toolbar_elevation"
         app:menu="@menu/posts_toolbar" />
 
     <View
@@ -89,18 +88,12 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <ScrollView
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/fragment_posts_search"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/background">
-
-            <androidx.fragment.app.FragmentContainerView
-                android:id="@+id/fragment_posts_search"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:name="com.makentoshe.booruchan.application.android.screen.search.PostsSearchFragment" />
-
-        </ScrollView>
+            android:background="@color/background"
+            android:name="com.makentoshe.booruchan.application.android.screen.search.PostsSearchFragment" />
 
     </com.sothree.slidinguppanel.SlidingUpPanelLayout>
 

@@ -84,7 +84,6 @@ class PostsFragment : Fragment() {
     }
 
     private fun onToolbarMenuClick(item: MenuItem): Boolean {
-        // TODO hide bottom navigation bar when panel opened (it should cover whole screen)
         when (item.groupId) {
             R.id.posts_toolbar_search_open -> {
                 fragment_posts_panel.panelState = SlidingUpPanelLayout.PanelState.EXPANDED

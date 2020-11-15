@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TextView
+        style="@style/Default.Text.Support"
+        android:id="@+id/fragment_search_posts_rating_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/posts_search_rating"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <com.google.android.material.button.MaterialButtonToggleGroup
+        android:id="@+id/fragment_search_posts_rating_toggle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:singleSelection="true"
+        app:selectionRequired="false"
+        app:layout_constraintTop_toBottomOf="@id/fragment_search_posts_rating_title">
+
+        <Button
+            style="?attr/booruchanButtonToggle"
+            android:id="@+id/fragment_search_posts_rating_toggle_safe"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/rating_type_safe" />
+
+        <Button
+            style="?attr/booruchanButtonToggle"
+            android:id="@+id/fragment_search_posts_rating_toggle_questionable"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/rating_type_questionable" />
+
+        <Button
+            style="?attr/booruchanButtonToggle"
+            android:id="@+id/fragment_search_posts_rating_toggle_explicit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/rating_type_explicit" />
+
+    </com.google.android.material.button.MaterialButtonToggleGroup>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
