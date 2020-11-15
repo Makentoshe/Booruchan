@@ -89,12 +89,18 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <androidx.fragment.app.FragmentContainerView
-            android:id="@+id/fragment_posts_search"
+        <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/background"
-            android:name="com.makentoshe.booruchan.application.android.screen.search.PostsSearchFragment" />
+            android:background="@color/background">
+
+            <androidx.fragment.app.FragmentContainerView
+                android:id="@+id/fragment_posts_search"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:name="com.makentoshe.booruchan.application.android.screen.search.PostsSearchFragment" />
+
+        </ScrollView>
 
     </com.sothree.slidinguppanel.SlidingUpPanelLayout>
 
