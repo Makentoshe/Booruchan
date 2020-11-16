@@ -27,6 +27,7 @@
             android:id="@+id/fragment_search_posts_tags_artist_scroll"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:scrollbars="none"
             android:clipToPadding="false"
             android:paddingHorizontal="8dp">
 
@@ -64,6 +65,7 @@
             android:id="@+id/fragment_search_posts_tags_character_scroll"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:scrollbars="none"
             android:clipToPadding="false"
             android:paddingHorizontal="8dp">
 
@@ -101,6 +103,7 @@
             android:id="@+id/fragment_search_posts_tags_metadata_scroll"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:scrollbars="none"
             android:clipToPadding="false"
             android:paddingHorizontal="8dp">
 
@@ -138,6 +141,7 @@
             android:id="@+id/fragment_search_posts_tags_copyright_scroll"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:scrollbars="none"
             android:clipToPadding="false"
             android:paddingHorizontal="8dp">
 

@@ -56,25 +56,40 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/separator_height"
         android:layout_marginTop="@dimen/dimenS"
+        android:elevation="@dimen/toolbar_elevation"
         app:layout_constraintTop_toBottomOf="@id/fragment_search_posts_input"
         app:layout_constraintStart_toStartOf="@id/fragment_search_posts_guideline_start"
         app:layout_constraintEnd_toEndOf="@id/fragment_search_posts_guideline_end" />
 
-    <include
-        android:id="@+id/fragment_search_posts_rating_include"
-        layout="@layout/layout_rating"
-        android:layout_height="wrap_content"
-        android:layout_width="0dp"
-        android:layout_marginTop="@dimen/dimenXS"
-        app:layout_constraintStart_toStartOf="@id/fragment_search_posts_guideline_start"
-        app:layout_constraintEnd_toEndOf="@id/fragment_search_posts_guideline_end"
-        app:layout_constraintTop_toBottomOf="@id/fragment_search_posts_separator" />
-
-    <include
-        android:id="@+id/fragment_search_posts_tags_include"
-        layout="@layout/layout_tags"
-        android:layout_height="wrap_content"
+    <ScrollView
         android:layout_width="match_parent"
-        app:layout_constraintTop_toBottomOf="@id/fragment_search_posts_rating_include" />
+        android:layout_height="0dp"
+        android:scrollbars="none"
+        app:layout_constraintTop_toBottomOf="@id/fragment_search_posts_separator"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <LinearLayout
+            android:id="@+id/fragment_search_posts_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="@dimen/dimenXS">
+
+            <include
+                android:id="@+id/fragment_search_posts_rating_include"
+                layout="@layout/layout_rating"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_marginHorizontal="@dimen/dimenS" />
+
+            <include
+                android:id="@+id/fragment_search_posts_tags_include"
+                layout="@layout/layout_tags"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent" />
+
+        </LinearLayout>
+
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
