@@ -58,4 +58,6 @@
         <item name="backgroundTint">@color/search_posts_toggle_button_background_color</item>
     </style>
 
+    <style name="Default.Button.Text" parent="Widget.MaterialComponents.Button.TextButton"/>
+
 </resources>

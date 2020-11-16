@@ -52,7 +52,7 @@
 
     <View
         style="@style/Default.Separator"
-        android:id="@+id/fragment_search_posts_separator"
+        android:id="@+id/fragment_search_posts_separator_top"
         android:layout_width="match_parent"
         android:layout_height="@dimen/separator_height"
         android:layout_marginTop="@dimen/dimenS"
@@ -62,11 +62,13 @@
         app:layout_constraintEnd_toEndOf="@id/fragment_search_posts_guideline_end" />
 
     <ScrollView
+        android:id="@+id/fragment_search_posts_scroll"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:scrollbars="none"
-        app:layout_constraintTop_toBottomOf="@id/fragment_search_posts_separator"
-        app:layout_constraintBottom_toBottomOf="parent">
+        android:fillViewport="true"
+        app:layout_constraintTop_toBottomOf="@id/fragment_search_posts_separator_top"
+        app:layout_constraintBottom_toTopOf="@id/fragment_search_posts_separator_bottom">
 
         <LinearLayout
             android:id="@+id/fragment_search_posts_content"
@@ -91,5 +93,21 @@
         </LinearLayout>
 
     </ScrollView>
+
+    <View
+        style="@style/Default.Separator"
+        android:id="@+id/fragment_search_posts_separator_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/separator_height"
+        app:layout_constraintTop_toBottomOf="@id/fragment_search_posts_scroll"
+        app:layout_constraintBottom_toTopOf="@id/fragment_search_posts_apply" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/fragment_search_posts_apply"
+        style="@style/Default.Button.Text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Apply"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

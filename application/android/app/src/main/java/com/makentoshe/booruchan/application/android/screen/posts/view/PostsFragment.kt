@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentFactory
 import com.arasthel.spannedgridlayoutmanager.SpannedGridLayoutManager
 import com.makentoshe.booruchan.application.android.R
+import com.makentoshe.booruchan.application.android.fragment.CoreFragment
 import com.makentoshe.booruchan.application.android.screen.posts.viewmodel.PostsFragmentViewModel
 import com.makentoshe.booruchan.application.android.screen.search.PostsSearchFragment
 import com.makentoshe.booruchan.application.core.arena.ArenaStorageException
@@ -21,6 +22,7 @@ import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.fragment_posts.*
+import kotlinx.android.synthetic.main.fragment_search_posts.*
 import toothpick.ktp.delegate.inject
 import java.net.UnknownHostException
 import javax.net.ssl.SSLHandshakeException
@@ -34,7 +36,7 @@ class PostsFragmentFactory(private val booruContextTitle: String) : FragmentFact
     }
 }
 
-class PostsFragment : Fragment() {
+class PostsFragment : CoreFragment() {
 
     companion object {
         fun build(booruContextTitle: String): PostsFragment {
@@ -69,6 +71,26 @@ class PostsFragment : Fragment() {
             .subscribe(::onInitialLoad).let(disposables::add)
 
         fragment_posts_retry.setOnClickListener { onInitialLoadRetry() }
+
+        fragment_posts_panel.addPanelSlideListener(object : SlidingUpPanelLayout.SimplePanelSlideListener() {
+            override fun onPanelStateChanged(
+                panel: View?,
+                previousState: SlidingUpPanelLayout.PanelState?,
+                newState: SlidingUpPanelLayout.PanelState?
+            ) {
+                if (newState == SlidingUpPanelLayout.PanelState.COLLAPSED || newState == SlidingUpPanelLayout.PanelState.HIDDEN) {
+                    hideSoftKeyboard(fragment_search_posts_input)
+                }
+
+                if (newState == SlidingUpPanelLayout.PanelState.DRAGGING) {
+                    if (previousState == SlidingUpPanelLayout.PanelState.EXPANDED) {
+                        requireActivity().findViewById<View>(R.id.fragment_booru_navigation).visibility = View.VISIBLE
+                    } else {
+                        requireActivity().findViewById<View>(R.id.fragment_booru_navigation).visibility = View.GONE
+                    }
+                }
+            }
+        })
     }
 
     private fun onViewCreatedToolbar(view: View, savedInstanceState: Bundle?) {
@@ -140,7 +162,10 @@ class PostsFragment : Fragment() {
         disposables.clear()
     }
 
-    class Arguments(private val postsFragment: PostsFragment) {
+    class Arguments(
+        private
+        val postsFragment: PostsFragment
+    ) {
 
         init {
             val fragment = postsFragment as Fragment
