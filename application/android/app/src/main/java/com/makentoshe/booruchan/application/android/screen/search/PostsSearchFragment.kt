@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
 import androidx.fragment.app.Fragment
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
@@ -11,8 +12,10 @@ import com.makentoshe.booruchan.application.android.R
 import com.makentoshe.booruchan.application.android.fragment.FragmentArguments
 import com.makentoshe.booruchan.application.android.screen.search.view.DelayMaterialAutocompleteTextView
 import com.makentoshe.booruchan.application.android.screen.search.viewmodel.PostsSearchViewModel
+import com.makentoshe.booruchan.core.Text
 import com.makentoshe.booruchan.core.tag.Tag
 import com.makentoshe.booruchan.core.tag.Type
+import com.makentoshe.booruchan.core.text
 import kotlinx.android.synthetic.main.fragment_search_posts.*
 import kotlinx.android.synthetic.main.layout_tags.*
 import toothpick.ktp.delegate.inject
@@ -41,6 +44,7 @@ class PostsSearchFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         onViewCreatedAutocomplete(view, savedInstanceState)
+        onViewCreatedTextInput(view, savedInstanceState)
     }
 
     private fun onViewCreatedAutocomplete(view: View, savedInstanceState: Bundle?) {
@@ -49,6 +53,20 @@ class PostsSearchFragment : Fragment() {
         autocompleteTextView.setAdapter(viewModel.getTagsAutocompleteAdapter(requireContext()))
         autocompleteTextView.setOnItemClickListener { _, _, position, _ ->
             onAutocompleteTipClick(autocompleteTextView, position)
+        }
+    }
+
+    private fun onViewCreatedTextInput(view: View, savedInstanceState: Bundle?) {
+        fragment_search_posts_input.editText?.setOnEditorActionListener { v, actionId, event ->
+            when(actionId) {
+                EditorInfo.IME_ACTION_DONE -> {
+                    onGeneralTagDisplay(text(v.text.toString()))
+                    v.text = ""
+                    fragment_search_posts_progress.visibility = View.GONE
+                    return@setOnEditorActionListener true
+                }
+                else -> return@setOnEditorActionListener false
+            }
         }
     }
 
@@ -64,7 +82,7 @@ class PostsSearchFragment : Fragment() {
         }
     }
 
-    private fun onCustomTagDisplay(tag: Tag, group: View, chipGroup: ChipGroup) {
+    private fun onCustomTagDisplay(tag: Text, group: View, chipGroup: ChipGroup) {
         group.visibility = View.VISIBLE
         val chip = createChip(tag, chipGroup)
         chipGroup.addView(chip)
@@ -76,22 +94,22 @@ class PostsSearchFragment : Fragment() {
         }
     }
 
-    private fun onArtistTagDisplay(tag: Tag) =
+    private fun onArtistTagDisplay(tag: Text) =
         onCustomTagDisplay(tag, fragment_search_posts_tags_artist, fragment_search_posts_tags_artist_chips)
 
-    private fun onCharacterTagDisplay(tag: Tag) =
+    private fun onCharacterTagDisplay(tag: Text) =
         onCustomTagDisplay(tag, fragment_search_posts_tags_character, fragment_search_posts_tags_character_chips)
 
-    private fun onMetadataTagDisplay(tag: Tag) =
+    private fun onMetadataTagDisplay(tag: Text) =
         onCustomTagDisplay(tag, fragment_search_posts_tags_metadata, fragment_search_posts_tags_metadata_chips)
 
-    private fun onCopyrightTagDisplay(tag: Tag) =
+    private fun onCopyrightTagDisplay(tag: Text) =
         onCustomTagDisplay(tag, fragment_search_posts_tags_copyright, fragment_search_posts_tags_copyright_chips)
 
-    private fun onGeneralTagDisplay(tag: Tag) =
+    private fun onGeneralTagDisplay(tag: Text) =
         onCustomTagDisplay(tag, fragment_search_posts_tags_general, fragment_search_posts_tags_general_chips)
 
-    private fun createChip(tag: Tag, parent: ViewGroup): Chip {
+    private fun createChip(tag: Text, parent: ViewGroup): Chip {
         val chip = LayoutInflater.from(requireContext()).inflate(R.layout.fragment_search_posts_chip, parent, false)
         chip as Chip
         chip.text = tag.text
