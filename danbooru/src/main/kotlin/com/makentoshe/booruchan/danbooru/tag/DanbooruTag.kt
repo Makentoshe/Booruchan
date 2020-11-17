@@ -48,6 +48,27 @@ data class XmlDanbooruTag(
         5 -> Type.METADATA
         else -> Type.GENERAL
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as XmlDanbooruTag
+
+        if (tagId != other.tagId) return false
+        if (text != other.text) return false
+        if (type != other.type) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = tagId
+        result = 31 * result + text.hashCode()
+        result = 31 * result + type.hashCode()
+        return result
+    }
+
 }
 
 data class JsonDanbooruTag(
@@ -76,4 +97,25 @@ data class JsonDanbooruTag(
         5 -> Type.METADATA
         else -> Type.GENERAL
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as JsonDanbooruTag
+
+        if (tagId != other.tagId) return false
+        if (text != other.text) return false
+        if (type != other.type) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = tagId
+        result = 31 * result + text.hashCode()
+        result = 31 * result + type.hashCode()
+        return result
+    }
+
 }

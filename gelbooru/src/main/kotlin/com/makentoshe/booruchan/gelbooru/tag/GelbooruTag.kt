@@ -36,6 +36,27 @@ data class XmlGelbooruTag(
         "5" -> Type.METADATA
         else -> Type.GENERAL
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as XmlGelbooruTag
+
+        if (tagId != other.tagId) return false
+        if (text != other.text) return false
+        if (type != other.type) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = tagId
+        result = 31 * result + text.hashCode()
+        result = 31 * result + type.hashCode()
+        return result
+    }
+
 }
 
 data class JsonGelbooruTag(
@@ -62,4 +83,25 @@ data class JsonGelbooruTag(
         "5" -> Type.METADATA
         else -> Type.GENERAL
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as JsonGelbooruTag
+
+        if (tagId != other.tagId) return false
+        if (text != other.text) return false
+        if (type != other.type) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = tagId
+        result = 31 * result + text.hashCode()
+        result = 31 * result + type.hashCode()
+        return result
+    }
+
 }
