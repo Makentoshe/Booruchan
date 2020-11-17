@@ -1,15 +1,20 @@
 package com.makentoshe.booruchan.application.android.screen.search
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
-import androidx.fragment.app.Fragment
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.makentoshe.booruchan.application.android.R
+import com.makentoshe.booruchan.application.android.fragment.CoreFragment
 import com.makentoshe.booruchan.application.android.fragment.FragmentArguments
+import com.makentoshe.booruchan.application.android.screen.posts.view.SEARCH_REQUEST_CODE
+import com.makentoshe.booruchan.application.android.screen.posts.view.SEARCH_REQUEST_EXTRA
+import com.makentoshe.booruchan.application.android.screen.search.model.CompositeSearchTagsContainer
 import com.makentoshe.booruchan.application.android.screen.search.view.DelayMaterialAutocompleteTextView
 import com.makentoshe.booruchan.application.android.screen.search.viewmodel.PostsSearchViewModel
 import com.makentoshe.booruchan.core.Text
@@ -25,7 +30,7 @@ import toothpick.ktp.delegate.inject
  * can return search query using [getParentFragment]. If there is no
  * result on [getParentFragment] the nothing will be happen.
  */
-class PostsSearchFragment : Fragment() {
+class PostsSearchFragment : CoreFragment() {
 
     companion object {
         fun build(booruContextTitle: String): PostsSearchFragment {
@@ -37,6 +42,7 @@ class PostsSearchFragment : Fragment() {
 
     val arguments = Arguments(this)
     private val viewModel by inject<PostsSearchViewModel>()
+    private val tagsContainer by inject<CompositeSearchTagsContainer>()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_search_posts, container, false)
@@ -45,6 +51,12 @@ class PostsSearchFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         onViewCreatedAutocomplete(view, savedInstanceState)
         onViewCreatedTextInput(view, savedInstanceState)
+
+        fragment_search_posts_apply.setOnClickListener {
+            val appliedTags = tagsContainer.applyTags()
+            val intent = Intent().putExtra(SEARCH_REQUEST_EXTRA, appliedTags.toTypedArray())
+            parentFragment?.onActivityResult(SEARCH_REQUEST_CODE, Activity.RESULT_OK, intent)
+        }
     }
 
     private fun onViewCreatedAutocomplete(view: View, savedInstanceState: Bundle?) {
@@ -58,7 +70,7 @@ class PostsSearchFragment : Fragment() {
 
     private fun onViewCreatedTextInput(view: View, savedInstanceState: Bundle?) {
         fragment_search_posts_input.editText?.setOnEditorActionListener { v, actionId, event ->
-            when(actionId) {
+            when (actionId) {
                 EditorInfo.IME_ACTION_DONE -> {
                     onGeneralTagDisplay(text(v.text.toString()))
                     v.text = ""
@@ -83,6 +95,10 @@ class PostsSearchFragment : Fragment() {
     }
 
     private fun onCustomTagDisplay(tag: Text, group: View, chipGroup: ChipGroup) {
+        // Add tag to container and check - should we display chip or not
+        val shouldCreateChip = if (tag is Tag) tagsContainer.addTag(tag) else tagsContainer.addTag(tag)
+        if (!shouldCreateChip) return
+
         group.visibility = View.VISIBLE
         val chip = createChip(tag, chipGroup)
         chipGroup.addView(chip)
@@ -91,6 +107,8 @@ class PostsSearchFragment : Fragment() {
             if (chipGroup.childCount == 0) {
                 group.visibility = View.GONE
             }
+            // remove tag as Tag instance or Text instance
+            if (tag is Tag) tagsContainer.remove(tag) else tagsContainer.remove(tag)
         }
     }
 
@@ -127,3 +145,4 @@ class PostsSearchFragment : Fragment() {
         }
     }
 }
+

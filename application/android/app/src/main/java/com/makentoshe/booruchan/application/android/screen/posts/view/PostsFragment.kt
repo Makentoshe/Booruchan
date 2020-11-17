@@ -1,6 +1,8 @@
 package com.makentoshe.booruchan.application.android.screen.posts.view
 
+import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.drawable.Drawable
 import android.os.Build
@@ -9,6 +11,7 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.view.forEach
 import androidx.fragment.app.FragmentFactory
 import com.arasthel.spannedgridlayoutmanager.SpannedGridLayoutManager
@@ -18,6 +21,7 @@ import com.makentoshe.booruchan.application.android.fragment.FragmentArguments
 import com.makentoshe.booruchan.application.android.screen.posts.viewmodel.PostsFragmentViewModel
 import com.makentoshe.booruchan.application.android.screen.search.PostsSearchFragment
 import com.makentoshe.booruchan.application.core.arena.ArenaStorageException
+import com.makentoshe.booruchan.core.Text
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.CompositeDisposable
@@ -26,6 +30,10 @@ import toothpick.ktp.delegate.inject
 import java.net.UnknownHostException
 import javax.net.ssl.SSLHandshakeException
 import javax.net.ssl.SSLPeerUnverifiedException
+
+internal const val SEARCH_REQUEST_CODE = 1
+
+internal const val SEARCH_REQUEST_EXTRA = "Search tags"
 
 /** Fragment factory for [PostsFragment] allows to delivery arguments to the inner fragments */
 class PostsFragmentFactory(private val booruContextTitle: String) : FragmentFactory() {
@@ -141,6 +149,29 @@ class PostsFragment : CoreFragment() {
     override fun onDestroy() {
         super.onDestroy()
         disposables.clear()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) = when (requestCode) {
+        SEARCH_REQUEST_CODE -> onActivityResultSearch(resultCode, data)
+        else -> Unit
+    }
+
+    private fun onActivityResultSearch(resultCode: Int, data: Intent?) = if (resultCode == Activity.RESULT_OK) {
+        onActivityResultSearchSuccess(data)
+    } else {
+        onActivityResultSearchFailure(data)
+    }
+
+    private fun onActivityResultSearchSuccess(data: Intent?) {
+        if (data == null) return onActivityResultSearchFailure(data)
+        val serializable = data.getSerializableExtra(SEARCH_REQUEST_EXTRA)
+        val tags = serializable as Array<Text>
+        // TODO pass tags to the query
+        println(tags.map { it.text })
+    }
+
+    private fun onActivityResultSearchFailure(data: Intent?) {
+        Toast.makeText(requireContext(), "Search failure", Toast.LENGTH_LONG).show()
     }
 
     class Arguments(postsFragment: PostsFragment) : FragmentArguments<PostsFragment>(postsFragment) {
