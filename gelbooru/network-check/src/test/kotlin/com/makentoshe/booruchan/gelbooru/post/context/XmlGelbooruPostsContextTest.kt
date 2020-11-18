@@ -1,6 +1,7 @@
 package com.makentoshe.booruchan.gelbooru.post.context
 
 import GelbooruPostsNetworkManager
+import com.makentoshe.booruchan.gelbooru.post.network.GelbooruPostsFilter
 import com.makentoshe.booruchan.gelbooru.post.network.XmlGelbooruPostsRequest
 import io.ktor.client.*
 import kotlinx.coroutines.runBlocking
@@ -13,7 +14,9 @@ class XmlGelbooruPostsContextTest: GelbooruPostsContextTest() {
 
     @Test
     fun `should request xml posts`() = runBlocking {
-        val request = XmlGelbooruPostsRequest(context.filterBuilder().build(count = 5))
+        val filterBuilder = GelbooruPostsFilter.Builder()
+        val count = filterBuilder.count.build("5")
+        val request = XmlGelbooruPostsRequest(filterBuilder.build(count))
         logger.info { "Xml url request: ${request.url}" }
         assertEquals("https://gelbooru.com/index.php?page=dapi&s=post&q=index&limit=5", request.url)
 

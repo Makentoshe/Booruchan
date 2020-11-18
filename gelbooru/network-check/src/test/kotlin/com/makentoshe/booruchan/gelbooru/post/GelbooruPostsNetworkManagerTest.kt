@@ -23,7 +23,9 @@ class GelbooruPostsNetworkManagerTest {
 
     @Test
     fun `should request json posts`() = runBlocking {
-        val request = JsonGelbooruPostsRequest(GelbooruPostsFilter.Builder().build(count = 10))
+        val filterBuilder = GelbooruPostsFilter.Builder()
+        val count = filterBuilder.count.build("10")
+        val request = JsonGelbooruPostsRequest(filterBuilder.build(count))
         logger.info { "Json url request: ${request.url}" }
         assertEquals("https://gelbooru.com/index.php?page=dapi&s=post&q=index&limit=10&json=1", request.url)
         val response = GelbooruPostsNetworkManager(HttpClient()).getPosts(request)
@@ -39,7 +41,9 @@ class GelbooruPostsNetworkManagerTest {
 
     @Test
     fun `should request xml posts`() = runBlocking {
-        val request = XmlGelbooruPostsRequest(GelbooruPostsFilter.Builder().build(count = 10))
+        val filterBuilder = GelbooruPostsFilter.Builder()
+        val count = filterBuilder.count.build("10")
+        val request = XmlGelbooruPostsRequest(filterBuilder.build(count))
         logger.info { "Xml url request: ${request.url}" }
         assertEquals("https://gelbooru.com/index.php?page=dapi&s=post&q=index&limit=10", request.url)
         val response = GelbooruPostsNetworkManager(HttpClient()).getPosts(request)

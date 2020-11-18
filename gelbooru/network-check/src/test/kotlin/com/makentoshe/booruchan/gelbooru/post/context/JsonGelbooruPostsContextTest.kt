@@ -1,6 +1,7 @@
 package com.makentoshe.booruchan.gelbooru.post.context
 
 import GelbooruPostsNetworkManager
+import com.makentoshe.booruchan.gelbooru.post.network.GelbooruPostsFilter
 import com.makentoshe.booruchan.gelbooru.post.network.JsonGelbooruPostsRequest
 import io.ktor.client.*
 import kotlinx.coroutines.runBlocking
@@ -13,7 +14,9 @@ class JsonGelbooruPostsContextTest: GelbooruPostsContextTest() {
 
     @Test
     fun `should request json posts`() = runBlocking {
-        val request = JsonGelbooruPostsRequest(context.filterBuilder().build(count = 5))
+        val filterBuilder = GelbooruPostsFilter.Builder()
+        val count = filterBuilder.count.build("5")
+        val request = JsonGelbooruPostsRequest(filterBuilder.build(count))
         logger.info { "Json url request: ${request.url}" }
         assertEquals("https://gelbooru.com/index.php?page=dapi&s=post&q=index&limit=5&json=1", request.url)
 

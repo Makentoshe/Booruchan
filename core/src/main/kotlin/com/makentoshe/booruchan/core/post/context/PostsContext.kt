@@ -12,5 +12,5 @@ abstract class PostsContext<Request: PostsRequest, Filter: PostsFilter>(
 
     abstract fun buildRequest(filter: Filter): Request
 
-    abstract fun filterBuilder(): PostsFilter.Builder
+    abstract fun filterBuilder(): PostsFilter.Builder2
 }
