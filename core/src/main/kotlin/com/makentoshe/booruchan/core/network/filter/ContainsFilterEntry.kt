@@ -10,7 +10,7 @@ class ContainsFilterEntry(override val key: String, override val value: String?)
      * and allows to configure search.
      */
     class Builder(val key: String, private val before: String, private val after: String): FilterEntry.Builder<String> {
-        override fun build(value: String?): FilterEntry {
+        override fun build(value: String): FilterEntry {
             return ContainsFilterEntry(key, "$before$value$after")
         }
     }

@@ -10,7 +10,7 @@ interface FilterEntry {
      * keys for query search and some additional features
      */
     interface Builder<Value> {
-        fun build(value: Value?): FilterEntry
+        fun build(value: Value): FilterEntry
     }
 }
 

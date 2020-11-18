@@ -2,6 +2,7 @@ package com.makentoshe.booruchan.application.android.screen.posts.model
 
 import androidx.paging.PageKeyedDataSource
 import com.makentoshe.booruchan.application.core.arena.Arena
+import com.makentoshe.booruchan.core.network.filter.TagsFilterEntry
 import com.makentoshe.booruchan.core.post.Post
 import com.makentoshe.booruchan.core.post.deserialize.PostDeserialize
 import com.makentoshe.booruchan.core.post.deserialize.PostsDeserialize
@@ -17,13 +18,16 @@ import kotlinx.coroutines.launch
 class PostsDataSource(
     private val postsArena: Arena<PostsFilter, PostsDeserialize<Post>>,
     private val filterBuilder: PostsFilter.Builder,
-    private val coroutineScope: CoroutineScope
+    private val coroutineScope: CoroutineScope,
+    private val tagsFilter: TagsFilterEntry
 ) : PageKeyedDataSource<Int, Result<PostDeserialize<Post>>>(), PostsDataSourceAfter {
 
     override fun loadBefore(params: LoadParams<Int>, callback: LoadCallback<Int, Result<PostDeserialize<Post>>>) {
         coroutineScope.launch(Dispatchers.IO) {
             println("Before isActive=${isActive} ${Thread.currentThread()} key=${params.key} size${params.requestedLoadSize}")
-            val result = postsArena.suspendFetch(filterBuilder.build(params.requestedLoadSize, params.key))
+            val countFilter = filterBuilder.count.build(params.requestedLoadSize)
+            val pageFilter = filterBuilder.page.build(params.key)
+            val result = postsArena.suspendFetch(filterBuilder.build(countFilter, pageFilter, tagsFilter))
             val success = result.getOrNull() ?: throw result.exceptionOrNull()!!
             callback.onResult(success.deserializes, params.key - 1)
         }
@@ -53,7 +57,9 @@ class PostsDataSource(
     private suspend fun suspendLoadInitial(
         params: LoadInitialParams<Int>, callback: LoadInitialCallback<Int, Result<PostDeserialize<Post>>>
     ) {
-        val result = postsArena.suspendFetch(filterBuilder.build(params.requestedLoadSize, 0))
+        val countFilter = filterBuilder.count.build(params.requestedLoadSize)
+        val pageFilter = filterBuilder.page.build(0)
+        val result = postsArena.suspendFetch(filterBuilder.build(countFilter, pageFilter, tagsFilter))
         // if null - call signal with exception result and finish execution
         val success = result.getOrNull() ?: return initialSignal.onNext(result)
         callback.onResult(success.deserializes, null, 3)
@@ -82,7 +88,9 @@ class PostsDataSource(
     private suspend fun suspendLoadAfter(
         params: LoadParams<Int>, callback: LoadCallback<Int, Result<PostDeserialize<Post>>>
     ) {
-        val result = postsArena.suspendFetch(filterBuilder.build(params.requestedLoadSize, params.key))
+        val countFilter = filterBuilder.count.build(params.requestedLoadSize)
+        val pageFilter = filterBuilder.page.build(params.key)
+        val result = postsArena.suspendFetch(filterBuilder.build(countFilter, pageFilter, tagsFilter))
         val success = result.getOrNull() ?: return afterSignal.onNext(result)
         callback.onResult(success.deserializes, params.key + 1)
         afterSignal.onNext(result)

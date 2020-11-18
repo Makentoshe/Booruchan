@@ -5,8 +5,8 @@ class CountFilterEntry(override val key: String, override val value: String?) : 
 
     /** key example: "limit", "count", and so on */
     class Builder(val key: String) : FilterEntry.Builder<Int> {
-        override fun build(value: Int?): FilterEntry {
-            return CountFilterEntry(key, value?.toString())
+        override fun build(value: Int): FilterEntry {
+            return CountFilterEntry(key, value.toString())
         }
     }
 }

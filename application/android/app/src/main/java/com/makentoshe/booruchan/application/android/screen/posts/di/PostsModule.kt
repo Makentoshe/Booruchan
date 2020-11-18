@@ -43,11 +43,12 @@ class PostsModule(fragment: PostsFragment) : Module() {
     }
 
     private fun bindPostsFragmentViewModel(fragment: PostsFragment, booruContext: BooruContext) {
+        val viewModelDisposables = CompositeDisposable()
         val postsContext = getPostsBooruContext(booruContext)
         val postsArena = getPostsArena(booruContext, postsContext)
         val previewArena = getPreviewArena(booruContext, fragment)
         val postsFragmentViewModelFactory =
-            PostsFragmentViewModel.Factory(postsArena, previewArena, postsContext.filterBuilder())
+            PostsFragmentViewModel.Factory(postsArena, previewArena, postsContext.filterBuilder(), viewModelDisposables)
         val postsFragmentViewModelProvider = ViewModelProviders.of(fragment, postsFragmentViewModelFactory)
         val postsFragmentViewModel = postsFragmentViewModelProvider[PostsFragmentViewModel::class.java]
         bind<PostsFragmentViewModel>().toInstance(postsFragmentViewModel)

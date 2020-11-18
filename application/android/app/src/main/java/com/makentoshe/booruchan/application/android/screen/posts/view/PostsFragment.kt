@@ -22,6 +22,7 @@ import com.makentoshe.booruchan.application.android.screen.posts.viewmodel.Posts
 import com.makentoshe.booruchan.application.android.screen.search.PostsSearchFragment
 import com.makentoshe.booruchan.application.core.arena.ArenaStorageException
 import com.makentoshe.booruchan.core.Text
+import com.makentoshe.booruchan.core.post.tagsFromText
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.CompositeDisposable
@@ -112,14 +113,16 @@ class PostsFragment : CoreFragment() {
 
     private fun onViewCreatedRecycler(view: View, savedInstanceState: Bundle?) {
         val spannedGridLayoutManager = SpannedGridLayoutManager(SpannedGridLayoutManager.Orientation.VERTICAL, 3)
-        spannedGridLayoutManager.spanSizeLookup = SpannedGridLayoutManagerLookup(viewModel.postsAdapter)
         fragment_posts_recycler.layoutManager = spannedGridLayoutManager
         fragment_posts_recycler.addItemDecoration(SpacesItemDecoration(8f))
-        fragment_posts_recycler.adapter = viewModel.postsAdapter
+        viewModel.postsAdapterObservable.subscribe { adapter ->
+            spannedGridLayoutManager.spanSizeLookup = SpannedGridLayoutManagerLookup(adapter)
+            fragment_posts_recycler.adapter = adapter
+        }.let(disposables::add)
     }
 
     private fun onInitialLoadRetry() {
-        viewModel.retryLoadInitial()
+        viewModel.retryLoadSourceObserver.onNext(Unit)
 
         fragment_posts_progress.visibility = View.VISIBLE
         fragment_posts_retry.visibility = View.GONE
@@ -165,9 +168,8 @@ class PostsFragment : CoreFragment() {
     private fun onActivityResultSearchSuccess(data: Intent?) {
         if (data == null) return onActivityResultSearchFailure(data)
         val serializable = data.getSerializableExtra(SEARCH_REQUEST_EXTRA)
-        val tags = serializable as Array<Text>
-        // TODO pass tags to the query
-        println(tags.map { it.text })
+        val tags = tagsFromText((serializable as Array<Text>).toSet())
+        viewModel.postsTagsSearchObserver.onNext(tags)
     }
 
     private fun onActivityResultSearchFailure(data: Intent?) {

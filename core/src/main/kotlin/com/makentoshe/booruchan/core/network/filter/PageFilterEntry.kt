@@ -5,6 +5,6 @@ class PageFilterEntry(override val key: String, override val value: String?) : F
 
     /** key example: "page", "pid", and so on */
     class Builder(val key: String) : FilterEntry.Builder<Int> {
-        override fun build(value: Int?) = PageFilterEntry(key, value?.toString())
+        override fun build(value: Int) = PageFilterEntry(key, value?.toString())
     }
 }

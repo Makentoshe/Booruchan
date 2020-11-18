@@ -7,8 +7,8 @@ class TagsFilterEntry(override val key: String, override val value: String?) : F
 
     /** key example: "tags" */
     class Builder(val key: String) : FilterEntry.Builder<Tags> {
-        override fun build(value: Tags?) : TagsFilterEntry {
-            val tags = value?.tags?.joinToString("%20") { it.text }
+        override fun build(value: Tags) : TagsFilterEntry {
+            val tags = value.tags.joinToString("%20") { it.text }
             return TagsFilterEntry(key, tags)
         }
     }

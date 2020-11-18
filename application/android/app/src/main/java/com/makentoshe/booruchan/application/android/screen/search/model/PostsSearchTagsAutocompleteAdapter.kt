@@ -53,7 +53,7 @@ class PostsSearchTagsAutocompleteAdapter(
             val filterBuilder = tagsContext.filterBuilder()
             // TODO add DESCENDING ORDER
             // TODO add sort by posts counts
-            val count = filterBuilder.count.build("10")
+            val count = filterBuilder.count.build(10)
             val starts = filterBuilder.starts.build(constraint.toString())
             val response = arena.suspendFetch(filterBuilder.build(count, starts))
             if (response.isSuccess) {

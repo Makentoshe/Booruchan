@@ -11,43 +11,80 @@ import com.makentoshe.booruchan.application.android.screen.posts.model.PostsPage
 import com.makentoshe.booruchan.application.core.arena.Arena
 import com.makentoshe.booruchan.core.post.Image
 import com.makentoshe.booruchan.core.post.Post
+import com.makentoshe.booruchan.core.post.Tags
 import com.makentoshe.booruchan.core.post.deserialize.PostDeserialize
 import com.makentoshe.booruchan.core.post.deserialize.PostsDeserialize
 import com.makentoshe.booruchan.core.post.network.PostsFilter
+import com.makentoshe.booruchan.core.post.tagsFromText
 import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.core.Observer
+import io.reactivex.rxjava3.disposables.CompositeDisposable
+import io.reactivex.rxjava3.subjects.BehaviorSubject
+import io.reactivex.rxjava3.subjects.PublishSubject
 
 class PostsFragmentViewModel(
     private val postsArena: Arena<PostsFilter, PostsDeserialize<Post>>,
     private val previewArena: Arena<Image, ByteArray>,
-    private val filterBuilder: PostsFilter.Builder
+    private val filterBuilder: PostsFilter.Builder,
+    private val disposables: CompositeDisposable
 ) : ViewModel() {
 
-    private val postsDataSource = PostsDataSource(postsArena, filterBuilder, viewModelScope)
+    /** Contains and manages source */
+    private val sourceSubject = BehaviorSubject.create<PostsDataSource>()
 
-    // Indicates that the initial bath of data was already loaded
-    val initialSignal: Observable<Result<*>> = postsDataSource.initialSignal
+    /** Retries initial request for [sourceSubject] */
+    private val retryLoadSourceSubject = PublishSubject.create<Unit>()
+    val retryLoadSourceObserver: Observer<Unit> = retryLoadSourceSubject
 
-    fun retryLoadInitial() = postsDataSource.retryLoadInitial()
+    /** Indicates that the initial batch of data was already loaded */
+    private val initialSignalSubject = PublishSubject.create<Result<*>>()
+    val initialSignal: Observable<Result<*>> = initialSignalSubject
 
-    val postsAdapter by lazy {
-        PostsPagedAdapter(previewArena, viewModelScope, postsDataSource).apply { submitList(getPagedList()) }
+    private val postsAdapterSubject = BehaviorSubject.create<PostsPagedAdapter>()
+    val postsAdapterObservable: Observable<PostsPagedAdapter> = postsAdapterSubject
+
+    private val postsTagsSearchSubject = PublishSubject.create<Tags>()
+    val postsTagsSearchObserver: Observer<Tags> = postsTagsSearchSubject
+
+    init {
+        postsTagsSearchSubject.map { tags ->
+            val tagsFilter = filterBuilder.tags.build(tags)
+            PostsDataSource(postsArena, filterBuilder, viewModelScope, tagsFilter)
+        }.doOnNext(sourceSubject::onNext).subscribe { source ->
+            val adapter = PostsPagedAdapter(previewArena, viewModelScope, source)
+            adapter.submitList(getPagedList(source))
+            postsAdapterSubject.onNext(adapter)
+        }.let(disposables::add)
+
+        sourceSubject.subscribe { source ->
+            source.initialSignal.safeSubscribe(initialSignalSubject)
+        }.let(disposables::add)
+
+        retryLoadSourceSubject.subscribe { sourceSubject.value?.retryLoadInitial() }.let(disposables::add)
+
+        postsTagsSearchSubject.onNext(tagsFromText(emptySet()))
     }
 
-    private fun getPagedList(): PagedList<Result<PostDeserialize<Post>>> {
+    private fun getPagedList(source: PostsDataSource): PagedList<Result<PostDeserialize<Post>>> {
         val config = PagedList.Config.Builder().setEnablePlaceholders(false).setPageSize(30).build()
-        val pagedListBuilder = PagedList.Builder(postsDataSource, config)
+        val pagedListBuilder = PagedList.Builder(source, config)
         pagedListBuilder.setNotifyExecutor(MainExecutor())
         pagedListBuilder.setFetchExecutor(FetchExecutor(viewModelScope))
         return pagedListBuilder.build()
     }
 
+    override fun onCleared() {
+        disposables.clear()
+    }
+
     class Factory(
         private val postsArena: Arena<PostsFilter, PostsDeserialize<Post>>,
         private val previewArena: Arena<Image, ByteArray>,
-        private val postsFilterBuilder: PostsFilter.Builder
+        private val postsFilterBuilder: PostsFilter.Builder,
+        private val disposables: CompositeDisposable
     ) : ViewModelProvider.NewInstanceFactory() {
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-            return PostsFragmentViewModel(postsArena, previewArena, postsFilterBuilder) as T
+            return PostsFragmentViewModel(postsArena, previewArena, postsFilterBuilder, disposables) as T
         }
     }
 }
