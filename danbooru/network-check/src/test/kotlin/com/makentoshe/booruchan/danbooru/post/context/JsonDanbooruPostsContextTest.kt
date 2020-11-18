@@ -15,7 +15,7 @@ class JsonDanbooruPostsContextTest: DanbooruPostsContextTest() {
     @Test
     fun `should request json posts`() = runBlocking {
         val filterBuilder = DanbooruPostsFilter.Builder()
-        val count = filterBuilder.count.build("5")
+        val count = filterBuilder.count.build(5)
         val request = JsonDanbooruPostsRequest(filterBuilder.build(count))
         logger.info { "Json url request: ${request.url}" }
         assertEquals("https://danbooru.donmai.us/posts.json?limit=5", request.url)

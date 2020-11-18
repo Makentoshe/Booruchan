@@ -9,7 +9,12 @@ interface FilterEntry {
      * This abstraction allows to do not know all available entries,
      * keys for query search and some additional features
      */
-    interface Builder {
-        fun build(value: String?): FilterEntry
+    interface Builder<Value> {
+        fun build(value: Value?): FilterEntry
     }
+}
+
+fun filterEntry(key: String, value: String?) = object: FilterEntry {
+    override val key = key
+    override val value = value
 }

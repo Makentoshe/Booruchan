@@ -4,9 +4,9 @@ package com.makentoshe.booruchan.core.network.filter
 class CountFilterEntry(override val key: String, override val value: String?) : FilterEntry {
 
     /** key example: "limit", "count", and so on */
-    class Builder(val key: String) : FilterEntry.Builder {
-        override fun build(value: String?): FilterEntry {
-            return CountFilterEntry(key, value)
+    class Builder(val key: String) : FilterEntry.Builder<Int> {
+        override fun build(value: Int?): FilterEntry {
+            return CountFilterEntry(key, value?.toString())
         }
     }
 }

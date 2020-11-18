@@ -15,7 +15,7 @@ class XmlDanbooruTagsContextTest : DanbooruTagsContextTest() {
     @Test
     fun `should request xml tags`() = runBlocking {
         val countFilterEntry = DanbooruTagsFilter.Builder().count
-        val request = XmlDanbooruTagsRequest(DanbooruTagsFilter(listOf(countFilterEntry.build("5"))))
+        val request = XmlDanbooruTagsRequest(DanbooruTagsFilter(listOf(countFilterEntry.build(5))))
         logger.info { "Xml url request: ${request.url}" }
         assertEquals("https://danbooru.donmai.us/tags.xml?limit=5", request.url)
 

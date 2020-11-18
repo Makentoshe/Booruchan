@@ -15,7 +15,7 @@ class JsonDanbooruTagsContextTest: DanbooruTagsContextTest() {
     @Test
     fun `should request json tags`() = runBlocking {
         val countFilterEntry = DanbooruTagsFilter.Builder().count
-        val request = JsonDanbooruTagsRequest(DanbooruTagsFilter(listOf(countFilterEntry.build("5"))))
+        val request = JsonDanbooruTagsRequest(DanbooruTagsFilter(listOf(countFilterEntry.build(5))))
         logger.info { "Json url request: ${request.url}" }
         assertEquals("https://danbooru.donmai.us/tags.json?limit=5", request.url)
 

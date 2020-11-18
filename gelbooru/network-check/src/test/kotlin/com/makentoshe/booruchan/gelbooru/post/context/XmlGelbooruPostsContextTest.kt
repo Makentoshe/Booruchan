@@ -15,7 +15,7 @@ class XmlGelbooruPostsContextTest: GelbooruPostsContextTest() {
     @Test
     fun `should request xml posts`() = runBlocking {
         val filterBuilder = GelbooruPostsFilter.Builder()
-        val count = filterBuilder.count.build("5")
+        val count = filterBuilder.count.build(5)
         val request = XmlGelbooruPostsRequest(filterBuilder.build(count))
         logger.info { "Xml url request: ${request.url}" }
         assertEquals("https://gelbooru.com/index.php?page=dapi&s=post&q=index&limit=5", request.url)

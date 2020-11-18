@@ -9,7 +9,7 @@ class ContainsFilterEntry(override val key: String, override val value: String?)
      * [before] and [after] is a strings that should be defined for each source separately
      * and allows to configure search.
      */
-    class Builder(val key: String, private val before: String, private val after: String): FilterEntry.Builder {
+    class Builder(val key: String, private val before: String, private val after: String): FilterEntry.Builder<String> {
         override fun build(value: String?): FilterEntry {
             return ContainsFilterEntry(key, "$before$value$after")
         }

@@ -21,9 +21,6 @@ class DanbooruTagsFilter(params: List<FilterEntry>) : TagsFilter(params) {
         override val starts: StartsFilterEntry.Builder
             get() = StartsFilterEntry.Builder("search[name_matches]", "*")
 
-        override val availableEntryBuilders: List<FilterEntry.Builder>
-            get() = listOf(count, contains, starts)
-
         override fun build(entries: List<FilterEntry>) = DanbooruTagsFilter(entries)
 
         override fun build(vararg entries: FilterEntry): DanbooruTagsFilter {

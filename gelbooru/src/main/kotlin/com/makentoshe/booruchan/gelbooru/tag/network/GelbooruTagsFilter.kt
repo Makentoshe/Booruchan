@@ -21,9 +21,6 @@ class GelbooruTagsFilter(params: List<FilterEntry>) : TagsFilter(params) {
         override val starts: StartsFilterEntry.Builder
             get() = StartsFilterEntry.Builder("name_pattern", "%25")
 
-        override val availableEntryBuilders: List<FilterEntry.Builder>
-            get() = listOf(count, contains, starts)
-
         override fun build(entries: List<FilterEntry>) = GelbooruTagsFilter(entries)
 
         override fun build(vararg entries: FilterEntry): GelbooruTagsFilter {

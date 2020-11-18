@@ -14,7 +14,7 @@ class XmlGelbooruTagsContextTest : GelbooruTagsContextTest() {
 
     @Test
     fun `should request xml tags`() = runBlocking {
-        val filterEntry = GelbooruTagsFilter.Builder().count.build("5")
+        val filterEntry = GelbooruTagsFilter.Builder().count.build(5)
         val request = XmlGelbooruTagsRequest(GelbooruTagsFilter(listOf(filterEntry)))
         logger.info { "Xml url request: ${request.url}" }
         assertEquals("https://gelbooru.com/index.php?page=dapi&s=tag&q=index&limit=5", request.url)

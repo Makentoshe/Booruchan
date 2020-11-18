@@ -31,8 +31,6 @@ abstract class TagsFilter(protected val params: List<FilterEntry>) : Filter {
 
         abstract val starts: StartsFilterEntry.Builder
 
-        abstract val availableEntryBuilders: List<FilterEntry.Builder>
-
         abstract fun build(entries: List<FilterEntry>): TagsFilter
 
         open fun build(vararg entries: FilterEntry) = build(entries.toList())

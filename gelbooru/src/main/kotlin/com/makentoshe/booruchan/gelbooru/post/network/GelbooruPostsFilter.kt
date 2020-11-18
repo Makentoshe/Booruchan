@@ -10,7 +10,7 @@ class GelbooruPostsFilter(entries: List<FilterEntry>) : PostsFilter(entries) {
 
     override val firstChar: String = "&"
 
-    class Builder : PostsFilter.Builder2() {
+    class Builder : PostsFilter.Builder() {
 
         override val count: CountFilterEntry.Builder
             get() = CountFilterEntry.Builder("limit")
@@ -20,9 +20,6 @@ class GelbooruPostsFilter(entries: List<FilterEntry>) : PostsFilter(entries) {
 
         override val tags: TagsFilterEntry.Builder
             get() = TagsFilterEntry.Builder("tags")
-
-        override val availableEntryBuilders: List<FilterEntry.Builder>
-            get() = listOf(count, page, tags)
 
         override fun build(entries: List<FilterEntry>) = GelbooruPostsFilter(entries)
 

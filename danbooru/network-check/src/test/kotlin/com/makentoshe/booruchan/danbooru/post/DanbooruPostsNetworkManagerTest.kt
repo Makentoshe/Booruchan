@@ -24,7 +24,7 @@ class DanbooruPostsNetworkManagerTest {
     @Test
     fun `should request json posts`() = runBlocking {
         val filterBuilder = DanbooruPostsFilter.Builder()
-        val count = filterBuilder.count.build("10")
+        val count = filterBuilder.count.build(10)
         val request = JsonDanbooruPostsRequest(filterBuilder.build(count))
         logger.info { "Json url request: ${request.url}" }
         assertEquals("https://danbooru.donmai.us/posts.json?limit=10", request.url)
@@ -42,7 +42,7 @@ class DanbooruPostsNetworkManagerTest {
     @Test
     fun `should request xml posts`() = runBlocking {
         val filterBuilder = DanbooruPostsFilter.Builder()
-        val count = filterBuilder.count.build("10")
+        val count = filterBuilder.count.build(10)
         val request = XmlDanbooruPostsRequest(filterBuilder.build(count))
         logger.info { "Xml url request: ${request.url}" }
         assertEquals("https://danbooru.donmai.us/posts.xml?limit=10", request.url)
