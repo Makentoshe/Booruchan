@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
+import android.widget.TextView
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.makentoshe.booruchan.application.android.R
@@ -22,6 +23,7 @@ import com.makentoshe.booruchan.core.tag.Tag
 import com.makentoshe.booruchan.core.tag.Type
 import com.makentoshe.booruchan.core.text
 import kotlinx.android.synthetic.main.fragment_search_posts.*
+import kotlinx.android.synthetic.main.layout_rating.*
 import kotlinx.android.synthetic.main.layout_tags.*
 import toothpick.ktp.delegate.inject
 
@@ -41,7 +43,9 @@ class PostsSearchFragment : CoreFragment() {
     }
 
     val arguments = Arguments(this)
+
     private val viewModel by inject<PostsSearchViewModel>()
+
     private val tagsContainer by inject<CompositeSearchTagsContainer>()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -51,11 +55,42 @@ class PostsSearchFragment : CoreFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         onViewCreatedAutocomplete(view, savedInstanceState)
         onViewCreatedTextInput(view, savedInstanceState)
+        onViewCreatedApplyButton()
+        onViewCreatedRatingToggle()
+    }
 
+    private fun onViewCreatedRatingToggle() {
+        fragment_search_posts_rating_toggle.addOnButtonCheckedListener { _, checkedId, isChecked ->
+            when (checkedId) {
+                R.id.fragment_search_posts_rating_toggle_safe -> onSafeRatingClicked(isChecked)
+                R.id.fragment_search_posts_rating_toggle_questionable -> onQuestionableRatingClicked(isChecked)
+                R.id.fragment_search_posts_rating_toggle_explicit -> onExplicitRatingClicked(isChecked)
+            }
+            updateApplyButtonAccessibility()
+        }
+    }
+
+    private fun onSafeRatingClicked(isChecked: Boolean) {
+        val tag = text("rating:safe")
+        if (isChecked) tagsContainer.addTag(tag) else tagsContainer.remove(tag)
+    }
+
+    private fun onQuestionableRatingClicked(isChecked: Boolean) {
+        val tag = text("rating:questionable")
+        if (isChecked) tagsContainer.addTag(tag) else tagsContainer.remove(tag)
+    }
+
+    private fun onExplicitRatingClicked(isChecked: Boolean) {
+        val tag = text("rating:explicit")
+        if (isChecked) tagsContainer.addTag(tag) else tagsContainer.remove(tag)
+    }
+
+    private fun onViewCreatedApplyButton() {
         fragment_search_posts_apply.setOnClickListener {
             val appliedTags = tagsContainer.applyTags()
             val intent = Intent().putExtra(SEARCH_REQUEST_EXTRA, appliedTags.toTypedArray())
             parentFragment?.onActivityResult(SEARCH_REQUEST_CODE, Activity.RESULT_OK, intent)
+            updateApplyButtonAccessibility()
         }
     }
 
@@ -70,21 +105,43 @@ class PostsSearchFragment : CoreFragment() {
 
     private fun onViewCreatedTextInput(view: View, savedInstanceState: Bundle?) {
         fragment_search_posts_input.editText?.setOnEditorActionListener { v, actionId, event ->
-            when (actionId) {
-                EditorInfo.IME_ACTION_DONE -> {
-                    onGeneralTagDisplay(text(v.text.toString()))
-                    v.text = ""
-                    fragment_search_posts_progress.visibility = View.GONE
-                    return@setOnEditorActionListener true
-                }
-                else -> return@setOnEditorActionListener false
+            return@setOnEditorActionListener when (actionId) {
+                EditorInfo.IME_ACTION_DONE -> onTextInputImeActionDone(v)
+                else -> false
             }
         }
+    }
+
+    private fun onTextInputImeActionDone(textView: TextView): Boolean {
+        if (processRatingTag(text(textView.text.toString()))) {
+            textView.text = ""
+            return true
+        }
+
+        onGeneralTagDisplay(text(textView.text.toString()))
+        textView.text = ""
+        fragment_search_posts_progress.visibility = View.GONE
+        return true
+    }
+
+    /** Return true if tag was processed */
+    private fun processRatingTag(tag: Text): Boolean {
+        val toggleButton = when(tag.text) {
+            "rating:safe" -> fragment_search_posts_rating_toggle_safe
+            "rating:questionable" -> fragment_search_posts_rating_toggle_questionable
+            "rating:explicit" -> fragment_search_posts_rating_toggle_explicit
+            else -> return false
+        }
+        toggleButton.performClick()
+        return true
     }
 
     private fun onAutocompleteTipClick(autocompleteTextView: DelayMaterialAutocompleteTextView, position: Int) {
         val tag = autocompleteTextView.adapter.getItem(position) as Tag
         autocompleteTextView.setText("")
+
+        if (processRatingTag(tag)) return
+
         when (tag.type) {
             Type.ARTIST -> onArtistTagDisplay(tag)
             Type.CHARACTER -> onCharacterTagDisplay(tag)
@@ -99,10 +156,16 @@ class PostsSearchFragment : CoreFragment() {
         val shouldCreateChip = if (tag is Tag) tagsContainer.addTag(tag) else tagsContainer.addTag(tag)
         if (!shouldCreateChip) return
 
+        // a new tag was added to the search - so it is a time to access applying
+        updateApplyButtonAccessibility()
+
         group.visibility = View.VISIBLE
         val chip = createChip(tag, chipGroup)
         chipGroup.addView(chip)
         chip.setOnCloseIconClickListener {
+            // search was changed - so it is a time to access applying
+            updateApplyButtonAccessibility()
+
             chipGroup.removeView(chip)
             if (chipGroup.childCount == 0) {
                 group.visibility = View.GONE
@@ -132,6 +195,10 @@ class PostsSearchFragment : CoreFragment() {
         chip as Chip
         chip.text = tag.text
         return chip
+    }
+
+    private fun updateApplyButtonAccessibility() {
+        fragment_search_posts_apply.isEnabled = tagsContainer.tagsActions.isNotEmpty()
     }
 
     class Arguments(fragment: PostsSearchFragment) : FragmentArguments<PostsSearchFragment>(fragment) {

@@ -12,6 +12,7 @@
         <item name="booruchanProgress">@style/Default.Progress</item>
         <item name="booruchanAutocomplete">@style/Default.Autocomplete</item>
         <item name="booruchanButtonToggle">@style/Default.Button.Toggle</item>
+        <item name="booruchanButtonText">@style/Default.Button.Text</item>
     </style>
 
     <style name="Default.Toolbar">
@@ -53,11 +54,13 @@
     </style>
 
     <style name="Default.Button.Toggle" parent="Widget.MaterialComponents.Button.OutlinedButton">
-        <item name="android:textColor">@color/search_posts_toggle_button_foreground_color</item>
+        <item name="android:textColor">@color/button_toggle_foreground_color</item>
         <item name="strokeColor">@color/separator</item>
-        <item name="backgroundTint">@color/search_posts_toggle_button_background_color</item>
+        <item name="backgroundTint">@color/button_toggle_background_color</item>
     </style>
 
-    <style name="Default.Button.Text" parent="Widget.MaterialComponents.Button.TextButton"/>
+    <style name="Default.Button.Text" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="android:textColor">@color/button_text_foreground_color</item>
+    </style>
 
 </resources>

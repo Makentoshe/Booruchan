@@ -16,6 +16,7 @@ import androidx.core.view.forEach
 import androidx.fragment.app.FragmentFactory
 import com.arasthel.spannedgridlayoutmanager.SpannedGridLayoutManager
 import com.makentoshe.booruchan.application.android.R
+import com.makentoshe.booruchan.application.android.common.dp2px
 import com.makentoshe.booruchan.application.android.fragment.CoreFragment
 import com.makentoshe.booruchan.application.android.fragment.FragmentArguments
 import com.makentoshe.booruchan.application.android.screen.posts.viewmodel.PostsFragmentViewModel
@@ -97,18 +98,26 @@ class PostsFragment : CoreFragment() {
 
     private fun onToolbarMenuClick(item: MenuItem): Boolean {
         when (item.groupId) {
-            R.id.posts_toolbar_search_open -> {
-                fragment_posts_panel.panelState = SlidingUpPanelLayout.PanelState.EXPANDED
-                fragment_posts_toolbar.menu.setGroupVisible(R.id.posts_toolbar_search_open, false)
-                fragment_posts_toolbar.menu.setGroupVisible(R.id.posts_toolbar_search_close, true)
-            }
-            R.id.posts_toolbar_search_close -> {
-                fragment_posts_panel.panelState = SlidingUpPanelLayout.PanelState.COLLAPSED
-                fragment_posts_toolbar.menu.setGroupVisible(R.id.posts_toolbar_search_open, true)
-                fragment_posts_toolbar.menu.setGroupVisible(R.id.posts_toolbar_search_close, false)
-            }
+            R.id.posts_toolbar_search_open -> openSlidingPanel()
+            R.id.posts_toolbar_search_close -> closeSlidingPanel()
         }
         return true
+    }
+
+    private fun closeSlidingPanel() {
+        fragment_posts_panel.panelState = SlidingUpPanelLayout.PanelState.COLLAPSED
+        fragment_posts_toolbar.menu.setGroupVisible(R.id.posts_toolbar_search_open, true)
+        fragment_posts_toolbar.menu.setGroupVisible(R.id.posts_toolbar_search_close, false)
+        
+        fragment_posts_toolbar.elevation = requireContext().dp2px(R.dimen.toolbar_elevation)
+    }
+
+    private fun openSlidingPanel() {
+        fragment_posts_panel.panelState = SlidingUpPanelLayout.PanelState.EXPANDED
+        fragment_posts_toolbar.menu.setGroupVisible(R.id.posts_toolbar_search_open, false)
+        fragment_posts_toolbar.menu.setGroupVisible(R.id.posts_toolbar_search_close, true)
+        
+        fragment_posts_toolbar.elevation = 0f
     }
 
     private fun onViewCreatedRecycler(view: View, savedInstanceState: Bundle?) {
@@ -124,6 +133,7 @@ class PostsFragment : CoreFragment() {
     private fun onInitialLoadRetry() {
         viewModel.retryLoadSourceObserver.onNext(Unit)
 
+        fragment_posts_recycler.visibility = View.GONE
         fragment_posts_progress.visibility = View.VISIBLE
         fragment_posts_retry.visibility = View.GONE
         fragment_posts_title.visibility = View.GONE
@@ -142,6 +152,7 @@ class PostsFragment : CoreFragment() {
 
     private fun onInitialLoadFailure(exception: Throwable?) {
         val entry = fragmentExceptionHandler.handleException(exception)
+        fragment_posts_recycler.visibility = View.GONE
         fragment_posts_title.text = entry.title
         fragment_posts_title.visibility = View.VISIBLE
         fragment_posts_message.text = entry.message
@@ -170,6 +181,9 @@ class PostsFragment : CoreFragment() {
         val serializable = data.getSerializableExtra(SEARCH_REQUEST_EXTRA)
         val tags = tagsFromText((serializable as Array<Text>).toSet())
         viewModel.postsTagsSearchObserver.onNext(tags)
+        closeSlidingPanel()
+        fragment_posts_progress.visibility = View.VISIBLE
+        fragment_posts_recycler.visibility = View.GONE
     }
 
     private fun onActivityResultSearchFailure(data: Intent?) {

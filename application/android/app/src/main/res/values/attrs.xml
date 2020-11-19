@@ -5,5 +5,5 @@
     <attr name="booruchanProgress" format="reference" />
     <attr name="booruchanAutocomplete" format="reference" />
     <attr name="booruchanButtonToggle" format="reference" />
-
+    <attr name="booruchanButtonText" format="reference" />
 </resources>

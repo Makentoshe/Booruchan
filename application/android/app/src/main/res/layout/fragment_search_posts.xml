@@ -25,7 +25,6 @@
         android:layout_height="@dimen/toolbar_height"
         android:hint="@string/posts_search_hint"
         app:endIconMode="clear_text"
-        android:layout_marginTop="@dimen/dimenM"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="@id/fragment_search_posts_guideline_start"
         app:layout_constraintEnd_toEndOf="@id/fragment_search_posts_guideline_end">
@@ -55,12 +54,13 @@
         style="@style/Default.Separator"
         android:id="@+id/fragment_search_posts_separator_top"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/separator_height"
-        android:layout_marginTop="@dimen/dimenS"
+        android:layout_height="1px"
         android:elevation="@dimen/toolbar_elevation"
+        android:layout_marginTop="@dimen/dimenM"
         app:layout_constraintTop_toBottomOf="@id/fragment_search_posts_input"
         app:layout_constraintStart_toStartOf="@id/fragment_search_posts_guideline_start"
-        app:layout_constraintEnd_toEndOf="@id/fragment_search_posts_guideline_end" />
+        app:layout_constraintEnd_toEndOf="@id/fragment_search_posts_guideline_end"
+        app:layout_constraintBottom_toTopOf="@id/fragment_search_posts_scroll" />
 
     <ScrollView
         android:id="@+id/fragment_search_posts_scroll"
@@ -76,7 +76,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_marginTop="@dimen/dimenXS">
+            android:layout_marginTop="@dimen/dimenM">
 
             <include
                 android:id="@+id/fragment_search_posts_rating_include"
@@ -105,10 +105,12 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/fragment_search_posts_apply"
-        style="@style/Default.Button.Text"
+        style="?attr/booruchanButtonText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Apply"
+        android:enabled="false"
+        android:background="?android:attr/selectableItemBackground"
+        android:text="@string/posts_search_apply_search_button"
         app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

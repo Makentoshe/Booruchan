@@ -6,7 +6,7 @@
 
     <!-- Toolbar Light differences -->
     <dimen name="toolbar_elevation">4dp</dimen>
-    <dimen name="toolbar_separator_height">0dp</dimen>
+    <dimen name="toolbar_separator_height">0px</dimen>
     
     <!-- Text -->
     <dimen name="main_text_size">16sp</dimen>

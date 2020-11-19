@@ -16,7 +16,7 @@
         android:visible="false">
         <item
             app:showAsAction="ifRoom"
-            android:icon="@drawable/ic_account_circle"
+            android:icon="@drawable/ic_close"
             android:title="@string/posts_toolbar_search" />
     </group>
 </menu>
