@@ -37,7 +37,7 @@ class PostsFragmentViewModel(
     val retryLoadSourceObserver: Observer<Unit> = retryLoadSourceSubject
 
     /** Indicates that the initial batch of data was already loaded */
-    private val initialSignalSubject = PublishSubject.create<Result<*>>()
+    private val initialSignalSubject = BehaviorSubject.create<Result<*>>()
     val initialSignal: Observable<Result<*>> = initialSignalSubject
 
     private val postsAdapterSubject = BehaviorSubject.create<PostsPagedAdapter>()
@@ -60,7 +60,9 @@ class PostsFragmentViewModel(
             source.initialSignal.safeSubscribe(initialSignalSubject)
         }.let(disposables::add)
 
-        retryLoadSourceSubject.subscribe { sourceSubject.value?.retryLoadInitial() }.let(disposables::add)
+        retryLoadSourceSubject.subscribe {
+            sourceSubject.value?.retryLoadInitial()
+        }.let(disposables::add)
 
         postsTagsSearchSubject.onNext(tagsFromText(emptySet()))
     }

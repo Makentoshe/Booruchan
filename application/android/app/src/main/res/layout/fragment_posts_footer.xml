@@ -35,7 +35,7 @@
 
     <com.google.android.material.button.MaterialButton
         android:visibility="invisible"
-        style="@style/Widget.MaterialComponents.Button.TextButton"
+        style="?attr/booruchanButtonText"
         android:id="@+id/fragment_posts_footer_retry"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

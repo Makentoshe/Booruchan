@@ -144,6 +144,7 @@ class PostsFragment : CoreFragment() {
     private fun onInitialLoad(result: Result<*>) {
         fragment_posts_progress.visibility = View.GONE
         if (result.isSuccess) {
+            fragment_posts_recycler.smoothScrollToPosition(0)
             fragment_posts_recycler.visibility = View.VISIBLE
         } else {
             onInitialLoadFailure(result.exceptionOrNull())
