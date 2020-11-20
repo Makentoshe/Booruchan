@@ -25,7 +25,7 @@ object JacocoCoverageReport : PipelineBuildDaily("Test coverage report", 0, 0, {
     steps {
         gradle {
             name = "Generate coverage report for whole project"
-            tasks = "testJacocoCoverageReport --info -Pnetable"
+            tasks = "clean build testJacocoCoverageReport --info -Pnetable"
             buildFile = "build.gradle.kts"
         }
     }
