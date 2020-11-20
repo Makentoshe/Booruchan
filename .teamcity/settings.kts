@@ -33,8 +33,6 @@ project {
     buildType(Core)
     buildType(Gelbooru)
     buildType(Danbooru)
-    buildType(DanbooruNetworkCheck)
-    buildType(GelbooruNetworkCheck)
     buildType(JacocoCoverageReport)
 
     vcsRoot(BooruchanVcsRoot)
