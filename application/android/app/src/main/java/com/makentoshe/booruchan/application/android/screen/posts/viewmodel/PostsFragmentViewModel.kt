@@ -29,22 +29,28 @@ class PostsFragmentViewModel(
     private val disposables: CompositeDisposable
 ) : ViewModel() {
 
-    /** Contains and manages source */
+    /** Contains and manages current posts source, required for the adapter */
     private val sourceSubject = BehaviorSubject.create<PostsDataSource>()
 
-    /** Retries initial request for [sourceSubject] */
-    private val retryLoadSourceSubject = PublishSubject.create<Unit>()
-    val retryLoadSourceObserver: Observer<Unit> = retryLoadSourceSubject
+    /** Retries initial request for [sourceSubject]. Valid only when [initialSignal] returns [Result.Failure] */
+    private val retryInitialLoadSubject = PublishSubject.create<Unit>()
+    val retryInitialLoadObserver: Observer<Unit> = retryInitialLoadSubject
 
-    /** Indicates that the initial batch of data was already loaded */
+    /** Indicates that the loading of the initial batch of data was finished */
     private val initialSignalSubject = BehaviorSubject.create<Result<*>>()
     val initialSignal: Observable<Result<*>> = initialSignalSubject
 
+    /** Returns a new adapter when new tags ware defined through [postsTagsSearchObserver] */
     private val postsAdapterSubject = BehaviorSubject.create<PostsPagedAdapter>()
     val postsAdapterObservable: Observable<PostsPagedAdapter> = postsAdapterSubject
 
-    private val postsTagsSearchSubject = PublishSubject.create<Tags>()
+    /** Defines a new search for a new tags */
+    private val postsTagsSearchSubject = BehaviorSubject.create<Tags>()
     val postsTagsSearchObserver: Observer<Tags> = postsTagsSearchSubject
+
+    /** Defines a new search for the previous tags. This action allows to keep data in actual state */
+    private val refreshInitialLoadSubject = PublishSubject.create<Unit>()
+    val refreshInitialLoadObserver: Observer<Unit> = refreshInitialLoadSubject
 
     init {
         postsTagsSearchSubject.map { tags ->
@@ -60,11 +66,17 @@ class PostsFragmentViewModel(
             source.initialSignal.safeSubscribe(initialSignalSubject)
         }.let(disposables::add)
 
-        retryLoadSourceSubject.subscribe {
+        retryInitialLoadSubject.subscribe {
             sourceSubject.value?.retryLoadInitial()
         }.let(disposables::add)
 
+        // Starts an initial request without any tags by default
         postsTagsSearchSubject.onNext(tagsFromText(emptySet()))
+
+        // Starts new search on refresh action
+        refreshInitialLoadSubject.subscribe {
+            postsTagsSearchSubject.onNext(postsTagsSearchSubject.value ?: return@subscribe)
+        }.let(disposables::add)
     }
 
     private fun getPagedList(source: PostsDataSource): PagedList<Result<PostDeserialize<Post>>> {

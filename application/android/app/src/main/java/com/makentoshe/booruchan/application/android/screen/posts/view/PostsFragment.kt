@@ -71,20 +71,30 @@ class PostsFragment : CoreFragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        fragment_posts_panel.isTouchEnabled = false
-
-        onViewCreatedToolbar(view, savedInstanceState)
-        onViewCreatedRecycler(view, savedInstanceState)
+        onViewCreatedSlidingPanel(view)
+        onViewCreatedToolbar()
+        onViewCreatedRecycler()
 
         viewModel.initialSignal.observeOn(AndroidSchedulers.mainThread())
             .subscribe(::onInitialLoad).let(disposables::add)
 
-        fragment_posts_retry.setOnClickListener { onInitialLoadRetry() }
+        fragment_posts_retry.setOnClickListener {
+            viewModel.retryInitialLoadObserver.onNext(Unit)
+            fragment_posts_swipe.visibility = View.GONE
+            onInitialLoadRetry()
+        }
+        fragment_posts_swipe.setOnRefreshListener {
+            viewModel.refreshInitialLoadObserver.onNext(Unit)
+            onInitialLoadRetry()
+        }
+    }
 
+    private fun onViewCreatedSlidingPanel(view: View) {
+        fragment_posts_panel.isTouchEnabled = false
         fragment_posts_panel.addPanelSlideListener(PostsSlidingUpPanelListener(this, view))
     }
 
-    private fun onViewCreatedToolbar(view: View, savedInstanceState: Bundle?) {
+    private fun onViewCreatedToolbar() {
         fragment_posts_toolbar.title = arguments.booruContextTitle
         fragment_posts_toolbar.menu.forEach { item -> // change menu icons color to dimmed
             item.iconTintList = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -108,7 +118,7 @@ class PostsFragment : CoreFragment() {
         fragment_posts_panel.panelState = SlidingUpPanelLayout.PanelState.COLLAPSED
         fragment_posts_toolbar.menu.setGroupVisible(R.id.posts_toolbar_search_open, true)
         fragment_posts_toolbar.menu.setGroupVisible(R.id.posts_toolbar_search_close, false)
-        
+
         fragment_posts_toolbar.elevation = requireContext().dp2px(R.dimen.toolbar_elevation)
     }
 
@@ -116,36 +126,34 @@ class PostsFragment : CoreFragment() {
         fragment_posts_panel.panelState = SlidingUpPanelLayout.PanelState.EXPANDED
         fragment_posts_toolbar.menu.setGroupVisible(R.id.posts_toolbar_search_open, false)
         fragment_posts_toolbar.menu.setGroupVisible(R.id.posts_toolbar_search_close, true)
-        
+
         fragment_posts_toolbar.elevation = 0f
     }
 
-    private fun onViewCreatedRecycler(view: View, savedInstanceState: Bundle?) {
+    private fun onViewCreatedRecycler() {
         val spannedGridLayoutManager = SpannedGridLayoutManager(SpannedGridLayoutManager.Orientation.VERTICAL, 3)
         fragment_posts_recycler.layoutManager = spannedGridLayoutManager
         fragment_posts_recycler.addItemDecoration(SpacesItemDecoration(8f))
         viewModel.postsAdapterObservable.subscribe { adapter ->
             spannedGridLayoutManager.spanSizeLookup = SpannedGridLayoutManagerLookup(adapter)
-            fragment_posts_recycler.adapter = adapter
+            fragment_posts_recycler.swapAdapter(adapter, true)
         }.let(disposables::add)
     }
 
     private fun onInitialLoadRetry() {
-        viewModel.retryLoadSourceObserver.onNext(Unit)
-
-        fragment_posts_recycler.visibility = View.GONE
         fragment_posts_progress.visibility = View.VISIBLE
         fragment_posts_retry.visibility = View.GONE
         fragment_posts_title.visibility = View.GONE
         fragment_posts_message.visibility = View.GONE
     }
 
-    /** On [viewModel.inisialSignal] receive in ui thread */
+    /** On [viewModel.initialSignal] receive in ui thread */
     private fun onInitialLoad(result: Result<*>) {
         fragment_posts_progress.visibility = View.GONE
+        fragment_posts_swipe.isRefreshing = false
         if (result.isSuccess) {
             fragment_posts_recycler.smoothScrollToPosition(0)
-            fragment_posts_recycler.visibility = View.VISIBLE
+            fragment_posts_swipe.visibility = View.VISIBLE
         } else {
             onInitialLoadFailure(result.exceptionOrNull())
         }
@@ -153,7 +161,7 @@ class PostsFragment : CoreFragment() {
 
     private fun onInitialLoadFailure(exception: Throwable?) {
         val entry = fragmentExceptionHandler.handleException(exception)
-        fragment_posts_recycler.visibility = View.GONE
+        fragment_posts_swipe.visibility = View.GONE
         fragment_posts_title.text = entry.title
         fragment_posts_title.visibility = View.VISIBLE
         fragment_posts_message.text = entry.message
@@ -184,7 +192,7 @@ class PostsFragment : CoreFragment() {
         viewModel.postsTagsSearchObserver.onNext(tags)
         closeSlidingPanel()
         fragment_posts_progress.visibility = View.VISIBLE
-        fragment_posts_recycler.visibility = View.GONE
+        fragment_posts_swipe.visibility = View.GONE
     }
 
     private fun onActivityResultSearchFailure(data: Intent?) {
