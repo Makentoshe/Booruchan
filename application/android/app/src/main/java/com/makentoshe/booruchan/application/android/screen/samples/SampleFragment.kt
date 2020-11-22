@@ -4,10 +4,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
+import com.makentoshe.booruchan.application.android.R
 import com.makentoshe.booruchan.application.android.fragment.CoreFragment
 import com.makentoshe.booruchan.application.android.fragment.FragmentArguments
 import com.makentoshe.booruchan.core.post.Post
+import kotlinx.android.synthetic.main.fragment_sample.*
 
 class SampleFragment : CoreFragment() {
 
@@ -22,8 +23,11 @@ class SampleFragment : CoreFragment() {
     val arguments = Arguments(this)
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-//        return inflater.inflate(R.layout.fragment_sample, container, false)
-        return TextView(requireContext()).apply { text = arguments.post.toString() }
+        return inflater.inflate(R.layout.fragment_sample, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        fragment_sample_message.text = arguments.post.toString()
     }
 
     class Arguments(fragment: SampleFragment) : FragmentArguments<SampleFragment>(fragment) {

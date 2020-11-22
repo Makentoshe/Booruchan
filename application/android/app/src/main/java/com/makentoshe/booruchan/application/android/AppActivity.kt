@@ -5,10 +5,10 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_NO
+import com.makentoshe.booruchan.application.android.navigation.SupportAppNavigator
 import com.makentoshe.booruchan.application.android.screen.start.navigation.StartScreen
 import ru.terrakok.cicerone.NavigatorHolder
 import ru.terrakok.cicerone.Router
-import ru.terrakok.cicerone.android.support.SupportAppNavigator
 import toothpick.ktp.delegate.inject
 
 class AppActivity : AppCompatActivity() {
