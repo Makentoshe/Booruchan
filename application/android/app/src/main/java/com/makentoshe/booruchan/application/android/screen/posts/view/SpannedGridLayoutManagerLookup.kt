@@ -17,24 +17,28 @@ internal class SpannedGridLayoutManagerLookup(
     private val postsAdapter: PostsPagedAdapter
 ) : SpannedGridLayoutManager.SpanSizeLookup({ position ->
     if (postsAdapter.currentList?.size == position) {
-        // Footer
-        SpanSize(3, 1)
+        buildFooterSpan()
     } else {
-        val post = getPostFromResult(postsAdapter.currentList?.get(position))?.post
-        if (post == null) {
-            // return default span for displaying error while loading/parsing a post
-            SpanSize(1, 1)
-        } else {
-            when {
-                post.htwRatio > VERTICAL_RATIO_BORDER -> SpanSize(1, 2)
-                post.htwRatio < HORIZONTAL_RATIO_BORDER -> SpanSize(2, 1)
-                else -> SpanSize(1, 1)
-            }
-        }
+        buildItemSpan(postsAdapter.currentList?.get(position))
     }
 })
 
+/** [SpanSize] for footer */
+private fun buildFooterSpan() = SpanSize(3, 1)
+
+/** [SpanSize] for default spans */
+private fun buildErrorSpan() = SpanSize(1, 1)
+
+private fun buildItemSpan(result: Result<PostDeserialize<Post>>?): SpanSize {
+    val post = getPostFromResult(result)?.post
+    return when {
+        post?.htwRatio ?: Float.MIN_VALUE > VERTICAL_RATIO_BORDER -> SpanSize(1, 2)
+        post?.htwRatio ?: Float.MAX_VALUE > HORIZONTAL_RATIO_BORDER -> SpanSize(2, 1)
+        else -> buildErrorSpan()
+    }
+}
+
 @Suppress("IfThenToSafeAccess") //Main cause is the unstable Result class
-internal fun getPostFromResult(result: Result<PostDeserialize<Post>>?): PostDeserialize<Post>? {
+private fun getPostFromResult(result: Result<PostDeserialize<Post>>?): PostDeserialize<Post>? {
     return if (result == null) null else result.getOrNull()
 }
