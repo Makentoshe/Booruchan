@@ -1,9 +1,10 @@
 package com.makentoshe.booruchan.core.post
 
 import java.io.File
+import java.io.Serializable
 
 /** Base image interface provides [url], it's [width] and [height], [name] and [extension] */
-interface Image {
+interface Image: Serializable {
     val extension: String
     val url: String
     val height: Int?
@@ -12,7 +13,7 @@ interface Image {
 }
 
 /** Typing for [Image] class for full sized images */
-interface FullImage : Image
+interface FullImage : Image, Serializable
 
 fun fullImage(
     url: String,
@@ -29,7 +30,7 @@ fun fullImage(
 }
 
 /** Typing for [Image] class for preview images */
-interface PreviewImage : Image
+interface PreviewImage : Image, Serializable
 
 fun previewImage(
     url: String,
@@ -46,7 +47,7 @@ fun previewImage(
 }
 
 /** Typing for [Image] class for images with sample size*/
-interface SampleImage : Image
+interface SampleImage : Image, Serializable
 
 fun sampleImage(
     url: String,

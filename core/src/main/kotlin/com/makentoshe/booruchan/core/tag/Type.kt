@@ -1,5 +1,7 @@
 package com.makentoshe.booruchan.core.tag
 
+import java.io.Serializable
+
 /**
  * There are five types of tags: artist, character, copyright, general, and meta.
  *
@@ -9,7 +11,7 @@ package com.makentoshe.booruchan.core.tag
  * general tags are blue or black,
  * and meta tags are orange.
  */
-enum class Type {
+enum class Type: Serializable {
 
     /**
      * Artist tags identify the creator of a post.

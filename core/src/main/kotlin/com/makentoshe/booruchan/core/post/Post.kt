@@ -1,8 +1,9 @@
 package com.makentoshe.booruchan.core.post
 
 import com.makentoshe.booruchan.core.Time
+import java.io.Serializable
 
-interface Post : PostId {
+interface Post : PostId, Serializable {
     val creationTime: Time
 
     val score: Score

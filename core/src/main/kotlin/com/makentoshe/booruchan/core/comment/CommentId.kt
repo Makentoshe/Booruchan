@@ -1,6 +1,8 @@
 package com.makentoshe.booruchan.core.comment
 
-interface CommentId {
+import java.io.Serializable
+
+interface CommentId: Serializable {
     val commentId: Int
 }
 

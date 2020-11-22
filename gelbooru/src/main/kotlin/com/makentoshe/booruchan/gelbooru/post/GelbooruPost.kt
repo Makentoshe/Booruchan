@@ -8,8 +8,9 @@ import com.makentoshe.booruchan.core.post.*
 import com.makentoshe.booruchan.core.text
 import com.makentoshe.booruchan.core.time
 import java.io.File
+import java.io.Serializable
 
-interface GelbooruPost : Post {
+interface GelbooruPost : Post, Serializable {
     val md5: String
     val change: String
 }
@@ -61,7 +62,7 @@ data class XmlGelbooruPost(
     val parentId: Int?,
     @JacksonXmlProperty(localName = "status", isAttribute = true)
     val status: String?
-) : GelbooruPost {
+) : GelbooruPost, Serializable {
     override val creationTime = time(rawCreationTime)
     override val fullImage = fullImage(fileUrl, fileHeight, fileWidth)
     override val sampleImage = sampleImage(sampleUrl, sampleHeight, sampleWidth)
@@ -118,7 +119,7 @@ data class JsonGelbooruPost(
     val image: String,
     @JsonProperty("directory")
     val directory: String
-) : GelbooruPost {
+) : GelbooruPost, Serializable {
     override val creationTime = time(rawCreationTime)
     override val fullImage = fullImage(fileUrl, fileHeight, fileWidth)
     override val sampleImage = internalSampleImage()

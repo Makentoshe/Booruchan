@@ -1,6 +1,8 @@
 package com.makentoshe.booruchan.core.post
 
-interface PostId {
+import java.io.Serializable
+
+interface PostId: Serializable {
     val postId: Int
 }
 

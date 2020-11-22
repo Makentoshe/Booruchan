@@ -1,12 +1,13 @@
 package com.makentoshe.booruchan.danbooru.comment
 
-import com.makentoshe.booruchan.core.Time
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty
+import com.makentoshe.booruchan.core.Time
 import com.makentoshe.booruchan.core.comment.Comment
 import com.makentoshe.booruchan.core.time
+import java.io.Serializable
 
-interface DanbooruComment : Comment {
+interface DanbooruComment : Comment, Serializable {
     val score: Int
     val updaterId: Int?
     val updationTime: Time?
@@ -44,7 +45,7 @@ data class XmlDanbooruComment(
     private val rawUpdationTime: String?, // 2005-05-25T16:31:50.000-04:00
     @JacksonXmlProperty(localName = "updater-id")
     override val updaterId: Int // 13
-): DanbooruComment {
+): DanbooruComment, Serializable {
     override val creationTime = time(rawCreationTime)
     override val updationTime = rawUpdationTime?.let(::time)
 }
@@ -72,7 +73,7 @@ data class JsonDanbooruComment(
     private val rawUpdationTime: String?, // 2005-05-25T16:31:50.000-04:00
     @JsonProperty("updater_id")
     override val updaterId: Int // 13
-): DanbooruComment {
+): DanbooruComment, Serializable {
     override val creationTime = time(rawCreationTime)
     override val updationTime = rawUpdationTime?.let(::time)
 }

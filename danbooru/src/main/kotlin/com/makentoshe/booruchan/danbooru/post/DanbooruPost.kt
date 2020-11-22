@@ -9,8 +9,9 @@ import com.makentoshe.booruchan.core.post.*
 import com.makentoshe.booruchan.core.text
 import com.makentoshe.booruchan.core.time
 import java.io.File
+import java.io.Serializable
 
-interface DanbooruPost : Post {
+interface DanbooruPost : Post, Serializable {
     val updationTime: Time?
 
     val uploaderId: Int
@@ -143,7 +144,7 @@ data class JsonDanbooruPost(
     val sampleUrl: String,
     @JsonProperty("preview_file_url")
     val previewUrl: String
-) : DanbooruPost {
+) : DanbooruPost, Serializable {
     override val creationTime = time(rawCreationTime)
     override val updationTime = rawUpdationTime?.let(::time)
     override val lastNoteTime = rawLastNoteTime?.let(::time)
@@ -272,7 +273,7 @@ data class XmlDanbooruPost(
     val sampleUrl: String,
     @JacksonXmlProperty(localName = "preview-file-url")
     val previewUrl: String
-) : DanbooruPost {
+) : DanbooruPost, Serializable {
     override val creationTime = time(rawCreationTime)
     override val updationTime = rawUpdationTime?.let(::time)
     override val lastNoteTime = rawLastNoteTime?.let(::time)

@@ -1,7 +1,9 @@
 package com.makentoshe.booruchan.core
 
+import java.io.Serializable
+
 /** Describes entity title or body */
-interface Text {
+interface Text: Serializable {
     val text: String
 }
 

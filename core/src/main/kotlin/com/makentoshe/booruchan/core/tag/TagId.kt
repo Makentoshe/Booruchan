@@ -1,6 +1,8 @@
 package com.makentoshe.booruchan.core.tag
 
-interface TagId {
+import java.io.Serializable
+
+interface TagId: Serializable {
     /** Mandatory param: tag id */
     val tagId: Int
 }

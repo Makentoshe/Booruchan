@@ -1,8 +1,9 @@
 package com.makentoshe.booruchan.core.tag
 
 import com.makentoshe.booruchan.core.Text
+import java.io.Serializable
 
-interface Tag : TagId, Text {
+interface Tag : TagId, Text, Serializable {
     /** Mandatory param: tag type */
     val type: Type
 }

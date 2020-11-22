@@ -1,6 +1,8 @@
 package com.makentoshe.booruchan.core
 
-interface CreatorId {
+import java.io.Serializable
+
+interface CreatorId: Serializable {
     val creatorId: Int
 }
 
