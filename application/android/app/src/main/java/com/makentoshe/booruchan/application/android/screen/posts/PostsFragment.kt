@@ -1,4 +1,4 @@
-package com.makentoshe.booruchan.application.android.screen.posts.view
+package com.makentoshe.booruchan.application.android.screen.posts
 
 import android.app.Activity
 import android.content.Context
@@ -19,6 +19,9 @@ import com.makentoshe.booruchan.application.android.R
 import com.makentoshe.booruchan.application.android.common.dp2px
 import com.makentoshe.booruchan.application.android.fragment.CoreFragment
 import com.makentoshe.booruchan.application.android.fragment.FragmentArguments
+import com.makentoshe.booruchan.application.android.screen.posts.view.PostsSlidingUpPanelListener
+import com.makentoshe.booruchan.application.android.screen.posts.view.SpacesItemDecoration
+import com.makentoshe.booruchan.application.android.screen.posts.view.SpannedGridLayoutManagerLookup
 import com.makentoshe.booruchan.application.android.screen.posts.viewmodel.PostsFragmentViewModel
 import com.makentoshe.booruchan.application.android.screen.search.PostsSearchFragment
 import com.makentoshe.booruchan.application.core.arena.ArenaStorageException
@@ -131,12 +134,19 @@ class PostsFragment : CoreFragment() {
     }
 
     private fun onViewCreatedRecycler() {
+        println(fragment_posts_recycler.layoutManager)
         val spannedGridLayoutManager = SpannedGridLayoutManager(SpannedGridLayoutManager.Orientation.VERTICAL, 3)
+        println("11111111111111")
         fragment_posts_recycler.layoutManager = spannedGridLayoutManager
+        println("22222222222222")
         fragment_posts_recycler.addItemDecoration(SpacesItemDecoration(8f))
+        println("33333333333333")
         viewModel.postsAdapterObservable.subscribe { adapter ->
+            println("44444444444")
             spannedGridLayoutManager.spanSizeLookup = SpannedGridLayoutManagerLookup(adapter)
+            println("55555555555")
             fragment_posts_recycler.swapAdapter(adapter, true)
+            println("66666666666")
         }.let(disposables::add)
     }
 

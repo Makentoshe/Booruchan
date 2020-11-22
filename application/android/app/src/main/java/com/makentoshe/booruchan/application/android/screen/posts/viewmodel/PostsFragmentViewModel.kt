@@ -4,10 +4,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagedList
-import com.makentoshe.booruchan.application.android.FetchExecutor
-import com.makentoshe.booruchan.application.android.MainExecutor
+import com.makentoshe.booruchan.application.android.screen.posts.model.FetchExecutor
+import com.makentoshe.booruchan.application.android.screen.posts.model.MainExecutor
 import com.makentoshe.booruchan.application.android.screen.posts.model.PostsDataSource
 import com.makentoshe.booruchan.application.android.screen.posts.model.PostsPagedAdapter
+import com.makentoshe.booruchan.application.android.screen.posts.navigation.PostsNavigation
 import com.makentoshe.booruchan.application.core.arena.Arena
 import com.makentoshe.booruchan.core.post.Image
 import com.makentoshe.booruchan.core.post.Post
@@ -26,7 +27,8 @@ class PostsFragmentViewModel(
     private val postsArena: Arena<PostsFilter, PostsDeserialize<Post>>,
     private val previewArena: Arena<Image, ByteArray>,
     private val filterBuilder: PostsFilter.Builder,
-    private val disposables: CompositeDisposable
+    private val disposables: CompositeDisposable,
+    private val navigation: PostsNavigation
 ) : ViewModel() {
 
     /** Contains and manages current posts source, required for the adapter */
@@ -57,7 +59,7 @@ class PostsFragmentViewModel(
             val tagsFilter = filterBuilder.tags.build(tags)
             PostsDataSource(postsArena, filterBuilder, viewModelScope, tagsFilter)
         }.doOnNext(sourceSubject::onNext).subscribe { source ->
-            val adapter = PostsPagedAdapter(previewArena, viewModelScope, source)
+            val adapter = PostsPagedAdapter(previewArena, viewModelScope, source, navigation)
             adapter.submitList(getPagedList(source))
             postsAdapterSubject.onNext(adapter)
         }.let(disposables::add)
@@ -95,10 +97,11 @@ class PostsFragmentViewModel(
         private val postsArena: Arena<PostsFilter, PostsDeserialize<Post>>,
         private val previewArena: Arena<Image, ByteArray>,
         private val postsFilterBuilder: PostsFilter.Builder,
-        private val disposables: CompositeDisposable
+        private val disposables: CompositeDisposable,
+        private val navigation: PostsNavigation
     ) : ViewModelProvider.NewInstanceFactory() {
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-            return PostsFragmentViewModel(postsArena, previewArena, postsFilterBuilder, disposables) as T
+            return PostsFragmentViewModel(postsArena, previewArena, postsFilterBuilder, disposables, navigation) as T
         }
     }
 }

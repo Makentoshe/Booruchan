@@ -13,8 +13,8 @@ import com.google.android.material.chip.ChipGroup
 import com.makentoshe.booruchan.application.android.R
 import com.makentoshe.booruchan.application.android.fragment.CoreFragment
 import com.makentoshe.booruchan.application.android.fragment.FragmentArguments
-import com.makentoshe.booruchan.application.android.screen.posts.view.SEARCH_REQUEST_CODE
-import com.makentoshe.booruchan.application.android.screen.posts.view.SEARCH_REQUEST_EXTRA
+import com.makentoshe.booruchan.application.android.screen.posts.SEARCH_REQUEST_CODE
+import com.makentoshe.booruchan.application.android.screen.posts.SEARCH_REQUEST_EXTRA
 import com.makentoshe.booruchan.application.android.screen.search.model.CompositeSearchTagsContainer
 import com.makentoshe.booruchan.application.android.screen.search.view.DelayMaterialAutocompleteTextView
 import com.makentoshe.booruchan.application.android.screen.search.viewmodel.PostsSearchViewModel

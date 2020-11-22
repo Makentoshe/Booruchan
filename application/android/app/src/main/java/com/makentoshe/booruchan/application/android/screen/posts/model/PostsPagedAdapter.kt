@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.makentoshe.booruchan.application.android.R
+import com.makentoshe.booruchan.application.android.screen.posts.navigation.PostsNavigation
 import com.makentoshe.booruchan.application.android.screen.posts.view.FooterViewHolder
 import com.makentoshe.booruchan.application.android.screen.posts.view.PostsViewHolder
 import com.makentoshe.booruchan.application.core.arena.Arena
@@ -29,7 +30,9 @@ class PostsPagedAdapter(
     /** For performing some network operations with the ViewHolders */
     private val coroutineScope: CoroutineScope,
     /** For observing loading results and retrying in the footer */
-    private val postsDataSourceAfter: PostsDataSourceAfter
+    private val postsDataSourceAfter: PostsDataSourceAfter,
+    /** For navigating to another screens */
+    private val navigation: PostsNavigation
 ) : PagedListAdapter<Result<PostDeserialize<Post>>, RecyclerView.ViewHolder>(PostItemCallbackDiffUtil()) {
 
     companion object {
@@ -118,6 +121,10 @@ class PostsPagedAdapter(
 
     private fun onBindViewHolderItemSuccess(holder: PostsViewHolder, position: Int, success: PostDeserialize<Post>) {
         val image = success.post.previewImage
+        holder.itemView.setOnClickListener {
+            navigation.navigateToPostScreen(success.post)
+        }
+
         coroutineScope.launch(Dispatchers.IO) {
             val result = previewArena.suspendFetch(image)
             if (result.isSuccess) {
