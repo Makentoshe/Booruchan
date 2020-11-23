@@ -2,6 +2,7 @@ package com.makentoshe.booruchan.application.android
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_NO
@@ -42,4 +43,7 @@ class AppActivity : AppCompatActivity() {
         super.onPause()
         navigatorHolder.removeNavigator()
     }
+
+    /** Empty click listener for interrupting touch events between fragments */
+    fun emptyClickListener(view: View) = Unit
 }
