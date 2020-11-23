@@ -27,11 +27,9 @@ class ApplicationModule(applicationContext: Context, cicerone: Cicerone<Router>)
         bind<Router>().toInstance(cicerone.router)
         bind<NavigatorHolder>().toInstance(cicerone.navigatorHolder)
 
-        val booruContexts = listOf<BooruContext>(gelbooruContext, danbooruContext)
-        bind<List<BooruContext>>().toInstance(booruContexts)
-
         bind<HttpClient>().toInstance(HttpClient())
 
+        bind<List<BooruContext>>().toInstance(listOf(gelbooruContext, danbooruContext))
         bind<BooruchanDatabase>().withName(gelbooruContext.title).toInstance(gelbooruDatabase)
         bind<BooruchanDatabase>().withName(danbooruContext.title).toInstance(danbooruDatabase)
     }

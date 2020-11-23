@@ -9,6 +9,7 @@ import com.makentoshe.booruchan.application.android.screen.samples.viewmodel.Sam
 import com.makentoshe.booruchan.application.core.arena.post.PostImageArena
 import com.makentoshe.booruchan.core.context.BooruContext
 import io.ktor.client.*
+import io.reactivex.rxjava3.disposables.CompositeDisposable
 import toothpick.Toothpick
 import toothpick.config.Module
 import toothpick.ktp.binding.bind
@@ -22,7 +23,9 @@ class SampleModule(fragment: SampleFragment) : Module() {
 
     init {
         Toothpick.openScope(ApplicationScope::class).inject(this)
-        val booruContext = booruContexts.first { it.title == fragment.arguments.booruContextTitle }
+        val booruContext = booruContexts.first { it.javaClass == fragment.arguments.booruclass }
+        // Fragment composite disposable
+        bind<CompositeDisposable>().toInstance(CompositeDisposable())
 
         val previewArena = getPreviewArena(booruContext, fragment)
         val factory = SampleFragmentViewModel.Factory(previewArena, fragment.arguments.post)
