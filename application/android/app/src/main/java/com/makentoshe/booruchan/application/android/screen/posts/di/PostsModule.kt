@@ -9,7 +9,7 @@ import com.makentoshe.booruchan.application.android.screen.posts.model.PostPrevi
 import com.makentoshe.booruchan.application.android.screen.posts.model.PostsArenaStorage
 import com.makentoshe.booruchan.application.android.screen.posts.navigation.PostsNavigation
 import com.makentoshe.booruchan.application.android.screen.posts.viewmodel.PostsFragmentViewModel
-import com.makentoshe.booruchan.application.core.arena.post.PostImageArena
+import com.makentoshe.booruchan.application.core.arena.post.PostContentArena
 import com.makentoshe.booruchan.application.core.arena.post.PostsArena
 import com.makentoshe.booruchan.application.core.network.PostsNetworkManager
 import com.makentoshe.booruchan.core.context.BooruContext
@@ -73,8 +73,8 @@ class PostsModule(fragment: PostsFragment) : Module() {
         arenaStorage = PostsArenaStorage(database, postsContext)
     }.build(client)
 
-    private fun getPreviewArena(booruContext: BooruContext, fragment: PostsFragment): PostImageArena {
+    private fun getPreviewArena(booruContext: BooruContext, fragment: PostsFragment): PostContentArena {
         val cacheDir = File(fragment.requireContext().cacheDir, booruContext.title)
-        return PostImageArena(client, PostPreviewArenaStorage(cacheDir))
+        return PostContentArena(client, PostPreviewArenaStorage(cacheDir))
     }
 }

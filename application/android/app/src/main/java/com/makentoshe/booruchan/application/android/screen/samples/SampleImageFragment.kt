@@ -4,27 +4,21 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.makentoshe.booruchan.application.android.R
+import android.widget.TextView
 import com.makentoshe.booruchan.application.android.fragment.CoreFragment
 import com.makentoshe.booruchan.application.android.fragment.FragmentArguments
-import com.makentoshe.booruchan.application.android.screen.samples.viewmodel.SampleContentFragmentViewModel
+import com.makentoshe.booruchan.application.android.screen.samples.viewmodel.SampleImageFragmentViewModel
 import com.makentoshe.booruchan.core.context.BooruContext
 import com.makentoshe.booruchan.core.post.Post
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import toothpick.ktp.delegate.inject
 
-/**
- * Fragment that should choose how to display a sample.
- *
- * There are three different types of samples: Image, Gif-animation and Webm-video.
- * This fragment should contain a nested fragment for displaying one of those types
- * */
-class SampleContentFragment : CoreFragment() {
+class SampleImageFragment : CoreFragment() {
 
     companion object {
-        fun build(booruContextClass: Class<BooruContext>, post: Post): SampleContentFragment {
-            val fragment = SampleContentFragment()
+        fun build(booruContextClass: Class<BooruContext>, post: Post): SampleImageFragment {
+            val fragment = SampleImageFragment()
             fragment.arguments.post = post
             fragment.arguments.booruclass = booruContextClass
             return fragment
@@ -32,33 +26,24 @@ class SampleContentFragment : CoreFragment() {
     }
 
     val arguments = Arguments(this)
-
-    private val viewModel by inject<SampleContentFragmentViewModel>()
+    private val viewModel by inject<SampleImageFragmentViewModel>()
     private val disposables by inject<CompositeDisposable>(toString())
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_sample_content, container, false)
+        return TextView(requireContext()).apply { text = arguments.post.toString() }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        viewModel.previewObservable.observeOn(AndroidSchedulers.mainThread()).subscribe {
-            println("preview $it")
+        viewModel.sampleObservable.observeOn(AndroidSchedulers.mainThread()).subscribe {
+            println("sample success $it")
         }.let(disposables::add)
 
         viewModel.exceptionObservable.observeOn(AndroidSchedulers.mainThread()).subscribe {
-            println("exception $it")
+            println("sample error $it")
         }.let(disposables::add)
-
-        val fragment = SampleImageFragment.build(arguments.booruclass, arguments.post)
-        childFragmentManager.beginTransaction().add(R.id.fragment_sample_content, fragment).commit()
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        disposables.clear()
-    }
-
-    class Arguments(fragment: SampleContentFragment) : FragmentArguments<SampleContentFragment>(fragment) {
+    class Arguments(fragment: SampleImageFragment) : FragmentArguments<SampleImageFragment>(fragment) {
 
         var post: Post
             get() = fragmentArguments.getSerializable(POST) as Post
@@ -73,5 +58,5 @@ class SampleContentFragment : CoreFragment() {
             private const val CLASS = "class"
         }
     }
-
 }
+

@@ -13,16 +13,16 @@ import io.reactivex.rxjava3.subjects.BehaviorSubject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class SampleContentFragmentViewModel(
+class SampleImageFragmentViewModel(
     /** The source of preview and sample images */
     private val post: Post,
-    /** Arena for displaying preview image if it is exists */
-    private val previewArena: Arena<Content, ByteArray>
+    /** Arena for displaying sample image if it is exists */
+    private val sampleArena: Arena<Content, ByteArray>
 ) : ViewModel() {
 
-    /** Subject for displaying preview image if it exists */
-    private val previewSubject = BehaviorSubject.create<Bitmap>()
-    val previewObservable: Observable<Bitmap> = previewSubject
+    /** Subject for displaying sample image */
+    private val sampleSubject = BehaviorSubject.create<Bitmap>()
+    val sampleObservable: Observable<Bitmap> = sampleSubject
 
     /** Subject for displaying error messages */
     private val exceptionSubject = BehaviorSubject.create<Throwable>()
@@ -30,18 +30,17 @@ class SampleContentFragmentViewModel(
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
-            // if preview loading was failed - just ignore it (preview is not our purpose)
-            val result = previewArena.suspendFetch(post.previewContent)
-            result.getOrNull()?.toBitmap()?.let(previewSubject::onNext)
+            val result = sampleArena.suspendFetch(post.sampleContent)
+            result.fold({ sampleSubject.onNext(it.toBitmap()) }, { exceptionSubject.onNext(it) })
         }
     }
 
     class Factory(
-        private val previewArena: Arena<Content, ByteArray>,
+        private val sampleArena: Arena<Content, ByteArray>,
         private val post: Post
     ) : ViewModelProvider.NewInstanceFactory() {
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-            return SampleContentFragmentViewModel(post, previewArena) as T
+            return SampleImageFragmentViewModel(post, sampleArena) as T
         }
     }
 }

@@ -10,7 +10,7 @@ import com.makentoshe.booruchan.application.android.screen.posts.navigation.Post
 import com.makentoshe.booruchan.application.android.screen.posts.view.FooterViewHolder
 import com.makentoshe.booruchan.application.android.screen.posts.view.PostsViewHolder
 import com.makentoshe.booruchan.application.core.arena.Arena
-import com.makentoshe.booruchan.core.post.Image
+import com.makentoshe.booruchan.core.post.Content
 import com.makentoshe.booruchan.core.post.Post
 import com.makentoshe.booruchan.core.post.deserialize.PostDeserialize
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
@@ -25,8 +25,8 @@ import java.io.ByteArrayInputStream
  * and controlling next pages loading with [postsDataSourceAfter] instance.
  */
 class PostsPagedAdapter(
-    /** Arena allows to request image in ByteArray using Image instance as a key */
-    private val previewArena: Arena<Image, ByteArray>,
+    /** Arena allows to request image in ByteArray using Content instance as a key */
+    private val previewArena: Arena<Content, ByteArray>,
     /** For performing some network operations with the ViewHolders */
     private val coroutineScope: CoroutineScope,
     /** For observing loading results and retrying in the footer */
@@ -120,7 +120,7 @@ class PostsPagedAdapter(
     }
 
     private fun onBindViewHolderItemSuccess(holder: PostsViewHolder, position: Int, success: PostDeserialize<Post>) {
-        val image = success.post.previewImage
+        val image = success.post.previewContent
         holder.itemView.setOnClickListener {
             navigation.navigateToPostScreen(success.post)
         }
