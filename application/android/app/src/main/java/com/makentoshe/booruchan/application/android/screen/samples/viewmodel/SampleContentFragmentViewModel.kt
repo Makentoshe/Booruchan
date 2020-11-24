@@ -13,11 +13,13 @@ import io.reactivex.rxjava3.subjects.BehaviorSubject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class SampleFragmentViewModel(
+class SampleContentFragmentViewModel(
     /** The source of preview and sample images */
     private val post: Post,
     /** Arena for displaying preview image if it is exists */
-    private val previewArena: Arena<Image, ByteArray>
+    private val previewArena: Arena<Image, ByteArray>,
+    /** Arena for displaying sample image if it is exists */
+    private val sampleArena: Arena<Image, ByteArray>
 ) : ViewModel() {
 
     /** Subject for displaying preview image if it exists */
@@ -37,11 +39,12 @@ class SampleFragmentViewModel(
     }
 
     class Factory(
+        private val sampleArena: Arena<Image, ByteArray>,
         private val previewArena: Arena<Image, ByteArray>,
         private val post: Post
     ) : ViewModelProvider.NewInstanceFactory() {
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-            return SampleFragmentViewModel(post, previewArena) as T
+            return SampleContentFragmentViewModel(post, previewArena, sampleArena) as T
         }
     }
 }
