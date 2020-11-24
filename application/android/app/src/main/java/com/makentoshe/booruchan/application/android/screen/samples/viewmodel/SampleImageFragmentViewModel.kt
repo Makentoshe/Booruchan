@@ -37,7 +37,10 @@ class SampleImageFragmentViewModel(
     init {
         viewModelScope.launch(Dispatchers.IO) {
             val result = sampleArena.suspendFetch(post.sampleContent)
-            result.fold({ sampleSubject.onNext(it.toBitmap()) }, { exceptionSubject.onNext(it) })
+            result.fold({
+                val bitmap = it.toBitmap() ?: return@fold exceptionSubject.onNext(IllegalArgumentException())
+                sampleSubject.onNext(bitmap)
+            }, { exceptionSubject.onNext(it) })
         }
 
         viewModelScope.launch(Dispatchers.IO) {

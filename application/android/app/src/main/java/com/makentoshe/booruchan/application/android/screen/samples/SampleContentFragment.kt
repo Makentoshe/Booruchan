@@ -78,6 +78,7 @@ class SampleContentFragment : CoreFragment() {
 
     private fun onContentLoadFailure(throwable: Throwable?) {
         fragment_sample_failure_preview.visibility = View.VISIBLE
+        fragment_sample_content.visibility = View.GONE
         println("exception $throwable")
     }
 

@@ -66,6 +66,11 @@ class SampleImageFragment : CoreFragment() {
         }.let(disposables::add)
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        disposables.clear()
+    }
+
     class Arguments(fragment: SampleImageFragment) : FragmentArguments<SampleImageFragment>(fragment) {
 
         var post: Post
