@@ -3,6 +3,7 @@ package com.makentoshe.booruchan.application.android.screen.samples.di
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import com.makentoshe.booruchan.application.android.di.ApplicationScope
+import com.makentoshe.booruchan.application.android.screen.posts.model.PostPreviewArenaStorage
 import com.makentoshe.booruchan.application.android.screen.samples.SampleContentFragment
 import com.makentoshe.booruchan.application.android.screen.samples.SampleImageFragment
 import com.makentoshe.booruchan.application.android.screen.samples.model.PostSampleArenaStorage
@@ -40,9 +41,15 @@ class SampleImageModule(fragment: SampleImageFragment) : Module() {
         return PostContentArena(client, PostSampleArenaStorage(cacheDir))
     }
 
+    private fun getPreviewArena(booruContext: BooruContext, fragment: Fragment): PostContentArena {
+        val cacheDir = File(fragment.requireContext().cacheDir, booruContext.title)
+        return PostContentArena(client, PostPreviewArenaStorage(cacheDir))
+    }
+
     private fun getSampleViewModel(fragment: SampleImageFragment, booruContext: BooruContext): SampleImageFragmentViewModel {
+        val previewArena = getPreviewArena(booruContext, fragment)
         val sampleArena = getSampleArena(booruContext, fragment)
-        val imageFactory = SampleImageFragmentViewModel.Factory(sampleArena, fragment.arguments.post)
+        val imageFactory = SampleImageFragmentViewModel.Factory(fragment.arguments.post, previewArena, sampleArena)
         return ViewModelProviders.of(fragment, imageFactory)[SampleImageFragmentViewModel::class.java]
     }
 }

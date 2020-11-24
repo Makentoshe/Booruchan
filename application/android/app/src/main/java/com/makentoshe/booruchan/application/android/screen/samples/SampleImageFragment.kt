@@ -46,6 +46,11 @@ class SampleImageFragment : CoreFragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        viewModel.previewObservable.observeOn(AndroidSchedulers.mainThread()).subscribe {
+            fragment_sample_preview.visibility = View.VISIBLE
+            fragment_sample_preview.setImageBitmap(it)
+        }.let(disposables::add)
+
         viewModel.sampleObservable.observeOn(AndroidSchedulers.mainThread()).subscribe {
             fragment_sample_progress_indeterminate.visibility = View.GONE
             fragment_sample_sample.visibility = View.VISIBLE

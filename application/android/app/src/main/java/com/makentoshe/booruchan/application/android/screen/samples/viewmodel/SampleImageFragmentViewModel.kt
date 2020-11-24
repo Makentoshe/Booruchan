@@ -16,9 +16,15 @@ import kotlinx.coroutines.launch
 class SampleImageFragmentViewModel(
     /** The source of preview and sample images */
     private val post: Post,
-    /** Arena for displaying sample image if it is exists */
+    /** Arena for displaying preview image */
+    private val previewArena: Arena<Content, ByteArray>,
+    /** Arena for displaying sample image */
     private val sampleArena: Arena<Content, ByteArray>
 ) : ViewModel() {
+
+    /** Subject for displaying preview image if it exists */
+    private val previewSubject = BehaviorSubject.create<Bitmap>()
+    val previewObservable: Observable<Bitmap> = previewSubject
 
     /** Subject for displaying sample image */
     private val sampleSubject = BehaviorSubject.create<Bitmap>()
@@ -33,14 +39,21 @@ class SampleImageFragmentViewModel(
             val result = sampleArena.suspendFetch(post.sampleContent)
             result.fold({ sampleSubject.onNext(it.toBitmap()) }, { exceptionSubject.onNext(it) })
         }
+
+        viewModelScope.launch(Dispatchers.IO) {
+            // if preview loading was failed - just ignore it (preview is not our purpose)
+            val result = previewArena.suspendFetch(post.previewContent)
+            result.getOrNull()?.toBitmap()?.let(previewSubject::onNext)
+        }
     }
 
     class Factory(
-        private val sampleArena: Arena<Content, ByteArray>,
-        private val post: Post
+        private val post: Post,
+        private val previewArena: Arena<Content, ByteArray>,
+        private val sampleArena: Arena<Content, ByteArray>
     ) : ViewModelProvider.NewInstanceFactory() {
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-            return SampleImageFragmentViewModel(post, sampleArena) as T
+            return SampleImageFragmentViewModel(post, previewArena, sampleArena) as T
         }
     }
 }
