@@ -15,7 +15,9 @@ import toothpick.config.Module
 import toothpick.ktp.binding.bind
 import toothpick.ktp.delegate.inject
 import java.io.File
+import javax.inject.Qualifier
 
+@Qualifier
 annotation class SampleContentScope
 
 class SampleContentModule(fragment: SampleContentFragment) : Module() {
@@ -27,7 +29,7 @@ class SampleContentModule(fragment: SampleContentFragment) : Module() {
         Toothpick.openScope(ApplicationScope::class).inject(this)
         val booruContext = booruContexts.first { it.javaClass == fragment.arguments.booruclass }
         // Fragment composite disposable
-        bind<CompositeDisposable>().withName(fragment.toString()).toInstance(CompositeDisposable())
+        bind<CompositeDisposable>().withName(SampleContentScope::class).toInstance(CompositeDisposable())
 
         val previewArena = getPreviewArena(booruContext, fragment)
         val contentFactory = SampleContentFragmentViewModel.Factory(previewArena, fragment.arguments.post)

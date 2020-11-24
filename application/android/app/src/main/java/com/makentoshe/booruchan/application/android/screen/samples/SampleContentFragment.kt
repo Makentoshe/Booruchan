@@ -1,5 +1,6 @@
 package com.makentoshe.booruchan.application.android.screen.samples
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -7,6 +8,10 @@ import android.view.ViewGroup
 import com.makentoshe.booruchan.application.android.R
 import com.makentoshe.booruchan.application.android.fragment.CoreFragment
 import com.makentoshe.booruchan.application.android.fragment.FragmentArguments
+import com.makentoshe.booruchan.application.android.screen.samples.di.SampleContentScope
+import com.makentoshe.booruchan.application.android.screen.samples.model.SAMPLE_CONTENT_ERROR_CODE
+import com.makentoshe.booruchan.application.android.screen.samples.model.SAMPLE_CONTENT_ERROR_DATA
+import com.makentoshe.booruchan.application.android.screen.samples.model.SAMPLE_CONTENT_SUCCESS_CODE
 import com.makentoshe.booruchan.application.android.screen.samples.viewmodel.SampleContentFragmentViewModel
 import com.makentoshe.booruchan.core.context.BooruContext
 import com.makentoshe.booruchan.core.post.Post
@@ -34,7 +39,7 @@ class SampleContentFragment : CoreFragment() {
     val arguments = Arguments(this)
 
     private val viewModel by inject<SampleContentFragmentViewModel>()
-    private val disposables by inject<CompositeDisposable>(toString())
+    private val disposables by inject<CompositeDisposable>(SampleContentScope::class)
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_sample_content, container, false)
@@ -46,16 +51,34 @@ class SampleContentFragment : CoreFragment() {
         }.let(disposables::add)
 
         viewModel.exceptionObservable.observeOn(AndroidSchedulers.mainThread()).subscribe {
-            println("exception $it")
+            onContentLoadFailure(it)
         }.let(disposables::add)
 
-        val fragment = SampleImageFragment.build(arguments.booruclass, arguments.post)
+        val fragment = when (arguments.post.sampleContent.type) {
+            else -> SampleImageFragment.build(arguments.booruclass, arguments.post)
+        }
         childFragmentManager.beginTransaction().add(R.id.fragment_sample_content, fragment).commit()
     }
 
     override fun onDestroy() {
         super.onDestroy()
         disposables.clear()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) = when (requestCode) {
+        SAMPLE_CONTENT_SUCCESS_CODE -> onContentLoadSuccess()
+        SAMPLE_CONTENT_ERROR_CODE -> onContentLoadFailure(data?.getSerializableExtra(SAMPLE_CONTENT_ERROR_DATA) as Throwable)
+        else -> Unit // ignore
+    }
+
+    private fun onContentLoadSuccess() {
+        // notify success load
+        println("success content")
+    }
+
+    private fun onContentLoadFailure(throwable: Throwable?) {
+        // notify failure load
+        println("exception $throwable")
     }
 
     class Arguments(fragment: SampleContentFragment) : FragmentArguments<SampleContentFragment>(fragment) {

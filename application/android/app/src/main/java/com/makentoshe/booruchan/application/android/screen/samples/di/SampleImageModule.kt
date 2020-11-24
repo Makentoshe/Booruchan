@@ -16,7 +16,9 @@ import toothpick.config.Module
 import toothpick.ktp.binding.bind
 import toothpick.ktp.delegate.inject
 import java.io.File
+import javax.inject.Qualifier
 
+@Qualifier
 annotation class SampleImageScope
 
 class SampleImageModule(fragment: SampleImageFragment) : Module() {
@@ -27,7 +29,7 @@ class SampleImageModule(fragment: SampleImageFragment) : Module() {
     init {
         Toothpick.openScope(ApplicationScope::class).inject(this)
         val booruContext = booruContexts.first { it.javaClass == fragment.arguments.booruclass }
-        bind<CompositeDisposable>().withName(fragment.toString()).toInstance(CompositeDisposable())
+        bind<CompositeDisposable>().withName(SampleImageScope::class).toInstance(CompositeDisposable())
 
         val sampleViewModel = getSampleViewModel(fragment, booruContext)
         bind<SampleImageFragmentViewModel>().toInstance(sampleViewModel)

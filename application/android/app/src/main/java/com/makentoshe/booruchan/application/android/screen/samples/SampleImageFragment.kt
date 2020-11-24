@@ -1,19 +1,32 @@
 package com.makentoshe.booruchan.application.android.screen.samples
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import com.makentoshe.booruchan.application.android.R
 import com.makentoshe.booruchan.application.android.fragment.CoreFragment
 import com.makentoshe.booruchan.application.android.fragment.FragmentArguments
+import com.makentoshe.booruchan.application.android.screen.samples.di.SampleImageScope
+import com.makentoshe.booruchan.application.android.screen.samples.model.SAMPLE_CONTENT_ERROR_CODE
+import com.makentoshe.booruchan.application.android.screen.samples.model.SAMPLE_CONTENT_ERROR_DATA
+import com.makentoshe.booruchan.application.android.screen.samples.model.SAMPLE_CONTENT_SUCCESS_CODE
 import com.makentoshe.booruchan.application.android.screen.samples.viewmodel.SampleImageFragmentViewModel
 import com.makentoshe.booruchan.core.context.BooruContext
 import com.makentoshe.booruchan.core.post.Post
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.CompositeDisposable
+import kotlinx.android.synthetic.main.fragment_sample_image.*
 import toothpick.ktp.delegate.inject
 
+/**
+ * Fragment loads and displays image.
+ *
+ * Should be placed to parent [SampleContentFragment] fragment
+ */
 class SampleImageFragment : CoreFragment() {
 
     companion object {
@@ -27,19 +40,23 @@ class SampleImageFragment : CoreFragment() {
 
     val arguments = Arguments(this)
     private val viewModel by inject<SampleImageFragmentViewModel>()
-    private val disposables by inject<CompositeDisposable>(toString())
+    private val disposables by inject<CompositeDisposable>(SampleImageScope::class)
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return TextView(requireContext()).apply { text = arguments.post.toString() }
+        return inflater.inflate(R.layout.fragment_sample_image, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         viewModel.sampleObservable.observeOn(AndroidSchedulers.mainThread()).subscribe {
-            println("sample success $it")
+            fragment_sample_image.setImageBitmap(it)
+            // notify parent fragment on success result
+            parentFragment?.onActivityResult(SAMPLE_CONTENT_SUCCESS_CODE, Activity.RESULT_OK, null)
         }.let(disposables::add)
 
         viewModel.exceptionObservable.observeOn(AndroidSchedulers.mainThread()).subscribe {
-            println("sample error $it")
+            // notify parent fragment on error result
+            val intent = Intent().putExtra(SAMPLE_CONTENT_ERROR_DATA, it)
+            parentFragment?.onActivityResult(SAMPLE_CONTENT_ERROR_CODE, Activity.RESULT_OK, intent)
         }.let(disposables::add)
     }
 

@@ -3,6 +3,10 @@ package com.makentoshe.booruchan.core.post
 import java.io.File
 import java.io.Serializable
 
+enum class Type {
+    WEBM, ANIMATION, IMAGE
+}
+
 /** Base content interface provides [url], it's [width] and [height], [name] and [extension] */
 interface Content: Serializable {
     val extension: String
@@ -10,6 +14,13 @@ interface Content: Serializable {
     val height: Int?
     val width: Int?
     val name: String
+
+    val type: Type
+        get() = when(extension) {
+            "gif" -> Type.ANIMATION
+            "webm" -> Type.WEBM
+            else -> Type.IMAGE
+        }
 }
 
 /** Typing for [Content] class for full sized images */
