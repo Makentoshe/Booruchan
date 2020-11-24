@@ -17,6 +17,7 @@ import com.makentoshe.booruchan.core.context.BooruContext
 import com.makentoshe.booruchan.core.post.Post
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.CompositeDisposable
+import kotlinx.android.synthetic.main.fragment_sample_content.*
 import toothpick.ktp.delegate.inject
 
 /**

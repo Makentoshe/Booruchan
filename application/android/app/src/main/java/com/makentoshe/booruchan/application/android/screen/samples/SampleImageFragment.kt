@@ -48,6 +48,7 @@ class SampleImageFragment : CoreFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         viewModel.sampleObservable.observeOn(AndroidSchedulers.mainThread()).subscribe {
+            fragment_sample_progress_indeterminate.visibility = View.GONE
             fragment_sample_image.setImageBitmap(it)
             // notify parent fragment on success result
             parentFragment?.onActivityResult(SAMPLE_CONTENT_SUCCESS_CODE, Activity.RESULT_OK, null)
