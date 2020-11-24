@@ -14,11 +14,18 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/fragment_sample_preview"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:id="@+id/fragment_sample_failure_preview"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:scaleType="fitCenter"
+        android:translationZ="1px"
+        android:elevation="0dp"
+        android:background="@color/background"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
         tools:ignore="ContentDescription" />
 
     <androidx.fragment.app.FragmentContainerView

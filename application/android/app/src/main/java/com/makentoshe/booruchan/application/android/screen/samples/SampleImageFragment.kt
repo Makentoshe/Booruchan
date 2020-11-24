@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import com.makentoshe.booruchan.application.android.R
 import com.makentoshe.booruchan.application.android.fragment.CoreFragment
 import com.makentoshe.booruchan.application.android.fragment.FragmentArguments
@@ -49,7 +48,8 @@ class SampleImageFragment : CoreFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         viewModel.sampleObservable.observeOn(AndroidSchedulers.mainThread()).subscribe {
             fragment_sample_progress_indeterminate.visibility = View.GONE
-            fragment_sample_image.setImageBitmap(it)
+            fragment_sample_sample.visibility = View.VISIBLE
+            fragment_sample_sample.setImageBitmap(it)
             // notify parent fragment on success result
             parentFragment?.onActivityResult(SAMPLE_CONTENT_SUCCESS_CODE, Activity.RESULT_OK, null)
         }.let(disposables::add)

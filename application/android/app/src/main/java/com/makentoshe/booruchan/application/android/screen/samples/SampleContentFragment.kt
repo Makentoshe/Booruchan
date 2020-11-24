@@ -48,7 +48,7 @@ class SampleContentFragment : CoreFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         viewModel.previewObservable.observeOn(AndroidSchedulers.mainThread()).subscribe {
-            println("preview $it")
+            fragment_sample_failure_preview.setImageBitmap(it)
         }.let(disposables::add)
 
         viewModel.exceptionObservable.observeOn(AndroidSchedulers.mainThread()).subscribe {
@@ -73,12 +73,11 @@ class SampleContentFragment : CoreFragment() {
     }
 
     private fun onContentLoadSuccess() {
-        // notify success load
         println("success content")
     }
 
     private fun onContentLoadFailure(throwable: Throwable?) {
-        // notify failure load
+        fragment_sample_failure_preview.visibility = View.VISIBLE
         println("exception $throwable")
     }
 

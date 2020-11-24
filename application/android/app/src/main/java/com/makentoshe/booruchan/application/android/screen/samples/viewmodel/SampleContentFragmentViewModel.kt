@@ -13,6 +13,7 @@ import io.reactivex.rxjava3.subjects.BehaviorSubject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
+// TODO Add a signal for fetching a preview image
 class SampleContentFragmentViewModel(
     /** The source of preview and sample images */
     private val post: Post,
