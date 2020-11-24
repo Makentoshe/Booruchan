@@ -3,8 +3,8 @@ package com.makentoshe.booruchan.core.post
 import java.io.File
 import java.io.Serializable
 
-/** Base image interface provides [url], it's [width] and [height], [name] and [extension] */
-interface Image: Serializable {
+/** Base content interface provides [url], it's [width] and [height], [name] and [extension] */
+interface Content: Serializable {
     val extension: String
     val url: String
     val height: Int?
@@ -12,16 +12,16 @@ interface Image: Serializable {
     val name: String
 }
 
-/** Typing for [Image] class for full sized images */
-interface FullImage : Image, Serializable
+/** Typing for [Content] class for full sized images */
+interface FullContent : Content, Serializable
 
-fun fullImage(
+fun fullContent(
     url: String,
     height: Int? = null,
     width: Int? = null,
     extension: String = File(url).extension,
     name: String = File(url).name
-) = object : FullImage {
+) = object : FullContent {
     override val url = url
     override val height = height
     override val width = width
@@ -29,16 +29,16 @@ fun fullImage(
     override val name = name
 }
 
-/** Typing for [Image] class for preview images */
-interface PreviewImage : Image, Serializable
+/** Typing for [Content] class for preview images */
+interface PreviewContent : Content, Serializable
 
-fun previewImage(
+fun previewContent(
     url: String,
     height: Int? = null,
     width: Int? = null,
     extension: String = File(url).extension,
     name: String = File(url).name
-) = object : PreviewImage {
+) = object : PreviewContent {
     override val url = url
     override val height = height
     override val width = width
@@ -46,16 +46,16 @@ fun previewImage(
     override val name = name
 }
 
-/** Typing for [Image] class for images with sample size*/
-interface SampleImage : Image, Serializable
+/** Typing for [Content] class for images with sample size*/
+interface SampleContent : Content, Serializable
 
-fun sampleImage(
+fun sampleContent(
     url: String,
     height: Int? = null,
     width: Int? = null,
     extension: String = File(url).extension,
     name: String = File(url).name
-) = object : SampleImage {
+) = object : SampleContent {
     override val url = url
     override val height = height
     override val width = width

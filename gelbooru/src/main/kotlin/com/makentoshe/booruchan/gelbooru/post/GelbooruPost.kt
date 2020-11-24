@@ -64,9 +64,9 @@ data class XmlGelbooruPost(
     val status: String?
 ) : GelbooruPost, Serializable {
     override val creationTime = time(rawCreationTime)
-    override val fullImage = fullImage(fileUrl, fileHeight, fileWidth)
-    override val sampleImage = sampleImage(sampleUrl, sampleHeight, sampleWidth)
-    override val previewImage = previewImage(previewUrl, previewHeight, previewWidth)
+    override val fullContent = fullContent(fileUrl, fileHeight, fileWidth)
+    override val sampleContent = sampleContent(sampleUrl, sampleHeight, sampleWidth)
+    override val previewContent = previewContent(previewUrl, previewHeight, previewWidth)
     override val tags = tagsFromText(tagsString.split(" ").map(::text).toSet())
     override val htwRatio: Float = fileHeight.toFloat() / fileWidth.toFloat()
 
@@ -121,16 +121,16 @@ data class JsonGelbooruPost(
     val directory: String
 ) : GelbooruPost, Serializable {
     override val creationTime = time(rawCreationTime)
-    override val fullImage = fullImage(fileUrl, fileHeight, fileWidth)
-    override val sampleImage = internalSampleImage()
-    override val previewImage = internalPreviewImage()
+    override val fullContent = fullContent(fileUrl, fileHeight, fileWidth)
+    override val sampleContent = internalSampleContent()
+    override val previewContent = internalPreviewContent()
     override val tags = tagsFromText(tagString.split(" ").map(::text).toSet())
     override val htwRatio: Float = fileHeight.toFloat() / fileWidth.toFloat()
 
     @JsonIgnore
     override val score = score(rawScore)
 
-    private fun internalSampleImage(): SampleImage {
+    private fun internalSampleContent(): SampleContent {
         val imageFile = File(image)
         val extension = when (imageFile.extension) {
             "png" -> "jpg"
@@ -138,13 +138,13 @@ data class JsonGelbooruPost(
         }
         val sampleUrlPart = File("sample_${imageFile.nameWithoutExtension}.$extension")
         val url = "https://img2.gelbooru.com/samples/$directory/$sampleUrlPart"
-        return sampleImage(url)
+        return sampleContent(url)
     }
 
-    private fun internalPreviewImage(): PreviewImage {
+    private fun internalPreviewContent(): PreviewContent {
         val imageFile = File("thumbnail_$image")
         val url = "https://img1.gelbooru.com/thumbnails/$directory/${imageFile.nameWithoutExtension}.jpg"
-        return previewImage(url)
+        return previewContent(url)
     }
 
     @JsonIgnore

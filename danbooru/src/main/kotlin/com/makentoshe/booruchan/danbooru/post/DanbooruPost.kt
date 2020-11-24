@@ -151,9 +151,9 @@ data class JsonDanbooruPost(
     override val lastCommentTime = rawLastCommentTime?.let(::time)
     override val lastCommentBumpTime = rawLastCommentBumpTime?.let(::time)
     override val tags = tagsFromText(tagString.split(" ").map(::text).toSet())
-    override val previewImage = previewImage(previewUrl)
-    override val sampleImage = sampleImage(sampleUrl)
-    override val fullImage = fullImage(fileUrl, imageHeight, imageWidth)
+    override val previewContent = previewContent(previewUrl)
+    override val sampleContent = sampleContent(sampleUrl)
+    override val fullContent = fullContent(fileUrl, imageHeight, imageWidth)
     override val htwRatio: Float = imageHeight.toFloat() / imageWidth.toFloat()
 
     @JsonIgnore
@@ -280,9 +280,9 @@ data class XmlDanbooruPost(
     override val lastCommentTime = rawLastCommentTime?.let(::time)
     override val lastCommentBumpTime = rawLastCommentBumpTime?.let(::time)
     override val tags = tagsFromText(tagString.split(" ").map(::text).toSet())
-    override val previewImage = previewImage(previewUrl)
-    override val sampleImage = sampleImage(sampleUrl)
-    override val fullImage = fullImage(fileUrl, imageHeight, imageWidth)
+    override val previewContent = previewContent(previewUrl)
+    override val sampleContent = sampleContent(sampleUrl)
+    override val fullContent = fullContent(fileUrl, imageHeight, imageWidth)
     override val htwRatio: Float = imageHeight.toFloat() / imageWidth.toFloat()
 
     @JsonIgnore
