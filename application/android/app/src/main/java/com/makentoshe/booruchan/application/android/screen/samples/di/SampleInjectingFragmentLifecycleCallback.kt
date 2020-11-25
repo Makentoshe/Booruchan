@@ -6,6 +6,7 @@ import androidx.fragment.app.FragmentManager
 import com.makentoshe.booruchan.application.android.di.ApplicationScope
 import com.makentoshe.booruchan.application.android.screen.samples.SampleContentFragment
 import com.makentoshe.booruchan.application.android.screen.samples.SampleImageFragment
+import com.makentoshe.booruchan.application.android.screen.samples.SamplePageFragment
 import toothpick.Toothpick
 import toothpick.smoothie.lifecycle.closeOnDestroy
 
@@ -13,20 +14,27 @@ class SampleInjectingFragmentLifecycleCallback : FragmentManager.FragmentLifecyc
 
     override fun onFragmentAttached(fm: FragmentManager, f: Fragment, context: Context) {
         when (f) {
-            is SampleContentFragment -> injectSampleFragment(f)
+            is SamplePageFragment -> injectSamplePageFragment(f)
+            is SampleContentFragment -> injectSampleContentFragment(f)
             is SampleImageFragment -> injectSampleImageFragment(f)
         }
     }
 
-    private fun injectSampleImageFragment(fragment: SampleImageFragment) {
-        val module = SampleImageModule(fragment)
-        val scope = Toothpick.openScopes(ApplicationScope::class, SampleContentScope::class, SampleImageScope::class)
+    private fun injectSamplePageFragment(fragment: SamplePageFragment) {
+        val module = SamplePageModule(fragment)
+        val scope = Toothpick.openScopes(ApplicationScope::class, SamplePageScope::class)
         scope.installModules(module).closeOnDestroy(fragment).inject(fragment)
     }
 
-    private fun injectSampleFragment(fragment: SampleContentFragment) {
+    private fun injectSampleContentFragment(fragment: SampleContentFragment) {
         val module = SampleContentModule(fragment)
-        val scope = Toothpick.openScopes(ApplicationScope::class, SampleContentScope::class)
+        val scope = Toothpick.openScopes(SamplePageScope::class, SampleContentScope::class)
+        scope.installModules(module).closeOnDestroy(fragment).inject(fragment)
+    }
+
+    private fun injectSampleImageFragment(fragment: SampleImageFragment) {
+        val module = SampleImageModule(fragment)
+        val scope = Toothpick.openScopes(SampleContentScope::class, SampleImageScope::class)
         scope.installModules(module).closeOnDestroy(fragment).inject(fragment)
     }
 }

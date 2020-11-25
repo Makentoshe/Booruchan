@@ -21,7 +21,7 @@ import kotlinx.android.synthetic.main.fragment_sample_content.*
 import toothpick.ktp.delegate.inject
 
 /**
- * Fragment that should choose how to display a sample.
+ * Fragment that should choose how to display a sample and display an error if loading failed.
  *
  * There are three different types of samples: Image, Gif-animation and Webm-video.
  * This fragment should contain a nested fragment for displaying one of those types
