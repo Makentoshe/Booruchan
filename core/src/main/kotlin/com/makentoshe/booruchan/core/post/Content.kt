@@ -4,7 +4,7 @@ import java.io.File
 import java.io.Serializable
 
 enum class Type {
-    WEBM, ANIMATION, IMAGE
+    VIDEO, ANIMATION, IMAGE
 }
 
 /** Base content interface provides [url], it's [width] and [height], [name] and [extension] */
@@ -18,7 +18,7 @@ interface Content: Serializable {
     val type: Type
         get() = when(extension) {
             "gif" -> Type.ANIMATION
-            "webm" -> Type.WEBM
+            "webm", "mp4" -> Type.VIDEO
             else -> Type.IMAGE
         }
 }

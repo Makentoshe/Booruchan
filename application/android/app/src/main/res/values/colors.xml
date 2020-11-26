@@ -16,4 +16,8 @@
     <color name="tags_metadata">#FDC023</color>
     <color name="tags_copyright">#AA00AA</color>
     <color name="tags_general">#000000</color>
+
+    <color name="content_image">@color/opaque</color>
+    <color name="content_animation">#FF00FF</color>
+    <color name="content_video">#0000FF</color>
 </resources>
