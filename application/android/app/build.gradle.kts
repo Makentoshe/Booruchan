@@ -121,6 +121,11 @@ dependencies {
     val fragment = properties["version.androidx.fragment"]
     implementation("androidx.fragment:fragment-ktx:$fragment")
 
+    // Android GifDrawable
+    // https://github.com/koral--/android-gif-drawable
+    val gif = properties["version.gifdrawable"]
+    implementation("pl.droidsonroids.gif:android-gif-drawable:$gif")
+
     val core = properties["version.androidx.core"]
     implementation("androidx.core:core-ktx:$core")
 

@@ -15,6 +15,7 @@ import com.makentoshe.booruchan.application.android.screen.samples.model.SAMPLE_
 import com.makentoshe.booruchan.application.android.screen.samples.viewmodel.SampleContentFragmentViewModel
 import com.makentoshe.booruchan.core.context.BooruContext
 import com.makentoshe.booruchan.core.post.Post
+import com.makentoshe.booruchan.core.post.Type
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.fragment_sample_content.*
@@ -55,7 +56,8 @@ class SampleContentFragment : CoreFragment() {
             onContentLoadFailure(it)
         }.let(disposables::add)
 
-        val fragment = when (arguments.post.sampleContent.type) {
+        val fragment = when (arguments.post.fullContent.type) {
+            Type.ANIMATION -> SampleAnimationFragment.build(arguments.booruclass, arguments.post)
             else -> SampleImageFragment.build(arguments.booruclass, arguments.post)
         }
         childFragmentManager.beginTransaction().add(R.id.fragment_sample_content, fragment).commit()

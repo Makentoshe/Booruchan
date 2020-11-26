@@ -4,9 +4,9 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import com.makentoshe.booruchan.application.android.di.ApplicationScope
 import com.makentoshe.booruchan.application.android.screen.posts.model.PostPreviewArenaStorage
-import com.makentoshe.booruchan.application.android.screen.samples.SampleImageFragment
+import com.makentoshe.booruchan.application.android.screen.samples.SampleAnimationFragment
 import com.makentoshe.booruchan.application.android.screen.samples.model.PostSampleArenaStorage
-import com.makentoshe.booruchan.application.android.screen.samples.viewmodel.SampleImageFragmentViewModel
+import com.makentoshe.booruchan.application.android.screen.samples.viewmodel.SampleAnimationFragmentViewModel
 import com.makentoshe.booruchan.application.core.arena.post.PostContentArena
 import com.makentoshe.booruchan.core.context.BooruContext
 import io.ktor.client.*
@@ -19,9 +19,9 @@ import java.io.File
 import javax.inject.Qualifier
 
 @Qualifier
-annotation class SampleImageScope
+annotation class SampleAnimationScope
 
-class SampleImageModule(fragment: SampleImageFragment) : Module() {
+class SampleAnimationModule(fragment: SampleAnimationFragment) : Module() {
 
     private val booruContexts by inject<List<BooruContext>>()
     private val client by inject<HttpClient>()
@@ -29,10 +29,10 @@ class SampleImageModule(fragment: SampleImageFragment) : Module() {
     init {
         Toothpick.openScope(ApplicationScope::class).inject(this)
         val booruContext = booruContexts.first { it.javaClass == fragment.arguments.booruclass }
-        bind<CompositeDisposable>().withName(SampleImageScope::class).toInstance(CompositeDisposable())
+        bind<CompositeDisposable>().withName(SampleAnimationScope::class).toInstance(CompositeDisposable())
 
         val sampleViewModel = getSampleViewModel(fragment, booruContext)
-        bind<SampleImageFragmentViewModel>().toInstance(sampleViewModel)
+        bind<SampleAnimationFragmentViewModel>().toInstance(sampleViewModel)
     }
 
     private fun getSampleArena(booruContext: BooruContext, fragment: Fragment): PostContentArena {
@@ -45,10 +45,10 @@ class SampleImageModule(fragment: SampleImageFragment) : Module() {
         return PostContentArena(client, PostPreviewArenaStorage(cacheDir))
     }
 
-    private fun getSampleViewModel(fragment: SampleImageFragment, booruContext: BooruContext): SampleImageFragmentViewModel {
+    private fun getSampleViewModel(fragment: SampleAnimationFragment, booruContext: BooruContext): SampleAnimationFragmentViewModel {
         val previewArena = getPreviewArena(booruContext, fragment)
         val sampleArena = getSampleArena(booruContext, fragment)
-        val imageFactory = SampleImageFragmentViewModel.Factory(fragment.arguments.post, previewArena, sampleArena)
-        return ViewModelProviders.of(fragment, imageFactory)[SampleImageFragmentViewModel::class.java]
+        val imageFactory = SampleAnimationFragmentViewModel.Factory(fragment.arguments.post, previewArena, sampleArena)
+        return ViewModelProviders.of(fragment, imageFactory)[SampleAnimationFragmentViewModel::class.java]
     }
 }
