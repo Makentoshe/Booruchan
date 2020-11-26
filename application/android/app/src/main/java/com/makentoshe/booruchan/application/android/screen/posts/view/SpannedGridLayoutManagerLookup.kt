@@ -7,10 +7,10 @@ import com.makentoshe.booruchan.core.post.Post
 import com.makentoshe.booruchan.core.post.deserialize.PostDeserialize
 
 // If htwRatio more than border - there is a vertical image, so it should place in 2 spans vertically
-private const val VERTICAL_RATIO_BORDER = 1.3
+private const val VERTICAL_RATIO_BORDER = 1.5
 
 // If htwRatio less than border - there is a horizontal image, so it should place in 2 spans horizontally
-private const val HORIZONTAL_RATIO_BORDER = 0.7
+private const val HORIZONTAL_RATIO_BORDER = 0.5
 
 /** Performs grid cell dimensions calculation */
 internal class SpannedGridLayoutManagerLookup(
@@ -33,7 +33,7 @@ private fun buildItemSpan(result: Result<PostDeserialize<Post>>?): SpanSize {
     val post = getPostFromResult(result)?.post
     return when {
         post?.htwRatio ?: Float.MIN_VALUE > VERTICAL_RATIO_BORDER -> SpanSize(1, 2)
-        post?.htwRatio ?: Float.MAX_VALUE > HORIZONTAL_RATIO_BORDER -> SpanSize(2, 1)
+        post?.htwRatio ?: Float.MAX_VALUE < HORIZONTAL_RATIO_BORDER -> SpanSize(2, 1)
         else -> buildErrorSpan()
     }
 }

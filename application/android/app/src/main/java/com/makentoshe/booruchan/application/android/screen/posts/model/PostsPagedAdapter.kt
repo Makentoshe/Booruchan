@@ -121,6 +121,7 @@ class PostsPagedAdapter(
 
     private fun onBindViewHolderItemSuccess(holder: PostsViewHolder, position: Int, success: PostDeserialize<Post>) {
         val image = success.post.previewContent
+//        holder.text.setText(success.post.htwRatio.toString())
         holder.itemView.setOnClickListener {
             navigation.navigateToPostScreen(success.post)
         }
