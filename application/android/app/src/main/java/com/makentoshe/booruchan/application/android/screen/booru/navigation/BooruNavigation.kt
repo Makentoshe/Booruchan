@@ -14,6 +14,7 @@ class BooruNavigation(
     private val booruContext: BooruContext
 ) {
 
+    // TODO add stack for navigating back
     private var currentScreen: SupportAppScreen? = null
 
     fun navigateToPostsScreen() {
