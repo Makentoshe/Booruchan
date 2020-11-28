@@ -58,7 +58,8 @@ class SampleContentFragment : CoreFragment() {
 
         val fragment = when (arguments.post.fullContent.type) {
             Type.ANIMATION -> SampleAnimationFragment.build(arguments.booruclass, arguments.post)
-            else -> SampleImageFragment.build(arguments.booruclass, arguments.post)
+            Type.VIDEO -> SampleVideoFragment.build(arguments.booruclass, arguments.post)
+            Type.IMAGE -> SampleImageFragment.build(arguments.booruclass, arguments.post)
         }
         childFragmentManager.beginTransaction().add(R.id.fragment_sample_content, fragment).commit()
     }
