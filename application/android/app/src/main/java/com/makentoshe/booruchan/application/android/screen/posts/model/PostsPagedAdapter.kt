@@ -5,6 +5,7 @@ import android.content.res.ColorStateList
 import android.graphics.BitmapFactory
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.makentoshe.booruchan.application.android.R
@@ -146,9 +147,9 @@ class PostsPagedAdapter(
     }
 
     private fun resolveContentColor(image: Content, context: Context) = when (image.type) {
-        Type.VIDEO -> ColorStateList.valueOf(context.getColor(R.color.content_video))
-        Type.ANIMATION -> ColorStateList.valueOf(context.getColor(R.color.content_animation))
-        Type.IMAGE -> ColorStateList.valueOf(context.getColor(R.color.content_image))
+        Type.VIDEO -> ColorStateList.valueOf(ContextCompat.getColor(context, R.color.content_video))
+        Type.ANIMATION -> ColorStateList.valueOf(ContextCompat.getColor(context, R.color.content_animation))
+        Type.IMAGE -> ColorStateList.valueOf(ContextCompat.getColor(context, R.color.content_image))
     }
 
     private fun onBindViewHolderItemException(holder: PostViewHolder, position: Int, throwable: Throwable? = null) {
