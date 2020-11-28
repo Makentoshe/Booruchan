@@ -43,6 +43,11 @@ android {
     }
 }
 
+repositories {
+    google()
+    jcenter()
+}
+
 dependencies {
     // core module for android application
     implementation(project(":application:android:core"))
@@ -125,6 +130,11 @@ dependencies {
     // https://github.com/koral--/android-gif-drawable
     val gif = properties["version.gifdrawable"]
     implementation("pl.droidsonroids.gif:android-gif-drawable:$gif")
+
+    // ExoPlayer
+    // https://github.com/google/ExoPlayer
+    val exoplayer = properties["version.exoplayer"]
+    implementation("com.google.android.exoplayer:exoplayer:$exoplayer")
 
     val core = properties["version.androidx.core"]
     implementation("androidx.core:core-ktx:$core")

@@ -10,13 +10,10 @@ import com.makentoshe.booruchan.application.android.screen.posts.model.PostsData
 import com.makentoshe.booruchan.application.android.screen.posts.model.PostsPagedAdapter
 import com.makentoshe.booruchan.application.android.screen.posts.navigation.PostsNavigation
 import com.makentoshe.booruchan.application.core.arena.Arena
-import com.makentoshe.booruchan.core.post.Content
-import com.makentoshe.booruchan.core.post.Post
-import com.makentoshe.booruchan.core.post.Tags
+import com.makentoshe.booruchan.core.post.*
 import com.makentoshe.booruchan.core.post.deserialize.PostDeserialize
 import com.makentoshe.booruchan.core.post.deserialize.PostsDeserialize
 import com.makentoshe.booruchan.core.post.network.PostsFilter
-import com.makentoshe.booruchan.core.post.tagsFromText
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Observer
 import io.reactivex.rxjava3.disposables.CompositeDisposable
@@ -73,7 +70,7 @@ class PostsFragmentViewModel(
         }.let(disposables::add)
 
         // Starts an initial request without any tags by default
-        postsTagsSearchSubject.onNext(tagsFromText(emptySet()))
+        postsTagsSearchSubject.onNext(tagsFromString(setOf("webm")))
 
         // Starts new search on refresh action
         refreshInitialLoadSubject.subscribe {

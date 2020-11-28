@@ -1,9 +1,18 @@
 package com.makentoshe.booruchan.application.android.screen.samples
 
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.google.android.exoplayer2.ExoPlayer
+import com.google.android.exoplayer2.ExoPlayerFactory
+import com.google.android.exoplayer2.Player
+import com.google.android.exoplayer2.SimpleExoPlayer
+import com.google.android.exoplayer2.offline.DownloadService
+import com.google.android.exoplayer2.source.ExtractorMediaSource
+import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
+import com.google.android.exoplayer2.util.Util
 import com.makentoshe.booruchan.application.android.R
 import com.makentoshe.booruchan.application.android.fragment.CoreFragment
 import com.makentoshe.booruchan.application.android.fragment.FragmentArguments
@@ -24,12 +33,27 @@ class SampleVideoFragment : CoreFragment() {
 
     val arguments = Arguments(this)
 
+    private lateinit var player: ExoPlayer
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_sample_video, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        text.text = "Sas asa anus psa"
+        player = ExoPlayerFactory.newSimpleInstance(requireContext())
+        player.repeatMode = Player.REPEAT_MODE_ALL
+        fragment_sample_player.player = player
+
+        val uri = Uri.parse(arguments.post.sampleContent.url)
+        val useragent = Util.getUserAgent(requireContext(), requireContext().getString(R.string.app_name))
+        val dataSourceFactory = DefaultDataSourceFactory(requireContext(), useragent)
+        val mediaSource = ExtractorMediaSource.Factory(dataSourceFactory).createMediaSource(uri)
+        player.prepare(mediaSource)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        player.stop(true)
     }
 
     class Arguments(fragment: SampleVideoFragment) : FragmentArguments<SampleVideoFragment>(fragment) {
