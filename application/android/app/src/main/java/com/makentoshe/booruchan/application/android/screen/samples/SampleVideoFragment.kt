@@ -1,23 +1,23 @@
 package com.makentoshe.booruchan.application.android.screen.samples
 
-import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.google.android.exoplayer2.ExoPlayer
-import com.google.android.exoplayer2.ExoPlayerFactory
-import com.google.android.exoplayer2.Player
-import com.google.android.exoplayer2.source.ExtractorMediaSource
-import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
-import com.google.android.exoplayer2.util.Util
+import androidx.core.graphics.drawable.toDrawable
+import com.google.android.exoplayer2.SimpleExoPlayer
 import com.makentoshe.booruchan.application.android.R
 import com.makentoshe.booruchan.application.android.fragment.CoreFragment
 import com.makentoshe.booruchan.application.android.fragment.FragmentArguments
+import com.makentoshe.booruchan.application.android.screen.samples.di.SampleVideoScope
 import com.makentoshe.booruchan.application.android.screen.samples.model.SampleVideoPlayerEventListener
+import com.makentoshe.booruchan.application.android.screen.samples.viewmodel.SampleVideoFragmentViewModel
 import com.makentoshe.booruchan.core.context.BooruContext
 import com.makentoshe.booruchan.core.post.Post
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.fragment_sample_video.*
+import toothpick.ktp.delegate.inject
 
 class SampleVideoFragment : CoreFragment() {
 
@@ -31,34 +31,26 @@ class SampleVideoFragment : CoreFragment() {
     }
 
     val arguments = Arguments(this)
+    private val viewModel by inject<SampleVideoFragmentViewModel>()
+    private val disposables by inject<CompositeDisposable>(SampleVideoScope::class)
+    private val player by inject<SimpleExoPlayer>()
 
-    private lateinit var player: ExoPlayer
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_sample_video, container, false)
-    }
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View =
+        inflater.inflate(R.layout.fragment_sample_video, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        // TODO add preview loading
-
-        player = ExoPlayerFactory.newSimpleInstance(requireContext())
-        player.repeatMode = Player.REPEAT_MODE_ALL
         fragment_sample_player.player = player
-
-        val uri = Uri.parse(arguments.post.sampleContent.url)
-        val useragent = Util.getUserAgent(requireContext(), requireContext().getString(R.string.app_name))
-        val dataSourceFactory = DefaultDataSourceFactory(requireContext(), useragent)
-        val mediaSource = ExtractorMediaSource.Factory(dataSourceFactory).createMediaSource(uri)
-        player.prepare(mediaSource)
-
         player.addListener(SampleVideoPlayerEventListener(fragment_sample_progress_indeterminate))
+
+        viewModel.previewObservable.observeOn(AndroidSchedulers.mainThread()).subscribe {
+            fragment_sample_player.defaultArtwork = it.toDrawable(resources)
+        }.let(disposables::add)
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         player.stop(true)
+        disposables.clear()
     }
 
     class Arguments(fragment: SampleVideoFragment) : FragmentArguments<SampleVideoFragment>(fragment) {

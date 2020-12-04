@@ -4,10 +4,7 @@ import android.content.Context
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.makentoshe.booruchan.application.android.di.ApplicationScope
-import com.makentoshe.booruchan.application.android.screen.samples.SampleAnimationFragment
-import com.makentoshe.booruchan.application.android.screen.samples.SampleContentFragment
-import com.makentoshe.booruchan.application.android.screen.samples.SampleImageFragment
-import com.makentoshe.booruchan.application.android.screen.samples.SamplePageFragment
+import com.makentoshe.booruchan.application.android.screen.samples.*
 import toothpick.Toothpick
 import toothpick.smoothie.lifecycle.closeOnDestroy
 
@@ -18,6 +15,7 @@ class SampleInjectingFragmentLifecycleCallback : FragmentManager.FragmentLifecyc
         is SampleContentFragment -> injectSampleContentFragment(f)
         is SampleImageFragment -> injectSampleImageFragment(f)
         is SampleAnimationFragment -> injectSampleAnimationFragment(f)
+        is SampleVideoFragment -> injectSampleVideoFragment(f)
         else -> Unit
     }
 
@@ -42,6 +40,12 @@ class SampleInjectingFragmentLifecycleCallback : FragmentManager.FragmentLifecyc
     private fun injectSampleAnimationFragment(fragment: SampleAnimationFragment) {
         val module = SampleAnimationModule(fragment)
         val scope = Toothpick.openScopes(SampleContentScope::class, SampleAnimationScope::class)
+        scope.installModules(module).closeOnDestroy(fragment).inject(fragment)
+    }
+
+    private fun injectSampleVideoFragment(fragment: SampleVideoFragment) {
+        val module = SampleVideoModule(fragment)
+        val scope = Toothpick.openScopes(SampleContentScope::class, SampleVideoScope::class)
         scope.installModules(module).closeOnDestroy(fragment).inject(fragment)
     }
 }
