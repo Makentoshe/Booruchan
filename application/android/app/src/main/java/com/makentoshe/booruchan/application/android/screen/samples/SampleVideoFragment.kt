@@ -8,14 +8,13 @@ import android.view.ViewGroup
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.ExoPlayerFactory
 import com.google.android.exoplayer2.Player
-import com.google.android.exoplayer2.SimpleExoPlayer
-import com.google.android.exoplayer2.offline.DownloadService
 import com.google.android.exoplayer2.source.ExtractorMediaSource
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.google.android.exoplayer2.util.Util
 import com.makentoshe.booruchan.application.android.R
 import com.makentoshe.booruchan.application.android.fragment.CoreFragment
 import com.makentoshe.booruchan.application.android.fragment.FragmentArguments
+import com.makentoshe.booruchan.application.android.screen.samples.model.SampleVideoPlayerEventListener
 import com.makentoshe.booruchan.core.context.BooruContext
 import com.makentoshe.booruchan.core.post.Post
 import kotlinx.android.synthetic.main.fragment_sample_video.*
@@ -35,11 +34,15 @@ class SampleVideoFragment : CoreFragment() {
 
     private lateinit var player: ExoPlayer
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+    ): View? {
         return inflater.inflate(R.layout.fragment_sample_video, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        // TODO add preview loading
+
         player = ExoPlayerFactory.newSimpleInstance(requireContext())
         player.repeatMode = Player.REPEAT_MODE_ALL
         fragment_sample_player.player = player
@@ -49,6 +52,8 @@ class SampleVideoFragment : CoreFragment() {
         val dataSourceFactory = DefaultDataSourceFactory(requireContext(), useragent)
         val mediaSource = ExtractorMediaSource.Factory(dataSourceFactory).createMediaSource(uri)
         player.prepare(mediaSource)
+
+        player.addListener(SampleVideoPlayerEventListener(fragment_sample_progress_indeterminate))
     }
 
     override fun onDestroyView() {
@@ -72,3 +77,4 @@ class SampleVideoFragment : CoreFragment() {
         }
     }
 }
+
