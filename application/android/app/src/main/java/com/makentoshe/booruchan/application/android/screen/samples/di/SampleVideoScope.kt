@@ -3,10 +3,10 @@ package com.makentoshe.booruchan.application.android.screen.samples.di
 import android.net.Uri
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
-import com.google.android.exoplayer2.ExoPlayerFactory
+import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.SimpleExoPlayer
-import com.google.android.exoplayer2.source.ExtractorMediaSource
+import com.google.android.exoplayer2.source.ProgressiveMediaSource
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.google.android.exoplayer2.util.Util
 import com.makentoshe.booruchan.application.android.R
@@ -58,16 +58,18 @@ class SampleVideoModule(fragment: SampleVideoFragment) : Module() {
     }
 
     private fun getExoPlayer(fragment: SampleVideoFragment): SimpleExoPlayer {
+        // TODO there are some codecs(OMX.qcom.video.decoder.avc), that cannot be played by exoplayer
+        // https://gelbooru.com/index.php?page=post&s=view&id=5711153&tags=webm
         val uri = Uri.parse(fragment.arguments.post.sampleContent.url)
         // TODO Move UserAgent to ApplicationScope
-        val useragent =
-            Util.getUserAgent(fragment.requireContext(), fragment.requireContext().getString(R.string.app_name))
+        val useragent = Util.getUserAgent(fragment.requireContext(), fragment.requireContext().getString(R.string.app_name))
         val dataSourceFactory = DefaultDataSourceFactory(fragment.requireContext(), useragent)
-        val mediaSource = ExtractorMediaSource.Factory(dataSourceFactory).createMediaSource(uri)
+        val mediaSource = ProgressiveMediaSource.Factory(dataSourceFactory).createMediaSource(MediaItem.fromUri(uri))
 
-        val player = ExoPlayerFactory.newSimpleInstance(fragment.requireContext())
+        val player = SimpleExoPlayer.Builder(fragment.requireContext()).build()
         player.repeatMode = Player.REPEAT_MODE_ALL
-        player.prepare(mediaSource)
+        player.setMediaSource(mediaSource)
+        player.prepare()
         return player
     }
 }

@@ -1,16 +1,19 @@
 package com.makentoshe.booruchan.application.android.screen.samples
 
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.graphics.drawable.toDrawable
+import com.google.android.exoplayer2.ExoPlaybackException
+import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.SimpleExoPlayer
 import com.makentoshe.booruchan.application.android.R
 import com.makentoshe.booruchan.application.android.fragment.CoreFragment
 import com.makentoshe.booruchan.application.android.fragment.FragmentArguments
 import com.makentoshe.booruchan.application.android.screen.samples.di.SampleVideoScope
-import com.makentoshe.booruchan.application.android.screen.samples.model.SampleVideoPlayerEventListener
 import com.makentoshe.booruchan.application.android.screen.samples.viewmodel.SampleVideoFragmentViewModel
 import com.makentoshe.booruchan.core.context.BooruContext
 import com.makentoshe.booruchan.core.post.Post
@@ -35,16 +38,38 @@ class SampleVideoFragment : CoreFragment() {
     private val disposables by inject<CompositeDisposable>(SampleVideoScope::class)
     private val player by inject<SimpleExoPlayer>()
 
+    private val exceptionHandler = ExceptionHandler()
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View =
         inflater.inflate(R.layout.fragment_sample_video, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         fragment_sample_player.player = player
-        player.addListener(SampleVideoPlayerEventListener(fragment_sample_progress_indeterminate))
+        player.addListener(object : Player.EventListener {
+
+            override fun onPlayerError(error: ExoPlaybackException) = this@SampleVideoFragment.onPlayerError(error)
+
+            override fun onPlayerStateChanged(playWhenReady: Boolean, playbackState: Int) =
+                this@SampleVideoFragment.onPlayerStateChanged(playbackState)
+        })
 
         viewModel.previewObservable.observeOn(AndroidSchedulers.mainThread()).subscribe {
             fragment_sample_player.defaultArtwork = it.toDrawable(resources)
         }.let(disposables::add)
+    }
+
+    private fun onPlayerStateChanged(playbackState: Int) {
+        fragment_sample_progress_indeterminate.visibility = when (playbackState) {
+            Player.STATE_BUFFERING -> View.VISIBLE
+            Player.STATE_READY -> View.GONE
+            else -> return
+        }
+    }
+
+    private fun onPlayerError(exception: ExoPlaybackException?) {
+        val entry = exceptionHandler.handleException(exception)
+        Toast.makeText(requireContext(), entry.toString(), Toast.LENGTH_LONG).show()
+        println(entry)
     }
 
     override fun onDestroyView() {
@@ -53,6 +78,18 @@ class SampleVideoFragment : CoreFragment() {
         disposables.clear()
     }
 
+    private class ExceptionHandler {
+
+        fun handleException(exception: Throwable?): Entry = when (exception) {
+            else -> handleUnknownException(exception)
+        }
+
+        private fun handleUnknownException(exception: Throwable?): Entry {
+            return Entry("There is an unknown error", exception?.message.toString())
+        }
+
+        data class Entry(val title: String, val message: String, val image: Drawable? = null)
+    }
     class Arguments(fragment: SampleVideoFragment) : FragmentArguments<SampleVideoFragment>(fragment) {
 
         var post: Post
