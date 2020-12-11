@@ -20,6 +20,7 @@
         app:layout_constraintBottom_toTopOf="@id/fragment_booru_navigation" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:visibility="gone"
         style="@style/Default.Toolbar"
         android:id="@+id/fragment_booru_navigation"
         android:layout_width="match_parent"
