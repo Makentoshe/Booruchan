@@ -163,15 +163,15 @@ class PostsSearchFragment : CoreFragment() {
         val chip = createChip(tag, chipGroup)
         chipGroup.addView(chip)
         chip.setOnCloseIconClickListener {
-            // search was changed - so it is a time to access applying
-            updateApplyButtonAccessibility()
-
             chipGroup.removeView(chip)
             if (chipGroup.childCount == 0) {
                 group.visibility = View.GONE
             }
             // remove tag as Tag instance or Text instance
             if (tag is Tag) tagsContainer.remove(tag) else tagsContainer.remove(tag)
+
+            // search was changed - so it is a time to access applying
+            updateApplyButtonAccessibility()
         }
     }
 

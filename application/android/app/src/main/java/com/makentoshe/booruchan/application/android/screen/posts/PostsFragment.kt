@@ -51,8 +51,6 @@ class PostsFragmentFactory(private val booruContextTitle: String) : FragmentFact
 
 class PostsFragment : CoreFragment() {
 
-    private var lastRecyclerViewScrollY = 0
-
     companion object {
         fun build(booruContextTitle: String): PostsFragment {
             val fragment = PostsFragment()

@@ -70,7 +70,7 @@ class PostsFragmentViewModel(
         }.let(disposables::add)
 
         // Starts an initial request without any tags by default
-        postsTagsSearchSubject.onNext(tagsFromString(setOf("webm")))
+        postsTagsSearchSubject.onNext(Tags.EMPTY)
 
         // Starts new search on refresh action
         refreshInitialLoadSubject.subscribe {
