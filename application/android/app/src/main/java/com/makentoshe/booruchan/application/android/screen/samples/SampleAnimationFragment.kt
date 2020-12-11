@@ -70,7 +70,7 @@ class SampleAnimationFragment : CoreFragment() {
         disposables.clear()
     }
 
-    class Arguments(fragment: SampleAnimationFragment) : FragmentArguments<SampleAnimationFragment>(fragment) {
+    class Arguments(fragment: SampleAnimationFragment) : FragmentArguments(fragment) {
 
         var post: Post
             get() = fragmentArguments.getSerializable(POST) as Post

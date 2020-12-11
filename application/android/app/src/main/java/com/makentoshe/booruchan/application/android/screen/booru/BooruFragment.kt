@@ -5,14 +5,15 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import com.makentoshe.booruchan.application.android.R
+import com.makentoshe.booruchan.application.android.fragment.CoreFragment
+import com.makentoshe.booruchan.application.android.fragment.FragmentArguments
 import com.makentoshe.booruchan.application.android.screen.booru.navigation.BooruNavigation
 import com.makentoshe.booruchan.core.context.BooruContext
 import kotlinx.android.synthetic.main.fragment_booru.*
 import toothpick.ktp.delegate.inject
 
-class BooruFragment : Fragment() {
+class BooruFragment : CoreFragment() {
 
     companion object {
 
@@ -49,17 +50,7 @@ class BooruFragment : Fragment() {
         return true
     }
 
-    class Arguments(private val booruFragment: BooruFragment) {
-
-        init {
-            val fragment = booruFragment as Fragment
-            if (fragment.arguments == null) {
-                fragment.arguments = Bundle()
-            }
-        }
-
-        private val fragmentArguments: Bundle
-            get() = booruFragment.requireArguments()
+    class Arguments(booruFragment: BooruFragment): FragmentArguments(booruFragment) {
 
         var booruContextTitle: String
             get() = fragmentArguments.getString(TITLE)!!

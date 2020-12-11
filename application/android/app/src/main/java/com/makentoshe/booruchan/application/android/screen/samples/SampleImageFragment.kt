@@ -71,7 +71,7 @@ class SampleImageFragment : CoreFragment() {
         disposables.clear()
     }
 
-    class Arguments(fragment: SampleImageFragment) : FragmentArguments<SampleImageFragment>(fragment) {
+    class Arguments(fragment: SampleImageFragment) : FragmentArguments(fragment) {
 
         var post: Post
             get() = fragmentArguments.getSerializable(POST) as Post

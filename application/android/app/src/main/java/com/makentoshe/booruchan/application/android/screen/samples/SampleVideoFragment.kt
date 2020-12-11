@@ -90,7 +90,7 @@ class SampleVideoFragment : CoreFragment() {
 
         data class Entry(val title: String, val message: String, val image: Drawable? = null)
     }
-    class Arguments(fragment: SampleVideoFragment) : FragmentArguments<SampleVideoFragment>(fragment) {
+    class Arguments(fragment: SampleVideoFragment) : FragmentArguments(fragment) {
 
         var post: Post
             get() = fragmentArguments.getSerializable(POST) as Post

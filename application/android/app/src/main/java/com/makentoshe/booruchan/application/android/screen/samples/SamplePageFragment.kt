@@ -46,7 +46,7 @@ class SamplePageFragment : CoreFragment() {
         })
     }
 
-    class Arguments(fragment: SamplePageFragment) : FragmentArguments<SamplePageFragment>(fragment) {
+    class Arguments(fragment: SamplePageFragment) : FragmentArguments(fragment) {
 
         var post: Post
             get() = fragmentArguments.getSerializable(POST) as Post

@@ -85,7 +85,7 @@ class SampleContentFragment : CoreFragment() {
         println("exception $throwable")
     }
 
-    class Arguments(fragment: SampleContentFragment) : FragmentArguments<SampleContentFragment>(fragment) {
+    class Arguments(fragment: SampleContentFragment) : FragmentArguments(fragment) {
 
         var post: Post
             get() = fragmentArguments.getSerializable(POST) as Post

@@ -205,7 +205,7 @@ class PostsFragment : CoreFragment() {
         Toast.makeText(requireContext(), "Search failure", Toast.LENGTH_LONG).show()
     }
 
-    class Arguments(postsFragment: PostsFragment) : FragmentArguments<PostsFragment>(postsFragment) {
+    class Arguments(postsFragment: PostsFragment) : FragmentArguments(postsFragment) {
 
         var booruContextTitle: String
             get() = fragmentArguments.getString(TITLE)!!

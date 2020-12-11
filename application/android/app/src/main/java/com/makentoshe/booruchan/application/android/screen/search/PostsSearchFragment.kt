@@ -126,7 +126,7 @@ class PostsSearchFragment : CoreFragment() {
 
     /** Return true if tag was processed */
     private fun processRatingTag(tag: Text): Boolean {
-        val toggleButton = when(tag.text) {
+        val toggleButton = when (tag.text) {
             "rating:safe" -> fragment_search_posts_rating_toggle_safe
             "rating:questionable" -> fragment_search_posts_rating_toggle_questionable
             "rating:explicit" -> fragment_search_posts_rating_toggle_explicit
@@ -201,7 +201,7 @@ class PostsSearchFragment : CoreFragment() {
         fragment_search_posts_apply.isEnabled = tagsContainer.tagsActions.isNotEmpty()
     }
 
-    class Arguments(fragment: PostsSearchFragment) : FragmentArguments<PostsSearchFragment>(fragment) {
+    class Arguments(fragment: PostsSearchFragment) : FragmentArguments(fragment) {
 
         var booruContextTitle: String
             get() = fragmentArguments.getString(TITLE)!!
