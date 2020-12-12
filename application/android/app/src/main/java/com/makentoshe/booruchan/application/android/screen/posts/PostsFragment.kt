@@ -29,6 +29,7 @@ import com.makentoshe.booruchan.application.core.arena.ArenaStorageException
 import com.makentoshe.booruchan.core.Text
 import com.makentoshe.booruchan.core.post.tagsFromText
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
+import io.ktor.network.sockets.*
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.fragment_posts.*
@@ -235,8 +236,10 @@ class PostsFragment : CoreFragment() {
                 is UnknownHostException -> Entry("There is a network error", cause.toString())
 
                 is SSLHandshakeException -> Entry("There is a network error", cause.toString())
+                // Tor cause
+                is SocketTimeoutException -> Entry("There is a network error", cause.toString())
 
-                else -> Entry("There is an unknown cache error", exception.toString())
+                else -> Entry("There is an unknown cache error", cause.toString())
             }
 
         data class Entry(val title: String, val message: String, val image: Drawable? = null)

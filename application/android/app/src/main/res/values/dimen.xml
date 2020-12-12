@@ -3,19 +3,21 @@
     <!-- Toolbar -->
     <dimen name="toolbar_height">56dp</dimen>
     <dimen name="toolbar_text_size">20sp</dimen>
-
     <!-- Toolbar Light differences -->
     <dimen name="toolbar_elevation">4dp</dimen>
     <dimen name="toolbar_separator_height">0px</dimen>
-    
+
     <!-- Text -->
     <dimen name="main_text_size">16sp</dimen>
-    
+
     <!-- Margins and Paddings -->
     <dimen name="dimenL">16dp</dimen>
     <dimen name="dimenM">12dp</dimen>
     <dimen name="dimenS">8dp</dimen>
     <dimen name="dimenXS">4dp</dimen>
+
+    <!-- Element size (height or width) -->
+    <dimen name="sizeM">36dp</dimen>
 
     <dimen name="separator_height">1dp</dimen>
 </resources>

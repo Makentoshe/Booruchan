@@ -1,4 +1,4 @@
-package com.makentoshe.booruchan.application.android
+package com.makentoshe.booruchan.application.android.database
 
 import androidx.room.Dao
 import androidx.room.Insert

@@ -24,4 +24,16 @@
     <string name="rating_type_questionable">Questionable</string>
     <string name="rating_type_explicit">Explicit</string>
 
+    <string-array name="samples_menu">
+        <item>Save</item>
+        <item>Share image</item>
+        <item>Share image link</item>
+        <item>Share post link</item>
+    </string-array>
+
+    <!-- Separate layouts -->
+    <string name="layout_download_button">Download image</string>
+    <string name="layout_download_permission_granted">All requireable permissions granted</string>
+    <string name="layout_download_permission_requires">Requires file storage permission</string>
+
 </resources>
