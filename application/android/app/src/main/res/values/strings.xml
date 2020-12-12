@@ -36,4 +36,9 @@
     <string name="layout_download_permission_granted">All requireable permissions granted</string>
     <string name="layout_download_permission_requires">Requires file storage permission</string>
 
+    <!-- Exception handler -->
+    <string name="exception_network">There is a network error</string>
+    <string name="exception_network_proxy">Your proxy connection expired. If you use Orbot, you can retry several times until connection established</string>
+    <string name="exception_network_proxy_cloudflare">Your proxy connection refused. The destination server protected by cloudflare and requires a captcha, but application does not implement it yet</string>
+
 </resources>

@@ -29,7 +29,12 @@ import com.makentoshe.booruchan.application.core.arena.ArenaStorageException
 import com.makentoshe.booruchan.core.Text
 import com.makentoshe.booruchan.core.post.tagsFromText
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
+import io.ktor.client.*
+import io.ktor.client.features.*
+import io.ktor.client.request.*
+import io.ktor.client.statement.*
 import io.ktor.network.sockets.*
+import io.ktor.util.*
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.fragment_posts.*
@@ -80,8 +85,8 @@ class PostsFragment : CoreFragment() {
         onViewCreatedToolbar()
         onViewCreatedRecycler()
 
-        viewModel.initialSignal.observeOn(AndroidSchedulers.mainThread())
-            .subscribe(::onInitialLoad).let(disposables::add)
+        viewModel.initialSignal.observeOn(AndroidSchedulers.mainThread()).subscribe(::onInitialLoad)
+            .let(disposables::add)
 
         fragment_posts_retry.setOnClickListener {
             viewModel.retryInitialLoadObserver.onNext(Unit)
@@ -231,15 +236,37 @@ class PostsFragment : CoreFragment() {
         private fun handleArenaStorageException(exception: ArenaStorageException): Entry =
             when (val cause = exception.cause) {
                 // provider blocks the host
-                is SSLPeerUnverifiedException -> Entry("There is a network error", cause.toString())
+                is SSLPeerUnverifiedException -> {
+                    val title = context.getString(R.string.exception_network)
+                    Entry(title, cause.toString())
+                }
                 // internet connection disabled
-                is UnknownHostException -> Entry("There is a network error", cause.toString())
+                is UnknownHostException -> {
+                    val title = context.getString(R.string.exception_network)
+                    Entry(title, cause.toString())
+                }
 
-                is SSLHandshakeException -> Entry("There is a network error", cause.toString())
-                // Tor cause
-                is SocketTimeoutException -> Entry("There is a network error", cause.toString())
+                is SSLHandshakeException -> {
+                    val title = context.getString(R.string.exception_network)
+                    Entry(title, cause.toString())
+                }
+                // Orbot connection expired cause
+                is SocketTimeoutException -> {
+                    val title = context.getString(R.string.exception_network)
+                    val message = context.getString(R.string.exception_network_proxy)
+                    Entry(title, message)
+                }
+                // TODO server requests to resolve captcha event
+                is ClientRequestException -> {
+                    val title = context.getString(R.string.exception_network)
+                    val message = context.getString(R.string.exception_network_proxy_cloudflare)
+                    Entry(title, message)
+                }
 
-                else -> Entry("There is an unknown cache error", cause.toString())
+                else -> {
+                    exception.printStackTrace()
+                    Entry("There is an unknown cache error", cause.toString())
+                }
             }
 
         data class Entry(val title: String, val message: String, val image: Drawable? = null)
