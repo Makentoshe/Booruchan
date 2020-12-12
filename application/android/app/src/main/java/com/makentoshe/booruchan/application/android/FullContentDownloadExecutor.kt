@@ -50,6 +50,7 @@ class FullContentDownloadExecutor(
     }
 
     private fun defineDirectoryLocation(post: Post): File {
+        // TODO fix external dir
         val downloads = applicationContext.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS)
         val applicationTitle = applicationContext.getString(R.string.app_name)
         val image = "${post.postId}.${post.fullContent.extension}"

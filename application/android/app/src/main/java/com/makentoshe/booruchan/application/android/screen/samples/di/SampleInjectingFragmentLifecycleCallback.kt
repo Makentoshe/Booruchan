@@ -16,6 +16,7 @@ class SampleInjectingFragmentLifecycleCallback : FragmentManager.FragmentLifecyc
         is SampleImageFragment -> injectSampleImageFragment(f)
         is SampleAnimationFragment -> injectSampleAnimationFragment(f)
         is SampleVideoFragment -> injectSampleVideoFragment(f)
+        is SampleInfoFragment -> injectSampleInfoFragment(f)
         else -> Unit
     }
 
@@ -46,6 +47,12 @@ class SampleInjectingFragmentLifecycleCallback : FragmentManager.FragmentLifecyc
     private fun injectSampleVideoFragment(fragment: SampleVideoFragment) {
         val module = SampleVideoModule(fragment)
         val scope = Toothpick.openScopes(SampleContentScope::class, SampleVideoScope::class)
+        scope.installModules(module).closeOnDestroy(fragment).inject(fragment)
+    }
+
+    private fun injectSampleInfoFragment(fragment: SampleInfoFragment) {
+        val module = SampleInfoModule(fragment)
+        val scope = Toothpick.openScopes(SamplePageScope::class, SampleInfoScope::class)
         scope.installModules(module).closeOnDestroy(fragment).inject(fragment)
     }
 }

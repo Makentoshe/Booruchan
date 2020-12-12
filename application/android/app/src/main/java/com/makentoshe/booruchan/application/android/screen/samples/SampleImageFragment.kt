@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.makentoshe.booruchan.application.android.FullContentDownloadExecutor
 import com.makentoshe.booruchan.application.android.R
 import com.makentoshe.booruchan.application.android.fragment.CoreFragment
 import com.makentoshe.booruchan.application.android.fragment.FragmentArguments
@@ -41,7 +40,6 @@ class SampleImageFragment : CoreFragment() {
     val arguments = Arguments(this)
     private val viewModel by inject<SampleImageFragmentViewModel>()
     private val disposables by inject<CompositeDisposable>(SampleImageScope::class)
-    private val downloadExecutor by inject<FullContentDownloadExecutor>()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_sample_image, container, false)
