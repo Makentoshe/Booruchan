@@ -16,6 +16,7 @@ import com.makentoshe.booruchan.application.android.fragment.FragmentArguments
 import com.makentoshe.booruchan.core.context.BooruContext
 import com.makentoshe.booruchan.core.post.Content
 import com.makentoshe.booruchan.core.post.Post
+import kotlinx.android.synthetic.main.layout_comments.*
 import kotlinx.android.synthetic.main.layout_download.*
 import toothpick.ktp.delegate.inject
 import java.io.File
@@ -42,6 +43,7 @@ class SampleInfoFragment : CoreFragment(), FullContentDownloadExecutor.DownloadL
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         onViewCreatedDownload()
+        onViewCreatedComments()
     }
 
     private fun onViewCreatedDownload() {
@@ -70,6 +72,14 @@ class SampleInfoFragment : CoreFragment(), FullContentDownloadExecutor.DownloadL
                 }
                 else -> capture(Log.INFO, "${it.first}: ${it.second}")
             }
+        }
+    }
+
+    private fun onViewCreatedComments() {
+        val commentsCount = getString(R.string.layout_comments_count)
+        layout_comments_text.text = getString(R.string.layout_comments_text, commentsCount)
+        layout_comments_button.setOnClickListener{
+            Toast.makeText(requireContext(), R.string.not_implemented, Toast.LENGTH_LONG).show()
         }
     }
 

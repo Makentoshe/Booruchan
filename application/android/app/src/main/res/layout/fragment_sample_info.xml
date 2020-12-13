@@ -17,6 +17,14 @@
             android:layout_marginHorizontal="@dimen/dimenS"
             android:layout_marginTop="@dimen/dimenM" />
 
+        <include
+            layout="@layout/layout_comments"
+            android:id="@+id/fragment_sample_info_comments"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_marginHorizontal="@dimen/dimenS"
+            android:layout_marginTop="@dimen/dimenM" />
+
     </LinearLayout>
 
 </ScrollView>

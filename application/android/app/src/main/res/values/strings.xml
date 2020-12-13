@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">Booruchan</string>
+    <string name="not_implemented">Not implemented</string>
 
     <!-- Booru screen -->
     <string name="booru_navigation_account">Account</string>
@@ -32,6 +33,9 @@
     <string name="layout_download_button">Download image</string>
     <string name="layout_download_permission_granted">All requireable permissions granted</string>
     <string name="layout_download_permission_requires">Requires file storage permission</string>
+    <string name="layout_comments_button">Open comments</string>
+    <string name="layout_comments_text">Comments: %1$s</string>
+    <string name="layout_comments_count">count doesn\'t provides</string>
 
     <!-- Exception handler -->
     <string name="exception_network">There is a network error</string>
