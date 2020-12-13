@@ -24,12 +24,9 @@
     <string name="rating_type_questionable">Questionable</string>
     <string name="rating_type_explicit">Explicit</string>
 
-    <string-array name="samples_menu">
-        <item>Save</item>
-        <item>Share image</item>
-        <item>Share image link</item>
-        <item>Share post link</item>
-    </string-array>
+    <string name="content_download_success">Content %1$s was successfully downloaded</string>
+    <string name="content_download_already">Content %1$s was already downloaded</string>
+    <string name="content_download_failure">Content %1$s download was failed</string>
 
     <!-- Separate layouts -->
     <string name="layout_download_button">Download image</string>

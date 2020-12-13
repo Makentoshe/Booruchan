@@ -16,6 +16,7 @@ import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 import java.io.File
 
+// TODO move download to IntentService
 class FullContentDownloadExecutor(
     private val arena: Arena<Content, ByteArray>,
     private val title: String,

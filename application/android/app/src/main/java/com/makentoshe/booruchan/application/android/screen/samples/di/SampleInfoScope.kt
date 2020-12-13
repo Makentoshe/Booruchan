@@ -24,7 +24,7 @@ class SampleInfoModule(fragment: SampleInfoFragment): Module() {
         Toothpick.openScope(ApplicationScope::class).inject(this)
 
         val booruContext = booruContexts.first { it.javaClass == fragment.arguments.booruclass }
-        val downloadExecutor = fullContentDownloadExecutorBuilder.build(booruContext, null)
+        val downloadExecutor = fullContentDownloadExecutorBuilder.build(booruContext, fragment)
         bind<FullContentDownloadExecutor>().toInstance(downloadExecutor)
     }
 }
