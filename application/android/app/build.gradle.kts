@@ -136,6 +136,11 @@ dependencies {
     val exoplayer = properties["version.exoplayer"]
     implementation("com.google.android.exoplayer:exoplayer:$exoplayer")
 
+    // Dexter (request permissions)
+    // https://github.com/Karumi/Dexter/
+    val dexter = properties["version.dexter"]
+    implementation("com.karumi:dexter:$dexter")
+
     val core = properties["version.androidx.core"]
     implementation("androidx.core:core-ktx:$core")
 

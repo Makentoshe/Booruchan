@@ -19,6 +19,7 @@ import kotlinx.android.synthetic.main.fragment_sample_page.*
 import toothpick.ktp.delegate.inject
 import java.io.File
 
+// TODO merge SampleContentFragment and SampleInfoFragment under single adapter
 class SamplePageFragment : CoreFragment(), FullContentDownloadExecutor.DownloadListener {
 
     companion object {
