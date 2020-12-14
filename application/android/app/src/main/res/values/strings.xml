@@ -36,6 +36,10 @@
     <string name="layout_comments_button">Open comments</string>
     <string name="layout_comments_text">Comments: %1$s</string>
     <string name="layout_comments_count">count doesn\'t provides</string>
+    <string name="layout_voting_up">Upvote</string>
+    <string name="layout_voting_down">Downvote</string>
+    <string name="layout_voting_text">"Scores: %1$s"</string>
+    <string name="layout_voting_metadata">( ↑%1$s and ↓%2$s )</string>
 
     <!-- Exception handler -->
     <string name="exception_network">There is a network error</string>

@@ -12,7 +12,7 @@
         android:layout_height="wrap_content" />
 
     <com.google.android.material.button.MaterialButton
-        style="@style/Default.Button.Outline"
+        style="@style/Default.Button.Toggle"
         android:id="@+id/layout_comments_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
