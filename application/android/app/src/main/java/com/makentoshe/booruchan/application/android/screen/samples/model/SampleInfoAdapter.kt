@@ -22,6 +22,9 @@ import com.makentoshe.booruchan.application.android.FullContentDownloadExecutor
 import com.makentoshe.booruchan.application.android.R
 import com.makentoshe.booruchan.core.Text
 import com.makentoshe.booruchan.core.post.Post
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 // TODO replace Dexter with custom solution
 class SampleInfoAdapter(
@@ -113,14 +116,15 @@ class SampleInfoAdapter(
     }
 
     private fun onBindViewHolderTags(holder: ViewHolder, position: Int) {
-        val group = holder.itemView.findViewById<View>(R.id.layout_tags_general)
-        val chips = holder.itemView.findViewById<ChipGroup>(R.id.layout_tags_general_chips)
-        post.tags.tags.forEach { text -> onCustomTagDisplay(text, group, chips) }
-    }
+        holder.itemView.findViewById<View>(R.id.layout_tags_general).visibility = View.VISIBLE
 
-    private fun onCustomTagDisplay(tag: Text, group: View, chipGroup: ChipGroup) {
-        group.visibility = View.VISIBLE
-        chipGroup.addView(createChip(tag, chipGroup))
+        val chips = holder.itemView.findViewById<ChipGroup>(R.id.layout_tags_general_chips)
+        GlobalScope.launch(Dispatchers.IO) {
+            post.tags.tags.forEach { text ->
+                val chip = createChip(text, chips)
+                launch(Dispatchers.Main) { chips.addView(chip) }
+            }
+        }
     }
 
     private fun createChip(tag: Text, parent: ViewGroup): Chip {

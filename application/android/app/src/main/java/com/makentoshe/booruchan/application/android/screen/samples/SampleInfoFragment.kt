@@ -31,7 +31,9 @@ class SampleInfoFragment : CoreFragment(), FullContentDownloadExecutor.DownloadL
             return fragment
         }
 
-        fun capture(level: Int, message: String) = Log.println(level, "SampleInfoFragment", message)
+        fun capture(level: Int, message: String) {
+            Log.println(level, "SampleInfoFragment", message)
+        }
     }
 
     val arguments = Arguments(this)
@@ -55,16 +57,17 @@ class SampleInfoFragment : CoreFragment(), FullContentDownloadExecutor.DownloadL
 
     // TODO replace by notifications
     override fun onFinishDownload(directory: File, result: Result<*>) {
+        val context = context ?: activity ?: return capture(Log.WARN, "context is null. Skip notification")
         result.fold({
-            val string = getString(R.string.content_download_success, directory.name)
-            Toast.makeText(requireContext(), string, Toast.LENGTH_LONG).show()
+            val string = context.getString(R.string.content_download_success, directory.name)
+            Toast.makeText(context, string, Toast.LENGTH_LONG).show()
         }, {
             if (it is FileAlreadyExistsException) {
-                val string = getString(R.string.content_download_already, directory.name)
-                Toast.makeText(requireContext(), string, Toast.LENGTH_LONG).show()
+                val string = context.getString(R.string.content_download_already, directory.name)
+                Toast.makeText(context, string, Toast.LENGTH_LONG).show()
             } else {
-                val string = getString(R.string.content_download_failure, directory.name)
-                Toast.makeText(requireContext(), string, Toast.LENGTH_LONG).show()
+                val string = context.getString(R.string.content_download_failure, directory.name)
+                Toast.makeText(context, string, Toast.LENGTH_LONG).show()
             }
         })
     }
