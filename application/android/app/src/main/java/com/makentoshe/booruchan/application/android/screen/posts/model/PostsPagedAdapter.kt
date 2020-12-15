@@ -1,16 +1,21 @@
 package com.makentoshe.booruchan.application.android.screen.posts.model
 
+import android.content.Context
+import android.content.res.ColorStateList
 import android.graphics.BitmapFactory
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.makentoshe.booruchan.application.android.R
+import com.makentoshe.booruchan.application.android.screen.posts.navigation.PostsNavigation
 import com.makentoshe.booruchan.application.android.screen.posts.view.FooterViewHolder
-import com.makentoshe.booruchan.application.android.screen.posts.view.PostsViewHolder
+import com.makentoshe.booruchan.application.android.screen.posts.view.PostViewHolder
 import com.makentoshe.booruchan.application.core.arena.Arena
-import com.makentoshe.booruchan.core.post.Image
+import com.makentoshe.booruchan.core.post.Content
 import com.makentoshe.booruchan.core.post.Post
+import com.makentoshe.booruchan.core.post.Type
 import com.makentoshe.booruchan.core.post.deserialize.PostDeserialize
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.CompositeDisposable
@@ -24,12 +29,14 @@ import java.io.ByteArrayInputStream
  * and controlling next pages loading with [postsDataSourceAfter] instance.
  */
 class PostsPagedAdapter(
-    /** Arena allows to request image in ByteArray using Image instance as a key */
-    private val previewArena: Arena<Image, ByteArray>,
+    /** Arena allows to request image in ByteArray using Content instance as a key */
+    private val previewArena: Arena<Content, ByteArray>,
     /** For performing some network operations with the ViewHolders */
     private val coroutineScope: CoroutineScope,
     /** For observing loading results and retrying in the footer */
-    private val postsDataSourceAfter: PostsDataSourceAfter
+    private val postsDataSourceAfter: PostsDataSourceAfter,
+    /** For navigating to another screens */
+    private val navigation: PostsNavigation
 ) : PagedListAdapter<Result<PostDeserialize<Post>>, RecyclerView.ViewHolder>(PostItemCallbackDiffUtil()) {
 
     companion object {
@@ -63,13 +70,13 @@ class PostsPagedAdapter(
         val inflater = LayoutInflater.from(parent.context)
         return when (viewType) {
             FOOTER_TYPE -> FooterViewHolder(inflater.inflate(R.layout.fragment_posts_footer, parent, false))
-            else -> PostsViewHolder(inflater.inflate(R.layout.fragment_posts_item, parent, false))
+            else -> PostViewHolder(inflater.inflate(R.layout.fragment_posts_item, parent, false))
         }
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) = when (getItemViewType(position)) {
         FOOTER_TYPE -> onBindViewHolderFooter(holder as FooterViewHolder, position)
-        else -> onBindViewHolderItem(holder as PostsViewHolder, position)
+        else -> onBindViewHolderItem(holder as PostViewHolder, position)
     }
 
     /** Defines [holder] state and subscribes on future changes */
@@ -105,7 +112,7 @@ class PostsPagedAdapter(
         }
     }
 
-    private fun onBindViewHolderItem(holder: PostsViewHolder, position: Int) {
+    private fun onBindViewHolderItem(holder: PostViewHolder, position: Int) {
         holder.preview.setImageResource(R.color.dimmed)
         holder.shimmer.showShimmer(true)
 
@@ -116,8 +123,15 @@ class PostsPagedAdapter(
         })
     }
 
-    private fun onBindViewHolderItemSuccess(holder: PostsViewHolder, position: Int, success: PostDeserialize<Post>) {
-        val image = success.post.previewImage
+    private fun onBindViewHolderItemSuccess(holder: PostViewHolder, position: Int, success: PostDeserialize<Post>) {
+        val image = success.post.previewContent
+        holder.itemView.backgroundTintList = resolveContentColor(success.post.fullContent, holder.itemView.context)
+
+        holder.text.text = ""
+        holder.itemView.setOnClickListener {
+            navigation.navigateToPostScreen(success.post)
+        }
+
         coroutineScope.launch(Dispatchers.IO) {
             val result = previewArena.suspendFetch(image)
             if (result.isSuccess) {
@@ -132,8 +146,16 @@ class PostsPagedAdapter(
         }
     }
 
-    private fun onBindViewHolderItemException(holder: PostsViewHolder, position: Int, throwable: Throwable? = null) {
+    private fun resolveContentColor(image: Content, context: Context) = when (image.type) {
+        Type.VIDEO -> ColorStateList.valueOf(ContextCompat.getColor(context, R.color.content_video))
+        Type.ANIMATION -> ColorStateList.valueOf(ContextCompat.getColor(context, R.color.content_animation))
+        Type.IMAGE -> ColorStateList.valueOf(ContextCompat.getColor(context, R.color.content_image))
+    }
+
+    private fun onBindViewHolderItemException(holder: PostViewHolder, position: Int, throwable: Throwable? = null) {
         holder.text.text = throwable?.toString()
+        holder.preview.setImageDrawable(null)
+        holder.itemView.setOnClickListener(null)
 //        throwable?.printStackTrace()
     }
 

@@ -9,8 +9,9 @@ import com.makentoshe.booruchan.core.post.*
 import com.makentoshe.booruchan.core.text
 import com.makentoshe.booruchan.core.time
 import java.io.File
+import java.io.Serializable
 
-interface DanbooruPost : Post {
+interface DanbooruPost : Post, Serializable {
     val updationTime: Time?
 
     val uploaderId: Int
@@ -143,16 +144,16 @@ data class JsonDanbooruPost(
     val sampleUrl: String,
     @JsonProperty("preview_file_url")
     val previewUrl: String
-) : DanbooruPost {
+) : DanbooruPost, Serializable {
     override val creationTime = time(rawCreationTime)
     override val updationTime = rawUpdationTime?.let(::time)
     override val lastNoteTime = rawLastNoteTime?.let(::time)
     override val lastCommentTime = rawLastCommentTime?.let(::time)
     override val lastCommentBumpTime = rawLastCommentBumpTime?.let(::time)
     override val tags = tagsFromText(tagString.split(" ").map(::text).toSet())
-    override val previewImage = previewImage(previewUrl)
-    override val sampleImage = sampleImage(sampleUrl)
-    override val fullImage = fullImage(fileUrl, imageHeight, imageWidth)
+    override val previewContent = previewContent(previewUrl)
+    override val sampleContent = sampleContent(sampleUrl)
+    override val fullContent = fullContent(fileUrl, imageHeight, imageWidth)
     override val htwRatio: Float = imageHeight.toFloat() / imageWidth.toFloat()
 
     @JsonIgnore
@@ -272,16 +273,16 @@ data class XmlDanbooruPost(
     val sampleUrl: String,
     @JacksonXmlProperty(localName = "preview-file-url")
     val previewUrl: String
-) : DanbooruPost {
+) : DanbooruPost, Serializable {
     override val creationTime = time(rawCreationTime)
     override val updationTime = rawUpdationTime?.let(::time)
     override val lastNoteTime = rawLastNoteTime?.let(::time)
     override val lastCommentTime = rawLastCommentTime?.let(::time)
     override val lastCommentBumpTime = rawLastCommentBumpTime?.let(::time)
     override val tags = tagsFromText(tagString.split(" ").map(::text).toSet())
-    override val previewImage = previewImage(previewUrl)
-    override val sampleImage = sampleImage(sampleUrl)
-    override val fullImage = fullImage(fileUrl, imageHeight, imageWidth)
+    override val previewContent = previewContent(previewUrl)
+    override val sampleContent = sampleContent(sampleUrl)
+    override val fullContent = fullContent(fileUrl, imageHeight, imageWidth)
     override val htwRatio: Float = imageHeight.toFloat() / imageWidth.toFloat()
 
     @JsonIgnore

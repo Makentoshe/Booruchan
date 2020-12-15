@@ -2,7 +2,8 @@ package com.makentoshe.booruchan.application.android.di
 
 import android.content.Context
 import androidx.room.Room
-import com.makentoshe.booruchan.application.android.BooruchanDatabase
+import com.makentoshe.booruchan.application.android.FullContentDownloadExecutor
+import com.makentoshe.booruchan.application.android.database.BooruchanDatabase
 import com.makentoshe.booruchan.core.context.BooruContext
 import com.makentoshe.booruchan.danbooru.JsonDanbooruContext
 import com.makentoshe.booruchan.gelbooru.XmlGelbooruContext
@@ -23,16 +24,19 @@ class ApplicationModule(applicationContext: Context, cicerone: Cicerone<Router>)
     private val danbooruDatabase =
         Room.databaseBuilder(applicationContext, BooruchanDatabase::class.java, danbooruContext.title).build()
 
+    private val httpClient = HttpClient()
+
     init {
         bind<Router>().toInstance(cicerone.router)
         bind<NavigatorHolder>().toInstance(cicerone.navigatorHolder)
 
-        val booruContexts = listOf<BooruContext>(gelbooruContext, danbooruContext)
-        bind<List<BooruContext>>().toInstance(booruContexts)
+        bind<HttpClient>().toInstance(httpClient)
 
-        bind<HttpClient>().toInstance(HttpClient())
-
+        bind<List<BooruContext>>().toInstance(listOf(gelbooruContext, danbooruContext))
         bind<BooruchanDatabase>().withName(gelbooruContext.title).toInstance(gelbooruDatabase)
         bind<BooruchanDatabase>().withName(danbooruContext.title).toInstance(danbooruDatabase)
+
+        val fullContentDownloadExecutorBuilder = FullContentDownloadExecutor.Builder(httpClient, applicationContext)
+        bind<FullContentDownloadExecutor.Builder>().toInstance(fullContentDownloadExecutorBuilder)
     }
 }

@@ -13,8 +13,8 @@ import com.google.android.material.chip.ChipGroup
 import com.makentoshe.booruchan.application.android.R
 import com.makentoshe.booruchan.application.android.fragment.CoreFragment
 import com.makentoshe.booruchan.application.android.fragment.FragmentArguments
-import com.makentoshe.booruchan.application.android.screen.posts.view.SEARCH_REQUEST_CODE
-import com.makentoshe.booruchan.application.android.screen.posts.view.SEARCH_REQUEST_EXTRA
+import com.makentoshe.booruchan.application.android.screen.posts.SEARCH_REQUEST_CODE
+import com.makentoshe.booruchan.application.android.screen.posts.SEARCH_REQUEST_EXTRA
 import com.makentoshe.booruchan.application.android.screen.search.model.CompositeSearchTagsContainer
 import com.makentoshe.booruchan.application.android.screen.search.view.DelayMaterialAutocompleteTextView
 import com.makentoshe.booruchan.application.android.screen.search.viewmodel.PostsSearchViewModel
@@ -60,16 +60,17 @@ class PostsSearchFragment : CoreFragment() {
     }
 
     private fun onViewCreatedRatingToggle() {
-        fragment_search_posts_rating_toggle.addOnButtonCheckedListener { _, checkedId, isChecked ->
+        layout_rating_toggle.addOnButtonCheckedListener { _, checkedId, isChecked ->
             when (checkedId) {
-                R.id.fragment_search_posts_rating_toggle_safe -> onSafeRatingClicked(isChecked)
-                R.id.fragment_search_posts_rating_toggle_questionable -> onQuestionableRatingClicked(isChecked)
-                R.id.fragment_search_posts_rating_toggle_explicit -> onExplicitRatingClicked(isChecked)
+                R.id.layout_rating_safe -> onSafeRatingClicked(isChecked)
+                R.id.layout_rating_questionable -> onQuestionableRatingClicked(isChecked)
+                R.id.layout_rating_explicit -> onExplicitRatingClicked(isChecked)
             }
             updateApplyButtonAccessibility()
         }
     }
 
+    // TODO rework ratings tags (make it accessible from context)
     private fun onSafeRatingClicked(isChecked: Boolean) {
         val tag = text("rating:safe")
         if (isChecked) tagsContainer.addTag(tag) else tagsContainer.remove(tag)
@@ -126,10 +127,10 @@ class PostsSearchFragment : CoreFragment() {
 
     /** Return true if tag was processed */
     private fun processRatingTag(tag: Text): Boolean {
-        val toggleButton = when(tag.text) {
-            "rating:safe" -> fragment_search_posts_rating_toggle_safe
-            "rating:questionable" -> fragment_search_posts_rating_toggle_questionable
-            "rating:explicit" -> fragment_search_posts_rating_toggle_explicit
+        val toggleButton = when (tag.text) {
+            "rating:safe" -> layout_rating_safe
+            "rating:questionable" -> layout_rating_questionable
+            "rating:explicit" -> layout_rating_explicit
             else -> return false
         }
         toggleButton.performClick()
@@ -163,32 +164,32 @@ class PostsSearchFragment : CoreFragment() {
         val chip = createChip(tag, chipGroup)
         chipGroup.addView(chip)
         chip.setOnCloseIconClickListener {
-            // search was changed - so it is a time to access applying
-            updateApplyButtonAccessibility()
-
             chipGroup.removeView(chip)
             if (chipGroup.childCount == 0) {
                 group.visibility = View.GONE
             }
             // remove tag as Tag instance or Text instance
             if (tag is Tag) tagsContainer.remove(tag) else tagsContainer.remove(tag)
+
+            // search was changed - so it is a time to access applying
+            updateApplyButtonAccessibility()
         }
     }
 
     private fun onArtistTagDisplay(tag: Text) =
-        onCustomTagDisplay(tag, fragment_search_posts_tags_artist, fragment_search_posts_tags_artist_chips)
+        onCustomTagDisplay(tag, layout_tags_artist, layout_tags_artist_chips)
 
     private fun onCharacterTagDisplay(tag: Text) =
-        onCustomTagDisplay(tag, fragment_search_posts_tags_character, fragment_search_posts_tags_character_chips)
+        onCustomTagDisplay(tag, layout_tags_character, layout_tags_character_chips)
 
     private fun onMetadataTagDisplay(tag: Text) =
-        onCustomTagDisplay(tag, fragment_search_posts_tags_metadata, fragment_search_posts_tags_metadata_chips)
+        onCustomTagDisplay(tag, layout_tags_metadata, layout_tags_metadata_chips)
 
     private fun onCopyrightTagDisplay(tag: Text) =
-        onCustomTagDisplay(tag, fragment_search_posts_tags_copyright, fragment_search_posts_tags_copyright_chips)
+        onCustomTagDisplay(tag, layout_tags_copyright, layout_tags_copyright_chips)
 
     private fun onGeneralTagDisplay(tag: Text) =
-        onCustomTagDisplay(tag, fragment_search_posts_tags_general, fragment_search_posts_tags_general_chips)
+        onCustomTagDisplay(tag, layout_tags_general, layout_tags_general_chips)
 
     private fun createChip(tag: Text, parent: ViewGroup): Chip {
         val chip = LayoutInflater.from(requireContext()).inflate(R.layout.fragment_search_posts_chip, parent, false)
@@ -201,7 +202,7 @@ class PostsSearchFragment : CoreFragment() {
         fragment_search_posts_apply.isEnabled = tagsContainer.tagsActions.isNotEmpty()
     }
 
-    class Arguments(fragment: PostsSearchFragment) : FragmentArguments<PostsSearchFragment>(fragment) {
+    class Arguments(fragment: PostsSearchFragment) : FragmentArguments(fragment) {
 
         var booruContextTitle: String
             get() = fragmentArguments.getString(TITLE)!!

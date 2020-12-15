@@ -53,6 +53,12 @@
         <item name="hintTextColor">@color/text</item>
     </style>
 
+    <style name="Default.Button.Outline.Smooth" parent="Widget.MaterialComponents.Button">
+        <item name="android:textColor">@color/dimmed</item>
+        <item name="strokeColor">@color/separator</item>
+        <item name="strokeWidth">@dimen/separator_height</item>
+    </style>
+
     <style name="Default.Button.Toggle" parent="Widget.MaterialComponents.Button.OutlinedButton">
         <item name="android:textColor">@color/button_toggle_foreground_color</item>
         <item name="strokeColor">@color/separator</item>
@@ -61,6 +67,12 @@
 
     <style name="Default.Button.Text" parent="Widget.MaterialComponents.Button.TextButton">
         <item name="android:textColor">@color/button_text_foreground_color</item>
+    </style>
+
+    <style name="Default.Button.Outline" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="android:textColor">@color/dimmed</item>
+        <item name="strokeWidth">1dp</item>
+        <item name="strokeColor">@color/dimmed</item>
     </style>
 
 </resources>

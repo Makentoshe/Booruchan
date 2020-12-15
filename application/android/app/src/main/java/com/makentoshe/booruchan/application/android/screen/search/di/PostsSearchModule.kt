@@ -1,7 +1,7 @@
 package com.makentoshe.booruchan.application.android.screen.search.di
 
 import androidx.lifecycle.ViewModelProviders
-import com.makentoshe.booruchan.application.android.BooruchanDatabase
+import com.makentoshe.booruchan.application.android.database.BooruchanDatabase
 import com.makentoshe.booruchan.application.android.di.ApplicationScope
 import com.makentoshe.booruchan.application.android.screen.search.PostsSearchFragment
 import com.makentoshe.booruchan.application.android.screen.search.model.CompositeSearchTagsContainer

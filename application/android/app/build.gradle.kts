@@ -43,6 +43,11 @@ android {
     }
 }
 
+repositories {
+    google()
+    jcenter()
+}
+
 dependencies {
     // core module for android application
     implementation(project(":application:android:core"))
@@ -120,6 +125,21 @@ dependencies {
     // https://medium.com/@pavan.careers5208/fragmentcontainerview-c39d8ac376d1
     val fragment = properties["version.androidx.fragment"]
     implementation("androidx.fragment:fragment-ktx:$fragment")
+
+    // Android GifDrawable
+    // https://github.com/koral--/android-gif-drawable
+    val gif = properties["version.gifdrawable"]
+    implementation("pl.droidsonroids.gif:android-gif-drawable:$gif")
+
+    // ExoPlayer
+    // https://github.com/google/ExoPlayer
+    val exoplayer = properties["version.exoplayer"]
+    implementation("com.google.android.exoplayer:exoplayer:$exoplayer")
+
+    // Dexter (request permissions)
+    // https://github.com/Karumi/Dexter/
+    val dexter = properties["version.dexter"]
+    implementation("com.karumi:dexter:$dexter")
 
     val core = properties["version.androidx.core"]
     implementation("androidx.core:core-ktx:$core")

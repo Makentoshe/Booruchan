@@ -5,6 +5,7 @@
     <color name="colorAccent">#03DAC5</color>
 
     <color name="background">#FFFFFF</color>
+    <color name="half_background">#80FFFFFF</color>
     <color name="separator">#E0E0E0</color>
     <color name="text">#0C0C0D</color>
     <color name="dimmed">#99000000</color>
@@ -15,4 +16,8 @@
     <color name="tags_metadata">#FDC023</color>
     <color name="tags_copyright">#AA00AA</color>
     <color name="tags_general">#000000</color>
+
+    <color name="content_image">@color/opaque</color>
+    <color name="content_animation">#FF00FF</color>
+    <color name="content_video">#0000FF</color>
 </resources>

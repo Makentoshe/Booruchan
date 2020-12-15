@@ -1,5 +1,7 @@
 package com.makentoshe.booruchan.core.post
 
-enum class Rating {
+import java.io.Serializable
+
+enum class Rating: Serializable {
     SAFE, EXPLICIT, QUESTIONABLE;
 }

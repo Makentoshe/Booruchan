@@ -7,6 +7,7 @@ import com.makentoshe.booruchan.application.android.AppActivity
 import com.makentoshe.booruchan.application.android.analytic.AnalyticFragmentLifecycleCallbacks
 import com.makentoshe.booruchan.application.android.screen.booru.di.BooruInjectingFragmentLifecycleCallback
 import com.makentoshe.booruchan.application.android.screen.posts.di.PostsInjectingFragmentLifecycleCallback
+import com.makentoshe.booruchan.application.android.screen.samples.di.SampleInjectingFragmentLifecycleCallback
 import com.makentoshe.booruchan.application.android.screen.start.di.StartInjectingFragmentLifecycleCallback
 import toothpick.Toothpick
 
@@ -20,6 +21,7 @@ class InjectionActivityLifecycleCallback : Application.ActivityLifecycleCallback
         startInjectionFragmentLifecycleCallback(activity)
         booruInjectionFragmentLifecycleCallback(activity)
         postsInjectionFragmentLifecycleCallback(activity)
+        samplesInjectionFragmentLifecycleCallback(activity)
     }
 
     private fun analyticFragmentLifecycleCallback(activity: AppActivity) {
@@ -39,6 +41,11 @@ class InjectionActivityLifecycleCallback : Application.ActivityLifecycleCallback
 
     private fun postsInjectionFragmentLifecycleCallback(activity: AppActivity) {
         val callback = PostsInjectingFragmentLifecycleCallback()
+        activity.supportFragmentManager.registerFragmentLifecycleCallbacks(callback, true)
+    }
+
+    private fun samplesInjectionFragmentLifecycleCallback(activity: AppActivity) {
+        val callback = SampleInjectingFragmentLifecycleCallback()
         activity.supportFragmentManager.registerFragmentLifecycleCallbacks(callback, true)
     }
 

@@ -1,7 +1,7 @@
 package com.makentoshe.booruchan.application.android.screen.posts.model
 
-import com.makentoshe.booruchan.application.android.BooruchanDatabase
-import com.makentoshe.booruchan.application.android.PostsDeserializeWrapper
+import com.makentoshe.booruchan.application.android.database.BooruchanDatabase
+import com.makentoshe.booruchan.application.android.database.PostsDeserializeWrapper
 import com.makentoshe.booruchan.application.core.arena.ArenaStorage
 import com.makentoshe.booruchan.application.core.arena.ArenaStorageException
 import com.makentoshe.booruchan.core.post.Post

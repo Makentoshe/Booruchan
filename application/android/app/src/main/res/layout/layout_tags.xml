@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/layout_tags"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
     <!-- Artist tags -->
     <LinearLayout
         android:visibility="gone"
-        android:id="@+id/fragment_search_posts_tags_artist"
+        android:id="@+id/layout_tags_artist"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -16,7 +17,7 @@
 
         <TextView
             style="@style/Default.Text.Support"
-            android:id="@+id/fragment_search_posts_tags_artist_title"
+            android:id="@+id/layout_tags_artist_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/dimenS"
@@ -24,7 +25,7 @@
             android:textColor="@color/tags_artist" />
 
         <HorizontalScrollView
-            android:id="@+id/fragment_search_posts_tags_artist_scroll"
+            android:id="@+id/layout_tags_artist_scroll"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:scrollbars="none"
@@ -32,7 +33,7 @@
             android:paddingHorizontal="8dp">
 
             <com.google.android.material.chip.ChipGroup
-                android:id="@+id/fragment_search_posts_tags_artist_chips"
+                android:id="@+id/layout_tags_artist_chips"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:chipSpacingHorizontal="@dimen/dimenS"
@@ -45,16 +46,16 @@
     <!-- Character tags -->
     <LinearLayout
         android:visibility="gone"
-        android:id="@+id/fragment_search_posts_tags_character"
+        android:id="@+id/layout_tags_character"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_marginTop="@dimen/dimenS"
-        app:layout_constraintTop_toBottomOf="@id/fragment_search_posts_tags_artist">
+        app:layout_constraintTop_toBottomOf="@id/layout_tags_artist">
 
         <TextView
             style="@style/Default.Text.Support"
-            android:id="@+id/fragment_search_posts_tags_character_title"
+            android:id="@+id/layout_tags_character_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/posts_search_tags_character"
@@ -62,7 +63,7 @@
             android:layout_marginStart="@dimen/dimenS" />
 
         <HorizontalScrollView
-            android:id="@+id/fragment_search_posts_tags_character_scroll"
+            android:id="@+id/layout_tags_character_scroll"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:scrollbars="none"
@@ -70,7 +71,7 @@
             android:paddingHorizontal="8dp">
 
             <com.google.android.material.chip.ChipGroup
-                android:id="@+id/fragment_search_posts_tags_character_chips"
+                android:id="@+id/layout_tags_character_chips"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:chipSpacingHorizontal="@dimen/dimenS"
@@ -83,16 +84,16 @@
     <!-- Metadata tags -->
     <LinearLayout
         android:visibility="gone"
-        android:id="@+id/fragment_search_posts_tags_metadata"
+        android:id="@+id/layout_tags_metadata"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_marginTop="@dimen/dimenS"
-        app:layout_constraintTop_toBottomOf="@id/fragment_search_posts_tags_character">
+        app:layout_constraintTop_toBottomOf="@id/layout_tags_character">
 
         <TextView
             style="@style/Default.Text.Support"
-            android:id="@+id/fragment_search_posts_tags_metadata_title"
+            android:id="@+id/layout_tags_metadata_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/posts_search_tags_metadata"
@@ -100,7 +101,7 @@
             android:layout_marginStart="@dimen/dimenS" />
 
         <HorizontalScrollView
-            android:id="@+id/fragment_search_posts_tags_metadata_scroll"
+            android:id="@+id/layout_tags_metadata_scroll"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:scrollbars="none"
@@ -108,7 +109,7 @@
             android:paddingHorizontal="8dp">
 
             <com.google.android.material.chip.ChipGroup
-                android:id="@+id/fragment_search_posts_tags_metadata_chips"
+                android:id="@+id/layout_tags_metadata_chips"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:chipSpacingHorizontal="@dimen/dimenS"
@@ -121,16 +122,16 @@
     <!-- Copyright tags -->
     <LinearLayout
         android:visibility="gone"
-        android:id="@+id/fragment_search_posts_tags_copyright"
+        android:id="@+id/layout_tags_copyright"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_marginTop="@dimen/dimenS"
-        app:layout_constraintTop_toBottomOf="@id/fragment_search_posts_tags_metadata">
+        app:layout_constraintTop_toBottomOf="@id/layout_tags_metadata">
 
         <TextView
             style="@style/Default.Text.Support"
-            android:id="@+id/fragment_search_posts_tags_copyright_title"
+            android:id="@+id/layout_tags_copyright_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/posts_search_tags_copyright"
@@ -138,7 +139,7 @@
             android:layout_marginStart="@dimen/dimenS" />
 
         <HorizontalScrollView
-            android:id="@+id/fragment_search_posts_tags_copyright_scroll"
+            android:id="@+id/layout_tags_copyright_scroll"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:scrollbars="none"
@@ -146,7 +147,7 @@
             android:paddingHorizontal="8dp">
 
             <com.google.android.material.chip.ChipGroup
-                android:id="@+id/fragment_search_posts_tags_copyright_chips"
+                android:id="@+id/layout_tags_copyright_chips"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:chipSpacingHorizontal="@dimen/dimenS"
@@ -159,24 +160,24 @@
     <!-- General tags -->
     <LinearLayout
         android:visibility="gone"
-        android:id="@+id/fragment_search_posts_tags_general"
+        android:id="@+id/layout_tags_general"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_marginTop="@dimen/dimenS"
         android:layout_marginHorizontal="@dimen/dimenS"
-        app:layout_constraintTop_toBottomOf="@id/fragment_search_posts_tags_copyright">
+        app:layout_constraintTop_toBottomOf="@id/layout_tags_copyright">
 
         <TextView
             style="@style/Default.Text.Support"
-            android:id="@+id/fragment_search_posts_tags_general_title"
+            android:id="@+id/layout_tags_general_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/posts_search_tags_general"
             android:textColor="@color/tags_general" />
 
         <com.google.android.material.chip.ChipGroup
-            android:id="@+id/fragment_search_posts_tags_general_chips"
+            android:id="@+id/layout_tags_general_chips"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 

@@ -1,4 +1,4 @@
-package com.makentoshe.booruchan.application.android.screen.posts.view
+package com.makentoshe.booruchan.application.android.screen.posts
 
 import android.app.Activity
 import android.content.Context
@@ -19,12 +19,22 @@ import com.makentoshe.booruchan.application.android.R
 import com.makentoshe.booruchan.application.android.common.dp2px
 import com.makentoshe.booruchan.application.android.fragment.CoreFragment
 import com.makentoshe.booruchan.application.android.fragment.FragmentArguments
+import com.makentoshe.booruchan.application.android.screen.posts.view.CustomSpannedGridLayoutManager
+import com.makentoshe.booruchan.application.android.screen.posts.view.PostsSlidingUpPanelListener
+import com.makentoshe.booruchan.application.android.screen.posts.view.SpacesItemDecoration
+import com.makentoshe.booruchan.application.android.screen.posts.view.SpannedGridLayoutManagerLookup
 import com.makentoshe.booruchan.application.android.screen.posts.viewmodel.PostsFragmentViewModel
 import com.makentoshe.booruchan.application.android.screen.search.PostsSearchFragment
 import com.makentoshe.booruchan.application.core.arena.ArenaStorageException
 import com.makentoshe.booruchan.core.Text
 import com.makentoshe.booruchan.core.post.tagsFromText
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
+import io.ktor.client.*
+import io.ktor.client.features.*
+import io.ktor.client.request.*
+import io.ktor.client.statement.*
+import io.ktor.network.sockets.*
+import io.ktor.util.*
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.fragment_posts.*
@@ -75,8 +85,8 @@ class PostsFragment : CoreFragment() {
         onViewCreatedToolbar()
         onViewCreatedRecycler()
 
-        viewModel.initialSignal.observeOn(AndroidSchedulers.mainThread())
-            .subscribe(::onInitialLoad).let(disposables::add)
+        viewModel.initialSignal.observeOn(AndroidSchedulers.mainThread()).subscribe(::onInitialLoad)
+            .let(disposables::add)
 
         fragment_posts_retry.setOnClickListener {
             viewModel.retryInitialLoadObserver.onNext(Unit)
@@ -84,6 +94,7 @@ class PostsFragment : CoreFragment() {
             onInitialLoadRetry()
         }
         fragment_posts_swipe.setOnRefreshListener {
+            fragment_posts_swipe.isRefreshing = false
             viewModel.refreshInitialLoadObserver.onNext(Unit)
             onInitialLoadRetry()
         }
@@ -131,7 +142,7 @@ class PostsFragment : CoreFragment() {
     }
 
     private fun onViewCreatedRecycler() {
-        val spannedGridLayoutManager = SpannedGridLayoutManager(SpannedGridLayoutManager.Orientation.VERTICAL, 3)
+        val spannedGridLayoutManager = CustomSpannedGridLayoutManager(SpannedGridLayoutManager.Orientation.VERTICAL, 3)
         fragment_posts_recycler.layoutManager = spannedGridLayoutManager
         fragment_posts_recycler.addItemDecoration(SpacesItemDecoration(8f))
         viewModel.postsAdapterObservable.subscribe { adapter ->
@@ -199,7 +210,7 @@ class PostsFragment : CoreFragment() {
         Toast.makeText(requireContext(), "Search failure", Toast.LENGTH_LONG).show()
     }
 
-    class Arguments(postsFragment: PostsFragment) : FragmentArguments<PostsFragment>(postsFragment) {
+    class Arguments(postsFragment: PostsFragment) : FragmentArguments(postsFragment) {
 
         var booruContextTitle: String
             get() = fragmentArguments.getString(TITLE)!!
@@ -224,13 +235,37 @@ class PostsFragment : CoreFragment() {
         private fun handleArenaStorageException(exception: ArenaStorageException): Entry =
             when (val cause = exception.cause) {
                 // provider blocks the host
-                is SSLPeerUnverifiedException -> Entry("There is a network error", cause.toString())
+                is SSLPeerUnverifiedException -> {
+                    val title = context.getString(R.string.exception_network)
+                    Entry(title, cause.toString())
+                }
                 // internet connection disabled
-                is UnknownHostException -> Entry("There is a network error", cause.toString())
+                is UnknownHostException -> {
+                    val title = context.getString(R.string.exception_network)
+                    Entry(title, cause.toString())
+                }
 
-                is SSLHandshakeException -> Entry("There is a network error", cause.toString())
+                is SSLHandshakeException -> {
+                    val title = context.getString(R.string.exception_network)
+                    Entry(title, cause.toString())
+                }
+                // Orbot connection expired cause
+                is SocketTimeoutException -> {
+                    val title = context.getString(R.string.exception_network)
+                    val message = context.getString(R.string.exception_network_proxy)
+                    Entry(title, message)
+                }
+                // TODO server requests to resolve captcha event
+                is ClientRequestException -> {
+                    val title = context.getString(R.string.exception_network)
+                    val message = context.getString(R.string.exception_network_proxy_cloudflare)
+                    Entry(title, message)
+                }
 
-                else -> Entry("There is an unknown cache error", exception.toString())
+                else -> {
+                    exception.printStackTrace()
+                    Entry("There is an unknown cache error", cause.toString())
+                }
             }
 
         data class Entry(val title: String, val message: String, val image: Drawable? = null)

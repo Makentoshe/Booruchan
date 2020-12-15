@@ -5,8 +5,9 @@ import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty
 import com.makentoshe.booruchan.core.comment.Comment
 import com.makentoshe.booruchan.core.time
+import java.io.Serializable
 
-interface GelbooruComment : Comment {
+interface GelbooruComment : Comment, Serializable {
     val creator: String
 }
 
@@ -29,7 +30,7 @@ data class XmlGelbooruComment(
     @JsonProperty("creator")
     @JacksonXmlProperty(localName = "creator")
     override val creator: String
-) : GelbooruComment {
+) : GelbooruComment, Serializable {
 
     @JsonIgnore
     override val creationTime = time(rawCreationTime)

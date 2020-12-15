@@ -8,8 +8,9 @@ import com.makentoshe.booruchan.core.Time
 import com.makentoshe.booruchan.core.tag.Tag
 import com.makentoshe.booruchan.core.tag.Type
 import com.makentoshe.booruchan.core.time
+import java.io.Serializable
 
-interface DanbooruTag : Tag {
+interface DanbooruTag : Tag, Serializable {
     val creationTime: Time
     val updationTime: Time?
     val isLocked: Boolean
@@ -36,7 +37,7 @@ data class XmlDanbooruTag(
     override val isLocked: Boolean,
     @JacksonXmlProperty(localName = "post-count")
     override val count: Int
-) : DanbooruTag {
+) : DanbooruTag, Serializable {
     override val creationTime = rawCreationTime.let(::time)
     override val updationTime = rawUpdationTime?.let(::time)
 
@@ -86,7 +87,7 @@ data class JsonDanbooruTag(
     override val isLocked: Boolean,
     @JsonProperty("post_count")
     override val count: Int
-) : DanbooruTag {
+) : DanbooruTag, Serializable {
     override val creationTime = rawCreationTime.let(::time)
     override val updationTime = rawUpdationTime?.let(::time)
 

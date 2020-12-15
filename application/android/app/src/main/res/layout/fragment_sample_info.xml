@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/background">
+
+    <include
+        layout="@layout/layout_download"
+        android:id="@+id/fragment_sample_info_download"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_marginHorizontal="@dimen/dimenS"
+        android:layout_marginTop="@dimen/dimenM" />
+
+    <include
+        layout="@layout/layout_comments"
+        android:id="@+id/fragment_sample_info_comments"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_marginHorizontal="@dimen/dimenS"
+        android:layout_marginTop="@dimen/dimenM" />
+
+    <include
+        layout="@layout/layout_voting"
+        android:id="@+id/fragment_sample_info_voting"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_marginHorizontal="@dimen/dimenS"
+        android:layout_marginTop="@dimen/dimenM" />
+
+    <include
+        layout="@layout/layout_rating"
+        android:id="@+id/fragment_sample_info_rating"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_marginHorizontal="@dimen/dimenS"
+        android:layout_marginTop="@dimen/dimenM" />
+
+    <include
+        layout="@layout/layout_tags"
+        android:id="@+id/fragment_sample_info_tags"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_marginHorizontal="@dimen/dimenS"
+        android:layout_marginTop="@dimen/dimenM" />
+
+</LinearLayout>

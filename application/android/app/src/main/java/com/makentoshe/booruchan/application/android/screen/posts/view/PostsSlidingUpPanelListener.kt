@@ -1,7 +1,6 @@
 package com.makentoshe.booruchan.application.android.screen.posts.view
 
 import android.view.View
-import com.makentoshe.booruchan.application.android.R
 import com.makentoshe.booruchan.application.android.fragment.CoreFragment
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 
@@ -16,12 +15,13 @@ class PostsSlidingUpPanelListener(
             coreFragment.hideSoftKeyboard(view)
         }
 
+        // TODO enable in future (booru screen bottom bar)
         if (newState == SlidingUpPanelLayout.PanelState.DRAGGING) {
             if (previousState == SlidingUpPanelLayout.PanelState.EXPANDED) {
-                coreFragment.requireActivity().findViewById<View>(R.id.fragment_booru_navigation).visibility =
-                    View.VISIBLE
+//                coreFragment.requireActivity().findViewById<View>(R.id.fragment_booru_navigation).visibility =
+//                    View.VISIBLE
             } else {
-                coreFragment.requireActivity().findViewById<View>(R.id.fragment_booru_navigation).visibility = View.GONE
+//                coreFragment.requireActivity().findViewById<View>(R.id.fragment_booru_navigation).visibility = View.GONE
             }
         }
     }

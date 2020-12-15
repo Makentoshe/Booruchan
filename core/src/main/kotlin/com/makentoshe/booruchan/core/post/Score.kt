@@ -1,7 +1,9 @@
 package com.makentoshe.booruchan.core.post
 
+import java.io.Serializable
+
 /** Interface contains any scoring information */
-interface Score {
+interface Score: Serializable {
     /** The summary score value */
     val score: Int
     /** Up scores (likes) */

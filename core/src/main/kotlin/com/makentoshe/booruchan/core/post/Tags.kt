@@ -2,8 +2,9 @@ package com.makentoshe.booruchan.core.post
 
 import com.makentoshe.booruchan.core.Text
 import com.makentoshe.booruchan.core.text
+import java.io.Serializable
 
-interface Tags {
+interface Tags: Serializable {
     val tags: Set<Text>
 
     companion object {

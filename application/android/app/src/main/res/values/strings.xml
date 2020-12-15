@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">Booruchan</string>
+    <string name="not_implemented">Not implemented</string>
 
     <!-- Booru screen -->
     <string name="booru_navigation_account">Account</string>
@@ -23,5 +24,26 @@
     <string name="rating_type_safe">Safe</string>
     <string name="rating_type_questionable">Questionable</string>
     <string name="rating_type_explicit">Explicit</string>
+
+    <string name="content_download_success">Content %1$s was successfully downloaded</string>
+    <string name="content_download_already">Content %1$s was already downloaded</string>
+    <string name="content_download_failure">Content %1$s download was failed</string>
+
+    <!-- Separate layouts -->
+    <string name="layout_download_button">Download image</string>
+    <string name="layout_download_permission_granted">All requireable permissions granted</string>
+    <string name="layout_download_permission_requires">Requires file storage permission</string>
+    <string name="layout_comments_button">Open comments</string>
+    <string name="layout_comments_text">Comments: %1$s</string>
+    <string name="layout_comments_count">count doesn\'t provides</string>
+    <string name="layout_voting_up">Upvote</string>
+    <string name="layout_voting_down">Downvote</string>
+    <string name="layout_voting_text">"Scores: %1$s"</string>
+    <string name="layout_voting_metadata">( ↑%1$s and ↓%2$s )</string>
+
+    <!-- Exception handler -->
+    <string name="exception_network">There is a network error</string>
+    <string name="exception_network_proxy">Your proxy connection expired. If you use Orbot, you can retry several times until connection established</string>
+    <string name="exception_network_proxy_cloudflare">Your proxy connection refused. The destination server protected by cloudflare and requires a captcha, but application does not implement it yet</string>
 
 </resources>

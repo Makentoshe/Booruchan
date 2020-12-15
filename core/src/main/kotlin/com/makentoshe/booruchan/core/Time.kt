@@ -1,8 +1,9 @@
 package com.makentoshe.booruchan.core
 
+import java.io.Serializable
 import java.time.ZonedDateTime
 
-interface Time {
+interface Time: Serializable {
     val raw: String
     val time: ZonedDateTime
 }

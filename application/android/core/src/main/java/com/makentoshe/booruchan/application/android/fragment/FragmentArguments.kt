@@ -3,7 +3,7 @@ package com.makentoshe.booruchan.application.android.fragment
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 
-abstract class FragmentArguments<F: Fragment>(private val fragment: F) {
+abstract class FragmentArguments(private val fragment: CoreFragment) {
 
     init {
         val fragment = fragment as Fragment

@@ -2,13 +2,14 @@ package com.makentoshe.booruchan.application.android
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_NO
+import com.makentoshe.booruchan.application.android.navigation.SupportAppNavigator
 import com.makentoshe.booruchan.application.android.screen.start.navigation.StartScreen
 import ru.terrakok.cicerone.NavigatorHolder
 import ru.terrakok.cicerone.Router
-import ru.terrakok.cicerone.android.support.SupportAppNavigator
 import toothpick.ktp.delegate.inject
 
 class AppActivity : AppCompatActivity() {
@@ -42,4 +43,7 @@ class AppActivity : AppCompatActivity() {
         super.onPause()
         navigatorHolder.removeNavigator()
     }
+
+    /** Empty click listener for interrupting touch events between fragments */
+    fun emptyClickListener(view: View) = Unit
 }

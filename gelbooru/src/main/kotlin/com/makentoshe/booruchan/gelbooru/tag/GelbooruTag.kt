@@ -6,8 +6,9 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement
 import com.makentoshe.booruchan.core.tag.Tag
 import com.makentoshe.booruchan.core.tag.Type
+import java.io.Serializable
 
-interface GelbooruTag : Tag {
+interface GelbooruTag : Tag, Serializable {
     val count: Int
     val ambiguous: Boolean
     val rawType: String
@@ -26,7 +27,7 @@ data class XmlGelbooruTag(
     override val count: Int,
     @JacksonXmlProperty(localName = "ambiguous", isAttribute = true)
     override val ambiguous: Boolean
-): GelbooruTag {
+): GelbooruTag, Serializable {
 
     @JsonIgnore
     override val type = when (rawType) {
@@ -70,7 +71,7 @@ data class JsonGelbooruTag(
     override val count: Int,
     @JsonProperty("ambiguous", required = true)
     val rawAmbiguous: Int
-): GelbooruTag {
+): GelbooruTag, Serializable {
 
     @JsonIgnore
     override val ambiguous = rawAmbiguous != 0

@@ -1,4 +1,4 @@
-package com.makentoshe.booruchan.application.android
+package com.makentoshe.booruchan.application.android.database
 
 import androidx.room.Database
 import androidx.room.RoomDatabase

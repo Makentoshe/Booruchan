@@ -1,4 +1,4 @@
-package com.makentoshe.booruchan.application.android
+package com.makentoshe.booruchan.application.android.screen.posts.model
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch

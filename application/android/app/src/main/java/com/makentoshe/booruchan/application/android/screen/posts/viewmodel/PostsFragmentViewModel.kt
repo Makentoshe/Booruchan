@@ -4,18 +4,16 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagedList
-import com.makentoshe.booruchan.application.android.FetchExecutor
-import com.makentoshe.booruchan.application.android.MainExecutor
+import com.makentoshe.booruchan.application.android.screen.posts.model.FetchExecutor
+import com.makentoshe.booruchan.application.android.screen.posts.model.MainExecutor
 import com.makentoshe.booruchan.application.android.screen.posts.model.PostsDataSource
 import com.makentoshe.booruchan.application.android.screen.posts.model.PostsPagedAdapter
+import com.makentoshe.booruchan.application.android.screen.posts.navigation.PostsNavigation
 import com.makentoshe.booruchan.application.core.arena.Arena
-import com.makentoshe.booruchan.core.post.Image
-import com.makentoshe.booruchan.core.post.Post
-import com.makentoshe.booruchan.core.post.Tags
+import com.makentoshe.booruchan.core.post.*
 import com.makentoshe.booruchan.core.post.deserialize.PostDeserialize
 import com.makentoshe.booruchan.core.post.deserialize.PostsDeserialize
 import com.makentoshe.booruchan.core.post.network.PostsFilter
-import com.makentoshe.booruchan.core.post.tagsFromText
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Observer
 import io.reactivex.rxjava3.disposables.CompositeDisposable
@@ -24,9 +22,10 @@ import io.reactivex.rxjava3.subjects.PublishSubject
 
 class PostsFragmentViewModel(
     private val postsArena: Arena<PostsFilter, PostsDeserialize<Post>>,
-    private val previewArena: Arena<Image, ByteArray>,
+    private val previewArena: Arena<Content, ByteArray>,
     private val filterBuilder: PostsFilter.Builder,
-    private val disposables: CompositeDisposable
+    private val disposables: CompositeDisposable,
+    private val navigation: PostsNavigation
 ) : ViewModel() {
 
     /** Contains and manages current posts source, required for the adapter */
@@ -57,7 +56,7 @@ class PostsFragmentViewModel(
             val tagsFilter = filterBuilder.tags.build(tags)
             PostsDataSource(postsArena, filterBuilder, viewModelScope, tagsFilter)
         }.doOnNext(sourceSubject::onNext).subscribe { source ->
-            val adapter = PostsPagedAdapter(previewArena, viewModelScope, source)
+            val adapter = PostsPagedAdapter(previewArena, viewModelScope, source, navigation)
             adapter.submitList(getPagedList(source))
             postsAdapterSubject.onNext(adapter)
         }.let(disposables::add)
@@ -71,7 +70,7 @@ class PostsFragmentViewModel(
         }.let(disposables::add)
 
         // Starts an initial request without any tags by default
-        postsTagsSearchSubject.onNext(tagsFromText(emptySet()))
+        postsTagsSearchSubject.onNext(Tags.EMPTY)
 
         // Starts new search on refresh action
         refreshInitialLoadSubject.subscribe {
@@ -93,12 +92,13 @@ class PostsFragmentViewModel(
 
     class Factory(
         private val postsArena: Arena<PostsFilter, PostsDeserialize<Post>>,
-        private val previewArena: Arena<Image, ByteArray>,
+        private val previewArena: Arena<Content, ByteArray>,
         private val postsFilterBuilder: PostsFilter.Builder,
-        private val disposables: CompositeDisposable
+        private val disposables: CompositeDisposable,
+        private val navigation: PostsNavigation
     ) : ViewModelProvider.NewInstanceFactory() {
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-            return PostsFragmentViewModel(postsArena, previewArena, postsFilterBuilder, disposables) as T
+            return PostsFragmentViewModel(postsArena, previewArena, postsFilterBuilder, disposables, navigation) as T
         }
     }
 }
