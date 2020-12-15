@@ -127,7 +127,7 @@ class PostsPagedAdapter(
         val image = success.post.previewContent
         holder.itemView.backgroundTintList = resolveContentColor(success.post.fullContent, holder.itemView.context)
 
-//        holder.text.setText(success.post.htwRatio.toString())
+        holder.text.text = ""
         holder.itemView.setOnClickListener {
             navigation.navigateToPostScreen(success.post)
         }
@@ -154,6 +154,8 @@ class PostsPagedAdapter(
 
     private fun onBindViewHolderItemException(holder: PostViewHolder, position: Int, throwable: Throwable? = null) {
         holder.text.text = throwable?.toString()
+        holder.preview.setImageDrawable(null)
+        holder.itemView.setOnClickListener(null)
 //        throwable?.printStackTrace()
     }
 
