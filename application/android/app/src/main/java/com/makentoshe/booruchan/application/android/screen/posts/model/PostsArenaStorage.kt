@@ -9,6 +9,7 @@ import com.makentoshe.booruchan.core.post.context.PostsContext
 import com.makentoshe.booruchan.core.post.deserialize.PostsDeserialize
 import com.makentoshe.booruchan.core.post.network.PostsFilter
 
+// TODO move to core module
 class PostsArenaStorage(
     private val database: BooruchanDatabase,
     private val postsContext: PostsContext<*, *>

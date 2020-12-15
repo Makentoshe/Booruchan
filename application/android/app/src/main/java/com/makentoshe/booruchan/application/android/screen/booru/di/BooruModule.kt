@@ -16,7 +16,7 @@ class BooruModule(fragment: BooruFragment) : Module() {
     init {
         Toothpick.openScope(ApplicationScope::class).inject(this)
 
-        val booruContext = booruContexts.first { it.title == fragment.arguments.booruContextTitle }
+        val booruContext = booruContexts.first { it.javaClass == fragment.arguments.booruclass }
         bind<BooruContext>().toInstance(booruContext)
 
         val navigation = BooruNavigation(fragment.childFragmentManager, booruContext)

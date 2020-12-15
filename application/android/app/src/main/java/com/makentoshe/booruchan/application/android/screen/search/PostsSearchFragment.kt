@@ -19,6 +19,7 @@ import com.makentoshe.booruchan.application.android.screen.search.model.Composit
 import com.makentoshe.booruchan.application.android.screen.search.view.DelayMaterialAutocompleteTextView
 import com.makentoshe.booruchan.application.android.screen.search.viewmodel.PostsSearchViewModel
 import com.makentoshe.booruchan.core.Text
+import com.makentoshe.booruchan.core.context.BooruContext
 import com.makentoshe.booruchan.core.tag.Tag
 import com.makentoshe.booruchan.core.tag.Type
 import com.makentoshe.booruchan.core.text
@@ -35,9 +36,9 @@ import toothpick.ktp.delegate.inject
 class PostsSearchFragment : CoreFragment() {
 
     companion object {
-        fun build(booruContextTitle: String): PostsSearchFragment {
+        fun build(booruclass: Class<BooruContext>): PostsSearchFragment {
             val fragment = PostsSearchFragment()
-            fragment.arguments.booruContextTitle = booruContextTitle
+            fragment.arguments.booruclass = booruclass
             return fragment
         }
     }
@@ -204,12 +205,12 @@ class PostsSearchFragment : CoreFragment() {
 
     class Arguments(fragment: PostsSearchFragment) : FragmentArguments(fragment) {
 
-        var booruContextTitle: String
-            get() = fragmentArguments.getString(TITLE)!!
-            set(value) = fragmentArguments.putString(TITLE, value)
+        var booruclass: Class<BooruContext>
+            get() = fragmentArguments.getSerializable(CLASS) as Class<BooruContext>
+            set(value) = fragmentArguments.putSerializable(CLASS, value)
 
         companion object {
-            private const val TITLE = "BooruContext#title"
+            private const val CLASS = "class"
         }
     }
 }

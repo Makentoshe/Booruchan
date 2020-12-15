@@ -13,6 +13,10 @@ import ru.terrakok.cicerone.NavigatorHolder
 import ru.terrakok.cicerone.Router
 import toothpick.config.Module
 import toothpick.ktp.binding.bind
+import javax.inject.Qualifier
+
+@Qualifier
+annotation class ApplicationScope
 
 class ApplicationModule(applicationContext: Context, cicerone: Cicerone<Router>) : Module() {
 
@@ -33,8 +37,8 @@ class ApplicationModule(applicationContext: Context, cicerone: Cicerone<Router>)
         bind<HttpClient>().toInstance(httpClient)
 
         bind<List<BooruContext>>().toInstance(listOf(gelbooruContext, danbooruContext))
-        bind<BooruchanDatabase>().withName(gelbooruContext.title).toInstance(gelbooruDatabase)
-        bind<BooruchanDatabase>().withName(danbooruContext.title).toInstance(danbooruDatabase)
+        bind<BooruchanDatabase>().withName(gelbooruContext.javaClass.simpleName).toInstance(gelbooruDatabase)
+        bind<BooruchanDatabase>().withName(danbooruContext.javaClass.simpleName).toInstance(danbooruDatabase)
 
         val fullContentDownloadExecutorBuilder = FullContentDownloadExecutor.Builder(httpClient, applicationContext)
         bind<FullContentDownloadExecutor.Builder>().toInstance(fullContentDownloadExecutorBuilder)

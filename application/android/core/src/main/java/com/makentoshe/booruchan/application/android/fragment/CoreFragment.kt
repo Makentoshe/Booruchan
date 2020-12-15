@@ -5,6 +5,7 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.Fragment
 
+// TODO bind FragmentArguments as abstract val
 abstract class CoreFragment : Fragment() {
 
     fun hideSoftKeyboard(view: View) {

@@ -27,6 +27,7 @@ import com.makentoshe.booruchan.application.android.screen.posts.viewmodel.Posts
 import com.makentoshe.booruchan.application.android.screen.search.PostsSearchFragment
 import com.makentoshe.booruchan.application.core.arena.ArenaStorageException
 import com.makentoshe.booruchan.core.Text
+import com.makentoshe.booruchan.core.context.BooruContext
 import com.makentoshe.booruchan.core.post.tagsFromText
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import io.ktor.client.*
@@ -48,9 +49,9 @@ internal const val SEARCH_REQUEST_CODE = 1
 internal const val SEARCH_REQUEST_EXTRA = "Search tags"
 
 /** Fragment factory for [PostsFragment] allows to delivery arguments to the inner fragments */
-class PostsFragmentFactory(private val booruContextTitle: String) : FragmentFactory() {
+class PostsFragmentFactory(private val booruclass: Class<BooruContext>) : FragmentFactory() {
     override fun instantiate(classLoader: ClassLoader, className: String) = when (className) {
-        PostsSearchFragment::class.java.name -> PostsSearchFragment.build(booruContextTitle)
+        PostsSearchFragment::class.java.name -> PostsSearchFragment.build(booruclass)
         else -> super.instantiate(classLoader, className)
     }
 }
@@ -58,9 +59,9 @@ class PostsFragmentFactory(private val booruContextTitle: String) : FragmentFact
 class PostsFragment : CoreFragment() {
 
     companion object {
-        fun build(booruContextTitle: String): PostsFragment {
+        fun build(booruclass: Class<BooruContext>): PostsFragment {
             val fragment = PostsFragment()
-            fragment.arguments.booruContextTitle = booruContextTitle
+            fragment.arguments.booruclass = booruclass
             return fragment
         }
     }
@@ -73,7 +74,7 @@ class PostsFragment : CoreFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        childFragmentManager.fragmentFactory = PostsFragmentFactory(arguments.booruContextTitle)
+        childFragmentManager.fragmentFactory = PostsFragmentFactory(arguments.booruclass)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -106,7 +107,7 @@ class PostsFragment : CoreFragment() {
     }
 
     private fun onViewCreatedToolbar() {
-        fragment_posts_toolbar.title = arguments.booruContextTitle
+        fragment_posts_toolbar.title = arguments.booruclass.newInstance().title
         fragment_posts_toolbar.menu.forEach { item -> // change menu icons color to dimmed
             item.iconTintList = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 ColorStateList.valueOf(resources.getColor(R.color.dimmed, requireContext().theme))
@@ -212,12 +213,12 @@ class PostsFragment : CoreFragment() {
 
     class Arguments(postsFragment: PostsFragment) : FragmentArguments(postsFragment) {
 
-        var booruContextTitle: String
-            get() = fragmentArguments.getString(TITLE)!!
-            set(value) = fragmentArguments.putString(TITLE, value)
+        var booruclass: Class<BooruContext>
+            get() = fragmentArguments.getSerializable(CLASS) as Class<BooruContext>
+            set(value) = fragmentArguments.putSerializable(CLASS, value)
 
         companion object {
-            private const val TITLE = "BooruContext#title"
+            private const val CLASS = "class"
         }
     }
 

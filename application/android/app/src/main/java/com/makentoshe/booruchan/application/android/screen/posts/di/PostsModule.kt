@@ -1,11 +1,11 @@
 package com.makentoshe.booruchan.application.android.screen.posts.di
 
 import androidx.lifecycle.ViewModelProviders
+import com.makentoshe.booruchan.application.android.arena.PreviewContentArenaStorage
 import com.makentoshe.booruchan.application.android.database.BooruchanDatabase
 import com.makentoshe.booruchan.application.android.di.ApplicationScope
 import com.makentoshe.booruchan.application.android.screen.booru.navigation.BooruNavigation
 import com.makentoshe.booruchan.application.android.screen.posts.PostsFragment
-import com.makentoshe.booruchan.application.android.screen.posts.model.PostPreviewArenaStorage
 import com.makentoshe.booruchan.application.android.screen.posts.model.PostsArenaStorage
 import com.makentoshe.booruchan.application.android.screen.posts.navigation.PostsNavigation
 import com.makentoshe.booruchan.application.android.screen.posts.viewmodel.PostsFragmentViewModel
@@ -25,16 +25,17 @@ import toothpick.ktp.binding.bind
 import toothpick.ktp.delegate.inject
 import java.io.File
 
+// TODO add base module with extracting/defining booruContext
 class PostsModule(fragment: PostsFragment) : Module() {
 
     private val booruContexts by inject<List<BooruContext>>()
     private val client by inject<HttpClient>()
-    private val database by inject<BooruchanDatabase>(fragment.arguments.booruContextTitle)
+    private val database by inject<BooruchanDatabase>(fragment.arguments.booruclass.simpleName)
     private val router by inject<Router>()
 
     init {
         Toothpick.openScope(ApplicationScope::class).inject(this)
-        val booruContext = booruContexts.first { it.title == fragment.arguments.booruContextTitle }
+        val booruContext = booruContexts.first { it.javaClass == fragment.arguments.booruclass }
 
         val fragmentNavigation = PostsNavigation(router, booruContext.javaClass)
         bindPostsFragmentViewModel(fragment, booruContext, fragmentNavigation)
@@ -75,6 +76,6 @@ class PostsModule(fragment: PostsFragment) : Module() {
 
     private fun getPreviewArena(booruContext: BooruContext, fragment: PostsFragment): PostContentArena {
         val cacheDir = File(fragment.requireContext().cacheDir, booruContext.title)
-        return PostContentArena(client, PostPreviewArenaStorage(cacheDir))
+        return PostContentArena(client, PreviewContentArenaStorage(database.previewContentDao(), cacheDir))
     }
 }

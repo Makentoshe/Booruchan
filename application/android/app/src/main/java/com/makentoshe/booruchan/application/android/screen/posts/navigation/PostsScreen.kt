@@ -7,7 +7,7 @@ import ru.terrakok.cicerone.android.support.SupportAppScreen
 
 class PostsScreen(private val booruContext: BooruContext) : SupportAppScreen() {
 
-    override fun getFragment(): Fragment? {
-        return PostsFragment.build(booruContext.title)
+    override fun getFragment(): Fragment {
+        return PostsFragment.build(booruContext.javaClass)
     }
 }

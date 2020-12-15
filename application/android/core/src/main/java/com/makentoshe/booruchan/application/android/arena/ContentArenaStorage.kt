@@ -6,7 +6,7 @@ import com.makentoshe.booruchan.core.post.Content
 import java.io.File
 import java.io.FileInputStream
 
-abstract class PostContentArenaStorage(
+abstract class ContentArenaStorage(
     private val cacheRootDirectory: File
 ) : ArenaStorage<Content, ByteArray> {
 
@@ -28,3 +28,4 @@ abstract class PostContentArenaStorage(
         file.writeBytes(value)
     }
 }
+

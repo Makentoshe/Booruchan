@@ -10,8 +10,9 @@ import com.google.android.exoplayer2.source.ProgressiveMediaSource
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.google.android.exoplayer2.util.Util
 import com.makentoshe.booruchan.application.android.R
+import com.makentoshe.booruchan.application.android.arena.PreviewContentArenaStorage
+import com.makentoshe.booruchan.application.android.database.BooruchanDatabase
 import com.makentoshe.booruchan.application.android.di.ApplicationScope
-import com.makentoshe.booruchan.application.android.screen.posts.model.PostPreviewArenaStorage
 import com.makentoshe.booruchan.application.android.screen.samples.SampleVideoFragment
 import com.makentoshe.booruchan.application.android.screen.samples.viewmodel.SampleVideoFragmentViewModel
 import com.makentoshe.booruchan.application.core.arena.post.PostContentArena
@@ -32,6 +33,7 @@ class SampleVideoModule(fragment: SampleVideoFragment) : Module() {
 
     private val booruContexts by inject<List<BooruContext>>()
     private val client by inject<HttpClient>()
+    private val database by inject<BooruchanDatabase>(fragment.arguments.booruclass.simpleName)
 
     init {
         Toothpick.openScope(ApplicationScope::class).inject(this)
@@ -46,7 +48,7 @@ class SampleVideoModule(fragment: SampleVideoFragment) : Module() {
 
     private fun getPreviewArena(booruContext: BooruContext, fragment: Fragment): PostContentArena {
         val cacheDir = File(fragment.requireContext().cacheDir, booruContext.title)
-        return PostContentArena(client, PostPreviewArenaStorage(cacheDir))
+        return PostContentArena(client, PreviewContentArenaStorage(database.previewContentDao(), cacheDir))
     }
 
     private fun getSampleViewModel(

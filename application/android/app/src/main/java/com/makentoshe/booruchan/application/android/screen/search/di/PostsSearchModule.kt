@@ -25,11 +25,11 @@ class PostsSearchModule(fragment: PostsSearchFragment) : Module() {
 
     private val booruContexts by inject<List<BooruContext>>()
     private val client by inject<HttpClient>()
-    private val database by inject<BooruchanDatabase>(fragment.arguments.booruContextTitle)
+    private val database by inject<BooruchanDatabase>(fragment.arguments.booruclass.simpleName)
 
     init {
         Toothpick.openScope(ApplicationScope::class).inject(this)
-        val booruContext = booruContexts.first { it.title == fragment.arguments.booruContextTitle }
+        val booruContext = booruContexts.first { it.javaClass == fragment.arguments.booruclass }
         bind<PostsSearchViewModel>().toInstance(buildViewModel(fragment, booruContext))
 
         val tagsContainer = CompositeSearchTagsContainer(

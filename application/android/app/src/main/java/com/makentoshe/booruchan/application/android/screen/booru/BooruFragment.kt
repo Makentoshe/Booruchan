@@ -17,14 +17,14 @@ class BooruFragment : CoreFragment() {
 
     companion object {
 
-        fun build(booruContextTitle: String): BooruFragment {
+        fun build(booruclass: Class<BooruContext>): BooruFragment {
             val fragment = BooruFragment()
-            fragment.arguments.booruContextTitle = booruContextTitle
+            fragment.arguments.booruclass = booruclass
             return fragment
         }
 
         fun build(booruContext: BooruContext): BooruFragment {
-            return build(booruContext.title)
+            return build(booruContext.javaClass)
         }
     }
 
@@ -52,12 +52,12 @@ class BooruFragment : CoreFragment() {
 
     class Arguments(booruFragment: BooruFragment): FragmentArguments(booruFragment) {
 
-        var booruContextTitle: String
-            get() = fragmentArguments.getString(TITLE)!!
-            set(value) = fragmentArguments.putString(TITLE, value)
+        var booruclass: Class<BooruContext>
+            get() = fragmentArguments.getSerializable(CLASS) as Class<BooruContext>
+            set(value) = fragmentArguments.putSerializable(CLASS, value)
 
         companion object {
-            private const val TITLE = "BooruContext#title"
+            private const val CLASS = "class"
         }
     }
 }
