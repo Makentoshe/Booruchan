@@ -141,8 +141,6 @@ class PostsFragment : CoreFragment() {
     }
 
     private fun onViewCreatedRecycler() {
-        println(fragment_posts_recycler.layoutManager)
-
         val spannedGridLayoutManager = CustomSpannedGridLayoutManager(SpannedGridLayoutManager.Orientation.VERTICAL, 3)
         fragment_posts_recycler.layoutManager = spannedGridLayoutManager
         fragment_posts_recycler.addItemDecoration(SpacesItemDecoration(8f))

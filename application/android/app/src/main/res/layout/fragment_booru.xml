@@ -10,14 +10,14 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/fragment_booru_separator" />
+        app:layout_constraintBottom_toBottomOf="parent" />
 
     <View
         style="@style/Default.Separator"
         android:id="@+id/fragment_booru_separator"
         android:layout_width="match_parent"
         android:layout_height="@dimen/separator_height"
-        app:layout_constraintBottom_toTopOf="@id/fragment_booru_navigation" />
+        app:layout_constraintBottom_toBottomOf="parent" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:visibility="gone"
