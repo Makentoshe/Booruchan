@@ -94,6 +94,7 @@ class PostsFragment : CoreFragment() {
             onInitialLoadRetry()
         }
         fragment_posts_swipe.setOnRefreshListener {
+            fragment_posts_swipe.isRefreshing = false
             viewModel.refreshInitialLoadObserver.onNext(Unit)
             onInitialLoadRetry()
         }
