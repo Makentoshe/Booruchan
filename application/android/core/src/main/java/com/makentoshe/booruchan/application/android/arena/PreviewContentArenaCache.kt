@@ -10,18 +10,20 @@ import com.makentoshe.booruchan.core.post.Content
 import java.io.File
 import java.io.FileNotFoundException
 
-class PreviewContentArenaStorage(
+class PreviewContentArenaCache(
     private val previewContentDao: PreviewContentDao, private val cacheRootDirectory: File
 ) : ArenaStorage<Content, ByteArray> {
 
     companion object {
         @SuppressLint("LongLogTag")
-        private fun capture(level: Int, message: String) {
-            Log.println(level, "PreviewContentArenaStorage", message)
+        private fun capture(level: Int, message: () -> String) {
+            Log.println(level, "PreviewContentArenaStorage", message())
         }
     }
 
     private val limit = 1000
+    private val step = 100
+    private val directory = "preview"
 
     override fun fetch(key: Content): Result<ByteArray> = try {
         Result.success(fileSystemFetch(key) ?: throw FileNotFoundException())
@@ -30,17 +32,17 @@ class PreviewContentArenaStorage(
     }
 
     private fun fileSystemFetch(key: Content): ByteArray? {
-        val cacheDirectory = File(cacheRootDirectory, "preview")
+        val cacheDirectory = File(cacheRootDirectory, directory)
         val file = File(cacheDirectory, key.name)
         return if (!file.exists()) null else file.readBytes().also {
-            capture(Log.INFO, "Fetch preview from file system with path ${file.relativeTo(cacheDirectory).path}")
+            capture(Log.INFO) { "Fetch preview from file system with path ${file.relativeTo(cacheDirectory).path}" }
         }
     }
 
     override fun carry(key: Content, value: ByteArray) {
         if (previewContentDao.count() > limit) {
-            capture(Log.INFO, "Removing oldest 100 elements from cache")
-            previewContentDao.getLast(100).forEach { record ->
+            capture(Log.INFO) { "Removing oldest $step elements from cache" }
+            previewContentDao.getLast(step).forEach { record ->
                 previewContentDao.delete(record)
                 File(cacheRootDirectory, record.location).delete()
             }
@@ -48,13 +50,13 @@ class PreviewContentArenaStorage(
 
         val previewFile = fileSystemCarry(key, value)
         previewContentDao.insert(PreviewContentRecord(previewFile.relativeTo(cacheRootDirectory).path, key))
-        capture(
-            Log.INFO, "Store preview in file system with path ${previewFile.relativeTo(cacheRootDirectory).path}"
-        )
+        capture(Log.INFO) {
+            "Store preview in file system with path ${previewFile.relativeTo(cacheRootDirectory).path}"
+        }
     }
 
     private fun fileSystemCarry(key: Content, value: ByteArray): File {
-        val cacheDirectory = File(cacheRootDirectory, "preview")
+        val cacheDirectory = File(cacheRootDirectory, directory)
         return File(cacheDirectory, key.name).apply {
             if (!cacheDirectory.exists()) cacheDirectory.mkdirs()
             writeBytes(value)

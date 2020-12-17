@@ -1,7 +1,7 @@
 package com.makentoshe.booruchan.application.android.screen.posts.di
 
 import androidx.lifecycle.ViewModelProviders
-import com.makentoshe.booruchan.application.android.arena.PreviewContentArenaStorage
+import com.makentoshe.booruchan.application.android.arena.PreviewContentArenaCache
 import com.makentoshe.booruchan.application.android.database.BooruchanDatabase
 import com.makentoshe.booruchan.application.android.di.ApplicationScope
 import com.makentoshe.booruchan.application.android.screen.booru.navigation.BooruNavigation
@@ -76,6 +76,6 @@ class PostsModule(fragment: PostsFragment) : Module() {
 
     private fun getPreviewArena(booruContext: BooruContext, fragment: PostsFragment): PostContentArena {
         val cacheDir = File(fragment.requireContext().cacheDir, booruContext.title)
-        return PostContentArena(client, PreviewContentArenaStorage(database.previewContentDao(), cacheDir))
+        return PostContentArena(client, PreviewContentArenaCache(database.previewContentDao(), cacheDir))
     }
 }
