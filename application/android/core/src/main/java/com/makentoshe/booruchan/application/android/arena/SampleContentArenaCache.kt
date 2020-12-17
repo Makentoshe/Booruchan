@@ -2,28 +2,29 @@ package com.makentoshe.booruchan.application.android.arena
 
 import android.annotation.SuppressLint
 import android.util.Log
-import com.makentoshe.booruchan.application.android.database.dao.PreviewContentDao
-import com.makentoshe.booruchan.application.android.database.record.PreviewContentRecord
+import com.makentoshe.booruchan.application.android.database.dao.SampleContentDao
+import com.makentoshe.booruchan.application.android.database.record.SampleContentRecord
 import com.makentoshe.booruchan.application.core.arena.ArenaStorage
 import com.makentoshe.booruchan.application.core.arena.ArenaStorageException
 import com.makentoshe.booruchan.core.post.Content
 import java.io.File
 import java.io.FileNotFoundException
 
-class PreviewContentArenaCache(
-    private val previewContentDao: PreviewContentDao, private val cacheRootDirectory: File
+class SampleContentArenaCache(
+    private val sampleContentDao: SampleContentDao,
+    private val cacheRootDirectory: File
 ) : ArenaStorage<Content, ByteArray> {
 
     companion object {
         @SuppressLint("LongLogTag")
         private fun capture(level: Int, message: () -> String) {
-            Log.println(level, "PreviewContentArenaStorage", message())
+            Log.println(level, "SampleContentArenaStorage", message())
         }
     }
 
-    private val limit = 1000
-    private val step = 100
-    private val directory = "preview"
+    private val limit = 100
+    private val step = 20
+    private val directory = "sample"
 
     override fun fetch(key: Content): Result<ByteArray> = try {
         Result.success(fileSystemFetch(key) ?: throw FileNotFoundException())
@@ -35,23 +36,23 @@ class PreviewContentArenaCache(
         val cacheDirectory = File(cacheRootDirectory, directory)
         val file = File(cacheDirectory, key.name)
         return if (!file.exists()) null else file.readBytes().also {
-            capture(Log.INFO) { "Fetch preview from file system with path ${file.relativeTo(cacheDirectory).path}" }
+            capture(Log.INFO) { "Fetch sample from file system with path ${file.relativeTo(cacheDirectory).path}" }
         }
     }
 
     override fun carry(key: Content, value: ByteArray) {
-        if (previewContentDao.count() > limit) {
+        if (sampleContentDao.count() > limit) {
             capture(Log.INFO) { "Removing oldest $step elements from cache" }
-            previewContentDao.getLast(step).forEach { record ->
-                previewContentDao.delete(record)
+            sampleContentDao.getLast(step).forEach { record ->
+                sampleContentDao.delete(record)
                 File(cacheRootDirectory, record.location).delete()
             }
         }
 
-        val previewFile = fileSystemCarry(key, value)
-        previewContentDao.insert(PreviewContentRecord(previewFile.relativeTo(cacheRootDirectory).path, key))
+        val sampleFile = fileSystemCarry(key, value)
+        sampleContentDao.insert(SampleContentRecord(sampleFile.relativeTo(cacheRootDirectory).path, key))
         capture(Log.INFO) {
-            "Store preview in file system with path ${previewFile.relativeTo(cacheRootDirectory).path}"
+            "Store sample in file system with path ${sampleFile.relativeTo(cacheRootDirectory).path}"
         }
     }
 

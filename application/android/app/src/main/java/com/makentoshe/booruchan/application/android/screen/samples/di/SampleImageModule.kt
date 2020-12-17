@@ -3,10 +3,10 @@ package com.makentoshe.booruchan.application.android.screen.samples.di
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import com.makentoshe.booruchan.application.android.arena.PreviewContentArenaCache
+import com.makentoshe.booruchan.application.android.arena.SampleContentArenaCache
 import com.makentoshe.booruchan.application.android.database.BooruchanDatabase
 import com.makentoshe.booruchan.application.android.di.ApplicationScope
 import com.makentoshe.booruchan.application.android.screen.samples.SampleImageFragment
-import com.makentoshe.booruchan.application.android.screen.samples.model.PostSampleArenaStorage
 import com.makentoshe.booruchan.application.android.screen.samples.viewmodel.SampleImageFragmentViewModel
 import com.makentoshe.booruchan.application.core.arena.post.PostContentArena
 import com.makentoshe.booruchan.core.context.BooruContext
@@ -39,7 +39,8 @@ class SampleImageModule(fragment: SampleImageFragment) : Module() {
 
     private fun getSampleArena(booruContext: BooruContext, fragment: Fragment): PostContentArena {
         val cacheDir = File(fragment.requireContext().cacheDir, booruContext.title)
-        return PostContentArena(client, PostSampleArenaStorage(cacheDir))
+        val sampleArenaCache = SampleContentArenaCache(database.sampleContentDao(), cacheDir)
+        return PostContentArena(client, sampleArenaCache)
     }
 
     private fun getPreviewArena(booruContext: BooruContext, fragment: Fragment): PostContentArena {
