@@ -15,9 +15,9 @@ import com.makentoshe.booruchan.application.android.fragment.CoreFragment
 import com.makentoshe.booruchan.application.android.fragment.FragmentArguments
 import com.makentoshe.booruchan.application.android.screen.posts.SEARCH_REQUEST_CODE
 import com.makentoshe.booruchan.application.android.screen.posts.SEARCH_REQUEST_EXTRA
-import com.makentoshe.booruchan.application.android.screen.search.model.CompositeSearchTagsContainer
-import com.makentoshe.booruchan.application.android.screen.search.view.DelayMaterialAutocompleteTextView
-import com.makentoshe.booruchan.application.android.screen.search.viewmodel.PostsSearchViewModel
+import com.makentoshe.booruchan.application.android.screen.posts.model.CompositeSearchTagsContainer
+import com.makentoshe.booruchan.application.android.screen.posts.view.DelayMaterialAutocompleteTextView
+import com.makentoshe.booruchan.application.android.screen.posts.viewmodel.PostsSearchViewModel
 import com.makentoshe.booruchan.core.Text
 import com.makentoshe.booruchan.core.context.BooruContext
 import com.makentoshe.booruchan.core.tag.Tag

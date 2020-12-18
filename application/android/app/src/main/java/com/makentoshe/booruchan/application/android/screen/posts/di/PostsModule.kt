@@ -25,6 +25,8 @@ import toothpick.ktp.binding.bind
 import toothpick.ktp.delegate.inject
 import java.io.File
 
+annotation class PostsScope
+
 // TODO add base module with extracting/defining booruContext
 class PostsModule(fragment: PostsFragment) : Module() {
 

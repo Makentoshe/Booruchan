@@ -1,10 +1,11 @@
-package com.makentoshe.booruchan.application.android.screen.search.model
+package com.makentoshe.booruchan.application.android.screen.posts.model
 
 import com.makentoshe.booruchan.core.Text
 import com.makentoshe.booruchan.core.tag.Tag
 import com.makentoshe.booruchan.core.tag.Type
 
-internal class CompositeSearchTagsContainer(private vararg val containers: TypedSearchTagsContainer) : SearchTagsContainer {
+internal class CompositeSearchTagsContainer(private vararg val containers: TypedSearchTagsContainer) :
+    SearchTagsContainer {
 
     override val tags: Set<Text>
         get() = containers.flatMap { it.tags }.toHashSet()

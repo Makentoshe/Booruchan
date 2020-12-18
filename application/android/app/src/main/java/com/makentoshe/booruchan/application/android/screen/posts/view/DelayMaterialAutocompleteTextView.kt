@@ -1,4 +1,4 @@
-package com.makentoshe.booruchan.application.android.screen.search.view
+package com.makentoshe.booruchan.application.android.screen.posts.view
 
 import android.content.Context
 import android.os.Handler

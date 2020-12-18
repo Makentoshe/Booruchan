@@ -1,13 +1,13 @@
-package com.makentoshe.booruchan.application.android.screen.search.di
+package com.makentoshe.booruchan.application.android.screen.posts.di
 
 import androidx.lifecycle.ViewModelProviders
 import com.makentoshe.booruchan.application.android.database.BooruchanDatabase
 import com.makentoshe.booruchan.application.android.di.ApplicationScope
+import com.makentoshe.booruchan.application.android.screen.posts.model.CompositeSearchTagsContainer
+import com.makentoshe.booruchan.application.android.screen.posts.model.TagsArenaStorage
+import com.makentoshe.booruchan.application.android.screen.posts.model.TypedSearchTagsContainer
+import com.makentoshe.booruchan.application.android.screen.posts.viewmodel.PostsSearchViewModel
 import com.makentoshe.booruchan.application.android.screen.search.PostsSearchFragment
-import com.makentoshe.booruchan.application.android.screen.search.model.CompositeSearchTagsContainer
-import com.makentoshe.booruchan.application.android.screen.search.model.TagsArenaStorage
-import com.makentoshe.booruchan.application.android.screen.search.model.TypedSearchTagsContainer
-import com.makentoshe.booruchan.application.android.screen.search.viewmodel.PostsSearchViewModel
 import com.makentoshe.booruchan.application.core.arena.tag.TagsArena
 import com.makentoshe.booruchan.application.core.network.TagsNetworkManager
 import com.makentoshe.booruchan.core.context.BooruContext
@@ -20,6 +20,10 @@ import toothpick.Toothpick
 import toothpick.config.Module
 import toothpick.ktp.binding.bind
 import toothpick.ktp.delegate.inject
+import javax.inject.Qualifier
+
+@Qualifier
+annotation class PostsSearchScope
 
 class PostsSearchModule(fragment: PostsSearchFragment) : Module() {
 

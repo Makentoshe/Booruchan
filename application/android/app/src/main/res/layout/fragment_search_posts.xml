@@ -29,7 +29,7 @@
         app:layout_constraintStart_toStartOf="@id/fragment_search_posts_guideline_start"
         app:layout_constraintEnd_toEndOf="@id/fragment_search_posts_guideline_end">
 
-        <com.makentoshe.booruchan.application.android.screen.search.view.DelayMaterialAutocompleteTextView
+        <com.makentoshe.booruchan.application.android.screen.posts.view.DelayMaterialAutocompleteTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textAutoComplete"

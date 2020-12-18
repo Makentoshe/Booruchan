@@ -6,8 +6,6 @@ import androidx.fragment.app.FragmentManager
 import com.makentoshe.booruchan.application.android.di.ApplicationScope
 import com.makentoshe.booruchan.application.android.screen.posts.PostsFragment
 import com.makentoshe.booruchan.application.android.screen.search.PostsSearchFragment
-import com.makentoshe.booruchan.application.android.screen.search.di.PostsSearchModule
-import com.makentoshe.booruchan.application.android.screen.search.di.PostsSearchScope
 import toothpick.Toothpick
 import toothpick.smoothie.lifecycle.closeOnDestroy
 

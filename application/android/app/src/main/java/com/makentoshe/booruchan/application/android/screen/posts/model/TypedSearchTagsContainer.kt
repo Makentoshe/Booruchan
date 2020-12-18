@@ -1,4 +1,4 @@
-package com.makentoshe.booruchan.application.android.screen.search.model
+package com.makentoshe.booruchan.application.android.screen.posts.model
 
 import com.makentoshe.booruchan.core.Text
 import com.makentoshe.booruchan.core.tag.Type

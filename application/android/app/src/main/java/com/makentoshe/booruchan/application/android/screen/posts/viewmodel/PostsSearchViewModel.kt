@@ -1,9 +1,9 @@
-package com.makentoshe.booruchan.application.android.screen.search.viewmodel
+package com.makentoshe.booruchan.application.android.screen.posts.viewmodel
 
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.makentoshe.booruchan.application.android.screen.search.model.PostsSearchTagsAutocompleteAdapter
+import com.makentoshe.booruchan.application.android.screen.posts.model.PostsSearchTagsAutocompleteAdapter
 import com.makentoshe.booruchan.application.core.arena.tag.TagsArena
 import com.makentoshe.booruchan.core.tag.context.TagsContext
 import com.makentoshe.booruchan.core.tag.network.TagsFilter

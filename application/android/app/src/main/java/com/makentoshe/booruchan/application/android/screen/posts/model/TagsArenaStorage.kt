@@ -1,4 +1,4 @@
-package com.makentoshe.booruchan.application.android.screen.search.model
+package com.makentoshe.booruchan.application.android.screen.posts.model
 
 import com.makentoshe.booruchan.application.core.arena.ArenaStorage
 import com.makentoshe.booruchan.application.core.arena.ArenaStorageException
