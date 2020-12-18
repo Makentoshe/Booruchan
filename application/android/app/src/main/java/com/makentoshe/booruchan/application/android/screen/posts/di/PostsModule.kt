@@ -1,12 +1,12 @@
 package com.makentoshe.booruchan.application.android.screen.posts.di
 
 import androidx.lifecycle.ViewModelProviders
+import com.makentoshe.booruchan.application.android.arena.PostsArenaCache
 import com.makentoshe.booruchan.application.android.arena.PreviewContentArenaCache
 import com.makentoshe.booruchan.application.android.database.BooruchanDatabase
 import com.makentoshe.booruchan.application.android.di.ApplicationScope
 import com.makentoshe.booruchan.application.android.screen.booru.navigation.BooruNavigation
 import com.makentoshe.booruchan.application.android.screen.posts.PostsFragment
-import com.makentoshe.booruchan.application.android.screen.posts.model.PostsArenaStorage
 import com.makentoshe.booruchan.application.android.screen.posts.navigation.PostsNavigation
 import com.makentoshe.booruchan.application.android.screen.posts.viewmodel.PostsFragmentViewModel
 import com.makentoshe.booruchan.application.core.arena.post.PostContentArena
@@ -73,7 +73,7 @@ class PostsModule(fragment: PostsFragment) : Module() {
     private fun getPostsArena(
         booruContext: BooruContext, postsContext: PostsContext<PostsRequest, PostsFilter>
     ) = PostsArena.Builder(booruContext).apply {
-        arenaStorage = PostsArenaStorage(database, postsContext)
+        arenaStorage = PostsArenaCache(database.postsDao(), postsContext)
     }.build(client)
 
     private fun getPreviewArena(booruContext: BooruContext, fragment: PostsFragment): PostContentArena {
