@@ -35,7 +35,7 @@ android {
         targetCompatibility = JavaVersion.VERSION_1_8
 
         // Allows to use kotlin.Result type as a return
-        kotlinOptions.freeCompilerArgs = listOf("-Xallow-result-return-type")
+        kotlinOptions.freeCompilerArgs = listOf("-Xallow-result-return-type", "-Xopt-in=kotlin.RequiresOptIn")
     }
     kotlinOptions {
         // for inlining bytecode for some methods

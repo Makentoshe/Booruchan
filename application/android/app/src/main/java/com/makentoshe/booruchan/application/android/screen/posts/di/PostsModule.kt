@@ -1,12 +1,15 @@
 package com.makentoshe.booruchan.application.android.screen.posts.di
 
 import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.lifecycleScope
 import com.makentoshe.booruchan.application.android.arena.PostsArenaCache
 import com.makentoshe.booruchan.application.android.arena.PreviewContentArenaCache
 import com.makentoshe.booruchan.application.android.database.BooruchanDatabase
 import com.makentoshe.booruchan.application.android.di.ApplicationScope
 import com.makentoshe.booruchan.application.android.screen.booru.navigation.BooruNavigation
 import com.makentoshe.booruchan.application.android.screen.posts.PostsFragment
+import com.makentoshe.booruchan.application.android.screen.posts.model.paging.PostAdapter
+import com.makentoshe.booruchan.application.android.screen.posts.model.paging.PostStateAdapter
 import com.makentoshe.booruchan.application.android.screen.posts.navigation.PostsNavigation
 import com.makentoshe.booruchan.application.android.screen.posts.viewmodel.PostsFragmentViewModel
 import com.makentoshe.booruchan.application.core.arena.post.PostContentArena
@@ -17,7 +20,6 @@ import com.makentoshe.booruchan.core.post.context.PostsContext
 import com.makentoshe.booruchan.core.post.network.PostsFilter
 import com.makentoshe.booruchan.core.post.network.PostsRequest
 import io.ktor.client.*
-import io.reactivex.rxjava3.disposables.CompositeDisposable
 import ru.terrakok.cicerone.Router
 import toothpick.Toothpick
 import toothpick.config.Module
@@ -40,26 +42,22 @@ class PostsModule(fragment: PostsFragment) : Module() {
         val booruContext = booruContexts.first { it.javaClass == fragment.arguments.booruclass }
 
         val fragmentNavigation = PostsNavigation(router, booruContext.javaClass)
-        bindPostsFragmentViewModel(fragment, booruContext, fragmentNavigation)
+        val previewArena = getPreviewArena(booruContext, fragment)
+        val adapter = PostAdapter(previewArena, fragment.lifecycleScope, fragmentNavigation)
+        bind<PostAdapter>().toInstance(adapter)
+        bind<PostStateAdapter>().toInstance(PostStateAdapter(adapter))
 
         val navigation = BooruNavigation(fragment.childFragmentManager, booruContext)
         bind<BooruNavigation>().toInstance(navigation)
 
-        val fragmentDisposable = CompositeDisposable()
-        bind<CompositeDisposable>().toInstance(fragmentDisposable)
+        bindPostsFragmentViewModel(fragment, booruContext)
     }
 
-    private fun bindPostsFragmentViewModel(
-        fragment: PostsFragment, booruContext: BooruContext, navigation: PostsNavigation
-    ) {
-        val viewModelDisposables = CompositeDisposable()
+    private fun bindPostsFragmentViewModel(fragment: PostsFragment, booruContext: BooruContext) {
         val postsContext = getPostsBooruContext(booruContext)
         val postsArena = getPostsArena(booruContext, postsContext)
-        val previewArena = getPreviewArena(booruContext, fragment)
 
-        val viewModelFactory = PostsFragmentViewModel.Factory(
-            postsArena, previewArena, postsContext.filterBuilder(), viewModelDisposables, navigation
-        )
+        val viewModelFactory = PostsFragmentViewModel.Factory(postsArena, postsContext.filterBuilder())
         val viewModelProvider = ViewModelProviders.of(fragment, viewModelFactory)
         val viewModel = viewModelProvider[PostsFragmentViewModel::class.java]
         bind<PostsFragmentViewModel>().toInstance(viewModel)

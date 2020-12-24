@@ -14,11 +14,16 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.view.forEach
 import androidx.fragment.app.FragmentFactory
+import androidx.lifecycle.lifecycleScope
+import androidx.paging.CombinedLoadStates
+import androidx.paging.LoadState
 import com.arasthel.spannedgridlayoutmanager.SpannedGridLayoutManager
 import com.makentoshe.booruchan.application.android.R
 import com.makentoshe.booruchan.application.android.common.dp2px
 import com.makentoshe.booruchan.application.android.fragment.CoreFragment
 import com.makentoshe.booruchan.application.android.fragment.FragmentArguments
+import com.makentoshe.booruchan.application.android.screen.posts.model.paging.PostAdapter
+import com.makentoshe.booruchan.application.android.screen.posts.model.paging.PostStateAdapter
 import com.makentoshe.booruchan.application.android.screen.posts.view.CustomSpannedGridLayoutManager
 import com.makentoshe.booruchan.application.android.screen.posts.view.PostsSlidingUpPanelListener
 import com.makentoshe.booruchan.application.android.screen.posts.view.SpacesItemDecoration
@@ -30,15 +35,11 @@ import com.makentoshe.booruchan.core.Text
 import com.makentoshe.booruchan.core.context.BooruContext
 import com.makentoshe.booruchan.core.post.tagsFromText
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
-import io.ktor.client.*
 import io.ktor.client.features.*
-import io.ktor.client.request.*
-import io.ktor.client.statement.*
 import io.ktor.network.sockets.*
-import io.ktor.util.*
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import io.reactivex.rxjava3.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.fragment_posts.*
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import toothpick.ktp.delegate.inject
 import java.net.UnknownHostException
 import javax.net.ssl.SSLHandshakeException
@@ -67,7 +68,9 @@ class PostsFragment : CoreFragment() {
     }
 
     private val viewModel by inject<PostsFragmentViewModel>()
-    private val disposables by inject<CompositeDisposable>()
+    private val adapter by inject<PostAdapter>()
+    private val stateAdapter by inject<PostStateAdapter>()
+
     val arguments = Arguments(this)
 
     private val fragmentExceptionHandler by lazy { FragmentExceptionHandler(requireContext()) }
@@ -85,20 +88,8 @@ class PostsFragment : CoreFragment() {
         onViewCreatedSlidingPanel(view)
         onViewCreatedToolbar()
         onViewCreatedRecycler()
-
-        viewModel.initialSignal.observeOn(AndroidSchedulers.mainThread()).subscribe(::onInitialLoad)
-            .let(disposables::add)
-
-        fragment_posts_retry.setOnClickListener {
-            viewModel.retryInitialLoadObserver.onNext(Unit)
-            fragment_posts_swipe.visibility = View.GONE
-            onInitialLoadRetry()
-        }
-        fragment_posts_swipe.setOnRefreshListener {
-            fragment_posts_swipe.isRefreshing = false
-            viewModel.refreshInitialLoadObserver.onNext(Unit)
-            onInitialLoadRetry()
-        }
+        fragment_posts_swipe.setOnRefreshListener { adapter.refresh() }
+        fragment_posts_retry.setOnClickListener { adapter.retry() }
     }
 
     private fun onViewCreatedSlidingPanel(view: View) {
@@ -144,30 +135,37 @@ class PostsFragment : CoreFragment() {
 
     private fun onViewCreatedRecycler() {
         val spannedGridLayoutManager = CustomSpannedGridLayoutManager(SpannedGridLayoutManager.Orientation.VERTICAL, 3)
+        spannedGridLayoutManager.spanSizeLookup = SpannedGridLayoutManagerLookup(adapter)
         fragment_posts_recycler.layoutManager = spannedGridLayoutManager
         fragment_posts_recycler.addItemDecoration(SpacesItemDecoration(8f))
-        viewModel.postsAdapterObservable.subscribe { adapter ->
-            spannedGridLayoutManager.spanSizeLookup = SpannedGridLayoutManagerLookup(adapter)
-            fragment_posts_recycler.swapAdapter(adapter, true)
-        }.let(disposables::add)
+        fragment_posts_recycler.adapter = adapter.withLoadStateFooter(stateAdapter)
+
+        adapter.addLoadStateListener(::onLoadStateChanged)
+        lifecycleScope.launch {
+            viewModel.posts.collectLatest { adapter.submitData(it) }
+        }
     }
 
-    private fun onInitialLoadRetry() {
-        fragment_posts_progress.visibility = View.VISIBLE
-        fragment_posts_retry.visibility = View.GONE
-        fragment_posts_title.visibility = View.GONE
-        fragment_posts_message.visibility = View.GONE
-    }
-
-    /** On [viewModel.initialSignal] receive in ui thread */
-    private fun onInitialLoad(result: Result<*>) {
-        fragment_posts_progress.visibility = View.GONE
-        fragment_posts_swipe.isRefreshing = false
-        if (result.isSuccess) {
-            fragment_posts_recycler.smoothScrollToPosition(0)
+    // TODO replace by custom handler class
+    private fun onLoadStateChanged(states: CombinedLoadStates) {
+        if (states.refresh is LoadState.Loading) {
+            // is not refresh action (initial load)
+            if (!states.prepend.endOfPaginationReached) {
+                fragment_posts_progress.visibility = View.VISIBLE
+            }
+            fragment_posts_retry.visibility = View.GONE
+            fragment_posts_title.visibility = View.GONE
+            fragment_posts_message.visibility = View.GONE
+        }
+        if (states.refresh is LoadState.NotLoading) {
+            fragment_posts_progress.visibility = View.GONE
             fragment_posts_swipe.visibility = View.VISIBLE
-        } else {
-            onInitialLoadFailure(result.exceptionOrNull())
+            fragment_posts_swipe.isRefreshing = false
+        }
+        if (states.refresh is LoadState.Error) {
+            onInitialLoadFailure((states.refresh as LoadState.Error).error)
+            fragment_posts_progress.visibility = View.GONE
+            fragment_posts_swipe.isRefreshing = false
         }
     }
 
@@ -179,11 +177,6 @@ class PostsFragment : CoreFragment() {
         fragment_posts_message.text = entry.message
         fragment_posts_message.visibility = View.VISIBLE
         fragment_posts_retry.visibility = View.VISIBLE
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        disposables.clear()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) = when (requestCode) {
@@ -201,10 +194,15 @@ class PostsFragment : CoreFragment() {
         if (data == null) return onActivityResultSearchFailure(data)
         val serializable = data.getSerializableExtra(SEARCH_REQUEST_EXTRA)
         val tags = tagsFromText((serializable as Array<Text>).toSet())
-        viewModel.postsTagsSearchObserver.onNext(tags)
+
         closeSlidingPanel()
-        fragment_posts_progress.visibility = View.VISIBLE
-        fragment_posts_swipe.visibility = View.GONE
+
+        lifecycleScope.launch {
+            fragment_posts_recycler.scrollToPosition(0)
+            fragment_posts_recycler.smoothScrollToPosition(0)
+            fragment_posts_recycler.layoutManager?.scrollToPosition(0)
+            viewModel.posts(tags).collectLatest { adapter.submitData(it) }
+        }
     }
 
     private fun onActivityResultSearchFailure(data: Intent?) {
