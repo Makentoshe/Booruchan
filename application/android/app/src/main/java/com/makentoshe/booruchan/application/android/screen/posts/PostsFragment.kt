@@ -88,6 +88,8 @@ class PostsFragment : CoreFragment() {
         onViewCreatedSlidingPanel(view)
         onViewCreatedToolbar()
         onViewCreatedRecycler()
+//        fragment_posts_swipe.isInTouchMode = false
+
         fragment_posts_swipe.setOnRefreshListener { adapter.refresh() }
         fragment_posts_retry.setOnClickListener { adapter.retry() }
     }
@@ -152,15 +154,19 @@ class PostsFragment : CoreFragment() {
             // is not refresh action (initial load)
             if (!states.prepend.endOfPaginationReached) {
                 fragment_posts_progress.visibility = View.VISIBLE
+                fragment_posts_recycler.isNestedScrollingEnabled = false
+                fragment_posts_swipe.isEnabled = false
             }
             fragment_posts_retry.visibility = View.GONE
             fragment_posts_title.visibility = View.GONE
             fragment_posts_message.visibility = View.GONE
         }
         if (states.refresh is LoadState.NotLoading) {
+            fragment_posts_recycler.isNestedScrollingEnabled = true
             fragment_posts_progress.visibility = View.GONE
             fragment_posts_swipe.visibility = View.VISIBLE
             fragment_posts_swipe.isRefreshing = false
+            fragment_posts_swipe.isEnabled = true
         }
         if (states.refresh is LoadState.Error) {
             onInitialLoadFailure((states.refresh as LoadState.Error).error)
