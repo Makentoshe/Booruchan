@@ -64,20 +64,7 @@ class SampleImageFragment : CoreFragment() {
             val intent = Intent().putExtra(SAMPLE_CONTENT_ERROR_DATA, it)
             parentFragment?.onActivityResult(SAMPLE_CONTENT_ERROR_CODE, Activity.RESULT_OK, intent)
         }.let(disposables::add)
-//
-//        fragment_sample_sample.setOnLongClickListener {
-//            val fragment = ImageDialogFragment()
-//            fragment.setTargetFragment(this, 0)
-//            fragment.show(requireFragmentManager(), ImageDialogFragment::class.java.simpleName)
-//            return@setOnLongClickListener true
-//        }
     }
-//
-//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-//        when (requestCode) {
-//            REQUEST_CODE_SAVE_IMAGE -> downloadExecutor.downloadPostFullContent(arguments.post)
-//        }
-//    }
 
     override fun onDestroy() {
         super.onDestroy()

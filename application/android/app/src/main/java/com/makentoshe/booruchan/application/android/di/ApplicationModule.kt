@@ -2,6 +2,8 @@ package com.makentoshe.booruchan.application.android.di
 
 import android.content.Context
 import androidx.room.Room
+import com.makentoshe.booruchan.application.android.ExceptionHandler
+import com.makentoshe.booruchan.application.android.ExceptionHandlerImpl
 import com.makentoshe.booruchan.application.android.FullContentDownloadExecutor
 import com.makentoshe.booruchan.application.android.database.BooruchanDatabase
 import com.makentoshe.booruchan.core.context.BooruContext
@@ -42,5 +44,7 @@ class ApplicationModule(applicationContext: Context, cicerone: Cicerone<Router>)
 
         val fullContentDownloadExecutorBuilder = FullContentDownloadExecutor.Builder(httpClient, applicationContext)
         bind<FullContentDownloadExecutor.Builder>().toInstance(fullContentDownloadExecutorBuilder)
+
+        bind<ExceptionHandler>().toInstance(ExceptionHandlerImpl(applicationContext))
     }
 }

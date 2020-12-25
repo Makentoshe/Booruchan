@@ -55,6 +55,12 @@ dependencies {
     val material = properties["version.androidx.material"]
     api("com.google.android.material:material:$material")
 
+    // Ktor (http client)
+    // https://github.com/ktorio/ktor
+    val ktorVersion = properties["version.ktor"]
+    implementation("io.ktor:ktor-client-core:$ktorVersion")
+    implementation("io.ktor:ktor-client-okhttp:$ktorVersion")
+
     val core = properties["version.androidx.core"]
     implementation("androidx.core:core-ktx:$core")
 

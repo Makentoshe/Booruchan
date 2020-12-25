@@ -1,10 +1,8 @@
 package com.makentoshe.booruchan.application.android.screen.posts
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.content.res.ColorStateList
-import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -18,6 +16,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
 import com.arasthel.spannedgridlayoutmanager.SpannedGridLayoutManager
+import com.makentoshe.booruchan.application.android.ExceptionHandler
 import com.makentoshe.booruchan.application.android.R
 import com.makentoshe.booruchan.application.android.common.dp2px
 import com.makentoshe.booruchan.application.android.fragment.CoreFragment
@@ -30,20 +29,14 @@ import com.makentoshe.booruchan.application.android.screen.posts.view.SpacesItem
 import com.makentoshe.booruchan.application.android.screen.posts.view.SpannedGridLayoutManagerLookup
 import com.makentoshe.booruchan.application.android.screen.posts.viewmodel.PostsFragmentViewModel
 import com.makentoshe.booruchan.application.android.screen.search.PostsSearchFragment
-import com.makentoshe.booruchan.application.core.arena.ArenaStorageException
 import com.makentoshe.booruchan.core.Text
 import com.makentoshe.booruchan.core.context.BooruContext
 import com.makentoshe.booruchan.core.post.tagsFromText
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
-import io.ktor.client.features.*
-import io.ktor.network.sockets.*
 import kotlinx.android.synthetic.main.fragment_posts.*
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import toothpick.ktp.delegate.inject
-import java.net.UnknownHostException
-import javax.net.ssl.SSLHandshakeException
-import javax.net.ssl.SSLPeerUnverifiedException
 
 internal const val SEARCH_REQUEST_CODE = 1
 
@@ -73,7 +66,7 @@ class PostsFragment : CoreFragment() {
 
     val arguments = Arguments(this)
 
-    private val fragmentExceptionHandler by lazy { FragmentExceptionHandler(requireContext()) }
+    private val exceptionHandler by inject<ExceptionHandler>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -175,7 +168,7 @@ class PostsFragment : CoreFragment() {
     }
 
     private fun onInitialLoadFailure(exception: Throwable?) {
-        val entry = fragmentExceptionHandler.handleException(exception)
+        val entry = exceptionHandler.handleException(exception)
         fragment_posts_swipe.visibility = View.GONE
         fragment_posts_title.text = entry.title
         fragment_posts_title.visibility = View.VISIBLE
@@ -225,53 +218,4 @@ class PostsFragment : CoreFragment() {
         }
     }
 
-    class FragmentExceptionHandler(private val context: Context) {
-
-        fun handleException(exception: Throwable?): Entry = when (exception) {
-            is ArenaStorageException -> handleArenaStorageException(exception)
-            else -> handleUnknownException(exception)
-        }
-
-        private fun handleUnknownException(exception: Throwable?): Entry {
-            return Entry("There is an unknown error", exception?.message.toString())
-        }
-
-        private fun handleArenaStorageException(exception: ArenaStorageException): Entry =
-            when (val cause = exception.cause) {
-                // provider blocks the host
-                is SSLPeerUnverifiedException -> {
-                    val title = context.getString(R.string.exception_network)
-                    Entry(title, cause.toString())
-                }
-                // internet connection disabled
-                is UnknownHostException -> {
-                    val title = context.getString(R.string.exception_network)
-                    Entry(title, cause.toString())
-                }
-
-                is SSLHandshakeException -> {
-                    val title = context.getString(R.string.exception_network)
-                    Entry(title, cause.toString())
-                }
-                // Orbot connection expired cause
-                is SocketTimeoutException -> {
-                    val title = context.getString(R.string.exception_network)
-                    val message = context.getString(R.string.exception_network_proxy)
-                    Entry(title, message)
-                }
-                // TODO server requests to resolve captcha event
-                is ClientRequestException -> {
-                    val title = context.getString(R.string.exception_network)
-                    val message = context.getString(R.string.exception_network_proxy_cloudflare)
-                    Entry(title, message)
-                }
-
-                else -> {
-                    exception.printStackTrace()
-                    Entry("There is an unknown cache error", cause.toString())
-                }
-            }
-
-        data class Entry(val title: String, val message: String, val image: Drawable? = null)
-    }
 }

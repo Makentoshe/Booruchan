@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.makentoshe.booruchan.application.android.ExceptionHandler
 import com.makentoshe.booruchan.application.android.R
 import com.makentoshe.booruchan.application.android.fragment.CoreFragment
 import com.makentoshe.booruchan.application.android.fragment.FragmentArguments
@@ -42,6 +43,7 @@ class SampleContentFragment : CoreFragment() {
 
     private val viewModel by inject<SampleContentFragmentViewModel>()
     private val disposables by inject<CompositeDisposable>(SampleContentScope::class)
+    private val exceptionHandler by inject<ExceptionHandler>()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_sample_content, container, false)
@@ -80,9 +82,13 @@ class SampleContentFragment : CoreFragment() {
     }
 
     private fun onContentLoadFailure(throwable: Throwable?) {
+        val entry = exceptionHandler.handleException(throwable)
         fragment_sample_failure_preview.visibility = View.VISIBLE
         fragment_sample_content.visibility = View.GONE
-        println("exception $throwable")
+        fragment_sample_title.text = entry.title
+        fragment_sample_title.visibility = View.VISIBLE
+        fragment_sample_message.text = entry.message
+        fragment_sample_message.visibility = View.VISIBLE
     }
 
     class Arguments(fragment: SampleContentFragment) : FragmentArguments(fragment) {

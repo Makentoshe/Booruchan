@@ -5,4 +5,15 @@
     <string name="booru_navigation_account">Account</string>
     <string name="booru_navigation_posts">Posts</string>
     <string name="booru_navigation_menu">Menu</string>
+
+    <!-- Exception handler -->
+    <string name="exception_handler_unknown">Unknown error</string>
+    <string name="exception_handler_unknown_cache">Unknown cache error</string>
+    <string name="exception_handler_network">Network error</string>
+    <string name="exception_handler_network_unknown_host">Internet connection disabled</string>
+    <string name="exception_handler_network_sslpeer_unverified">Provider blocks the host</string>
+    <string name="exception_handler_proxy">Proxy error</string>
+    <string name="exception_handler_proxy_expire">Your proxy connection expired. You can retry several times until connection established</string>
+    <string name="exception_handler_proxy_cloudflare">Your proxy connection refused. The destination server protected by cloudflare and requires a captcha, but application does not implement it yet</string>
+    <string name="exception_handler_proxy_handshake">Could not negotiate the desired level of security. The connection is no longer usable.</string>
 </resources>

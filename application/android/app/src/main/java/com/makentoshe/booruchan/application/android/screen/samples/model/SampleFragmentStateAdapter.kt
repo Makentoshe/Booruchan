@@ -16,6 +16,7 @@ class SampleFragmentStateAdapter(
 
     override fun getItemCount() = 3
 
+    // TODO[hot]: replace content fragment
     override fun createFragment(position: Int) = when (position) {
         0 -> SampleCloseFragment()
         1 -> SampleContentFragment.build(booruContextClass, post)
