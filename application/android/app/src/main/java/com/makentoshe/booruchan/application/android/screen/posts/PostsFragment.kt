@@ -88,7 +88,6 @@ class PostsFragment : CoreFragment() {
         onViewCreatedSlidingPanel(view)
         onViewCreatedToolbar()
         onViewCreatedRecycler()
-//        fragment_posts_swipe.isInTouchMode = false
 
         fragment_posts_swipe.setOnRefreshListener { adapter.refresh() }
         fragment_posts_retry.setOnClickListener { adapter.retry() }

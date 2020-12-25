@@ -1,50 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
     android:orientation="vertical">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/fragment_posts_appbar"
+    <com.google.android.material.appbar.MaterialToolbar
+        style="@style/Default.Toolbar"
+        android:id="@+id/fragment_posts_toolbar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/toolbar_height"
-        android:fitsSystemWindows="true"
-        >
+        app:menu="@menu/posts_toolbar" />
 
-        <com.google.android.material.appbar.CollapsingToolbarLayout
-            android:id="@+id/fragment_posts_collapsing"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:fitsSystemWindows="true"
-            app:titleEnabled="false"
-            app:layout_scrollFlags="scroll|enterAlways|snap"
-            app:toolbarId="@id/fragment_posts_toolbar">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <com.google.android.material.appbar.MaterialToolbar
-                    style="@style/Default.Toolbar"
-                    android:id="@+id/fragment_posts_toolbar"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/toolbar_height"
-                    app:menu="@menu/posts_toolbar" />
-
-                <View
-                    style="@style/Default.Separator"
-                    android:id="@+id/fragment_posts_separator"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/toolbar_separator_height" />
-
-            </LinearLayout>
-
-        </com.google.android.material.appbar.CollapsingToolbarLayout>
-
-    </com.google.android.material.appbar.AppBarLayout>
+    <View
+        style="@style/Default.Separator"
+        android:id="@+id/fragment_posts_separator"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/toolbar_separator_height" />
 
     <com.sothree.slidinguppanel.SlidingUpPanelLayout
         android:id="@+id/fragment_posts_panel"
@@ -52,19 +25,17 @@
         android:layout_height="match_parent"
         app:umanoOverlay="true"
         app:umanoPanelHeight="0dp"
-        android:gravity="top"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        android:gravity="top">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-                android:visibility="gone"
+                android:visibility="invisible"
                 android:id="@+id/fragment_posts_swipe"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:enabled="false"
                 android:layout_marginHorizontal="@dimen/dimenXS"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent">
@@ -72,10 +43,7 @@
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/fragment_posts_recycler"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:nestedScrollingEnabled="false"
-                    android:paddingTop="@dimen/dimenS"
-                    android:clipToPadding="false" />
+                    android:layout_height="match_parent" />
 
             </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
@@ -135,4 +103,4 @@
 
     </com.sothree.slidinguppanel.SlidingUpPanelLayout>
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</LinearLayout>
