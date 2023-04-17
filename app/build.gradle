@@ -51,6 +51,8 @@ dependencies {
 
     implementation project(":library:uikit")
 
+    implementation project(":screen:splash")
+
     implementation "androidx.core:core-ktx:$android_core_version"
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:$android_lifecycle_version"
     implementation "androidx.activity:activity-compose:$android_activity_compose_version"
