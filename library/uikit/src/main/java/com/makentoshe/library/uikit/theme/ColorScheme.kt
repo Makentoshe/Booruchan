@@ -1,10 +1,10 @@
 package com.makentoshe.library.uikit.theme
 
-import androidx.compose.material.darkColors
-import androidx.compose.material.lightColors
+import androidx.compose.material3.darkColorScheme
+import androidx.compose.material3.lightColorScheme
 import androidx.compose.ui.graphics.Color
 
-val LightMaterialColorScheme = lightColors(
+val LightMaterialColorScheme = lightColorScheme(
     primary = Black,
     onPrimary = White,
 
@@ -38,7 +38,7 @@ val DarkColorScheme = BooruchanColorScheme(
     separator = Grey32,
 )
 
-val DarkMaterialColorScheme = darkColors(
+val DarkMaterialColorScheme = darkColorScheme(
     primary = Black,
     onPrimary = White,
 

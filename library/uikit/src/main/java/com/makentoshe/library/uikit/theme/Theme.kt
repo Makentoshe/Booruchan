@@ -2,9 +2,8 @@ package com.makentoshe.library.uikit.theme
 
 import android.app.Activity
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.material.Colors
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Typography
+import androidx.compose.material3.ColorScheme
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.SideEffect
@@ -13,7 +12,7 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.ViewCompat
 import com.makentoshe.library.uikit.theme.BooruchanTheme.isInDarkTheme
-
+import androidx.compose.material3.Typography
 
 object BooruchanTheme {
 
@@ -24,7 +23,7 @@ object BooruchanTheme {
 
     internal val LocalCompositionMaterialColors =
         staticCompositionLocalOf { LightMaterialColorScheme }
-    val materialColors: Colors
+    val materialColors: ColorScheme
         @Composable get() = LocalCompositionMaterialColors.current
 
     internal val LocalCompositionColors =
@@ -68,7 +67,7 @@ private fun BooruchanTheme(content: @Composable () -> Unit) {
 
     // use MaterialTheme for backward compatibility
     MaterialTheme(
-        colors = BooruchanTheme.materialColors,
+        colorScheme = BooruchanTheme.materialColors,
         typography = BooruchanTheme.MaterialTypography,
         content = content
     )
