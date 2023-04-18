@@ -8,10 +8,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import com.makentoshe.booruchan.library.navigation.SplashScreenNavigator
 
 @Composable
 fun SplashScreen(
-
+    navigator: SplashScreenNavigator,
 ) {
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -20,8 +21,10 @@ fun SplashScreen(
     ) {
         Text("SplashScreen")
 
-        Button(onClick = { /*TODO*/ }) {
-            Text(text = "Splash screen")
+        Button(onClick = {
+            navigator.navigateToBoorulistScreen()
+        }) {
+            Text(text = "Boorulist screen")
         }
     }
 }

@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace 'com.makentoshe.screen'
+    namespace 'com.makentoshe.booruchan.library.navigation'
     compileSdk project_compile_sdk
 
     defaultConfig {
@@ -13,6 +13,13 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildFeatures {
+        compose true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion compose_version
     }
 
     buildTypes {
@@ -31,6 +38,7 @@ android {
 }
 
 dependencies {
-    implementation project(":library:navigation")
+    implementation "androidx.core:core-ktx:$android_core_version"
 
+    implementation "androidx.navigation:navigation-compose:$compose_navigation_version"
 }
