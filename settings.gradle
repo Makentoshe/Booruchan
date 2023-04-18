@@ -14,9 +14,15 @@ dependencyResolutionManagement {
 }
 rootProject.name = "Booruchan"
 include ':app'
+
 include ':screen'
 include ':screen:splash'
 include ':screen:boorulist'
+
 include ':library'
 include ':library:uikit'
 include ':library:navigation'
+
+include ':feature'
+include ':feature:healthcheck-domain'
+include ':feature:healthcheck-data'
