@@ -1,8 +1,9 @@
 package com.makentoshe.booruchan.healthcheck.domain
 
 import com.makentoshe.booruchan.feature.BooruInstance
+import javax.inject.Inject
 
-class HealthcheckUseCase constructor(
+class HealthcheckUseCase @Inject constructor(
     private val repository: HealthcheckRepository,
 ) {
 

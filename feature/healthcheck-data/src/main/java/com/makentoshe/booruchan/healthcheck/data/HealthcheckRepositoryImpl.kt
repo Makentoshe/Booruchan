@@ -5,8 +5,9 @@ import com.makentoshe.booruchan.healthcheck.domain.HealthcheckRequest
 import com.makentoshe.booruchan.healthcheck.domain.HealthcheckResponse
 import io.ktor.client.*
 import io.ktor.client.request.*
+import javax.inject.Inject
 
-class HealthcheckRepositoryImpl(
+class HealthcheckRepositoryImpl @Inject constructor(
     private val client: HttpClient,
 ) : HealthcheckRepository {
 
