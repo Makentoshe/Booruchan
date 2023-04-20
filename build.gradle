@@ -29,6 +29,7 @@ buildscript {
         dagger_version = '2.44'
 
         ktor_version = '2.1.2'
+        kotlin_serialization_version = '1.4.1'
     }
 }// Top-level build file where you can add configuration options common to all sub-projects/modules.
 plugins {

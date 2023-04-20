@@ -1,13 +1,13 @@
 package com.makentoshe.booruchan.healthcheck.domain
 
-import com.makentoshe.booruchan.feature.BooruInstance
+import com.makentoshe.booruchan.feature.BooruContext
 import javax.inject.Inject
 
 class HealthcheckUseCase @Inject constructor(
     private val repository: HealthcheckRepository,
 ) {
 
-    suspend operator fun invoke(booruInstance: BooruInstance) : Boolean {
-        return repository.healthcheck(HealthcheckRequest(booruInstance.host.url)).isAvailable
+    suspend operator fun invoke(booruContext: BooruContext) : Boolean {
+        return repository.healthcheck(HealthcheckRequest(booruContext.host.url)).isAvailable
     }
 }

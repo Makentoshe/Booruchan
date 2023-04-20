@@ -1,6 +1,6 @@
 package com.makentoshe.booruchan.feature
 
-data class BooruInstance(
+data class BooruContext(
     /** Booru title (Gelbooru, Danbooru, etc)*/
     val title: String,
     /** The system booru uses */
