@@ -55,6 +55,7 @@ dependencies {
 
     implementation project(":screen")
     implementation project(":screen:splash")
+    implementation project(":screen:boorulist")
 
     implementation "androidx.core:core-ktx:$android_core_version"
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:$android_lifecycle_version"
@@ -82,4 +83,10 @@ dependencies {
     androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"
     debugImplementation "androidx.compose.ui:ui-tooling:$compose_version"
     debugImplementation "androidx.compose.ui:ui-test-manifest:$compose_version"
+}
+
+tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
+    kotlinOptions {
+        freeCompilerArgs += "-Xopt-in=androidx.compose.material3.ExperimentalMaterial3Api"
+    }
 }
