@@ -8,7 +8,7 @@ import androidx.compose.ui.unit.sp
 val DefaultBooruchanTypography = BooruchanTypographyScheme(
     titleText = TextStyle(
         fontFamily = FontFamily.Default,
-        fontWeight = FontWeight.Normal,
+        fontWeight = FontWeight.Bold,
         fontSize = 20.sp,
         lineHeight = 32.sp,
         letterSpacing = 0.sp,
