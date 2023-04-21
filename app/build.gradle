@@ -2,6 +2,7 @@ plugins {
     id 'kotlin-kapt'
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'dagger.hilt.android.plugin'
 }
 
 android {
@@ -52,6 +53,7 @@ dependencies {
 
     implementation project(":library:uikit")
     implementation project(":library:navigation")
+    implementation project(":library:resources")
 
     implementation project(":screen")
     implementation project(":screen:splash")

@@ -2,12 +2,10 @@ package com.makentoshe.booruchan.ui
 
 import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.makentoshe.booruchan.library.navigation.controller.setOnDisposableDestinationChangedListenerEffect
 import com.makentoshe.booruchan.screen.Screen
