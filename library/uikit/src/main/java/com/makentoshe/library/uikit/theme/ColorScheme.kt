@@ -63,3 +63,6 @@ data class BooruchanColorScheme(
 
 val BooruchanColorScheme.transparent: Color
     get() = Color.Transparent
+
+val BooruchanColorScheme.error: Color
+    get() = Color.Red

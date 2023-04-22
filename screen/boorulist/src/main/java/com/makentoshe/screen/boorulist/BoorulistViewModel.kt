@@ -21,13 +21,16 @@ class BoorulistViewModel @Inject constructor(
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
-            delay(5000)
+            delay(1000)
 
-            val booruItemStates = listOf(
-                BooruItemState("Gelbooru", BooruItemHealthState.Loading),
-                BooruItemState("Danbooru", BooruItemHealthState.Ok),
-                BooruItemState("Custombooru", BooruItemHealthState.Error),
-            )
+            val booruItemStates = (0..6).map {
+                listOf(
+                    BooruItemState("Gelbooru", "https://gelbooru.com", BooruItemHealthState.Loading),
+                    BooruItemState("Danbooru", "https://danbooru.donmai.us", BooruItemHealthState.Ok),
+                    BooruItemState("Custombooru", "https://custombooru.sas", BooruItemHealthState.Error),
+                )
+            }.flatten()
+
             updateState {
                 return@updateState BoorulistState.Content(booruItemStates)
             }

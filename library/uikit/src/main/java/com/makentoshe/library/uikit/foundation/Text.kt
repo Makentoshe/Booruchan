@@ -23,3 +23,34 @@ fun TitleText(
     maxLines = maxLines,
 )
 
+@Composable
+fun PrimaryText(
+    text: String,
+    modifier: Modifier = Modifier,
+    color: Color = Color.Unspecified,
+    textAlign: TextAlign = TextAlign.Start,
+    maxLines: Int = Int.MAX_VALUE,
+) = Text(
+    text = text,
+    modifier = modifier,
+    style = BooruchanTheme.typography.primaryText,
+    color = color,
+    textAlign = textAlign,
+    maxLines = maxLines,
+)
+
+@Composable
+fun SecondaryText(
+    text: String,
+    modifier: Modifier = Modifier,
+    color: Color = Color.Unspecified,
+    textAlign: TextAlign = TextAlign.Start,
+    maxLines: Int = Int.MAX_VALUE,
+) = Text(
+    text = text,
+    modifier = modifier,
+    style = BooruchanTheme.typography.secondaryText,
+    color = color,
+    textAlign = textAlign,
+    maxLines = maxLines,
+)
