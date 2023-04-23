@@ -1,4 +1,4 @@
-package com.makentoshe.booruchan.library.storage
+package com.makentoshe.booruchan.library.storage.usecase
 
 import com.makentoshe.booruchan.feature.BooruContext
 import com.makentoshe.booruchan.library.storage.repository.BooruContextRepository
@@ -12,12 +12,3 @@ class GetBooruContextsUseCase @Inject constructor(
         return repository.getBooruContextList()
     }
 }
-
-class AddBooruContextUseCase @Inject constructor(
-    private val repository: BooruContextRepository,
-) {
-    suspend operator fun invoke(booruContext: BooruContext) {
-        return repository.addBooruContext(booruContext)
-    }
-}
-

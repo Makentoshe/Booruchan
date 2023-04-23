@@ -1,30 +1,23 @@
 package com.makentoshe.booruchan.screen.splash
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.Button
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.makentoshe.booruchan.library.navigation.SplashScreenNavigator
+import com.makentoshe.booruchan.screen.splash.ui.SplashScreenUi
 
 @Composable
 fun SplashScreen(
     navigator: SplashScreenNavigator,
 ) {
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally,
-    ) {
-        Text("SplashScreen")
 
-        Button(onClick = {
-            navigator.navigateToBoorulistScreen()
-        }) {
-            Text(text = "Boorulist screen")
-        }
-    }
+    val viewModel = hiltViewModel<SplashScreenViewModel>()
+    val splashState by viewModel.stateFlow.collectAsState()
+
+    SplashScreenUi(
+        splashState = splashState,
+        navigator = navigator,
+        viewModelEvent = viewModel::handleEvent,
+    )
 }
