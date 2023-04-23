@@ -48,6 +48,8 @@ dependencies {
     implementation project(":feature")
     implementation project(':feature:boorustorage-data')
     implementation project(':feature:boorustorage-domain')
+    implementation project(':feature:healthcheck-data')
+    implementation project(':feature:healthcheck-domain')
 
     implementation "androidx.core:core-ktx:$android_core_version"
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:$android_lifecycle_version"

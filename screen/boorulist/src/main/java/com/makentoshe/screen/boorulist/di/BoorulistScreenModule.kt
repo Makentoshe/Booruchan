@@ -4,6 +4,8 @@ import com.makentoshe.booruchan.feature.boorulist.data.mapper.DatastoredBooruCon
 import com.makentoshe.booruchan.feature.boorulist.data.repository.BooruContextRepositoryImpl
 import com.makentoshe.booruchan.feature.boorulist.domain.mapper.DatastoredBooruContext2BooruContextMapper
 import com.makentoshe.booruchan.feature.boorulist.domain.repository.BooruContextRepository
+import com.makentoshe.booruchan.healthcheck.data.HealthcheckRepositoryImpl
+import com.makentoshe.booruchan.healthcheck.domain.HealthcheckRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -23,4 +25,8 @@ abstract class BoorulistScreenModule {
         impl: BooruContextRepositoryImpl,
     ): BooruContextRepository
 
+    @Binds
+    abstract fun bindsHealthcheckRepository(
+        impl: HealthcheckRepositoryImpl,
+    ): HealthcheckRepository
 }

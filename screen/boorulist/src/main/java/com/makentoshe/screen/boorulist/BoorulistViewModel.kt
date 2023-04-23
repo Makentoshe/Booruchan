@@ -5,12 +5,14 @@ import androidx.lifecycle.viewModelScope
 import com.makentoshe.booruchan.feature.BooruContext
 import com.makentoshe.booruchan.feature.boorulist.domain.usecase.AddBooruContextUseCase
 import com.makentoshe.booruchan.feature.boorulist.domain.usecase.GetBooruContextsUseCase
+import com.makentoshe.booruchan.healthcheck.domain.HealthcheckUseCase
 import com.makentoshe.booruchan.library.feature.CoroutineExceptionHandlerDelegate
 import com.makentoshe.booruchan.library.feature.DefaultCoroutineExceptionHandlerDelegate
 import com.makentoshe.booruchan.library.feature.DefaultEventDelegate
 import com.makentoshe.booruchan.library.feature.DefaultStateDelegate
 import com.makentoshe.booruchan.library.feature.EventDelegate
 import com.makentoshe.booruchan.library.feature.StateDelegate
+import com.makentoshe.screen.boorulist.mapper.BooruContext2BooruItemStateMapper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
@@ -19,8 +21,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 class BoorulistViewModel @Inject constructor(
-    private val addBooruContext: AddBooruContextUseCase,
-    private val getBooruContexts: GetBooruContextsUseCase
+    private val getBooruContexts: GetBooruContextsUseCase,
+    private val healthcheck: HealthcheckUseCase,
+    private val booruContext2BooruItemStateMapper: BooruContext2BooruItemStateMapper,
 ) : ViewModel(),
     CoroutineExceptionHandlerDelegate by DefaultCoroutineExceptionHandlerDelegate(),
     StateDelegate<BoorulistState> by DefaultStateDelegate(BoorulistState.Loading),
@@ -36,10 +39,18 @@ class BoorulistViewModel @Inject constructor(
         println(event)
     }
 
+    // Note: Can be called multiple times due GetBooruContextsUseCase implementation
     private fun onGetBooruContexts(booruContexts: List<BooruContext>) {
+        println("OnGetBooruContexts")
         // Map BooruContext to BooruItemState
-        val booruItemStates = booruContexts.map { booruContext ->
-            BooruItemState(booruContext.title, booruContext.host.url, BooruItemHealthState.Loading)
+        val booruItemStates = booruContexts.map(booruContext2BooruItemStateMapper::map)
+
+        booruContexts.forEach { booruContext ->
+            viewModelScope.launch(Dispatchers.IO + buildCoroutineExceptionHandler {
+                println("Healthcheck(${booruContext.title}): $it")
+            }) {
+                println("Healthcheck(${booruContext.title}): ${healthcheck(booruContext)}")
+            }
         }
 
         updateState {
