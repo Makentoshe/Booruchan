@@ -12,6 +12,7 @@ import com.makentoshe.booruchan.library.navigation.BoorulistScreenNavigator
 import com.makentoshe.booruchan.library.navigation.SplashScreenNavigator
 import com.makentoshe.booruchan.screen.splash.SplashEvent
 import com.makentoshe.booruchan.screen.splash.SplashState
+import com.makentoshe.library.uikit.foundation.IndeterminateProgressBar
 
 @Composable
 internal fun SplashScreenUi(
@@ -19,17 +20,26 @@ internal fun SplashScreenUi(
     navigator: SplashScreenNavigator,
     viewModelEvent: (SplashEvent) -> Unit,
 ) {
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally,
-    ) {
-        Text("SplashScreen")
-
-        Button(onClick = {
-            navigator.navigateToBoorulistScreen()
-        }) {
-            Text(text = "Boorulist screen")
-        }
+    when (splashState) {
+        SplashState.Loading -> SplashScreenLoading()
+        SplashState.Content -> SplashScreenContent(navigator = navigator)
     }
+}
+
+@Composable
+private fun SplashScreenLoading() = Column(
+    modifier = Modifier.fillMaxSize(),
+    verticalArrangement = Arrangement.Center,
+    horizontalAlignment = Alignment.CenterHorizontally,
+) {
+    IndeterminateProgressBar()
+
+    Text("SplashScreen")
+}
+
+@Composable
+private fun SplashScreenContent(
+    navigator: SplashScreenNavigator,
+) {
+    navigator.navigateToBoorulistScreen()
 }

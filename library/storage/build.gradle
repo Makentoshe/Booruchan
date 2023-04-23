@@ -34,7 +34,7 @@ android {
 
 dependencies {
     implementation project(":feature")
-    implementation project(":feature:boorulist-domain")
+    implementation project(':feature:boorustorage-domain')
 
     implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:$kotlin_serialization_version"
 

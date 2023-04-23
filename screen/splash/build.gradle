@@ -39,11 +39,13 @@ android {
 }
 
 dependencies {
-
-
     implementation project(":library:feature")
     implementation project(":library:uikit")
     implementation project(":library:navigation")
+
+    implementation project(":feature")
+    implementation project(':feature:boorustorage-data')
+    implementation project(':feature:boorustorage-domain')
 
     implementation "androidx.core:core-ktx:$android_core_version"
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:$android_lifecycle_version"

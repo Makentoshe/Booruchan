@@ -34,7 +34,7 @@ internal class BooruContextDatastoreImpl @Inject constructor(
             val identifier = datastoredBooruContext.host
 
             if (identifiers?.contains(identifier) == true) {
-                throw BooruContextRepositoryException.IdentifierAlreadyExists
+                throw BooruContextRepositoryException.IdentifierAlreadyExists(identifier)
             }
 
             preferences[BOORULIST_IDENTIFIERS] = identifiers?.plus(identifier) ?: setOf(identifier)

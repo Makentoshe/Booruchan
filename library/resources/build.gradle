@@ -1,4 +1,5 @@
 plugins {
+    id 'kotlin-kapt'
     id 'com.android.library'
     id 'org.jetbrains.kotlin.android'
 }
@@ -28,4 +29,16 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+}
+
+dependencies {
+
+    implementation project(":feature")
+    implementation project(':feature:boorustorage-domain')
+
+    // Dagger and Hilt
+    implementation "com.google.dagger:dagger:$dagger_version"
+    implementation "com.google.dagger:hilt-core:$dagger_version"
+    implementation "com.google.dagger:hilt-android:$dagger_version"
+    kapt "com.google.dagger:hilt-android-compiler:$dagger_version"
 }

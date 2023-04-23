@@ -30,15 +30,6 @@ class BoorulistViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             getBooruContexts().collectLatest(::onGetBooruContexts)
         }
-
-//        viewModelScope.launch(Dispatchers.IO + buildCoroutineExceptionHandler { throwable ->
-//            println(throwable)
-//        }) {
-//            delay(5000)
-//            val booruContext = BooruContext("Gelbooru", BooruSystem.Gelbooru02System, BooruHost("https://gelbooru.com"))
-//            addBooruContext(booruContext)
-//            println("Add booru context: $booruContext")
-//        }
     }
 
     fun handleEvent(event: BoorulistEvent) {
