@@ -43,6 +43,9 @@ dependencies {
     implementation project(":library:navigation")
     implementation project(":library:feature")
     implementation project(":library:resources")
+    implementation project(":library:storage")
+
+    implementation project(":feature")
 
     implementation "androidx.core:core-ktx:$android_core_version"
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:$android_lifecycle_version"
