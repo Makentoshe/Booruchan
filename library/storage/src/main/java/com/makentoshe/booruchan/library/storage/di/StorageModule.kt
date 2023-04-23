@@ -2,14 +2,11 @@ package com.makentoshe.booruchan.library.storage.di
 
 import android.content.Context
 import androidx.datastore.core.DataStore
-import androidx.datastore.core.DataStoreFactory
 import androidx.datastore.preferences.core.PreferenceDataStoreFactory
 import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.preferencesDataStore
 import androidx.datastore.preferences.preferencesDataStoreFile
-import com.makentoshe.booruchan.library.storage.BuildConfig
-import com.makentoshe.booruchan.library.storage.repository.BooruContextRepository
-import com.makentoshe.booruchan.library.storage.repository.BooruContextRepositoryImpl
+import com.makentoshe.booruchan.feature.boorulist.domain.storage.BooruContextDatastore
+import com.makentoshe.booruchan.library.storage.BooruContextDatastoreImpl
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -23,8 +20,7 @@ import javax.inject.Singleton
 internal abstract class StorageModule {
 
     @Binds
-    abstract fun bindsBooruContextRepository(impl: BooruContextRepositoryImpl): BooruContextRepository
-
+    abstract fun bindsBooruContextDatastore(impl: BooruContextDatastoreImpl): BooruContextDatastore
 
     companion object {
 

@@ -46,6 +46,8 @@ dependencies {
     implementation project(":library:storage")
 
     implementation project(":feature")
+    implementation project(":feature:boorulist-data")
+    implementation project(":feature:boorulist-domain")
 
     implementation "androidx.core:core-ktx:$android_core_version"
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:$android_lifecycle_version"

@@ -1,10 +1,10 @@
-package com.makentoshe.booruchan.library.storage.mapper
+package com.makentoshe.booruchan.feature.boorulist.data.mapper
 
 import com.makentoshe.booruchan.feature.BooruContext
-import com.makentoshe.booruchan.library.storage.domain.DatastoredBooruContext
+import com.makentoshe.booruchan.feature.boorulist.domain.DatastoredBooruContext
 import javax.inject.Inject
 
-class BooruContext2DatastoredBooruContextMapper @Inject constructor() {
+internal class BooruContext2DatastoredBooruContextMapper @Inject constructor() {
     fun map(booruContext: BooruContext) = DatastoredBooruContext(
         booruContext.title,
         booruContext.system.name,

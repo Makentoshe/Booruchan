@@ -1,4 +1,4 @@
-package com.makentoshe.booruchan.library.storage.domain
+package com.makentoshe.booruchan.feature.boorulist.domain
 
 @kotlinx.serialization.Serializable
 data class DatastoredBooruContext(

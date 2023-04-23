@@ -3,14 +3,14 @@ package com.makentoshe.screen.boorulist
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.makentoshe.booruchan.feature.BooruContext
+import com.makentoshe.booruchan.feature.boorulist.domain.usecase.AddBooruContextUseCase
+import com.makentoshe.booruchan.feature.boorulist.domain.usecase.GetBooruContextsUseCase
 import com.makentoshe.booruchan.library.feature.CoroutineExceptionHandlerDelegate
 import com.makentoshe.booruchan.library.feature.DefaultCoroutineExceptionHandlerDelegate
 import com.makentoshe.booruchan.library.feature.DefaultEventDelegate
 import com.makentoshe.booruchan.library.feature.DefaultStateDelegate
 import com.makentoshe.booruchan.library.feature.EventDelegate
 import com.makentoshe.booruchan.library.feature.StateDelegate
-import com.makentoshe.booruchan.library.storage.usecase.AddBooruContextUseCase
-import com.makentoshe.booruchan.library.storage.usecase.GetBooruContextsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
