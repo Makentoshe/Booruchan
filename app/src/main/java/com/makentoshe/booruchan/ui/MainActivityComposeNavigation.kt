@@ -15,24 +15,11 @@ import com.makentoshe.screen.boorulist.BoorulistScreen
 @Composable
 internal fun MainActivityNavigationContent(navHostController: NavHostController) = NavHost(
     navController = navHostController,
-    startDestination = Screen.Splash.route,
+    startDestination = Screen.Boorulist.route,
     builder = {
-        splashScreen(navController = navHostController)
         boorulistScreen(navController = navHostController)
     }
 )
-
-private fun NavGraphBuilder.splashScreen(navController: NavController) {
-    val navigator = SplashScreenNavigator(
-        navigateToBoorulistScreen = {
-            navController.navigate(Screen.Boorulist.route)
-        }
-    )
-
-    composable(Screen.Splash.route) {
-        SplashScreen(navigator)
-    }
-}
 
 private fun NavGraphBuilder.boorulistScreen(navController: NavController) {
     val navigator = BoorulistScreenNavigator(
