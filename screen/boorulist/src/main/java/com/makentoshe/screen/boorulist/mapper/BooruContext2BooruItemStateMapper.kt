@@ -1,8 +1,8 @@
 package com.makentoshe.screen.boorulist.mapper
 
 import com.makentoshe.booruchan.feature.BooruContext
-import com.makentoshe.screen.boorulist.BooruItemHealthState
-import com.makentoshe.screen.boorulist.BooruItemState
+import com.makentoshe.screen.boorulist.viewmodel.BooruItemHealthState
+import com.makentoshe.screen.boorulist.viewmodel.BooruItemState
 import javax.inject.Inject
 
 class BooruContext2BooruItemStateMapper @Inject constructor() {

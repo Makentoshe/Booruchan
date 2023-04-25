@@ -12,27 +12,22 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.makentoshe.booruchan.library.navigation.BoorulistScreenNavigator
 import com.makentoshe.booruchan.library.resources.R
 import com.makentoshe.library.uikit.foundation.TitleText
 import com.makentoshe.library.uikit.theme.BooruchanTheme
-import com.makentoshe.screen.boorulist.BoorulistEvent
-import com.makentoshe.screen.boorulist.BoorulistState
+import com.makentoshe.screen.boorulist.viewmodel.BoorulistEvent
+import com.makentoshe.screen.boorulist.viewmodel.BoorulistState
+import com.makentoshe.screen.boorulist.viewmodel.BoorulistStateContent
 
 @Composable
 internal fun BoorulistScreenUi(
     state: BoorulistState,
-    navigator: BoorulistScreenNavigator,
-    viewModelEvent: (BoorulistEvent) -> Unit,
+    event: (BoorulistEvent) -> Unit,
 ) = Scaffold(
     topBar = { BoorulistTopBar() },
     content = { contentPadding ->
         Box(modifier = Modifier.padding(contentPadding)) {
-            BoorulistScreenScaffoldContent(
-                state = state,
-                navigator = navigator,
-                viewModelEvent = viewModelEvent,
-            )
+            BoorulistScreenScaffoldContent(state = state, event = event)
         }
     }
 )
@@ -46,26 +41,18 @@ private fun BoorulistTopBar() = Column(modifier = Modifier.fillMaxWidth()) {
         TitleText(text = stringResource(id = R.string.app_name))
     }
 
-    Divider(
-        color = BooruchanTheme.colors.separator,
-        thickness = 1.dp,
-    )
+    Divider(color = BooruchanTheme.colors.separator, thickness = 1.dp)
 }
 
 @Composable
 private fun BoorulistScreenScaffoldContent(
     state: BoorulistState,
-    navigator: BoorulistScreenNavigator,
-    viewModelEvent: (BoorulistEvent) -> Unit,
-) = when (state) {
-    BoorulistState.Loading -> {
+    event: (BoorulistEvent) -> Unit,
+) = when (state.content) {
+    BoorulistStateContent.Loading -> {
         BoorulistScreenUiLoading()
     }
-    is BoorulistState.Content -> {
-        BoorulistScreenUiContent(
-            state = state,
-            navigator = navigator,
-            viewModelEvent = viewModelEvent,
-        )
+    is BoorulistStateContent.Content -> {
+        BoorulistScreenUiContent(state = state.content, event = event)
     }
 }

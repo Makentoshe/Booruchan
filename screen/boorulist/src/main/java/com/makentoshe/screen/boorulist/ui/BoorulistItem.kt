@@ -1,5 +1,6 @@
 package com.makentoshe.screen.boorulist.ui
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -17,14 +18,18 @@ import com.makentoshe.library.uikit.foundation.PrimaryText
 import com.makentoshe.library.uikit.foundation.SecondaryText
 import com.makentoshe.library.uikit.theme.BooruchanTheme
 import com.makentoshe.library.uikit.theme.error
-import com.makentoshe.screen.boorulist.BooruItemHealthState
-import com.makentoshe.screen.boorulist.BooruItemState
+import com.makentoshe.screen.boorulist.viewmodel.BooruItemHealthState
+import com.makentoshe.screen.boorulist.viewmodel.BooruItemState
+import com.makentoshe.screen.boorulist.viewmodel.BoorulistEvent
 
 @Composable
 internal fun BoorulistItem(
     booruItemState: BooruItemState,
+    event: (BoorulistEvent) -> Unit,
 ) = Row(
-    modifier = Modifier.fillMaxWidth().height(72.dp),
+    modifier = Modifier.fillMaxWidth().height(72.dp).clickable {
+        event(BoorulistEvent.NavigateToBoorucontentScreen(booruItemState))
+    },
     horizontalArrangement = Arrangement.SpaceBetween,
 ) {
     // Booru title and url

@@ -23,8 +23,8 @@ internal fun MainActivityNavigationContent(navHostController: NavHostController)
 
 private fun NavGraphBuilder.boorulistScreen(navController: NavController) {
     val navigator = BoorulistScreenNavigator(
-        test = {
-            navController.navigate(Screen.Splash.route)
+        navigateToBoorucontentScreen = {
+            println("Navigate to Boorucontent")
         }
     )
 
