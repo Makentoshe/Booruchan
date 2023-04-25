@@ -12,10 +12,6 @@ sealed interface LogFingerprint {
         override val title = "booru_screen_"
     }
 
-    object ViewModel : LogFingerprint {
-        override val title = "booru_viewmodel_"
-    }
-
     object Internal: LogFingerprint {
         override val title = "booru_internal_"
     }

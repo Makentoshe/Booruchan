@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace 'com.makentoshe.booruchan.library.feature'
+    namespace 'com.makentoshe.booruchan.library.logging'
     compileSdk project_compile_sdk
 
     defaultConfig {
