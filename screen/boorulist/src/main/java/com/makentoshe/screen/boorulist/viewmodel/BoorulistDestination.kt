@@ -2,7 +2,6 @@ package com.makentoshe.screen.boorulist.viewmodel
 
 /** Destinations that can be triggered */
 sealed interface BoorulistDestination {
-    object NoneDestination: BoorulistDestination
 
     /**
      * We provides booru url as a single point of truth

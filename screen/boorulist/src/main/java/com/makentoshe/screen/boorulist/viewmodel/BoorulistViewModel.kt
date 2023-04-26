@@ -30,7 +30,7 @@ class BoorulistViewModel @Inject constructor(
 ) : ViewModel(), CoroutineDelegate by DefaultCoroutineDelegate(),
     StateDelegate<BoorulistState> by DefaultStateDelegate(BoorulistState.InitialState),
     EventDelegate<BoorulistEvent> by DefaultEventDelegate(),
-    NavigationDelegate<BoorulistDestination> by DefaultNavigationDelegate(BoorulistDestination.NoneDestination) {
+    NavigationDelegate<BoorulistDestination> by DefaultNavigationDelegate() {
 
     init {
         internalLogInfo("OnViewModelConstruct")
