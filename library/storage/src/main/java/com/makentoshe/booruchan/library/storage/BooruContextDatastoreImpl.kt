@@ -6,9 +6,10 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.core.stringSetPreferencesKey
 import com.makentoshe.booruchan.feature.boorulist.domain.DatastoredBooruContext
-import com.makentoshe.booruchan.feature.boorulist.domain.repository.BooruContextRepositoryException
 import com.makentoshe.booruchan.feature.boorulist.domain.storage.BooruContextDatastore
+import com.makentoshe.booruchan.feature.boorulist.domain.storage.BooruContextDatastoreException
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
@@ -34,12 +35,19 @@ internal class BooruContextDatastoreImpl @Inject constructor(
             val identifier = datastoredBooruContext.host
 
             if (identifiers?.contains(identifier) == true) {
-                throw BooruContextRepositoryException.IdentifierAlreadyExists(identifier)
+                throw BooruContextDatastoreException.IdentifierAlreadyExists(identifier)
             }
 
             preferences[BOORULIST_IDENTIFIERS] = identifiers?.plus(identifier) ?: setOf(identifier)
             preferences[stringPreferencesKey(identifier)] = Json.encodeToString(datastoredBooruContext)
         }
+    }
+
+    override suspend fun getBooruContext(booruContextUrl: String): Flow<DatastoredBooruContext> {
+        return dataStore.data.mapNotNull { preferences ->
+            preferences[stringPreferencesKey(booruContextUrl)] ?:
+                throw BooruContextDatastoreException.IdentifierNotFound(booruContextUrl )
+        }.map { Json.decodeFromString(it) }
     }
 
     companion object {

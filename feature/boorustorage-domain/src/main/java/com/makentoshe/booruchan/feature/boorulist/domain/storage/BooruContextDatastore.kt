@@ -8,4 +8,6 @@ interface BooruContextDatastore {
     fun getBooruContextList(): Flow<List<DatastoredBooruContext>>
 
     suspend fun addBooruContext(datastoredBooruContext: DatastoredBooruContext)
+
+    suspend fun getBooruContext(booruContextUrl: String): Flow<DatastoredBooruContext>
 }

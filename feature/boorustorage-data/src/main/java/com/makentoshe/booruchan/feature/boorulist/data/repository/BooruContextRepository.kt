@@ -25,4 +25,10 @@ class BooruContextRepositoryImpl @Inject internal constructor(
         val datastoredBooruContext = booruContext2DatastoredBooruContextMapper.map(booruContext)
         booruContextDatastore.addBooruContext(datastoredBooruContext)
     }
+
+    override suspend fun getBooruContext(booruContextUrl: String): Flow<BooruContext> {
+        return booruContextDatastore.getBooruContext(booruContextUrl).map { datastoredBooruContext ->
+            datastoredBooryContext2BooruContextMapper.map(datastoredBooruContext)
+        }
+    }
 }

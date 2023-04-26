@@ -18,6 +18,7 @@ include ':app'
 include ':screen'
 include ':screen:splash'
 include ':screen:boorulist'
+include ':screen:boorucontent'
 
 include ':library'
 include ':library:uikit'

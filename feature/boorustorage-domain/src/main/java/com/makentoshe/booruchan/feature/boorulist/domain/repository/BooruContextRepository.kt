@@ -7,9 +7,6 @@ interface BooruContextRepository {
     suspend fun getBooruContextList(): Flow<List<BooruContext>>
 
     suspend fun addBooruContext(booruContext: BooruContext)
-}
 
-
-sealed class BooruContextRepositoryException : Exception() {
-    data class IdentifierAlreadyExists(val string: String) : BooruContextRepositoryException()
+    suspend fun getBooruContext(booruContextUrl: String): Flow<BooruContext>
 }
