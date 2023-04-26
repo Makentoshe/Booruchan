@@ -21,6 +21,7 @@ internal fun MainActivityNavigationContent(navHostController: NavHostController)
     startDestination = Screen.Boorulist.route,
     builder = {
         boorulistScreen(navController = navHostController)
+        boorucontentScreen(navController = navHostController)
     }
 )
 
@@ -35,5 +36,24 @@ private fun NavGraphBuilder.boorulistScreen(navController: NavController) {
 
     composable(Screen.Boorulist.route) {
         BoorulistScreen(navigator = navigator)
+    }
+}
+
+private fun NavGraphBuilder.boorucontentScreen(navController: NavController) {
+    val navigator = BoorucontentScreenNavigator(
+        test = {
+            println("test navigation")
+        }
+    )
+
+    val screen = Screen.Boorucontent
+    composable(route = screen.route, arguments = screen.arguments) { entry ->
+        val encodedBooruContextUrl = entry.arguments?.getString(screen.booruContextUrlArgument.name)
+            ?: throw IllegalArgumentException("Argument ${screen.booruContextUrlArgument.name} invalid")
+
+        val charset = StandardCharsets.UTF_8.toString()
+        val booruContextUrl = URLDecoder.decode(encodedBooruContextUrl, charset)
+
+        BoorucontentScreen(navigator = navigator, booruContextUrl = booruContextUrl)
     }
 }
