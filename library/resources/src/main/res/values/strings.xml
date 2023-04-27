@@ -5,4 +5,6 @@
     <string name="boorulist_booruitem_loading">%s</string>
     <string name="boorulist_booruitem_error">%s - not available</string>
     <string name="boorulist_booruitem_ok">%s</string>
+
+    <string name="boorucontent_title_loading">Loading booru title…</string>
 </resources>
