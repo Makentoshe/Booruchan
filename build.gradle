@@ -16,6 +16,7 @@ buildscript {
         compose_hilt_version = '1.0.0'
         compose_swiperefresh_version = '0.27.0'
         compose_material3_version = '1.0.0-alpha11'
+        compose_foundation_version = '1.3.0'
 
         android_core_version = '1.8.0'
         android_appcompat_version = '1.4.1'
