@@ -1,4 +1,4 @@
-package com.makentoshe.booruchan.feature.boorupost.domain
+package com.makentoshe.booruchan.feature.boorupost.domain.repository.request
 
 data class BoorupostsRequest(
    val host: String,
