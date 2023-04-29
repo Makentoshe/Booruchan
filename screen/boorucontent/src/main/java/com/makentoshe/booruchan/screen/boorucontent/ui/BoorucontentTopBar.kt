@@ -1,5 +1,6 @@
 package com.makentoshe.booruchan.screen.boorucontent.ui
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -20,7 +21,7 @@ import com.makentoshe.library.uikit.theme.BooruchanTheme
 @Composable
 internal fun BoorucontentTopBar(
     state: BoorucontentState,
-) = Column(modifier = Modifier.fillMaxWidth()) {
+) = Column(modifier = Modifier.fillMaxWidth().background(BooruchanTheme.colors.background)) {
     Box(
         modifier = Modifier.fillMaxWidth().height(56.dp).padding(start = 16.dp),
         contentAlignment = Alignment.CenterStart,

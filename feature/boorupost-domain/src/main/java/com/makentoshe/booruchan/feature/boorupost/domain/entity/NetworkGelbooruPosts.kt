@@ -8,7 +8,7 @@ data class NetworkGelbooruPosts(
     @SerialName("@attributes")
     val attributes: Attributes,
     @SerialName("post")
-    val posts: List<NetworkGelbooruPost>
+    val posts: List<NetworkGelbooruPost>,
 )
 
 @Serializable
@@ -18,7 +18,7 @@ data class Attributes(
     @SerialName("limit")
     val limit: Int,
     @SerialName("offset")
-    val offset: Int
+    val offset: Int,
 )
 
 @Serializable
@@ -27,6 +27,11 @@ data class NetworkGelbooruPost(
     override val id: Int,
     @SerialName("preview_url")
     override val previewImageUrl: String,
+
+    @SerialName("preview_width")
+    override val previewImageWidth: Int,
+    @SerialName("preview_height")
+    override val previewImageHeight: Int,
 
     @SerialName("change")
     val change: Int,
@@ -56,10 +61,6 @@ data class NetworkGelbooruPost(
     val parentId: Int,
     @SerialName("post_locked")
     val postLocked: Int,
-    @SerialName("preview_height")
-    val previewHeight: Int,
-    @SerialName("preview_width")
-    val previewWidth: Int,
     @SerialName("rating")
     val rating: String,
     @SerialName("sample")
@@ -81,5 +82,5 @@ data class NetworkGelbooruPost(
     @SerialName("title")
     val title: String,
     @SerialName("width")
-    val width: Int
-): NetworkBooruPost
+    val width: Int,
+) : NetworkBooruPost

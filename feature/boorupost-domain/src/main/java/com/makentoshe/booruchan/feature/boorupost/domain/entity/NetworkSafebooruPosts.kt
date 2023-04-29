@@ -9,7 +9,6 @@ typealias NetworkSafebooruPosts = ArrayList<NetworkSafebooruPost>
 data class NetworkSafebooruPost(
     @SerialName("id")
     override val id: Int,
-
     @SerialName("change")
     val change: Int,
     @SerialName("directory")
@@ -37,8 +36,14 @@ data class NetworkSafebooruPost(
     @SerialName("tags")
     val tags: String,
     @SerialName("width")
-    val width: Int
+    val width: Int,
 ): NetworkBooruPost {
     override val previewImageUrl: String
         get() = "thumbnails/$directory/thumbnail_$image"
+
+    override val previewImageHeight: Int
+        get() = sampleHeight
+
+    override val previewImageWidth: Int
+        get() = sampleWidth
 }
