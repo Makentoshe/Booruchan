@@ -2,6 +2,7 @@ package com.makentoshe.booruchan.feature.boorupost.domain.entity
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import java.io.File
 
 typealias NetworkSafebooruPosts = ArrayList<NetworkSafebooruPost>
 
@@ -37,9 +38,10 @@ data class NetworkSafebooruPost(
     val tags: String,
     @SerialName("width")
     val width: Int,
-): NetworkBooruPost {
+) : NetworkBooruPost {
+
     override val previewImageUrl: String
-        get() = "thumbnails/$directory/thumbnail_$image"
+        get() = "https://safebooru.org/thumbnails/$directory/thumbnail_${File(image).nameWithoutExtension}.jpg"
 
     override val previewImageHeight: Int
         get() = sampleHeight
