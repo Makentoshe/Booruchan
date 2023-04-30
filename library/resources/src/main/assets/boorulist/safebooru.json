@@ -1,5 +1,10 @@
 {
   "title": "Safebooru",
   "system": "gelbooru-02",
-  "host": "https://safebooru.org"
+  "host": "https://safebooru.org",
+  "settings": {
+    "searchSettings": {
+      "requestedPostsPerPageCount": 30
+    }
+  }
 }

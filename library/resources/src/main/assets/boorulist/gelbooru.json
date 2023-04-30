@@ -1,5 +1,10 @@
 {
   "title": "Gelbooru",
   "system": "gelbooru-02",
-  "host": "https://gelbooru.com"
+  "host": "https://gelbooru.com",
+  "settings": {
+    "searchSettings": {
+      "requestedPostsPerPageCount": 30
+    }
+  }
 }

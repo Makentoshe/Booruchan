@@ -25,7 +25,8 @@ class BooruPostPagingSource @Inject constructor(
         try {
             // Start refresh at page 1 if undefined.
             val nextPageNumber = params.key ?: 0
-            val params = FetchBooruPostsUseCase.FetchBooruParams(30, nextPageNumber, "hatsune_miku")
+            val postsPerPage = booruContext.settings.searchSettings.requestedPostsPerPageCount
+            val params = FetchBooruPostsUseCase.FetchBooruParams(postsPerPage, nextPageNumber, "hatsune_miku")
             val listBooruPostUi = fetchBooruPosts(booruContext, params).map(mapper::map)
 
             return LoadResult.Page(

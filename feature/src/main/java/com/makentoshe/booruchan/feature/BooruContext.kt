@@ -7,4 +7,6 @@ data class BooruContext(
     val system: BooruSystem,
     /** Detail info about host */
     val host: BooruHost,
+    /** Info about current booru settings */
+    val settings: BooruSettings,
 )
