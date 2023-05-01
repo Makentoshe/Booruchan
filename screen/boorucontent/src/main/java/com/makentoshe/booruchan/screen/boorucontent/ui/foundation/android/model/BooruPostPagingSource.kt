@@ -22,22 +22,27 @@ class BooruPostPagingSource @Inject constructor(
     }
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, BooruPreviewPostUi> {
-        try {
-            // Start refresh at page 1 if undefined.
-            val nextPageNumber = params.key ?: 0
-            val postsPerPage = booruContext.settings.searchSettings.requestedPostsPerPageCount
-            val params = FetchBooruPostsUseCase.FetchBooruParams(postsPerPage, nextPageNumber, "hatsune_miku")
-            val listBooruPostUi = fetchBooruPosts(booruContext, params).map(mapper::map)
-
-            return LoadResult.Page(
-                data = listBooruPostUi,
-                prevKey = null, // Only paging forward.
-                nextKey = nextPageNumber + 1
-            )
+        return try {
+            internalLoad(params)
         } catch (e: Exception) {
             // Handle errors in this block and return LoadResult.Error if it is an
             // expected error (such as a network failure).
-            return LoadResult.Error(e)
+            LoadResult.Error(e)
         }
+    }
+
+    private suspend fun internalLoad(params: LoadParams<Int>): LoadResult<Int, BooruPreviewPostUi> {
+        // Start refresh at page 1 if undefined.
+        val nextPageNumber = params.key ?: booruContext.settings.searchSettings.initialPageNumber
+        val postsPerPage = booruContext.settings.searchSettings.requestedPostsPerPageCount
+        val tags = "hatsune_miku"
+        val params = FetchBooruPostsUseCase.FetchBooruParams(postsPerPage, nextPageNumber, tags)
+        val listBooruPostUi = fetchBooruPosts(booruContext, params).map(mapper::map)
+
+        return LoadResult.Page(
+            data = listBooruPostUi,
+            prevKey = null, // Only paging forward.
+            nextKey = nextPageNumber + 1
+        )
     }
 }

@@ -1,12 +1,16 @@
 package com.makentoshe.booruchan.ui
 
-import androidx.compose.foundation.layout.ColumnScope
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavController
 import com.makentoshe.booruchan.screen.Screen
 import androidx.compose.material3.rememberDrawerState
+import androidx.compose.ui.Modifier
+import com.makentoshe.library.uikit.theme.BooruchanTheme
 
 @Composable
 internal fun rememberDrawerState(navController: NavController) = rememberDrawerState(
@@ -19,6 +23,8 @@ private fun confirmDrawerStateChange(value: DrawerValue, navController: NavContr
 }
 
 @Composable
-internal fun ColumnScope.MainActivityDrawerContent() {
+internal fun MainActivityDrawerContent() = Column(
+    modifier = Modifier.fillMaxSize().background(BooruchanTheme.colors.background),
+) {
     Text("Drawer content")
 }

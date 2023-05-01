@@ -16,4 +16,5 @@ data class DatastoredBooruSettings(
 @kotlinx.serialization.Serializable
 data class DatastoredBooruSearchSettings(
     val requestedPostsPerPageCount: Int,
+    val initialPageNumber: Int,
 )

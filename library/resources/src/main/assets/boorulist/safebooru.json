@@ -4,7 +4,8 @@
   "host": "https://safebooru.org",
   "settings": {
     "searchSettings": {
-      "requestedPostsPerPageCount": 30
+      "requestedPostsPerPageCount": 30,
+      "initialPageNumber": 0
     }
   }
 }
