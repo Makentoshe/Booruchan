@@ -8,8 +8,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.makentoshe.booruchan.library.navigation.BoorucontentScreenNavigator
 import com.makentoshe.booruchan.library.navigation.BoorulistScreenNavigator
+import com.makentoshe.booruchan.library.navigation.SplashScreenNavigator
 import com.makentoshe.booruchan.screen.Screen
 import com.makentoshe.booruchan.screen.boorucontent.BoorucontentScreen
+import com.makentoshe.booruchan.screen.splash.SplashScreen
 import com.makentoshe.screen.boorulist.BoorulistScreen
 import java.net.URLDecoder
 import java.net.URLEncoder
@@ -20,10 +22,23 @@ internal fun MainActivityNavigationContent(navHostController: NavHostController)
     navController = navHostController,
     startDestination = Screen.Boorulist.route,
     builder = {
+        splashScreen(navController = navHostController)
         boorulistScreen(navController = navHostController)
         boorucontentScreen(navController = navHostController)
     }
 )
+
+private fun NavGraphBuilder.splashScreen(navController: NavController) {
+    val navigator = SplashScreenNavigator(
+        navigateToBoorulistScreen = {
+            navController.navigate(Screen.Boorulist.route)
+        }
+    )
+
+    composable(Screen.Splash.route) {
+        SplashScreen(navigator = navigator)
+    }
+}
 
 private fun NavGraphBuilder.boorulistScreen(navController: NavController) {
     val navigator = BoorulistScreenNavigator(

@@ -10,6 +10,7 @@ import androidx.navigation.NavController
 import com.makentoshe.booruchan.screen.Screen
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.ui.Modifier
+import com.makentoshe.library.uikit.foundation.PrimaryText
 import com.makentoshe.library.uikit.theme.BooruchanTheme
 
 @Composable
@@ -26,5 +27,5 @@ private fun confirmDrawerStateChange(value: DrawerValue, navController: NavContr
 internal fun MainActivityDrawerContent() = Column(
     modifier = Modifier.fillMaxSize().background(BooruchanTheme.colors.background),
 ) {
-    Text("Drawer content")
+    PrimaryText("Drawer content")
 }

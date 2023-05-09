@@ -22,6 +22,7 @@ val LightColorScheme = BooruchanColorScheme(
     opaque = BlackA30,
     dimmed = BlackA60,
     background = White,
+    foreground = Black,
     dashboard = Grey10,
     separator = Grey32,
 )
@@ -31,11 +32,12 @@ val DarkColorScheme = BooruchanColorScheme(
     title = "Dark color scheme",
     accent = Black,
     onAccent = White,
-    opaque = BlackA30,
-    dimmed = BlackA60,
-    background = White,
+    opaque = WhiteA30,
+    dimmed = WhiteA60,
+    background = Black,
+    foreground = White,
     dashboard = Grey10,
-    separator = Grey32,
+    separator = Grey75,
 )
 
 val DarkMaterialColorScheme = darkColorScheme(
@@ -56,6 +58,7 @@ data class BooruchanColorScheme(
     val onAccent: Color,
     val opaque: Color,
     val dimmed: Color,
+    val foreground: Color,
     val background: Color,
     val dashboard: Color,
     val separator: Color,

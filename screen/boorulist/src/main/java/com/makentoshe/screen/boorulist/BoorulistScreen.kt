@@ -19,8 +19,6 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun BoorulistScreen(navigator: BoorulistScreenNavigator) {
-    screenLogInfo(Screen.Boorulist, "OnComposeCreate")
-
     val viewModel = hiltViewModel<BoorulistViewModel>()
     val boorulistState by viewModel.stateFlow.collectAsState()
 
@@ -37,4 +35,6 @@ fun BoorulistScreen(navigator: BoorulistScreenNavigator) {
         state = boorulistState,
         event = viewModel::handleEvent,
     )
+
+    screenLogInfo(Screen.Boorulist, "OnComposeCreate: boorulistState=$boorulistState")
 }

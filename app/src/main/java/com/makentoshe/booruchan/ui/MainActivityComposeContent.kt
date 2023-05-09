@@ -15,20 +15,13 @@ import com.makentoshe.library.uikit.theme.BooruchanTheme
 
 @Composable
 internal fun MainActivityComposeContent() = BooruchanTheme {
-    screenLogInfo("MainActivity", "OnCreateCompose")
-
     val navController = rememberNavController()
 
-    // We want to show splash screen separately from navigation,
-    // so we use remember state to define when we show splash screen and when app content
-    var isSplashScreenDestination by remember { mutableStateOf(true) }
-    if (isSplashScreenDestination) {
-        SplashScreen(navigator = SplashScreenNavigator { isSplashScreenDestination = false })
-    } else {
-        ModalNavigationDrawer(
-            drawerState = rememberDrawerState(navController = navController),
-            drawerContent = { MainActivityDrawerContent() },
-            content = { MainActivityNavigationContent(navHostController = navController) }
-        )
-    }
+    ModalNavigationDrawer(
+        drawerState = rememberDrawerState(navController = navController),
+        drawerContent = { MainActivityDrawerContent() },
+        content = { MainActivityNavigationContent(navHostController = navController) }
+    )
+
+    screenLogInfo("MainActivity", "OnCreateCompose")
 }

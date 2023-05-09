@@ -11,7 +11,9 @@ data class BoorulistState(
 }
 
 sealed interface BoorulistStateContent {
-    object Loading : BoorulistStateContent
+    object Loading : BoorulistStateContent {
+        override fun toString() = "Loading"
+    }
 
     data class Content(
         val booruItems: List<BooruItemState>,

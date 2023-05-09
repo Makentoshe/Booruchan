@@ -11,7 +11,7 @@ import com.makentoshe.library.uikit.theme.BooruchanTheme
 fun TitleText(
     text: String,
     modifier: Modifier = Modifier,
-    color: Color = Color.Unspecified,
+    color: Color = BooruchanTheme.colors.foreground,
     textAlign: TextAlign = TextAlign.Start,
     maxLines: Int = Int.MAX_VALUE,
 ) = Text(
@@ -27,7 +27,7 @@ fun TitleText(
 fun PrimaryText(
     text: String,
     modifier: Modifier = Modifier,
-    color: Color = Color.Unspecified,
+    color: Color = BooruchanTheme.colors.foreground,
     textAlign: TextAlign = TextAlign.Start,
     maxLines: Int = Int.MAX_VALUE,
 ) = Text(
@@ -59,7 +59,7 @@ fun PrimaryTextBold(
 fun SecondaryText(
     text: String,
     modifier: Modifier = Modifier,
-    color: Color = Color.Unspecified,
+    color: Color = BooruchanTheme.colors.opaque,
     textAlign: TextAlign = TextAlign.Start,
     maxLines: Int = Int.MAX_VALUE,
 ) = Text(
