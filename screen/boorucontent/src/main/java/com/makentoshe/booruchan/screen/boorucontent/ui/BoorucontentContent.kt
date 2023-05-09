@@ -13,7 +13,9 @@ import androidx.compose.ui.unit.dp
 import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
 import androidx.paging.LoadStates
+import androidx.recyclerview.widget.RecyclerView.Adapter
 import com.makentoshe.booruchan.screen.boorucontent.ui.foundation.android.RecyclerViewVerticalSpannedGrid
+import com.makentoshe.booruchan.screen.boorucontent.ui.foundation.android.model.BooruPostPagingDataAdapter
 import com.makentoshe.booruchan.screen.boorucontent.ui.foundation.layout.BoorucontentErrorLayout
 import com.makentoshe.booruchan.screen.boorucontent.ui.foundation.layout.BoorucontentLoadingLayout
 import com.makentoshe.booruchan.screen.boorucontent.viewmodel.BoorucontentState
@@ -23,19 +25,29 @@ import kotlinx.coroutines.launch
 @Composable
 internal fun BoorucontentContent(state: BoorucontentState) {
     val coroutineScope = rememberCoroutineScope()
+    var pagingAdapter by rememberPagingAdapter()
     var loadStates by rememberPagingAdapterStates()
 
     if (loadStates.refresh is LoadState.Loading) {
         BoorucontentLoadingLayout()
     }
+
     if (loadStates.refresh is LoadState.Error) {
-        BoorucontentErrorLayout()
+        BoorucontentErrorLayout(
+            title = "There is a ###### error",
+            description = "Maybe it is a network error, or something else. The message will be appeared here",
+            button = "Retry",
+            onClick = { pagingAdapter.retry() },
+        )
     }
 
     RecyclerViewVerticalSpannedGrid(
         modifier = Modifier.fillMaxSize()
     ) { adapter ->
+        // pass adapter to composable
+        pagingAdapter = adapter
 
+        // submit adapter states
         coroutineScope.launch {
             adapter.loadStateFlow.collectLatest { loadStates = it }
         }
@@ -62,4 +74,9 @@ private fun rememberPagingAdapterStates() = remember {
             mediator = null,
         )
     )
+}
+
+@Composable
+private fun rememberPagingAdapter() = remember {
+    mutableStateOf(BooruPostPagingDataAdapter())
 }

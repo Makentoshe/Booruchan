@@ -16,32 +16,25 @@ import com.makentoshe.library.uikit.foundation.PrimaryTextBold
 import com.makentoshe.library.uikit.foundation.SecondaryText
 
 @Composable
-internal fun BoorucontentErrorLayout() = Column(
+internal fun BoorucontentErrorLayout(
+    title: String,
+    description: String,
+    button: String,
+    onClick: () -> Unit,
+) = Column(
     modifier = Modifier.fillMaxSize().padding(horizontal = 24.dp),
     verticalArrangement = Arrangement.Center,
     horizontalAlignment = Alignment.CenterHorizontally,
 ) {
-    PrimaryTextBold(
-        text = "There is a ###### error",
-        textAlign = TextAlign.Center,
-    )
+    PrimaryTextBold(text = title, textAlign = TextAlign.Center)
 
     Spacer(modifier = Modifier.height(16.dp))
 
-    SecondaryText(
-        text = "Maybe it is a network error, or something else. The message will be appeared here",
-        textAlign = TextAlign.Center,
-    )
+    SecondaryText(text = description, textAlign = TextAlign.Center)
 
     Spacer(modifier = Modifier.height(16.dp))
 
-    TextButton(
-        onClick = { println("Retry") },
-    ) {
-        PrimaryTextBold(
-            text = "Retry",
-            textAlign = TextAlign.Center,
-        )
+    TextButton(onClick = onClick) {
+        PrimaryTextBold(text = button, textAlign = TextAlign.Center)
     }
-
 }
