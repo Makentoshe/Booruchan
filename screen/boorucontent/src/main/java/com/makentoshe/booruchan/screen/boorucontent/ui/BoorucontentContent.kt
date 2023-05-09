@@ -1,15 +1,15 @@
 package com.makentoshe.booruchan.screen.boorucontent.ui
 
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
 import androidx.paging.LoadStates
@@ -17,7 +17,6 @@ import com.makentoshe.booruchan.screen.boorucontent.ui.foundation.android.Recycl
 import com.makentoshe.booruchan.screen.boorucontent.ui.foundation.layout.BoorucontentErrorLayout
 import com.makentoshe.booruchan.screen.boorucontent.ui.foundation.layout.BoorucontentLoadingLayout
 import com.makentoshe.booruchan.screen.boorucontent.viewmodel.BoorucontentState
-import com.makentoshe.library.uikit.foundation.IndeterminateProgressBar
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -25,7 +24,6 @@ import kotlinx.coroutines.launch
 internal fun BoorucontentContent(state: BoorucontentState) {
     val coroutineScope = rememberCoroutineScope()
     var loadStates by rememberPagingAdapterStates()
-    println(loadStates)
 
     if (loadStates.refresh is LoadState.Loading) {
         BoorucontentLoadingLayout()
@@ -34,7 +32,9 @@ internal fun BoorucontentContent(state: BoorucontentState) {
         BoorucontentErrorLayout()
     }
 
-    RecyclerViewVerticalSpannedGrid { adapter ->
+    RecyclerViewVerticalSpannedGrid(
+        modifier = Modifier.fillMaxSize()
+    ) { adapter ->
 
         coroutineScope.launch {
             adapter.loadStateFlow.collectLatest { loadStates = it }

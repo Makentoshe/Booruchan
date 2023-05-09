@@ -1,10 +1,13 @@
 package com.makentoshe.booruchan.screen.boorucontent.ui.foundation.android
 
 import android.content.Context
+import android.util.TypedValue
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.paging.PagingData
 import androidx.recyclerview.widget.RecyclerView
@@ -20,22 +23,26 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun RecyclerViewVerticalSpannedGrid(
+    modifier: Modifier,
     adapterContent: (BooruPostPagingDataAdapter) -> Unit,
 ) = AndroidView(
-    modifier = Modifier.fillMaxSize(),
+    modifier = modifier,
     factory = ::recyclerViewFactory,
     update = { recyclerView -> adapterContent(recyclerView.adapter as BooruPostPagingDataAdapter) },
 )
 
 private fun recyclerViewFactory(context: Context) = RecyclerView(context).apply {
+    val topPadding = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 12f, resources.displayMetrics)
+    this.setPadding(0, topPadding.toInt(), 0,0)
+    this.clipToPadding = false
+
     val adapter = BooruPostPagingDataAdapter()
+    this.adapter = adapter
 
     val orientation = SpannedGridLayoutManager.Orientation.VERTICAL
     this.layoutManager = SpannedGridLayoutManager(orientation, 3).apply {
         spanSizeLookup = SpannedGridLayoutManagerLookup(adapter)
     }
 
-    addItemDecoration(SpacesItemDecoration(8f))
-
-    this.adapter = adapter
+    this.addItemDecoration(SpacesItemDecoration(8f))
 }
