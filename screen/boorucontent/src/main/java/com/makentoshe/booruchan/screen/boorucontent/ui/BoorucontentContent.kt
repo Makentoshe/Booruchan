@@ -42,7 +42,7 @@ internal fun BoorucontentContent(state: BoorucontentState) {
     }
 
     RecyclerViewVerticalSpannedGrid(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier.fillMaxSize().padding(horizontal = 8.dp)
     ) { adapter ->
         // pass adapter to composable
         pagingAdapter = adapter

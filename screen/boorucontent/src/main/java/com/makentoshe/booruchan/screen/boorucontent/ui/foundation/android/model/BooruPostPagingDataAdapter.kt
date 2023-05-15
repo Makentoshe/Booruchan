@@ -27,7 +27,7 @@ class BooruPostPagingDataAdapter :
         return BooruPostViewHolder(layoutInflater.inflate(R.layout.booru_post_ui_item, parent, false))
     }
 
-    class BooruPostViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
+    class BooruPostViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
         private val textView = view.findViewById<TextView>(R.id.booru_post_ui_item_id)
         private val imageView = view.findViewById<ImageView>(R.id.booru_post_ui_image)
