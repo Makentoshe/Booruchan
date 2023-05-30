@@ -7,4 +7,5 @@
     <string name="boorulist_booruitem_ok">%s</string>
 
     <string name="boorucontent_title_loading">Loading booru title…</string>
+    <string name="boorucontent_footer_retry_button">Retry</string>
 </resources>

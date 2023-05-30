@@ -6,6 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCompositionContext
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
@@ -13,7 +14,8 @@ import androidx.compose.ui.unit.dp
 import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
 import androidx.paging.LoadStates
-import androidx.recyclerview.widget.RecyclerView.Adapter
+import com.makentoshe.booruchan.library.logging.screenLogInfo
+import com.makentoshe.booruchan.screen.Screen
 import com.makentoshe.booruchan.screen.boorucontent.ui.foundation.android.RecyclerViewVerticalSpannedGrid
 import com.makentoshe.booruchan.screen.boorucontent.ui.foundation.android.model.BooruPostPagingDataAdapter
 import com.makentoshe.booruchan.screen.boorucontent.ui.foundation.layout.BoorucontentErrorLayout
@@ -57,6 +59,8 @@ internal fun BoorucontentContent(state: BoorucontentState) {
             state.pagerFlow.collectLatest { adapter.submitData(it) }
         }
     }
+
+    screenLogInfo(Screen.Boorucontent, "Adapter state change: $loadStates")
 }
 
 @Composable

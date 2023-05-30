@@ -16,6 +16,15 @@ android {
         consumerProguardFiles "consumer-rules.pro"
     }
 
+    buildFeatures {
+        compose true
+        // Enable view binding for layout resources
+        viewBinding true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion compose_version
+    }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -36,7 +45,15 @@ dependencies {
     implementation project(":feature")
     implementation project(':feature:boorustorage-domain')
 
-    implementation "androidx.constraintlayout:constraintlayout:2.2.0-alpha09"
+    // Android View
+    implementation "androidx.constraintlayout:constraintlayout:2.2.0-alpha10"
+    implementation 'com.google.android.material:material:1.9.0'
+
+    // Jetpack Compose
+    implementation "androidx.compose.ui:ui:$compose_ui_version"
+    implementation "androidx.compose.runtime:runtime:$compose_runtime_version"
+    implementation "androidx.compose.ui:ui-tooling-preview:$compose_ui_tooling_version"
+    implementation "androidx.compose.material3:material3:$compose_material3_version"
 
     // Dagger and Hilt
     implementation "com.google.dagger:dagger:$dagger_version"
