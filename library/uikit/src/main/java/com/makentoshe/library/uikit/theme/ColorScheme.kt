@@ -30,7 +30,7 @@ val LightColorScheme = BooruchanColorScheme(
 
 val DarkColorScheme = BooruchanColorScheme(
     title = "Dark color scheme",
-    accent = Black,
+    accent = White,
     onAccent = White,
     opaque = WhiteA30,
     dimmed = WhiteA60,
