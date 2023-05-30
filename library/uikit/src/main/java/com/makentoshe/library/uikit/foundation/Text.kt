@@ -43,7 +43,7 @@ fun PrimaryText(
 fun PrimaryTextBold(
     text: String,
     modifier: Modifier = Modifier,
-    color: Color = Color.Unspecified,
+    color: Color = BooruchanTheme.colors.foreground,
     textAlign: TextAlign = TextAlign.Start,
     maxLines: Int = Int.MAX_VALUE,
 ) = Text(
