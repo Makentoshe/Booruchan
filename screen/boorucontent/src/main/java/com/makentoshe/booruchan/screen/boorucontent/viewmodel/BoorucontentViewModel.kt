@@ -11,8 +11,10 @@ import com.makentoshe.booruchan.feature.boorupost.domain.usecase.FetchBooruPosts
 import com.makentoshe.booruchan.library.feature.CoroutineDelegate
 import com.makentoshe.booruchan.library.feature.DefaultCoroutineDelegate
 import com.makentoshe.booruchan.library.feature.DefaultEventDelegate
+import com.makentoshe.booruchan.library.feature.DefaultNavigationDelegate
 import com.makentoshe.booruchan.library.feature.DefaultStateDelegate
 import com.makentoshe.booruchan.library.feature.EventDelegate
+import com.makentoshe.booruchan.library.feature.NavigationDelegate
 import com.makentoshe.booruchan.library.feature.StateDelegate
 import com.makentoshe.booruchan.library.logging.internalLogInfo
 import com.makentoshe.booruchan.library.logging.internalLogWarn
@@ -31,13 +33,15 @@ class BoorucontentViewModel @Inject constructor(
     private val booruPost2BooruPreviewPostUiMapper: BooruPost2BooruPreviewPostUiMapper,
 ) : ViewModel(), CoroutineDelegate by DefaultCoroutineDelegate(),
     EventDelegate<BoorucontentEvent> by DefaultEventDelegate(),
+    NavigationDelegate<BoorucontentDestination> by DefaultNavigationDelegate(),
     StateDelegate<BoorucontentState> by DefaultStateDelegate(BoorucontentState.InitialState) {
 
     fun handleEvent(event: BoorucontentEvent) = when (event) {
-        is BoorucontentEvent.Initialize -> initialize(event)
+        is BoorucontentEvent.Initialize -> initializeEvent(event)
+        is BoorucontentEvent.NavigationBack -> navigationBackEvent()
     }
 
-    private fun initialize(event: BoorucontentEvent.Initialize) {
+    private fun initializeEvent(event: BoorucontentEvent.Initialize) {
         internalLogInfo("initialize event invoked: $event")
 
         viewModelScope.launch(Dispatchers.IO + coroutineExceptionHandler { throwable ->
@@ -60,5 +64,9 @@ class BoorucontentViewModel @Inject constructor(
         }.flow.cachedIn(viewModelScope)
 
         updateState { copy(pagerFlow = pagerFlow) }
+    }
+
+    private fun navigationBackEvent() {
+        updateNavigation { BoorucontentDestination.BackDestination }
     }
 }

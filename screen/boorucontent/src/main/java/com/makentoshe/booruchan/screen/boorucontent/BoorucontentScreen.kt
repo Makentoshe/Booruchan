@@ -9,8 +9,10 @@ import com.makentoshe.booruchan.library.logging.screenLogInfo
 import com.makentoshe.booruchan.library.navigation.BoorucontentScreenNavigator
 import com.makentoshe.booruchan.screen.Screen
 import com.makentoshe.booruchan.screen.boorucontent.ui.BoorucontentScreenUi
+import com.makentoshe.booruchan.screen.boorucontent.viewmodel.BoorucontentDestination
 import com.makentoshe.booruchan.screen.boorucontent.viewmodel.BoorucontentEvent
 import com.makentoshe.booruchan.screen.boorucontent.viewmodel.BoorucontentViewModel
+import com.makentoshe.library.uikit.extensions.collectLatestInComposable
 
 @Composable
 fun BoorucontentScreen(
@@ -28,7 +30,15 @@ fun BoorucontentScreen(
         viewModel.handleEvent(BoorucontentEvent.Initialize(booruContextUrl))
     }
 
+    viewModel.navigationFlow.collectLatestInComposable { destination ->
+        screenLogInfo(Screen.Boorulist, "Navigation destination: $destination")
+        when (destination) {
+            BoorucontentDestination.BackDestination -> navigator.back()
+        }
+    }
+
     BoorucontentScreenUi(
         state = boorucontentState,
+        event = viewModel::handleEvent,
     )
 }

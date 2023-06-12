@@ -56,9 +56,7 @@ private fun NavGraphBuilder.boorulistScreen(navController: NavController) {
 
 private fun NavGraphBuilder.boorucontentScreen(navController: NavController) {
     val navigator = BoorucontentScreenNavigator(
-        test = {
-            println("test navigation")
-        }
+        back = { navController.popBackStack() },
     )
 
     val screen = Screen.Boorucontent
