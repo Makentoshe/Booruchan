@@ -6,7 +6,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCompositionContext
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
@@ -20,12 +19,12 @@ import com.makentoshe.booruchan.screen.boorucontent.ui.foundation.android.Recycl
 import com.makentoshe.booruchan.screen.boorucontent.ui.foundation.android.model.BooruPostPagingDataAdapter
 import com.makentoshe.booruchan.screen.boorucontent.ui.foundation.layout.BoorucontentErrorLayout
 import com.makentoshe.booruchan.screen.boorucontent.ui.foundation.layout.BoorucontentLoadingLayout
-import com.makentoshe.booruchan.screen.boorucontent.viewmodel.BoorucontentState
+import com.makentoshe.booruchan.screen.boorucontent.viewmodel.BoorucontentScreenState
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @Composable
-internal fun BoorucontentContent(state: BoorucontentState) {
+internal fun BoorucontentContent(screenState: BoorucontentScreenState) {
     val coroutineScope = rememberCoroutineScope()
     var pagingAdapter by rememberPagingAdapter()
     var loadStates by rememberPagingAdapterStates()
@@ -56,7 +55,7 @@ internal fun BoorucontentContent(state: BoorucontentState) {
 
         // submit adapter data
         coroutineScope.launch {
-            state.pagerFlow.collectLatest { adapter.submitData(it) }
+            screenState.pagerFlow.collectLatest { adapter.submitData(it) }
         }
     }
 

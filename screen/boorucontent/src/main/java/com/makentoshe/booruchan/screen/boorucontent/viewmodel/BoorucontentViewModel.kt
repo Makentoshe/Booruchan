@@ -32,17 +32,16 @@ class BoorucontentViewModel @Inject constructor(
     private val fetchBooruPosts: FetchBooruPostsUseCase,
     private val booruPost2BooruPreviewPostUiMapper: BooruPost2BooruPreviewPostUiMapper,
 ) : ViewModel(), CoroutineDelegate by DefaultCoroutineDelegate(),
-    EventDelegate<BoorucontentEvent> by DefaultEventDelegate(),
+    EventDelegate<BoorucontentScreenEvent> by DefaultEventDelegate(),
     NavigationDelegate<BoorucontentDestination> by DefaultNavigationDelegate(),
-    StateDelegate<BoorucontentState> by DefaultStateDelegate(BoorucontentState.InitialState) {
+    StateDelegate<BoorucontentScreenState> by DefaultStateDelegate(BoorucontentScreenState.InitialState) {
 
-    fun handleEvent(event: BoorucontentEvent) = when (event) {
-        is BoorucontentEvent.Initialize -> initializeEvent(event)
-        is BoorucontentEvent.NavigationBack -> navigationBackEvent()
-        BoorucontentEvent.NavigationSearchBottomSheet -> navigationSearchBottomSheet()
+    fun handleEvent(event: BoorucontentScreenEvent) = when (event) {
+        is BoorucontentScreenEvent.Initialize -> initializeEvent(event)
+        is BoorucontentScreenEvent.NavigationBack -> navigationBackEvent()
     }
 
-    private fun initializeEvent(event: BoorucontentEvent.Initialize) {
+    private fun initializeEvent(event: BoorucontentScreenEvent.Initialize) {
         internalLogInfo("initialize event invoked: $event")
 
         viewModelScope.launch(Dispatchers.IO + coroutineExceptionHandler { throwable ->
@@ -57,7 +56,12 @@ class BoorucontentViewModel @Inject constructor(
         internalLogInfo("On get booru context success: $booruContext")
 
         // show booru title
-        updateState { copy(toolbarState = BoorucontentToolbarState.Content(booruContext.title)) }
+        updateState { copy(
+            toolbarState = BoorucontentToolbarState.Content(booruContext.title),
+            bottomSheetState = BoorucontentBottomSheetState(
+                queryHint = "Ex: blue_sky cloud 1girl",
+            )
+        ) }
 
         // prepare pager for displaying booru posts
         val pagerFlow = Pager(PagingConfig(pageSize = 10)) {
@@ -72,8 +76,4 @@ class BoorucontentViewModel @Inject constructor(
         updateNavigation { BoorucontentDestination.BackDestination }
     }
 
-    private fun navigationSearchBottomSheet() {
-        internalLogInfo("navigation search bottom sheet event invoked")
-
-    }
 }

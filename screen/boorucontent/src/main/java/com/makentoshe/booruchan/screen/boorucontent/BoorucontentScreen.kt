@@ -10,7 +10,7 @@ import com.makentoshe.booruchan.library.navigation.BoorucontentScreenNavigator
 import com.makentoshe.booruchan.screen.Screen
 import com.makentoshe.booruchan.screen.boorucontent.ui.BoorucontentScreenUi
 import com.makentoshe.booruchan.screen.boorucontent.viewmodel.BoorucontentDestination
-import com.makentoshe.booruchan.screen.boorucontent.viewmodel.BoorucontentEvent
+import com.makentoshe.booruchan.screen.boorucontent.viewmodel.BoorucontentScreenEvent
 import com.makentoshe.booruchan.screen.boorucontent.viewmodel.BoorucontentViewModel
 import com.makentoshe.library.uikit.extensions.collectLatestInComposable
 
@@ -27,7 +27,7 @@ fun BoorucontentScreen(
 
     // intialize viewmodel with screen argument
     LaunchedEffect(key1 = Unit) {
-        viewModel.handleEvent(BoorucontentEvent.Initialize(booruContextUrl))
+        viewModel.handleEvent(BoorucontentScreenEvent.Initialize(booruContextUrl))
     }
 
     viewModel.navigationFlow.collectLatestInComposable { destination ->
@@ -38,7 +38,7 @@ fun BoorucontentScreen(
     }
 
     BoorucontentScreenUi(
-        state = boorucontentState,
-        event = viewModel::handleEvent,
+        screenState = boorucontentState,
+        screenEvent = viewModel::handleEvent,
     )
 }

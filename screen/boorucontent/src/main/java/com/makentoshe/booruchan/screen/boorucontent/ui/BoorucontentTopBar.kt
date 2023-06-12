@@ -11,45 +11,53 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Search
+import androidx.compose.material3.BottomSheetScaffoldState
 import androidx.compose.material3.Divider
-import androidx.compose.material3.Icon
+import androidx.compose.material3.SheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.makentoshe.booruchan.library.resources.R
-import com.makentoshe.booruchan.screen.boorucontent.viewmodel.BoorucontentEvent
-import com.makentoshe.booruchan.screen.boorucontent.viewmodel.BoorucontentState
+import com.makentoshe.booruchan.screen.boorucontent.viewmodel.BoorucontentScreenEvent
+import com.makentoshe.booruchan.screen.boorucontent.viewmodel.BoorucontentScreenState
 import com.makentoshe.booruchan.screen.boorucontent.viewmodel.BoorucontentToolbarState
+import com.makentoshe.library.uikit.foundation.ArrowBackIcon
+import com.makentoshe.library.uikit.foundation.MagnifyIcon
 import com.makentoshe.library.uikit.foundation.TitleText
 import com.makentoshe.library.uikit.theme.BooruchanTheme
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 @Composable
 internal fun BoorucontentTopBar(
-    state: BoorucontentState,
-    event: (BoorucontentEvent) -> Unit,
+    sheetState: SheetState,
+    screenState: BoorucontentScreenState,
+    screenEvent: (BoorucontentScreenEvent) -> Unit,
 ) = Column(modifier = Modifier.fillMaxWidth().background(BooruchanTheme.colors.background)) {
-    BoorucontentTopBarContent(state = state, event = event)
+    BoorucontentTopBarContent(screenState = screenState, screenEvent = screenEvent, sheetState = sheetState)
     Divider(color = BooruchanTheme.colors.separator, thickness = 1.dp)
 }
 
 @Composable
 private fun BoorucontentTopBarContent(
-    state: BoorucontentState,
-    event: (BoorucontentEvent) -> Unit,
+    sheetState: SheetState,
+    screenState: BoorucontentScreenState,
+    screenEvent: (BoorucontentScreenEvent) -> Unit,
 ) = Row(
     modifier = Modifier.fillMaxWidth().height(56.dp)
 ) {
+    val coroutineScope = rememberCoroutineScope()
 
     Box(
-        modifier = Modifier.size(56.dp).clickable { event(BoorucontentEvent.NavigationBack) },
+        modifier = Modifier.size(56.dp).clickable {
+            screenEvent(BoorucontentScreenEvent.NavigationBack)
+        },
         contentAlignment = Alignment.Center,
     ) {
-        Icon(imageVector = Icons.Default.ArrowBack, contentDescription = null)
+        ArrowBackIcon()
     }
 
     Row(
@@ -60,7 +68,7 @@ private fun BoorucontentTopBarContent(
         Box(
             contentAlignment = Alignment.CenterStart,
         ) {
-            when (val toolbarState = state.toolbarState) {
+            when (val toolbarState = screenState.toolbarState) {
                 is BoorucontentToolbarState.Content -> {
                     TitleText(text = toolbarState.title)
                 }
@@ -74,11 +82,12 @@ private fun BoorucontentTopBarContent(
         }
 
         Box(
-            modifier = Modifier.size(56.dp).clickable { event(BoorucontentEvent.NavigationSearchBottomSheet) },
+            modifier = Modifier.size(56.dp).clickable {
+                coroutineScope.launch(Dispatchers.IO) { sheetState.expand() }
+            },
             contentAlignment = Alignment.Center,
         ) {
-            Icon(imageVector = Icons.Default.Search, contentDescription = null)
+            MagnifyIcon()
         }
-
     }
 }
