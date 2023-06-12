@@ -2,6 +2,7 @@ package com.makentoshe.booruchan.screen.boorucontent.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -12,12 +13,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.makentoshe.booruchan.library.resources.R
@@ -51,20 +52,33 @@ private fun BoorucontentTopBarContent(
         Icon(imageVector = Icons.Default.ArrowBack, contentDescription = null)
     }
 
-    Box(
+    Row(
         modifier = Modifier.fillMaxSize().padding(start = 16.dp),
-        contentAlignment = Alignment.CenterStart,
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically,
     ) {
-        when (val toolbarState = state.toolbarState) {
-            is BoorucontentToolbarState.Content -> {
-                TitleText(text = toolbarState.title)
-            }
-            is BoorucontentToolbarState.Error -> {
-                TitleText(text = toolbarState.message)
-            }
-            BoorucontentToolbarState.Loading -> {
-                TitleText(text = stringResource(id = R.string.boorucontent_title_loading))
+        Box(
+            contentAlignment = Alignment.CenterStart,
+        ) {
+            when (val toolbarState = state.toolbarState) {
+                is BoorucontentToolbarState.Content -> {
+                    TitleText(text = toolbarState.title)
+                }
+                is BoorucontentToolbarState.Error -> {
+                    TitleText(text = toolbarState.message)
+                }
+                BoorucontentToolbarState.Loading -> {
+                    TitleText(text = stringResource(id = R.string.boorucontent_title_loading))
+                }
             }
         }
+
+        Box(
+            modifier = Modifier.size(56.dp).clickable { event(BoorucontentEvent.NavigationSearchBottomSheet) },
+            contentAlignment = Alignment.Center,
+        ) {
+            Icon(imageVector = Icons.Default.Search, contentDescription = null)
+        }
+
     }
 }

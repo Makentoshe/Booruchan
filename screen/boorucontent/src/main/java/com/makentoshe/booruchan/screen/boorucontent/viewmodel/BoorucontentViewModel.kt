@@ -39,6 +39,7 @@ class BoorucontentViewModel @Inject constructor(
     fun handleEvent(event: BoorucontentEvent) = when (event) {
         is BoorucontentEvent.Initialize -> initializeEvent(event)
         is BoorucontentEvent.NavigationBack -> navigationBackEvent()
+        BoorucontentEvent.NavigationSearchBottomSheet -> navigationSearchBottomSheet()
     }
 
     private fun initializeEvent(event: BoorucontentEvent.Initialize) {
@@ -67,6 +68,12 @@ class BoorucontentViewModel @Inject constructor(
     }
 
     private fun navigationBackEvent() {
+        internalLogInfo("navigation back event invoked")
         updateNavigation { BoorucontentDestination.BackDestination }
+    }
+
+    private fun navigationSearchBottomSheet() {
+        internalLogInfo("navigation search bottom sheet event invoked")
+
     }
 }
