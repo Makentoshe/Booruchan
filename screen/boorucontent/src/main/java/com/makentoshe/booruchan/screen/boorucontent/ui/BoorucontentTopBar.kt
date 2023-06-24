@@ -36,8 +36,9 @@ internal fun BoorucontentTopBar(
     sheetState: SheetState,
     screenState: BoorucontentScreenState,
     screenEvent: (BoorucontentScreenEvent) -> Unit,
+    scaffoldState: BottomSheetScaffoldState,
 ) = Column(modifier = Modifier.fillMaxWidth().background(BooruchanTheme.colors.background)) {
-    BoorucontentTopBarContent(screenState = screenState, screenEvent = screenEvent, sheetState = sheetState)
+    BoorucontentTopBarContent(screenState = screenState, screenEvent = screenEvent, sheetState = sheetState, scaffoldState = scaffoldState)
     Divider(color = BooruchanTheme.colors.separator, thickness = 1.dp)
 }
 
@@ -46,6 +47,7 @@ private fun BoorucontentTopBarContent(
     sheetState: SheetState,
     screenState: BoorucontentScreenState,
     screenEvent: (BoorucontentScreenEvent) -> Unit,
+    scaffoldState: BottomSheetScaffoldState,
 ) = Row(
     modifier = Modifier.fillMaxWidth().height(56.dp)
 ) {
@@ -83,7 +85,10 @@ private fun BoorucontentTopBarContent(
 
         Box(
             modifier = Modifier.size(56.dp).clickable {
-                coroutineScope.launch(Dispatchers.IO) { sheetState.expand() }
+                coroutineScope.launch(Dispatchers.IO) {
+//                    sheetState.expand()
+                    scaffoldState.bottomSheetState.expand()
+                }
             },
             contentAlignment = Alignment.Center,
         ) {

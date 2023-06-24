@@ -15,6 +15,7 @@ internal class BooruContext2DatastoredBooruContextMapper @Inject constructor() {
             searchSettings = DatastoredBooruSearchSettings(
                 requestedPostsPerPageCount = booruContext.settings.searchSettings.requestedPostsPerPageCount,
                 initialPageNumber = booruContext.settings.searchSettings.initialPageNumber,
+                hint = booruContext.settings.searchSettings.hint,
             )
         )
     )

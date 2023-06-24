@@ -40,7 +40,7 @@ internal fun SearchBottomSheet(
 }
 
 @Composable
-private fun SearchBottomSheetContent(
+fun SearchBottomSheetContent(
     screenState: BoorucontentScreenState,
 ) = Column(
     modifier = Modifier.fillMaxSize(),

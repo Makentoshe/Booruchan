@@ -59,7 +59,7 @@ class BoorucontentViewModel @Inject constructor(
         updateState { copy(
             toolbarState = BoorucontentToolbarState.Content(booruContext.title),
             bottomSheetState = BoorucontentBottomSheetState(
-                queryHint = "Ex: blue_sky cloud 1girl",
+                queryHint = booruContext.settings.searchSettings.hint,
             )
         ) }
 

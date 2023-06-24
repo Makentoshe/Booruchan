@@ -13,6 +13,7 @@ import com.makentoshe.booruchan.library.feature.DefaultStateDelegate
 import com.makentoshe.booruchan.library.feature.EventDelegate
 import com.makentoshe.booruchan.library.feature.NavigationDelegate
 import com.makentoshe.booruchan.library.feature.StateDelegate
+import com.makentoshe.booruchan.library.logging.internalLogError
 import com.makentoshe.booruchan.library.logging.internalLogInfo
 import com.makentoshe.booruchan.library.logging.internalLogWarn
 import com.makentoshe.screen.boorulist.mapper.BooruContext2BooruItemStateMapper
@@ -35,7 +36,9 @@ class BoorulistViewModel @Inject constructor(
     init {
         internalLogInfo("OnViewModelConstruct")
         // First of all request all boorus
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(Dispatchers.IO + coroutineExceptionHandler { throwable ->
+            internalLogError(throwable)
+        }) {
             getBooruContexts().collectLatest(::onGetBooruContexts)
         }
     }
