@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.makentoshe.booruchan.library.logging.screenLogInfo
 import com.makentoshe.booruchan.library.navigation.BoorucontentScreenNavigator
@@ -19,8 +20,6 @@ fun BoorucontentScreen(
     navigator: BoorucontentScreenNavigator,
     booruContextUrl: String,
 ) {
-    screenLogInfo(Screen.Boorucontent, "OnCreateCompose: $booruContextUrl")
-
     // initialize viewmodel and state
     val viewModel = hiltViewModel<BoorucontentViewModel>()
     val boorucontentState by viewModel.stateFlow.collectAsState()
@@ -30,6 +29,7 @@ fun BoorucontentScreen(
         viewModel.handleEvent(BoorucontentScreenEvent.Initialize(booruContextUrl))
     }
 
+    // initializa navigation
     viewModel.navigationFlow.collectLatestInComposable { destination ->
         screenLogInfo(Screen.Boorulist, "Navigation destination: $destination")
         when (destination) {
@@ -37,8 +37,11 @@ fun BoorucontentScreen(
         }
     }
 
+    // initialize user interface
     BoorucontentScreenUi(
         screenState = boorucontentState,
         screenEvent = viewModel::handleEvent,
     )
+
+    screenLogInfo(Screen.Boorucontent, "OnCreateCompose: $booruContextUrl")
 }

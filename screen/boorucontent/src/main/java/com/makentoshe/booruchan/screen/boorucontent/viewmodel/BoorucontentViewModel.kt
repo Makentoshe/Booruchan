@@ -49,6 +49,10 @@ class BoorucontentViewModel @Inject constructor(
     private fun initializeEvent(event: BoorucontentScreenEvent.Initialize) {
         internalLogInfo("initialize event invoked: $event")
 
+        // Skip initialization if it was already finished
+        // This may happen after lock-unlock phone screen
+        if (booruContextStateFlow.value != BooruContext.EmptyContext) return
+
         viewModelScope.launch(Dispatchers.IO + coroutineExceptionHandler { throwable ->
             internalLogWarn(throwable.toString())
             updateState { copy(toolbarState = BoorucontentToolbarState.Error(throwable.toString())) }
