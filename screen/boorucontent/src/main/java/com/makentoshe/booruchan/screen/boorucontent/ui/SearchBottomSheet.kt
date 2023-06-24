@@ -7,8 +7,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.Button
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.SheetState
+import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -20,6 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import com.makentoshe.booruchan.screen.boorucontent.viewmodel.BoorucontentScreenEvent
 import com.makentoshe.booruchan.screen.boorucontent.viewmodel.BoorucontentScreenState
 import com.makentoshe.library.uikit.foundation.SecondaryText
 import kotlinx.coroutines.CoroutineScope
@@ -29,6 +32,7 @@ import kotlinx.coroutines.launch
 @Composable
 internal fun SearchBottomSheet(
     screenState: BoorucontentScreenState,
+    screenEvent: (BoorucontentScreenEvent) -> Unit,
     sheetState: SheetState,
     coroutineScope: CoroutineScope = rememberCoroutineScope(),
 ) = ModalBottomSheet(
@@ -36,17 +40,18 @@ internal fun SearchBottomSheet(
     sheetState = sheetState,
     onDismissRequest = { coroutineScope.launch { sheetState.hide() } },
 ) {
-    SearchBottomSheetContent(screenState = screenState)
+    SearchBottomSheetContent(screenState = screenState, screenEvent)
 }
 
 @Composable
 fun SearchBottomSheetContent(
     screenState: BoorucontentScreenState,
+    screenEvent: (BoorucontentScreenEvent) -> Unit,
 ) = Column(
     modifier = Modifier.fillMaxSize(),
 ) {
 
-    var queryText by remember { mutableStateOf("") }
+    var querySearchString by remember { mutableStateOf("") }
     TextField(
         modifier = Modifier.fillMaxWidth().padding(horizontal = 8.dp),
         supportingText = { SecondaryText(text = screenState.bottomSheetState.queryHint) },
@@ -55,8 +60,14 @@ fun SearchBottomSheetContent(
             keyboardType = KeyboardType.Text,
         ),
         shape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp),
-        value = queryText,
-        onValueChange = { queryText = it }
+        value = querySearchString,
+        onValueChange = { querySearchString = it }
     )
+
+    Button(onClick = {
+        screenEvent(BoorucontentScreenEvent.Search(querySearchString))
+    }) {
+        Text("Search")
+    }
 }
 

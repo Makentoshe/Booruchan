@@ -14,7 +14,10 @@ data class BoorucontentScreenState(
         val InitialState = BoorucontentScreenState(
             toolbarState = BoorucontentToolbarState.Loading,
             pagerFlow =  flowOf(),
-            bottomSheetState = BoorucontentBottomSheetState(""),
+            bottomSheetState = BoorucontentBottomSheetState(
+                queryHint = "",
+                querySearch = "",
+            ),
         )
     }
 }
@@ -28,5 +31,6 @@ sealed interface  BoorucontentToolbarState {
 }
 
 data class BoorucontentBottomSheetState(
-    val queryHint: String,
+    val queryHint: String = "",
+    val querySearch: String = "",
 )

@@ -20,6 +20,7 @@ import com.makentoshe.booruchan.library.logging.internalLogInfo
 import com.makentoshe.booruchan.library.logging.internalLogWarn
 import com.makentoshe.booruchan.screen.boorucontent.mapper.BooruPost2BooruPreviewPostUiMapper
 import com.makentoshe.booruchan.screen.boorucontent.ui.foundation.android.model.BooruPostPagingSource
+import com.makentoshe.booruchan.screen.boorucontent.ui.foundation.android.model.BooruPostPagingSourceFactory
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
@@ -28,9 +29,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class BoorucontentViewModel @Inject constructor(
+    private val booruPostPagingSourceFactory: BooruPostPagingSourceFactory,
     private val getBooruContext: GetBooruContextUseCase,
-    private val fetchBooruPosts: FetchBooruPostsUseCase,
-    private val booruPost2BooruPreviewPostUiMapper: BooruPost2BooruPreviewPostUiMapper,
 ) : ViewModel(), CoroutineDelegate by DefaultCoroutineDelegate(),
     EventDelegate<BoorucontentScreenEvent> by DefaultEventDelegate(),
     NavigationDelegate<BoorucontentDestination> by DefaultNavigationDelegate(),
@@ -39,6 +39,9 @@ class BoorucontentViewModel @Inject constructor(
     fun handleEvent(event: BoorucontentScreenEvent) = when (event) {
         is BoorucontentScreenEvent.Initialize -> initializeEvent(event)
         is BoorucontentScreenEvent.NavigationBack -> navigationBackEvent()
+        is BoorucontentScreenEvent.Search -> {
+
+        }
     }
 
     private fun initializeEvent(event: BoorucontentScreenEvent.Initialize) {
@@ -65,7 +68,7 @@ class BoorucontentViewModel @Inject constructor(
 
         // prepare pager for displaying booru posts
         val pagerFlow = Pager(PagingConfig(pageSize = 10)) {
-            BooruPostPagingSource(fetchBooruPosts, booruPost2BooruPreviewPostUiMapper, booruContext)
+            booruPostPagingSourceFactory.build(booruContext)
         }.flow.cachedIn(viewModelScope)
 
         updateState { copy(pagerFlow = pagerFlow) }

@@ -12,7 +12,7 @@ class BooruPostPagingSource @Inject constructor(
     private val fetchBooruPosts: FetchBooruPostsUseCase,
     private val mapper: BooruPost2BooruPreviewPostUiMapper,
     private val booruContext: BooruContext,
-): PagingSource<Int, BooruPreviewPostUi>() {
+) : PagingSource<Int, BooruPreviewPostUi>() {
 
     override fun getRefreshKey(state: PagingState<Int, BooruPreviewPostUi>): Int? {
         return state.anchorPosition?.let { anchorPosition ->

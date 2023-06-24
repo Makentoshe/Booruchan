@@ -27,7 +27,7 @@ internal fun BoorucontentScreenUi(
             BoorucontentTopBar(sheetState = sheetState, screenState = screenState, screenEvent = screenEvent, scaffoldState = scaffoldState)
         },
         sheetContent = {
-            SearchBottomSheetContent(screenState = screenState)
+            SearchBottomSheetContent(screenState = screenState, screenEvent = screenEvent)
         },
         content = { paddingValues ->
             Column(modifier = Modifier.padding(paddingValues)) {

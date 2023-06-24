@@ -20,7 +20,7 @@ import java.nio.charset.StandardCharsets
 @Composable
 internal fun MainActivityNavigationContent(navHostController: NavHostController) = NavHost(
     navController = navHostController,
-    startDestination = Screen.Boorulist.route,
+    startDestination = Screen.Splash.route,
     builder = {
         splashScreen(navController = navHostController)
         boorulistScreen(navController = navHostController)
