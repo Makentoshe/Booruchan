@@ -17,5 +17,5 @@ data class DatastoredBooruSettings(
 data class DatastoredBooruSearchSettings(
     val requestedPostsPerPageCount: Int,
     val initialPageNumber: Int,
-    val hint: String,
+    val hint: String = "",
 )
