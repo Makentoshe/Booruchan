@@ -1,6 +1,6 @@
 package com.makentoshe.booruchan.feature.boorupost.domain.repository
 
-import com.makentoshe.booruchan.feature.BooruSystem
+import com.makentoshe.booruchan.feature.context.BooruSystem
 import com.makentoshe.booruchan.feature.boorupost.domain.repository.request.BoorupostsRequest
 import com.makentoshe.booruchan.feature.boorupost.domain.repository.response.BoorupostsResponse
 

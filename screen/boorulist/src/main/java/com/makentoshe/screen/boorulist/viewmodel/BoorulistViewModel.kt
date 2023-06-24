@@ -2,7 +2,7 @@ package com.makentoshe.screen.boorulist.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.makentoshe.booruchan.feature.BooruContext
+import com.makentoshe.booruchan.feature.context.BooruContext
 import com.makentoshe.booruchan.feature.boorulist.domain.usecase.GetBooruContextsUseCase
 import com.makentoshe.booruchan.healthcheck.domain.HealthcheckUseCase
 import com.makentoshe.booruchan.library.feature.CoroutineDelegate

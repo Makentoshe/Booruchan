@@ -1,6 +1,6 @@
 package com.makentoshe.booruchan.feature.boorulist.domain.usecase
 
-import com.makentoshe.booruchan.feature.BooruContext
+import com.makentoshe.booruchan.feature.context.BooruContext
 import com.makentoshe.booruchan.feature.boorulist.domain.mapper.DatastoredBooruContext2BooruContextMapper
 import com.makentoshe.booruchan.feature.boorulist.domain.mapper.String2DatastoredBooruContextMapper
 import com.makentoshe.booruchan.feature.boorulist.domain.repository.ApplicationAssetRepository

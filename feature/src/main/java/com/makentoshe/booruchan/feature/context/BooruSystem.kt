@@ -1,4 +1,4 @@
-package com.makentoshe.booruchan.feature
+package com.makentoshe.booruchan.feature.context
 
 /** Lust of supported booru systems */
 sealed class BooruSystem {

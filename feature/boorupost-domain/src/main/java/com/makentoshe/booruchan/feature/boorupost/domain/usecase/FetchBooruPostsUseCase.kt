@@ -1,6 +1,6 @@
 package com.makentoshe.booruchan.feature.boorupost.domain.usecase
 
-import com.makentoshe.booruchan.feature.BooruContext
+import com.makentoshe.booruchan.feature.context.BooruContext
 import com.makentoshe.booruchan.feature.boorupost.domain.BoorupostsRepositories
 import com.makentoshe.booruchan.feature.boorupost.domain.mapper.NetworkBooruPost2BooruPostMapper
 import com.makentoshe.booruchan.feature.boorupost.domain.repository.request.BoorupostsRequest

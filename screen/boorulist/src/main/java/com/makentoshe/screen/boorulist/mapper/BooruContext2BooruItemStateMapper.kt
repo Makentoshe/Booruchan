@@ -1,6 +1,6 @@
 package com.makentoshe.screen.boorulist.mapper
 
-import com.makentoshe.booruchan.feature.BooruContext
+import com.makentoshe.booruchan.feature.context.BooruContext
 import com.makentoshe.screen.boorulist.viewmodel.BooruItemHealthState
 import com.makentoshe.screen.boorulist.viewmodel.BooruItemState
 import javax.inject.Inject

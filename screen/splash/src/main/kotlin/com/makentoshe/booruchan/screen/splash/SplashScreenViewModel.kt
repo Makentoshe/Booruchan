@@ -2,7 +2,7 @@ package com.makentoshe.booruchan.screen.splash
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.makentoshe.booruchan.feature.BooruContext
+import com.makentoshe.booruchan.feature.context.BooruContext
 import com.makentoshe.booruchan.feature.boorulist.domain.usecase.AddBooruContextUseCase
 import com.makentoshe.booruchan.feature.boorulist.domain.usecase.GetBooruContextAssetsUseCase
 import com.makentoshe.booruchan.library.feature.CoroutineDelegate

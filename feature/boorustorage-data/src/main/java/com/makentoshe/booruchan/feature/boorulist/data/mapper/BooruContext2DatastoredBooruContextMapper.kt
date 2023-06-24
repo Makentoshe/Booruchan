@@ -1,6 +1,6 @@
 package com.makentoshe.booruchan.feature.boorulist.data.mapper
 
-import com.makentoshe.booruchan.feature.BooruContext
+import com.makentoshe.booruchan.feature.context.BooruContext
 import com.makentoshe.booruchan.feature.boorulist.domain.DatastoredBooruContext
 import com.makentoshe.booruchan.feature.boorulist.domain.DatastoredBooruSearchSettings
 import com.makentoshe.booruchan.feature.boorulist.domain.DatastoredBooruSettings

@@ -1,6 +1,6 @@
 package com.makentoshe.booruchan.feature.boorulist.domain.repository
 
-import com.makentoshe.booruchan.feature.BooruContext
+import com.makentoshe.booruchan.feature.context.BooruContext
 import kotlinx.coroutines.flow.Flow
 
 interface BooruContextRepository {

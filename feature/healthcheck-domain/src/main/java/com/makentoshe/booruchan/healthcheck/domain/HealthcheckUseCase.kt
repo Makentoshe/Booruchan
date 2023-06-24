@@ -1,6 +1,6 @@
 package com.makentoshe.booruchan.healthcheck.domain
 
-import com.makentoshe.booruchan.feature.BooruContext
+import com.makentoshe.booruchan.feature.context.BooruContext
 import javax.inject.Inject
 
 class HealthcheckUseCase @Inject constructor(

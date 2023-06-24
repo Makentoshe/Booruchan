@@ -5,9 +5,9 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
-import com.makentoshe.booruchan.feature.BooruContext
+import com.makentoshe.booruchan.feature.context.BooruContext
 import com.makentoshe.booruchan.feature.boorulist.domain.usecase.GetBooruContextUseCase
-import com.makentoshe.booruchan.feature.boorupost.domain.usecase.FetchBooruPostsUseCase
+import com.makentoshe.booruchan.feature.search.BooruSearch
 import com.makentoshe.booruchan.library.feature.CoroutineDelegate
 import com.makentoshe.booruchan.library.feature.DefaultCoroutineDelegate
 import com.makentoshe.booruchan.library.feature.DefaultEventDelegate
@@ -18,8 +18,6 @@ import com.makentoshe.booruchan.library.feature.NavigationDelegate
 import com.makentoshe.booruchan.library.feature.StateDelegate
 import com.makentoshe.booruchan.library.logging.internalLogInfo
 import com.makentoshe.booruchan.library.logging.internalLogWarn
-import com.makentoshe.booruchan.screen.boorucontent.mapper.BooruPost2BooruPreviewPostUiMapper
-import com.makentoshe.booruchan.screen.boorucontent.ui.foundation.android.model.BooruPostPagingSource
 import com.makentoshe.booruchan.screen.boorucontent.ui.foundation.android.model.BooruPostPagingSourceFactory
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -68,7 +66,7 @@ class BoorucontentViewModel @Inject constructor(
 
         // prepare pager for displaying booru posts
         val pagerFlow = Pager(PagingConfig(pageSize = 10)) {
-            booruPostPagingSourceFactory.build(booruContext)
+            booruPostPagingSourceFactory.build(booruContext, BooruSearch(emptySet()))
         }.flow.cachedIn(viewModelScope)
 
         updateState { copy(pagerFlow = pagerFlow) }

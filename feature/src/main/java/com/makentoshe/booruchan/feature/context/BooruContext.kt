@@ -1,4 +1,4 @@
-package com.makentoshe.booruchan.feature
+package com.makentoshe.booruchan.feature.context
 
 data class BooruContext(
     /** Booru title (Gelbooru, Danbooru, etc)*/

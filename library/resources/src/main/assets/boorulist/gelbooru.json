@@ -6,7 +6,8 @@
     "searchSettings": {
       "requestedPostsPerPageCount": 30,
       "initialPageNumber": 0,
-      "hint": "Ex: blue_sky cloud 1girl"
+      "hint": "Ex: blue_sky cloud 1girl",
+      "tagSeparator": " "
     }
   }
 }

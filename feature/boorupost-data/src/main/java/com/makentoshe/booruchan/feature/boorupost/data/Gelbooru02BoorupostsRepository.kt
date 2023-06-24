@@ -1,7 +1,6 @@
 package com.makentoshe.booruchan.feature.boorupost.data
 
-import com.makentoshe.booruchan.feature.BooruSystem
-import com.makentoshe.booruchan.feature.boorupost.domain.parser.JsonBooruPostsParser
+import com.makentoshe.booruchan.feature.context.BooruSystem
 import com.makentoshe.booruchan.feature.boorupost.domain.repository.BoorupostsRepository
 import com.makentoshe.booruchan.feature.boorupost.domain.repository.request.BoorupostsRequest
 import com.makentoshe.booruchan.feature.boorupost.domain.repository.response.BoorupostsResponse
@@ -12,7 +11,6 @@ import io.ktor.client.statement.*
 import io.ktor.http.*
 import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
-import javax.inject.Named
 
 class Gelbooru02BoorupostsRepository @Inject constructor(
     private val client: HttpClient,
