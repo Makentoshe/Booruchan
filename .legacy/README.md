@@ -1,14 +1,16 @@
-# <img src="https://github.com/Makentoshe/Booruchan/blob/master/app/src/main/ic_launcher_round-web.png?raw=true" width="40px"/> Booruchan
-Open source application for displaying pictures from image boards.
+# Booruchan
 
-At the moment it is supports [Gelbooru](https://www.gelbooru.com/), [Safebooru](http://safebooru.org/) and [Rule34](https://rule34.xxx/)
+Booruchan is a project aimed at accessing several image services, such as [Danbooru](https://danbooru.donmai.us), [Gelbooru](https://gelbooru.com), etc.
+The main purpose is to create a unified interface for all imageboards.
 
-Google Play: https://play.google.com/store/apps/details?id=com.makentoshe.booruchan
+At now project contains several parts:
 
-## Main features
+- **[core](core)** - library core contains basic entities and interfaces
 
-Proxies are used for stable connection - when your provider trying to block connection, the app will be start use proxy automatically.
+- **[gelbooru](gelbooru)** - part of the library aimed at Gelbooru, and its instances.
 
-Images management - you can browse and filter images by tags autocomplete function.
+- **[danbooru](danbooru)** - part of the library aimed at Danbooru, and its instances.
 
-Webm and Gif player - Booruchan is able to show webm videos and gif animations
+- **[application:android](application/android)** - android application uses most parts of library
+
+Project has an open [Figma](https://www.figma.com/file/JVQz1ufJg3MMEF5RNFB4ri/Booruchan?node-id=9434%3A548) design for each application.
