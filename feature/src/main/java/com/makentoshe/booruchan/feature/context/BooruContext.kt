@@ -9,4 +9,15 @@ data class BooruContext(
     val host: BooruHost,
     /** Info about current booru settings */
     val settings: BooruSettings,
-)
+) {
+    companion object {
+        val EmptyContext = BooruContext(
+            title = "Empty",
+            system = BooruSystem.UndefinedSystem("Empty"),
+            host = BooruHost("Empty"),
+            settings = BooruSettings(
+                searchSettings = BooruSearchSettings(),
+            )
+        )
+    }
+}

@@ -36,7 +36,7 @@ class BooruPostPagingSource @Inject constructor(
     private suspend fun internalLoad(params: LoadParams<Int>): LoadResult<Int, BooruPreviewPostUi> {
         // Start refresh at page 1 if undefined.
         val nextPageNumber = params.key ?: booruContext.settings.searchSettings.initialPageNumber
-        val postsPerPage = booruContext.settings.searchSettings.requestedPostsPerPageCount
+        val postsPerPage = params.loadSize // booruContext.settings.searchSettings.requestedPostsPerPageCount
         val tagSeparator = booruContext.settings.searchSettings.tagSeparator
         val tags = booruSearch.tags.joinToString(separator = tagSeparator) { it.string }
         val fetchParams = FetchBooruPostsUseCase.FetchBooruParams(postsPerPage, nextPageNumber, tags)
