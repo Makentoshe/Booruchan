@@ -5,5 +5,7 @@ sealed interface BoorucontentScreenEvent {
 
     data class Search(val searchQuery: String): BoorucontentScreenEvent
 
+    data class Autocomplete(val autocompleteQuery: String): BoorucontentScreenEvent
+
     object NavigationBack: BoorucontentScreenEvent
 }

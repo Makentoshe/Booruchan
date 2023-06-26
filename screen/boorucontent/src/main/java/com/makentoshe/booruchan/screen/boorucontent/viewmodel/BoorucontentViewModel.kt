@@ -22,6 +22,7 @@ import com.makentoshe.booruchan.library.logging.internalLogWarn
 import com.makentoshe.booruchan.screen.boorucontent.ui.foundation.android.model.BooruPostPagingSourceFactory
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
@@ -44,6 +45,7 @@ class BoorucontentViewModel @Inject constructor(
         is BoorucontentScreenEvent.Initialize -> initializeEvent(event)
         is BoorucontentScreenEvent.NavigationBack -> navigationBackEvent()
         is BoorucontentScreenEvent.Search -> searchEvent(event)
+        is BoorucontentScreenEvent.Autocomplete -> autocompleteEvent(event)
     }
 
     private fun initializeEvent(event: BoorucontentScreenEvent.Initialize) {
@@ -68,17 +70,20 @@ class BoorucontentViewModel @Inject constructor(
         viewModelScope.launch { booruContextStateFlow.emit(booruContext) }
 
         // show booru title
-        updateState { copy(
-            toolbarState = BoorucontentToolbarState.Content(booruContext.title),
-            bottomSheetState = BoorucontentBottomSheetState(
-                queryHint = booruContext.settings.searchSettings.hint,
+        updateState {
+            copy(
+                toolbarState = BoorucontentToolbarState.Content(booruContext.title),
+                bottomSheetState = BoorucontentBottomSheetState(
+                    queryHint = booruContext.settings.searchSettings.hint,
+                )
             )
-        ) }
+        }
 
         // prepare pager for displaying booru posts
-        val pagerFlow = Pager(PagingConfig(pageSize = booruContext.settings.searchSettings.requestedPostsPerPageCount)) {
-            booruPostPagingSourceFactory.build(booruContext, BooruSearch(emptySet()))
-        }.flow.cachedIn(viewModelScope)
+        val pagerFlow =
+            Pager(PagingConfig(pageSize = booruContext.settings.searchSettings.requestedPostsPerPageCount)) {
+                booruPostPagingSourceFactory.build(booruContext, BooruSearch(emptySet()))
+            }.flow.cachedIn(viewModelScope)
 
         updateState { copy(pagerFlow = pagerFlow) }
     }
@@ -98,11 +103,21 @@ class BoorucontentViewModel @Inject constructor(
         val booruSearch = BooruSearch(tags = searchTags.toSet())
 
         // Create new pager for displaying booru posts
-        val pagerFlow = Pager(PagingConfig(pageSize = booruContext.settings.searchSettings.requestedPostsPerPageCount)) {
-            booruPostPagingSourceFactory.build(booruContext, booruSearch)
-        }.flow.cachedIn(viewModelScope)
+        val pagerFlow =
+            Pager(PagingConfig(pageSize = booruContext.settings.searchSettings.requestedPostsPerPageCount)) {
+                booruPostPagingSourceFactory.build(booruContext, booruSearch)
+            }.flow.cachedIn(viewModelScope)
 
         updateState { copy(pagerFlow = pagerFlow) }
+    }
+
+    private fun autocompleteEvent(event: BoorucontentScreenEvent.Autocomplete) {
+        internalLogInfo("autocomplete event invoked: $event")
+
+        viewModelScope.launch {
+            delay(1000)
+            updateState { copy(bottomSheetState = bottomSheetState.copy(queryAutocomplete = (0..10).map { "${event.autocompleteQuery}-$it" })) }
+        }
     }
 
     private fun navigationBackEvent() {

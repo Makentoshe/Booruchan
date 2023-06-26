@@ -33,4 +33,5 @@ sealed interface  BoorucontentToolbarState {
 data class BoorucontentBottomSheetState(
     val queryHint: String = "",
     val querySearch: String = "",
+    val queryAutocomplete: List<String> = emptyList(),
 )
