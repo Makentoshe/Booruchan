@@ -28,7 +28,8 @@ class DatastoredBooruContext2BooruContextMapperImpl @Inject constructor(
     )
 
     private fun defineBooruSystem(string: String) = when (string) {
-        BooruSystem.Gelbooru02System.name -> BooruSystem.Gelbooru02System
+        BooruSystem.Gelbooru020System.name -> BooruSystem.Gelbooru020System
+        BooruSystem.Gelbooru025System.name -> BooruSystem.Gelbooru025System
         else -> BooruSystem.UndefinedSystem(string)
     }
 }

@@ -6,7 +6,7 @@ import com.makentoshe.booruchan.feature.boorupost.domain.repository.response.Boo
 
 interface BoorupostsRepository {
 
-    val supportedBooruSystem: BooruSystem
+    val supportedBooruSystems: List<BooruSystem>
 
     suspend fun getPosts(request: BoorupostsRequest): BoorupostsResponse
 }

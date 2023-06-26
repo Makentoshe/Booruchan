@@ -17,8 +17,8 @@ class Gelbooru02BoorupostsRepository @Inject constructor(
     private val parser: Gelbooru02BooruPostsJsonParser,
 ) : BoorupostsRepository {
 
-    override val supportedBooruSystem: BooruSystem
-        get() = BooruSystem.Gelbooru02System
+    override val supportedBooruSystems: List<BooruSystem>
+        get() = listOf(BooruSystem.Gelbooru020System, BooruSystem.Gelbooru025System)
 
     override suspend fun getPosts(request: BoorupostsRequest): BoorupostsResponse {
         val json = client.get(request.host) { buildUrl(request) }.bodyAsText()

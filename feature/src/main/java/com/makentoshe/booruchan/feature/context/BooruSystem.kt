@@ -12,8 +12,14 @@ sealed class BooruSystem {
 //        override val name: String get() = "danbooru-old"
 //    }
 
-    object Gelbooru02System: BooruSystem() {
+    /** Gelbooru Beta 0.2.0 */
+    object Gelbooru020System: BooruSystem() {
         override val name: String get() = "gelbooru-02"
+    }
+
+    /** Gelbooru Beta 0.2.5 */
+    object Gelbooru025System: BooruSystem() {
+        override val name: String get() = "gelbooru-025"
     }
 //
 //    object Gelbooru01System: BooruSystem() {

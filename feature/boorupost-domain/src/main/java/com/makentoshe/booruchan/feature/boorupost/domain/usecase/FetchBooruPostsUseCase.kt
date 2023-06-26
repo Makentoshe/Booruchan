@@ -12,7 +12,7 @@ class FetchBooruPostsUseCase @Inject constructor(
     private val mapper: NetworkBooruPost2BooruPostMapper
 ) {
     suspend operator fun invoke(context: BooruContext, params: FetchBooruParams): List<BooruPost> {
-        val repository = repositories.list.first { it.supportedBooruSystem == context.system }
+        val repository = repositories.list.first { it.supportedBooruSystems.contains(context.system) }
 
         val request = BoorupostsRequest(context.host.url, params.count, params.page, params.tags)
         return repository.getPosts(request).booruPosts.map { mapper.map(it) }
