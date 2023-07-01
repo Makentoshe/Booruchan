@@ -10,9 +10,11 @@ java {
 
 dependencies {
     implementation project(":feature")
-    implementation project(":extension")
 
-    // Dagger & Hilt
+    // Coroutines
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version")
+
+    // Dagger and Hilt
     implementation "com.google.dagger:dagger:$dagger_version"
     implementation "com.google.dagger:hilt-core:$dagger_version"
 }

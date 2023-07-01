@@ -37,3 +37,7 @@ include ':feature:boorupost-domain'
 include ':feature:boorupost-data'
 include ':feature:booru-autocomplete-domain'
 include ':feature:booru-autocomplete-data'
+
+include ':extension'
+include ':extension:gelbooru'
+include ':extension:safebooru'

@@ -47,6 +47,7 @@ android {
             excludes += '/META-INF/{AL2.0,LGPL2.1}'
         }
     }
+    dynamicFeatures = [':extension:gelbooru', ':extension:safebooru']
 }
 
 dependencies {
@@ -60,7 +61,9 @@ dependencies {
     implementation project(":screen:splash")
     implementation project(":screen:boorulist")
     implementation project(":screen:boorucontent")
-    
+
+    implementation project(":extension")
+
     implementation "androidx.core:core-ktx:$android_core_version"
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:$android_lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-process:$android_lifecycle_version"
@@ -87,6 +90,9 @@ dependencies {
     // Async image loading
     implementation "io.coil-kt:coil:$android_coil_version"
 
+    // Play Feature Delivery:
+    implementation 'com.google.android.play:feature-delivery-ktx:2.1.0'
+
     testImplementation "junit:junit:4.13.2"
     androidTestImplementation "androidx.test.ext:junit:1.1.5"
     androidTestImplementation "androidx.test.espresso:espresso-core:3.5.1"
@@ -94,6 +100,7 @@ dependencies {
     androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"
     debugImplementation "androidx.compose.ui:ui-tooling:$compose_version"
     debugImplementation "androidx.compose.ui:ui-test-manifest:$compose_version"
+    implementation "org.jetbrains.kotlin:kotlin-reflect:1.8.20"
 }
 
 tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
