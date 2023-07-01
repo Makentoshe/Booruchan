@@ -1,6 +1,6 @@
 package com.makentoshe.screen.boorulist.mapper
 
-import com.makentoshe.booruchan.feature.context.BooruContext
+import com.makentoshe.booruchan.extension.BooruContext
 import com.makentoshe.screen.boorulist.viewmodel.BooruItemHealthState
 import com.makentoshe.screen.boorulist.viewmodel.BooruItemState
 import javax.inject.Inject
@@ -11,7 +11,7 @@ class BooruContext2BooruItemStateMapper @Inject constructor() {
         health: BooruItemHealthState = BooruItemHealthState.Loading,
     ) = BooruItemState(
         title = booruContext.title,
-        url = booruContext.host.url,
+        url = booruContext.host,
         health = health,
     )
 }

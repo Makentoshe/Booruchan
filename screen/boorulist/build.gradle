@@ -52,6 +52,8 @@ dependencies {
     implementation project(':feature:healthcheck-data')
     implementation project(':feature:healthcheck-domain')
 
+    implementation project(":extension")
+
     implementation project(":screen")
 
     implementation "androidx.core:core-ktx:$android_core_version"

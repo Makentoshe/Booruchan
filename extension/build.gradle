@@ -12,7 +12,7 @@ dependencies {
     implementation project(":feature")
 
     // Coroutines
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlin_coroutines_version")
 
     // Dagger and Hilt
     implementation "com.google.dagger:dagger:$dagger_version"

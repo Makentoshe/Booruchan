@@ -2,6 +2,8 @@ package com.makentoshe.booruchan.feature.context
 
 /** Lust of supported booru systems */
 sealed class BooruSystem {
+    abstract val id: String
+
     abstract val name: String
 
 //    object DanbooruSystem: BooruSystem() {
@@ -12,14 +14,14 @@ sealed class BooruSystem {
 //        override val name: String get() = "danbooru-old"
 //    }
 
-    /** Gelbooru Beta 0.2.0 */
     object Gelbooru020System: BooruSystem() {
-        override val name: String get() = "gelbooru-02"
+        override val id: String get() = "gelbooru-02"
+            override val name: String get() = "Gelbooru Beta 0.2.0"
     }
 
-    /** Gelbooru Beta 0.2.5 */
     object Gelbooru025System: BooruSystem() {
-        override val name: String get() = "gelbooru-025"
+        override val id: String get() = "gelbooru-025"
+        override val name: String get() = "Gelbooru Beta 0.2.5"
     }
 //
 //    object Gelbooru01System: BooruSystem() {
@@ -34,7 +36,10 @@ sealed class BooruSystem {
 //        override val name: String get() = "Shimmie"
 //    }
 
-    data class UndefinedSystem(override val name: String): BooruSystem()
+    data class UndefinedSystem(override val id: String): BooruSystem() {
+        override val name: String
+            get() = "Undefined system $id"
+    }
 
 }
 
