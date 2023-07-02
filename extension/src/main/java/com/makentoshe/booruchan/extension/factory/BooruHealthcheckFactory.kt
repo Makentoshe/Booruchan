@@ -1,4 +1,4 @@
-package com.makentoshe.booruchan.extension.healthcheck
+package com.makentoshe.booruchan.extension.factory
 
 import com.makentoshe.booruchan.feature.NetworkRequest
 

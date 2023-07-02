@@ -18,6 +18,8 @@ class KtorNetworkRepository @Inject constructor(
             }
 
             url.takeFrom(request.url)
+
+            request.parameters.forEach { (key, value) -> parameter(key, value) }
         }
 
         return NetworkResponse(request, a.status.value)

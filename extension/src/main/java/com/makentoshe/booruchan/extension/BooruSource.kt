@@ -1,6 +1,7 @@
 package com.makentoshe.booruchan.extension
 
-import com.makentoshe.booruchan.extension.healthcheck.BooruHealthcheckFactory
+import com.makentoshe.booruchan.extension.factory.BooruHealthcheckFactory
+import com.makentoshe.booruchan.extension.factory.BooruPostSearchFactory
 import com.makentoshe.booruchan.feature.NetworkMethod
 import com.makentoshe.booruchan.feature.NetworkRequest
 
@@ -17,5 +18,7 @@ interface BooruSource {
                 )
             }
         }
+
+    val postSearchFactory: BooruPostSearchFactory
 }
 

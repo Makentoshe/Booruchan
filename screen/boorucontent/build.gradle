@@ -50,12 +50,15 @@ dependencies {
     implementation project(":library:logging")
 
     implementation project(":feature")
+    implementation project(':feature:postsearch')
     implementation project(':feature:boorustorage-data')
     implementation project(':feature:boorustorage-domain')
     implementation project(":feature:boorupost-domain")
     implementation project(":feature:boorupost-data")
 
     implementation project(":screen")
+
+    implementation project(":extension")
 
     implementation "androidx.core:core-ktx:$android_core_version"
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:$android_lifecycle_version"
