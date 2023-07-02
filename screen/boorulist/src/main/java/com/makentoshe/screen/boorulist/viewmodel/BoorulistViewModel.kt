@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.makentoshe.booruchan.extension.BooruContext
 import com.makentoshe.booruchan.extension.BooruSource
 import com.makentoshe.booruchan.extension.usecase.GetBooruSourcesUseCase
-import com.makentoshe.booruchan.healthcheck.domain.HealthcheckUseCase
+import com.makentoshe.booruchan.feature.healthcheck.HealthcheckUseCase
 import com.makentoshe.booruchan.library.feature.CoroutineDelegate
 import com.makentoshe.booruchan.library.feature.DefaultCoroutineDelegate
 import com.makentoshe.booruchan.library.feature.DefaultEventDelegate
@@ -58,16 +58,16 @@ class BoorulistViewModel @Inject constructor(
             copy(content = BoorulistStateContent.Content(booruItemStates))
         }
 
-        booruSources.forEach { booruSource -> healthcheck(booruSource) }
+        booruSources.forEach { booruSource -> healthcheckBooruSource(booruSource) }
     }
 
-    private fun healthcheck(booruSource: BooruSource) {
+    private fun healthcheckBooruSource(booruSource: BooruSource) {
         internalLogInfo("healthcheck invoked: $booruSource")
 
         viewModelScope.launch(Dispatchers.IO + coroutineExceptionHandler {
             onHealthcheckFailure(booruSource.context, it)
         }) {
-            val request = booruSource.healthCheckFactory.buildRequest()
+            val request = booruSource.healthcheckFactory.buildRequest()
             onHealthcheckSuccess(booruSource.context, healthcheck(request))
         }
     }

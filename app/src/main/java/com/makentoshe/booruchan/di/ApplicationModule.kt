@@ -2,8 +2,11 @@ package com.makentoshe.booruchan.di
 
 import com.makentoshe.booruchan.extension.BooruSource
 import com.makentoshe.booruchan.extension.usecase.BooruSources
+import com.makentoshe.booruchan.feature.KtorNetworkRepository
+import com.makentoshe.booruchan.feature.NetworkRepository
 import com.makentoshe.booruchan.library.logging.LogFingerprint
 import com.makentoshe.booruchan.library.logging.logInfo
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -18,32 +21,38 @@ import kotlin.reflect.full.primaryConstructor
 
 @Module
 @InstallIn(SingletonComponent::class)
-object ApplicationModule {
+abstract class ApplicationModule {
 
-    @Singleton
-    @Provides
-    fun providesHttpClient(): HttpClient = HttpClient(CIO) {
-        install(HttpRedirect) {
-            checkHttpMethod = false
-        }
+    @Binds
+    abstract fun bindsNetworkRepository(
+        impl: KtorNetworkRepository,
+    ): NetworkRepository
 
-        install(Logging) {
-            level = LogLevel.ALL
-            logger = object: Logger {
-                override fun log(message: String) {
-                    logInfo("httpclient", LogFingerprint.Network, message)
+    companion object {
+        @Singleton
+        @Provides
+        fun providesHttpClient(): HttpClient = HttpClient(CIO) {
+            install(HttpRedirect) {
+                checkHttpMethod = false
+            }
+
+            install(Logging) {
+                level = LogLevel.ALL
+                logger = object : Logger {
+                    override fun log(message: String) {
+                        logInfo("httpclient", LogFingerprint.Network, message)
+                    }
                 }
             }
         }
+
+        @Singleton
+        @Provides
+        fun providesBooruSources() = listOf(
+            "com.makentoshe.booruchan.extension.gelbooru.GelbooruSource",
+            "com.makentoshe.booruchan.extension.safebooru.SafebooruSource",
+        ).mapNotNull { `package` ->
+            Class.forName(`package`).kotlin.primaryConstructor?.call() as? BooruSource
+        }.let { BooruSources(it) }
     }
-
-    @Singleton
-    @Provides
-    fun providesBooruSources() = listOf(
-        "com.makentoshe.booruchan.extension.gelbooru.GelbooruSource",
-        "com.makentoshe.booruchan.extension.safebooru.SafebooruSource",
-    ).mapNotNull { `package` ->
-        Class.forName(`package`).kotlin.primaryConstructor?.call() as? BooruSource
-    }.let { BooruSources(it) }
-
 }

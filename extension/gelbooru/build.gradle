@@ -24,6 +24,9 @@ dependencies {
     implementation project(":feature")
     implementation project(":extension")
 
+    // Ktor
+    implementation "io.ktor:ktor-client-core:$ktor_version"
+
     implementation 'androidx.core:core-ktx:1.7.0'
 
     testImplementation 'junit:junit:4.13.2'

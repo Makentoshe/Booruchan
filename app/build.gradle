@@ -62,6 +62,8 @@ dependencies {
     implementation project(":screen:boorulist")
     implementation project(":screen:boorucontent")
 
+    implementation project(":feature")
+
     implementation project(":extension")
 
     implementation "androidx.core:core-ktx:$android_core_version"

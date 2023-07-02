@@ -14,6 +14,9 @@ dependencies {
 
     implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:$kotlin_serialization_version"
 
+    // Ktor
+    implementation "io.ktor:ktor-client-core:$ktor_version"
+
     // Dagger and Hilt
     implementation "com.google.dagger:dagger:$dagger_version"
     implementation "com.google.dagger:hilt-core:$dagger_version"
