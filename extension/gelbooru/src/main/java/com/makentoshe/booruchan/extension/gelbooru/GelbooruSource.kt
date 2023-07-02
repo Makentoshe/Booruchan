@@ -9,6 +9,9 @@ import com.makentoshe.booruchan.feature.context.BooruSystem
 
 class GelbooruSource : BooruSource {
 
+    override val id: String
+        get() = "gelbooru"
+
     override val context = BooruContext(
         title = "Gelbooru",
         system = BooruSystem.Gelbooru025System,

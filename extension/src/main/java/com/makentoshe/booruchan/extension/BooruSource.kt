@@ -7,6 +7,9 @@ import com.makentoshe.booruchan.feature.NetworkRequest
 
 interface BooruSource {
 
+    /** Should be unique for each source */
+    val id: String
+
     val context: BooruContext
 
     val healthcheckFactory: BooruHealthcheckFactory

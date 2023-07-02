@@ -17,8 +17,8 @@ internal fun BoorulistScreenUiContent(
     state: BoorulistStateContent.Content,
     event: (BoorulistEvent) -> Unit,
 ) = LazyColumn {
-    items(state.booruItems) { booruItemState ->
-        BoorulistItem(booruItemState = booruItemState, event = event)
+    itemsIndexed(state.booruItems) { index, booruItemState ->
+        BoorulistItem(index = index, booruItemState = booruItemState, event = event)
 
         Divider(
             modifier = Modifier.fillMaxWidth(),

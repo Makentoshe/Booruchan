@@ -20,6 +20,7 @@ import com.makentoshe.booruchan.library.logging.internalLogWarn
 import com.makentoshe.screen.boorulist.mapper.BooruContext2BooruItemStateMapper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -33,6 +34,8 @@ class BoorulistViewModel @Inject constructor(
     StateDelegate<BoorulistState> by DefaultStateDelegate(BoorulistState.InitialState),
     EventDelegate<BoorulistEvent> by DefaultEventDelegate(),
     NavigationDelegate<BoorulistDestination> by DefaultNavigationDelegate() {
+
+    private val booruSourcesStateFlow = MutableStateFlow(listOf<BooruSource>())
 
     init {
         internalLogInfo("OnViewModelConstruct")
@@ -50,6 +53,7 @@ class BoorulistViewModel @Inject constructor(
 
     private fun onGetBooruSources(booruSources: List<BooruSource>) {
         internalLogInfo("OnGetBooruSources: $booruSources")
+        viewModelScope.launch { booruSourcesStateFlow.emit(booruSources) }
 
         // Map BooruContext to BooruItemState
         val booruItemStates = booruSources.map { it.context }.map(booruContext2BooruItemStateMapper::map)
@@ -111,6 +115,7 @@ class BoorulistViewModel @Inject constructor(
 
 
     private fun navigateToBoorucontentScreen(event: BoorulistEvent.NavigateToBoorucontentScreen) {
-        updateNavigation { BoorulistDestination.BoorucontentDestination(event.booruItemState.url) }
+        val booruSource = booruSourcesStateFlow.value[event.booruSourceIndex]
+        updateNavigation { BoorulistDestination.BoorucontentDestination(booruSource.id) }
     }
 }

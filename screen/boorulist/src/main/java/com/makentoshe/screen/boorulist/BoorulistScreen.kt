@@ -26,7 +26,7 @@ fun BoorulistScreen(navigator: BoorulistScreenNavigator) {
         screenLogInfo(Screen.Boorulist, "Navigation destination: $destination")
         when (destination) {
             is BoorulistDestination.BoorucontentDestination -> {
-                navigator.navigateToBoorucontentScreen(destination.booruContextUrl)
+                navigator.navigateToBoorucontentScreen(destination.booruSourceId)
             }
         }
     }

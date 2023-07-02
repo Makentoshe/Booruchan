@@ -26,11 +26,12 @@ import com.makentoshe.screen.boorulist.viewmodel.BoorulistEvent
 
 @Composable
 internal fun BoorulistItem(
+    index: Int,
     booruItemState: BooruItemState,
     event: (BoorulistEvent) -> Unit,
 ) = Row(
     modifier = Modifier.fillMaxWidth().height(72.dp).clickable {
-        event(BoorulistEvent.NavigateToBoorucontentScreen(booruItemState))
+        event(BoorulistEvent.NavigateToBoorucontentScreen(index))
     },
     horizontalArrangement = Arrangement.SpaceBetween,
 ) {
