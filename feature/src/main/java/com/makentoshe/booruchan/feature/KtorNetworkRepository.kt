@@ -1,7 +1,9 @@
 package com.makentoshe.booruchan.feature
 
 import io.ktor.client.*
+import io.ktor.client.call.*
 import io.ktor.client.request.*
+import io.ktor.client.statement.*
 import io.ktor.http.*
 import javax.inject.Inject
 
@@ -22,6 +24,6 @@ class KtorNetworkRepository @Inject constructor(
             request.parameters.forEach { (key, value) -> parameter(key, value) }
         }
 
-        return NetworkResponse(request, a.status.value)
+        return NetworkResponse(request, a.status.value, NetworkContent(a.body()))
     }
 }

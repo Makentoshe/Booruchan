@@ -1,18 +1,38 @@
 package com.makentoshe.booruchan.extension.factory
 
+import com.makentoshe.booruchan.extension.entity.NetworkPost
+import com.makentoshe.booruchan.extension.parser.PostSearchParser
 import com.makentoshe.booruchan.feature.NetworkRequest
+import com.makentoshe.booruchan.feature.NetworkResponse
+import com.makentoshe.booruchan.feature.text
 
-interface BooruPostSearchFactory {
+abstract class BooruPostSearchFactory constructor(
+    private val parser: PostSearchParser,
+){
 
     /** Initial page number for api. Mostly it is 0 but in some cases pagination might be started from other page */
-    val initialPageNumber: Int get() = 0
+    val initialPageNumber: Int = 0
 
     /** How many posts will be requested per page. Default value is 30  */
-    val requestedPostsPerPageCount: Int get() = 30
+    val requestedPostsPerPageCount: Int = 30
 
-    fun buildRequest(
-        page: Int = initialPageNumber,
-        tags: String = "",
-        count: Int = requestedPostsPerPageCount,
-    ): NetworkRequest
+    /** How search tags should be separated */
+    val searchTagSeparator: String = " "
+
+    /** Creates a request for NetworkRepository which performs exact request to the booru */
+    abstract fun buildRequest(request: FetchPostsRequest): NetworkRequest
+
+    fun parseResponse(response: NetworkResponse): List<NetworkPost> {
+        return parser.parse(response.content.text)
+    }
+
+    data class FetchPostsRequest(
+        // How many posts we want to retrieve. There might be a hard limit for posts per request.
+        val count: Int,
+        // The page number for pagination
+        val page: Int,
+        // The tags to search for
+        val tags: String,
+    )
+
 }

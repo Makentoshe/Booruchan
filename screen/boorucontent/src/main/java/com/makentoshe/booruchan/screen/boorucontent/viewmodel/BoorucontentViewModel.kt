@@ -5,6 +5,9 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
+import com.makentoshe.booruchan.extension.BooruSource
+import com.makentoshe.booruchan.extension.usecase.GetBooruSourceUseCase
+import com.makentoshe.booruchan.extension.usecase.GetBooruSourcesUseCase
 import com.makentoshe.booruchan.feature.context.BooruContext
 import com.makentoshe.booruchan.feature.boorulist.domain.usecase.GetBooruContextUseCase
 import com.makentoshe.booruchan.feature.search.BooruSearch
@@ -24,22 +27,24 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.flatMapConcat
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class BoorucontentViewModel @Inject constructor(
+    private val getBooruSource: GetBooruSourceUseCase,
     private val booruPostPagingSourceFactory: BooruPostPagingSourceFactory,
-    private val getBooruContext: GetBooruContextUseCase,
 ) : ViewModel(), CoroutineDelegate by DefaultCoroutineDelegate(),
     EventDelegate<BoorucontentScreenEvent> by DefaultEventDelegate(),
     NavigationDelegate<BoorucontentDestination> by DefaultNavigationDelegate(),
     StateDelegate<BoorucontentScreenState> by DefaultStateDelegate(BoorucontentScreenState.InitialState) {
 
-    // We're going to store BooruContext because there isn't any way BooruContext should be changed during this screen
-    private val booruContextStateFlow = MutableStateFlow(BooruContext.EmptyContext)
+    private val booruSourceStateFlow = MutableStateFlow<BooruSource?>(null)
 
     fun handleEvent(event: BoorucontentScreenEvent) = when (event) {
         is BoorucontentScreenEvent.Initialize -> initializeEvent(event)
@@ -53,37 +58,35 @@ class BoorucontentViewModel @Inject constructor(
 
         // Skip initialization if it was already finished
         // This may happen after lock-unlock phone screen
-        if (booruContextStateFlow.value != BooruContext.EmptyContext) return
+        if (booruSourceStateFlow.value != null) return
 
         viewModelScope.launch(Dispatchers.IO + coroutineExceptionHandler { throwable ->
             internalLogWarn(throwable.toString())
             updateState { copy(toolbarState = BoorucontentToolbarState.Error(throwable.toString())) }
         }) {
-            getBooruContext(event.booruContextUrl).collectLatest(::onGetBooruContext)
+            getBooruSource(event.booruSourceId).collectLatest(::onGetBooruSource)
         }
     }
 
-    private fun onGetBooruContext(booruContext: BooruContext) {
-        internalLogInfo("On get booru context success: $booruContext")
+    private fun onGetBooruSource(booruSource: BooruSource) {
+        internalLogInfo("On get booru context success: $booruSource")
 
         // store boorucontext in viewmodel
-        viewModelScope.launch { booruContextStateFlow.emit(booruContext) }
+        viewModelScope.launch { booruSourceStateFlow.emit(booruSource) }
 
         // show booru title
         updateState {
             copy(
-                toolbarState = BoorucontentToolbarState.Content(booruContext.title),
-                bottomSheetState = BoorucontentBottomSheetState(
-                    queryHint = booruContext.settings.searchSettings.hint,
-                )
+                toolbarState = BoorucontentToolbarState.Content(booruSource.context.title),
+                bottomSheetState = BoorucontentBottomSheetState()
             )
         }
 
         // prepare pager for displaying booru posts
-        val pagerFlow =
-            Pager(PagingConfig(pageSize = booruContext.settings.searchSettings.requestedPostsPerPageCount)) {
-                booruPostPagingSourceFactory.build(booruContext, BooruSearch(emptySet()))
-            }.flow.cachedIn(viewModelScope)
+        val postSearchFactory = booruSource.postSearchFactory
+        val pagerFlow = Pager(PagingConfig(pageSize = postSearchFactory.requestedPostsPerPageCount)) {
+            booruPostPagingSourceFactory.build(postSearchFactory, BooruSearch(emptySet()))
+        }.flow.cachedIn(viewModelScope)
 
         updateState { copy(pagerFlow = pagerFlow) }
     }
@@ -91,22 +94,17 @@ class BoorucontentViewModel @Inject constructor(
     private fun searchEvent(event: BoorucontentScreenEvent.Search) {
         internalLogInfo("search event invoked: $event")
 
-        // Get BooruContext locally or do nothing
-        val booruContext = booruContextStateFlow.value
-        if (booruContext == BooruContext.EmptyContext) return
+        val booruSource = booruSourceStateFlow.value ?: return
+        val postSearchFactory = booruSource.postSearchFactory
 
         // Map search query to list of tags
-        val searchTags = event.searchQuery.split(booruContext.settings.searchSettings.tagSeparator).map { tag ->
-            SearchTag(string = tag)
-        }
-
+        val searchTags = event.searchQuery.split(postSearchFactory.searchTagSeparator).map(::SearchTag)
         val booruSearch = BooruSearch(tags = searchTags.toSet())
 
         // Create new pager for displaying booru posts
-        val pagerFlow =
-            Pager(PagingConfig(pageSize = booruContext.settings.searchSettings.requestedPostsPerPageCount)) {
-                booruPostPagingSourceFactory.build(booruContext, booruSearch)
-            }.flow.cachedIn(viewModelScope)
+        val pagerFlow = Pager(PagingConfig(pageSize = postSearchFactory.requestedPostsPerPageCount)) {
+            booruPostPagingSourceFactory.build(postSearchFactory, booruSearch)
+        }.flow.cachedIn(viewModelScope)
 
         updateState { copy(pagerFlow = pagerFlow) }
     }

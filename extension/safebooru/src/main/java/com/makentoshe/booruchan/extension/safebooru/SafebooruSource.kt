@@ -2,9 +2,8 @@ package com.makentoshe.booruchan.extension.safebooru
 
 import com.makentoshe.booruchan.extension.BooruContext
 import com.makentoshe.booruchan.extension.BooruSource
-import com.makentoshe.booruchan.extension.factory.BooruPostSearchFactory
-import com.makentoshe.booruchan.feature.NetworkMethod
-import com.makentoshe.booruchan.feature.NetworkRequest
+import com.makentoshe.booruchan.extension.safebooru.factory.SafebooruPostSearchFactory
+import com.makentoshe.booruchan.extension.safebooru.parser.SafebooruPostSearchJsonParser
 import com.makentoshe.booruchan.feature.context.BooruSystem
 
 class SafebooruSource : BooruSource {
@@ -18,23 +17,7 @@ class SafebooruSource : BooruSource {
         host = "https://safebooru.org",
     )
 
-    override val postSearchFactory: BooruPostSearchFactory
-        get() = object : BooruPostSearchFactory {
-            override fun buildRequest(page: Int, tags: String, count: Int): NetworkRequest {
-                return NetworkRequest(
-                    method = NetworkMethod.Get,
-                    url = context.host.plus("/index.php"),
-                    parameters = mapOf(
-                        "page" to "dapi",
-                        "s" to "post",
-                        "q" to "index",
-                        "json" to "1", // force responding with json instead of xml
+    override val postSearchFactory
+        get() = SafebooruPostSearchFactory(context = context, parser = SafebooruPostSearchJsonParser())
 
-                        "limit" to count.toString(),
-                        "pid" to page.toString(),
-                        "tags" to tags,
-                    )
-                )
-            }
-        }
 }
