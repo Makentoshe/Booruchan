@@ -3,6 +3,7 @@ package com.makentoshe.booruchan.screen.boorucontent.viewmodel
 import androidx.paging.PagingData
 import com.makentoshe.booruchan.screen.boorucontent.domain.AutoCompleteTagUi
 import com.makentoshe.booruchan.screen.boorucontent.domain.BooruPreviewPostUi
+import com.makentoshe.booruchan.screen.boorucontent.domain.SearchTagUi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 
@@ -33,5 +34,5 @@ sealed interface  BoorucontentToolbarState {
 data class BoorucontentBottomSheetState(
     val queryHint: String = "",
     val queryAutocomplete: List<AutoCompleteTagUi> = emptyList(),
-    val queryTags: Set<String> = emptySet(),
+    val queryTags: Set<SearchTagUi> = emptySet(),
 )

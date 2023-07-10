@@ -22,6 +22,7 @@ import com.makentoshe.booruchan.library.feature.StateDelegate
 import com.makentoshe.booruchan.library.logging.internalLogInfo
 import com.makentoshe.booruchan.library.logging.internalLogWarn
 import com.makentoshe.booruchan.screen.boorucontent.mapper.AutoCompleteTag2AutoCompleteTagUiMapper
+import com.makentoshe.booruchan.screen.boorucontent.mapper.AutoCompleteTagUi2SearchTagUiMapper
 import com.makentoshe.booruchan.screen.boorucontent.ui.foundation.android.model.BooruPostPagingSourceFactory
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -36,6 +37,7 @@ class BoorucontentViewModel @Inject constructor(
     private val fetchAutoCompleteTags: FetchAutoCompleteTagsUseCase,
     private val booruPostPagingSourceFactory: BooruPostPagingSourceFactory,
     private val autoCompleteTagUiMapper: AutoCompleteTag2AutoCompleteTagUiMapper,
+    private val searchTagUiMapper: AutoCompleteTagUi2SearchTagUiMapper,
 ) : ViewModel(), CoroutineDelegate by DefaultCoroutineDelegate(),
     EventDelegate<BoorucontentScreenEvent> by DefaultEventDelegate(),
     NavigationDelegate<BoorucontentDestination> by DefaultNavigationDelegate(),
@@ -47,8 +49,9 @@ class BoorucontentViewModel @Inject constructor(
         is BoorucontentScreenEvent.Initialize -> initializeEvent(event)
         is BoorucontentScreenEvent.NavigationBack -> navigationBackEvent()
         is BoorucontentScreenEvent.Search -> searchEvent(event)
-        is BoorucontentScreenEvent.Autocomplete -> autocompleteEvent(event)
+        is BoorucontentScreenEvent.AutoCompleteTag -> autocompleteEvent(event)
         is BoorucontentScreenEvent.AddSearchTag -> addSearchTagEvent(event)
+        is BoorucontentScreenEvent.RemoveSearchTag -> removeSearchTagEvent(event)
     }
 
     private fun initializeEvent(event: BoorucontentScreenEvent.Initialize) {
@@ -107,13 +110,19 @@ class BoorucontentViewModel @Inject constructor(
         updateState { copy(pagerFlow = pagerFlow) }
     }
 
-    private fun autocompleteEvent(event: BoorucontentScreenEvent.Autocomplete) {
+    private fun autocompleteEvent(event: BoorucontentScreenEvent.AutoCompleteTag) {
         internalLogInfo("autocomplete event invoked: $event")
 
         val booruSource = booruSourceStateFlow.value ?: return
         val autoCompleteTagFactory = booruSource.autoCompleteTagFactory ?: return
 
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO + coroutineExceptionHandler {
+            updateState {
+                copy(
+                    bottomSheetState = bottomSheetState.copy(queryAutocomplete = emptyList())
+                )
+            }
+        }) {
             val fetchTagsRequest = AutoCompleteTagFactory.FetchTagsRequest(event.autocompleteQuery)
             val autoCompleteTags = fetchAutoCompleteTags(fetchTagsRequest, autoCompleteTagFactory)
 
@@ -127,15 +136,36 @@ class BoorucontentViewModel @Inject constructor(
         }
     }
 
-    private fun addSearchTagEvent(event: BoorucontentScreenEvent.AddSearchTag) {
-        internalLogInfo("add search tag event invoked: $event")
+    private fun removeSearchTagEvent(event: BoorucontentScreenEvent.RemoveSearchTag) {
+        internalLogInfo("remove search tag event invoked: $event")
 
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO + coroutineExceptionHandler { throwable ->
+            internalLogWarn(throwable.toString())
+        }) {
             updateState {
                 copy(
                     bottomSheetState = bottomSheetState.copy(
-                        queryTags = bottomSheetState.queryTags.plus(event.tag),
+                        queryTags = bottomSheetState.queryTags.minus(event.tag)
                     )
+                )
+            }
+        }
+    }
+
+    private fun addSearchTagEvent(event: BoorucontentScreenEvent.AddSearchTag) {
+        internalLogInfo("add search tag event invoked: $event")
+
+        viewModelScope.launch(Dispatchers.IO + coroutineExceptionHandler { throwable ->
+            internalLogWarn(throwable.toString())
+        }) {
+            val autoCompleteTagUi = state.bottomSheetState.queryAutocomplete[event.index]
+            val searchTagUi = searchTagUiMapper.map(autoCompleteTagUi)
+
+            updateState {
+                copy(
+                    bottomSheetState = bottomSheetState.copy(
+                        queryTags = bottomSheetState.queryTags.plus(searchTagUi),
+                    ),
                 )
             }
         }

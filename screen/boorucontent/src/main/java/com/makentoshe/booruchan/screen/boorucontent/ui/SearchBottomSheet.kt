@@ -1,9 +1,11 @@
 package com.makentoshe.booruchan.screen.boorucontent.ui
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.absolutePadding
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -14,8 +16,6 @@ import androidx.compose.material.icons.outlined.Close
 import androidx.compose.material3.Button
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
-import androidx.compose.material3.ModalBottomSheet
-import androidx.compose.material3.SheetState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
@@ -28,12 +28,16 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.makentoshe.booruchan.screen.boorucontent.domain.SearchTagCategory
+import com.makentoshe.booruchan.screen.boorucontent.domain.SearchTagUi
 import com.makentoshe.booruchan.screen.boorucontent.ui.foundation.AutoCompleteTextField
+import com.makentoshe.booruchan.screen.boorucontent.ui.foundation.SearchTagChip
 import com.makentoshe.booruchan.screen.boorucontent.viewmodel.BoorucontentBottomSheetState
 import com.makentoshe.booruchan.screen.boorucontent.viewmodel.BoorucontentScreenEvent
 import com.makentoshe.booruchan.screen.boorucontent.viewmodel.BoorucontentScreenState
 import com.makentoshe.library.uikit.foundation.IndeterminateProgressBar
-import kotlinx.coroutines.CoroutineScope
+import com.makentoshe.library.uikit.foundation.SecondaryText
+import com.makentoshe.library.uikit.theme.BooruchanTheme
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -60,9 +64,9 @@ fun SearchBottomSheetContent(
     DisposableEffect(key1 = autoCompleteTextFieldValue, effect = {
         val job = coroutineScope.launch {
             if (autoCompleteTextFieldValue.isEmpty()) return@launch
-            delay(3000) // delay between input and autocomplete starting
+            delay(350) // delay between input and autocomplete starting
             autoCompleteProgressBarVisible = true
-            screenEvent(BoorucontentScreenEvent.Autocomplete(autoCompleteTextFieldValue))
+            screenEvent(BoorucontentScreenEvent.AutoCompleteTag(autoCompleteTextFieldValue))
         }
         onDispose {
             job.cancel()
@@ -77,8 +81,8 @@ fun SearchBottomSheetContent(
         onDismissRequest = { autoCompleteOptionsExpanded = false },
         dropDownExpanded = autoCompleteOptionsExpanded,
         list = screenState.bottomSheetState.queryAutocomplete.map { it.title },
-        onDropDownItemClick = { tagTitle ->
-            screenEvent(BoorucontentScreenEvent.AddSearchTag(tagTitle))
+        onDropDownItemClick = { index, tagTitle ->
+            screenEvent(BoorucontentScreenEvent.AddSearchTag(tagTitle, index))
             autoCompleteTextFieldValue = ""
             autoCompleteOptionsExpanded = false
         },
@@ -94,12 +98,14 @@ fun SearchBottomSheetContent(
             }
         }
     )
-    
+
     Spacer(modifier = Modifier.height(16.dp).fillMaxWidth())
 
     Divider(modifier = Modifier.fillMaxWidth())
 
     Spacer(modifier = Modifier.height(16.dp).fillMaxWidth())
+
+    SearchBottomSheetTags(sheetState = screenState.bottomSheetState, screenEvent = screenEvent)
 
     Button(onClick = {
         screenEvent(BoorucontentScreenEvent.Search(autoCompleteTextFieldValue))
@@ -112,6 +118,40 @@ fun SearchBottomSheetContent(
 private fun SearchBottomSheetTags(
     sheetState: BoorucontentBottomSheetState,
     screenEvent: (BoorucontentScreenEvent) -> Unit,
-) {
+) = Column {
 
+    val generalTags = remember(key1 = sheetState.queryTags) {
+        sheetState.queryTags.filter { it.category is SearchTagCategory.General }
+    }
+    if (generalTags.isNotEmpty()) {
+        SearchBottomSheetGeneralTags(
+            modifier = Modifier.padding(horizontal = 16.dp),
+            generalTags = generalTags,
+            onCloseChipIconClick = {
+                screenEvent(BoorucontentScreenEvent.RemoveSearchTag(it))
+            }
+        )
+    }
+}
+
+@Composable
+@OptIn(ExperimentalLayoutApi::class)
+private fun SearchBottomSheetGeneralTags(
+    generalTags: List<SearchTagUi>,
+    modifier: Modifier = Modifier,
+    onCloseChipIconClick: (SearchTagUi) -> Unit,
+) = Column(
+    modifier = modifier,
+    verticalArrangement = Arrangement.spacedBy(8.dp),
+) {
+    SecondaryText(text = "General", color = BooruchanTheme.colors.foreground)
+
+    FlowRow(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.spacedBy(4.dp),
+    ) {
+        generalTags.forEach { tag ->
+            SearchTagChip(searchTagUi = tag, onCloseIconClick = { onCloseChipIconClick(tag) })
+        }
+    }
 }
