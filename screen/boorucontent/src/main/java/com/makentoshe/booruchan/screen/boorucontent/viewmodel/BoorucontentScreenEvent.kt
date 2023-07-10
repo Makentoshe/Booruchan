@@ -5,7 +5,7 @@ import com.makentoshe.booruchan.screen.boorucontent.domain.SearchTagUi
 sealed interface BoorucontentScreenEvent {
     data class Initialize(val booruSourceId: String): BoorucontentScreenEvent
 
-    data class Search(val searchQuery: String): BoorucontentScreenEvent
+    object Search: BoorucontentScreenEvent
 
     data class AutoCompleteTag(val autocompleteQuery: String): BoorucontentScreenEvent
 

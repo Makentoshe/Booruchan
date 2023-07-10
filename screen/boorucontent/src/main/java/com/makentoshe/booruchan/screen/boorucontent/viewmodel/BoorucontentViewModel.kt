@@ -23,6 +23,7 @@ import com.makentoshe.booruchan.library.logging.internalLogInfo
 import com.makentoshe.booruchan.library.logging.internalLogWarn
 import com.makentoshe.booruchan.screen.boorucontent.mapper.AutoCompleteTag2AutoCompleteTagUiMapper
 import com.makentoshe.booruchan.screen.boorucontent.mapper.AutoCompleteTagUi2SearchTagUiMapper
+import com.makentoshe.booruchan.screen.boorucontent.mapper.SearchTagUi2SearchTagMapper
 import com.makentoshe.booruchan.screen.boorucontent.ui.foundation.android.model.BooruPostPagingSourceFactory
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -38,6 +39,7 @@ class BoorucontentViewModel @Inject constructor(
     private val booruPostPagingSourceFactory: BooruPostPagingSourceFactory,
     private val autoCompleteTagUiMapper: AutoCompleteTag2AutoCompleteTagUiMapper,
     private val searchTagUiMapper: AutoCompleteTagUi2SearchTagUiMapper,
+    private val searchTagUi2SearchTagMapper: SearchTagUi2SearchTagMapper,
 ) : ViewModel(), CoroutineDelegate by DefaultCoroutineDelegate(),
     EventDelegate<BoorucontentScreenEvent> by DefaultEventDelegate(),
     NavigationDelegate<BoorucontentDestination> by DefaultNavigationDelegate(),
@@ -98,16 +100,20 @@ class BoorucontentViewModel @Inject constructor(
         val booruSource = booruSourceStateFlow.value ?: return
         val postSearchFactory = booruSource.postSearchFactory
 
-        // Map search query to list of tags
-        val searchTags = event.searchQuery.split(postSearchFactory.searchTagSeparator).map(::SearchTag)
-        val booruSearch = BooruSearch(tags = searchTags.toSet())
+        viewModelScope.launch(Dispatchers.IO + coroutineExceptionHandler { throwable ->
+            internalLogWarn(throwable.toString())
+        }) {
+            // Get search tags from current screen state
+            val searchTags = state.bottomSheetState.queryTags.map(searchTagUi2SearchTagMapper::map)
+            val booruSearch = BooruSearch(tags = searchTags.toSet())
 
-        // Create new pager for displaying booru posts
-        val pagerFlow = Pager(PagingConfig(pageSize = postSearchFactory.requestedPostsPerPageCount)) {
-            booruPostPagingSourceFactory.build(postSearchFactory, booruSearch)
-        }.flow.cachedIn(viewModelScope)
+            // Create new pager for displaying booru posts
+            val pagerFlow = Pager(PagingConfig(pageSize = postSearchFactory.requestedPostsPerPageCount)) {
+                booruPostPagingSourceFactory.build(postSearchFactory, booruSearch)
+            }.flow.cachedIn(viewModelScope)
 
-        updateState { copy(pagerFlow = pagerFlow) }
+            updateState { copy(pagerFlow = pagerFlow) }
+        }
     }
 
     private fun autocompleteEvent(event: BoorucontentScreenEvent.AutoCompleteTag) {

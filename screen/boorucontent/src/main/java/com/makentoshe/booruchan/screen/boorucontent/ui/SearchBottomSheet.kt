@@ -108,7 +108,7 @@ fun SearchBottomSheetContent(
     SearchBottomSheetTags(sheetState = screenState.bottomSheetState, screenEvent = screenEvent)
 
     Button(onClick = {
-        screenEvent(BoorucontentScreenEvent.Search(autoCompleteTextFieldValue))
+        screenEvent(BoorucontentScreenEvent.Search)
     }) {
         Text("Search")
     }
