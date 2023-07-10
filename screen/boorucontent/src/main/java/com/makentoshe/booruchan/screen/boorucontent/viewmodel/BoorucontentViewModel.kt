@@ -6,10 +6,9 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
 import com.makentoshe.booruchan.extension.BooruSource
+import com.makentoshe.booruchan.extension.factory.AutoCompleteTagFactory
 import com.makentoshe.booruchan.extension.usecase.GetBooruSourceUseCase
-import com.makentoshe.booruchan.extension.usecase.GetBooruSourcesUseCase
-import com.makentoshe.booruchan.feature.context.BooruContext
-import com.makentoshe.booruchan.feature.boorulist.domain.usecase.GetBooruContextUseCase
+import com.makentoshe.booruchan.feature.autocomplete.FetchAutoCompleteTagsUseCase
 import com.makentoshe.booruchan.feature.search.BooruSearch
 import com.makentoshe.booruchan.feature.search.SearchTag
 import com.makentoshe.booruchan.library.feature.CoroutineDelegate
@@ -22,23 +21,21 @@ import com.makentoshe.booruchan.library.feature.NavigationDelegate
 import com.makentoshe.booruchan.library.feature.StateDelegate
 import com.makentoshe.booruchan.library.logging.internalLogInfo
 import com.makentoshe.booruchan.library.logging.internalLogWarn
+import com.makentoshe.booruchan.screen.boorucontent.mapper.AutoCompleteTag2AutoCompleteTagUiMapper
 import com.makentoshe.booruchan.screen.boorucontent.ui.foundation.android.model.BooruPostPagingSourceFactory
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.filter
-import kotlinx.coroutines.flow.flatMapConcat
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class BoorucontentViewModel @Inject constructor(
     private val getBooruSource: GetBooruSourceUseCase,
+    private val fetchAutoCompleteTags: FetchAutoCompleteTagsUseCase,
     private val booruPostPagingSourceFactory: BooruPostPagingSourceFactory,
+    private val autoCompleteTagUiMapper: AutoCompleteTag2AutoCompleteTagUiMapper,
 ) : ViewModel(), CoroutineDelegate by DefaultCoroutineDelegate(),
     EventDelegate<BoorucontentScreenEvent> by DefaultEventDelegate(),
     NavigationDelegate<BoorucontentDestination> by DefaultNavigationDelegate(),
@@ -51,6 +48,7 @@ class BoorucontentViewModel @Inject constructor(
         is BoorucontentScreenEvent.NavigationBack -> navigationBackEvent()
         is BoorucontentScreenEvent.Search -> searchEvent(event)
         is BoorucontentScreenEvent.Autocomplete -> autocompleteEvent(event)
+        is BoorucontentScreenEvent.AddSearchTag -> addSearchTagEvent(event)
     }
 
     private fun initializeEvent(event: BoorucontentScreenEvent.Initialize) {
@@ -112,9 +110,34 @@ class BoorucontentViewModel @Inject constructor(
     private fun autocompleteEvent(event: BoorucontentScreenEvent.Autocomplete) {
         internalLogInfo("autocomplete event invoked: $event")
 
+        val booruSource = booruSourceStateFlow.value ?: return
+        val autoCompleteTagFactory = booruSource.autoCompleteTagFactory ?: return
+
         viewModelScope.launch {
-            delay(1000)
-            updateState { copy(bottomSheetState = bottomSheetState.copy(queryAutocomplete = (0..10).map { "${event.autocompleteQuery}-$it" })) }
+            val fetchTagsRequest = AutoCompleteTagFactory.FetchTagsRequest(event.autocompleteQuery)
+            val autoCompleteTags = fetchAutoCompleteTags(fetchTagsRequest, autoCompleteTagFactory)
+
+            updateState {
+                copy(
+                    bottomSheetState = bottomSheetState.copy(
+                        queryAutocomplete = autoCompleteTags.map(autoCompleteTagUiMapper::map)
+                    )
+                )
+            }
+        }
+    }
+
+    private fun addSearchTagEvent(event: BoorucontentScreenEvent.AddSearchTag) {
+        internalLogInfo("add search tag event invoked: $event")
+
+        viewModelScope.launch {
+            updateState {
+                copy(
+                    bottomSheetState = bottomSheetState.copy(
+                        queryTags = bottomSheetState.queryTags.plus(event.tag),
+                    )
+                )
+            }
         }
     }
 

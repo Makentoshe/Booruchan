@@ -1,5 +1,6 @@
 package com.makentoshe.booruchan.extension
 
+import com.makentoshe.booruchan.extension.factory.AutoCompleteTagFactory
 import com.makentoshe.booruchan.extension.factory.BooruHealthcheckFactory
 import com.makentoshe.booruchan.extension.factory.BooruPostSearchFactory
 import com.makentoshe.booruchan.feature.NetworkMethod
@@ -23,5 +24,7 @@ interface BooruSource {
         }
 
     val postSearchFactory: BooruPostSearchFactory
+
+    val autoCompleteTagFactory: AutoCompleteTagFactory? get() = null
 }
 

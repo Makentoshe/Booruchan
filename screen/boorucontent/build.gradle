@@ -51,6 +51,7 @@ dependencies {
 
     implementation project(":feature")
     implementation project(':feature:postsearch')
+    implementation project(':feature:autocomplete')
     implementation project(':feature:boorustorage-data')
     implementation project(':feature:boorustorage-domain')
     implementation project(":feature:boorupost-domain")
