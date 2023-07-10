@@ -13,9 +13,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Close
+import androidx.compose.material3.BottomSheetScaffoldState
 import androidx.compose.material3.Button
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.SheetState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
@@ -26,7 +28,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.unit.dp
 import com.makentoshe.booruchan.screen.boorucontent.domain.SearchTagCategory
 import com.makentoshe.booruchan.screen.boorucontent.domain.SearchTagUi
@@ -38,6 +42,7 @@ import com.makentoshe.booruchan.screen.boorucontent.viewmodel.BoorucontentScreen
 import com.makentoshe.library.uikit.foundation.IndeterminateProgressBar
 import com.makentoshe.library.uikit.foundation.SecondaryText
 import com.makentoshe.library.uikit.theme.BooruchanTheme
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -45,6 +50,7 @@ import kotlinx.coroutines.launch
 fun SearchBottomSheetContent(
     screenState: BoorucontentScreenState,
     screenEvent: (BoorucontentScreenEvent) -> Unit,
+    onSearchButtonClicked: () -> Unit,
 ) = Column(
     modifier = Modifier.fillMaxSize(),
 ) {
@@ -107,9 +113,7 @@ fun SearchBottomSheetContent(
 
     SearchBottomSheetTags(sheetState = screenState.bottomSheetState, screenEvent = screenEvent)
 
-    Button(onClick = {
-        screenEvent(BoorucontentScreenEvent.Search)
-    }) {
+    Button(onClick = { onSearchButtonClicked() }) {
         Text("Search")
     }
 }

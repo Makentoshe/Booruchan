@@ -151,6 +151,7 @@ class BoorucontentViewModel @Inject constructor(
             updateState {
                 copy(
                     bottomSheetState = bottomSheetState.copy(
+                        queryAutocomplete = emptyList(),
                         queryTags = bottomSheetState.queryTags.minus(event.tag)
                     )
                 )
@@ -170,6 +171,7 @@ class BoorucontentViewModel @Inject constructor(
             updateState {
                 copy(
                     bottomSheetState = bottomSheetState.copy(
+                        queryAutocomplete = emptyList(),
                         queryTags = bottomSheetState.queryTags.plus(searchTagUi),
                     ),
                 )
