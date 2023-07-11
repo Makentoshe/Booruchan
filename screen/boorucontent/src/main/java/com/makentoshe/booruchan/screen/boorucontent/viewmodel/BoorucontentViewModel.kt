@@ -10,7 +10,6 @@ import com.makentoshe.booruchan.extension.factory.AutoCompleteTagFactory
 import com.makentoshe.booruchan.extension.usecase.GetBooruSourceUseCase
 import com.makentoshe.booruchan.feature.autocomplete.FetchAutoCompleteTagsUseCase
 import com.makentoshe.booruchan.feature.search.BooruSearch
-import com.makentoshe.booruchan.feature.search.SearchTag
 import com.makentoshe.booruchan.library.feature.CoroutineDelegate
 import com.makentoshe.booruchan.library.feature.DefaultCoroutineDelegate
 import com.makentoshe.booruchan.library.feature.DefaultEventDelegate
@@ -26,7 +25,9 @@ import com.makentoshe.booruchan.screen.boorucontent.mapper.AutoCompleteTagUi2Sea
 import com.makentoshe.booruchan.screen.boorucontent.mapper.SearchTagUi2SearchTagMapper
 import com.makentoshe.booruchan.screen.boorucontent.ui.foundation.android.model.BooruPostPagingSourceFactory
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineName
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.cancelChildren
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -122,13 +123,15 @@ class BoorucontentViewModel @Inject constructor(
         val booruSource = booruSourceStateFlow.value ?: return
         val autoCompleteTagFactory = booruSource.autoCompleteTagFactory ?: return
 
-        viewModelScope.launch(Dispatchers.IO + coroutineExceptionHandler {
-            updateState {
-                copy(
-                    bottomSheetState = bottomSheetState.copy(queryAutocomplete = emptyList())
-                )
-            }
-        }) {
+        // Context for defining a single coroutine for autocompleting
+        // We also able to cancel it if we need to autocomplete a new tag
+        val coroutineContext = Dispatchers.IO + CoroutineName("Autocomplete") + coroutineExceptionHandler {
+            updateState { copy(bottomSheetState = bottomSheetState.copy(queryAutocomplete = emptyList())) }
+        }
+        // cancel previous autocompletion if possible
+        coroutineContext.cancelChildren()
+        // launch autocompletion
+        viewModelScope.launch(coroutineContext) {
             val fetchTagsRequest = AutoCompleteTagFactory.FetchTagsRequest(event.autocompleteQuery)
             val autoCompleteTags = fetchAutoCompleteTags(fetchTagsRequest, autoCompleteTagFactory)
 
