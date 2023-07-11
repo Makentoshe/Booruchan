@@ -5,6 +5,8 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material3.AssistChip
+import androidx.compose.material3.AssistChipDefaults
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.FilterChipDefaults
 import androidx.compose.material3.Icon
@@ -19,16 +21,17 @@ import com.makentoshe.library.uikit.theme.BooruchanTheme
 
 @Composable
 fun SearchTagChip(
+    modifier: Modifier = Modifier,
     searchTagUi: SearchTagUi,
     onCloseIconClick: () -> Unit = {},
-) = FilterChip(
-    border = FilterChipDefaults.filterChipBorder(
+) = AssistChip(
+    modifier = modifier,
+    border = AssistChipDefaults.assistChipBorder(
         borderColor = BooruchanTheme.colors.dimmed,
     ),
-    colors = FilterChipDefaults.filterChipColors(
+    colors = AssistChipDefaults.assistChipColors(
         labelColor = BooruchanTheme.colors.foreground,
     ),
-    selected = false,
     onClick = {},
     trailingIcon = {
         Box(

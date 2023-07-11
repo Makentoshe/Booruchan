@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
-import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -13,11 +12,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Close
-import androidx.compose.material3.BottomSheetScaffoldState
 import androidx.compose.material3.Button
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
-import androidx.compose.material3.SheetState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
@@ -28,9 +25,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.unit.dp
 import com.makentoshe.booruchan.screen.boorucontent.domain.SearchTagCategory
 import com.makentoshe.booruchan.screen.boorucontent.domain.SearchTagUi
@@ -41,8 +36,8 @@ import com.makentoshe.booruchan.screen.boorucontent.viewmodel.BoorucontentScreen
 import com.makentoshe.booruchan.screen.boorucontent.viewmodel.BoorucontentScreenState
 import com.makentoshe.library.uikit.foundation.IndeterminateProgressBar
 import com.makentoshe.library.uikit.foundation.SecondaryText
+import com.makentoshe.library.uikit.layout.ChipGroup
 import com.makentoshe.library.uikit.theme.BooruchanTheme
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -139,7 +134,6 @@ private fun SearchBottomSheetTags(
 }
 
 @Composable
-@OptIn(ExperimentalLayoutApi::class)
 private fun SearchBottomSheetGeneralTags(
     generalTags: List<SearchTagUi>,
     modifier: Modifier = Modifier,
@@ -150,12 +144,12 @@ private fun SearchBottomSheetGeneralTags(
 ) {
     SecondaryText(text = "General", color = BooruchanTheme.colors.foreground)
 
-    FlowRow(
+    ChipGroup(
         modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.spacedBy(4.dp),
+        spacing = 4.dp
     ) {
         generalTags.forEach { tag ->
-            SearchTagChip(searchTagUi = tag, onCloseIconClick = { onCloseChipIconClick(tag) })
+            SearchTagChip(modifier = Modifier.height(32.dp), searchTagUi = tag, onCloseIconClick = { onCloseChipIconClick(tag) })
         }
     }
 }
