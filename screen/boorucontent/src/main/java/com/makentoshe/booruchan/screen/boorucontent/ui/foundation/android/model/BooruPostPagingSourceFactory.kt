@@ -16,4 +16,8 @@ class BooruPostPagingSourceFactory @Inject constructor(
         booruSearch = booruSearch,
         fetchPosts = fetchPosts
     )
+
+    fun error(throwable: Throwable): ErrorPagingSource = ErrorPagingSource(
+        throwable = throwable,
+    )
 }

@@ -23,7 +23,7 @@ interface BooruSource {
             }
         }
 
-    val postSearchFactory: BooruPostSearchFactory
+    val postSearchFactory: BooruPostSearchFactory? get() = null
 
     val autoCompleteTagFactory: AutoCompleteTagFactory? get() = null
 }

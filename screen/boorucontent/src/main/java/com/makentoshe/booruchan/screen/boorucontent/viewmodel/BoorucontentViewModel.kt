@@ -4,11 +4,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
+import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.makentoshe.booruchan.extension.BooruSource
 import com.makentoshe.booruchan.extension.factory.AutoCompleteTagFactory
+import com.makentoshe.booruchan.extension.factory.BooruPostSearchFactory
 import com.makentoshe.booruchan.extension.usecase.GetBooruSourceUseCase
 import com.makentoshe.booruchan.feature.autocomplete.FetchAutoCompleteTagsUseCase
+import com.makentoshe.booruchan.feature.post.BooruPost
 import com.makentoshe.booruchan.feature.search.BooruSearch
 import com.makentoshe.booruchan.library.feature.CoroutineDelegate
 import com.makentoshe.booruchan.library.feature.DefaultCoroutineDelegate
@@ -20,6 +23,7 @@ import com.makentoshe.booruchan.library.feature.NavigationDelegate
 import com.makentoshe.booruchan.library.feature.StateDelegate
 import com.makentoshe.booruchan.library.logging.internalLogInfo
 import com.makentoshe.booruchan.library.logging.internalLogWarn
+import com.makentoshe.booruchan.screen.boorucontent.domain.BooruPreviewPostUi
 import com.makentoshe.booruchan.screen.boorucontent.mapper.AutoCompleteTag2AutoCompleteTagUiMapper
 import com.makentoshe.booruchan.screen.boorucontent.mapper.AutoCompleteTagUi2SearchTagUiMapper
 import com.makentoshe.booruchan.screen.boorucontent.mapper.SearchTagUi2SearchTagMapper
@@ -28,6 +32,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineName
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancelChildren
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -88,10 +93,7 @@ class BoorucontentViewModel @Inject constructor(
 
         // prepare pager for displaying booru posts
         val postSearchFactory = booruSource.postSearchFactory
-        val pagerFlow = Pager(PagingConfig(pageSize = postSearchFactory.requestedPostsPerPageCount)) {
-            booruPostPagingSourceFactory.build(postSearchFactory, BooruSearch(emptySet()))
-        }.flow.cachedIn(viewModelScope)
-
+        val pagerFlow = postSearchFactory?.let(::buildContentPagingFlow)?: buildErrorPagingFlow()
         updateState { copy(pagerFlow = pagerFlow) }
     }
 
@@ -104,15 +106,7 @@ class BoorucontentViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO + coroutineExceptionHandler { throwable ->
             internalLogWarn(throwable.toString())
         }) {
-            // Get search tags from current screen state
-            val searchTags = state.bottomSheetState.queryTags.map(searchTagUi2SearchTagMapper::map)
-            val booruSearch = BooruSearch(tags = searchTags.toSet())
-
-            // Create new pager for displaying booru posts
-            val pagerFlow = Pager(PagingConfig(pageSize = postSearchFactory.requestedPostsPerPageCount)) {
-                booruPostPagingSourceFactory.build(postSearchFactory, booruSearch)
-            }.flow.cachedIn(viewModelScope)
-
+            val pagerFlow = postSearchFactory?.let(::buildContentPagingFlow)?: buildErrorPagingFlow()
             updateState { copy(pagerFlow = pagerFlow) }
         }
     }
@@ -185,6 +179,26 @@ class BoorucontentViewModel @Inject constructor(
     private fun navigationBackEvent() {
         internalLogInfo("navigation back event invoked")
         updateNavigation { BoorucontentDestination.BackDestination }
+    }
+
+
+
+    private fun buildErrorPagingFlow(): Flow<PagingData<BooruPreviewPostUi>> {
+        // Create new pager for displaying booru posts
+        return Pager(PagingConfig(pageSize = 1)) {
+            booruPostPagingSourceFactory.error(Exception("SAS"))
+        }.flow.cachedIn(viewModelScope)
+    }
+
+    private fun buildContentPagingFlow(postSearchFactory: BooruPostSearchFactory): Flow<PagingData<BooruPreviewPostUi>> {
+        // Get search tags from current screen state
+        val searchTags = state.bottomSheetState.queryTags.map(searchTagUi2SearchTagMapper::map)
+        val booruSearch = BooruSearch(tags = searchTags.toSet())
+
+        // Create new pager for displaying booru posts
+        return Pager(PagingConfig(pageSize = postSearchFactory.requestedPostsPerPageCount)) {
+            booruPostPagingSourceFactory.build(postSearchFactory, booruSearch)
+        }.flow.cachedIn(viewModelScope)
     }
 
 }
