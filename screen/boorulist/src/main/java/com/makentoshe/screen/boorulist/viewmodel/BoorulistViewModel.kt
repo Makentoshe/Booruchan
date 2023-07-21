@@ -2,9 +2,10 @@ package com.makentoshe.screen.boorulist.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.makentoshe.booruchan.feature.context.BooruContext
-import com.makentoshe.booruchan.feature.boorulist.domain.usecase.GetBooruContextsUseCase
-import com.makentoshe.booruchan.healthcheck.domain.HealthcheckUseCase
+import com.makentoshe.booruchan.extension.BooruContext
+import com.makentoshe.booruchan.extension.BooruSource
+import com.makentoshe.booruchan.extension.usecase.GetBooruSourcesUseCase
+import com.makentoshe.booruchan.feature.healthcheck.HealthcheckUseCase
 import com.makentoshe.booruchan.library.feature.CoroutineDelegate
 import com.makentoshe.booruchan.library.feature.DefaultCoroutineDelegate
 import com.makentoshe.booruchan.library.feature.DefaultEventDelegate
@@ -19,13 +20,14 @@ import com.makentoshe.booruchan.library.logging.internalLogWarn
 import com.makentoshe.screen.boorulist.mapper.BooruContext2BooruItemStateMapper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class BoorulistViewModel @Inject constructor(
-    private val getBooruContexts: GetBooruContextsUseCase,
+    private val getBooruSources: GetBooruSourcesUseCase,
     private val healthcheck: HealthcheckUseCase,
     private val booruContext2BooruItemStateMapper: BooruContext2BooruItemStateMapper,
 ) : ViewModel(), CoroutineDelegate by DefaultCoroutineDelegate(),
@@ -33,13 +35,15 @@ class BoorulistViewModel @Inject constructor(
     EventDelegate<BoorulistEvent> by DefaultEventDelegate(),
     NavigationDelegate<BoorulistDestination> by DefaultNavigationDelegate() {
 
+    private val booruSourcesStateFlow = MutableStateFlow(listOf<BooruSource>())
+
     init {
         internalLogInfo("OnViewModelConstruct")
         // First of all request all boorus
         viewModelScope.launch(Dispatchers.IO + coroutineExceptionHandler { throwable ->
             internalLogError(throwable)
         }) {
-            getBooruContexts().collectLatest(::onGetBooruContexts)
+            getBooruSources().collectLatest(::onGetBooruSources)
         }
     }
 
@@ -47,37 +51,38 @@ class BoorulistViewModel @Inject constructor(
         is BoorulistEvent.NavigateToBoorucontentScreen -> navigateToBoorucontentScreen(event)
     }
 
-    // Note: Can be called multiple times due GetBooruContextsUseCase implementation
-    private fun onGetBooruContexts(booruContexts: List<BooruContext>) {
-        internalLogInfo("OnGetBooruContexts: $booruContexts")
+    private fun onGetBooruSources(booruSources: List<BooruSource>) {
+        internalLogInfo("OnGetBooruSources: $booruSources")
+        viewModelScope.launch { booruSourcesStateFlow.emit(booruSources) }
 
         // Map BooruContext to BooruItemState
-        val booruItemStates = booruContexts.map(booruContext2BooruItemStateMapper::map)
+        val booruItemStates = booruSources.map { it.context }.map(booruContext2BooruItemStateMapper::map)
 
         updateState {
             copy(content = BoorulistStateContent.Content(booruItemStates))
         }
 
-        booruContexts.forEach { booruContext -> healthcheckBooruContext(booruContext) }
+        booruSources.forEach { booruSource -> healthcheckBooruSource(booruSource) }
     }
 
-    private fun healthcheckBooruContext(booruContext: BooruContext) {
-        internalLogInfo("healthcheck invoked: $booruContext")
+    private fun healthcheckBooruSource(booruSource: BooruSource) {
+        internalLogInfo("healthcheck invoked: $booruSource")
 
         viewModelScope.launch(Dispatchers.IO + coroutineExceptionHandler {
-            onHealthcheckBooruContextFailure(booruContext, it)
+            onHealthcheckFailure(booruSource.context, it)
         }) {
-            onHealthcheckBooruContextSuccess(booruContext, healthcheck(booruContext))
+            val request = booruSource.healthcheckFactory.buildRequest()
+            onHealthcheckSuccess(booruSource.context, healthcheck(request))
         }
     }
 
-    private fun onHealthcheckBooruContextFailure(booruContext: BooruContext, throwable: Throwable) {
+    private fun onHealthcheckFailure(booruContext: BooruContext, throwable: Throwable) {
         internalLogWarn("Healthcheck(${booruContext.title}): $throwable")
 
         updateBooruItemHealthState(booruContext, BooruItemHealthState.Error)
     }
 
-    private fun onHealthcheckBooruContextSuccess(booruContext: BooruContext, isAvailable: Boolean) {
+    private fun onHealthcheckSuccess(booruContext: BooruContext, isAvailable: Boolean) {
         internalLogInfo("Healthcheck(${booruContext.title}): $isAvailable")
 
         if (isAvailable) {
@@ -100,7 +105,7 @@ class BoorulistViewModel @Inject constructor(
 
         // O(n^2) but we don't care. This list just cant contain more that 100-200 items
         val booruItems: List<BooruItemState> = content.booruItems.map { state ->
-            if (state.url != booruContext.host.url) return@map state else {
+            if (state.url != booruContext.host) return@map state else {
                 state.copy(health = healthState)
             }
         }
@@ -110,6 +115,7 @@ class BoorulistViewModel @Inject constructor(
 
 
     private fun navigateToBoorucontentScreen(event: BoorulistEvent.NavigateToBoorucontentScreen) {
-        updateNavigation { BoorulistDestination.BoorucontentDestination(event.booruItemState.url) }
+        val booruSource = booruSourcesStateFlow.value[event.booruSourceIndex]
+        updateNavigation { BoorulistDestination.BoorucontentDestination(booruSource.id) }
     }
 }

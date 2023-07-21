@@ -2,18 +2,23 @@ package com.makentoshe.booruchan.screen.boorucontent.ui.foundation.android.model
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.makentoshe.booruchan.feature.context.BooruContext
-import com.makentoshe.booruchan.feature.boorupost.domain.usecase.FetchBooruPostsUseCase
+import com.makentoshe.booruchan.extension.factory.BooruPostSearchFactory
+import com.makentoshe.booruchan.feature.postsearch.FetchPostsUseCase
 import com.makentoshe.booruchan.feature.search.BooruSearch
 import com.makentoshe.booruchan.screen.boorucontent.domain.BooruPreviewPostUi
 import com.makentoshe.booruchan.screen.boorucontent.mapper.BooruPost2BooruPreviewPostUiMapper
 import javax.inject.Inject
 
+/**
+ * @param fetchPosts usecase that consumes network request from [postSearchFactory] and returns a list of posts
+ * @param postSearchFactory factory creates network request based on [booruSearch]
+ * @param booruSearch info about current search query
+ * */
 class BooruPostPagingSource @Inject constructor(
-    private val fetchBooruPosts: FetchBooruPostsUseCase,
-    private val mapper: BooruPost2BooruPreviewPostUiMapper,
-    private val booruContext: BooruContext,
+    private val fetchPosts: FetchPostsUseCase,
+    private val postSearchFactory: BooruPostSearchFactory,
     private val booruSearch: BooruSearch,
+    private val mapper: BooruPost2BooruPreviewPostUiMapper,
 ) : PagingSource<Int, BooruPreviewPostUi>() {
 
     override fun getRefreshKey(state: PagingState<Int, BooruPreviewPostUi>): Int? {
@@ -35,15 +40,16 @@ class BooruPostPagingSource @Inject constructor(
 
     private suspend fun internalLoad(params: LoadParams<Int>): LoadResult<Int, BooruPreviewPostUi> {
         // Start refresh at page 1 if undefined.
-        val nextPageNumber = params.key ?: booruContext.settings.searchSettings.initialPageNumber
+        val nextPageNumber = params.key ?: postSearchFactory.initialPageNumber
         val postsPerPage = params.loadSize // booruContext.settings.searchSettings.requestedPostsPerPageCount
-        val tagSeparator = booruContext.settings.searchSettings.tagSeparator
+        val tagSeparator = postSearchFactory.searchTagSeparator
         val tags = booruSearch.tags.joinToString(separator = tagSeparator) { it.string }
-        val fetchParams = FetchBooruPostsUseCase.FetchBooruParams(postsPerPage, nextPageNumber, tags)
-        val listBooruPostUi = fetchBooruPosts(booruContext, fetchParams).map(mapper::map)
+
+        val fetchPostsRequest = BooruPostSearchFactory.FetchPostsRequest(postsPerPage, nextPageNumber, tags)
+        val response = fetchPosts(fetchPostsRequest, postSearchFactory)
 
         return LoadResult.Page(
-            data = listBooruPostUi,
+            data = response.map(mapper::map),
             prevKey = null, // Only paging forward.
             nextKey = nextPageNumber + 1
         )

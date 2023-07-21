@@ -33,26 +33,26 @@ import kotlinx.coroutines.launch
 
 @Composable
 internal fun BoorucontentTopBar(
-    sheetState: SheetState,
     screenState: BoorucontentScreenState,
     screenEvent: (BoorucontentScreenEvent) -> Unit,
-    scaffoldState: BottomSheetScaffoldState,
+    onSearchIconClicked: () -> Unit,
 ) = Column(modifier = Modifier.fillMaxWidth().background(BooruchanTheme.colors.background)) {
-    BoorucontentTopBarContent(screenState = screenState, screenEvent = screenEvent, sheetState = sheetState, scaffoldState = scaffoldState)
+    BoorucontentTopBarContent(
+        screenState = screenState,
+        screenEvent = screenEvent,
+        onSearchIconClicked = onSearchIconClicked,
+    )
     Divider(color = BooruchanTheme.colors.separator, thickness = 1.dp)
 }
 
 @Composable
 private fun BoorucontentTopBarContent(
-    sheetState: SheetState,
     screenState: BoorucontentScreenState,
     screenEvent: (BoorucontentScreenEvent) -> Unit,
-    scaffoldState: BottomSheetScaffoldState,
+    onSearchIconClicked: () -> Unit,
 ) = Row(
     modifier = Modifier.fillMaxWidth().height(56.dp)
 ) {
-    val coroutineScope = rememberCoroutineScope()
-
     Box(
         modifier = Modifier.size(56.dp).clickable {
             screenEvent(BoorucontentScreenEvent.NavigationBack)
@@ -84,12 +84,7 @@ private fun BoorucontentTopBarContent(
         }
 
         Box(
-            modifier = Modifier.size(56.dp).clickable {
-                coroutineScope.launch(Dispatchers.IO) {
-//                    sheetState.expand()
-                    scaffoldState.bottomSheetState.expand()
-                }
-            },
+            modifier = Modifier.size(56.dp).clickable { onSearchIconClicked() },
             contentAlignment = Alignment.Center,
         ) {
             MagnifyIcon()

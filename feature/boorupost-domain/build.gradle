@@ -10,6 +10,7 @@ java {
 }
 dependencies {
     implementation project(":feature")
+    implementation project(":extension")
 
     implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:$kotlin_serialization_version"
 

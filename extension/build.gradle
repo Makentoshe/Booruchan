@@ -1,0 +1,23 @@
+plugins {
+    id 'java-library'
+    id 'org.jetbrains.kotlin.jvm'
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}
+
+dependencies {
+    implementation project(":feature")
+
+    // Coroutines
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlin_coroutines_version")
+
+    // Ktor
+    implementation "io.ktor:ktor-client-core:$ktor_version"
+
+    // Dagger and Hilt
+    implementation "com.google.dagger:dagger:$dagger_version"
+    implementation "com.google.dagger:hilt-core:$dagger_version"
+}

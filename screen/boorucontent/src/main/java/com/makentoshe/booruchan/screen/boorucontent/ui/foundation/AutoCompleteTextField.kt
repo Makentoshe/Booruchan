@@ -29,6 +29,7 @@ fun AutoCompleteTextField(
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     shape: Shape = TextFieldDefaults.shape,
     trailingIcon: (@Composable () -> Unit)? = null,
+    onDropDownItemClick: (Int, String) -> Unit = { _, it -> setValue(it) },
 ) = Box(modifier = modifier) {
     TextField(
         modifier = Modifier.fillMaxWidth().onFocusChanged { focusState ->
@@ -53,11 +54,11 @@ fun AutoCompleteTextField(
         ),
         onDismissRequest = onDismissRequest,
     ) {
-        list.forEach { text ->
+        list.forEachIndexed { index, text ->
             DropdownMenuItem(
                 modifier = Modifier.fillMaxWidth(),
                 text = { Text(text = text) },
-                onClick = { setValue(text) },
+                onClick = { onDropDownItemClick(index, text) },
             )
         }
     }

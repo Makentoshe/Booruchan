@@ -1,19 +1,23 @@
 package com.makentoshe.booruchan.screen.boorucontent.ui.foundation.android.model
 
-import com.makentoshe.booruchan.feature.context.BooruContext
-import com.makentoshe.booruchan.feature.boorupost.domain.usecase.FetchBooruPostsUseCase
+import com.makentoshe.booruchan.extension.factory.BooruPostSearchFactory
+import com.makentoshe.booruchan.feature.postsearch.FetchPostsUseCase
 import com.makentoshe.booruchan.feature.search.BooruSearch
 import com.makentoshe.booruchan.screen.boorucontent.mapper.BooruPost2BooruPreviewPostUiMapper
 import javax.inject.Inject
 
 class BooruPostPagingSourceFactory @Inject constructor(
-    private val fetchBooruPostsUseCase: FetchBooruPostsUseCase,
+    private val fetchPosts: FetchPostsUseCase,
     private val booruPost2BooruPreviewPostUiMapper: BooruPost2BooruPreviewPostUiMapper,
 ) {
-    fun build(booruContext: BooruContext, booruSearch: BooruSearch) = BooruPostPagingSource(
-        fetchBooruPosts = fetchBooruPostsUseCase,
+    fun build(postSearchFactory: BooruPostSearchFactory, booruSearch: BooruSearch) = BooruPostPagingSource(
         mapper = booruPost2BooruPreviewPostUiMapper,
-        booruContext = booruContext,
+        postSearchFactory = postSearchFactory,
         booruSearch = booruSearch,
+        fetchPosts = fetchPosts
+    )
+
+    fun error(throwable: Throwable): ErrorPagingSource = ErrorPagingSource(
+        throwable = throwable,
     )
 }
