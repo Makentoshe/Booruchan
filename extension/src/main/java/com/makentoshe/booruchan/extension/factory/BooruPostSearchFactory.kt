@@ -43,6 +43,9 @@ abstract class BooruPostSearchFactory constructor(
         val tags: String,
     )
 
-    data class Rating(val tag: String, val value: String)
+    data class Rating(
+        val tag: String, // describes main word for search engine,
+        val value: String, // describes value of the rating, like safe, explicit, etc
+    )
 
 }

@@ -36,9 +36,8 @@ fun SearchBottomSheetContent(
 
     SearchBottomSheetRatings(
         queryRatings = screenState.bottomSheetState.queryRatings,
-        onRatingSelectChange = { index ->
-            // TODO implement logic
-        }
+        selectedRating = screenState.bottomSheetState.selectedRating,
+        onRatingSelectChange = { index -> screenEvent(BoorucontentScreenEvent.RatingSearchTag(index)) }
     )
 
     Spacer(modifier = Modifier.height(16.dp).fillMaxWidth())

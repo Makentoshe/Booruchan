@@ -25,14 +25,17 @@ import com.makentoshe.library.uikit.theme.BooruchanTheme
 @Composable
 internal fun SearchBottomSheetRatings(
     queryRatings: List<SearchRatingUi>,
-    onRatingSelectChange: (Int) -> Unit
+    selectedRating: SearchRatingUi?,
+    onRatingSelectChange: (Int) -> Unit, // can be -1 if rating was unselected
 ) = Column(
     modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp)
 ) {
     SecondaryText(text = "Rating")
 
     Row(modifier = Modifier.fillMaxWidth()) {
-        var selectedButtonIndex by remember { mutableStateOf(-1) } // -1 is default unselected state for all
+        var selectedButtonIndex by remember {  // -1 is default unselected state for all
+            mutableStateOf(if (selectedRating == null) -1 else queryRatings.indexOf(selectedRating))
+        }
 
         if (queryRatings.count() < 2) Unit else {
             queryRatings.forEachIndexed { index, searchRatingUi ->

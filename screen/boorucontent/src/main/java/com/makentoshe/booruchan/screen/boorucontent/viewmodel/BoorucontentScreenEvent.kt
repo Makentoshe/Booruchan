@@ -13,5 +13,7 @@ sealed interface BoorucontentScreenEvent {
 
     data class RemoveSearchTag(val tag: SearchTagUi): BoorucontentScreenEvent
 
+    data class RatingSearchTag(val index: Int): BoorucontentScreenEvent
+
     object NavigationBack: BoorucontentScreenEvent
 }

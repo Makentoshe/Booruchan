@@ -36,6 +36,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import java.nio.file.Files.find
 import javax.inject.Inject
 
 @HiltViewModel
@@ -62,6 +63,7 @@ class BoorucontentViewModel @Inject constructor(
         is BoorucontentScreenEvent.AutoCompleteTag -> autocompleteEvent(event)
         is BoorucontentScreenEvent.AddSearchTag -> addSearchTagEvent(event)
         is BoorucontentScreenEvent.RemoveSearchTag -> removeSearchTagEvent(event)
+        is BoorucontentScreenEvent.RatingSearchTag -> changeRatingSearchTag(event)
     }
 
     private fun initializeEvent(event: BoorucontentScreenEvent.Initialize) {
@@ -113,6 +115,8 @@ class BoorucontentViewModel @Inject constructor(
 
         val booruSource = booruSourceStateFlow.value ?: return
         val postSearchFactory = booruSource.postSearchFactory
+
+        // TODO add search rating
 
         viewModelScope.launch(Dispatchers.IO + coroutineExceptionHandler { throwable ->
             internalLogWarn(throwable.toString())
@@ -182,6 +186,31 @@ class BoorucontentViewModel @Inject constructor(
                         queryAutocomplete = emptyList(),
                         queryTags = bottomSheetState.queryTags.plus(searchTagUi),
                     ),
+                )
+            }
+        }
+    }
+
+    private fun changeRatingSearchTag(event: BoorucontentScreenEvent.RatingSearchTag) {
+        internalLogInfo("change rating search tag invoked")
+
+        val postSearchFactory = booruSourceStateFlow.value?.postSearchFactory ?: return // TODO
+        val newRating = postSearchFactory.getRatings().getOrNull(event.index)
+
+        if (newRating == null) {
+            updateState {
+                copy(
+                    bottomSheetState = bottomSheetState.copy(
+                        selectedRating = null,
+                    )
+                )
+            }
+        } else {
+            updateState {
+                copy(
+                    bottomSheetState = bottomSheetState.copy(
+                        selectedRating = rating2SearchRatingUiMapper.map(newRating)
+                    )
                 )
             }
         }
