@@ -11,7 +11,6 @@ import com.makentoshe.booruchan.extension.factory.AutoCompleteTagFactory
 import com.makentoshe.booruchan.extension.factory.BooruPostSearchFactory
 import com.makentoshe.booruchan.extension.usecase.GetBooruSourceUseCase
 import com.makentoshe.booruchan.feature.autocomplete.FetchAutoCompleteTagsUseCase
-import com.makentoshe.booruchan.feature.post.BooruPost
 import com.makentoshe.booruchan.feature.search.BooruSearch
 import com.makentoshe.booruchan.library.feature.CoroutineDelegate
 import com.makentoshe.booruchan.library.feature.DefaultCoroutineDelegate
@@ -26,6 +25,7 @@ import com.makentoshe.booruchan.library.logging.internalLogWarn
 import com.makentoshe.booruchan.screen.boorucontent.domain.BooruPreviewPostUi
 import com.makentoshe.booruchan.screen.boorucontent.mapper.AutoCompleteTag2AutoCompleteTagUiMapper
 import com.makentoshe.booruchan.screen.boorucontent.mapper.AutoCompleteTagUi2SearchTagUiMapper
+import com.makentoshe.booruchan.screen.boorucontent.mapper.BooruRating2SearchRatingUiMapper
 import com.makentoshe.booruchan.screen.boorucontent.mapper.SearchTagUi2SearchTagMapper
 import com.makentoshe.booruchan.screen.boorucontent.ui.foundation.android.model.BooruPostPagingSourceFactory
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -43,9 +43,11 @@ class BoorucontentViewModel @Inject constructor(
     private val getBooruSource: GetBooruSourceUseCase,
     private val fetchAutoCompleteTags: FetchAutoCompleteTagsUseCase,
     private val booruPostPagingSourceFactory: BooruPostPagingSourceFactory,
+
     private val autoCompleteTagUiMapper: AutoCompleteTag2AutoCompleteTagUiMapper,
     private val searchTagUiMapper: AutoCompleteTagUi2SearchTagUiMapper,
     private val searchTagUi2SearchTagMapper: SearchTagUi2SearchTagMapper,
+    private val rating2SearchRatingUiMapper: BooruRating2SearchRatingUiMapper,
 ) : ViewModel(), CoroutineDelegate by DefaultCoroutineDelegate(),
     EventDelegate<BoorucontentScreenEvent> by DefaultEventDelegate(),
     NavigationDelegate<BoorucontentDestination> by DefaultNavigationDelegate(),
@@ -87,14 +89,23 @@ class BoorucontentViewModel @Inject constructor(
         updateState {
             copy(
                 toolbarState = BoorucontentToolbarState.Content(booruSource.context.title),
-                bottomSheetState = BoorucontentBottomSheetState()
+                bottomSheetState = BoorucontentBottomSheetState.InitialState,
             )
         }
 
         // prepare pager for displaying booru posts
         val postSearchFactory = booruSource.postSearchFactory
-        val pagerFlow = postSearchFactory?.let(::buildContentPagingFlow)?: buildErrorPagingFlow()
-        updateState { copy(pagerFlow = pagerFlow) }
+        val pagerFlow = postSearchFactory?.let(::buildContentPagingFlow) ?: buildErrorPagingFlow()
+
+        // get ratings for rendering for better ux
+        val ratings = (postSearchFactory?.getRatings() ?: emptyList()).map(rating2SearchRatingUiMapper::map)
+
+        updateState {
+            copy(
+                pagerFlow = pagerFlow,
+                bottomSheetState = bottomSheetState.copy(queryRatings = ratings),
+            )
+        }
     }
 
     private fun searchEvent(event: BoorucontentScreenEvent.Search) {
@@ -106,7 +117,7 @@ class BoorucontentViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO + coroutineExceptionHandler { throwable ->
             internalLogWarn(throwable.toString())
         }) {
-            val pagerFlow = postSearchFactory?.let(::buildContentPagingFlow)?: buildErrorPagingFlow()
+            val pagerFlow = postSearchFactory?.let(::buildContentPagingFlow) ?: buildErrorPagingFlow()
             updateState { copy(pagerFlow = pagerFlow) }
         }
     }
@@ -180,7 +191,6 @@ class BoorucontentViewModel @Inject constructor(
         internalLogInfo("navigation back event invoked")
         updateNavigation { BoorucontentDestination.BackDestination }
     }
-
 
 
     private fun buildErrorPagingFlow(): Flow<PagingData<BooruPreviewPostUi>> {

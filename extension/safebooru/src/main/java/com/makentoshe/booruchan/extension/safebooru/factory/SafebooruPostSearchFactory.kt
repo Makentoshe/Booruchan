@@ -25,4 +25,9 @@ class SafebooruPostSearchFactory(
         )
     )
 
+    // TODO only for testing purposes
+    override fun getRatings(): List<Rating> {
+        return listOf(Rating("rating", "safe"), Rating("rating", "test"), Rating("rating", "general"))
+    }
+
 }

@@ -9,7 +9,6 @@ import com.makentoshe.booruchan.feature.text
 abstract class BooruPostSearchFactory constructor(
     private val parser: PostSearchParser,
 ){
-
     /** Initial page number for api. Mostly it is 0 but in some cases pagination might be started from other page */
     val initialPageNumber: Int = 0
 
@@ -26,6 +25,15 @@ abstract class BooruPostSearchFactory constructor(
         return parser.parse(response.content.text)
     }
 
+    /**
+     * Returns a list of rating tags that helps filtering
+     *
+     * Some boorus might not have them, like Safebooru. In this case return
+     * an empty list and additional view will not be rendered for convenient
+     * choosing.
+     * */
+    open fun getRatings(): List<Rating> = emptyList()
+
     data class FetchPostsRequest(
         // How many posts we want to retrieve. There might be a hard limit for posts per request.
         val count: Int,
@@ -34,5 +42,7 @@ abstract class BooruPostSearchFactory constructor(
         // The tags to search for
         val tags: String,
     )
+
+    data class Rating(val tag: String, val value: String)
 
 }
