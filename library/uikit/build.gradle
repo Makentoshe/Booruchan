@@ -1,0 +1,57 @@
+plugins {
+    id 'com.android.library'
+    id 'org.jetbrains.kotlin.android'
+}
+
+android {
+    namespace 'com.makentoshe.booruchan.library.uikit'
+    compileSdk project_compile_sdk
+
+    defaultConfig {
+        minSdk project_min_sdk
+        targetSdk project_target_sdk
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildFeatures {
+        compose true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion compose_version
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+}
+
+dependencies {
+    implementation "androidx.core:core-ktx:$android_core_version"
+
+    implementation "androidx.compose.ui:ui:$compose_ui_version"
+    implementation "androidx.compose.runtime:runtime:$compose_runtime_version"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-compose:$compose_viewmodel_version"
+    implementation "androidx.activity:activity-compose:$android_activity_compose_version"
+    implementation "androidx.compose.ui:ui-tooling-preview:$compose_ui_tooling_version"
+    debugImplementation "androidx.compose.ui:ui-tooling:$compose_ui_tooling_version"
+    implementation "androidx.compose.material3:material3:$compose_material3_version"
+}
+
+tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
+    kotlinOptions {
+        freeCompilerArgs += "-Xopt-in=com.google.accompanist.permissions.ExperimentalPermissionsApi"
+        freeCompilerArgs += "-Xopt-in=androidx.compose.material3.ExperimentalMaterial3Api"
+    }
+}

@@ -16,3 +16,4 @@ rootProject.name = "Booruchan"
 include ':app'
 
 include ':library'
+include ':library:uikit'
