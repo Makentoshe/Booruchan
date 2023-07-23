@@ -5,6 +5,7 @@ import coil.ImageLoader
 import coil.ImageLoaderFactory
 import coil.disk.DiskCache
 import coil.memory.MemoryCache
+import com.makentoshe.booruchan.library.logging.initializeDebugLogger
 import dagger.hilt.android.HiltAndroidApp
 import java.io.File
 
@@ -16,6 +17,10 @@ class Booruchan : Application(), ImageLoaderFactory {
 
     override fun onCreate() {
         super.onCreate()
+
+        if (BuildConfig.DEBUG) {
+            initializeDebugLogger()
+        }
     }
 
     override fun newImageLoader() = ImageLoader.Builder(this)

@@ -51,6 +51,8 @@ android {
 
 dependencies {
 
+    implementation project(":library:logging")
+
     implementation "androidx.core:core-ktx:$android_core_version"
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:$android_lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-process:$android_lifecycle_version"
