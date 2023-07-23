@@ -10,6 +10,11 @@ sealed interface Screen {
     val arguments: List<NamedNavArgument>
         get() = emptyList()
 
+    object Splash : Screen {
+        override val route: String = "SplashScreen"
+    }
+
+
 }
 
 data class Argument(val name: String)

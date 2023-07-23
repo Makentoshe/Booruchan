@@ -1,0 +1,54 @@
+plugins {
+    id 'kotlin-kapt'
+    id 'com.android.library'
+    id 'org.jetbrains.kotlin.android'
+}
+
+android {
+    namespace 'com.makentoshe.booruchan.library.resources'
+    compileSdk project_compile_sdk
+
+    defaultConfig {
+        minSdk project_min_sdk
+        targetSdk project_target_sdk
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildFeatures {
+        compose true
+        // Enable view binding for layout resources
+        viewBinding true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion compose_version
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+}
+
+dependencies {
+    // Jetpack Compose
+    implementation "androidx.compose.ui:ui:$compose_ui_version"
+    implementation "androidx.compose.runtime:runtime:$compose_runtime_version"
+    implementation "androidx.compose.ui:ui-tooling-preview:$compose_ui_tooling_version"
+    implementation "androidx.compose.material3:material3:$compose_material3_version"
+
+    // Android View
+    implementation "androidx.constraintlayout:constraintlayout:2.2.0-alpha10"
+    implementation 'com.google.android.material:material:1.9.0'
+
+}
