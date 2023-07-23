@@ -20,3 +20,5 @@ include ':library:uikit'
 include ':library:feature'
 include ':library:logging'
 include ':library:navigation'
+
+include ':screen'
