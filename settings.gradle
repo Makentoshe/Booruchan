@@ -17,3 +17,4 @@ include ':app'
 
 include ':library'
 include ':library:uikit'
+include ':library:feature'
