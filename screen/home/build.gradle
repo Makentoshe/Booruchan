@@ -1,0 +1,71 @@
+plugins {
+    id 'kotlin-kapt'
+    id 'com.android.library'
+    id 'org.jetbrains.kotlin.android'
+}
+
+android {
+    namespace 'com.makentoshe.screen.home'
+    compileSdk project_compile_sdk
+
+    defaultConfig {
+        minSdk project_min_sdk
+        targetSdk project_target_sdk
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildFeatures {
+        compose true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion compose_version
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+}
+
+dependencies {
+    implementation project(":library:uikit")
+    implementation project(":library:navigation")
+    implementation project(":library:feature")
+    implementation project(":library:resources")
+    implementation project(":library:logging")
+
+    implementation project(":screen")
+
+    implementation "androidx.core:core-ktx:$android_core_version"
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:$android_lifecycle_version"
+    implementation "androidx.activity:activity-compose:$android_activity_compose_version"
+    implementation "androidx.compose.ui:ui:$compose_version"
+    implementation "androidx.compose.ui:ui-tooling-preview:$compose_version"
+    implementation "androidx.compose.material3:material3:$compose_material3_version"
+    implementation "androidx.compose.runtime:runtime:$compose_runtime_version"
+
+    // Dagger and Hilt
+    implementation "com.google.dagger:dagger:$dagger_version"
+    implementation "com.google.dagger:hilt-core:$dagger_version"
+    implementation "com.google.dagger:hilt-android:$dagger_version"
+    kapt "com.google.dagger:hilt-android-compiler:$dagger_version"
+    implementation "androidx.hilt:hilt-navigation-compose:$compose_hilt_version"
+}
+
+tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
+    kotlinOptions {
+        freeCompilerArgs += "-Xopt-in=com.google.accompanist.permissions.ExperimentalPermissionsApi"
+        freeCompilerArgs += "-Xopt-in=androidx.compose.material3.ExperimentalMaterial3Api"
+    }
+}

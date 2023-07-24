@@ -24,3 +24,4 @@ include ':library:resources'
 
 include ':screen'
 include ':screen:splash'
+include ':screen:home'
