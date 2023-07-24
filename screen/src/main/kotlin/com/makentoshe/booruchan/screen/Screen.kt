@@ -14,6 +14,9 @@ sealed interface Screen {
         override val route: String = "SplashScreen"
     }
 
+    object Home: Screen {
+        override val route: String = "HomeScreen"
+    }
 
 }
 

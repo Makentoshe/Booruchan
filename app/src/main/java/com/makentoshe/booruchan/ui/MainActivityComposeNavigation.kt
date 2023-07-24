@@ -7,9 +7,10 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.makentoshe.booruchan.library.navigation.HomeScreenNavigator
 import com.makentoshe.booruchan.library.navigation.SplashScreenNavigator
 import com.makentoshe.booruchan.screen.Screen
-import com.makentoshe.library.uikit.theme.BooruchanTheme
+import com.makentoshe.booruchan.screen.splash.SplashScreen
 
 @Composable
 internal fun MainActivityNavigationContent(navHostController: NavHostController) = NavHost(
@@ -17,37 +18,36 @@ internal fun MainActivityNavigationContent(navHostController: NavHostController)
     startDestination = Screen.Splash.route,
     builder = {
         splashScreen(navController = navHostController)
-//        boorulistScreen(navController = navHostController)
+        homeScreen(navController = navHostController)
 //        boorucontentScreen(navController = navHostController)
     }
 )
 
 private fun NavGraphBuilder.splashScreen(navController: NavController) {
     val navigator = SplashScreenNavigator(
-        navigateToBoorulistScreen = {
-//            navController.navigate(Screen.Boorulist.route)
+        navigateToHomeScreen = {
+            navController.navigate(Screen.Home.route)
         }
     )
 
     composable(Screen.Splash.route) {
-        Text("Splash screen")
-//        SplashScreen(navigator = navigator)
+        SplashScreen(navigator = navigator)
     }
 }
 
-//private fun NavGraphBuilder.boorulistScreen(navController: NavController) {
-//    val navigator = BoorulistScreenNavigator(
+private fun NavGraphBuilder.homeScreen(navController: NavController) {
+    val navigator = HomeScreenNavigator(
 //        navigateToBoorucontentScreen = { booruContextUrl ->
 //            val charset = StandardCharsets.UTF_8.toString()
 //            val encodedBooruContextUrl = URLEncoder.encode(booruContextUrl, charset)
 //            navController.navigate(Screen.Boorucontent.route(encodedBooruContextUrl))
 //        }
-//    )
-//
-//    composable(Screen.Boorulist.route) {
-//        BoorulistScreen(navigator = navigator)
-//    }
-//}
+    )
+
+    composable(Screen.Home.route) {
+        Text("Home screen")
+    }
+}
 //
 //private fun NavGraphBuilder.boorucontentScreen(navController: NavController) {
 //    val navigator = BoorucontentScreenNavigator(
