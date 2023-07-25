@@ -11,6 +11,7 @@ import com.makentoshe.booruchan.library.navigation.HomeScreenNavigator
 import com.makentoshe.booruchan.library.navigation.SplashScreenNavigator
 import com.makentoshe.booruchan.screen.Screen
 import com.makentoshe.booruchan.screen.splash.SplashScreen
+import com.makentoshe.screen.boorulist.HomeScreen
 
 @Composable
 internal fun MainActivityNavigationContent(navHostController: NavHostController) = NavHost(
@@ -45,7 +46,7 @@ private fun NavGraphBuilder.homeScreen(navController: NavController) {
     )
 
     composable(Screen.Home.route) {
-        Text("Home screen")
+        HomeScreen(navigator = navigator)
     }
 }
 //

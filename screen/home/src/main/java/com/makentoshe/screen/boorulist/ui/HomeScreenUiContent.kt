@@ -8,16 +8,21 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.makentoshe.library.uikit.theme.BooruchanTheme
+import com.makentoshe.screen.boorulist.entity.SourceUiState
 import com.makentoshe.screen.boorulist.viewmodel.HomeScreenEvent
-import com.makentoshe.screen.boorulist.viewmodel.BoorulistStateContent
+import com.makentoshe.screen.boorulist.viewmodel.HomeScreenPluginContent
+import com.makentoshe.screen.boorulist.viewmodel.HomeScreenState
 
 @Composable
-internal fun BoorulistScreenUiContent(
-    state: BoorulistStateContent.Content,
+internal fun HomeScreenUiContent(
+    state: HomeScreenState,
     event: (HomeScreenEvent) -> Unit,
+    pluginContent: HomeScreenPluginContent.Content,
 ) = LazyColumn {
-    itemsIndexed(state.booruItems) { index, booruItemState ->
-        BoorulistItem(index = index, booruItemState = booruItemState, event = event)
+    itemsIndexed(pluginContent.sources) { index, source ->
+        SourceItem(sourceUiState = source) {
+
+        }
 
         Divider(
             modifier = Modifier.fillMaxWidth(),

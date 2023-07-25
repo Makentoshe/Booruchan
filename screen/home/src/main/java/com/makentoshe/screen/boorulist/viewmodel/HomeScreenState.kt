@@ -1,33 +1,19 @@
 package com.makentoshe.screen.boorulist.viewmodel
 
+import com.makentoshe.screen.boorulist.entity.SourceUiState
+
 data class HomeScreenState(
-    val content: BoorulistStateContent,
+    val pluginContent: HomeScreenPluginContent,
 ) {
     companion object {
         val InitialState = HomeScreenState(
-            content = BoorulistStateContent.Loading,
+            pluginContent = HomeScreenPluginContent.Loading,
         )
     }
 }
 
-sealed interface BoorulistStateContent {
-    object Loading : BoorulistStateContent {
-        override fun toString() = "Loading"
-    }
+sealed interface HomeScreenPluginContent {
+    object Loading : HomeScreenPluginContent
 
-    data class Content(
-        val booruItems: List<BooruItemState>,
-    ) : BoorulistStateContent
-}
-
-data class BooruItemState(
-    val title: String,
-    val url: String,
-    val health: BooruItemHealthState,
-)
-
-sealed interface BooruItemHealthState {
-    object Loading : BooruItemHealthState
-    object Ok : BooruItemHealthState
-    object Error : BooruItemHealthState
+    data class Content(val sources: List<SourceUiState>) : HomeScreenPluginContent
 }

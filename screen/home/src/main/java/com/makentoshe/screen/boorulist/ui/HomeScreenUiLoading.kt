@@ -8,7 +8,7 @@ import androidx.compose.ui.Modifier
 import com.makentoshe.library.uikit.foundation.IndeterminateProgressBar
 
 @Composable
-internal fun BoorulistScreenUiLoading() = Box(
+internal fun HomeScreenUiLoading() = Box(
     modifier = Modifier.fillMaxSize(),
     contentAlignment = Alignment.Center,
 ) {

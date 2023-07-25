@@ -10,6 +10,7 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+        maven { url 'https://jitpack.io' }
     }
 }
 rootProject.name = "Booruchan"
@@ -25,3 +26,4 @@ include ':library:resources'
 include ':screen'
 include ':screen:splash'
 include ':screen:home'
+include ':library:plugin'

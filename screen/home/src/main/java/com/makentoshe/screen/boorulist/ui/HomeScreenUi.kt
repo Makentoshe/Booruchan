@@ -17,25 +17,25 @@ import com.makentoshe.booruchan.library.resources.R
 import com.makentoshe.library.uikit.foundation.TitleText
 import com.makentoshe.library.uikit.theme.BooruchanTheme
 import com.makentoshe.screen.boorulist.viewmodel.HomeScreenEvent
+import com.makentoshe.screen.boorulist.viewmodel.HomeScreenPluginContent
 import com.makentoshe.screen.boorulist.viewmodel.HomeScreenState
-import com.makentoshe.screen.boorulist.viewmodel.BoorulistStateContent
 
 @Composable
-internal fun BoorulistScreenUi(
+internal fun HomeScreenUi(
     state: HomeScreenState,
     event: (HomeScreenEvent) -> Unit,
 ) = Scaffold(
     containerColor = BooruchanTheme.colors.background,
-    topBar = { BoorulistTopBar() },
+    topBar = { HomeScreenToolbar() },
     content = { contentPadding ->
         Box(modifier = Modifier.padding(contentPadding)) {
-            BoorulistScreenScaffoldContent(state = state, event = event)
+            HomeScreenScaffoldContent(state = state, event = event)
         }
     }
 )
 
 @Composable
-private fun BoorulistTopBar() = Column(
+private fun HomeScreenToolbar() = Column(
     modifier = Modifier.fillMaxWidth().background(color = BooruchanTheme.colors.background),
 ) {
     Box(
@@ -49,14 +49,14 @@ private fun BoorulistTopBar() = Column(
 }
 
 @Composable
-private fun BoorulistScreenScaffoldContent(
+private fun HomeScreenScaffoldContent(
     state: HomeScreenState,
     event: (HomeScreenEvent) -> Unit,
-) = when (state.content) {
-    BoorulistStateContent.Loading -> {
-        BoorulistScreenUiLoading()
+) = when(state.pluginContent) {
+    HomeScreenPluginContent.Loading -> {
+        HomeScreenUiLoading()
     }
-    is BoorulistStateContent.Content -> {
-        BoorulistScreenUiContent(state = state.content, event = event)
+    is HomeScreenPluginContent.Content -> {
+        HomeScreenUiContent(state = state, event = event, pluginContent = state.pluginContent)
     }
 }

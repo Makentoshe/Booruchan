@@ -58,6 +58,7 @@ dependencies {
 
     implementation project(":screen")
     implementation project(":screen:splash")
+    implementation project(":screen:home")
 
     implementation "androidx.core:core-ktx:$android_core_version"
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:$android_lifecycle_version"

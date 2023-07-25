@@ -8,7 +8,7 @@ import com.makentoshe.booruchan.library.logging.screenLogInfo
 import com.makentoshe.booruchan.library.navigation.HomeScreenNavigator
 import com.makentoshe.booruchan.screen.Screen
 import com.makentoshe.library.uikit.extensions.collectLatestInComposable
-import com.makentoshe.screen.boorulist.ui.BoorulistScreenUi
+import com.makentoshe.screen.boorulist.ui.HomeScreenUi
 import com.makentoshe.screen.boorulist.viewmodel.HomeScreenViewModel
 
 @Composable
@@ -25,7 +25,7 @@ fun HomeScreen(navigator: HomeScreenNavigator) {
 //        }
     }
 
-    BoorulistScreenUi(
+    HomeScreenUi(
         state = boorulistState,
         event = viewModel::handleEvent,
     )
