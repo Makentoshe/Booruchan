@@ -36,6 +36,8 @@ buildscript {
         ktor_version = '2.1.2'
         kotlin_serialization_version = '1.4.1'
         kotlin_coroutines_version = '1.7.1'
+
+        booruchan_plugin_version = "0.1.0"
     }
     dependencies {
         classpath "com.google.dagger:hilt-android-gradle-plugin:$dagger_version"

@@ -25,6 +25,7 @@ include ':library:resources'
 include ':library:plugin'
 
 include ':feature'
+include ':feature:healthcheck'
 
 include ':screen'
 include ':screen:splash'
