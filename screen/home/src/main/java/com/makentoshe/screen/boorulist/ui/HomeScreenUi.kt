@@ -57,6 +57,6 @@ private fun HomeScreenScaffoldContent(
         HomeScreenUiLoading()
     }
     is HomeScreenPluginContent.Content -> {
-        HomeScreenUiContent(state = state, event = event, pluginContent = state.pluginContent)
+        HomeScreenUiContent(screenState = state, screenEvent = event, pluginContent = state.pluginContent)
     }
 }

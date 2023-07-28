@@ -40,13 +40,7 @@ class HomeScreenViewModel @Inject constructor(
     init {
         internalLogInfo("OnViewModelConstruct")
 
-        viewModelScope.launch(Dispatchers.IO) {
-            val sources = findAllPlugins().mapNotNull(pluginFactory::buildSource).onEach(::onHealthCheckSource)
-            val sourceUiList = sources.map(source2SourceUiStateMapper::map)
-            updateState {
-                copy(pluginContent = HomeScreenPluginContent.Content(sources = sourceUiList))
-            }
-        }
+        refreshPlugins()
     }
 
     private fun onHealthCheckSource(source: Source) {
@@ -67,7 +61,7 @@ class HomeScreenViewModel @Inject constructor(
 
     private fun onHealthCheckSuccess(source: Source, isAvailabile: Boolean) {
         internalLogInfo("Healthcheck(${source.id}): isAvailable=$isAvailabile")
-        if (isAvailabile){
+        if (isAvailabile) {
             updateSourceUiStateHealthCheck(source, SourceHealthUi.Available)
         } else {
             updateSourceUiStateHealthCheck(source, SourceHealthUi.Unavailable)
@@ -88,10 +82,22 @@ class HomeScreenViewModel @Inject constructor(
             }
         }
 
-        copy(pluginContent = HomeScreenPluginContent.Content(sources = sources))
+        copy(pluginContent = HomeScreenPluginContent.Content(sources = sources, refreshing = false))
     }
 
     fun handleEvent(event: HomeScreenEvent) = when (event) {
-        else -> {}
+        HomeScreenEvent.RefreshPlugins -> refreshPlugins()
+    }
+
+    private fun refreshPlugins() {
+        internalLogInfo("refresh plugins invoked")
+
+        viewModelScope.launch(Dispatchers.IO) {
+            val sources = findAllPlugins().mapNotNull(pluginFactory::buildSource).onEach(::onHealthCheckSource)
+            val sourceUiList = sources.map(source2SourceUiStateMapper::map)
+            updateState {
+                copy(pluginContent = HomeScreenPluginContent.Content(sources = sourceUiList, refreshing = false))
+            }
+        }
     }
 }

@@ -15,5 +15,8 @@ data class HomeScreenState(
 sealed interface HomeScreenPluginContent {
     object Loading : HomeScreenPluginContent
 
-    data class Content(val sources: List<SourceUiState>) : HomeScreenPluginContent
+    data class Content(
+        val refreshing: Boolean,
+        val sources: List<SourceUiState>,
+    ) : HomeScreenPluginContent
 }
