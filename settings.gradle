@@ -22,8 +22,10 @@ include ':library:feature'
 include ':library:logging'
 include ':library:navigation'
 include ':library:resources'
+include ':library:plugin'
+
+include ':feature'
 
 include ':screen'
 include ':screen:splash'
 include ':screen:home'
-include ':library:plugin'
