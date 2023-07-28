@@ -1,5 +1,6 @@
 package com.makentoshe.screen.boorulist.ui
 
+import androidx.annotation.StringRes
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -46,18 +47,25 @@ private fun SourceItemContent(sourceUiState: SourceUiState) = Column(
 
     when (sourceUiState.health) {
         SourceHealthUi.Unavailable -> {
-            val text = stringResource(id = R.string.home_source_error, sourceUiState.host)
+            val text = buildHostString(id = R.string.home_source_error, host = sourceUiState.host)
             SecondaryText(text = text, color = BooruchanTheme.colors.error)
         }
-        SourceHealthUi.Loading-> {
-            val text = stringResource(id = R.string.home_source_loading, sourceUiState.host)
+        SourceHealthUi.Loading -> {
+            val text = buildHostString(id = R.string.home_source_loading, host = sourceUiState.host)
             SecondaryText(text = text, color = BooruchanTheme.colors.opaque)
         }
         SourceHealthUi.Available -> {
-            val text = stringResource(id = R.string.home_source_ok, sourceUiState.host)
+            val text = buildHostString(id = R.string.home_source_ok, host = sourceUiState.host)
             SecondaryText(text = text, color = BooruchanTheme.colors.dimmed)
         }
     }
+}
+
+@Composable
+private fun buildHostString(@StringRes id: Int, host: String): String = if (host.isNotEmpty()) {
+    stringResource(id = id, host)
+} else {
+    stringResource(id = R.string.home_source_host_empty)
 }
 
 @Composable
