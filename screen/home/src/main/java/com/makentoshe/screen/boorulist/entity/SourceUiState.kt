@@ -6,6 +6,7 @@ import androidx.compose.runtime.Immutable
 data class SourceUiState(
     val id: String,
     val title: String,
+    val host: String,
     val health: SourceHealthUi,
 )
 

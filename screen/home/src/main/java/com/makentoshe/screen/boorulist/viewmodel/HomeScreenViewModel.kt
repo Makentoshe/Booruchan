@@ -50,6 +50,7 @@ class HomeScreenViewModel @Inject constructor(
     private fun onHealthCheckSource(source: Source) {
         viewModelScope.launch(Dispatchers.IO) {
             val factory = source.healthCheckFactory
+                ?: throw IllegalStateException("health check factory is null")
 
             val availability = if (healthcheckUseCase(factory.buildRequest())) {
                 SourceHealthUi.Available

@@ -46,15 +46,15 @@ private fun SourceItemContent(sourceUiState: SourceUiState) = Column(
 
     when (sourceUiState.health) {
         SourceHealthUi.Unavailable -> {
-            val text = stringResource(id = R.string.home_source_error, sourceUiState.health.toString())
+            val text = stringResource(id = R.string.home_source_error, sourceUiState.host)
             SecondaryText(text = text, color = BooruchanTheme.colors.error)
         }
         SourceHealthUi.Loading-> {
-            val text = stringResource(id = R.string.home_source_loading, sourceUiState.health.toString())
+            val text = stringResource(id = R.string.home_source_loading, sourceUiState.host)
             SecondaryText(text = text, color = BooruchanTheme.colors.opaque)
         }
         SourceHealthUi.Available -> {
-            val text = stringResource(id = R.string.home_source_ok, sourceUiState.health.toString())
+            val text = stringResource(id = R.string.home_source_ok, sourceUiState.host)
             SecondaryText(text = text, color = BooruchanTheme.colors.dimmed)
         }
     }
