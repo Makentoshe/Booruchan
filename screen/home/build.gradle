@@ -46,9 +46,12 @@ dependencies {
     implementation project(":library:logging")
     implementation project(":library:plugin")
 
+    implementation project(":feature")
+    implementation project(":feature:healthcheck")
+
     implementation project(":screen")
 
-    implementation 'com.github.Makentoshe:Booruchan-extension-base:0.0.1'
+    implementation "com.github.Makentoshe:Booruchan-extension-base:$booruchan_plugin_version"
 
     implementation "androidx.core:core-ktx:$android_core_version"
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:$android_lifecycle_version"

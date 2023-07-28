@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Booruchan</string>
+
+    <string name="home_source_loading">%s</string>
+    <string name="home_source_error">%s - not available</string>
+    <string name="home_source_ok">%s</string>
+
 </resources>

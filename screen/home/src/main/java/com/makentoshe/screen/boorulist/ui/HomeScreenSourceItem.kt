@@ -2,16 +2,26 @@ package com.makentoshe.screen.boorulist.ui
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.makentoshe.library.uikit.foundation.PrimaryText
+import com.makentoshe.library.uikit.foundation.SecondaryText
+import com.makentoshe.library.uikit.theme.BooruchanTheme
+import com.makentoshe.library.uikit.theme.error
+import com.makentoshe.screen.boorulist.entity.SourceHealthUi
 import com.makentoshe.screen.boorulist.entity.SourceUiState
+import com.makentoshe.booruchan.library.resources.R
+import com.makentoshe.library.uikit.foundation.IndeterminateProgressBar
 
 @Composable
 internal fun SourceItem(
@@ -23,9 +33,9 @@ internal fun SourceItem(
 ) {
     SourceItemContent(sourceUiState)
 
-//    if (booruItemState.health == BooruItemHealthState.Loading) {
-//        BoorulistItemHealthProgress()
-//    }
+    if (sourceUiState.health == SourceHealthUi.Loading) {
+        SourceItemHealthProgress()
+    }
 }
 
 @Composable
@@ -34,26 +44,26 @@ private fun SourceItemContent(sourceUiState: SourceUiState) = Column(
 ) {
     PrimaryText(text = sourceUiState.title)
 
-//    when (booruItemState.health) {
-//        BooruItemHealthState.Error -> {
-////            val text = stringResource(id = R.string.boorulist_booruitem_error, booruItemState.url)
-////            SecondaryText(text = text, color = BooruchanTheme.colors.error)
-//        }
-//        BooruItemHealthState.Loading -> {
-////            val text = stringResource(id = R.string.boorulist_booruitem_loading, booruItemState.url)
-////            SecondaryText(text = text, color = BooruchanTheme.colors.opaque)
-//        }
-//        BooruItemHealthState.Ok -> {
-////            val text = stringResource(id = R.string.boorulist_booruitem_ok, booruItemState.url)
-////            SecondaryText(text = text, color = BooruchanTheme.colors.dimmed)
-//        }
-//    }
+    when (sourceUiState.health) {
+        SourceHealthUi.Unavailable -> {
+            val text = stringResource(id = R.string.home_source_error, sourceUiState.health.toString())
+            SecondaryText(text = text, color = BooruchanTheme.colors.error)
+        }
+        SourceHealthUi.Loading-> {
+            val text = stringResource(id = R.string.home_source_loading, sourceUiState.health.toString())
+            SecondaryText(text = text, color = BooruchanTheme.colors.opaque)
+        }
+        SourceHealthUi.Available -> {
+            val text = stringResource(id = R.string.home_source_ok, sourceUiState.health.toString())
+            SecondaryText(text = text, color = BooruchanTheme.colors.dimmed)
+        }
+    }
 }
 
-//@Composable
-//private fun BoorulistItemHealthProgress() = Box(
-//    modifier = Modifier.padding(24.dp),
-//    contentAlignment = Alignment.Center,
-//) {
-//    IndeterminateProgressBar(modifier = Modifier.size(24.dp), strokeWidth = 2.dp)
-//}
+@Composable
+private fun SourceItemHealthProgress() = Box(
+    modifier = Modifier.padding(24.dp),
+    contentAlignment = Alignment.Center,
+) {
+    IndeterminateProgressBar(modifier = Modifier.size(24.dp), strokeWidth = 2.dp)
+}
