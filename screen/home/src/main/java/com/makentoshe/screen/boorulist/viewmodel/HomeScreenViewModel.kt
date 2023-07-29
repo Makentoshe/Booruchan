@@ -86,6 +86,7 @@ class HomeScreenViewModel @Inject constructor(
     }
 
     fun handleEvent(event: HomeScreenEvent) = when (event) {
+        is HomeScreenEvent.NavigationSource -> navigateSource(event)
         HomeScreenEvent.RefreshPlugins -> refreshPlugins()
     }
 
@@ -99,5 +100,9 @@ class HomeScreenViewModel @Inject constructor(
                 copy(pluginContent = HomeScreenPluginContent.Content(sources = sourceUiList, refreshing = false))
             }
         }
+    }
+
+    private fun navigateSource(event: HomeScreenEvent.NavigationSource) {
+        updateNavigation { HomeScreenDestination.SourceDestination(sourceId = event.sourceId) }
     }
 }

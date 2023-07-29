@@ -1,25 +1,19 @@
 plugins {
     id 'kotlin-kapt'
-    id 'com.android.application'
+    id 'com.android.library'
     id 'org.jetbrains.kotlin.android'
-    id 'dagger.hilt.android.plugin'
 }
 
 android {
-    namespace 'com.makentoshe.booruchan'
+    namespace 'com.makentoshe.booruchan.screen.source'
     compileSdk project_compile_sdk
 
     defaultConfig {
-        applicationId "com.makentoshe.booruchan"
         minSdk project_min_sdk
         targetSdk project_target_sdk
-        versionCode project_version_code
-        versionName project_version_name
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        vectorDrawables {
-            useSupportLibrary true
-        }
+        consumerProguardFiles "consumer-rules.pro"
     }
 
     buildFeatures {
@@ -42,37 +36,25 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
-    packagingOptions {
-        resources {
-            excludes += '/META-INF/{AL2.0,LGPL2.1}'
-        }
-    }
 }
 
 dependencies {
 
-    implementation project(":library:logging")
-    implementation project(":library:resources")
-    implementation project(":library:uikit")
     implementation project(":library:navigation")
-
-    implementation project(":feature")
-
+    implementation project(":library:uikit")
+    implementation project(":library:logging")
     implementation project(":screen")
-    implementation project(":screen:splash")
-    implementation project(":screen:home")
-    implementation project(":screen:source")
+
+    implementation "com.github.Makentoshe:Booruchan-extension-base:$booruchan_plugin_version"
 
     implementation "androidx.core:core-ktx:$android_core_version"
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:$android_lifecycle_version"
-    implementation "androidx.lifecycle:lifecycle-process:$android_lifecycle_version"
-
-    // Jetpack Compose
     implementation "androidx.activity:activity-compose:$android_activity_compose_version"
     implementation "androidx.compose.ui:ui:$compose_version"
     implementation "androidx.compose.ui:ui-tooling-preview:$compose_version"
     implementation "androidx.compose.material3:material3:$compose_material3_version"
-    implementation "androidx.navigation:navigation-compose:$compose_navigation_version"
+    implementation "androidx.compose.material:material:$compose_material_version"
+    implementation "androidx.compose.runtime:runtime:$compose_runtime_version"
 
     // Dagger and Hilt
     implementation "com.google.dagger:dagger:$dagger_version"
@@ -80,27 +62,11 @@ dependencies {
     implementation "com.google.dagger:hilt-android:$dagger_version"
     kapt "com.google.dagger:hilt-android-compiler:$dagger_version"
     implementation "androidx.hilt:hilt-navigation-compose:$compose_hilt_version"
-
-    // Ktor
-    implementation "io.ktor:ktor-client-core:$ktor_version"
-    implementation "io.ktor:ktor-client-cio:$ktor_version"
-    implementation("io.ktor:ktor-client-logging:$ktor_version")
-
-    // Async image loading
-    implementation "io.coil-kt:coil:$android_coil_version"
-
-    testImplementation "junit:junit:4.13.2"
-    androidTestImplementation "androidx.test.ext:junit:1.1.5"
-    androidTestImplementation "androidx.test.espresso:espresso-core:3.5.1"
-
-    androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"
-    debugImplementation "androidx.compose.ui:ui-tooling:$compose_version"
-    debugImplementation "androidx.compose.ui:ui-test-manifest:$compose_version"
-    implementation "org.jetbrains.kotlin:kotlin-reflect:1.8.20"
 }
 
 tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
     kotlinOptions {
+        freeCompilerArgs += "-Xopt-in=com.google.accompanist.permissions.ExperimentalPermissionsApi"
         freeCompilerArgs += "-Xopt-in=androidx.compose.material3.ExperimentalMaterial3Api"
     }
 }

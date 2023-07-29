@@ -9,6 +9,7 @@ import com.makentoshe.booruchan.library.navigation.HomeScreenNavigator
 import com.makentoshe.booruchan.screen.Screen
 import com.makentoshe.library.uikit.extensions.collectLatestInComposable
 import com.makentoshe.screen.boorulist.ui.HomeScreenUi
+import com.makentoshe.screen.boorulist.viewmodel.HomeScreenDestination
 import com.makentoshe.screen.boorulist.viewmodel.HomeScreenViewModel
 
 @Composable
@@ -17,12 +18,12 @@ fun HomeScreen(navigator: HomeScreenNavigator) {
     val boorulistState by viewModel.stateFlow.collectAsState()
 
     viewModel.navigationFlow.collectLatestInComposable { destination ->
-//        screenLogInfo(Screen.Boorulist, "Navigation destination: $destination")
-//        when (destination) {
-//            is BoorulistDestination.BoorucontentDestination -> {
-//                navigator.navigateToBoorucontentScreen(destination.booruSourceId)
-//            }
-//        }
+        screenLogInfo(Screen.Home, "Navigation destination: $destination")
+        when (destination) {
+            is HomeScreenDestination.SourceDestination -> {
+                navigator.navigateToSourceScreen(destination.sourceId)
+            }
+        }
     }
 
     HomeScreenUi(

@@ -47,7 +47,7 @@ internal fun HomeScreenUiContent(
             items(pluginContent.sources) { source ->
                 SourceItem(
                     sourceUiState = source,
-                    onClick = {},
+                    onClick = { screenEvent(HomeScreenEvent.NavigationSource(sourceId = source.id)) },
                 )
 
                 Divider(

@@ -1,3 +1,5 @@
 package com.makentoshe.booruchan.library.navigation
 
-class HomeScreenNavigator()
+class HomeScreenNavigator(
+    val navigateToSourceScreen: (String) -> Unit,
+)

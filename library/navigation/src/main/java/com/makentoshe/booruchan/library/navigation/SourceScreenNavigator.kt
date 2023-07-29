@@ -1,5 +1,5 @@
 package com.makentoshe.booruchan.library.navigation
 
-class BoorucontentScreenNavigator(
+class SourceScreenNavigator(
     val back: () -> Unit,
 )
