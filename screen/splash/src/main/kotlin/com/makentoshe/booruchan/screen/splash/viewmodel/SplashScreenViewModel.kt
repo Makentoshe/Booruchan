@@ -31,6 +31,4 @@ class SplashScreenViewModel @Inject constructor(
         }
     }
 
-    fun handleEvent(event: SplashScreenEvent) = Unit
-
 }

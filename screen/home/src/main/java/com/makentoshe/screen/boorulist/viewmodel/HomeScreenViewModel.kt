@@ -85,7 +85,7 @@ class HomeScreenViewModel @Inject constructor(
         copy(pluginContent = HomeScreenPluginContent.Content(sources = sources, refreshing = false))
     }
 
-    fun handleEvent(event: HomeScreenEvent) = when (event) {
+    override fun handleEvent(event: HomeScreenEvent) = when (event) {
         is HomeScreenEvent.NavigationSource -> navigateSource(event)
         HomeScreenEvent.RefreshPlugins -> refreshPlugins()
     }
