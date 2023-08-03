@@ -1,9 +1,22 @@
 package com.makentoshe.booruchan.screen.source.viewmodel
 
-data class SourceScreenState(val sas: String) {
+import javax.annotation.concurrent.Immutable
+
+data class SourceScreenState(
+    val contentState: ContentState,
+) {
     companion object {
         val InitialState = SourceScreenState(
-            sas = "",
+            contentState = ContentState.Loading,
         )
     }
+}
+
+@Immutable
+sealed interface ContentState {
+    object Loading: ContentState
+
+    data class Success(val string: String): ContentState
+
+    data class Failure(val string: String): ContentState
 }
