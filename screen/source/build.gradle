@@ -49,6 +49,7 @@ dependencies {
     implementation project(":screen")
 
     implementation project(":feature")
+    implementation project(":feature:fetchposts")
 
     implementation "com.github.Makentoshe:Booruchan-extension-base:$booruchan_plugin_version"
 

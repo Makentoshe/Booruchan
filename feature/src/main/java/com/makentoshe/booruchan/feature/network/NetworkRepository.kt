@@ -1,7 +1,9 @@
 package com.makentoshe.booruchan.feature.network
 
+import com.makentoshe.booruchan.extension.base.network.NetworkContent
 import com.makentoshe.booruchan.extension.base.network.NetworkMethod
 import com.makentoshe.booruchan.extension.base.network.NetworkRequest
+import com.makentoshe.booruchan.extension.base.network.NetworkResponse
 import io.ktor.client.*
 import io.ktor.client.call.*
 import io.ktor.client.request.*
