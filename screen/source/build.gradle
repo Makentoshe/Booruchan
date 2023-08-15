@@ -62,6 +62,10 @@ dependencies {
     implementation "androidx.compose.material:material:$compose_material_version"
     implementation "androidx.compose.runtime:runtime:$compose_runtime_version"
 
+    // Android views
+    implementation "androidx.paging:paging-runtime-ktx:$android_paging_runtime_version"
+    implementation "androidx.paging:paging-compose:$android_paging_compose_version"
+
     // Dagger and Hilt
     implementation "com.google.dagger:dagger:$dagger_version"
     implementation "com.google.dagger:hilt-core:$dagger_version"
