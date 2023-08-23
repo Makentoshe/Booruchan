@@ -1,4 +1,4 @@
-package com.makentoshe.booruchan.screen.source.sas
+package com.makentoshe.booruchan.screen.source.paging
 
 import com.makentoshe.booruchan.extension.base.factory.FetchPostsFactory
 import com.makentoshe.booruchan.feature.fetchposts.FetchPostsUseCase

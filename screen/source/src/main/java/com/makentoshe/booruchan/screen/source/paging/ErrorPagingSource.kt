@@ -1,4 +1,4 @@
-package com.makentoshe.booruchan.screen.source.sas
+package com.makentoshe.booruchan.screen.source.paging
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState

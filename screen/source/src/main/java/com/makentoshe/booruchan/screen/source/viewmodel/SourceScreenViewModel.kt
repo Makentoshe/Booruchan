@@ -5,9 +5,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
-import com.makentoshe.booruchan.extension.base.Source
 import com.makentoshe.booruchan.feature.PluginFactory
-import com.makentoshe.booruchan.feature.fetchposts.FetchPostsUseCase
 import com.makentoshe.booruchan.library.feature.CoroutineDelegate
 import com.makentoshe.booruchan.library.feature.DefaultCoroutineDelegate
 import com.makentoshe.booruchan.library.feature.DefaultEventDelegate
@@ -18,15 +16,15 @@ import com.makentoshe.booruchan.library.feature.NavigationDelegate
 import com.makentoshe.booruchan.library.feature.StateDelegate
 import com.makentoshe.booruchan.library.logging.internalLogInfo
 import com.makentoshe.booruchan.library.plugin.GetAllPluginsUseCase
-import com.makentoshe.booruchan.screen.source.sas.PagingSourceFactory
+import com.makentoshe.booruchan.screen.source.paging.PagingSourceFactory
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
 class SourceScreenViewModel @Inject constructor(
     private val pluginFactory: PluginFactory,
-    private val pagingSourceFactory: PagingSourceFactory,
     private val findAllPlugins: GetAllPluginsUseCase,
+    private val pagingSourceFactory: PagingSourceFactory,
 ) : ViewModel(), CoroutineDelegate by DefaultCoroutineDelegate(),
     StateDelegate<SourceScreenState> by DefaultStateDelegate(SourceScreenState.InitialState),
     EventDelegate<SourceScreenEvent> by DefaultEventDelegate(),
@@ -48,13 +46,11 @@ class SourceScreenViewModel @Inject constructor(
         val source = findAllPlugins().map(pluginFactory::buildSource).find { source -> source?.id == event.sourceId }
             ?: return updateState { copy(contentState = pluginSourceNullContentState()) }
 
+        // get fetch posts factory or show failure state
         val fetchPostsFactory = source.fetchPostsFactory
-        val pagingSource = if (fetchPostsFactory == null) {
-            pagingSourceFactory.buildError(Throwable("Fetch posts factory is null"))
-            return //
-        } else {
-            pagingSourceFactory.buildPost(fetchPostsFactory)
-        }
+            ?: return updateState { copy(contentState = pluginFetchPostFactoryNullContentState()) }
+
+        val pagingSource = pagingSourceFactory.buildPost(fetchPostsFactory)
 
         val pagerFlow = Pager(PagingConfig(pageSize = fetchPostsFactory.requestedPostsPerPageCount)) {
             pagingSource
@@ -66,6 +62,10 @@ class SourceScreenViewModel @Inject constructor(
     }
 
     private fun pluginSourceNullContentState() : ContentState.Failure {
-        return ContentState.Failure("Could not determine source for this plugin")
+        return ContentState.Failure("Could not determine Source for this plugin")
+    }
+
+    private fun pluginFetchPostFactoryNullContentState() : ContentState.Failure {
+        return ContentState.Failure("Could not determine FetchPostFactory for this Source")
     }
 }
