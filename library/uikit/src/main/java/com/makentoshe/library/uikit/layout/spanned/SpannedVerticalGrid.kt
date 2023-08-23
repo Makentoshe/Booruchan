@@ -1,18 +1,21 @@
 package com.makentoshe.library.uikit.layout.spanned
 
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.content.Context
 import android.util.TypedValue
 import android.view.ViewGroup
 import androidx.compose.foundation.background
-import androidx.compose.material3.Text
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionContext
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCompositionContext
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.compositionContext
 import androidx.compose.ui.viewinterop.AndroidView
@@ -20,20 +23,25 @@ import androidx.paging.PagingData
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.OnScrollListener
 import com.makentoshe.library.uikit.theme.BooruchanTheme
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.launch
 
 @Composable
 fun SpannedVerticalGrid(
     modifier: Modifier,
     content: SpannedVerticalGridScope.() -> Unit,
-) {
+) = Box(modifier = Modifier.fillMaxSize().background(BooruchanTheme.colors.background)) {
     val coroutineScope = rememberCoroutineScope()
     val compositionContext = rememberCompositionContext()
+
     AndroidView(
-        modifier = modifier.background(BooruchanTheme.colors.background),
+        modifier = modifier,
         factory = { context -> recyclerViewFactory(context, compositionContext, coroutineScope, content) },
     )
 }
@@ -49,16 +57,24 @@ class SpannedVerticalGridScope(
         key: ((item: T) -> Any),
         spanSize: (index: Int, item: T?) -> SpanSize = { _, _ -> SpanSize(1, 1) },
         itemContent: @Composable (item: T) -> Unit,
+    ) = items(spans = spans, flow = flowOf(data), key = key, spanSize = spanSize, itemContent = itemContent)
+
+    fun <T : Any> items(
+        spans: Int,
+        flow: Flow<PagingData<T>>,
+        key: ((item: T) -> Any),
+        spanSize: (index: Int, item: T?) -> SpanSize = { _, _ -> SpanSize(1, 1) },
+        itemContent: @Composable (item: T) -> Unit,
     ) {
         val adapter = SpannedPagingDataAdapter(compositionContext, key, itemContent)
         recyclerView.adapter = adapter
 
         coroutineScope.launch(Dispatchers.IO) {
-            adapter.submitData(data)
+            flow.collectLatest { adapter.submitData(it) }
         }
 
         val orientation = SpannedGridLayoutManager.Orientation.VERTICAL
-        this.recyclerView.layoutManager = SpannedGridLayoutManager(orientation, spans).apply {
+        recyclerView.layoutManager = SpannedGridLayoutManager(orientation, spans).apply {
             spanSizeLookup = SpannedGridLayoutManager.SpanSizeLookup { position ->
                 spanSize(position, adapter.peek(position))
             }

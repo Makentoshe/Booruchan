@@ -36,6 +36,8 @@ dependencies {
 
     implementation "com.github.Makentoshe:Booruchan-extension-base:$booruchan_plugin_version"
 
+    implementation "androidx.paging:paging-runtime-ktx:$android_paging_runtime_version"
+
     // Dagger and Hilt
     implementation "com.google.dagger:dagger:$dagger_version"
     implementation "com.google.dagger:hilt-core:$dagger_version"

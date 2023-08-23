@@ -2,8 +2,10 @@ package com.makentoshe.booruchan.screen.source.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.cachedIn
 import com.makentoshe.booruchan.extension.base.Source
-import com.makentoshe.booruchan.extension.base.factory.FetchPostsFactory
 import com.makentoshe.booruchan.feature.PluginFactory
 import com.makentoshe.booruchan.feature.fetchposts.FetchPostsUseCase
 import com.makentoshe.booruchan.library.feature.CoroutineDelegate
@@ -16,54 +18,54 @@ import com.makentoshe.booruchan.library.feature.NavigationDelegate
 import com.makentoshe.booruchan.library.feature.StateDelegate
 import com.makentoshe.booruchan.library.logging.internalLogInfo
 import com.makentoshe.booruchan.library.plugin.GetAllPluginsUseCase
+import com.makentoshe.booruchan.screen.source.sas.PagingSourceFactory
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class SourceScreenViewModel @Inject constructor(
     private val pluginFactory: PluginFactory,
+    private val pagingSourceFactory: PagingSourceFactory,
     private val findAllPlugins: GetAllPluginsUseCase,
-    private val fetchPosts: FetchPostsUseCase,
 ) : ViewModel(), CoroutineDelegate by DefaultCoroutineDelegate(),
     StateDelegate<SourceScreenState> by DefaultStateDelegate(SourceScreenState.InitialState),
     EventDelegate<SourceScreenEvent> by DefaultEventDelegate(),
     NavigationDelegate<SourceScreenDestination> by DefaultNavigationDelegate() {
 
-    /** Will be initialized right after constructor at [SourceScreenEvent.Initialize] invocation */
-    private lateinit var source: Source
-
-    override fun handleEvent(event: SourceScreenEvent) = when(event){
+    override fun handleEvent(event: SourceScreenEvent) = when (event) {
         is SourceScreenEvent.Initialize -> initialize(event)
     }
 
     private fun initialize(event: SourceScreenEvent.Initialize) {
         internalLogInfo("invoke initialize for Source(${event.sourceId})")
 
+        // Skip already loaded content
+        if (state.contentState !is ContentState.Loading) {
+            return internalLogInfo("skip initialize for Source(${event.sourceId})")
+        }
+
+        // find source from plugin by source id or show failure state
         val source = findAllPlugins().map(pluginFactory::buildSource).find { source -> source?.id == event.sourceId }
-        if (source == null) { // TODO: handle this issue
-            return updateState { copy(contentState = ContentState.Failure("Source wasn't found")) }
+            ?: return updateState { copy(contentState = pluginSourceNullContentState()) }
+
+        val fetchPostsFactory = source.fetchPostsFactory
+        val pagingSource = if (fetchPostsFactory == null) {
+            pagingSourceFactory.buildError(Throwable("Fetch posts factory is null"))
+            return //
         } else {
-            this.source = source
+            pagingSourceFactory.buildPost(fetchPostsFactory)
         }
 
-        updateState { copy(contentState = ContentState.Success(source.toString())) }
+        val pagerFlow = Pager(PagingConfig(pageSize = fetchPostsFactory.requestedPostsPerPageCount)) {
+            pagingSource
+        }.flow.cachedIn(viewModelScope)
 
-        onFetchPostsSource(source = source)
-    }
-
-    private fun onFetchPostsSource(source: Source) {
-        viewModelScope.launch(Dispatchers.IO + coroutineExceptionHandler { throwable ->
-            updateState { copy(contentState = ContentState.Failure("fetch posts wasn't found")) }
-        }) {
-            val factory = source.fetchPostsFactory
-                ?: throw IllegalStateException("fetch posts factory is null")
-
-            val request = FetchPostsFactory.FetchPostsRequest(factory.requestedPostsPerPageCount, 0, "")
-            val posts = fetchPosts(fetchPostsFactory = factory, request = request)
-            println(posts)
+        updateState {
+            copy(contentState = ContentState.Success(pagerFlow = pagerFlow))
         }
     }
 
+    private fun pluginSourceNullContentState() : ContentState.Failure {
+        return ContentState.Failure("Could not determine source for this plugin")
+    }
 }
