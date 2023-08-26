@@ -70,10 +70,16 @@ class SourceScreenViewModel @Inject constructor(
     }
 
     private fun pluginSourceNullContentState(): ContentState.Failure {
-        return ContentState.Failure("Could not determine Source for this plugin")
+        return ContentState.Failure(
+            title = "There is a plugin error",
+            description = "Could not determine Source for this plugin",
+        )
     }
 
     private fun pluginFetchPostFactoryNullContentState(): ContentState.Failure {
-        return ContentState.Failure("Could not determine FetchPostFactory for this Source")
+        return ContentState.Failure(
+            title = "There is an plugin error",
+            description = "Could not determine FetchPostFactory for this Source"
+        )
     }
 }

@@ -25,5 +25,8 @@ sealed interface ContentState {
         val pagerFlow: Flow<PagingData<PreviewPostUiState>>,
     ) : ContentState
 
-    data class Failure(val string: String) : ContentState
+    data class Failure(
+        val title: String,
+        val description: String,
+    ) : ContentState
 }
