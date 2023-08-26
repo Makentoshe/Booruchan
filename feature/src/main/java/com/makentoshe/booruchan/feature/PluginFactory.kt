@@ -7,7 +7,8 @@ import javax.inject.Inject
 class PluginFactory @Inject constructor() {
 
     fun buildSource(plugin: Plugin): Source? {
-        return plugin.sourceClass.getDeclaredConstructor().newInstance() as? Source
+        val instance = plugin.sourceClass.getDeclaredConstructor().newInstance()
+        return SourceWrapper(instance as? Source ?: return null)
     }
 
 }
