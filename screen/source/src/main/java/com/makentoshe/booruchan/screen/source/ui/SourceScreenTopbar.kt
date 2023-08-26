@@ -26,12 +26,14 @@ internal fun SourceScreenTopbar(
     TopAppBar(
         backgroundColor = BooruchanTheme.colors.background,
         title = {
-            TopbarTitle(screenState = screenState, screenEvent = screenEvent)
+            TopbarTitle(screenState = screenState)
         },
         navigationIcon = {
             TopbarNavigationIcon(screenState = screenState, screenEvent = screenEvent)
         },
-        actions = { TopbarActionIcon(screenState = screenState, screenEvent = screenEvent) }
+        actions = {
+            TopbarActionIcon(screenState = screenState, screenEvent = screenEvent)
+        }
     )
 
     Divider(
@@ -45,16 +47,15 @@ private fun TopbarNavigationIcon(
     screenState: SourceScreenState,
     screenEvent: (SourceScreenEvent) -> Unit,
 ) = Box(
-    modifier = Modifier.size(48.dp).clickable { screenEvent(SourceScreenEvent.NavigationBack) },
+    modifier = Modifier.size(48.dp).clickable {
+        screenEvent(SourceScreenEvent.NavigationBack)
+    },
     contentAlignment = Alignment.Center,
     content = { ArrowBackIcon() }
 )
 
 @Composable
-private fun TopbarTitle(
-    screenState: SourceScreenState,
-    screenEvent: (SourceScreenEvent) -> Unit,
-) = TitleText(
+private fun TopbarTitle(screenState: SourceScreenState) = TitleText(
     text = screenState.sourceTitle,
     color = BooruchanTheme.colors.accent,
 )
@@ -64,7 +65,9 @@ private fun TopbarActionIcon(
     screenState: SourceScreenState,
     screenEvent: (SourceScreenEvent) -> Unit,
 ) = Box(
-    modifier = Modifier.size(48.dp).clickable { },
+    modifier = Modifier.size(48.dp).clickable {
+        screenEvent(SourceScreenEvent.NavigationBackdrop)
+    },
     contentAlignment = Alignment.Center,
     content = { MagnifyIcon() }
 )

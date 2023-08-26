@@ -1,5 +1,9 @@
+@file:OptIn(ExperimentalMaterialApi::class)
+
 package com.makentoshe.booruchan.screen.source.viewmodel
 
+import androidx.compose.material.BackdropValue
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
@@ -33,6 +37,7 @@ class SourceScreenViewModel @Inject constructor(
     override fun handleEvent(event: SourceScreenEvent) = when (event) {
         is SourceScreenEvent.Initialize -> initialize(event)
         is SourceScreenEvent.NavigationBack -> navigationBack()
+        is SourceScreenEvent.NavigationBackdrop -> navigationBackdrop()
     }
 
     private fun initialize(event: SourceScreenEvent.Initialize) {
@@ -66,7 +71,17 @@ class SourceScreenViewModel @Inject constructor(
     }
 
     private fun navigationBack() {
+        internalLogInfo("invoke navigation back")
         updateNavigation { SourceScreenDestination.BackDestination }
+    }
+
+    private fun navigationBackdrop() {
+        internalLogInfo("invoke navigation backdrop: ${state.backdropValue}")
+        val newState = when (state.backdropValue) {
+            BackdropValue.Concealed -> BackdropValue.Revealed
+            BackdropValue.Revealed -> BackdropValue.Concealed
+        }
+        updateState { copy(backdropValue = newState) }
     }
 
     private fun pluginSourceNullContentState(): ContentState.Failure {
