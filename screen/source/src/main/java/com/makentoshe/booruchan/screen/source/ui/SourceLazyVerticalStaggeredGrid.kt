@@ -3,10 +3,10 @@
 package com.makentoshe.booruchan.screen.source.ui
 
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
@@ -38,6 +38,7 @@ import com.makentoshe.booruchan.screen.source.viewmodel.SourceScreenState
 import com.makentoshe.library.uikit.foundation.IndeterminateProgressBar
 import com.makentoshe.library.uikit.foundation.PrimaryTextBold
 import com.makentoshe.library.uikit.foundation.SecondaryText
+import com.makentoshe.library.uikit.theme.BooruchanTheme
 
 private const val SourceLazyVerticalStaggeredGridFooterKey = "SourceStaggeredGridFooterKey"
 
@@ -76,6 +77,7 @@ private fun SourcePreviewPostUi(
     modifier = modifier
         .aspectRatio(1 / item.hwRatio, true)
         .sizeIn(minWidth = 128.dp, minHeight = 128.dp)
+        .border(width = 1.dp, color = BooruchanTheme.colors.separator)
 ) {
     val request = ImageRequest.Builder(LocalContext.current)
         .data(item.url)
