@@ -45,7 +45,7 @@ private fun TopbarNavigationIcon(
     screenState: SourceScreenState,
     screenEvent: (SourceScreenEvent) -> Unit,
 ) = Box(
-    modifier = Modifier.size(48.dp).clickable { },
+    modifier = Modifier.size(48.dp).clickable { screenEvent(SourceScreenEvent.NavigationBack) },
     contentAlignment = Alignment.Center,
     content = { ArrowBackIcon() }
 )

@@ -32,6 +32,7 @@ class SourceScreenViewModel @Inject constructor(
 
     override fun handleEvent(event: SourceScreenEvent) = when (event) {
         is SourceScreenEvent.Initialize -> initialize(event)
+        is SourceScreenEvent.NavigationBack -> navigationBack()
     }
 
     private fun initialize(event: SourceScreenEvent.Initialize) {
@@ -62,6 +63,10 @@ class SourceScreenViewModel @Inject constructor(
         updateState {
             copy(contentState = ContentState.Success(pagerFlow = pagerFlow))
         }
+    }
+
+    private fun navigationBack() {
+        updateNavigation { SourceScreenDestination.BackDestination }
     }
 
     private fun pluginSourceNullContentState(): ContentState.Failure {
