@@ -46,6 +46,9 @@ class SourceScreenViewModel @Inject constructor(
         val source = findAllPlugins().map(pluginFactory::buildSource).find { source -> source?.id == event.sourceId }
             ?: return updateState { copy(contentState = pluginSourceNullContentState()) }
 
+        // update topappbar title
+        updateState { copy(sourceTitle = source.title) }
+
         // get fetch posts factory or show failure state
         val fetchPostsFactory = source.fetchPostsFactory
             ?: return updateState { copy(contentState = pluginFetchPostFactoryNullContentState()) }
@@ -61,11 +64,11 @@ class SourceScreenViewModel @Inject constructor(
         }
     }
 
-    private fun pluginSourceNullContentState() : ContentState.Failure {
+    private fun pluginSourceNullContentState(): ContentState.Failure {
         return ContentState.Failure("Could not determine Source for this plugin")
     }
 
-    private fun pluginFetchPostFactoryNullContentState() : ContentState.Failure {
+    private fun pluginFetchPostFactoryNullContentState(): ContentState.Failure {
         return ContentState.Failure("Could not determine FetchPostFactory for this Source")
     }
 }

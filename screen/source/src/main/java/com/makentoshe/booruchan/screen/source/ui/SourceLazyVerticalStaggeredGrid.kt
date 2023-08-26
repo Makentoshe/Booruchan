@@ -40,7 +40,7 @@ internal fun SourceLazyVerticalStaggeredGrid(
 
     LazyVerticalStaggeredGrid(
         modifier = Modifier.fillMaxSize().padding(horizontal = 8.dp),
-        columns = StaggeredGridCells.Fixed(2),
+        columns = StaggeredGridCells.Fixed(3),
         contentPadding = PaddingValues(top = 12.dp),
         verticalItemSpacing = 8.dp,
         horizontalArrangement = Arrangement.spacedBy(8.dp),

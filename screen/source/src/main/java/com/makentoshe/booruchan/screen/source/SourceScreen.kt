@@ -25,7 +25,7 @@ fun SourceScreen(
         viewModel.handleEvent(SourceScreenEvent.Initialize(sourceId = sourceId))
     }
 
-    SourceScreenUi(screenState = screenState)
+    SourceScreenUi(screenState = screenState, screenEvent = {})
 
     screenLogInfo(Screen.Source, "SourceScreen composable")
 }
